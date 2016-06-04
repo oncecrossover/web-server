@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.gibbon.peeq.db.model.User" table="USER">
+    <id name="uid" type="java.lang.String">
+      <column name="uid" />
+      <generator class="assigned" />
+    </id>
+    <property name="firstName" type="java.lang.String">
+      <column name="first_name" />
+    </property>
+    <property name="middleName" type="java.lang.String">
+      <column name="middle_name" />
+    </property>
+    <property name="lastName" type="java.lang.String">
+      <column name="last_name" />
+    </property>
+    <property name="pwd" type="java.lang.String">
+      <column name="pwd" />
+    </property>
+    <property name="insertTime" type="timestamp">
+      <column name="insert_time" />
+    </property>
+  </class>
+</hibernate-mapping>
