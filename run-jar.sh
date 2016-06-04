@@ -12,6 +12,8 @@ EXAMPLE_MAP=(
   'http-helloworld-server:io.netty.example.http.helloworld.HttpHelloWorldServer'
   'http-snoop-client:io.netty.example.http.snoop.HttpSnoopClient'
   'http-snoop-server:io.netty.example.http.snoop.HttpSnoopServer'
+  'peeq-snoop-client:com.gibbon.peeq.snoop.HttpSnoopClient'
+  'peeq-snoop-server:com.gibbon.peeq.snoop.HttpSnoopServer'
   'http-upload-client:io.netty.example.http.upload.HttpUploadClient'
   'http-upload-server:io.netty.example.http.upload.HttpUploadServer'
   'websocket-client:io.netty.example.http.websocketx.client.WebSocketClient'
