@@ -37,161 +37,175 @@ import io.netty.handler.codec.http.cookie.ServerCookieDecoder;
 import io.netty.handler.codec.http.cookie.ServerCookieEncoder;
 import io.netty.util.CharsetUtil;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+
+import org.apache.commons.lang3.text.StrBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.*;
 import static io.netty.handler.codec.http.HttpVersion.*;
 
-public class HttpSnoopServerHandler extends SimpleChannelInboundHandler<Object> {
+public class HttpSnoopServerHandler
+    extends SimpleChannelInboundHandler<Object> {
+  private static final Logger LOG = LoggerFactory
+      .getLogger(HttpSnoopServerHandler.class);
+  private HttpRequest request;
+  /** Buffer that stores the response content */
+  private final StrBuilder buf = new StrBuilder();
 
-    private HttpRequest request;
-    /** Buffer that stores the response content */
-    private final StringBuilder buf = new StringBuilder();
+  @Override
+  public void channelReadComplete(ChannelHandlerContext ctx) {
+    ctx.flush();
+  }
 
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) {
-        ctx.flush();
-    }
+  @Override
+  protected void channelRead0(ChannelHandlerContext ctx, Object msg) {
+    if (msg instanceof HttpRequest) {
+      HttpRequest request = this.request = (HttpRequest) msg;
 
-    @Override
-    protected void channelRead0(ChannelHandlerContext ctx, Object msg) {
-        if (msg instanceof HttpRequest) {
-            HttpRequest request = this.request = (HttpRequest) msg;
+      if (HttpUtil.is100ContinueExpected(request)) {
+        send100Continue(ctx);
+      }
 
-            if (HttpUtil.is100ContinueExpected(request)) {
-                send100Continue(ctx);
-            }
+      buf.setLength(0);
+      buf.append("WELCOME TO THE WILD WILD WEB SERVER\r\n");
+      buf.append("===================================\r\n");
 
-            buf.setLength(0);
-            buf.append("WELCOME TO THE WILD WILD WEB SERVER\r\n");
-            buf.append("===================================\r\n");
+      buf.append("VERSION: ").append(request.protocolVersion()).append("\r\n");
+      buf.append("HOSTNAME: ")
+          .append(request.headers().get(HttpHeaderNames.HOST, "unknown"))
+          .append("\r\n");
+      buf.append("REQUEST_URI: ").append(request.uri()).append("\r\n\r\n");
 
-            buf.append("VERSION: ").append(request.protocolVersion()).append("\r\n");
-            buf.append("HOSTNAME: ").append(request.headers().get(HttpHeaderNames.HOST, "unknown")).append("\r\n");
-            buf.append("REQUEST_URI: ").append(request.uri()).append("\r\n\r\n");
-
-            HttpHeaders headers = request.headers();
-            if (!headers.isEmpty()) {
-                for (Map.Entry<String, String> h: headers) {
-                    CharSequence key = h.getKey();
-                    CharSequence value = h.getValue();
-                    buf.append("HEADER: ").append(key).append(" = ").append(value).append("\r\n");
-                }
-                buf.append("\r\n");
-            }
-
-            QueryStringDecoder queryStringDecoder = new QueryStringDecoder(request.uri());
-            Map<String, List<String>> params = queryStringDecoder.parameters();
-            if (!params.isEmpty()) {
-                for (Entry<String, List<String>> p: params.entrySet()) {
-                    String key = p.getKey();
-                    List<String> vals = p.getValue();
-                    for (String val : vals) {
-                        buf.append("PARAM: ").append(key).append(" = ").append(val).append("\r\n");
-                    }
-                }
-                buf.append("\r\n");
-            }
-
-            appendDecoderResult(buf, request);
+      HttpHeaders headers = request.headers();
+      if (!headers.isEmpty()) {
+        for (Map.Entry<String, String> h : headers) {
+          CharSequence key = h.getKey();
+          CharSequence value = h.getValue();
+          buf.append("HEADER: ").append(key).append(" = ").append(value)
+              .append("\r\n");
         }
-
-        if (msg instanceof HttpContent) {
-            HttpContent httpContent = (HttpContent) msg;
-
-            ByteBuf content = httpContent.content();
-            if (content.isReadable()) {
-                buf.append("CONTENT: ");
-                buf.append(content.toString(CharsetUtil.UTF_8));
-                buf.append("\r\n");
-                appendDecoderResult(buf, request);
-            }
-
-            if (msg instanceof LastHttpContent) {
-                buf.append("END OF CONTENT\r\n");
-
-                LastHttpContent trailer = (LastHttpContent) msg;
-                if (!trailer.trailingHeaders().isEmpty()) {
-                    buf.append("\r\n");
-                    for (CharSequence name: trailer.trailingHeaders().names()) {
-                        for (CharSequence value: trailer.trailingHeaders().getAll(name)) {
-                            buf.append("TRAILING HEADER: ");
-                            buf.append(name).append(" = ").append(value).append("\r\n");
-                        }
-                    }
-                    buf.append("\r\n");
-                }
-
-                if (!writeResponse(trailer, ctx)) {
-                    // If keep-alive is off, close the connection once the content is fully written.
-                    ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
-                }
-            }
-        }
-    }
-
-    private static void appendDecoderResult(StringBuilder buf, HttpObject o) {
-        DecoderResult result = o.decoderResult();
-        if (result.isSuccess()) {
-            return;
-        }
-
-        buf.append(".. WITH DECODER FAILURE: ");
-        buf.append(result.cause());
         buf.append("\r\n");
+      }
+
+      // handle restful request, e.g. put/get/rm/upd users
+      QueryStringDecoder queryStringDecoder = new QueryStringDecoder(
+          request.uri());
+      try {
+        new WebPeeqHandler(new ParameterParser(queryStringDecoder), buf)
+            .handle(ctx, request);
+      } catch (Exception e) {
+        LOG.warn(e.toString());
+      }
+
+      appendDecoderResult(buf, request);
     }
 
-    private boolean writeResponse(HttpObject currentObj, ChannelHandlerContext ctx) {
-        // Decide whether to close the connection or not.
-        boolean keepAlive = HttpUtil.isKeepAlive(request);
-        // Build the response object.
-        FullHttpResponse response = new DefaultFullHttpResponse(
-                HTTP_1_1, currentObj.decoderResult().isSuccess()? OK : BAD_REQUEST,
-                Unpooled.copiedBuffer(buf.toString(), CharsetUtil.UTF_8));
+    if (msg instanceof HttpContent) {
+      HttpContent httpContent = (HttpContent) msg;
 
-        response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain; charset=UTF-8");
+      ByteBuf content = httpContent.content();
+      if (content.isReadable()) {
+        buf.append("CONTENT: ");
+        buf.append(content.toString(CharsetUtil.UTF_8));
+        buf.append("\r\n");
+        appendDecoderResult(buf, request);
+      }
 
-        if (keepAlive) {
-            // Add 'Content-Length' header only for a keep-alive connection.
-            response.headers().setInt(HttpHeaderNames.CONTENT_LENGTH, response.content().readableBytes());
-            // Add keep alive header as per:
-            // - http://www.w3.org/Protocols/HTTP/1.1/draft-ietf-http-v11-spec-01.html#Connection
-            response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
-        }
+      if (msg instanceof LastHttpContent) {
+        buf.append("END OF CONTENT\r\n");
 
-        // Encode the cookie.
-        String cookieString = request.headers().get(HttpHeaderNames.COOKIE);
-        if (cookieString != null) {
-            Set<Cookie> cookies = ServerCookieDecoder.STRICT.decode(cookieString);
-            if (!cookies.isEmpty()) {
-                // Reset the cookies if necessary.
-                for (Cookie cookie: cookies) {
-                    response.headers().add(HttpHeaderNames.SET_COOKIE, ServerCookieEncoder.STRICT.encode(cookie));
-                }
+        LastHttpContent trailer = (LastHttpContent) msg;
+        if (!trailer.trailingHeaders().isEmpty()) {
+          buf.append("\r\n");
+          for (CharSequence name : trailer.trailingHeaders().names()) {
+            for (CharSequence value : trailer.trailingHeaders().getAll(name)) {
+              buf.append("TRAILING HEADER: ");
+              buf.append(name).append(" = ").append(value).append("\r\n");
             }
-        } else {
-            // Browser sent no cookie.  Add some.
-            response.headers().add(HttpHeaderNames.SET_COOKIE, ServerCookieEncoder.STRICT.encode("key1", "value1"));
-            response.headers().add(HttpHeaderNames.SET_COOKIE, ServerCookieEncoder.STRICT.encode("key2", "value2"));
+          }
+          buf.append("\r\n");
         }
 
-        // Write the response.
-        ctx.write(response);
+        if (!writeResponse(trailer, ctx)) {
+          // If keep-alive is off, close the connection once the content is
+          // fully written.
+          ctx.writeAndFlush(Unpooled.EMPTY_BUFFER)
+              .addListener(ChannelFutureListener.CLOSE);
+        }
+      }
+    }
+  }
 
-        return keepAlive;
+  private static void appendDecoderResult(StrBuilder buf, HttpObject o) {
+    DecoderResult result = o.decoderResult();
+    if (result.isSuccess()) {
+      return;
     }
 
-    private static void send100Continue(ChannelHandlerContext ctx) {
-        FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, CONTINUE);
-        ctx.write(response);
+    buf.append(".. WITH DECODER FAILURE: ");
+    buf.append(result.cause());
+    buf.append("\r\n");
+  }
+
+  private boolean writeResponse(HttpObject currentObj,
+      ChannelHandlerContext ctx) {
+    // Decide whether to close the connection or not.
+    boolean keepAlive = HttpUtil.isKeepAlive(request);
+    // Build the response object.
+    FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1,
+        currentObj.decoderResult().isSuccess() ? OK : BAD_REQUEST,
+        Unpooled.copiedBuffer(buf.toString(), CharsetUtil.UTF_8));
+
+    response.headers().set(HttpHeaderNames.CONTENT_TYPE,
+        "text/plain; charset=UTF-8");
+
+    if (keepAlive) {
+      // Add 'Content-Length' header only for a keep-alive connection.
+      response.headers().setInt(HttpHeaderNames.CONTENT_LENGTH,
+          response.content().readableBytes());
+      // Add keep alive header as per:
+      // -
+      // http://www.w3.org/Protocols/HTTP/1.1/draft-ietf-http-v11-spec-01.html#Connection
+      response.headers().set(HttpHeaderNames.CONNECTION,
+          HttpHeaderValues.KEEP_ALIVE);
     }
 
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
-        ctx.close();
+    // Encode the cookie.
+    String cookieString = request.headers().get(HttpHeaderNames.COOKIE);
+    if (cookieString != null) {
+      Set<Cookie> cookies = ServerCookieDecoder.STRICT.decode(cookieString);
+      if (!cookies.isEmpty()) {
+        // Reset the cookies if necessary.
+        for (Cookie cookie : cookies) {
+          response.headers().add(HttpHeaderNames.SET_COOKIE,
+              ServerCookieEncoder.STRICT.encode(cookie));
+        }
+      }
+    } else {
+      // Browser sent no cookie. Add some.
+      response.headers().add(HttpHeaderNames.SET_COOKIE,
+          ServerCookieEncoder.STRICT.encode("key1", "value1"));
+      response.headers().add(HttpHeaderNames.SET_COOKIE,
+          ServerCookieEncoder.STRICT.encode("key2", "value2"));
     }
+
+    // Write the response.
+    ctx.write(response);
+
+    return keepAlive;
+  }
+
+  private static void send100Continue(ChannelHandlerContext ctx) {
+    FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, CONTINUE);
+    ctx.write(response);
+  }
+
+  @Override
+  public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+    cause.printStackTrace();
+    ctx.close();
+  }
 }

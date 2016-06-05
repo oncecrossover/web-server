@@ -4,6 +4,9 @@ import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class User {
 
   private int id;
@@ -79,5 +82,10 @@ public class User {
       return String.format("%d, %s, %s %s %s, %s, %s,", id, uid, firstName,
           middleName, lastName, pwd, insertTime);
     }
+  }
+
+  public String toJson() throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.writeValueAsString(this);
   }
 }
