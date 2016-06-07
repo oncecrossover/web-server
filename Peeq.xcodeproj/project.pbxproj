@@ -1,0 +1,327 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4A7EF3F71D03AD6C00E7A226 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7EF3F61D03AD6C00E7A226 /* ContactViewController.swift */; };
+		4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC283661CE2F58100A08D35 /* AppDelegate.swift */; };
+		4AC283691CE2F58100A08D35 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC283681CE2F58100A08D35 /* ViewController.swift */; };
+		4AC2836C1CE2F58100A08D35 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AC2836A1CE2F58100A08D35 /* Main.storyboard */; };
+		4AC2836F1CE2F58100A08D35 /* Peep.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4AC2836D1CE2F58100A08D35 /* Peep.xcdatamodeld */; };
+		4AC283711CE2F58100A08D35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AC283701CE2F58100A08D35 /* Assets.xcassets */; };
+		4AC283741CE2F58100A08D35 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AC283721CE2F58100A08D35 /* LaunchScreen.storyboard */; };
+		4AC2837C1CECEE3800A08D35 /* SignupPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC2837B1CECEE3800A08D35 /* SignupPageViewController.swift */; };
+		4AC2837E1CED0E4500A08D35 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC2837D1CED0E4500A08D35 /* LoginViewController.swift */; };
+		4AF0A8281D04C40900A1DE17 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0A8271D04C40900A1DE17 /* SettingsViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4A7EF3F61D03AD6C00E7A226 /* ContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
+		4AC283631CE2F58100A08D35 /* Peeq.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Peeq.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4AC283661CE2F58100A08D35 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4AC283681CE2F58100A08D35 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4AC2836B1CE2F58100A08D35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4AC2836E1CE2F58100A08D35 /* Peep.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Peep.xcdatamodel; sourceTree = "<group>"; };
+		4AC283701CE2F58100A08D35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4AC283731CE2F58100A08D35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4AC283751CE2F58100A08D35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4AC2837B1CECEE3800A08D35 /* SignupPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupPageViewController.swift; sourceTree = "<group>"; };
+		4AC2837D1CED0E4500A08D35 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		4AF0A8271D04C40900A1DE17 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4AC283601CE2F58100A08D35 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4AC2835A1CE2F58100A08D35 = {
+			isa = PBXGroup;
+			children = (
+				4AC283651CE2F58100A08D35 /* Peeq */,
+				4AC283641CE2F58100A08D35 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4AC283641CE2F58100A08D35 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4AC283631CE2F58100A08D35 /* Peeq.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4AC283651CE2F58100A08D35 /* Peeq */ = {
+			isa = PBXGroup;
+			children = (
+				4AC283661CE2F58100A08D35 /* AppDelegate.swift */,
+				4AC283681CE2F58100A08D35 /* ViewController.swift */,
+				4AC2836A1CE2F58100A08D35 /* Main.storyboard */,
+				4AF0A8271D04C40900A1DE17 /* SettingsViewController.swift */,
+				4A7EF3F61D03AD6C00E7A226 /* ContactViewController.swift */,
+				4AC283701CE2F58100A08D35 /* Assets.xcassets */,
+				4AC283721CE2F58100A08D35 /* LaunchScreen.storyboard */,
+				4AC283751CE2F58100A08D35 /* Info.plist */,
+				4AC2836D1CE2F58100A08D35 /* Peep.xcdatamodeld */,
+				4AC2837B1CECEE3800A08D35 /* SignupPageViewController.swift */,
+				4AC2837D1CED0E4500A08D35 /* LoginViewController.swift */,
+			);
+			path = Peeq;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4AC283621CE2F58100A08D35 /* Peeq */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4AC283781CE2F58100A08D35 /* Build configuration list for PBXNativeTarget "Peeq" */;
+			buildPhases = (
+				4AC2835F1CE2F58100A08D35 /* Sources */,
+				4AC283601CE2F58100A08D35 /* Frameworks */,
+				4AC283611CE2F58100A08D35 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Peeq;
+			productName = Peep;
+			productReference = 4AC283631CE2F58100A08D35 /* Peeq.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4AC2835B1CE2F58100A08D35 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = "Bowen Zhang";
+				TargetAttributes = {
+					4AC283621CE2F58100A08D35 = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+				};
+			};
+			buildConfigurationList = 4AC2835E1CE2F58100A08D35 /* Build configuration list for PBXProject "Peeq" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4AC2835A1CE2F58100A08D35;
+			productRefGroup = 4AC283641CE2F58100A08D35 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4AC283621CE2F58100A08D35 /* Peeq */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4AC283611CE2F58100A08D35 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4AC283741CE2F58100A08D35 /* LaunchScreen.storyboard in Resources */,
+				4AC283711CE2F58100A08D35 /* Assets.xcassets in Resources */,
+				4AC2836C1CE2F58100A08D35 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4AC2835F1CE2F58100A08D35 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4AC283691CE2F58100A08D35 /* ViewController.swift in Sources */,
+				4AC2836F1CE2F58100A08D35 /* Peep.xcdatamodeld in Sources */,
+				4AF0A8281D04C40900A1DE17 /* SettingsViewController.swift in Sources */,
+				4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */,
+				4AC2837E1CED0E4500A08D35 /* LoginViewController.swift in Sources */,
+				4AC2837C1CECEE3800A08D35 /* SignupPageViewController.swift in Sources */,
+				4A7EF3F71D03AD6C00E7A226 /* ContactViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		4AC2836A1CE2F58100A08D35 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4AC2836B1CE2F58100A08D35 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4AC283721CE2F58100A08D35 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4AC283731CE2F58100A08D35 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4AC283761CE2F58100A08D35 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4AC283771CE2F58100A08D35 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4AC283791CE2F58100A08D35 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Peeq/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.peeq.Peeq;
+				PRODUCT_NAME = Peeq;
+			};
+			name = Debug;
+		};
+		4AC2837A1CE2F58100A08D35 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Peeq/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.peeq.Peeq;
+				PRODUCT_NAME = Peeq;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4AC2835E1CE2F58100A08D35 /* Build configuration list for PBXProject "Peeq" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4AC283761CE2F58100A08D35 /* Debug */,
+				4AC283771CE2F58100A08D35 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4AC283781CE2F58100A08D35 /* Build configuration list for PBXNativeTarget "Peeq" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4AC283791CE2F58100A08D35 /* Debug */,
+				4AC2837A1CE2F58100A08D35 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4AC2836D1CE2F58100A08D35 /* Peep.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4AC2836E1CE2F58100A08D35 /* Peep.xcdatamodel */,
+			);
+			currentVersion = 4AC2836E1CE2F58100A08D35 /* Peep.xcdatamodel */;
+			path = Peep.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 4AC2835B1CE2F58100A08D35 /* Project object */;
+}
