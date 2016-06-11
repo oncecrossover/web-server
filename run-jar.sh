@@ -1,5 +1,6 @@
 #!/bin/bash -e
 EXAMPLE_MAP=(
+  'http-snoop-client:com.gibbon.peeq.snoop.HttpSnoopClient'
   'peeq-snoop-server:com.gibbon.peeq.snoop.HttpSnoopServer'
 )
 

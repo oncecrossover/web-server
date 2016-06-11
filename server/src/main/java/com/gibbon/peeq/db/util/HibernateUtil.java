@@ -10,12 +10,6 @@ public class HibernateUtil {
   // XML based configuration
   private static SessionFactory sessionFactory;
 
-  // Annotation based configuration
-  private static SessionFactory sessionAnnotationFactory;
-
-  // Property based configuration
-  private static SessionFactory sessionJavaConfigFactory;
-
   private static SessionFactory buildSessionFactory() {
     try {
       // Create the SessionFactory from hibernate.cfg.xml

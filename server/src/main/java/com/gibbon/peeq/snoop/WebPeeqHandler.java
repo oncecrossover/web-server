@@ -4,6 +4,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpRequest;
 import static io.netty.handler.codec.http.HttpMethod.GET;
+import static io.netty.handler.codec.http.HttpMethod.POST;
+import static io.netty.handler.codec.http.HttpMethod.DELETE;
 import static io.netty.handler.codec.http.HttpMethod.PUT;
 
 import java.io.IOException;
@@ -35,17 +37,17 @@ public class WebPeeqHandler {
       throws Exception {
     String op = params.getOp();
     HttpMethod method = req.method();
-    if (ParameterParser.PUT_USER.equalsIgnoreCase(op) && method == PUT) {
+    if (ParameterParser.PUT_USER.equalsIgnoreCase(op) && method == POST) {
       onPutUser(ctx);
     } else if (ParameterParser.GET_USER.equalsIgnoreCase(op) && method == GET) {
       onGetUser(ctx);
-    } else if (ParameterParser.RM_USER.equalsIgnoreCase(op) && method == PUT) {
+    } else if (ParameterParser.RM_USER.equalsIgnoreCase(op) && method == DELETE) {
       onRmUser(ctx);
     } else if (ParameterParser.UPD_USER.equalsIgnoreCase(op) && method == PUT) {
       onUpdUser(ctx);
     } else {
       throw new IllegalArgumentException(String
-          .format("Invalid operation %s, forgot HTTP options PUT/GET?", op));
+          .format("Invalid operation %s, forgot HTTP options GET/POST?", op));
     }
   }
 
