@@ -31,8 +31,8 @@ public class TestUser {
   private User createDummyUser() {
     User user = new User();
     user.setUid("xiaobingo");
-    user.setFirstName("Xiaobing");
-    user.setMiddleName("Yunxuan");
+    user.setFirstName("Bingoo");
+    user.setMiddleName("Xuan");
     user.setLastName("Zhou");
     user.setPwd("123");
     user.setInsertTime(new Date());

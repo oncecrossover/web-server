@@ -1,29 +1,22 @@
 package com.gibbon.peeq.db.model;
 
+import java.io.IOException;
 import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class User {
-
-  private int id;
   private String uid;
   private String firstName;
   private String middleName;
   private String lastName;
   private String pwd;
   private Date insertTime;
-
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
 
   public String getUid() {
     return uid;
@@ -71,6 +64,13 @@ public class User {
 
   public void setInsertTime(Date insertTime) {
     this.insertTime = insertTime;
+  }
+
+  public static User newUser(final String userJson)
+      throws JsonParseException, JsonMappingException, IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    User user = mapper.readValue(userJson, User.class);
+    return user;
   }
 
   @Override

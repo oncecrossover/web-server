@@ -27,9 +27,7 @@ import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpUtil;
 import io.netty.handler.codec.http.HttpHeaderValues;
-import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpObject;
-import io.netty.handler.codec.http.QueryStringDecoder;
 import io.netty.handler.codec.http.cookie.Cookie;
 import io.netty.handler.codec.http.cookie.ServerCookieDecoder;
 import io.netty.handler.codec.http.cookie.ServerCookieEncoder;
@@ -70,19 +68,12 @@ public class HttpSnoopServerHandler
       send100Continue(ctx);
     }
 
-    QueryStringDecoder queryStringDecoder = new QueryStringDecoder(
-        request.uri());
-    try {
-      new WebPeeqHandler(new ParameterParser(queryStringDecoder), buf)
-          .handle(ctx, request);
-    } catch (Exception e) {
-      LOG.warn(e.toString());
-    }
+    final StrBuilder respBuf = new StrBuilder();
+    final ResourceURIParser uriParser = new ResourceURIParser(request.uri());
+    final FullHttpResponse response = new UsersWebHandler(uriParser, respBuf,
+        ctx, request).handle();
 
-    /* read content from request */
-    readContent();
-
-    if (!writeResponse(ctx)) {
+    if (!writeResponse(ctx, response)) {
       // If keep-alive is off, close the connection once the content is
       // fully written.
       ctx.writeAndFlush(Unpooled.EMPTY_BUFFER)
@@ -146,12 +137,10 @@ public class HttpSnoopServerHandler
     buf.appendNewLine();
   }
 
-  private boolean writeResponse(ChannelHandlerContext ctx) {
+  private boolean writeResponse(ChannelHandlerContext ctx,
+      final FullHttpResponse response) {
     // Decide whether to close the connection or not.
     final boolean keepAlive = HttpUtil.isKeepAlive(request);
-
-    // Build the response object.
-    final FullHttpResponse response = buildResponse();
 
     // set connection status
     setupConnectionStatus(keepAlive, response);
