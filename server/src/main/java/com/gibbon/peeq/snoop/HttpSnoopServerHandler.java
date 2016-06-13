@@ -27,6 +27,7 @@ import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpUtil;
 import io.netty.handler.codec.http.HttpHeaderValues;
+import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpObject;
 import io.netty.handler.codec.http.QueryStringDecoder;
 import io.netty.handler.codec.http.cookie.Cookie;
@@ -59,16 +60,16 @@ public class HttpSnoopServerHandler
 
   @Override
   protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) {
+    processRequest(ctx, msg);
+  }
+
+  private void processRequest(ChannelHandlerContext ctx, HttpObject msg) {
     request = (FullHttpRequest) msg;
 
     if (HttpUtil.is100ContinueExpected(request)) {
       send100Continue(ctx);
     }
 
-    /* print header info of request */
-    // printHeaderInfo();
-
-    /* handle restful request, e.g. put/get/rm/upd users */
     QueryStringDecoder queryStringDecoder = new QueryStringDecoder(
         request.uri());
     try {
@@ -80,9 +81,6 @@ public class HttpSnoopServerHandler
 
     /* read content from request */
     readContent();
-
-    /* print trailing info of request */
-    printTrailingInfo();
 
     if (!writeResponse(ctx)) {
       // If keep-alive is off, close the connection once the content is
@@ -173,7 +171,7 @@ public class HttpSnoopServerHandler
         Unpooled.copiedBuffer(buf.toString(), CharsetUtil.UTF_8));
 
     response.headers().set(HttpHeaderNames.CONTENT_TYPE,
-        "text/plain; charset=UTF-8");
+        "application/json; charset=UTF-8");
     return response;
   }
 
@@ -204,12 +202,6 @@ public class HttpSnoopServerHandler
               ServerCookieEncoder.STRICT.encode(cookie));
         }
       }
-    } else {
-      // Browser sent no cookie. Add some.
-      response.headers().add(HttpHeaderNames.SET_COOKIE,
-          ServerCookieEncoder.STRICT.encode("key1", "value1"));
-      response.headers().add(HttpHeaderNames.SET_COOKIE,
-          ServerCookieEncoder.STRICT.encode("key2", "value2"));
     }
   }
 

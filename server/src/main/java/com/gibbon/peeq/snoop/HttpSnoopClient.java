@@ -109,7 +109,8 @@ public final class HttpSnoopClient {
     request.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.CLOSE);
     request.headers().set(HttpHeaderNames.ACCEPT_ENCODING,
         HttpHeaderValues.GZIP);
-    request.headers().set(HttpHeaderNames.CONTENT_TYPE, "application/json");
+    request.headers().set(HttpHeaderNames.CONTENT_TYPE,
+        "application/json; charset=UTF-8");
 
     // Set some example cookies.
     request.headers().set(HttpHeaderNames.COOKIE,
