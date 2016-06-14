@@ -1,1 +1,7 @@
 .DS_Store
+server/src/main/resources/com/gibbon/peeq/scripts/hibernate.cfg.xml
+.idea/
+netty-parent.iml
+server/netty-example.iml
+server/target/
+target/

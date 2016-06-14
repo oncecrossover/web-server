@@ -16,6 +16,7 @@
 		4AC283741CE2F58100A08D35 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AC283721CE2F58100A08D35 /* LaunchScreen.storyboard */; };
 		4AC2837C1CECEE3800A08D35 /* SignupPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC2837B1CECEE3800A08D35 /* SignupPageViewController.swift */; };
 		4AC2837E1CED0E4500A08D35 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC2837D1CED0E4500A08D35 /* LoginViewController.swift */; };
+		4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF2A1B1D14BABA002E3CFE /* User.swift */; };
 		4AF0A8281D04C40900A1DE17 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0A8271D04C40900A1DE17 /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		4AC283751CE2F58100A08D35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4AC2837B1CECEE3800A08D35 /* SignupPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupPageViewController.swift; sourceTree = "<group>"; };
 		4AC2837D1CED0E4500A08D35 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		4AEF2A1B1D14BABA002E3CFE /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4AF0A8271D04C40900A1DE17 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,6 +76,7 @@
 				4AC283751CE2F58100A08D35 /* Info.plist */,
 				4AC2836D1CE2F58100A08D35 /* Peep.xcdatamodeld */,
 				4AC2837B1CECEE3800A08D35 /* SignupPageViewController.swift */,
+				4AEF2A1B1D14BABA002E3CFE /* User.swift */,
 				4AC2837D1CED0E4500A08D35 /* LoginViewController.swift */,
 			);
 			path = Peeq;
@@ -154,6 +157,7 @@
 				4AC2836F1CE2F58100A08D35 /* Peep.xcdatamodeld in Sources */,
 				4AF0A8281D04C40900A1DE17 /* SettingsViewController.swift in Sources */,
 				4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */,
+				4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */,
 				4AC2837E1CED0E4500A08D35 /* LoginViewController.swift in Sources */,
 				4AC2837C1CECEE3800A08D35 /* SignupPageViewController.swift in Sources */,
 				4A7EF3F71D03AD6C00E7A226 /* ContactViewController.swift in Sources */,

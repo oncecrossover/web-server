@@ -7,7 +7,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Peeq at great food-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Peeq" customModuleProvider="target" sceneMemberID="viewController">
@@ -44,7 +44,7 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="topRated" id="E6P-kg-kNZ"/>
-                    <navigationItem key="navigationItem" id="0qt-kj-boo"/>
+                    <navigationItem key="navigationItem" title="Peeq at great food" id="0qt-kj-boo"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <segue destination="vry-Hq-iLC" kind="presentation" identifier="loginView" id="EX3-Zk-gpY"/>
@@ -521,6 +521,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="AfD-zJ-Gsp"/>
+        <segue reference="EX3-Zk-gpY"/>
     </inferredMetricsTieBreakers>
 </document>
