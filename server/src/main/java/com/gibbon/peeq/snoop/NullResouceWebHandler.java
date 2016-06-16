@@ -7,9 +7,9 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
-public class NullWebHandler extends AbastractPeeqWebHandler {
+public class NullResouceWebHandler extends AbastractPeeqWebHandler {
 
-  public NullWebHandler(ResourceURIParser uriParser, StrBuilder respBuf,
+  public NullResouceWebHandler(ResourceURIParser uriParser, StrBuilder respBuf,
       ChannelHandlerContext ctx, FullHttpRequest request) {
     super(uriParser, respBuf, ctx, request);
   }

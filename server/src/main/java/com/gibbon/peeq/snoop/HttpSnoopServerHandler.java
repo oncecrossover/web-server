@@ -36,6 +36,7 @@ import io.netty.util.CharsetUtil;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,10 +82,16 @@ public class HttpSnoopServerHandler
   private FullHttpResponse dispatchRequest(final ResourceURIParser uriParser,
       final ChannelHandlerContext ctx) {
     final StrBuilder respBuf = new StrBuilder();
-    if ("users".equalsIgnoreCase(uriParser.getPathStream().getPath(0))) {
+    final String resourceName = uriParser.getPathStream().getPath(0);
+
+    if ("users".equalsIgnoreCase(resourceName)) {
       return new UsersWebHandler(uriParser, respBuf, ctx, request).handle();
+    } else if (!StringUtils.isBlank(resourceName)) {
+      return new NotFoundResourceWebHandler(uriParser, respBuf, ctx, request)
+          .handle();
     } else {
-      return new NullWebHandler(uriParser, respBuf, ctx, request).handle();
+      return new NullResouceWebHandler(uriParser, respBuf, ctx, request)
+          .handle();
     }
   }
 

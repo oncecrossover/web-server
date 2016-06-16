@@ -87,7 +87,7 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
     } else if (request.method() == DELETE) { // delete
       return handleDeletion();
     } else {
-      return handleUnsupportedMethod(request.method());
+      return handleNotAllowedMethod(request.method());
     }
   }
 
@@ -113,7 +113,7 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
 
   protected abstract FullHttpResponse handleDeletion();
 
-  private FullHttpResponse handleUnsupportedMethod(final HttpMethod method) {
+  private FullHttpResponse handleNotAllowedMethod(final HttpMethod method) {
     appendln(String.format("Method '%s' Not Allowed", method.toString()));
     return newResponse(HttpResponseStatus.METHOD_NOT_ALLOWED);
   }
