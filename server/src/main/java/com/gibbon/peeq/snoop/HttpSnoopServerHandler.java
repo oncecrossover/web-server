@@ -68,16 +68,23 @@ public class HttpSnoopServerHandler
       send100Continue(ctx);
     }
 
-    final StrBuilder respBuf = new StrBuilder();
     final ResourceURIParser uriParser = new ResourceURIParser(request.uri());
-    final FullHttpResponse response = new UsersWebHandler(uriParser, respBuf,
-        ctx, request).handle();
 
-    if (!writeResponse(ctx, response)) {
+    if (!writeResponse(ctx, dispatchRequest(uriParser, ctx))) {
       // If keep-alive is off, close the connection once the content is
       // fully written.
       ctx.writeAndFlush(Unpooled.EMPTY_BUFFER)
           .addListener(ChannelFutureListener.CLOSE);
+    }
+  }
+
+  private FullHttpResponse dispatchRequest(final ResourceURIParser uriParser,
+      final ChannelHandlerContext ctx) {
+    final StrBuilder respBuf = new StrBuilder();
+    if ("users".equalsIgnoreCase(uriParser.getPathStream().getPath(0))) {
+      return new UsersWebHandler(uriParser, respBuf, ctx, request).handle();
+    } else {
+      return new NullWebHandler(uriParser, respBuf, ctx, request).handle();
     }
   }
 

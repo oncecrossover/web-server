@@ -1,7 +1,5 @@
 package com.gibbon.peeq.snoop;
 
-import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
-
 import java.io.IOException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrBuilder;
@@ -14,12 +12,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.User;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.util.CharsetUtil;
 
@@ -85,18 +80,9 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  private String getPath(int index) {
-    String path = "";
-    final PathStream ps = getUriParser().getPathStream();
-    for (int i = 0; i <= index && ps.hasNext(); i++) {
-      path = ps.next();
-    }
-    return path;
-  }
-
   private FullHttpResponse onGetUser() {
     /* get user id */
-    final String uid = getPath(1);
+    final String uid = getUriParser().getPathStream().getPath(1);
 
     /* no uid */
     if (StringUtils.isBlank(uid)) {
@@ -131,27 +117,9 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  private void appendln(final String str) {
-    getRespBuf().appendln(str);
-  }
-
-  private void clearBuf() {
-    getRespBuf().clear();
-  }
-
-  private FullHttpResponse newResponse(HttpResponseStatus status) {
-    FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, status,
-        Unpooled.copiedBuffer(getRespBuf().toString(), CharsetUtil.UTF_8));
-    getRespBuf().clear();
-
-    response.headers().set(HttpHeaderNames.CONTENT_TYPE,
-        "application/json; charset=UTF-8");
-    return response;
-  }
-
   private FullHttpResponse onDelUser() {
     /* get user id */
-    final String uid = getPath(1);
+    final String uid = getUriParser().getPathStream().getPath(1);
 
     /* no uid */
     if (StringUtils.isBlank(uid)) {
