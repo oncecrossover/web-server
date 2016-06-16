@@ -76,10 +76,10 @@ public class User {
   @Override
   public String toString() {
     if (StringUtils.isBlank(middleName)) {
-      return String.format("%d, %s, %s %s, %s, %s,", id, uid, firstName,
+      return String.format("%s, %s %s, %s, %s,", uid, firstName,
           lastName, pwd, insertTime);
     } else {
-      return String.format("%d, %s, %s %s %s, %s, %s,", id, uid, firstName,
+      return String.format("%s, %s %s %s, %s, %s,", uid, firstName,
           middleName, lastName, pwd, insertTime);
     }
   }
