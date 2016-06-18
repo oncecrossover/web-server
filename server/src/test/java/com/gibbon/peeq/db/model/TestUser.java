@@ -35,7 +35,8 @@ public class TestUser {
     user.setMiddleName("Xuan");
     user.setLastName("Zhou");
     user.setPwd("123");
-    user.setInsertTime(new Date());
+    user.setCreatedTime(new Date());
+    user.setUpdatedTime(new Date());
     return user;
   }
 }

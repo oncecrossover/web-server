@@ -44,10 +44,10 @@ curl -i -X GET "http://127.0.0.1:8080/users/xiaobingo"
 curl -i -X DELETE "http://127.0.0.1:8080/users/xiaobingo"
 
 3. create a new user, e.g.
-curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"xiaobingo","firstName":"Xiaobing","middleName":"Xuan","lastName":"Zhou","pwd":"123","insertTime":1465148697000}'
+curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"xiaobingo","firstName":"Xiaobing","middleName":"Xuan","lastName":"Zhou","pwd":"123","createdTime":1465148697000,"updatedTime":1465148697000}'
 
 4. update user, e.g.
-curl -i -X PUT "http://127.0.0.1:8080/users" -d '{"uid":"xiaobingo","firstName":"Xiaobing","middleName":"Edgar","lastName":"Zhou","pwd":"123","insertTime":1465148697000}'
+curl -i -X PUT "http://127.0.0.1:8080/users" -d '{"uid":"xiaobingo","firstName":"Xiaobing","middleName":"Edgar","lastName":"Zhou","pwd":"123","createdTime":1465148697000,"updatedTime":1465148697000}'
 
 
 HTTP STATUS CODE OF REST API:

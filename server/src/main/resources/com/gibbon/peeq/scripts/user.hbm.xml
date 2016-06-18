@@ -9,19 +9,22 @@
       <generator class="assigned" />
     </id>
     <property name="firstName" type="java.lang.String">
-      <column name="first_name" />
+      <column name="firstName" />
     </property>
     <property name="middleName" type="java.lang.String">
-      <column name="middle_name" />
+      <column name="middleName" />
     </property>
     <property name="lastName" type="java.lang.String">
-      <column name="last_name" />
+      <column name="lastName" />
     </property>
     <property name="pwd" type="java.lang.String">
       <column name="pwd" />
     </property>
-    <property name="insertTime" type="timestamp">
-      <column name="insert_time" />
+    <property name="createdTime" type="timestamp">
+      <column name="createdTime" />
+    </property>
+    <property name="updatedTime" type="timestamp">
+      <column name="updatedTime" />
     </property>
   </class>
 </hibernate-mapping>

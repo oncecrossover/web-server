@@ -34,7 +34,7 @@ public class UserMain {
     user.setFirstName("Xiaobing");
     user.setLastName("Zhou");
     user.setPwd("123");
-    user.setInsertTime(new Date());
+    user.setCreatedTime(new Date());
 
     // start transaction
     session.beginTransaction();

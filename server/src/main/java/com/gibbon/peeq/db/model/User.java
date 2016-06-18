@@ -16,7 +16,8 @@ public class User {
   private String middleName;
   private String lastName;
   private String pwd;
-  private Date insertTime;
+  private Date createdTime;
+  private Date updatedTime;
 
   public String getUid() {
     return uid;
@@ -58,12 +59,20 @@ public class User {
     this.pwd = pwd;
   }
 
-  public Date getInsertTime() {
-    return insertTime;
+  public Date getCreatedTime() {
+    return createdTime;
   }
 
-  public void setInsertTime(Date insertTime) {
-    this.insertTime = insertTime;
+  public void setCreatedTime(Date createdTime) {
+    this.createdTime = createdTime;
+  }
+
+  public Date getUpdatedTime() {
+    return updatedTime;
+  }
+
+  public void setUpdatedTime(Date updatedTime) {
+    this.updatedTime = updatedTime;
   }
 
   public static User newUser(final String userJson)
@@ -77,10 +86,10 @@ public class User {
   public String toString() {
     if (StringUtils.isBlank(middleName)) {
       return String.format("%s, %s %s, %s, %s,", uid, firstName,
-          lastName, pwd, insertTime);
+          lastName, pwd, createdTime);
     } else {
       return String.format("%s, %s %s %s, %s, %s,", uid, firstName,
-          middleName, lastName, pwd, insertTime);
+          middleName, lastName, pwd, createdTime);
     }
   }
 
