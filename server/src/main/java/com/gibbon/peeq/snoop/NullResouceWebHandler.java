@@ -16,40 +16,40 @@ public class NullResouceWebHandler extends AbastractPeeqWebHandler {
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    return onGetNull();
+    return onGet();
   }
 
   @Override
   protected FullHttpResponse handleCreation() {
-    return onCreateNull();
+    return onCreate();
   }
 
   @Override
   protected FullHttpResponse handleUpdate() {
-    return onUpdNull();
+    return onUpdate();
   }
 
   @Override
   protected FullHttpResponse handleDeletion() {
-    return onDelNull();
+    return onDelete();
   }
 
-  private FullHttpResponse onGetNull() {
+  private FullHttpResponse onGet() {
     appendln("No resource specified.");
     return newResponse(HttpResponseStatus.BAD_REQUEST);
   }
 
-  private FullHttpResponse onCreateNull() {
+  private FullHttpResponse onCreate() {
     appendln("No resource specified.");
     return newResponse(HttpResponseStatus.BAD_REQUEST);
   }
 
-  private FullHttpResponse onDelNull() {
+  private FullHttpResponse onDelete() {
     appendln("No resource specified.");
     return newResponse(HttpResponseStatus.BAD_REQUEST);
   }
 
-  private FullHttpResponse onUpdNull() {
+  private FullHttpResponse onUpdate() {
     appendln("No resource specified.");
     return newResponse(HttpResponseStatus.BAD_REQUEST);
   }

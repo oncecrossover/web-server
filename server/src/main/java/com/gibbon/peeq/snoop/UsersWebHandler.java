@@ -30,25 +30,25 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    return onGetUser();
+    return onGet();
   }
 
   @Override
   protected FullHttpResponse handleCreation() {
-    return onCreateUser();
+    return onCreate();
   }
 
   @Override
   protected FullHttpResponse handleUpdate() {
-    return onUpdUser();
+    return onUpdate();
   }
 
   @Override
   protected FullHttpResponse handleDeletion() {
-    return onDelUser();
+    return onDelete();
   }
 
-  private FullHttpResponse onCreateUser() {
+  private FullHttpResponse onCreate() {
     final User user;
     try {
       user = newUserFromRequest();
@@ -80,7 +80,7 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  private FullHttpResponse onGetUser() {
+  private FullHttpResponse onGet() {
     /* get user id */
     final String uid = getUriParser().getPathStream().getPath(1);
 
@@ -96,7 +96,7 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
       getSession().getTransaction().commit();
 
       /* user queried */
-      appendUser(uid, user);
+      appendUserln(uid, user);
       return newResponse(HttpResponseStatus.OK);
     } catch (Exception e) {
       /* rollback */
@@ -108,7 +108,7 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  private void appendUser(final String uid, final User user)
+  private void appendUserln(final String uid, final User user)
       throws JsonProcessingException {
     if (user != null) {
       appendln(user.toJson());
@@ -117,7 +117,7 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  private FullHttpResponse onDelUser() {
+  private FullHttpResponse onDelete() {
     /* get user id */
     final String uid = getUriParser().getPathStream().getPath(1);
 
@@ -144,7 +144,7 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  private FullHttpResponse onUpdUser() {
+  private FullHttpResponse onUpdate() {
     final User user;
     try {
       user = newUserFromRequest();
