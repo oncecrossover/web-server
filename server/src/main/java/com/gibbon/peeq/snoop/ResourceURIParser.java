@@ -10,11 +10,21 @@ class PathStream extends StrTokenizer {
   public String getPath(int index) {
     reset();
     String path = "";
-    for (int i = 0; i <= index && hasNext(); i++) {
+    int i;
+    for (i = 0; i <= index && hasNext(); i++) {
       path = next();
     }
     reset();
-    return path;
+
+    if (i == index || i < index) {
+      /*
+       * /users, getPath(0) is good, but getPath(1) and getPath(2) will return
+       * empty
+       */
+      return "";
+    } else {
+      return path;
+    }
   }
 }
 
