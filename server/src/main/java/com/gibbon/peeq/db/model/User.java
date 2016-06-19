@@ -82,6 +82,11 @@ public class User {
     return this;
   }
 
+  /**
+   * Instantiates a new User.
+   * @param userJson Json string of User.
+   * @return new instance of User.
+   */
   public static User newUser(final String userJson)
       throws JsonParseException, JsonMappingException, IOException {
     ObjectMapper mapper = new ObjectMapper();
