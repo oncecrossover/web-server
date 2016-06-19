@@ -1,16 +1,18 @@
-package com.gibbon.peeq.snoop;
+package com.gibbon.peeq.handlers;
 
 import org.apache.commons.lang3.text.StrBuilder;
+
+import com.gibbon.peeq.util.ResourceURIParser;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
-public class NullResouceWebHandler extends AbastractPeeqWebHandler {
+public class NotFoundResourceWebHandler extends AbastractPeeqWebHandler {
 
-  public NullResouceWebHandler(ResourceURIParser uriParser, StrBuilder respBuf,
-      ChannelHandlerContext ctx, FullHttpRequest request) {
+  public NotFoundResourceWebHandler(ResourceURIParser uriParser,
+      StrBuilder respBuf, ChannelHandlerContext ctx, FullHttpRequest request) {
     super(uriParser, respBuf, ctx, request);
   }
 
@@ -35,22 +37,27 @@ public class NullResouceWebHandler extends AbastractPeeqWebHandler {
   }
 
   private FullHttpResponse onGet() {
-    appendln("No resource specified.");
-    return newResponse(HttpResponseStatus.BAD_REQUEST);
+    appendNotFoundResource();
+    return newResponse(HttpResponseStatus.NOT_FOUND);
   }
 
   private FullHttpResponse onCreate() {
-    appendln("No resource specified.");
-    return newResponse(HttpResponseStatus.BAD_REQUEST);
+    appendNotFoundResource();
+    return newResponse(HttpResponseStatus.NOT_FOUND);
   }
 
   private FullHttpResponse onDelete() {
-    appendln("No resource specified.");
-    return newResponse(HttpResponseStatus.BAD_REQUEST);
+    appendNotFoundResource();
+    return newResponse(HttpResponseStatus.NOT_FOUND);
   }
 
   private FullHttpResponse onUpdate() {
-    appendln("No resource specified.");
-    return newResponse(HttpResponseStatus.BAD_REQUEST);
+    appendNotFoundResource();
+    return newResponse(HttpResponseStatus.NOT_FOUND);
+  }
+
+  private void appendNotFoundResource() {
+    final String resourceName = getUriParser().getPathStream().getPath(0);
+    appendln(String.format("Not found the resource '%s'", resourceName));
   }
 }

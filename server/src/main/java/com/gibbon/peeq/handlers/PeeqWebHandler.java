@@ -1,9 +1,10 @@
-package com.gibbon.peeq.snoop;
+package com.gibbon.peeq.handlers;
 
 import org.apache.commons.lang3.text.StrBuilder;
 import org.hibernate.Session;
 
 import com.gibbon.peeq.db.util.HibernateUtil;
+import com.gibbon.peeq.util.ResourceURIParser;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;

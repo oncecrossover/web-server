@@ -1,16 +1,18 @@
-package com.gibbon.peeq.snoop;
+package com.gibbon.peeq.handlers;
 
 import org.apache.commons.lang3.text.StrBuilder;
+
+import com.gibbon.peeq.util.ResourceURIParser;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
-public class NotFoundResourceWebHandler extends AbastractPeeqWebHandler {
+public class NullResouceWebHandler extends AbastractPeeqWebHandler {
 
-  public NotFoundResourceWebHandler(ResourceURIParser uriParser,
-      StrBuilder respBuf, ChannelHandlerContext ctx, FullHttpRequest request) {
+  public NullResouceWebHandler(ResourceURIParser uriParser, StrBuilder respBuf,
+      ChannelHandlerContext ctx, FullHttpRequest request) {
     super(uriParser, respBuf, ctx, request);
   }
 
@@ -35,27 +37,22 @@ public class NotFoundResourceWebHandler extends AbastractPeeqWebHandler {
   }
 
   private FullHttpResponse onGet() {
-    appendNotFoundResource();
-    return newResponse(HttpResponseStatus.NOT_FOUND);
+    appendln("No resource specified.");
+    return newResponse(HttpResponseStatus.BAD_REQUEST);
   }
 
   private FullHttpResponse onCreate() {
-    appendNotFoundResource();
-    return newResponse(HttpResponseStatus.NOT_FOUND);
+    appendln("No resource specified.");
+    return newResponse(HttpResponseStatus.BAD_REQUEST);
   }
 
   private FullHttpResponse onDelete() {
-    appendNotFoundResource();
-    return newResponse(HttpResponseStatus.NOT_FOUND);
+    appendln("No resource specified.");
+    return newResponse(HttpResponseStatus.BAD_REQUEST);
   }
 
   private FullHttpResponse onUpdate() {
-    appendNotFoundResource();
-    return newResponse(HttpResponseStatus.NOT_FOUND);
-  }
-
-  private void appendNotFoundResource() {
-    final String resourceName = getUriParser().getPathStream().getPath(0);
-    appendln(String.format("Not found the resource '%s'", resourceName));
+    appendln("No resource specified.");
+    return newResponse(HttpResponseStatus.BAD_REQUEST);
   }
 }

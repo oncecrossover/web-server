@@ -1,4 +1,4 @@
-package com.gibbon.peeq.snoop;
+package com.gibbon.peeq.handlers;
 
 import java.io.IOException;
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.User;
+import com.gibbon.peeq.util.ResourceURIParser;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
