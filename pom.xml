@@ -764,6 +764,9 @@
               <goal>check-format</goal>
             </goals>
             <phase>validate</phase>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
           </execution>
         </executions>
         <configuration>

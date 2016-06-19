@@ -5,3 +5,5 @@ netty-parent.iml
 server/netty-example.iml
 server/target/
 target/
+.*
+**/target/*

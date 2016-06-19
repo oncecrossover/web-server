@@ -23,56 +23,63 @@ public class User {
     return uid;
   }
 
-  public void setUid(String uid) {
+  public User setUid(String uid) {
     this.uid = uid;
+    return this;
   }
 
   public String getFirstName() {
     return this.firstName;
   }
 
-  public void setFirstName(String firstName) {
+  public User setFirstName(String firstName) {
     this.firstName = firstName;
+    return this;
   }
 
   public String getMiddleName() {
     return this.middleName;
   }
 
-  public void setMiddleName(String middleName) {
+  public User setMiddleName(String middleName) {
     this.middleName = middleName;
+    return this;
   }
 
   public String getLastName() {
     return this.lastName;
   }
 
-  public void setLastName(String lastName) {
+  public User setLastName(String lastName) {
     this.lastName = lastName;
+    return this;
   }
 
   public String getPwd() {
     return pwd;
   }
 
-  public void setPwd(String pwd) {
+  public User setPwd(String pwd) {
     this.pwd = pwd;
+    return this;
   }
 
   public Date getCreatedTime() {
     return createdTime;
   }
 
-  public void setCreatedTime(Date createdTime) {
+  public User setCreatedTime(Date createdTime) {
     this.createdTime = createdTime;
+    return this;
   }
 
   public Date getUpdatedTime() {
     return updatedTime;
   }
 
-  public void setUpdatedTime(Date updatedTime) {
+  public User setUpdatedTime(Date updatedTime) {
     this.updatedTime = updatedTime;
+    return this;
   }
 
   public static User newUser(final String userJson)
