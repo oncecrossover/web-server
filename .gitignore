@@ -7,4 +7,5 @@ server/target/
 target/
 .*
 **/target/*
-Peeq.xcodeproj/project.xcworkspace/xcuserdata/*/*
+**/Peeq.xcodeproj/xcuserdata/*
+xcuserdata/

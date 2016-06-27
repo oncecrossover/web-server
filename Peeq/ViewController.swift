@@ -38,6 +38,7 @@ class ViewController: UIViewController {
   
   @IBAction func logoutButtonTapped(sender: AnyObject) {
     NSUserDefaults.standardUserDefaults().setBool(false, forKey: "isUserLoggedIn")
+    NSUserDefaults.standardUserDefaults().removeObjectForKey("email")
     NSUserDefaults.standardUserDefaults().synchronize()
     self.performSegueWithIdentifier("loginView", sender: self)
   }

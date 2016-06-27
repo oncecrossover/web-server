@@ -32,6 +32,7 @@ class LoginViewController: UIViewController {
     userModule.getUser(userEmail, password: userPassword) { displayMessage in
       if (displayMessage.isEmpty) {
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isUserLoggedIn")
+        NSUserDefaults.standardUserDefaults().setObject(userEmail, forKey: "email")
         NSUserDefaults.standardUserDefaults().synchronize()
         self.dismissViewControllerAnimated(true, completion: nil)
       }
@@ -53,9 +54,6 @@ class LoginViewController: UIViewController {
     myAlert.addAction(okAction)
     
     self.presentViewController(myAlert, animated: true, completion: nil)
-    //        dispatch_async(dispatch_get_main_queue(), {
-    //            self.presentViewController(myAlert, animated: true, completion: nil)
-    //        })
     
   }
   

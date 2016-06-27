@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		4A7EF3F71D03AD6C00E7A226 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7EF3F61D03AD6C00E7A226 /* ContactViewController.swift */; };
+		4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26821D218FC60001989E /* ProfileViewController.swift */; };
+		4A8F26851D219DB70001989E /* 3301885.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4A8F26841D219DB70001989E /* 3301885.jpg */; };
+		4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26861D21D01D0001989E /* EditProfileViewController.swift */; };
 		4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC283661CE2F58100A08D35 /* AppDelegate.swift */; };
 		4AC283691CE2F58100A08D35 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC283681CE2F58100A08D35 /* ViewController.swift */; };
 		4AC2836C1CE2F58100A08D35 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AC2836A1CE2F58100A08D35 /* Main.storyboard */; };
@@ -17,11 +20,13 @@
 		4AC2837C1CECEE3800A08D35 /* SignupPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC2837B1CECEE3800A08D35 /* SignupPageViewController.swift */; };
 		4AC2837E1CED0E4500A08D35 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC2837D1CED0E4500A08D35 /* LoginViewController.swift */; };
 		4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF2A1B1D14BABA002E3CFE /* User.swift */; };
-		4AF0A8281D04C40900A1DE17 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0A8271D04C40900A1DE17 /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4A7EF3F61D03AD6C00E7A226 /* ContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
+		4A8F26821D218FC60001989E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		4A8F26841D219DB70001989E /* 3301885.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3301885.jpg; sourceTree = "<group>"; };
+		4A8F26861D21D01D0001989E /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		4AC283631CE2F58100A08D35 /* Peeq.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Peeq.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AC283661CE2F58100A08D35 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4AC283681CE2F58100A08D35 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -33,7 +38,6 @@
 		4AC2837B1CECEE3800A08D35 /* SignupPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupPageViewController.swift; sourceTree = "<group>"; };
 		4AC2837D1CED0E4500A08D35 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4AEF2A1B1D14BABA002E3CFE /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		4AF0A8271D04C40900A1DE17 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,10 +70,12 @@
 		4AC283651CE2F58100A08D35 /* Peeq */ = {
 			isa = PBXGroup;
 			children = (
+				4A8F26841D219DB70001989E /* 3301885.jpg */,
 				4AC283661CE2F58100A08D35 /* AppDelegate.swift */,
 				4AC283681CE2F58100A08D35 /* ViewController.swift */,
 				4AC2836A1CE2F58100A08D35 /* Main.storyboard */,
-				4AF0A8271D04C40900A1DE17 /* SettingsViewController.swift */,
+				4A8F26861D21D01D0001989E /* EditProfileViewController.swift */,
+				4A8F26821D218FC60001989E /* ProfileViewController.swift */,
 				4A7EF3F61D03AD6C00E7A226 /* ContactViewController.swift */,
 				4AC283701CE2F58100A08D35 /* Assets.xcassets */,
 				4AC283721CE2F58100A08D35 /* LaunchScreen.storyboard */,
@@ -142,6 +148,7 @@
 			files = (
 				4AC283741CE2F58100A08D35 /* LaunchScreen.storyboard in Resources */,
 				4AC283711CE2F58100A08D35 /* Assets.xcassets in Resources */,
+				4A8F26851D219DB70001989E /* 3301885.jpg in Resources */,
 				4AC2836C1CE2F58100A08D35 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -155,12 +162,13 @@
 			files = (
 				4AC283691CE2F58100A08D35 /* ViewController.swift in Sources */,
 				4AC2836F1CE2F58100A08D35 /* Peep.xcdatamodeld in Sources */,
-				4AF0A8281D04C40900A1DE17 /* SettingsViewController.swift in Sources */,
 				4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */,
 				4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */,
 				4AC2837E1CED0E4500A08D35 /* LoginViewController.swift in Sources */,
 				4AC2837C1CECEE3800A08D35 /* SignupPageViewController.swift in Sources */,
+				4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */,
 				4A7EF3F71D03AD6C00E7A226 /* ContactViewController.swift in Sources */,
+				4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
