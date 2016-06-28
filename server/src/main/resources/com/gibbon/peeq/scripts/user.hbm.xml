@@ -26,5 +26,7 @@
     <property name="updatedTime" type="timestamp">
       <column name="updatedTime" />
     </property>
+    <one-to-one name="profile" class="com.gibbon.peeq.db.model.Profile"
+      cascade="save-update, delete" />
   </class>
 </hibernate-mapping>

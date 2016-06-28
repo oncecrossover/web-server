@@ -26,5 +26,6 @@
 
     <!-- mapping file, we can use Bean annotations too -->
     <mapping resource="com/gibbon/peeq/scripts/user.hbm.xml" />
+    <mapping resource="com/gibbon/peeq/scripts/profile.hbm.xml" />
   </session-factory>
 </hibernate-configuration>

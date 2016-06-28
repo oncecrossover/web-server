@@ -18,6 +18,7 @@ public class User {
   private String pwd;
   private Date createdTime;
   private Date updatedTime;
+  private Profile profile;
 
   public String getUid() {
     return uid;
@@ -79,6 +80,15 @@ public class User {
 
   public User setUpdatedTime(Date updatedTime) {
     this.updatedTime = updatedTime;
+    return this;
+  }
+
+  public Profile getProfile() {
+    return profile;
+  }
+
+  public User setProfile(final Profile profile) {
+    this.profile = profile;
     return this;
   }
 

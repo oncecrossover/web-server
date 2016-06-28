@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.gibbon.peeq.db.model.Profile" table="PROFILE">
+    <id name="uid" type="java.lang.String">
+      <column name="uid" />
+      <generator class="foreign">
+        <param name="property">user</param>
+      </generator>
+    </id>
+    <property name="avatarUrl" type="java.lang.String">
+      <column name="avatarUrl" />
+    </property>
+    <property name="fullName" type="java.lang.String">
+      <column name="fullName" />
+    </property>
+    <property name="title" type="java.lang.String">
+      <column name="title" />
+    </property>
+    <property name="aboutMe" type="java.lang.String">
+      <column name="aboutMe"/>
+    </property>
+    <one-to-one name="user" class="com.gibbon.peeq.db.model.User"
+      constrained="true" />
+  </class>
+</hibernate-mapping>

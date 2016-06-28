@@ -25,7 +25,7 @@ public class HibernateUtil {
     try {
       // Create the SessionFactory from hibernate-mysql.conf.xml
       Configuration configuration = new Configuration();
-      System.out.print("resource is " + resource);
+      System.out.println("resource is " + resource);
       configuration.configure(resource);
       System.out.println("Hibernate Configuration loaded");
 
