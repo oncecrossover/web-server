@@ -101,6 +101,9 @@ public class User {
       throws JsonParseException, JsonMappingException, IOException {
     ObjectMapper mapper = new ObjectMapper();
     User user = mapper.readValue(userJson, User.class);
+    if (user.getProfile() == null) {
+      user.setProfile(new Profile());
+    }
     user.getProfile().setUser(user);
     return user;
   }
