@@ -158,6 +158,15 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
   }
 
   private FullHttpResponse onUpdate() {
+    /* get user id */
+    final String uid = getUriParser().getPathStream().getPath(1);
+
+    /* no uid */
+    if (StringUtils.isBlank(uid)) {
+      appendln("Missing parameter: uid");
+      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    }
+
     final User user;
     try {
       user = newUserFromRequest();
@@ -177,6 +186,7 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
      * assign uid for profile to explicitly tell Hibernate to update profile
      * insteading of inserting
      */
+    user.setUid(uid);
     user.getProfile().setUid(user.getUid());
 
     Transaction txn = null;
