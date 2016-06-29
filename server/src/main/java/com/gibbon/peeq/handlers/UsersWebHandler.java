@@ -61,8 +61,9 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
       }
     } catch (Exception e) {
       /* server error */
-      LOG.warn(e.toString());
-      appendln(e.toString());
+      String st = stackTraceToString(e);
+      LOG.warn(st);
+      appendln(st);
       return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -78,8 +79,9 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
       /* rollback */
       txn.rollback();
       /* server error */
-      LOG.warn(e.toString());
-      appendln(e.toString());
+      String st = stackTraceToString(e);
+      LOG.warn(st);
+      appendln(st);
       return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -107,8 +109,9 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
       /* rollback */
       txn.rollback();
       /* server error */
-      LOG.warn(e.toString());
-      appendln(e.toString());
+      String st = stackTraceToString(e);
+      LOG.warn(st);
+      appendln(st);
       return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -147,8 +150,9 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
       /* rollback */
       txn.rollback();
       /* server error */
-      LOG.warn(e.toString());
-      appendln(e.toString());
+      String st = stackTraceToString(e);
+      LOG.warn(st);
+      appendln(st);
       return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -163,8 +167,9 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
       }
     } catch (Exception e) {
       /* server error */
-      LOG.warn(e.toString());
-      appendln(e.toString());
+      String st = stackTraceToString(e);
+      LOG.warn(st);
+      appendln(st);
       return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -184,8 +189,9 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
       /* rollback */
       txn.rollback();
       /* server error */
-      LOG.warn(e.toString());
-      appendln(e.toString());
+      String st = stackTraceToString(e);
+      LOG.warn(st);
+      appendln(st);
       return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
     }
   }

@@ -22,6 +22,10 @@ import static io.netty.handler.codec.http.HttpMethod.DELETE;
 import static io.netty.handler.codec.http.HttpMethod.PUT;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+
 public interface PeeqWebHandler {
 
   public ResourceURIParser getUriParser();
@@ -117,5 +121,12 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
   private FullHttpResponse handleNotAllowedMethod(final HttpMethod method) {
     appendln(String.format("Method '%s' not allowed.", method.toString()));
     return newResponse(HttpResponseStatus.METHOD_NOT_ALLOWED);
+  }
+
+  String stackTraceToString(final Exception e) {
+    Writer writer = new StringWriter();
+    PrintWriter printWriter = new PrintWriter(writer);
+    e.printStackTrace(printWriter);
+    return writer.toString();
   }
 }
