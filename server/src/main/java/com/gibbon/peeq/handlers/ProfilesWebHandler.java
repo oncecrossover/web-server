@@ -91,6 +91,15 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
   }
 
   private FullHttpResponse onUpdate() {
+    /* get user id */
+    final String uid = getUriParser().getPathStream().getPath(1);
+
+    /* no uid */
+    if (StringUtils.isBlank(uid)) {
+      appendln("Missing parameter: uid");
+      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    }
+
     final Profile profile;
     try {
       profile = newProfileFromRequest();
@@ -105,6 +114,7 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
       return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
     }
 
+    profile.setUid(uid);
     Transaction txn = null;
     try {
       txn = getSession().beginTransaction();
