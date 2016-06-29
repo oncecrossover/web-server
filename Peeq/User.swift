@@ -4,14 +4,16 @@ import Foundation
 class User
 {
   
-  private var URI: String
+  private var USERURI: String
+  private var PROFILEURI: String
   
   init(){
-    URI = "http://localhost:8080/users/"
+    USERURI = "http://localhost:8080/users/"
+    PROFILEURI = "http://localhost:8080/profiles/"
   }
   
   func createUser(userEmail: String, userPassword: String, completion: (String) -> ()) {
-    let myUrl = NSURL(string: URI);
+    let myUrl = NSURL(string: USERURI);
     let request = NSMutableURLRequest(URL:myUrl!);
     request.HTTPMethod = "POST";
     let jsonData = ["uid": userEmail, "pwd": userPassword]
@@ -44,7 +46,7 @@ class User
   }
   
   func getUser(email: String, password: String, completion: (String) -> ()){
-    let myUrl = NSURL(string: URI + email);
+    let myUrl = NSURL(string: USERURI + email);
     let request = NSMutableURLRequest(URL:myUrl!);
     request.HTTPMethod = "GET";
     let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
@@ -90,6 +92,92 @@ class User
       }
     }
     
+    task.resume()
+  }
+
+  func updateProfile(uid: String, name: String, title: String, about: String, completion: (String) -> ()) {
+    let myUrl = NSURL(string: PROFILEURI + uid);
+    let request = NSMutableURLRequest(URL:myUrl!);
+    request.HTTPMethod = "PUT";
+    let jsonData = ["fullName": name, "title" : title, "aboutMe": about]
+
+    do {
+      request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
+    }
+    catch {
+      print("error=\(error)")
+      completion("an error occurs when updating user profile: \(error)")
+    }
+    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+      data, response, error in
+      if (error != nil)
+      {
+        print("error=\(error)")
+        return
+      }
+
+      // You can print out response object
+      print("response = \(response)")
+
+      // Print out response body
+      let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+      print("responseString = \(responseString)")
+      completion("")
+
+    }
+    task.resume()
+  }
+
+  func getProfile(uid: String, completion: (String, String, String) -> ()){
+    let myUrl = NSURL(string: PROFILEURI + uid);
+    let request = NSMutableURLRequest(URL:myUrl!);
+    request.HTTPMethod = "GET";
+    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+      data, response, error in
+
+      // Check for error
+      if error != nil
+      {
+        print("error=\(error)")
+        return
+      }
+
+      // Print out response string
+      let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+      print("responseString = \(responseString)")
+
+
+      // Convert server json response to NSDictionary
+      do {
+        if let convertedJsonIntoDict = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSDictionary {
+
+          // Print out dictionary
+          print(convertedJsonIntoDict)
+          var fullName = ""
+          var title = ""
+          var aboutMe = ""
+
+          // Get value by key
+          if ((convertedJsonIntoDict["fullName"] as? String) != nil) {
+            fullName = (convertedJsonIntoDict["fullName"] as? String)!
+          }
+
+          if ((convertedJsonIntoDict["title"] as? String) != nil) {
+            title = (convertedJsonIntoDict["title"] as? String)!
+          }
+
+          if ((convertedJsonIntoDict["aboutMe"] as? String) != nil) {
+            aboutMe = (convertedJsonIntoDict["aboutMe"] as? String)!
+          }
+
+          completion(fullName, title, aboutMe)
+
+        }
+      } catch let error as NSError {
+        print(error.localizedDescription)
+      }
+    }
+
     task.resume()
   }
 

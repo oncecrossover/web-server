@@ -22,31 +22,38 @@ class ProfileViewController: UIViewController{
 
   @IBOutlet weak var aboutLabel: UILabel!
   @IBOutlet weak var titleLabel: UILabel!
+
+  var userModule = User()
+
   override func viewDidLoad() {
     super.viewDidLoad()
-//    userEmail = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     initView()
 
     // Do any additional setup after loading the view.
   }
 
   func initView() {
-    aboutLabel.numberOfLines = 0
-    aboutLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
-    aboutLabel.sizeToFit()
-    aboutLabel.text = NSUserDefaults.standardUserDefaults().stringForKey("about")
-    aboutLabel.font = aboutLabel.font.fontWithSize(12)
+    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    userModule.getProfile(uid) { fullName, title, aboutMe in
+      dispatch_sync(dispatch_get_main_queue(), {
+        self.aboutLabel.numberOfLines = 0
+        self.aboutLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        self.aboutLabel.sizeToFit()
+        self.aboutLabel.text = aboutMe
+        self.aboutLabel.font = self.aboutLabel.font.fontWithSize(12)
 
-    nameLabel.text = NSUserDefaults.standardUserDefaults().stringForKey("name")
-    nameLabel.font = nameLabel.font.fontWithSize(15)
+        self.nameLabel.text = fullName
+        self.nameLabel.font = self.nameLabel.font.fontWithSize(15)
 
-    titleLabel.text = NSUserDefaults.standardUserDefaults().stringForKey("title")
-    titleLabel.font = titleLabel.font.fontWithSize(12)
+        self.titleLabel.text = title
+        self.titleLabel.font = self.titleLabel.font.fontWithSize(12)
 
-    profilePhoto.layer.cornerRadius = (profilePhoto.frame.size.width) / 2
-    profilePhoto.clipsToBounds = true
-    profilePhoto.layer.borderColor = UIColor.blackColor().CGColor
-    profilePhoto.layer.borderWidth = 2
+        self.profilePhoto.layer.cornerRadius = (self.profilePhoto.frame.size.width) / 2
+        self.profilePhoto.clipsToBounds = true
+        self.profilePhoto.layer.borderColor = UIColor.blackColor().CGColor
+        self.profilePhoto.layer.borderWidth = 2
+      })
+    }
   }
 
   override func didReceiveMemoryWarning() {

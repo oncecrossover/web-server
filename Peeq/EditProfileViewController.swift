@@ -18,6 +18,9 @@ class EditProfileViewController: UIViewController {
   @IBOutlet weak var nameField: UITextField!
 
   var profileValues: (name: String!, title: String!, about: String!)
+
+  var userModule = User()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -40,11 +43,28 @@ class EditProfileViewController: UIViewController {
 
 
   @IBAction func saveButtonTapped(sender: AnyObject) {
-    NSUserDefaults.standardUserDefaults().setObject(nameField.text, forKey: "name");
-    NSUserDefaults.standardUserDefaults().setObject(titleField.text, forKey: "title")
-    NSUserDefaults.standardUserDefaults().setObject(aboutField.text, forKey: "about")
-    NSUserDefaults.standardUserDefaults().synchronize()
-    self.performSegueWithIdentifier("segueToUpdatedProfile", sender: self)
-//    self.dismissViewControllerAnimated(true, completion: nil)
+    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
+    userModule.updateProfile(uid!, name: nameField.text!, title: titleField.text!, about: aboutField.text){ resultString in
+      if (resultString.isEmpty) {
+        NSOperationQueue.mainQueue().addOperationWithBlock{
+          self.performSegueWithIdentifier("segueToUpdatedProfile", sender: self)
+        }
+      }
+      else {
+        self.displayAlertMessage(resultString)
+      }
+    }
+  }
+
+  func displayAlertMessage(userMessage:String) {
+
+    let myAlert = UIAlertController(title: "Alert", message: userMessage, preferredStyle: UIAlertControllerStyle.Alert)
+
+    let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil)
+
+    myAlert.addAction(okAction)
+
+    self.presentViewController(myAlert, animated: true, completion: nil)
+
   }
 }
