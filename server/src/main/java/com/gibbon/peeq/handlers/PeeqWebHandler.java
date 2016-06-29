@@ -115,7 +115,7 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
   protected abstract FullHttpResponse handleDeletion();
 
   private FullHttpResponse handleNotAllowedMethod(final HttpMethod method) {
-    appendln(String.format("Method '%s' Not Allowed", method.toString()));
+    appendln(String.format("Method '%s' not allowed.", method.toString()));
     return newResponse(HttpResponseStatus.METHOD_NOT_ALLOWED);
   }
 }

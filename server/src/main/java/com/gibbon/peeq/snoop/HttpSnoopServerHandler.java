@@ -43,6 +43,7 @@ import org.slf4j.LoggerFactory;
 
 import com.gibbon.peeq.handlers.NotFoundResourceWebHandler;
 import com.gibbon.peeq.handlers.NullResouceWebHandler;
+import com.gibbon.peeq.handlers.ProfilesWebHandler;
 import com.gibbon.peeq.handlers.UsersWebHandler;
 import com.gibbon.peeq.util.ResourceURIParser;
 
@@ -91,6 +92,8 @@ public class HttpSnoopServerHandler
 
     if ("users".equalsIgnoreCase(resourceName)) {
       return new UsersWebHandler(uriParser, respBuf, ctx, request).handle();
+    } else if ("profiles".equalsIgnoreCase(resourceName)) {
+      return new ProfilesWebHandler(uriParser, respBuf, ctx, request).handle();
     } else if (!StringUtils.isBlank(resourceName)) {
       return new NotFoundResourceWebHandler(uriParser, respBuf, ctx, request)
           .handle();

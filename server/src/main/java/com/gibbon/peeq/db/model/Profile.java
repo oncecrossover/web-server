@@ -1,6 +1,12 @@
 package com.gibbon.peeq.db.model;
 
+import java.io.IOException;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Profile {
   private String uid;
@@ -75,5 +81,42 @@ public class Profile {
   public Profile setUser(final User user) {
     this.user = user;
     return this;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+
+    if (obj == null) {
+      return false;
+    }
+
+    if (getClass() == obj.getClass()) {
+      Profile profile = (Profile) obj;
+      if (this.getUid() == profile.getUid()
+          && this.getAvatarUrl() == profile.getAvatarUrl()
+          && this.getAvatarImage() == profile.getAvatarImage()
+          && this.getFullName() == profile.getFullName()
+          && this.getTitle() == profile.getTitle()
+          && this.getAboutMe() == profile.getAboutMe()) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public String toJson() throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.writeValueAsString(this);
+  }
+
+  public static Profile newProfile(final String json)
+      throws JsonParseException, JsonMappingException, IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    Profile profile = mapper.readValue(json, Profile.class);
+    return profile;
   }
 }

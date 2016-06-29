@@ -101,6 +101,7 @@ public class User {
       throws JsonParseException, JsonMappingException, IOException {
     ObjectMapper mapper = new ObjectMapper();
     User user = mapper.readValue(userJson, User.class);
+    user.getProfile().setUser(user);
     return user;
   }
 
@@ -118,5 +119,32 @@ public class User {
   public String toJson() throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     return mapper.writeValueAsString(this);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+
+    if (obj == null) {
+      return false;
+    }
+
+    if (getClass() == obj.getClass()) {
+      User user = (User) obj;
+      if (this.getUid() == user.getUid()
+          && this.getFirstName() == user.getFirstName()
+          && this.getMiddleName() == user.getMiddleName()
+          && this.getLastName() == user.getLastName()
+          && this.getPwd() == user.getPwd()
+          && this.getCreatedTime() == user.getCreatedTime()
+          && this.getUpdatedTime() == user.getUpdatedTime()
+          && this.getProfile().equals(user.getProfile())) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

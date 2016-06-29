@@ -3,12 +3,14 @@ package com.gibbon.peeq.handlers;
 import java.io.IOException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrBuilder;
+import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.db.model.User;
 import com.gibbon.peeq.util.ResourceURIParser;
 
@@ -64,16 +66,17 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
       return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
     }
 
+    Transaction txn = null;
     try {
-      getSession().beginTransaction();
+      txn = getSession().beginTransaction();
       getSession().save(user);
-      getSession().getTransaction().commit();
+      txn.commit();
       appendln(String.format("New resource created with URI: /users/%s",
           user.getUid()));
       return newResponse(HttpResponseStatus.CREATED);
     } catch (Exception e) {
       /* rollback */
-      getSession().getTransaction().rollback();
+      txn.rollback();
       /* server error */
       LOG.warn(e.toString());
       appendln(e.toString());
@@ -91,17 +94,18 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
+    Transaction txn = null;
     try {
-      getSession().beginTransaction();
+      txn = getSession().beginTransaction();
       final User user = (User) getSession().get(User.class, uid);
-      getSession().getTransaction().commit();
+      txn.commit();
 
       /* user queried */
       appendUserln(uid, user);
       return newResponse(HttpResponseStatus.OK);
     } catch (Exception e) {
       /* rollback */
-      getSession().getTransaction().rollback();
+      txn.rollback();
       /* server error */
       LOG.warn(e.toString());
       appendln(e.toString());
@@ -130,14 +134,18 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
 
     final User user = new User();
     user.setUid(uid);
+    /* assign uid for profile so that Hibernate can do cascade delete */
+    user.setProfile(new Profile().setUid(user.getUid()));
+
+    Transaction txn = null;
     try {
-      getSession().beginTransaction();
+      txn = getSession().beginTransaction();
       getSession().delete(user);
-      getSession().getTransaction().commit();
+      txn.commit();
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {
       /* rollback */
-      getSession().getTransaction().rollback();
+      txn.rollback();
       /* server error */
       LOG.warn(e.toString());
       appendln(e.toString());
@@ -160,14 +168,21 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
       return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /*
+     * assign uid for profile to explicitly tell Hibernate to update profile
+     * insteading of inserting
+     */
+    user.getProfile().setUid(user.getUid());
+
+    Transaction txn = null;
     try {
-      getSession().beginTransaction();
+      txn = getSession().beginTransaction();
       getSession().update(user);
-      getSession().getTransaction().commit();
+      txn.commit();
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {
       /* rollback */
-      getSession().getTransaction().rollback();
+      txn.rollback();
       /* server error */
       LOG.warn(e.toString());
       appendln(e.toString());
