@@ -64,15 +64,6 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   }
 
   func tappedOnImage(sender:UITapGestureRecognizer){
-//    //using sender, we can get the point in respect to the table view
-//    let tapLocation = sender.locationInView(self.discoverTableView)
-//
-//    //using the tapLocation, we retrieve the corresponding indexPath
-//    let indexPath = self.discoverTableView.indexPathForRowAtPoint(tapLocation)!
-//
-//    //we could even get the cell from the index, too
-//    let cell = self.discoverTableView.cellForRowAtIndexPath(indexPath) as! DiscoverTableViewCell
-
     self.performSegueWithIdentifier("segueFromDiscoverToAsk", sender: sender)
   }
 
@@ -88,7 +79,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
 //      let indexPath = self.discoverTableView.indexPathForSelectedRow!
 
-      dvc.uid = "\(indexPath.row)"
+      dvc.uid = "angel"
       print("\(indexPath.row)")
     }
   }
