@@ -36,18 +36,15 @@ Specially, ./run-jar.sh peeq-snoop-server to start peeq-snoop-server
 ./run-jar.sh will also compile/package any changes you made to the code base.
 
 
-WHAT RESTFUL APIs AVAILABLE?
+RESTFUL APIs OF USERS:
 1. get user information by id, e.g.
-curl -i -X GET "http://127.0.0.1:8080/users/xiaobingo"
-
+curl -i -X GET "http://127.0.0.1:8080/users/edmund"
 2. delete user by id, e.g.
-curl -i -X DELETE "http://127.0.0.1:8080/users/xiaobingo"
-
+curl -i -X DELETE "http://127.0.0.1:8080/users/edmund"
 3. create a new user, e.g.
-curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"xiaobingo","firstName":"Xiaobing","middleName":"Xuan","lastName":"Zhou","pwd":"123","createdTime":1465148697000,"updatedTime":1465148697000}'
-
+curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"edmund","firstName":"Edmund","middleName":"Peng","lastName":"Burke","pwd":"123","createdTime":1467156716625,"updatedTime":1467156716625,"profile":{"uid":null,"avatarUrl":"https://en.wikiquote.org/wiki/Edmund_Burke","avatarImage":null,"fullName":"Edmund Peng Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism."}}'
 4. update user, e.g.
-curl -i -X PUT "http://127.0.0.1:8080/users" -d '{"uid":"xiaobingo","firstName":"Xiaobing","middleName":"Edgar","lastName":"Zhou","pwd":"123","createdTime":1465148697000,"updatedTime":1465148697000}'
+curl -i -X PUT "http://127.0.0.1:8080/users/edmund" -d '{"uid":"edmund","firstName":"Edmund","middleName":"Peng","lastName":"Burke","pwd":"456","createdTime":1467156716625,"updatedTime":1467156716625,"profile":{"uid":null,"avatarUrl":"https://en.wikiquote.org/wiki/Edmund_Burke","avatarImage":null,"fullName":"Edmund Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism."}}'
 
 RESTFUL APIs OF PROFILE FILTERING:
 1. load all profile records, e.g.
