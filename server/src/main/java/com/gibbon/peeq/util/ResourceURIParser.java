@@ -1,5 +1,7 @@
 package com.gibbon.peeq.util;
 
+import io.netty.handler.codec.http.QueryStringDecoder;
+
 public class ResourceURIParser {
   private final String uri;
   private static final String SLASH = "/";
@@ -7,7 +9,8 @@ public class ResourceURIParser {
 
   public ResourceURIParser(final String uri) {
     this.uri = uri;
-    ps = new ResourcePathStream(uri, SLASH);
+    String path = new QueryStringDecoder(uri).path();
+    ps = new ResourcePathStream(path, SLASH);
   }
 
   public ResourcePathStream getPathStream() {

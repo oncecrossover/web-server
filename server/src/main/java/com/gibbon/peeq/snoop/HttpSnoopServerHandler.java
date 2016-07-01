@@ -55,7 +55,7 @@ public class HttpSnoopServerHandler
   private static final Logger LOG = LoggerFactory
       .getLogger(HttpSnoopServerHandler.class);
   private FullHttpRequest request;
-  /** Buffer that stores the response content */
+  /* Buffer that stores the response content */
   private final StrBuilder buf = new StrBuilder();
 
   @Override
@@ -91,15 +91,29 @@ public class HttpSnoopServerHandler
     final String resourceName = uriParser.getPathStream().getPath(0);
 
     if ("users".equalsIgnoreCase(resourceName)) {
-      return new UsersWebHandler(uriParser, respBuf, ctx, request).handle();
+      return new UsersWebHandler(
+          uriParser,
+          respBuf,
+          ctx,
+          request).handle();
     } else if ("profiles".equalsIgnoreCase(resourceName)) {
-      return new ProfilesWebHandler(uriParser, respBuf, ctx, request).handle();
+      return new ProfilesWebHandler(
+          uriParser,
+          respBuf,
+          ctx,
+          request).handle();
     } else if (!StringUtils.isBlank(resourceName)) {
-      return new NotFoundResourceWebHandler(uriParser, respBuf, ctx, request)
-          .handle();
+      return new NotFoundResourceWebHandler(
+          uriParser,
+          respBuf,
+          ctx,
+          request).handle();
     } else {
-      return new NullResouceWebHandler(uriParser, respBuf, ctx, request)
-          .handle();
+      return new NullResouceWebHandler(
+          uriParser,
+          respBuf,
+          ctx,
+          request).handle();
     }
   }
 

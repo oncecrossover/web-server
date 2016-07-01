@@ -39,6 +39,12 @@ public interface PeeqWebHandler {
   public Session getSession();
 
   public FullHttpResponse handle();
+
+  public Boolean willFilter();
+
+  public Boolean  willSort();
+
+  public Boolean  willLimit();
 }
 
 abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
@@ -96,6 +102,18 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
     }
   }
 
+  public Boolean willFilter() {
+    return false;
+  }
+
+  public Boolean willSort() {
+    return false;
+  }
+
+  public Boolean willLimit() {
+    return false;
+  }
+
   protected FullHttpResponse newResponse(HttpResponseStatus status) {
     FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, status,
         Unpooled.copiedBuffer(getRespBuf().toString(), CharsetUtil.UTF_8));
@@ -110,13 +128,21 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
     getRespBuf().appendln(str);
   }
 
-  protected abstract FullHttpResponse handleRetrieval();
+  protected FullHttpResponse handleRetrieval() {
+    return handleNotAllowedMethod(HttpMethod.GET);
+  }
 
-  protected abstract FullHttpResponse handleCreation();
+  protected FullHttpResponse handleCreation() {
+    return handleNotAllowedMethod(HttpMethod.POST);
+  }
 
-  protected abstract FullHttpResponse handleUpdate();
+  protected FullHttpResponse handleUpdate() {
+    return handleNotAllowedMethod(HttpMethod.PUT);
+  }
 
-  protected abstract FullHttpResponse handleDeletion();
+  protected FullHttpResponse handleDeletion() {
+    return handleNotAllowedMethod(HttpMethod.DELETE);
+  }
 
   private FullHttpResponse handleNotAllowedMethod(final HttpMethod method) {
     appendln(String.format("Method '%s' not allowed.", method.toString()));
