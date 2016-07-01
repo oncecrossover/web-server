@@ -49,6 +49,11 @@ curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"xiaobingo","firstName"
 4. update user, e.g.
 curl -i -X PUT "http://127.0.0.1:8080/users" -d '{"uid":"xiaobingo","firstName":"Xiaobing","middleName":"Edgar","lastName":"Zhou","pwd":"123","createdTime":1465148697000,"updatedTime":1465148697000}'
 
+RESTFUL APIs OF PROFILE FILTERING:
+1. load all profile records, e.g.
+curl -i -X GET "http://127.0.0.1:8080/profiles?filter=*"
+2. Do a query based on single column:
+curl -i -X GET "http://127.0.0.1:8080/profiles?filter=uid=edmund"
 
 HTTP STATUS CODE OF REST API:
 1. get user (i.e. HTTP GET):
