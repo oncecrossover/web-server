@@ -181,4 +181,27 @@ class User
     task.resume()
   }
 
+  func getDiscover(uid: String, completion: (NSArray) -> ()) {
+    let url = NSURL(string: "http://127.0.0.1:8080/profiles?filter=*")
+//    let url = NSURL(string: "http://swiftdeveloperblog.com/dynamic-list-of-images/?count=5")
+    let request = NSMutableURLRequest(URL: url!)
+    request.HTTPMethod = "GET"
+    let task = NSURLSession.sharedSession().dataTaskWithRequest(request){
+      data, response, error in
+      if error != nil {
+        print ("error: \(error)")
+        return
+      }
+
+      do {
+        if let jsonArray = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSArray {
+          completion(jsonArray)
+        }
+      } catch let error as NSError {
+        print(error.localizedDescription)
+      }
+    }
+    task.resume()
+  }
+
 }

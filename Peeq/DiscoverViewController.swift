@@ -11,10 +11,13 @@ import UIKit
 class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate {
 
   @IBOutlet weak var discoverTableView: UITableView!
-  var celebrityCollection = [String]()
-  var names = ["Angel Di Maria", "Sergio Aguero", "Luis Suarez", "Alexis Sanchez", "Javier Hernandez"]
-  var titles = ["wingman", "forward", "striker", "playmaker", "playmaker"]
-  var abouts = [String] (count: 5, repeatedValue: "I am a renowned international footballer")
+  var uids = [String]()
+  var names: [String] = []
+  var titles: [String] = []
+  var abouts: [String] = []
+  var avatarUrls = [String]()
+
+  var userModule = User()
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -27,32 +30,40 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   }
 
   func loadImages() {
-    let scriptUrl = "http://swiftdeveloperblog.com/dynamic-list-of-images/?count=5"
-    let url = NSURL(string: scriptUrl)
-    let request = NSMutableURLRequest(URL: url!)
-    request.HTTPMethod = "GET"
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request){
-      data, response, error in
-      if error != nil {
-        print ("error: \(error)")
-        return
-      }
-      do {
-        if let jsonArray = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSArray {
-          for imageItem in jsonArray as! [[String:String]] {
-            self.celebrityCollection.append(imageItem["thumb"]!)
-          }
+    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    userModule.getDiscover(uid) { jsonArray in
+      for profileInfo in jsonArray as! [[String:AnyObject]] {
+        self.uids.append(profileInfo["uid"] as! String)
+        self.names.append(profileInfo["fullName"] as! String)
 
-          dispatch_async(dispatch_get_main_queue()) {
-            self.discoverTableView.reloadData()
-          }
+        if let profileTitle = profileInfo["title"] as? String {
+          self.titles.append(profileTitle)
         }
-      } catch let error as NSError {
-        print(error.localizedDescription)
+        else {
+          self.titles.append("")
+        }
+
+        if let profileAbout = profileInfo["aboutMe"] as? String {
+          self.abouts.append(profileAbout)
+        }
+        else {
+          self.abouts.append("")
+        }
+
+        if let profileUrl = profileInfo["avatarUrl"] as? String {
+          self.avatarUrls.append(profileUrl)
+        }
+        else {
+          self.avatarUrls.append("")
+        }
+      }
+
+      dispatch_async(dispatch_get_main_queue()) {
+        self.discoverTableView.reloadData()
       }
     }
-    task.resume()
   }
+
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
@@ -60,7 +71,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return celebrityCollection.count
+    return uids.count
   }
 
   func tappedOnImage(sender:UITapGestureRecognizer){
@@ -79,24 +90,27 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
 //      let indexPath = self.discoverTableView.indexPathForSelectedRow!
 
-      dvc.uid = "angel"
-      print("\(indexPath.row)")
+      dvc.uid = self.uids[indexPath.row]
+      print("uid is : \(dvc.uid)")
     }
   }
 
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let myCell = tableView.dequeueReusableCellWithIdentifier("discoverCell",
       forIndexPath: indexPath) as! DiscoverTableViewCell
-    let imageString = celebrityCollection[indexPath.row]
-    let imageUrl = NSURL(string: imageString)
-    let imageData = NSData(contentsOfURL: imageUrl!)
-    if (imageData != nil) {
-      myCell.discoverImageView.image = UIImage(data: imageData!)
-      myCell.discoverImageView.layer.cornerRadius = myCell.discoverImageView.frame.size.width / 2
-      myCell.discoverImageView.clipsToBounds = true
-      myCell.discoverImageView.layer.borderColor = UIColor.blackColor().CGColor
-      myCell.discoverImageView.layer.borderWidth = 1
+    let imageString = avatarUrls[indexPath.row]
+    if (!imageString.isEmpty) {
+      let imageUrl = NSURL(string: imageString)
+      let imageData = NSData(contentsOfURL: imageUrl!)
+      if (imageData != nil) {
+        myCell.discoverImageView.image = UIImage(data: imageData!)
+      }
     }
+
+    myCell.discoverImageView.layer.cornerRadius = myCell.discoverImageView.frame.size.width / 2
+    myCell.discoverImageView.clipsToBounds = true
+    myCell.discoverImageView.layer.borderColor = UIColor.blackColor().CGColor
+    myCell.discoverImageView.layer.borderWidth = 1
 
     myCell.discoverImageView.userInteractionEnabled = true
     let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedOnImage:")
