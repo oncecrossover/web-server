@@ -30,5 +30,6 @@
 
     <mapping resource="com/gibbon/peeq/scripts/user.hbm.xml" />
     <mapping resource="com/gibbon/peeq/scripts/profile.hbm.xml" />
+    <mapping resource="com/gibbon/peeq/scripts/quanda.hbm.xml" />
   </session-factory>
 </hibernate-configuration>

@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 public class TestUser {
   private static final Logger LOG = LoggerFactory.getLogger(TestUser.class);
 
-  private User newRandomUser() {
+  static User newRandomUser() {
     User user = new User();
     user.setUid(UUID.randomUUID().toString())
         .setFirstName(UUID.randomUUID().toString())
@@ -42,7 +42,7 @@ public class TestUser {
     return user;
   }
 
-  private User newUser() {
+  static User newUser() {
     User user = new User();
     user.setUid("edmund")
         .setFirstName("Edmund")
@@ -67,7 +67,7 @@ public class TestUser {
     return user;
   }
 
-  private User newAnotherUser() {
+  static User newAnotherUser() {
     User user = new User();
     user.setUid("kuan")
         .setFirstName("Kuan")

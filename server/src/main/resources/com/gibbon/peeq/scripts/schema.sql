@@ -18,3 +18,17 @@ CREATE TABLE `Profile` (
   PRIMARY KEY (`uid`),
   FOREIGN KEY fk_user(uid) REFERENCES User(uid)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Quanda` (
+  `qid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `asker` varchar(100) NOT NULL,
+  `question` varchar(2000) NOT NULL,
+  `responder` varchar(100) NOT NULL,
+  `answerUrl` varchar(1000) DEFAULT NULL,
+  `status` ENUM('PENDING', 'ANSWERED', 'EXPIRED'),
+  `createdTime` datetime NOT NULL,
+  `updatedTime` datetime NOT NULL,
+  PRIMARY KEY (`qid`),
+  FOREIGN KEY fk_asker(asker) REFERENCES User(uid),
+  FOREIGN KEY fk_responder(responder) REFERENCES User(uid)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
