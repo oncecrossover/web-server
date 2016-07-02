@@ -20,13 +20,14 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   var userModule = User()
   override func viewDidLoad() {
     super.viewDidLoad()
+    loadImages()
 
     // Do any additional setup after loading the view.
   }
 
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
-    loadImages()
+//    loadImages()
   }
 
   func loadImages() {
@@ -98,7 +99,47 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let myCell = tableView.dequeueReusableCellWithIdentifier("discoverCell",
       forIndexPath: indexPath) as! DiscoverTableViewCell
-    let imageString = avatarUrls[indexPath.row]
+
+    // TODO: Make these calls asynchronous to improve performance
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+//      let imageString = self.avatarUrls[indexPath.row]
+//      if (!imageString.isEmpty) {
+//        let imageUrl = NSURL(string: imageString)
+//        let imageData = NSData(contentsOfURL: imageUrl!)
+//        dispatch_async(dispatch_get_main_queue()) {
+//          if (imageData != nil) {
+//            myCell.discoverImageView.image = UIImage(data: imageData!)
+//          }
+//        }
+//      }
+//
+//      myCell.discoverImageView.layer.cornerRadius = myCell.discoverImageView.frame.size.width / 2
+//      myCell.discoverImageView.clipsToBounds = true
+//      myCell.discoverImageView.layer.borderColor = UIColor.blackColor().CGColor
+//      myCell.discoverImageView.layer.borderWidth = 1
+//
+//      myCell.discoverImageView.userInteractionEnabled = true
+//      let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedOnImage:")
+//      myCell.discoverImageView.addGestureRecognizer(tappedOnImage)
+//
+//      myCell.name.text = self.names[indexPath.row]
+//      myCell.title.text = self.titles[indexPath.row]
+//      myCell.about.text = self.abouts[indexPath.row]
+//
+//      myCell.about.numberOfLines = 0
+//      myCell.about.lineBreakMode = NSLineBreakMode.ByWordWrapping
+//      myCell.about.sizeToFit()
+//      myCell.about.font = myCell.about.font.fontWithSize(12)
+//
+//      myCell.name.numberOfLines = 1
+//      myCell.name.font = UIFont.boldSystemFontOfSize(18)
+//      myCell.name.lineBreakMode = NSLineBreakMode.ByCharWrapping
+//      myCell.name.sizeToFit()
+//      
+//      myCell.title.font = myCell.title.font.fontWithSize(15)
+//    });
+
+    let imageString = self.avatarUrls[indexPath.row]
     if (!imageString.isEmpty) {
       let imageUrl = NSURL(string: imageString)
       let imageData = NSData(contentsOfURL: imageUrl!)
@@ -116,9 +157,9 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedOnImage:")
     myCell.discoverImageView.addGestureRecognizer(tappedOnImage)
 
-    myCell.name.text = names[indexPath.row]
-    myCell.title.text = titles[indexPath.row]
-    myCell.about.text = abouts[indexPath.row]
+    myCell.name.text = self.names[indexPath.row]
+    myCell.title.text = self.titles[indexPath.row]
+    myCell.about.text = self.abouts[indexPath.row]
 
     myCell.about.numberOfLines = 0
     myCell.about.lineBreakMode = NSLineBreakMode.ByWordWrapping

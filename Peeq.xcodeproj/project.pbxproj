@@ -99,11 +99,11 @@
 		4AC283651CE2F58100A08D35 /* Peeq */ = {
 			isa = PBXGroup;
 			children = (
-				4A8F26841D219DB70001989E /* 3301885.jpg */,
 				4AC283661CE2F58100A08D35 /* AppDelegate.swift */,
 				4ABE1CC11D25C7AA00320529 /* ControllerGroup */,
 				4AC2836A1CE2F58100A08D35 /* Main.storyboard */,
 				4AC283701CE2F58100A08D35 /* Assets.xcassets */,
+				4A8F26841D219DB70001989E /* 3301885.jpg */,
 				4AC283721CE2F58100A08D35 /* LaunchScreen.storyboard */,
 				4AC283751CE2F58100A08D35 /* Info.plist */,
 				4AC2836D1CE2F58100A08D35 /* Peep.xcdatamodeld */,
