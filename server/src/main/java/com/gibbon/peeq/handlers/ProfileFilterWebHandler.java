@@ -2,7 +2,6 @@ package com.gibbon.peeq.handlers;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang3.text.StrBuilder;
 import org.hibernate.Criteria;
@@ -62,7 +61,9 @@ public class ProfileFilterWebHandler extends AbastractPeeqWebHandler
     } else {
       for (Map.Entry<String, String> kv : kvs.entrySet()) {
         if (kv.getKey() != FilterParameterParser.SB_STAR) {
-          criteria.add(Restrictions.eq(kv.getKey(), kv.getValue()));
+          /* Edmund --> %Edmund% */
+          String pattern = String.format("%%%s%%", kv.getValue());
+          criteria.add(Restrictions.like(kv.getKey(), pattern));
         }
       }
       profiles = criteria.list();

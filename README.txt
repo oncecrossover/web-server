@@ -71,7 +71,8 @@ RESTFUL APIs OF PROFILE FILTERING:
 curl -i -X GET "http://127.0.0.1:8080/profiles?filter=*"
 
 2. Do a query based on single column:
-curl -i -X GET "http://127.0.0.1:8080/profiles?filter=uid=edmund"
+curl -i -X GET "http://127.0.0.1:8080/profiles?filter=fullName=edmund"
+The column name is case sensitive, it only supports single column. In addition, it essentially does parttern matched query, e.g. fullName LIKE '%edmund%'
 
 
 
