@@ -108,6 +108,15 @@ public class Profile {
     return false;
   }
 
+  @Override
+  public String toString() {
+    try {
+      return toJson();
+    } catch (JsonProcessingException e) {
+      return "";
+    }
+  }
+
   public String toJson() throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     return mapper.writeValueAsString(this);

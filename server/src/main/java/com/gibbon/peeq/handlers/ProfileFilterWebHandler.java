@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.util.FilterParameterParser;
 import com.gibbon.peeq.util.ResourceURIParser;
+import com.google.common.base.Joiner;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -67,8 +68,12 @@ public class ProfileFilterWebHandler extends AbastractPeeqWebHandler
       profiles = criteria.list();
     }
 
-    for (Profile profile : profiles) {
-      sb.appendln(profile.toJson());
+    if (profiles.size() > 1) {
+      sb.append("[");
+    }
+    sb.append(Joiner.on(",").skipNulls().join(profiles));
+    if (profiles.size() > 1) {
+      sb.append("]");
     }
     return sb.toString();
   }
