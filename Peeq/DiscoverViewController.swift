@@ -11,52 +11,60 @@ import UIKit
 class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate {
 
   @IBOutlet weak var discoverTableView: UITableView!
-  var uids = [String]()
-  var names: [String] = []
-  var titles: [String] = []
-  var abouts: [String] = []
-  var avatarUrls = [String]()
+
+  var profiles: [(uid: String!, name: String!, title: String!, about: String!, avatarUrl:String!)] = []
+  var filteredProfiles: [(uid: String!, name: String!, title: String!, about: String!, avatarUrl:String!)] = []
+
+  let searchController = UISearchController(searchResultsController: nil)
 
   var userModule = User()
   override func viewDidLoad() {
     super.viewDidLoad()
     loadImages()
 
+    searchController.searchResultsUpdater = self
+    searchController.dimsBackgroundDuringPresentation = false
+    discoverTableView.tableHeaderView = searchController.searchBar
+
     // Do any additional setup after loading the view.
   }
 
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
-//    loadImages()
+  }
+
+
+  func filterContentForSearchText(searchText: String, scope: String = "All") {
+    filteredProfiles = profiles.filter { profile in
+      return profile.name.lowercaseString.containsString(searchText.lowercaseString)
+    }
+    self.discoverTableView.reloadData()
+
   }
 
   func loadImages() {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    userModule.getDiscover(uid) { jsonArray in
+    userModule.getDiscover(uid, filterString: "*") { jsonArray in
       for profileInfo in jsonArray as! [[String:AnyObject]] {
-        self.uids.append(profileInfo["uid"] as! String)
-        self.names.append(profileInfo["fullName"] as! String)
+        let profileUid = profileInfo["uid"] as! String
+        let profileName = profileInfo["fullName"] as! String
+        var profileTitle = ""
+        var profileAbout = ""
+        var profileUrl = ""
 
-        if let profileTitle = profileInfo["title"] as? String {
-          self.titles.append(profileTitle)
-        }
-        else {
-          self.titles.append("")
-        }
-
-        if let profileAbout = profileInfo["aboutMe"] as? String {
-          self.abouts.append(profileAbout)
-        }
-        else {
-          self.abouts.append("")
+        if profileInfo["title"] as? String != nil {
+          profileTitle = profileInfo["title"] as! String
         }
 
-        if let profileUrl = profileInfo["avatarUrl"] as? String {
-          self.avatarUrls.append(profileUrl)
+        if profileInfo["aboutMe"] as? String != nil {
+          profileAbout = profileInfo["aboutMe"] as! String
         }
-        else {
-          self.avatarUrls.append("")
+
+        if profileInfo["avatarUrl"] as? String  != nil {
+          profileUrl = profileInfo["avatarUrl"] as! String
         }
+
+        self.profiles.append((uid: profileUid, name: profileName, title: profileTitle, about: profileAbout, avatarUrl: profileUrl))
       }
 
       dispatch_async(dispatch_get_main_queue()) {
@@ -72,7 +80,10 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return uids.count
+    if (searchController.active && searchController.searchBar.text != "") {
+      return filteredProfiles.count
+    }
+    return profiles.count
   }
 
   func tappedOnImage(sender:UITapGestureRecognizer){
@@ -91,8 +102,12 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
 //      let indexPath = self.discoverTableView.indexPathForSelectedRow!
 
-      dvc.uid = self.uids[indexPath.row]
-      print("uid is : \(dvc.uid)")
+      if (searchController.active && searchController.searchBar.text != "") {
+        dvc.uid = self.filteredProfiles[indexPath.row].uid
+      }
+      else {
+        dvc.uid = self.profiles[indexPath.row].uid
+      }
     }
   }
 
@@ -139,7 +154,16 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 //      myCell.title.font = myCell.title.font.fontWithSize(15)
 //    });
 
-    let imageString = self.avatarUrls[indexPath.row]
+
+    let profile: (uid: String!, name: String!, title: String!, about: String!, avatarUrl:String!)
+    if (searchController.active && searchController.searchBar.text != "") {
+      profile = self.filteredProfiles[indexPath.row]
+    }
+    else {
+      profile = self.profiles[indexPath.row]
+    }
+
+    let imageString = profile.avatarUrl
     if (!imageString.isEmpty) {
       let imageUrl = NSURL(string: imageString)
       let imageData = NSData(contentsOfURL: imageUrl!)
@@ -157,9 +181,9 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedOnImage:")
     myCell.discoverImageView.addGestureRecognizer(tappedOnImage)
 
-    myCell.name.text = self.names[indexPath.row]
-    myCell.title.text = self.titles[indexPath.row]
-    myCell.about.text = self.abouts[indexPath.row]
+    myCell.name.text = profile.name
+    myCell.title.text = profile.title
+    myCell.about.text = profile.about
 
     myCell.about.numberOfLines = 0
     myCell.about.lineBreakMode = NSLineBreakMode.ByWordWrapping
@@ -176,4 +200,11 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     return myCell
   }
 
+}
+
+
+extension DiscoverViewController: UISearchResultsUpdating {
+  func updateSearchResultsForSearchController(searchController: UISearchController) {
+    filterContentForSearchText(searchController.searchBar.text!)
+  }
 }
