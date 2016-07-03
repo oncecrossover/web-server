@@ -6,7 +6,7 @@
   <class name="com.gibbon.peeq.db.model.Quanda" table="QUANDA">
     <id name="id" type="long">
       <column name="id" />
-      <generator class="identity" />
+      <generator class="increment" />
     </id>
     <property name="asker" type="java.lang.String">
       <column name="asker" />

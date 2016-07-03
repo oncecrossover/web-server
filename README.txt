@@ -47,32 +47,42 @@ Specially, ./run-jar.sh peeq-snoop-server to start peeq-snoop-server
 
 WHAT RESTFUL APIs AVAILABLE?
 RESTFUL APIs OF USERS:
-1. get user information by id, e.g.
+1. get user by uid, e.g.
 curl -i -X GET "http://127.0.0.1:8080/users/edmund"
 
-2. delete user by id, e.g.
+2. delete user by uid, e.g.
 curl -i -X DELETE "http://127.0.0.1:8080/users/edmund"
 
-3. create a new user, e.g.
+3. create new user, e.g.
 curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"edmund","firstName":"Edmund","middleName":"Peng","lastName":"Burke","pwd":"123","createdTime":1467156716625,"updatedTime":1467156716625,"profile":{"uid":null,"avatarUrl":"https://en.wikiquote.org/wiki/Edmund_Burke","avatarImage":null,"fullName":"Edmund Peng Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism."}}'
 
-4. update user, e.g.
+4. update user by uid, e.g.
 curl -i -X PUT "http://127.0.0.1:8080/users/edmund" -d '{"uid":"edmund","firstName":"Edmund","middleName":"Peng","lastName":"Burke","pwd":"456","createdTime":1467156716625,"updatedTime":1467156716625,"profile":{"uid":null,"avatarUrl":"https://en.wikiquote.org/wiki/Edmund_Burke","avatarImage":null,"fullName":"Edmund Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism."}}'
 
 RESTFUL APIs OF PROFILES:
-1. to get profile infomation by uid, e.g.
+1. get profile by uid, e.g.
 curl -i -X GET "http://127.0.0.1:8080/profiles/edmund"
 
-2. update profile, e.g.
+2. update profile by uid, e.g.
 curl -i -X PUT "http://127.0.0.1:8080/profiles/edmund" -d '{"uid":"edmund","avatarUrl":"https://en.wikiquote.org/wiki/Edmund_Burke","avatarImage":null,"fullName":"Edmund Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism."}'
 
 RESTFUL APIs OF PROFILE FILTERING:
-1. load all profile records, e.g.
+1. load all profiles, e.g.
 curl -i -X GET "http://127.0.0.1:8080/profiles?filter=*"
 
-2. Do a query based on single column:
+2. query profiles by a single column(e.g. fullName), e.g.
 curl -i -X GET "http://127.0.0.1:8080/profiles?filter=fullName=edmund"
 The column name is case sensitive, it only supports single column. In addition, it essentially does parttern matched query, e.g. fullName LIKE '%edmund%'
+
+RESTFUL APIs OF QUANDAS:
+1. get quanda by id, e.g.
+curl -i -X GET "http://127.0.0.1:8080/quandas/1"
+
+2. create new quanda, e.g.
+curl -i -X POST "http://127.0.0.1:8080/quandas" -d '{"asker":"kuan","question":"How do you define good man?","responder":"kuan","answerUrl":"https://en.wikiquote.org/wiki/Edmund_Burke","status":"ANSWERED","createdTime":1467522922706,"updatedTime":1467522922706}'
+
+3. update quanda by id, e.g.
+curl -i -X PUT "http://127.0.0.1:8080/quandas/1" -d '{"asker":"kuan","question":"How do you define good man?","responder":"edmund","answerUrl":"https://en.wikiquote.org/wiki/Edmund_Burke","status":"ANSWERED","createdTime":1467522922706,"updatedTime":1467522922706}'
 
 
 

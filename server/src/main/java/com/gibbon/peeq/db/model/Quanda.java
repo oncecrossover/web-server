@@ -1,8 +1,11 @@
 package com.gibbon.peeq.db.model;
 
+import java.io.IOException;
 import java.util.Date;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Quanda {
@@ -10,7 +13,7 @@ public class Quanda {
     PENDING, ANSWERED, EXPIRED
   }
 
-  private long qid;
+  private long id;
   private String asker;
   private String question;
   private String responder;
@@ -19,12 +22,12 @@ public class Quanda {
   private Date createdTime;
   private Date updatedTime;
 
-  public long getQid() {
-    return qid;
+  public long getId() {
+    return id;
   }
 
-  public Quanda setQid(final long qid) {
-    this.qid = qid;
+  public Quanda setId(final long id) {
+    this.id = id;
     return this;
   }
 
@@ -117,7 +120,7 @@ public class Quanda {
 
     if (getClass() == obj.getClass()) {
       Quanda qanda = (Quanda) obj;
-      if (this.getQid() == qanda.getQid()
+      if (this.getId() == qanda.getId()
           && this.getAsker() == qanda.getAsker()
           && this.getQuestion() == qanda.getQuestion()
           && this.getResponder() == qanda.getResponder()
@@ -128,5 +131,12 @@ public class Quanda {
     }
 
     return false;
+  }
+
+  public static Quanda newQuanda(final String quandaJson)
+      throws JsonParseException, JsonMappingException, IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    Quanda quanda = mapper.readValue(quandaJson, Quanda.class);
+    return quanda;
   }
 }

@@ -22,18 +22,37 @@ public class TestQuanda {
   private static Random random = new Random(System.currentTimeMillis());
 
   @Test(timeout = 60000)
-  public void testQuandaToJason() throws IOException {
+  public void testRandomQuandaToJason() throws IOException {
     verifyQuandaJason(newRandomQuanda());
+  }
+
+  @Test(timeout = 60000)
+  public void testQuandaToJason() throws IOException {
+    verifyQuandaJason(newQuanda());
+  }
+
+  private Quanda newQuanda() {
+    Quanda quanda = new Quanda();
+    quanda.setAsker("kuan")
+          .setQuestion("How do you define good man?")
+          .setResponder("edmund")
+          .setAnswerUrl("https://en.wikiquote.org/wiki/Edmund_Burke")
+          .setStatus(Quanda.QnaStatus.ANSWERED.toString())
+          .setCreatedTime(new Date())
+          .setUpdatedTime(new Date());
+    return quanda;
   }
 
   private Quanda newRandomQuanda() {
     Quanda quanda = new Quanda();
     quanda.setId(random.nextLong())
-         .setQuestion(UUID.randomUUID().toString())
-         .setAnswerUrl(UUID.randomUUID().toString())
-         .setStatus(Quanda.QnaStatus.PENDING.toString())
-         .setCreatedTime(new Date())
-         .setUpdatedTime(new Date());
+          .setAsker(UUID.randomUUID().toString())
+          .setQuestion(UUID.randomUUID().toString())
+          .setResponder(UUID.randomUUID().toString())
+          .setAnswerUrl(UUID.randomUUID().toString())
+          .setStatus(Quanda.QnaStatus.PENDING.toString())
+          .setCreatedTime(new Date())
+          .setUpdatedTime(new Date());
     return quanda;
   }
 

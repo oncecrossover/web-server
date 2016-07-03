@@ -44,6 +44,7 @@ import org.slf4j.LoggerFactory;
 import com.gibbon.peeq.handlers.NotFoundResourceWebHandler;
 import com.gibbon.peeq.handlers.NullResouceWebHandler;
 import com.gibbon.peeq.handlers.ProfilesWebHandler;
+import com.gibbon.peeq.handlers.QuandasWebHandler;
 import com.gibbon.peeq.handlers.UsersWebHandler;
 import com.gibbon.peeq.util.ResourceURIParser;
 
@@ -98,6 +99,12 @@ public class HttpSnoopServerHandler
           request).handle();
     } else if ("profiles".equalsIgnoreCase(resourceName)) {
       return new ProfilesWebHandler(
+          uriParser,
+          respBuf,
+          ctx,
+          request).handle();
+    } else if ("quandas".equalsIgnoreCase(resourceName)) {
+      return new QuandasWebHandler(
           uriParser,
           respBuf,
           ctx,
