@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4A7EF3F71D03AD6C00E7A226 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7EF3F61D03AD6C00E7A226 /* ContactViewController.swift */; };
 		4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */; };
 		4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */; };
 		4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26821D218FC60001989E /* ProfileViewController.swift */; };
@@ -27,7 +26,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4A7EF3F61D03AD6C00E7A226 /* ContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
 		4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewCell.swift; sourceTree = "<group>"; };
 		4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 		4A8F26821D218FC60001989E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -66,7 +64,6 @@
 				4ABE1CBF1D25BBF100320529 /* AskViewController.swift */,
 				4A8F26861D21D01D0001989E /* EditProfileViewController.swift */,
 				4A8F26821D218FC60001989E /* ProfileViewController.swift */,
-				4A7EF3F61D03AD6C00E7A226 /* ContactViewController.swift */,
 				4AC2837B1CECEE3800A08D35 /* SignupPageViewController.swift */,
 				4AC2837D1CED0E4500A08D35 /* LoginViewController.swift */,
 				4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */,
@@ -199,7 +196,6 @@
 				4AF3226A1D29A1E10043FCE5 /* Question.swift in Sources */,
 				4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */,
 				4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */,
-				4A7EF3F71D03AD6C00E7A226 /* ContactViewController.swift in Sources */,
 				4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

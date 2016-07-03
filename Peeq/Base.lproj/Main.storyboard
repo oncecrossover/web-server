@@ -603,83 +603,12 @@
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="cW4-vb-c9R"/>
                         <segue destination="XZf-l2-hO7" kind="relationship" relationship="viewControllers" id="HS6-S4-NHb"/>
                         <segue destination="TMC-3d-tBR" kind="relationship" relationship="viewControllers" id="gfT-BT-Pw1"/>
-                        <segue destination="811-P8-dYC" kind="relationship" relationship="viewControllers" id="wSl-Nd-clO"/>
                         <segue destination="O35-TS-Yh5" kind="relationship" relationship="viewControllers" id="3Eh-mm-tLF"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AxZ-2r-TqE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1010" y="356"/>
-        </scene>
-        <!--Contact View Controller-->
-        <scene sceneID="ltQ-vD-68i">
-            <objects>
-                <viewController id="811-P8-dYC" customClass="ContactViewController" customModule="Peeq" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="SRK-Mm-xaN"/>
-                        <viewControllerLayoutGuide type="bottom" id="e5g-6e-eev"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="1dF-rf-IQI">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="aPN-iR-26b">
-                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="profileCell" textLabel="u0i-Bn-hko" style="IBUITableViewCellStyleDefault" id="r7M-Z0-NUF">
-                                        <rect key="frame" x="0.0" y="113.5" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="r7M-Z0-NUF" id="7is-T9-efX">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="u0i-Bn-hko">
-                                                    <rect key="frame" x="15" y="0.0" width="270" height="43.5"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="811-P8-dYC" id="bwD-bQ-Ix2"/>
-                                    <outlet property="delegate" destination="811-P8-dYC" id="RGE-bp-YVZ"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="aPN-iR-26b" secondAttribute="trailing" id="3OL-BZ-uNC"/>
-                            <constraint firstItem="aPN-iR-26b" firstAttribute="top" secondItem="SRK-Mm-xaN" secondAttribute="bottom" id="Csx-xA-zg2"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="aPN-iR-26b" secondAttribute="trailing" id="M6Z-vE-ab2"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="aPN-iR-26b" secondAttribute="leading" id="Mzg-CR-Udw"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="aPN-iR-26b" secondAttribute="trailing" constant="-20" id="YwP-YS-0A0"/>
-                            <constraint firstItem="e5g-6e-eev" firstAttribute="top" secondItem="aPN-iR-26b" secondAttribute="bottom" id="Ztq-Vt-GPq"/>
-                            <constraint firstItem="aPN-iR-26b" firstAttribute="leading" secondItem="1dF-rf-IQI" secondAttribute="leadingMargin" constant="-20" id="gN2-ib-Gg5"/>
-                            <constraint firstItem="aPN-iR-26b" firstAttribute="leading" secondItem="1dF-rf-IQI" secondAttribute="leading" id="hE8-qy-z1a"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="M6Z-vE-ab2"/>
-                                <exclude reference="Mzg-CR-Udw"/>
-                                <exclude reference="YwP-YS-0A0"/>
-                                <exclude reference="gN2-ib-Gg5"/>
-                            </mask>
-                        </variation>
-                    </view>
-                    <tabBarItem key="tabBarItem" systemItem="contacts" id="EgQ-H4-MOR"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                    <connections>
-                        <outlet property="contactTableview" destination="aPN-iR-26b" id="Zey-j5-X53"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jjM-ae-L1W" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="183" y="1078"/>
         </scene>
         <!--Discover View Controller-->
         <scene sceneID="Ta6-QU-du8">
