@@ -3,7 +3,8 @@
 "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-  <class name="com.gibbon.peeq.db.model.Quanda" table="QUANDA">
+  <class name="com.gibbon.peeq.db.model.Quanda" dynamic-update="true"
+  table="QUANDA">
     <id name="id" type="long">
       <column name="id" />
       <generator class="increment" />

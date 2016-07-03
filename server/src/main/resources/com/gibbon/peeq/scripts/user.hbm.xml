@@ -3,7 +3,7 @@
 "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-  <class name="com.gibbon.peeq.db.model.User" table="USER">
+  <class name="com.gibbon.peeq.db.model.User" dynamic-update="true" table="USER">
     <id name="uid" type="java.lang.String">
       <column name="uid" />
       <generator class="assigned" />

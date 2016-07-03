@@ -25,6 +25,7 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import org.slf4j.Logger;
 
 public interface PeeqWebHandler {
 
@@ -52,8 +53,6 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
   private StrBuilder respBuf;
   private ChannelHandlerContext ctx;
   private FullHttpRequest request;
-  private Session session = HibernateUtil.getSessionFactory()
-      .getCurrentSession();
 
   public AbastractPeeqWebHandler(final ResourceURIParser uriParser,
       final StrBuilder respBuf, final ChannelHandlerContext ctx,
@@ -81,7 +80,7 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
   }
 
   public Session getSession() {
-    return session;
+    return HibernateUtil.getSessionFactory().getCurrentSession();
   }
 
   /**
@@ -154,5 +153,12 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
     PrintWriter printWriter = new PrintWriter(writer);
     e.printStackTrace(printWriter);
     return writer.toString();
+  }
+
+  FullHttpResponse newServerErrorResponse(final Exception e, final Logger LOG) {
+    String st = stackTraceToString(e);
+    LOG.warn(st);
+    appendln(st);
+    return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
   }
 }

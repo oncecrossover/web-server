@@ -1,6 +1,7 @@
 package com.gibbon.peeq.handlers;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrBuilder;
@@ -12,7 +13,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.Quanda;
-import com.gibbon.peeq.db.model.User;
 import com.gibbon.peeq.util.ResourceURIParser;
 
 import io.netty.buffer.ByteBuf;
@@ -48,7 +48,7 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
   }
 
   private FullHttpResponse onGet() {
-    /* get quanda id */
+    /* get id */
     final String id = getUriParser().getPathStream().nextToken();
 
     /* no id */
@@ -64,17 +64,12 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
           Long.parseLong(id));
       txn.commit();
 
-      /* quanda queried */
+      /* buffer result */
       appendQuandaln(id, quanda);
       return newResponse(HttpResponseStatus.OK);
     } catch (Exception e) {
-      /* rollback */
       txn.rollback();
-      /* server error */
-      String st = stackTraceToString(e);
-      LOG.warn(st);
-      appendln(st);
-      return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
+      return newServerErrorResponse(e, LOG);
     }
   }
 
@@ -88,7 +83,7 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
   }
 
   private FullHttpResponse onUpdate() {
-    /* get quanda id */
+    /* get id */
     final String id = getUriParser().getPathStream().nextToken();
 
     /* no id */
@@ -97,66 +92,76 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
-    final Quanda quanda;
+    /* deserialize json */
+    final Quanda fromJson;
     try {
-      quanda = newQuandaFromRequest();
-      if (quanda == null) {
+      fromJson = newQuandaFromRequest();
+      if (fromJson == null) {
         appendln("No quanda or incorrect format specified.");
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (Exception e) {
-      /* server error */
-      String st = stackTraceToString(e);
-      LOG.warn(st);
-      appendln(st);
-      return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
+      return newServerErrorResponse(e, LOG);
     }
 
-    /*
-     * using the id specified in uri, ignore id in json
-     */
-    quanda.setId(Long.parseLong(id));
-
     Transaction txn = null;
+    /* query from DB */
+    Quanda fromDB = null;
     try {
       txn = getSession().beginTransaction();
-      getSession().update(quanda);
+      fromDB = (Quanda) getSession().get(Quanda.class, Long.parseLong(id));
+      txn.commit();
+    } catch (Exception e) {
+      txn.rollback();
+      return newServerErrorResponse(e, LOG);
+    }
+
+    /* using the id in uri to ignore that in json */
+    fromJson.setId(Long.parseLong(id));
+    System.out.println(fromJson.toString());
+    System.out.println(fromDB.toString());
+    if (fromDB != null) {
+      fromDB.setAsIgnoreNull(fromJson);
+      /* update updatedTime */
+      fromDB.setUpdatedTime(new Date());
+    }
+    System.out.println(fromDB.toString());
+
+    try {
+      txn = getSession().beginTransaction();
+      getSession().update(fromDB);
       txn.commit();
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {
-      /* rollback */
       txn.rollback();
-      /* server error */
-      String st = stackTraceToString(e);
-      LOG.warn(st);
-      appendln(st);
-      return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
+      return newServerErrorResponse(e, LOG);
     }
   }
 
   private FullHttpResponse onCreate() {
-    final Quanda quanda;
+    final Quanda fromJson;
     try {
-      quanda = newQuandaFromRequest();
-      if (quanda == null) {
+      fromJson = newQuandaFromRequest();
+      if (fromJson == null) {
         appendln("No quanda or incorrect format specified.");
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (Exception e) {
-      /* server error */
-      String st = stackTraceToString(e);
-      LOG.warn(st);
-      appendln(st);
-      return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
+      return newServerErrorResponse(e, LOG);
     }
+
+    /* set time */
+    final Date now = new Date();
+    fromJson.setCreatedTime(now);
+    fromJson.setUpdatedTime(now);
 
     Transaction txn = null;
     try {
       txn = getSession().beginTransaction();
-      getSession().save(quanda);
+      getSession().save(fromJson);
       txn.commit();
       appendln(String.format("New resource created with URI: /quandas/%s",
-          quanda.getId()));
+          fromJson.getId()));
       return newResponse(HttpResponseStatus.CREATED);
     } catch (Exception e) {
       /* rollback */

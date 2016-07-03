@@ -139,4 +139,33 @@ public class Quanda {
     Quanda quanda = mapper.readValue(quandaJson, Quanda.class);
     return quanda;
   }
+
+  public Quanda setAsIgnoreNull(final Quanda quanda) {
+    if (quanda == null) {
+      return this;
+    }
+    this.setId(quanda.getId());
+    if (quanda.getAsker() != null) {
+      this.setAsker(quanda.getAsker());
+    }
+    if (quanda.getQuestion() != null) {
+      this.setQuestion(quanda.getQuestion());
+    }
+    if (quanda.getResponder() != null) {
+      this.setResponder(quanda.getResponder());
+    }
+    if (quanda.getAnswerUrl() != null) {
+      this.setAnswerUrl(quanda.getAnswerUrl());
+    }
+    if (quanda.getStatus() != null) {
+      this.setStatus(quanda.getStatus());
+    }
+    if (quanda.getCreatedTime() != null) {
+      this.setCreatedTime(quanda.getCreatedTime());
+    }
+    if (quanda.getUpdatedTime() != null) {
+      this.setUpdatedTime(quanda.getUpdatedTime());
+    }
+    return this;
+  }
 }
