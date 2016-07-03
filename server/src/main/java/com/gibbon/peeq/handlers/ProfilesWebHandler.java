@@ -153,7 +153,7 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
   }
 
   private void appendMethodNotAllowed(final String methodName) {
-    final String resourceName = getUriParser().getPathStream().getTouched();
+    final String resourceName = getUriParser().getPathStream().getTouchedPath();
     appendln(String.format("Method '%s' not allowed on resource '%s'",
         methodName, resourceName));
   }

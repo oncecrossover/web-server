@@ -8,39 +8,56 @@ public class ResourcePathStream extends StrTokenizer {
 
   }
 
-  /* memorize the most recent touched path */
-  private String touched;
+  /* memorize the path touched most recently */
+  private String touchedPath;
+
+  /* memorize the index of path touched most recently */
+  private int touchedIndex;
 
   /*
-   * Gets the most recent touched path.
-   * @return the most recent touched path.
+   * Gets the path touched most recently.
+   * @return the path touched most recently.
    */
-  public String getTouched() {
-    return touched;
+  public String getTouchedPath() {
+    return touchedPath;
+  }
+
+  /*
+   * Gets the index of path touched most recently.
+   * @return the index of path touched most recently.
+   */
+  public int getTouchedIndex() {
+    return touchedIndex;
+  }
+
+  public void pointTo(final int index) {
+    for (int i = 0; i < index; i++) {
+      this.nextToken();
+    }
   }
 
   @Override
   public String next() {
-    touched = super.next();
-    return touched;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public String nextToken() {
-    touched = super.nextToken();
-    return touched;
+    touchedIndex = super.nextIndex();
+    touchedPath = super.nextToken();
+    return touchedPath;
   }
 
   @Override
   public String previous() {
-    touched = super.previous();
-    return touched;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public String previousToken() {
-    touched = super.previousToken();
-    return touched;
+    touchedIndex = super.previousIndex();
+    touchedPath = super.previousToken();
+    return touchedPath;
   }
 
   public String getPath(int index) {
