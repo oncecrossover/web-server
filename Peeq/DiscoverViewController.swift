@@ -108,10 +108,10 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 //      let indexPath = self.discoverTableView.indexPathForSelectedRow!
 
       if (searchController.active && searchController.searchBar.text != "") {
-        dvc.uid = self.filteredProfiles[indexPath.row].uid
+        dvc.profileInfo = self.filteredProfiles[indexPath.row]
       }
       else {
-        dvc.uid = self.profiles[indexPath.row].uid
+        dvc.profileInfo = self.profiles[indexPath.row]
       }
     }
   }

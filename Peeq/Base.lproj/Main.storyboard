@@ -833,6 +833,9 @@
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="$100 to ask him"/>
+                                <connections>
+                                    <action selector="askButtonTapped:" destination="PqM-Ta-C7q" eventType="touchUpInside" id="RdW-FL-TBA"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Full Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="D7m-md-sZx">
                                 <rect key="frame" x="16" y="170" width="288" height="29.5"/>
