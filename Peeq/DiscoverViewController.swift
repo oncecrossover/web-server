@@ -31,6 +31,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
+    self.tabBarController?.navigationItem.title = "Discover"
   }
 
 

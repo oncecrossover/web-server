@@ -32,6 +32,8 @@ class ViewController: UIViewController {
     let nav = self.navigationController?.navigationBar
     nav?.barTintColor = UIColor(red: 255/255, green: 153.0/255.0, blue: 51.0/255.0, alpha: 1.0)
     nav?.tintColor = UIColor.whiteColor()
+    self.tabBarController?.navigationItem.title = "News Feed"
+
     
   }
   
