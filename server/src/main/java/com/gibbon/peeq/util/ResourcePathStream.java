@@ -5,6 +5,42 @@ import org.apache.commons.lang3.text.StrTokenizer;
 public class ResourcePathStream extends StrTokenizer {
   public ResourcePathStream(final String input, final String delim) {
     super(input, delim);
+
+  }
+
+  /* memorize the most recent touched path */
+  private String touched;
+
+  /*
+   * Gets the most recent touched path.
+   * @return the most recent touched path.
+   */
+  public String getTouched() {
+    return touched;
+  }
+
+  @Override
+  public String next() {
+    touched = super.next();
+    return touched;
+  }
+
+  @Override
+  public String nextToken() {
+    touched = super.nextToken();
+    return touched;
+  }
+
+  @Override
+  public String previous() {
+    touched = super.previous();
+    return touched;
+  }
+
+  @Override
+  public String previousToken() {
+    touched = super.previousToken();
+    return touched;
   }
 
   public String getPath(int index) {

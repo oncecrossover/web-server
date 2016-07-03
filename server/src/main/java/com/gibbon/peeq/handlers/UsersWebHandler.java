@@ -88,7 +88,7 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
 
   private FullHttpResponse onGet() {
     /* get user id */
-    final String uid = getUriParser().getPathStream().getPath(1);
+    final String uid = getUriParser().getPathStream().nextToken();
 
     /* no uid */
     if (StringUtils.isBlank(uid)) {
@@ -127,7 +127,7 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
 
   private FullHttpResponse onDelete() {
     /* get user id */
-    final String uid = getUriParser().getPathStream().getPath(1);
+    final String uid = getUriParser().getPathStream().nextToken();
 
     /* no uid */
     if (StringUtils.isBlank(uid)) {
@@ -159,7 +159,7 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
 
   private FullHttpResponse onUpdate() {
     /* get user id */
-    final String uid = getUriParser().getPathStream().getPath(1);
+    final String uid = getUriParser().getPathStream().nextToken();
 
     /* no uid */
     if (StringUtils.isBlank(uid)) {

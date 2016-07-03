@@ -20,7 +20,7 @@ public class TestResourceURIParser {
     assertEquals("profiles", rup.getPathStream().next());
     assertEquals(false, rup.getPathStream().hasNext());
 
-    uri = "/profiles?filter=uid=dmund";
+    uri = "/profiles?filter=uid=edmund";
     rup = new ResourceURIParser(uri);
     assertEquals("profiles", rup.getPathStream().next());
     assertEquals(false, rup.getPathStream().hasNext());

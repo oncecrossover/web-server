@@ -88,7 +88,7 @@ public class HttpSnoopServerHandler
   private FullHttpResponse dispatchRequest(final ResourceURIParser uriParser,
       final ChannelHandlerContext ctx) {
     final StrBuilder respBuf = new StrBuilder();
-    final String resourceName = uriParser.getPathStream().getPath(0);
+    final String resourceName = uriParser.getPathStream().nextToken();
 
     if ("users".equalsIgnoreCase(resourceName)) {
       return new UsersWebHandler(

@@ -57,7 +57,7 @@ public class NotFoundResourceWebHandler extends AbastractPeeqWebHandler {
   }
 
   private void appendNotFoundResource() {
-    final String resourceName = getUriParser().getPathStream().getPath(0);
+    final String resourceName = getUriParser().getPathStream().getTouched();
     appendln(String.format("Not found the resource '%s'", resourceName));
   }
 }

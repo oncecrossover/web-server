@@ -64,7 +64,7 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
 
   private FullHttpResponse onGet() {
     /* get user id */
-    final String uid = getUriParser().getPathStream().getPath(1);
+    final String uid = getUriParser().getPathStream().nextToken();
 
     /* no uid */
     if (StringUtils.isBlank(uid)) {
@@ -103,7 +103,7 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
 
   private FullHttpResponse onUpdate() {
     /* get user id */
-    final String uid = getUriParser().getPathStream().getPath(1);
+    final String uid = getUriParser().getPathStream().nextToken();
 
     /* no uid */
     if (StringUtils.isBlank(uid)) {
@@ -153,7 +153,7 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
   }
 
   private void appendMethodNotAllowed(final String methodName) {
-    final String resourceName = getUriParser().getPathStream().getPath(0);
+    final String resourceName = getUriParser().getPathStream().getTouched();
     appendln(String.format("Method '%s' not allowed on resource '%s'",
         methodName, resourceName));
   }
