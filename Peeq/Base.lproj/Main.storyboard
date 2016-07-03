@@ -696,6 +696,10 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="88" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SaK-gb-aNQ">
                                 <rect key="frame" x="-4" y="64" width="328" height="447"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <activityIndicatorView key="tableFooterView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" id="sgt-ha-1J5">
+                                    <rect key="frame" x="0.0" y="180" width="328" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="discoverCell" rowHeight="88" id="brl-nl-8pR" customClass="DiscoverTableViewCell" customModule="Peeq" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="92" width="328" height="88"/>
@@ -775,6 +779,7 @@
                     <tabBarItem key="tabBarItem" systemItem="search" id="7jo-2K-ODz"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="sgt-ha-1J5" id="XoV-6g-zLc"/>
                         <outlet property="discoverTableView" destination="SaK-gb-aNQ" id="WXa-4S-jMT"/>
                         <segue destination="PqM-Ta-C7q" kind="show" identifier="segueFromDiscoverToAsk" id="QxE-Av-LH0"/>
                     </connections>

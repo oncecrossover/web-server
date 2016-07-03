@@ -11,6 +11,7 @@ import UIKit
 class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate {
 
   @IBOutlet weak var discoverTableView: UITableView!
+  @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
   var profiles: [(uid: String!, name: String!, title: String!, about: String!, avatarUrl:String!)] = []
   var filteredProfiles: [(uid: String!, name: String!, title: String!, about: String!, avatarUrl:String!)] = []
@@ -45,6 +46,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
   func loadImages() {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    activityIndicator.startAnimating()
     userModule.getDiscover(uid, filterString: "*") { jsonArray in
       for profileInfo in jsonArray as! [[String:AnyObject]] {
         let profileUid = profileInfo["uid"] as! String
@@ -67,6 +69,8 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
         self.profiles.append((uid: profileUid, name: profileName, title: profileTitle, about: profileAbout, avatarUrl: profileUrl))
       }
+
+      self.activityIndicator.stopAnimating()
 
       dispatch_async(dispatch_get_main_queue()) {
         self.discoverTableView.reloadData()
