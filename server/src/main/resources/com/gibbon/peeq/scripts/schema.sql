@@ -20,7 +20,7 @@ CREATE TABLE `Profile` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Quanda` (
-  `qid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `asker` varchar(100) NOT NULL,
   `question` varchar(2000) NOT NULL,
   `responder` varchar(100) NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE `Quanda` (
   `status` ENUM('PENDING', 'ANSWERED', 'EXPIRED'),
   `createdTime` datetime NOT NULL,
   `updatedTime` datetime NOT NULL,
-  PRIMARY KEY (`qid`),
+  PRIMARY KEY (`id`),
   FOREIGN KEY fk_asker(asker) REFERENCES User(uid),
   FOREIGN KEY fk_responder(responder) REFERENCES User(uid)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

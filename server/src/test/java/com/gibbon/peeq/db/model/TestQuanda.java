@@ -28,7 +28,7 @@ public class TestQuanda {
 
   private Quanda newRandomQuanda() {
     Quanda quanda = new Quanda();
-    quanda.setQid(random.nextLong())
+    quanda.setId(random.nextLong())
          .setQuestion(UUID.randomUUID().toString())
          .setAnswerUrl(UUID.randomUUID().toString())
          .setStatus(Quanda.QnaStatus.PENDING.toString())
@@ -90,7 +90,7 @@ public class TestQuanda {
     /* query quanda */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
     txn = session.beginTransaction();
-    final Quanda retQuanda = (Quanda) session.get(Quanda.class, quanda.getQid());
+    final Quanda retQuanda = (Quanda) session.get(Quanda.class, quanda.getId());
     txn.commit();
 
     /* verify */
@@ -125,7 +125,7 @@ public class TestQuanda {
     /* query quanda */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
     txn = session.beginTransaction();
-    retQuanda = (Quanda) session.get(Quanda.class, quanda.getQid());
+    retQuanda = (Quanda) session.get(Quanda.class, quanda.getId());
     txn.commit();
 
     /* verify */
@@ -140,7 +140,7 @@ public class TestQuanda {
     /* query... */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
     txn = session.beginTransaction();
-    retQuanda = (Quanda) session.get(Quanda.class, quanda.getQid());
+    retQuanda = (Quanda) session.get(Quanda.class, quanda.getId());
     txn.commit();
 
     /* verify */
@@ -175,7 +175,7 @@ public class TestQuanda {
     /* query quanda */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
     txn = session.beginTransaction();
-    retQuanda = (Quanda) session.get(Quanda.class, quanda.getQid());
+    retQuanda = (Quanda) session.get(Quanda.class, quanda.getId());
     txn.commit();
 
     /* verify */
@@ -194,7 +194,7 @@ public class TestQuanda {
     /* query... */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
     txn = session.beginTransaction();
-    retQuanda = (Quanda) session.get(Quanda.class, quanda.getQid());
+    retQuanda = (Quanda) session.get(Quanda.class, quanda.getId());
     txn.commit();
 
     /* verify */
