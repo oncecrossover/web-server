@@ -17,6 +17,12 @@ mvn clean package
 
 
 
+DEPENDENCIES:
+HADOOP HDFS DEPENDENCIES:
+Co-located HDFS setup is needed to run the backend server. 127.0.0.1:8020 is HDFS namenode address.
+
+
+
 HOW TO INITIALIZE MySQL?
 execute com.gibbon.peeq.scripts/schema.sql to create tables.
 

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.Profile;
+import com.gibbon.peeq.util.ObjectStoreClient;
 import com.gibbon.peeq.util.ResourceURIParser;
 
 import io.netty.buffer.ByteBuf;
@@ -33,12 +34,8 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    PeeqWebHandler pfwh =
-        new ProfileFilterWebHandler(
-            getUriParser(),
-            getRespBuf(),
-            getHandlerContext(),
-            getRequest());
+    PeeqWebHandler pfwh = new ProfileFilterWebHandler(getUriParser(),
+        getRespBuf(), getHandlerContext(), getRequest());
 
     if (pfwh.willFilter()) {
       return pfwh.handle();
@@ -63,7 +60,7 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
   }
 
   private FullHttpResponse onGet() {
-    /* get user id */
+    /* get id */
     final String uid = getUriParser().getPathStream().nextToken();
 
     /* no uid */
@@ -102,7 +99,7 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
   }
 
   private FullHttpResponse onUpdate() {
-    /* get user id */
+    /* get id */
     final String uid = getUriParser().getPathStream().nextToken();
 
     /* no uid */
@@ -125,7 +122,10 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
       return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /* ignore id from json */
     profile.setUid(uid);
+    setAvatarUrl(profile);
+
     Transaction txn = null;
     try {
       txn = getSession().beginTransaction();
@@ -140,6 +140,23 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
       appendln(e.toString());
       return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  private void setAvatarUrl(final Profile profile) {
+    final String avatarUrl = saveAvatarImage(profile);
+    if (avatarUrl != null) {
+      profile.setAvatarUrl(avatarUrl);
+    }
+  }
+
+  private String saveAvatarImage(final Profile profile) {
+    ObjectStoreClient osc = new ObjectStoreClient();
+    try {
+      return osc.saveAvatarImage(profile);
+    } catch (IOException e) {
+      LOG.warn(super.stackTraceToString(e));
+    }
+    return null;
   }
 
   private Profile newProfileFromRequest()

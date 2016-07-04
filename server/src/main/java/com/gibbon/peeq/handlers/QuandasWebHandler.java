@@ -118,14 +118,11 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
 
     /* using the id in uri to ignore that in json */
     fromJson.setId(Long.parseLong(id));
-    System.out.println(fromJson.toString());
-    System.out.println(fromDB.toString());
     if (fromDB != null) {
       fromDB.setAsIgnoreNull(fromJson);
       /* update updatedTime */
       fromDB.setUpdatedTime(new Date());
     }
-    System.out.println(fromDB.toString());
 
     try {
       txn = getSession().beginTransaction();
