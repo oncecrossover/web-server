@@ -66,6 +66,8 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
           Long.parseLong(id));
       txn.commit();
 
+      setAnswerAudio(quanda);
+
       /* buffer result */
       appendQuandaln(id, quanda);
       return newResponse(HttpResponseStatus.OK);
@@ -73,6 +75,27 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
       txn.rollback();
       return newServerErrorResponse(e, LOG);
     }
+  }
+
+  private void setAnswerAudio(final Quanda quanda) {
+    if (quanda == null) {
+      return;
+    }
+
+    final byte[] readContent = readAnswerAudio(quanda);
+    if (readContent != null) {
+      quanda.setAnswerAudio(readContent);
+    }
+  }
+
+  private byte[] readAnswerAudio(final Quanda quanda) {
+    ObjectStoreClient osc = new ObjectStoreClient();
+    try {
+      return osc.readAnswerAudio(quanda.getAnswerUrl());
+    } catch (Exception e) {
+      LOG.warn(super.stackTraceToString(e));
+    }
+    return null;
   }
 
   private void appendQuandaln(final String id, final Quanda quanda)
@@ -152,7 +175,7 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
     ObjectStoreClient osc = new ObjectStoreClient();
     try {
       return osc.saveAnswerAudio(fromDB);
-    } catch (IOException e) {
+    } catch (Exception e) {
       LOG.warn(super.stackTraceToString(e));
     }
     return null;

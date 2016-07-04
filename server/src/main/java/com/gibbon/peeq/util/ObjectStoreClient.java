@@ -1,8 +1,9 @@
 package com.gibbon.peeq.util;
 
-import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -14,8 +15,20 @@ import com.gibbon.peeq.db.model.Quanda;
 public class ObjectStoreClient {
   private final static String DEFAULT_FS = "hdfs://127.0.0.1:8020";
   private final static String ANSWER_ROOT = "/answers";
+  private final static HdfsConfiguration conf = new HdfsConfiguration();
+  static {
+    conf.set("fs.defaultFS", DEFAULT_FS);
+  }
 
-  public String saveAnswerAudio(final Quanda quanda) throws IOException {
+  public byte[] readAnswerAudio(final String answerUrl) throws Exception {
+    if (StringUtils.isBlank(answerUrl)) {
+      return null;
+    }
+
+    return readFromStore(answerUrl);
+  }
+
+  public String saveAnswerAudio(final Quanda quanda) throws Exception {
     if (quanda.getId() > 0 && quanda.getAnswerAudio() != null
         && quanda.getAnswerAudio().length != 0) {
       final String filePath = getAnswerUrl(quanda);
@@ -25,7 +38,7 @@ public class ObjectStoreClient {
     return null;
   }
 
-  public String saveAvatarImage(final Profile profile) throws IOException {
+  public String saveAvatarImage(final Profile profile) throws Exception {
     if (!StringUtils.isBlank(profile.getUid())
         && profile.getAvatarImage() != null
         && profile.getAvatarImage().length != 0) {
@@ -42,15 +55,40 @@ public class ObjectStoreClient {
   }
 
   private String getAnswerUrl(final Quanda quanda) {
-    return String.format("%s/%s", ANSWER_ROOT, quanda.getId());
+    return String.format("%s/%d", ANSWER_ROOT, quanda.getId());
+  }
+
+  public byte[] readFromStore(final String filePath) throws Exception {
+    if (StringUtils.isBlank(filePath)) {
+      return null;
+    }
+
+    FSDataInputStream in = null;
+    try {
+      FileSystem fs = FileSystem.get(conf);
+      Path fsPath = new Path(filePath);
+      if (!fs.exists(fsPath)) {
+        return null;
+      }
+
+      final long length = fs.getFileStatus(fsPath).getLen();
+      in = fs.open(fsPath);
+      ByteBuffer bf = ByteBuffer.allocate((int) length);
+      in.read(bf);
+      return bf.array();
+    } catch (Exception e) {
+      throw e;
+    } finally {
+      if (in != null) {
+        in.close();
+      }
+    }
   }
 
   public void saveToStore(final String filePath, final byte[] image)
-      throws IOException {
+      throws Exception {
     FSDataOutputStream out = null;
     try {
-      HdfsConfiguration conf = new HdfsConfiguration();
-      conf.set("fs.defaultFS", DEFAULT_FS);
       FileSystem fs = FileSystem.get(conf);
       Path file = new Path(filePath);
       if (fs.exists(file)) {
@@ -58,7 +96,7 @@ public class ObjectStoreClient {
       }
       out = fs.create(file);
       out.write(image);
-    } catch (IOException e) {
+    } catch (Exception e) {
       throw e;
     } finally {
       if (out != null) {

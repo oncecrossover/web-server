@@ -153,7 +153,7 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
     ObjectStoreClient osc = new ObjectStoreClient();
     try {
       return osc.saveAvatarImage(profile);
-    } catch (IOException e) {
+    } catch (Exception e) {
       LOG.warn(super.stackTraceToString(e));
     }
     return null;
