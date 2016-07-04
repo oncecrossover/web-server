@@ -18,6 +18,7 @@ public class Quanda {
   private String question;
   private String responder;
   private String answerUrl;
+  private byte[] answerAudio;
   private String status;
   private Date createdTime;
   private Date updatedTime;
@@ -64,6 +65,15 @@ public class Quanda {
 
   public Quanda setAnswerUrl(final String answerUrl) {
     this.answerUrl = answerUrl;
+    return this;
+  }
+
+  public byte[] getAnswerAudio() {
+    return answerAudio;
+  }
+
+  public Quanda setAnswerAudio(final byte[] answerAudio) {
+    this.answerAudio = answerAudio;
     return this;
   }
 

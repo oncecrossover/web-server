@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.db.model.Quanda;
+import com.gibbon.peeq.util.ObjectStoreClient;
 import com.gibbon.peeq.util.ResourceURIParser;
 
 import io.netty.buffer.ByteBuf;
@@ -105,7 +107,10 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
     }
 
     Transaction txn = null;
-    /* query from DB */
+    /*
+     * query to get DB copy to avoid updating fields (not explicitly set by
+     * Json) to NULL
+     */
     Quanda fromDB = null;
     try {
       txn = getSession().beginTransaction();
@@ -116,13 +121,14 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
       return newServerErrorResponse(e, LOG);
     }
 
-    /* using the id in uri to ignore that in json */
+    /* ignore id from json */
     fromJson.setId(Long.parseLong(id));
     if (fromDB != null) {
       fromDB.setAsIgnoreNull(fromJson);
       /* update updatedTime */
       fromDB.setUpdatedTime(new Date());
     }
+    setAnswerUrl(fromDB);
 
     try {
       txn = getSession().beginTransaction();
@@ -133,6 +139,23 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
       txn.rollback();
       return newServerErrorResponse(e, LOG);
     }
+  }
+
+  private void setAnswerUrl(final Quanda fromDB) {
+    final String url = saveAnswerAudio(fromDB);
+    if (url != null) {
+      fromDB.setAnswerUrl(url);
+    }
+  }
+
+  private String saveAnswerAudio(final Quanda fromDB) {
+    ObjectStoreClient osc = new ObjectStoreClient();
+    try {
+      return osc.saveAnswerAudio(fromDB);
+    } catch (IOException e) {
+      LOG.warn(super.stackTraceToString(e));
+    }
+    return null;
   }
 
   private FullHttpResponse onCreate() {

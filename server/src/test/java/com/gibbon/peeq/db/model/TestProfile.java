@@ -14,7 +14,6 @@ public class TestProfile {
   @Test(timeout = 60000)
   public void testCreateProfileFromJson() throws IOException {
     final String json = "{\"uid\":\"edmund\",\"avatarUrl\":\"https://en.wikiquote.org/wiki/Edmund_Burke\",\"avatarImage\":null,\"fullName\":\"Edmund Burke\",\"title\":\"Philosopher\",\"aboutMe\":\"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.\"}";
-    LOG.info(json);
 
     ObjectMapper mapper = new ObjectMapper();
 

@@ -97,12 +97,10 @@ public class TestUser {
 
     // convert object to json
     String originalUserJason = mapper.writeValueAsString(originalUser);
-    LOG.info(originalUserJason);
 
     // convert json to object
     User newUser = mapper.readValue(originalUserJason, User.class);
     String newUserJson = mapper.writeValueAsString(newUser);
-    LOG.info(newUserJson);
     assertEquals(originalUserJason, newUserJson);
     assertUserEquals(originalUser, newUser);
   }
@@ -131,7 +129,6 @@ public class TestUser {
   @Test(timeout = 60000)
   public void testCreateUserFromJson() throws IOException {
     final String userJson = "{\"uid\":\"edmund\",\"firstName\":\"Edmund\",\"middleName\":\"Peng\",\"lastName\":\"Burke\",\"pwd\":\"123\",\"createdTime\":1467156716625,\"updatedTime\":1467156716625,\"profile\":{\"uid\":null,\"avatarUrl\":\"https://en.wikiquote.org/wiki/Edmund_Burke\",\"avatarImage\":null,\"fullName\":\"Edmund Peng Burke\",\"title\":\"Philosopher\",\"aboutMe\":\"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.\"}}";
-    LOG.info(userJson);
 
     ObjectMapper mapper = new ObjectMapper();
 

@@ -143,9 +143,9 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
   }
 
   private void setAvatarUrl(final Profile profile) {
-    final String avatarUrl = saveAvatarImage(profile);
-    if (avatarUrl != null) {
-      profile.setAvatarUrl(avatarUrl);
+    final String url = saveAvatarImage(profile);
+    if (url != null) {
+      profile.setAvatarUrl(url);
     }
   }
 
