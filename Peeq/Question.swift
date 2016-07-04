@@ -20,9 +20,7 @@ class Question {
       let request = NSMutableURLRequest(URL:myUrl!);
       request.HTTPMethod = "POST";
       let jsonData = ["asker": asker, "question": question,
-        "responder": responder, "status": "PENDING",
-        "createdTime" : 1467579192,
-        "updatedTime" : 1467579192]
+        "responder": responder, "status": "PENDING"]
 
       do {
         request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
