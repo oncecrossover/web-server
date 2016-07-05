@@ -171,6 +171,9 @@ public class Quanda {
     if (quanda.getAnswerUrl() != null) {
       this.setAnswerUrl(quanda.getAnswerUrl());
     }
+    if (quanda.getAnswerAudio() != null) {
+      this.setAnswerAudio(quanda.getAnswerAudio());
+    }
     if (quanda.getStatus() != null) {
       this.setStatus(quanda.getStatus());
     }

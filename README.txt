@@ -85,10 +85,10 @@ RESTFUL APIs OF QUANDAS:
 curl -i -X GET "http://127.0.0.1:8080/quandas/1"
 
 2. create new quanda, e.g.
-curl -i -X POST "http://127.0.0.1:8080/quandas" -d '{"asker":"kuan","question":"How do you define good man?","responder":"kuan","answerUrl":"https://en.wikiquote.org/wiki/Edmund_Burke","status":"ANSWERED","createdTime":1467522922706,"updatedTime":1467522922706}'
+curl -i -X POST "http://127.0.0.1:8080/quandas" -d '{"asker":"kuan","question":"How do you define good man?","responder":"kuan","answerAudio":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","status":"PENDING"}'
 
 3. update quanda by id, e.g.
-curl -i -X PUT "http://127.0.0.1:8080/quandas/1" -d '{"asker":"kuan","question":"How do you define good man?","responder":"edmund","answerUrl":"https://en.wikiquote.org/wiki/Edmund_Burke","status":"ANSWERED","createdTime":1467522922706,"updatedTime":1467522922706}'
+curl -i -X PUT "http://127.0.0.1:8080/quandas/1" -d '{"asker":"kuan","question":"How do you define good man?","responder":"edmund","answerAudio":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","status":"ANSWERED"}'
 
 
 

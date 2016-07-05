@@ -37,6 +37,7 @@ public class TestQuanda {
           .setAsker("kuan")
           .setQuestion("How do you define good man?")
           .setResponder("edmund")
+          .setAnswerAudio("This is answer audio.".getBytes())
           .setStatus(Quanda.QnaStatus.ANSWERED.toString());
     return quanda;
   }
@@ -47,6 +48,7 @@ public class TestQuanda {
           .setAsker(UUID.randomUUID().toString())
           .setQuestion(UUID.randomUUID().toString())
           .setResponder(UUID.randomUUID().toString())
+          .setAnswerAudio("This is random answer audio.".getBytes())
           .setStatus(Quanda.QnaStatus.PENDING.toString());
     return quanda;
   }
