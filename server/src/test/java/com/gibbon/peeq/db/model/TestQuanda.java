@@ -33,13 +33,11 @@ public class TestQuanda {
 
   private Quanda newQuanda() {
     Quanda quanda = new Quanda();
-    quanda.setAsker("kuan")
+    quanda.setId(random.nextLong())
+          .setAsker("kuan")
           .setQuestion("How do you define good man?")
           .setResponder("edmund")
-          .setAnswerUrl("https://en.wikiquote.org/wiki/Edmund_Burke")
-          .setStatus(Quanda.QnaStatus.ANSWERED.toString())
-          .setCreatedTime(new Date())
-          .setUpdatedTime(new Date());
+          .setStatus(Quanda.QnaStatus.ANSWERED.toString());
     return quanda;
   }
 
@@ -49,10 +47,7 @@ public class TestQuanda {
           .setAsker(UUID.randomUUID().toString())
           .setQuestion(UUID.randomUUID().toString())
           .setResponder(UUID.randomUUID().toString())
-          .setAnswerUrl(UUID.randomUUID().toString())
-          .setStatus(Quanda.QnaStatus.PENDING.toString())
-          .setCreatedTime(new Date())
-          .setUpdatedTime(new Date());
+          .setStatus(Quanda.QnaStatus.PENDING.toString());
     return quanda;
   }
 
