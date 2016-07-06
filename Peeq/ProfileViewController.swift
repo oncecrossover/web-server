@@ -39,7 +39,7 @@ class ProfileViewController: UIViewController{
 
   func initView() {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    userModule.getProfile(uid) { fullName, title, aboutMe in
+    userModule.getProfile(uid) { fullName, title, aboutMe, url in
       dispatch_sync(dispatch_get_main_queue(), {
         self.aboutLabel.numberOfLines = 0
         self.aboutLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
@@ -57,6 +57,14 @@ class ProfileViewController: UIViewController{
         self.profilePhoto.clipsToBounds = true
         self.profilePhoto.layer.borderColor = UIColor.blackColor().CGColor
         self.profilePhoto.layer.borderWidth = 2
+
+        if (!url.isEmpty) {
+          let imageUrl = NSURL(string: url)
+          let imageData = NSData(contentsOfURL: imageUrl!)
+          if (imageData != nil) {
+            self.profilePhoto.image = UIImage(data: imageData!)
+          }
+        }
       })
     }
   }

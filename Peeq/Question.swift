@@ -48,4 +48,31 @@ class Question {
       }
       task.resume()
   }
+
+  func getQuestions(filterString: String, completion: (NSArray) -> ()) {
+    let myUrl = NSURL(string: QUESTIONURI + "?filter=" + filterString)
+    let request = NSMutableURLRequest(URL: myUrl!)
+    request.HTTPMethod = "GET"
+    let task = NSURLSession.sharedSession().dataTaskWithRequest(request){
+      data, response, error in
+      if error != nil {
+        print ("error: \(error)")
+        return
+      }
+
+      do {
+        if data!.length == 1 {
+          let emptyResult: [[String:AnyObject]] = []
+          completion(emptyResult)
+        }
+        if let jsonArray = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSArray {
+          completion(jsonArray)
+        }
+      } catch let error as NSError {
+        print(error.localizedDescription)
+      }
+    }
+    task.resume()
+    
+  }
 }

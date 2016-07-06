@@ -128,7 +128,7 @@ class User
     task.resume()
   }
 
-  func getProfile(uid: String, completion: (String, String, String) -> ()){
+  func getProfile(uid: String, completion: (String, String, String, String) -> ()){
     let myUrl = NSURL(string: PROFILEURI + uid);
     let request = NSMutableURLRequest(URL:myUrl!);
     request.HTTPMethod = "GET";
@@ -156,6 +156,7 @@ class User
           var fullName = ""
           var title = ""
           var aboutMe = ""
+          var url = ""
 
           // Get value by key
           if ((convertedJsonIntoDict["fullName"] as? String) != nil) {
@@ -170,7 +171,11 @@ class User
             aboutMe = (convertedJsonIntoDict["aboutMe"] as? String)!
           }
 
-          completion(fullName, title, aboutMe)
+          if ((convertedJsonIntoDict["avatarUrl"] as? String) != nil) {
+            url = (convertedJsonIntoDict["avatarUrl"] as? String)!
+          }
+
+          completion(fullName, title, aboutMe, url)
 
         }
       } catch let error as NSError {
