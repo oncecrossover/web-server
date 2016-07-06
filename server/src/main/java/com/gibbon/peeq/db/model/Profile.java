@@ -108,6 +108,32 @@ public class Profile {
     return false;
   }
 
+  public Profile setAsIgnoreNull(final Profile profile) {
+    if (profile == null) {
+      return null;
+    }
+
+    if (profile.getUid() != null) {
+      this.setUid(profile.getUid());
+    }
+    if (profile.getAvatarUrl() != null) {
+      this.setAvatarUrl(profile.getAvatarUrl());
+    }
+    if (profile.getAvatarImage() != null) {
+      this.setAvatarImage(profile.getAvatarImage());
+    }
+    if (profile.getFullName() != null) {
+      this.setFullName(profile.getFullName());
+    }
+    if (profile.getTitle() != null) {
+      this.setTitle(profile.getTitle());
+    }
+    if (profile.getAboutMe() != null) {
+      this.setAboutMe(profile.getAboutMe());
+    }
+    return this;
+  }
+
   @Override
   public String toString() {
     try {

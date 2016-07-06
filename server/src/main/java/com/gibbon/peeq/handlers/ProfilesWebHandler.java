@@ -1,6 +1,7 @@
 package com.gibbon.peeq.handlers;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrBuilder;
@@ -12,6 +13,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.Profile;
+import com.gibbon.peeq.db.model.Quanda;
 import com.gibbon.peeq.util.ObjectStoreClient;
 import com.gibbon.peeq.util.ResourceURIParser;
 
@@ -104,10 +106,11 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
-    final Profile profile;
+    /* deserialize json */
+    final Profile fromJson;
     try {
-      profile = newProfileFromRequest();
-      if (profile == null) {
+      fromJson = newProfileFromRequest();
+      if (fromJson == null) {
         appendln("No profile or incorrect format specified.");
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
@@ -115,14 +118,31 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
       return newServerErrorResponse(e, LOG);
     }
 
-    /* ignore id from json */
-    profile.setUid(uid);
-    setAvatarUrl(profile);
-
     Transaction txn = null;
+    /*
+     * query to get DB copy to avoid updating fields (not explicitly set by
+     * Json) to NULL
+     */
+    Profile fromDB = null;
     try {
       txn = getSession().beginTransaction();
-      getSession().update(profile);
+      fromDB = (Profile) getSession().get(Profile.class, uid);
+      txn.commit();
+    } catch (Exception e) {
+      txn.rollback();
+      return newServerErrorResponse(e, LOG);
+    }
+
+    /* ignore id from json */
+    fromJson.setUid(uid);
+    if (fromDB != null) {
+      fromDB.setAsIgnoreNull(fromJson);
+    }
+    setAvatarUrl(fromDB);
+
+    try {
+      txn = getSession().beginTransaction();
+      getSession().update(fromDB);
       txn.commit();
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {
