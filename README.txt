@@ -90,6 +90,14 @@ curl -i -X POST "http://127.0.0.1:8080/quandas" -d '{"asker":"kuan","question":"
 3. update quanda by id, e.g.
 curl -i -X PUT "http://127.0.0.1:8080/quandas/1" -d '{"asker":"kuan","question":"How do you define good man?","responder":"edmund","answerAudio":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","status":"ANSWERED"}'
 
+RESTFUL APIs OF QUANDAS FILTERING:
+1. load all quandas
+curl -i -X GET "http://127.0.0.1:8080/quandas?filter=*"
+
+2. query quandas by a single column(e.g. asker or responder), e.g.
+curl -i -X GET "http://127.0.0.1:8080/quandas?filter=asker=kuan"
+curl -i -X GET "http://127.0.0.1:8080/quandas?filter=responder=edmund"
+The column name is case sensitive, it only supports single column. In addition, it essentially does equal matched query.
 
 
 HTTP STATUS CODE OF REST API:

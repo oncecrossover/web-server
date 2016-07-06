@@ -4,6 +4,7 @@ import org.apache.commons.lang3.text.StrBuilder;
 import org.hibernate.Session;
 
 import com.gibbon.peeq.db.util.HibernateUtil;
+import com.gibbon.peeq.util.FilterParamParser;
 import com.gibbon.peeq.util.ResourceURIParser;
 
 import io.netty.buffer.Unpooled;
@@ -53,34 +54,66 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
   private StrBuilder respBuf;
   private ChannelHandlerContext ctx;
   private FullHttpRequest request;
+  private FilterParamParser filterParamParser;
 
   public AbastractPeeqWebHandler(final ResourceURIParser uriParser,
       final StrBuilder respBuf, final ChannelHandlerContext ctx,
       final FullHttpRequest request) {
+    this(uriParser, respBuf, ctx, request, null);
+  }
+
+  public AbastractPeeqWebHandler(final ResourceURIParser uriParser,
+      final StrBuilder respBuf, final ChannelHandlerContext ctx,
+      final FullHttpRequest request,
+      final FilterParamParser filterParamParser) {
     this.uriParser = uriParser;
     this.respBuf = respBuf;
     this.ctx = ctx;
     this.request = request;
+    this.filterParamParser = filterParamParser;
   }
 
+  @Override
   public ResourceURIParser getUriParser() {
     return uriParser;
   }
 
+  @Override
   public StrBuilder getRespBuf() {
     return respBuf;
   }
 
+  @Override
   public ChannelHandlerContext getHandlerContext() {
     return ctx;
   }
 
+  @Override
   public FullHttpRequest getRequest() {
     return request;
   }
 
+  @Override
   public Session getSession() {
     return HibernateUtil.getSessionFactory().getCurrentSession();
+  }
+
+  @Override
+  public Boolean willFilter() {
+    return filterParamParser.paramCount() > 0
+        && filterParamParser.cotnainsKey("filter");
+  }
+
+  public Boolean willSort() {
+    return false;
+  }
+
+  public Boolean willLimit() {
+    return false;
+  }
+
+  protected FilterParamParser getFilterParamParser() {
+    return filterParamParser;
   }
 
   /**
@@ -99,18 +132,6 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
     } else {
       return handleNotAllowedMethod(request.method());
     }
-  }
-
-  public Boolean willFilter() {
-    return false;
-  }
-
-  public Boolean willSort() {
-    return false;
-  }
-
-  public Boolean willLimit() {
-    return false;
   }
 
   protected FullHttpResponse newResponse(HttpResponseStatus status) {

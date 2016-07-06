@@ -36,7 +36,14 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    return onGet();
+    PeeqWebHandler pwh = new QuandasFilterWebHandler(getUriParser(),
+        getRespBuf(), getHandlerContext(), getRequest());
+
+    if (pwh.willFilter()) {
+      return pwh.handle();
+    } else {
+      return onGet();
+    }
   }
 
   @Override

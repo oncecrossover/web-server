@@ -34,11 +34,11 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    PeeqWebHandler pfwh = new ProfileFilterWebHandler(getUriParser(),
+    PeeqWebHandler pwh = new ProfileFilterWebHandler(getUriParser(),
         getRespBuf(), getHandlerContext(), getRequest());
 
-    if (pfwh.willFilter()) {
-      return pfwh.handle();
+    if (pwh.willFilter()) {
+      return pwh.handle();
     } else {
       return onGet();
     }
@@ -79,12 +79,8 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
       appendResourceln(uid, profile);
       return newResponse(HttpResponseStatus.OK);
     } catch (Exception e) {
-      /* rollback */
       txn.rollback();
-      /* server error */
-      LOG.warn(e.toString());
-      appendln(e.toString());
-      return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
+      return newServerErrorResponse(e, LOG);
     }
   }
 
@@ -116,10 +112,7 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (Exception e) {
-      /* server error */
-      LOG.warn(e.toString());
-      appendln(e.toString());
-      return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
+      return newServerErrorResponse(e, LOG);
     }
 
     /* ignore id from json */
@@ -133,12 +126,8 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
       txn.commit();
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {
-      /* rollback */
       txn.rollback();
-      /* server error */
-      LOG.warn(e.toString());
-      appendln(e.toString());
-      return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
+      return newServerErrorResponse(e, LOG);
     }
   }
 

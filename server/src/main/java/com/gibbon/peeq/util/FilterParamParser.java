@@ -9,7 +9,7 @@ import com.google.common.base.Charsets;
 
 import io.netty.handler.codec.http.QueryStringDecoder;
 
-public class FilterParameterParser {
+public class FilterParamParser {
   public final static String FILTER = "filter";
   public final static String SB_OR = "|";
   public final static String SB_ASSIGN = "=";
@@ -17,7 +17,7 @@ public class FilterParameterParser {
   private QueryStringDecoder decoder;
   private final Map<String, List<String>> params;
 
-  public FilterParameterParser(final String reqUri) {
+  public FilterParamParser(final String reqUri) {
     decoder = new QueryStringDecoder(reqUri);
     params = decoder.parameters();
   }
@@ -27,6 +27,7 @@ public class FilterParameterParser {
   }
 
   /*
+   * /resource?filter=<column_name>=<column_value>, or resource?filter*, e.g.
    * /profiles?filter=uid=edmund, or /profiles?filter=*
    */
   public Map<String, String> getQueryKVs() {

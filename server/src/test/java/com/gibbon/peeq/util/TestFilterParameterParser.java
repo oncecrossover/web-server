@@ -22,7 +22,7 @@ public class TestFilterParameterParser {
 
   @Test(timeout = 60000)
   public void testGetFilter() {
-    FilterParameterParser fpp = new FilterParameterParser(edmundReqUri);
+    FilterParamParser fpp = new FilterParamParser(edmundReqUri);
     assertEquals("Filter string should equal.", fpp.getFilter(),
         edmundReqUri.substring(PREFIX.length()));
     assertEquals("There must be only one parameter.", fpp.paramCount(), 1);
@@ -31,7 +31,7 @@ public class TestFilterParameterParser {
 
   @Test(timeout = 60000)
   public void testGetQueryKVs() {
-    FilterParameterParser fpp = new FilterParameterParser(edmundReqUri);
+    FilterParamParser fpp = new FilterParamParser(edmundReqUri);
     Map<String, String> kvs = fpp.getQueryKVs();
     verifyKeys(kvs);
     verifyValues(kvs);
@@ -39,7 +39,7 @@ public class TestFilterParameterParser {
 
   @Test
   public void testGetQueryKVsSimple() {
-    FilterParameterParser fpp = new FilterParameterParser(simpleReqUri);
+    FilterParamParser fpp = new FilterParamParser(simpleReqUri);
     Map<String, String> kvs = fpp.getQueryKVs();
     assertTrue("must contain uid", kvs.containsKey("uid"));
     assertEquals(kvs.get("uid"), "edmund");
@@ -47,7 +47,7 @@ public class TestFilterParameterParser {
 
   @Test(timeout = 60000)
   public void testGetQueryKVsLoadAll() {
-    FilterParameterParser fpp = new FilterParameterParser(loadAllReqUri);
+    FilterParamParser fpp = new FilterParamParser(loadAllReqUri);
     Map<String, String> kvs = fpp.getQueryKVs();
     assertTrue("must contain *", kvs.containsKey("*"));
   }
