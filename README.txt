@@ -70,7 +70,7 @@ RESTFUL APIs OF PROFILES:
 curl -i -X GET "http://127.0.0.1:8080/profiles/edmund"
 
 2. update profile by uid, e.g.
-curl -i -X PUT "http://127.0.0.1:8080/profiles/edmund" -d '{"uid":"edmund","avatarUrl":"https://en.wikiquote.org/wiki/Edmund_Burke","avatarImage":null,"fullName":"Edmund Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism."}'
+curl -i -X PUT "http://127.0.0.1:8080/profiles/edmund" -d '{"avatarImage":null,"fullName":"Edmund Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism."}'
 
 RESTFUL APIs OF PROFILE FILTERING:
 1. load all profiles, e.g.

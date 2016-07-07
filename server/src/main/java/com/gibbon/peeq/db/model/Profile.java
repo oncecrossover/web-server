@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Profile {
   private String uid;
+  @JsonIgnore
   private String avatarUrl;
   private byte[] avatarImage;
   private String fullName;
