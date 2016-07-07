@@ -38,6 +38,15 @@ public class ObjectStoreClient {
     return null;
   }
 
+
+  public byte[] readAvatarImage(final String avatarUrl) throws Exception {
+    if (StringUtils.isBlank(avatarUrl)) {
+      return null;
+    }
+
+    return readFromStore(avatarUrl);
+  }
+
   public String saveAvatarImage(final Profile profile) throws Exception {
     if (!StringUtils.isBlank(profile.getUid())
         && profile.getAvatarImage() != null

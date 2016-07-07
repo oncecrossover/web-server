@@ -73,6 +73,7 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
           Long.parseLong(id));
       txn.commit();
 
+      /* load from object store */
       setAnswerAudio(quanda);
 
       /* buffer result */
@@ -158,6 +159,8 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
       /* update updatedTime */
       fromDB.setUpdatedTime(new Date());
     }
+
+    /* save to object store */
     setAnswerUrl(fromDB);
 
     try {

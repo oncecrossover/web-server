@@ -13,7 +13,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.Profile;
-import com.gibbon.peeq.db.model.Quanda;
 import com.gibbon.peeq.util.ObjectStoreClient;
 import com.gibbon.peeq.util.ResourceURIParser;
 
@@ -77,6 +76,9 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
       final Profile profile = (Profile) getSession().get(Profile.class, uid);
       txn.commit();
 
+      /* load from object store */
+      setAvatarImage(profile);
+
       /* result queried */
       appendResourceln(uid, profile);
       return newResponse(HttpResponseStatus.OK);
@@ -84,6 +86,27 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
       txn.rollback();
       return newServerErrorResponse(e, LOG);
     }
+  }
+
+  private void setAvatarImage(final Profile profile) {
+    if (profile == null) {
+      return;
+    }
+
+    final byte[] readContent = readAvatarImage(profile);
+    if (readContent != null) {
+      profile.setAvatarImage(readContent);
+    }
+  }
+
+  private byte[] readAvatarImage(final Profile profile) {
+    ObjectStoreClient osc = new ObjectStoreClient();
+    try {
+      return osc.readAvatarImage(profile.getAvatarUrl());
+    } catch (Exception e) {
+      LOG.warn(super.stackTraceToString(e));
+    }
+    return null;
   }
 
   private FullHttpResponse onCreate() {
@@ -138,6 +161,8 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
     if (fromDB != null) {
       fromDB.setAsIgnoreNull(fromJson);
     }
+
+    /* save to object store */
     setAvatarUrl(fromDB);
 
     try {
