@@ -30,12 +30,6 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     // Do any additional setup after loading the view.
   }
 
-  override func viewWillAppear(animated: Bool) {
-    super.viewWillAppear(animated)
-    self.tabBarController?.navigationItem.title = "Discover"
-  }
-
-
   func filterContentForSearchText(searchText: String, scope: String = "All") {
     filteredProfiles = profiles.filter { profile in
       return profile.name.lowercaseString.containsString(searchText.lowercaseString)

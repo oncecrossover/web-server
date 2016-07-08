@@ -32,11 +32,6 @@ class ProfileViewController: UIViewController{
     // Do any additional setup after loading the view.
   }
 
-  override func viewWillAppear(animated: Bool) {
-    super.viewWillAppear(animated)
-    self.tabBarController?.navigationItem.title = "Profile"
-  }
-
   func initView() {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     userModule.getProfile(uid) { fullName, title, aboutMe, url in

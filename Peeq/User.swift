@@ -32,9 +32,7 @@ class User
         print("error=\(error)")
         return
       }
-      
-      // You can print out response object
-      print("response = \(response)")
+
       
       // Print out response body
       let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
@@ -60,17 +58,15 @@ class User
       }
       
       // Print out response string
-      let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-      print("responseString = \(responseString)")
-      
-      
+//      let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+
       // Convert server json response to NSDictionary
       do {
         if let convertedJsonIntoDict = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSDictionary {
           
           // Print out dictionary
-          print(convertedJsonIntoDict)
-          
+//          print(convertedJsonIntoDict)
+
           // Get value by key
           if let storedEmail = convertedJsonIntoDict["uid"] as? String {
             if let storedPassword = convertedJsonIntoDict["pwd"] as? String {
@@ -116,9 +112,6 @@ class User
         return
       }
 
-      // You can print out response object
-      print("response = \(response)")
-
       // Print out response body
       let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
       print("responseString = \(responseString)")
@@ -141,10 +134,6 @@ class User
         print("error=\(error)")
         return
       }
-
-      // Print out response string
-      let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-      print("responseString = \(responseString)")
 
 
       // Convert server json response to NSDictionary

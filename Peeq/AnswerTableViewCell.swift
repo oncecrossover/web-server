@@ -37,13 +37,16 @@ class AnswerTableViewCell: UITableViewCell {
     question.lineBreakMode = NSLineBreakMode.ByWordWrapping
     question.numberOfLines = 0
     question.sizeToFit()
-    question.font = question.font.fontWithSize(15)
+    question.font = question.font.fontWithSize(13)
 
     askerName.numberOfLines = 0
-    askerName.font = askerName.font.fontWithSize(15)
+    askerName.font = askerName.font.fontWithSize(13)
+    askerName.textColor = UIColor.grayColor()
     askerName.lineBreakMode = NSLineBreakMode.ByWordWrapping
     askerName.sizeToFit()
 
+    status.font = status.font.fontWithSize(13)
+    status.textColor = UIColor.greenColor()
     
   }
 

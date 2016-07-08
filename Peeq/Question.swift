@@ -37,14 +37,51 @@ class Question {
           return
         }
 
-        // You can print out response object
-        print("response = \(response)")
-
         // Print out response body
-        let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-        print("responseString = \(responseString)")
+//        let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+//        print("responseString = \(responseString)")
         completion("")
         
+      }
+      task.resume()
+  }
+
+  func updateQuestion(id: Int!, askerId: String!, content: String!, responderId: String!,
+    answerAudio: NSData!, completion: (String) -> ()) {
+      let myUrl = NSURL(string: QUESTIONURI + "/" + "\(id)")
+      let request = NSMutableURLRequest(URL: myUrl!)
+      request.HTTPMethod = "PUT"
+      print("length of data is: \(answerAudio!.length)")
+//      let audioString = answerAudio?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
+      let audioString = answerAudio?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+      print("encoded string is \(audioString!)")
+
+      do {
+        let jsonData: [String: AnyObject] = ["asker": askerId, "question" : content, "responder":responderId,
+          "answerAudio": audioString!, "status" : "ANSWERED"]
+
+        request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
+      }
+      catch {
+        print("error=\(error)")
+        completion("an error occurs when uploading audio: \(error)")
+      }
+      let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+        data, response, error in
+        if (error != nil)
+        {
+          print("error=\(error)")
+          return
+        }
+
+        // You can print out response object
+//        print("response = \(response)")
+
+        // Print out response body
+//        let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+//        print("responseString = \(responseString)")
+        completion("")
+
       }
       task.resume()
   }
@@ -74,5 +111,34 @@ class Question {
     }
     task.resume()
     
+  }
+
+  func getQuestionAudio(id: Int, completion: (String) -> ()){
+    let myUrl = NSURL(string: QUESTIONURI + "/" + "\(id)")
+    let request = NSMutableURLRequest(URL: myUrl!)
+    request.HTTPMethod = "GET"
+    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+      data, response, error in
+      if error != nil {
+        print ("error: \(error)")
+        return
+      }
+
+      do {
+        if let convertedJsonIntoDict = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSDictionary {
+
+          if let storedAudio = convertedJsonIntoDict["answerAudio"] as? String {
+            completion(storedAudio)
+          }
+          else {
+            completion("")
+          }
+        }
+      } catch let error as NSError {
+        print(error.localizedDescription)
+      }
+      
+    }
+    task.resume()
   }
 }

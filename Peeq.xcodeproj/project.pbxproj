@@ -10,7 +10,6 @@
 		4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */; };
 		4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */; };
 		4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26821D218FC60001989E /* ProfileViewController.swift */; };
-		4A8F26851D219DB70001989E /* 3301885.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4A8F26841D219DB70001989E /* 3301885.jpg */; };
 		4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26861D21D01D0001989E /* EditProfileViewController.swift */; };
 		4ABE1CC01D25BBF100320529 /* AskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABE1CBF1D25BBF100320529 /* AskViewController.swift */; };
 		4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC283661CE2F58100A08D35 /* AppDelegate.swift */; };
@@ -25,13 +24,13 @@
 		4AF3226C1D29DE120043FCE5 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF3226B1D29DE120043FCE5 /* ActivityViewController.swift */; };
 		4AF3226E1D29DEEB0043FCE5 /* QuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF3226D1D29DEEB0043FCE5 /* QuestionTableViewCell.swift */; };
 		4AF322741D2C83260043FCE5 /* AnswerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF322731D2C83260043FCE5 /* AnswerTableViewCell.swift */; };
+		4AF322761D2DBCB50043FCE5 /* AnswerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF322751D2DBCB50043FCE5 /* AnswerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewCell.swift; sourceTree = "<group>"; };
 		4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 		4A8F26821D218FC60001989E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		4A8F26841D219DB70001989E /* 3301885.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3301885.jpg; sourceTree = "<group>"; };
 		4A8F26861D21D01D0001989E /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		4ABE1CBF1D25BBF100320529 /* AskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AskViewController.swift; sourceTree = "<group>"; };
 		4AC283631CE2F58100A08D35 /* Peeq.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Peeq.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,6 +47,7 @@
 		4AF3226B1D29DE120043FCE5 /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		4AF3226D1D29DEEB0043FCE5 /* QuestionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionTableViewCell.swift; sourceTree = "<group>"; };
 		4AF322731D2C83260043FCE5 /* AnswerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerTableViewCell.swift; sourceTree = "<group>"; };
+		4AF322751D2DBCB50043FCE5 /* AnswerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +72,7 @@
 				4AC2837D1CED0E4500A08D35 /* LoginViewController.swift */,
 				4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */,
 				4AF3226B1D29DE120043FCE5 /* ActivityViewController.swift */,
+				4AF322751D2DBCB50043FCE5 /* AnswerViewController.swift */,
 			);
 			name = ControllerGroup;
 			sourceTree = "<group>";
@@ -108,7 +109,6 @@
 				4ABE1CC11D25C7AA00320529 /* ControllerGroup */,
 				4AC2836A1CE2F58100A08D35 /* Main.storyboard */,
 				4AC283701CE2F58100A08D35 /* Assets.xcassets */,
-				4A8F26841D219DB70001989E /* 3301885.jpg */,
 				4AC283751CE2F58100A08D35 /* Info.plist */,
 				4AC2836D1CE2F58100A08D35 /* Peep.xcdatamodeld */,
 				4ABE1CC21D25C7BD00320529 /* Model */,
@@ -186,7 +186,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AC283711CE2F58100A08D35 /* Assets.xcassets in Resources */,
-				4A8F26851D219DB70001989E /* 3301885.jpg in Resources */,
 				4AC2836C1CE2F58100A08D35 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -202,6 +201,7 @@
 				4AC283691CE2F58100A08D35 /* ViewController.swift in Sources */,
 				4AC2836F1CE2F58100A08D35 /* Peep.xcdatamodeld in Sources */,
 				4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */,
+				4AF322761D2DBCB50043FCE5 /* AnswerViewController.swift in Sources */,
 				4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */,
 				4AC2837E1CED0E4500A08D35 /* LoginViewController.swift in Sources */,
 				4AC2837C1CECEE3800A08D35 /* SignupPageViewController.swift in Sources */,

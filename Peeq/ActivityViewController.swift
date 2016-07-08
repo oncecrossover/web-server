@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import AVFoundation
 
-class ActivityViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ActivityViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, AVAudioPlayerDelegate {
 
   @IBOutlet weak var activityTableView: UITableView!
   @IBOutlet weak var segmentedControl: UISegmentedControl!
@@ -16,10 +17,12 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   var userModule = User()
   var questionModule = Question()
 
+  var soundPlayer: AVAudioPlayer!
+
   var questions:[(id: Int!, question: String!, status: String!, responderUrl: String!,
   responderName: String!, responderTitle: String!)] = []
   var answers:[(id: Int!, question: String!, status: String!, askerUrl: String!,
-  askerName: String!, askerTitle: String!)] = []
+  askerName: String!, askerTitle: String!, askerId: String!)] = []
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -54,11 +57,6 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     else if (segmentedControl.selectedSegmentIndex == 2) {
       self.activityTableView.reloadData()
     }
-  }
-
-  override func viewWillAppear(animated: Bool) {
-    super.viewWillAppear(animated)
-    self.tabBarController?.navigationItem.title = "Activity"
   }
 
   func loadData() {
@@ -103,7 +101,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
           let askerId = questionInfo["asker"] as! String
           self.userModule.getProfile(askerId){name, title, about, url in
             self.answers.append((id: questionId, question: question, status: status,
-              askerUrl: url, askerName: name, askerTitle: title))
+              askerUrl: url, askerName: name, askerTitle: title, askerId: askerId))
             count--
             if (count == 0) {
               dispatch_async(dispatch_get_main_queue()) {
@@ -128,7 +126,58 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   }
 
   func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    return 150
+    return 120
+  }
+
+  func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    let noDataLabel: UILabel = UILabel(frame: CGRectMake(0, 0, self.activityTableView.bounds.size.width,
+      self.activityTableView.bounds.size.height))
+
+    if (segmentedControl.selectedSegmentIndex == 0) {
+      if (questions.count == 0) {
+        noDataLabel.text = "You haven't asked any questions yet"
+      }
+      else {
+        return 1
+      }
+    }
+    else if (segmentedControl.selectedSegmentIndex == 1) {
+      if (answers.count == 0) {
+        noDataLabel.text = "You have no answer requests so far"
+      }
+      else {
+        return 1
+      }
+    }
+    else {
+      noDataLabel.text = "You have no snoops so far"
+    }
+
+    noDataLabel.textColor = UIColor.grayColor()
+    noDataLabel.textAlignment = NSTextAlignment.Center
+    self.activityTableView.separatorStyle = UITableViewCellSeparatorStyle.None
+    self.activityTableView.backgroundView = noDataLabel
+
+    return 0
+  }
+
+  func tappedOnButton(sender:UIGestureRecognizer) {
+    let tapLocation = sender.locationInView(self.activityTableView)
+
+    print("listen button triggered")
+    //using the tapLocation, we retrieve the corresponding indexPath
+    let indexPath = self.activityTableView.indexPathForRowAtPoint(tapLocation)!
+    let questionInfo = questions[indexPath.row]
+    let questionId = questionInfo.id
+    questionModule.getQuestionAudio(questionId) { audioString in
+      if (!audioString.isEmpty) {
+        let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
+        dispatch_async(dispatch_get_main_queue()) {
+          self.preparePlayer(data)
+          self.soundPlayer.play()
+        }
+      }
+    }
   }
 
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -138,29 +187,67 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       let question = questions[indexPath.row]
       myCell.questionText.text = question.question
       myCell.titleLabel.text = "\(question.responderName)" + " | "  + "\(question.responderTitle)"
-      myCell.profileImage.image = UIImage(data: NSData(contentsOfURL: NSURL(string: question.responderUrl)!)!)
-      myCell.status.text = question.status
+      if !question.responderUrl.isEmpty {
+        myCell.profileImage.image = UIImage(data: NSData(contentsOfURL: NSURL(string: question.responderUrl)!)!)
+      }
+
+      if question.status == "PENDING" {
+        myCell.listenButton.hidden = true
+      }
+
+      myCell.listenButton.userInteractionEnabled = true
+      let tappedOnButton = UITapGestureRecognizer(target: self, action: "tappedOnButton:")
+      myCell.listenButton.addGestureRecognizer(tappedOnButton)
+
       return myCell
     }
     else if segmentedControl.selectedSegmentIndex == 1 {
       let myCell = tableView.dequeueReusableCellWithIdentifier("answerCell", forIndexPath: indexPath) as! AnswerTableViewCell
       let answer = answers[indexPath.row]
       myCell.askerName.text = answer.askerName
-      myCell.profileImage.image = UIImage(data: NSData(contentsOfURL: NSURL(string: answer.askerUrl)!)!)
+      if !answer.askerUrl.isEmpty {
+        myCell.profileImage.image = UIImage(data: NSData(contentsOfURL: NSURL(string: answer.askerUrl)!)!)
+      }
       myCell.status.text = answer.status
       myCell.question.text = answer.question
       return myCell
     }
     return tableView.dequeueReusableCellWithIdentifier("questionCell", forIndexPath: indexPath) as! QuestionTableViewCell
   }
-  /*
-  // MARK: - Navigation
 
-  // In a storyboard-based application, you will often want to do a little preparation before navigation
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-  // Get the new view controller using segue.destinationViewController.
-  // Pass the selected object to the new view controller.
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    if segmentedControl.selectedSegmentIndex == 1 {
+      self.performSegueWithIdentifier("segueFromActivityToAnswer", sender: indexPath)
+    }
   }
-  */
+
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    print("entered prepareForSegue")
+    if (segue.identifier == "segueFromActivityToAnswer") {
+      let indexPath = sender as! NSIndexPath
+      let dvc = segue.destinationViewController as! AnswerViewController;
+      let questionInfo = answers[indexPath.row]
+      dvc.question = (id: questionInfo.id, avatarUrl: questionInfo.askerUrl, askerName: questionInfo.askerName,
+        askerId: questionInfo.askerId, status: questionInfo.status,
+      content: questionInfo.question)
+    }
+    
+  }
+
+  func preparePlayer(data: NSData!) {
+    do {
+      soundPlayer = try AVAudioPlayer(data: data)
+      soundPlayer.delegate = self
+      soundPlayer.prepareToPlay()
+      soundPlayer.volume = 1.0
+    } catch let error as NSError {
+      print(error.localizedDescription)
+    }
+  }
+
+
+  func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+  }
+
 
 }
