@@ -16,6 +16,7 @@ import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.util.FilterParamParser;
 import com.gibbon.peeq.util.ResourceURIParser;
 import com.google.common.base.Joiner;
+import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -28,7 +29,8 @@ public class ProfileFilterWebHandler extends AbastractPeeqWebHandler
       .getLogger(ProfileFilterWebHandler.class);
 
   public ProfileFilterWebHandler(ResourceURIParser uriParser,
-      StrBuilder respBuf, ChannelHandlerContext ctx, FullHttpRequest request) {
+      ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
+      FullHttpRequest request) {
     super(uriParser, respBuf, ctx, request,
         new FilterParamParser(request.uri()));
   }

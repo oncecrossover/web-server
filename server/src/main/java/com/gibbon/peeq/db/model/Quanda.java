@@ -111,15 +111,20 @@ public class Quanda {
   @Override
   public String toString() {
     try {
-      return toJson();
+      return toJsonStr();
     } catch (JsonProcessingException e) {
       return "";
     }
   }
 
-  public String toJson() throws JsonProcessingException {
+  public String toJsonStr() throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     return mapper.writeValueAsString(this);
+  }
+
+  public byte[] toJsonByteArray() throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.writeValueAsBytes(this);
   }
 
   @Override
@@ -147,7 +152,7 @@ public class Quanda {
     return false;
   }
 
-  public static Quanda newQuanda(final String quandaJson)
+  public static Quanda newQuanda(final byte[] quandaJson)
       throws JsonParseException, JsonMappingException, IOException {
     ObjectMapper mapper = new ObjectMapper();
     Quanda quanda = mapper.readValue(quandaJson, Quanda.class);

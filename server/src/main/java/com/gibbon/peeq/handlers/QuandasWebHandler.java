@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.StrBuilder;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,25 +11,26 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.db.model.Quanda;
 import com.gibbon.peeq.util.ObjectStoreClient;
 import com.gibbon.peeq.util.ResourceURIParser;
+import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
-import io.netty.util.CharsetUtil;
 
 public class QuandasWebHandler extends AbastractPeeqWebHandler
     implements PeeqWebHandler {
   protected static final Logger LOG = LoggerFactory
       .getLogger(QuandasWebHandler.class);
 
-  public QuandasWebHandler(ResourceURIParser uriParser, StrBuilder respBuf,
-      ChannelHandlerContext ctx, FullHttpRequest request) {
+  public QuandasWebHandler(ResourceURIParser uriParser,
+      ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
+      FullHttpRequest request) {
     super(uriParser, respBuf, ctx, request);
   }
 
@@ -77,7 +77,7 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
       setAnswerAudio(quanda);
 
       /* buffer result */
-      appendQuandaln(id, quanda);
+      appendQuanda(id, quanda);
       return newResponse(HttpResponseStatus.OK);
     } catch (Exception e) {
       txn.rollback();
@@ -106,10 +106,10 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
     return null;
   }
 
-  private void appendQuandaln(final String id, final Quanda quanda)
+  private void appendQuanda(final String id, final Quanda quanda)
       throws JsonProcessingException {
     if (quanda != null) {
-      appendln(quanda.toJson());
+      appendByteArray(quanda.toJsonByteArray());
     } else {
       appendln(String.format("Nonexistent resource with URI: /quandas/%s", id));
     }
@@ -231,7 +231,7 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
       throws JsonParseException, JsonMappingException, IOException {
     final ByteBuf content = getRequest().content();
     if (content.isReadable()) {
-      final String json = content.toString(CharsetUtil.UTF_8);
+      final byte[] json = ByteBufUtil.getBytes(content);
       return Quanda.newQuanda(json);
     }
     return null;

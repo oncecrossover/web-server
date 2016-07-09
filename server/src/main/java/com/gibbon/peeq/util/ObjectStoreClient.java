@@ -1,7 +1,5 @@
 package com.gibbon.peeq.util;
 
-import java.nio.ByteBuffer;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
@@ -30,7 +28,7 @@ public class ObjectStoreClient {
 
   public String saveAnswerAudio(final Quanda quanda) throws Exception {
     if (quanda.getId() > 0 && quanda.getAnswerAudio() != null
-        && quanda.getAnswerAudio().length != 0) {
+        && quanda.getAnswerAudio().length > 0) {
       final String filePath = getAnswerUrl(quanda);
       saveToStore(filePath, quanda.getAnswerAudio());
       return filePath;
@@ -50,7 +48,7 @@ public class ObjectStoreClient {
   public String saveAvatarImage(final Profile profile) throws Exception {
     if (!StringUtils.isBlank(profile.getUid())
         && profile.getAvatarImage() != null
-        && profile.getAvatarImage().length != 0) {
+        && profile.getAvatarImage().length > 0) {
       final String filePath = getAvatarUrl(profile);
       saveToStore(filePath, profile.getAvatarImage());
       return filePath;
@@ -74,17 +72,16 @@ public class ObjectStoreClient {
 
     FSDataInputStream in = null;
     try {
-      FileSystem fs = FileSystem.get(conf);
-      Path fsPath = new Path(filePath);
+      final FileSystem fs = FileSystem.get(conf);
+      final Path fsPath = new Path(filePath);
       if (!fs.exists(fsPath)) {
         return null;
       }
-
-      final long length = fs.getFileStatus(fsPath).getLen();
       in = fs.open(fsPath);
-      ByteBuffer bf = ByteBuffer.allocate((int) length);
-      in.read(bf);
-      return bf.array();
+      final long length = fs.getFileStatus(fsPath).getLen();
+      final byte[] ba = new byte[(int) length];
+      in.readFully(ba);
+      return ba;
     } catch (Exception e) {
       throw e;
     } finally {

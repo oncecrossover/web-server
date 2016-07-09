@@ -1,8 +1,7 @@
 package com.gibbon.peeq.handlers;
 
-import org.apache.commons.lang3.text.StrBuilder;
-
 import com.gibbon.peeq.util.ResourceURIParser;
+import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -11,8 +10,9 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 
 public class NullResouceWebHandler extends AbastractPeeqWebHandler {
 
-  public NullResouceWebHandler(ResourceURIParser uriParser, StrBuilder respBuf,
-      ChannelHandlerContext ctx, FullHttpRequest request) {
+  public NullResouceWebHandler(ResourceURIParser uriParser,
+      ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
+      FullHttpRequest request) {
     super(uriParser, respBuf, ctx, request);
   }
 

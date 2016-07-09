@@ -138,18 +138,23 @@ public class Profile {
   @Override
   public String toString() {
     try {
-      return toJson();
+      return toJsonStr();
     } catch (JsonProcessingException e) {
       return "";
     }
   }
 
-  public String toJson() throws JsonProcessingException {
+  public byte[] toJsonByteArray() throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.writeValueAsBytes(this);
+  }
+
+  public String toJsonStr() throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     return mapper.writeValueAsString(this);
   }
 
-  public static Profile newProfile(final String json)
+  public static Profile newProfile(final byte[] json)
       throws JsonParseException, JsonMappingException, IOException {
     ObjectMapper mapper = new ObjectMapper();
     Profile profile = mapper.readValue(json, Profile.class);

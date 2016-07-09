@@ -2,7 +2,6 @@ package com.gibbon.peeq.handlers;
 
 import java.io.IOException;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.StrBuilder;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +12,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.db.model.User;
 import com.gibbon.peeq.util.ResourceURIParser;
+import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -26,8 +26,9 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
   protected static final Logger LOG = LoggerFactory
       .getLogger(UsersWebHandler.class);
 
-  public UsersWebHandler(ResourceURIParser uriParser, StrBuilder respBuf,
-      ChannelHandlerContext ctx, FullHttpRequest request) {
+  public UsersWebHandler(ResourceURIParser uriParser,
+      ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
+      FullHttpRequest request) {
     super(uriParser, respBuf, ctx, request);
   }
 

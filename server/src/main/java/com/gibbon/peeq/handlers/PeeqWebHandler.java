@@ -1,11 +1,11 @@
 package com.gibbon.peeq.handlers;
 
-import org.apache.commons.lang3.text.StrBuilder;
 import org.hibernate.Session;
 
 import com.gibbon.peeq.db.util.HibernateUtil;
 import com.gibbon.peeq.util.FilterParamParser;
 import com.gibbon.peeq.util.ResourceURIParser;
+import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -26,13 +26,14 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+
 import org.slf4j.Logger;
 
 public interface PeeqWebHandler {
 
   public ResourceURIParser getUriParser();
 
-  public StrBuilder getRespBuf();
+  public ByteArrayDataOutput getRespBuf();
 
   public ChannelHandlerContext getHandlerContext();
 
@@ -51,19 +52,19 @@ public interface PeeqWebHandler {
 
 abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
   private ResourceURIParser uriParser;
-  private StrBuilder respBuf;
+  private ByteArrayDataOutput respBuf;
   private ChannelHandlerContext ctx;
   private FullHttpRequest request;
   private FilterParamParser filterParamParser;
 
   public AbastractPeeqWebHandler(final ResourceURIParser uriParser,
-      final StrBuilder respBuf, final ChannelHandlerContext ctx,
+      final ByteArrayDataOutput respBuf, final ChannelHandlerContext ctx,
       final FullHttpRequest request) {
     this(uriParser, respBuf, ctx, request, null);
   }
 
   public AbastractPeeqWebHandler(final ResourceURIParser uriParser,
-      final StrBuilder respBuf, final ChannelHandlerContext ctx,
+      final ByteArrayDataOutput respBuf, final ChannelHandlerContext ctx,
       final FullHttpRequest request,
       final FilterParamParser filterParamParser) {
     this.uriParser = uriParser;
@@ -79,7 +80,7 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
   }
 
   @Override
-  public StrBuilder getRespBuf() {
+  public ByteArrayDataOutput getRespBuf() {
     return respBuf;
   }
 
@@ -136,16 +137,20 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
 
   protected FullHttpResponse newResponse(HttpResponseStatus status) {
     FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, status,
-        Unpooled.copiedBuffer(getRespBuf().toString(), CharsetUtil.UTF_8));
-    getRespBuf().clear();
+        Unpooled.copiedBuffer(getRespBuf().toByteArray()));
 
     response.headers().set(HttpHeaderNames.CONTENT_TYPE,
         "application/json; charset=UTF-8");
     return response;
   }
 
+  protected void appendByteArray(final byte[] byteArray) {
+    getRespBuf().write(byteArray);
+  }
+
   protected void appendln(final String str) {
-    getRespBuf().appendln(str);
+    final String line = String.format("%s%n", str);
+    getRespBuf().write(line.getBytes(CharsetUtil.UTF_8));
   }
 
   protected FullHttpResponse handleRetrieval() {

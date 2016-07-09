@@ -17,6 +17,7 @@ import com.gibbon.peeq.db.model.Quanda;
 import com.gibbon.peeq.util.FilterParamParser;
 import com.gibbon.peeq.util.ResourceURIParser;
 import com.google.common.base.Joiner;
+import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -29,7 +30,8 @@ public class QuandasFilterWebHandler extends AbastractPeeqWebHandler
       .getLogger(QuandasFilterWebHandler.class);
 
   public QuandasFilterWebHandler(ResourceURIParser uriParser,
-      StrBuilder respBuf, ChannelHandlerContext ctx, FullHttpRequest request) {
+      ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
+      FullHttpRequest request) {
     super(uriParser, respBuf, ctx, request,
         new FilterParamParser(request.uri()));
   }

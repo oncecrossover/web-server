@@ -42,7 +42,7 @@ public class TestProfile {
   private void assertProfileEquals(final Profile profile,
       final Profile anotherProfile) throws JsonProcessingException {
     assertEquals(profile.getUid(), anotherProfile.getUid());
-    assertEquals(profile.toJson(), anotherProfile.toJson());
+    assertEquals(profile.toJsonStr(), anotherProfile.toJsonStr());
     profile.equals(anotherProfile);
   }
 }

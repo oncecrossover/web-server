@@ -47,6 +47,8 @@ import com.gibbon.peeq.handlers.ProfilesWebHandler;
 import com.gibbon.peeq.handlers.QuandasWebHandler;
 import com.gibbon.peeq.handlers.UsersWebHandler;
 import com.gibbon.peeq.util.ResourceURIParser;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.*;
 import static io.netty.handler.codec.http.HttpVersion.*;
@@ -88,7 +90,7 @@ public class HttpSnoopServerHandler
 
   private FullHttpResponse dispatchRequest(final ResourceURIParser uriParser,
       final ChannelHandlerContext ctx) {
-    final StrBuilder respBuf = new StrBuilder();
+    final ByteArrayDataOutput respBuf = ByteStreams.newDataOutput();
     final String resourceName = uriParser.getPathStream().nextToken();
 
     if ("users".equalsIgnoreCase(resourceName)) {

@@ -1,10 +1,8 @@
 package com.gibbon.peeq.handlers;
 
 import java.io.IOException;
-import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.StrBuilder;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,21 +13,23 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.util.ObjectStoreClient;
 import com.gibbon.peeq.util.ResourceURIParser;
+import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
-import io.netty.util.CharsetUtil;
 
 public class ProfilesWebHandler extends AbastractPeeqWebHandler {
   protected static final Logger LOG = LoggerFactory
       .getLogger(ProfilesWebHandler.class);
 
-  public ProfilesWebHandler(ResourceURIParser uriParser, StrBuilder respBuf,
-      ChannelHandlerContext ctx, FullHttpRequest request) {
+  public ProfilesWebHandler(ResourceURIParser uriParser,
+      ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
+      FullHttpRequest request) {
     super(uriParser, respBuf, ctx, request);
   }
 
@@ -80,7 +80,7 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
       setAvatarImage(profile);
 
       /* result queried */
-      appendResourceln(uid, profile);
+      appendResource(uid, profile);
       return newResponse(HttpResponseStatus.OK);
     } catch (Exception e) {
       txn.rollback();
@@ -197,7 +197,7 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
       throws JsonParseException, JsonMappingException, IOException {
     final ByteBuf content = getRequest().content();
     if (content.isReadable()) {
-      final String json = content.toString(CharsetUtil.UTF_8);
+      final byte[] json = ByteBufUtil.getBytes(content);
       return Profile.newProfile(json);
     }
     return null;
@@ -209,10 +209,10 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
         methodName, resourceName));
   }
 
-  private void appendResourceln(final String resourceId, final Profile profile)
+  private void appendResource(final String resourceId, final Profile profile)
       throws JsonProcessingException {
     if (profile != null) {
-      appendln(profile.toJson());
+      appendByteArray(profile.toJsonByteArray());
     } else {
       appendln(String.format("Nonexistent resource with URI: /profiles/%s",
           resourceId));
