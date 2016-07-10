@@ -217,13 +217,8 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
           fromJson.getId()));
       return newResponse(HttpResponseStatus.CREATED);
     } catch (Exception e) {
-      /* rollback */
       txn.rollback();
-      /* server error */
-      String st = stackTraceToString(e);
-      LOG.warn(st);
-      appendln(st);
-      return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
+      return newServerErrorResponse(e, LOG);
     }
   }
 

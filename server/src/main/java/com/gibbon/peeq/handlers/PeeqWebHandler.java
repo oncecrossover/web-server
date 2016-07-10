@@ -182,7 +182,7 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
   }
 
   FullHttpResponse newServerErrorResponse(final Exception e, final Logger LOG) {
-    String st = stackTraceToString(e);
+    final String st = stackTraceToString(e);
     LOG.warn(st);
     appendln(st);
     return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);

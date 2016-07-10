@@ -80,7 +80,7 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
       setAvatarImage(profile);
 
       /* result queried */
-      appendResource(uid, profile);
+      appendProfile(uid, profile);
       return newResponse(HttpResponseStatus.OK);
     } catch (Exception e) {
       txn.rollback();
@@ -209,13 +209,13 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
         methodName, resourceName));
   }
 
-  private void appendResource(final String resourceId, final Profile profile)
+  private void appendProfile(final String id, final Profile profile)
       throws JsonProcessingException {
     if (profile != null) {
       appendByteArray(profile.toJsonByteArray());
     } else {
       appendln(String.format("Nonexistent resource with URI: /profiles/%s",
-          resourceId));
+          id));
     }
   }
 }

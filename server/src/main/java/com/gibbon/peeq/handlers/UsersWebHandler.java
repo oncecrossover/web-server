@@ -62,11 +62,7 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (Exception e) {
-      /* server error */
-      String st = stackTraceToString(e);
-      LOG.warn(st);
-      appendln(st);
-      return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
+      return newServerErrorResponse(e, LOG);
     }
 
     Transaction txn = null;
@@ -78,13 +74,8 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
           user.getUid()));
       return newResponse(HttpResponseStatus.CREATED);
     } catch (Exception e) {
-      /* rollback */
       txn.rollback();
-      /* server error */
-      String st = stackTraceToString(e);
-      LOG.warn(st);
-      appendln(st);
-      return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
+      return newServerErrorResponse(e, LOG);
     }
   }
 
@@ -105,23 +96,18 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
       txn.commit();
 
       /* user queried */
-      appendUserln(uid, user);
+      appendUser(uid, user);
       return newResponse(HttpResponseStatus.OK);
     } catch (Exception e) {
-      /* rollback */
       txn.rollback();
-      /* server error */
-      String st = stackTraceToString(e);
-      LOG.warn(st);
-      appendln(st);
-      return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
+      return newServerErrorResponse(e, LOG);
     }
   }
 
-  private void appendUserln(final String uid, final User user)
+  private void appendUser(final String uid, final User user)
       throws JsonProcessingException {
     if (user != null) {
-      appendln(user.toJsonStr());
+      appendByteArray(user.toJsonByteArray());
     } else {
       appendln(String.format("Nonexistent resource with URI: /users/%s", uid));
     }
@@ -149,13 +135,8 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
       txn.commit();
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {
-      /* rollback */
       txn.rollback();
-      /* server error */
-      String st = stackTraceToString(e);
-      LOG.warn(st);
-      appendln(st);
-      return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
+      return newServerErrorResponse(e, LOG);
     }
   }
 
@@ -177,11 +158,7 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (Exception e) {
-      /* server error */
-      String st = stackTraceToString(e);
-      LOG.warn(st);
-      appendln(st);
-      return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
+      return newServerErrorResponse(e, LOG);
     }
 
     /*
@@ -198,13 +175,8 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
       txn.commit();
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {
-      /* rollback */
       txn.rollback();
-      /* server error */
-      String st = stackTraceToString(e);
-      LOG.warn(st);
-      appendln(st);
-      return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
+      return newServerErrorResponse(e, LOG);
     }
   }
 
