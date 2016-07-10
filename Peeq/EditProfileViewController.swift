@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditProfileViewController: UIViewController {
+class EditProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
 
   @IBOutlet weak var profilePhoto: UIImageView!
@@ -16,8 +16,9 @@ class EditProfileViewController: UIViewController {
   @IBOutlet weak var titleField: UITextField!
   @IBOutlet weak var aboutField: UITextView!
   @IBOutlet weak var nameField: UITextField!
+  @IBOutlet weak var uploadButton: UIButton!
 
-  var profileValues: (name: String!, title: String!, about: String!)
+  var profileValues: (name: String!, title: String!, about: String!, avatarImage:  UIImage!)
 
   var userModule = User()
   
@@ -34,6 +35,10 @@ class EditProfileViewController: UIViewController {
     titleField.text = profileValues.title
     nameField.text = profileValues.name
     aboutField.text = profileValues.about
+
+    if (profileValues.avatarImage != nil) {
+      profilePhoto.image = profileValues.avatarImage
+    }
   }
 
   override func didReceiveMemoryWarning() {
@@ -53,6 +58,35 @@ class EditProfileViewController: UIViewController {
       else {
         self.displayAlertMessage(resultString)
       }
+    }
+  }
+
+  @IBAction func uploadButtonTapped(sender: AnyObject) {
+    let myPickerController = UIImagePickerController()
+    myPickerController.delegate = self
+    myPickerController.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+    self.presentViewController(myPickerController, animated:  true, completion: nil)
+  }
+
+  func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    profilePhoto.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+    profilePhoto.backgroundColor = UIColor.clearColor()
+    self.dismissViewControllerAnimated(true, completion: nil)
+    uploadImage()
+  }
+
+  func uploadImage() {
+    let photoData = UIImageJPEGRepresentation(profilePhoto.image!, 1)
+    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    userModule.updateProfilePhoto(uid, imageData: photoData){ resultString in
+      var message = ""
+      if (resultString.isEmpty) {
+        message = "Profile photo updated Successfully!"
+      }
+      else {
+        message = resultString
+      }
+      self.displayAlertMessage(message)
     }
   }
 

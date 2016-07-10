@@ -37,9 +37,6 @@ class Question {
           return
         }
 
-        // Print out response body
-//        let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-//        print("responseString = \(responseString)")
         completion("")
         
       }
@@ -51,10 +48,7 @@ class Question {
       let myUrl = NSURL(string: QUESTIONURI + "/" + "\(id)")
       let request = NSMutableURLRequest(URL: myUrl!)
       request.HTTPMethod = "PUT"
-      print("length of data is: \(answerAudio!.length)")
-//      let audioString = answerAudio?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
       let audioString = answerAudio?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
-      print("encoded string is \(audioString!)")
 
       do {
         let jsonData: [String: AnyObject] = ["asker": askerId, "question" : content, "responder":responderId,
@@ -74,12 +68,6 @@ class Question {
           return
         }
 
-        // You can print out response object
-//        print("response = \(response)")
-
-        // Print out response body
-//        let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-//        print("responseString = \(responseString)")
         completion("")
 
       }

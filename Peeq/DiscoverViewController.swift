@@ -13,8 +13,8 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   @IBOutlet weak var discoverTableView: UITableView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-  var profiles: [(uid: String!, name: String!, title: String!, about: String!, avatarUrl:String!)] = []
-  var filteredProfiles: [(uid: String!, name: String!, title: String!, about: String!, avatarUrl:String!)] = []
+  var profiles: [(uid: String!, name: String!, title: String!, about: String!, avatarImage: NSData!)] = []
+  var filteredProfiles: [(uid: String!, name: String!, title: String!, about: String!, avatarImage: NSData!)] = []
 
   let searchController = UISearchController(searchResultsController: nil)
 
@@ -42,12 +42,12 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     activityIndicator.startAnimating()
     userModule.getDiscover(uid, filterString: "*") { jsonArray in
+      var count = jsonArray.count
       for profileInfo in jsonArray as! [[String:AnyObject]] {
         let profileUid = profileInfo["uid"] as! String
         let profileName = profileInfo["fullName"] as! String
         var profileTitle = ""
         var profileAbout = ""
-        var profileUrl = ""
 
         if profileInfo["title"] as? String != nil {
           profileTitle = profileInfo["title"] as! String
@@ -57,18 +57,19 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
           profileAbout = profileInfo["aboutMe"] as! String
         }
 
-        if profileInfo["avatarUrl"] as? String  != nil {
-          profileUrl = profileInfo["avatarUrl"] as! String
+        self.userModule.getProfile(profileUid) { _, _, _, avatarImage in
+          self.profiles.append((uid: profileUid, name: profileName, title: profileTitle, about: profileAbout, avatarImage: avatarImage))
+          count--
+          if (count == 0) {
+            self.activityIndicator.stopAnimating()
+
+            dispatch_async(dispatch_get_main_queue()) {
+              self.discoverTableView.reloadData()
+            }
+          }
         }
-
-        self.profiles.append((uid: profileUid, name: profileName, title: profileTitle, about: profileAbout, avatarUrl: profileUrl))
       }
 
-      self.activityIndicator.stopAnimating()
-
-      dispatch_async(dispatch_get_main_queue()) {
-        self.discoverTableView.reloadData()
-      }
     }
   }
 
@@ -154,7 +155,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 //    });
 
 
-    let profile: (uid: String!, name: String!, title: String!, about: String!, avatarUrl:String!)
+    let profile: (uid: String!, name: String!, title: String!, about: String!, avatarImage:NSData!)
     if (searchController.active && searchController.searchBar.text != "") {
       profile = self.filteredProfiles[indexPath.row]
     }
@@ -162,13 +163,8 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
       profile = self.profiles[indexPath.row]
     }
 
-    let imageString = profile.avatarUrl
-    if (!imageString.isEmpty) {
-      let imageUrl = NSURL(string: imageString)
-      let imageData = NSData(contentsOfURL: imageUrl!)
-      if (imageData != nil) {
-        myCell.discoverImageView.image = UIImage(data: imageData!)
-      }
+    if (profile.avatarImage.length > 0) {
+      myCell.discoverImageView.image = UIImage(data: profile.avatarImage)
     }
 
     myCell.discoverImageView.layer.cornerRadius = myCell.discoverImageView.frame.size.width / 2

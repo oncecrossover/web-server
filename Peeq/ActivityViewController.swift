@@ -19,9 +19,9 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   var soundPlayer: AVAudioPlayer!
 
-  var questions:[(id: Int!, question: String!, status: String!, responderUrl: String!,
+  var questions:[(id: Int!, question: String!, status: String!, responderImage: NSData!,
   responderName: String!, responderTitle: String!)] = []
-  var answers:[(id: Int!, question: String!, status: String!, askerUrl: String!,
+  var answers:[(id: Int!, question: String!, status: String!, askerImage: NSData!,
   askerName: String!, askerTitle: String!, askerId: String!)] = []
 
   override func viewDidLoad() {
@@ -77,7 +77,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         dispatch_async(dispatch_get_main_queue()) {
           self.activityTableView.reloadData()
         }
-
+        return
       }
       for questionInfo in jsonArray as! [[String:AnyObject]] {
         let questionId = questionInfo["id"] as! Int
@@ -86,9 +86,9 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
         if (self.segmentedControl.selectedSegmentIndex == 0) {
           let responderId = questionInfo["responder"] as! String
-          self.userModule.getProfile(responderId) {name, title, about, url in
+          self.userModule.getProfile(responderId) {name, title, about, avatarImage in
             self.questions.append((id: questionId, question: question, status: status,
-              responderUrl: url, responderName: name, responderTitle: title))
+              responderImage: avatarImage, responderName: name, responderTitle: title))
             count--
             if (count == 0) {
               dispatch_async(dispatch_get_main_queue()) {
@@ -99,9 +99,9 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         else if (self.segmentedControl.selectedSegmentIndex == 1) {
           let askerId = questionInfo["asker"] as! String
-          self.userModule.getProfile(askerId){name, title, about, url in
+          self.userModule.getProfile(askerId){name, title, about, avatarImage in
             self.answers.append((id: questionId, question: question, status: status,
-              askerUrl: url, askerName: name, askerTitle: title, askerId: askerId))
+              askerImage: avatarImage, askerName: name, askerTitle: title, askerId: askerId))
             count--
             if (count == 0) {
               dispatch_async(dispatch_get_main_queue()) {
@@ -132,6 +132,8 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   func numberOfSectionsInTableView(tableView: UITableView) -> Int {
     let noDataLabel: UILabel = UILabel(frame: CGRectMake(0, 0, self.activityTableView.bounds.size.width,
       self.activityTableView.bounds.size.height))
+    self.activityTableView.backgroundView = nil
+    self.activityTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
 
     if (segmentedControl.selectedSegmentIndex == 0) {
       if (questions.count == 0) {
@@ -164,7 +166,6 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   func tappedOnButton(sender:UIGestureRecognizer) {
     let tapLocation = sender.locationInView(self.activityTableView)
 
-    print("listen button triggered")
     //using the tapLocation, we retrieve the corresponding indexPath
     let indexPath = self.activityTableView.indexPathForRowAtPoint(tapLocation)!
     let questionInfo = questions[indexPath.row]
@@ -187,8 +188,8 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       let question = questions[indexPath.row]
       myCell.questionText.text = question.question
       myCell.titleLabel.text = "\(question.responderName)" + " | "  + "\(question.responderTitle)"
-      if !question.responderUrl.isEmpty {
-        myCell.profileImage.image = UIImage(data: NSData(contentsOfURL: NSURL(string: question.responderUrl)!)!)
+      if (question.responderImage.length > 0) {
+        myCell.profileImage.image = UIImage(data: question.responderImage)
       }
 
       if question.status == "PENDING" {
@@ -205,8 +206,8 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       let myCell = tableView.dequeueReusableCellWithIdentifier("answerCell", forIndexPath: indexPath) as! AnswerTableViewCell
       let answer = answers[indexPath.row]
       myCell.askerName.text = answer.askerName
-      if !answer.askerUrl.isEmpty {
-        myCell.profileImage.image = UIImage(data: NSData(contentsOfURL: NSURL(string: answer.askerUrl)!)!)
+      if (answer.askerImage.length > 0) {
+        myCell.profileImage.image = UIImage(data: answer.askerImage)
       }
       myCell.status.text = answer.status
       myCell.question.text = answer.question
@@ -222,12 +223,11 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   }
 
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    print("entered prepareForSegue")
     if (segue.identifier == "segueFromActivityToAnswer") {
       let indexPath = sender as! NSIndexPath
       let dvc = segue.destinationViewController as! AnswerViewController;
       let questionInfo = answers[indexPath.row]
-      dvc.question = (id: questionInfo.id, avatarUrl: questionInfo.askerUrl, askerName: questionInfo.askerName,
+      dvc.question = (id: questionInfo.id, avatarImage: questionInfo.askerImage, askerName: questionInfo.askerName,
         askerId: questionInfo.askerId, status: questionInfo.status,
       content: questionInfo.question)
     }

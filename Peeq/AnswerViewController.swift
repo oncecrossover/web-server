@@ -22,11 +22,10 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
   var soundRecorder: AVAudioRecorder!
   var soundPlayer: AVAudioPlayer!
   var fileName = "audioFile.m4a"
-  var copyfileName = "copy.m4a"
 
   var questionModule = Question()
 
-  var question:(id: Int!, avatarUrl: String!, askerName: String!, askerId: String!, status: String!, content: String!)
+  var question:(id: Int!, avatarImage: NSData!, askerName: String!, askerId: String!, status: String!, content: String!)
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -43,7 +42,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
 
   func setupRecorder() {
-    let recordSettings = [AVFormatIDKey : Int(kAudioFormatAppleLossless), AVEncoderAudioQualityKey: AVAudioQuality.Max.rawValue, AVEncoderBitRateKey: 320000, AVNumberOfChannelsKey : 2, AVSampleRateKey : 44100.0 ] as [String: AnyObject]
+    let recordSettings = [AVFormatIDKey : Int(kAudioFormatMPEG4AAC), AVEncoderAudioQualityKey: AVAudioQuality.Max.rawValue, AVEncoderBitRateKey: 320000, AVNumberOfChannelsKey : 2, AVSampleRateKey : 44100.0 ] as [String: AnyObject]
 
     do {
       soundRecorder = try AVAudioRecorder(URL: getFileUrl(), settings: recordSettings)
@@ -60,8 +59,8 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
   func initView() {
     askerName.text = question.askerName
-    if !question.avatarUrl.isEmpty {
-      profileImage.image = UIImage(data: NSData(contentsOfURL: NSURL(string: question.avatarUrl)!)!)
+    if (question.avatarImage.length > 0) {
+      profileImage.image = UIImage(data: question.avatarImage)
     }
     status.text = question.status
     questionText.text = question.content

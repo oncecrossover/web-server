@@ -34,7 +34,7 @@ class ProfileViewController: UIViewController{
 
   func initView() {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    userModule.getProfile(uid) { fullName, title, aboutMe, url in
+    userModule.getProfile(uid) { fullName, title, aboutMe, avatarImage in
       dispatch_sync(dispatch_get_main_queue(), {
         self.aboutLabel.numberOfLines = 0
         self.aboutLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
@@ -53,12 +53,8 @@ class ProfileViewController: UIViewController{
         self.profilePhoto.layer.borderColor = UIColor.blackColor().CGColor
         self.profilePhoto.layer.borderWidth = 2
 
-        if (!url.isEmpty) {
-          let imageUrl = NSURL(string: url)
-          let imageData = NSData(contentsOfURL: imageUrl!)
-          if (imageData != nil) {
-            self.profilePhoto.image = UIImage(data: imageData!)
-          }
+        if (avatarImage.length > 0) {
+          self.profilePhoto.image = UIImage(data: avatarImage)
         }
       })
     }
@@ -72,15 +68,16 @@ class ProfileViewController: UIViewController{
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if (segue.identifier == "segueToProfileEdit") {
       let dvc = segue.destinationViewController as! EditProfileViewController;
-      dvc.profileValues = (name: nameLabel.text, title: titleLabel.text, about: aboutLabel.text)
+      dvc.profileValues = (name: nameLabel.text, title: titleLabel.text, about: aboutLabel.text,
+        avatarImage : profilePhoto.image!)
       
     }
   }
 
-  @IBAction func backFromModal(segue: UIStoryboardSegue) {
-    // Switch to the second tab (tabs are numbered 0, 1, 2)
-    self.tabBarController?.selectedIndex = 3
-    initView()
-  }
+//  @IBAction func backFromModal(segue: UIStoryboardSegue) {
+//    // Switch to the second tab (tabs are numbered 0, 1, 2)
+//    self.tabBarController?.selectedIndex = 3
+//    initView()
+//  }
 
 }

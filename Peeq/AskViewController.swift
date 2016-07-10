@@ -10,7 +10,7 @@ import UIKit
 
 class AskViewController: UIViewController {
 
-  var profileInfo:(uid: String!, name: String!, title: String!, about: String!, avatarUrl:String!)
+  var profileInfo:(uid: String!, name: String!, title: String!, about: String!, avatarImage:NSData!)
 
   @IBOutlet weak var profilePhoto: UIImageView!
   @IBOutlet weak var titleLabel: UILabel!
@@ -41,15 +41,10 @@ class AskViewController: UIViewController {
     self.titleLabel.text = profileInfo.title
     self.titleLabel.font = self.titleLabel.font.fontWithSize(12)
 
-    var urlString = ""
-    if profileInfo.avatarUrl != nil {
-      urlString = profileInfo.avatarUrl
+    if (profileInfo.avatarImage.length > 0) {
+      self.profilePhoto.image = UIImage(data: profileInfo.avatarImage)
     }
-    let imageUrl = NSURL(string: urlString)
-    let imageData = NSData(contentsOfURL: imageUrl!)
-    if (imageData != nil) {
-      self.profilePhoto.image = UIImage(data: imageData!)
-    }
+   
     self.profilePhoto.layer.cornerRadius = (self.profilePhoto.frame.size.width) / 2
     self.profilePhoto.clipsToBounds = true
     self.profilePhoto.layer.borderColor = UIColor.blackColor().CGColor

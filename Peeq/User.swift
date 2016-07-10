@@ -56,16 +56,10 @@ class User
         print("error=\(error)")
         return
       }
-      
-      // Print out response string
-//      let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
 
       // Convert server json response to NSDictionary
       do {
         if let convertedJsonIntoDict = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSDictionary {
-          
-          // Print out dictionary
-//          print(convertedJsonIntoDict)
 
           // Get value by key
           if let storedEmail = convertedJsonIntoDict["uid"] as? String {
@@ -121,7 +115,36 @@ class User
     task.resume()
   }
 
-  func getProfile(uid: String, completion: (String, String, String, String) -> ()){
+  func updateProfilePhoto(uid: String, imageData: NSData!, completion: (String) -> ()) {
+    let myUrl = NSURL(string: PROFILEURI + uid);
+    let request = NSMutableURLRequest(URL:myUrl!);
+    request.HTTPMethod = "PUT";
+    let jsonData = ["avatarImage" : imageData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))]
+    do {
+      request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
+    }
+    catch {
+      print("error=\(error)")
+      completion("an error occurs when updating user profile: \(error)")
+    }
+    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+      data, response, error in
+      if (error != nil)
+      {
+        print("error=\(error)")
+        return
+      }
+
+      // Print out response body
+      let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+      print("responseString = \(responseString)")
+      completion("")
+
+    }
+    task.resume()
+  }
+
+  func getProfile(uid: String, completion: (String, String, String, NSData) -> ()){
     let myUrl = NSURL(string: PROFILEURI + uid);
     let request = NSMutableURLRequest(URL:myUrl!);
     request.HTTPMethod = "GET";
@@ -140,12 +163,10 @@ class User
       do {
         if let convertedJsonIntoDict = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSDictionary {
 
-          // Print out dictionary
-          print(convertedJsonIntoDict)
           var fullName = ""
           var title = ""
           var aboutMe = ""
-          var url = ""
+          var avatarImage: NSData = NSData()
 
           // Get value by key
           if ((convertedJsonIntoDict["fullName"] as? String) != nil) {
@@ -160,11 +181,11 @@ class User
             aboutMe = (convertedJsonIntoDict["aboutMe"] as? String)!
           }
 
-          if ((convertedJsonIntoDict["avatarUrl"] as? String) != nil) {
-            url = (convertedJsonIntoDict["avatarUrl"] as? String)!
+          if ((convertedJsonIntoDict["avatarImage"] as? String) != nil) {
+            avatarImage = NSData(base64EncodedString: (convertedJsonIntoDict["avatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
           }
 
-          completion(fullName, title, aboutMe, url)
+          completion(fullName, title, aboutMe, avatarImage)
 
         }
       } catch let error as NSError {
@@ -177,7 +198,6 @@ class User
 
   func getDiscover(uid: String, filterString: String, completion: (NSArray) -> ()) {
     let url = NSURL(string: "http://127.0.0.1:8080/profiles?filter=" + filterString)
-//    let url = NSURL(string: "http://swiftdeveloperblog.com/dynamic-list-of-images/?count=5")
     let request = NSMutableURLRequest(URL: url!)
     request.HTTPMethod = "GET"
     let task = NSURLSession.sharedSession().dataTaskWithRequest(request){
