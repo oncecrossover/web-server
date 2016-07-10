@@ -15,6 +15,7 @@ import com.gibbon.peeq.util.ResourceURIParser;
 import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
@@ -120,7 +121,7 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
   private void appendUserln(final String uid, final User user)
       throws JsonProcessingException {
     if (user != null) {
-      appendln(user.toJson());
+      appendln(user.toJsonStr());
     } else {
       appendln(String.format("Nonexistent resource with URI: /users/%s", uid));
     }
@@ -211,8 +212,8 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
       throws JsonParseException, JsonMappingException, IOException {
     final ByteBuf content = getRequest().content();
     if (content.isReadable()) {
-      final String userJson = content.toString(CharsetUtil.UTF_8);
-      return User.newUser(userJson);
+      final byte[] json = ByteBufUtil.getBytes(content);
+      return User.newUser(json);
     }
     return null;
   }

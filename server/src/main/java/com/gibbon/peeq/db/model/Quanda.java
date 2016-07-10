@@ -152,10 +152,10 @@ public class Quanda {
     return false;
   }
 
-  public static Quanda newQuanda(final byte[] quandaJson)
+  public static Quanda newQuanda(final byte[] json)
       throws JsonParseException, JsonMappingException, IOException {
     ObjectMapper mapper = new ObjectMapper();
-    Quanda quanda = mapper.readValue(quandaJson, Quanda.class);
+    Quanda quanda = mapper.readValue(json, Quanda.class);
     return quanda;
   }
 

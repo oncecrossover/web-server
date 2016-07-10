@@ -94,13 +94,13 @@ public class User {
 
   /**
    * Instantiates a new User.
-   * @param userJson Json string of User.
+   * @param userJson Json byte array of User.
    * @return new instance of User.
    */
-  public static User newUser(final String userJson)
+  public static User newUser(final byte[] json)
       throws JsonParseException, JsonMappingException, IOException {
     ObjectMapper mapper = new ObjectMapper();
-    User user = mapper.readValue(userJson, User.class);
+    User user = mapper.readValue(json, User.class);
     if (user.getProfile() == null) {
       user.setProfile(new Profile());
     }
@@ -119,9 +119,14 @@ public class User {
     }
   }
 
-  public String toJson() throws JsonProcessingException {
+  public String toJsonStr() throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     return mapper.writeValueAsString(this);
+  }
+
+  public byte[] toJsonByteArray() throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.writeValueAsBytes(this);
   }
 
   @Override

@@ -161,7 +161,7 @@ public class TestUser {
   private void assertUserEquals(final User user, final User anotherUser)
       throws JsonProcessingException {
     assertEquals(user.getUid(), anotherUser.getUid());
-    assertEquals(user.toJson(), anotherUser.toJson());
+    assertEquals(user.toJsonStr(), anotherUser.toJsonStr());
     user.equals(anotherUser);
   }
 
