@@ -40,6 +40,8 @@ public class TestObjectStoreClient {
     } catch (Exception e) {
       assertTrue("IOException happens when HDFS is properly set.",
           e instanceof IOException);
+    } finally {
+      osc.deleteFromStore(osPath);
     }
   }
 
@@ -55,6 +57,8 @@ public class TestObjectStoreClient {
     } catch (Exception e) {
       assertTrue("IOException happens when HDFS is properly set.",
           e instanceof IOException);
+    } finally {
+      osc.deleteFromStore(osPath);
     }
   }
 
@@ -68,12 +72,15 @@ public class TestObjectStoreClient {
     final Profile profile = new Profile();
     profile.setUid(uid).setAvatarImage(fileContent);
 
+    String avatarUrl = null;
     try {
-      String avatarUrl = osc.saveAvatarImage(profile);
+      avatarUrl = osc.saveAvatarImage(profile);
       assertEquals("/kobe@gmail.com/avatar", avatarUrl);
     } catch (Exception e) {
       assertTrue("IOException happens when HDFS is properly set.",
           e instanceof IOException);
+    } finally {
+      osc.deleteFromStore(avatarUrl);
     }
   }
 
@@ -86,12 +93,15 @@ public class TestObjectStoreClient {
     final Quanda quanda = new Quanda();
     quanda.setId(1010).setAnswerAudio(fileContent);
 
+    String answerUrl = null;
     try {
-      String answerUrl = osc.saveAnswerAudio(quanda);
+      answerUrl = osc.saveAnswerAudio(quanda);
       assertEquals("/answers/1010", answerUrl);
     } catch (Exception e) {
       assertTrue("IOException happens when HDFS is properly set.",
           e instanceof IOException);
+    } finally {
+      osc.deleteFromStore(answerUrl);
     }
   }
 
@@ -120,6 +130,8 @@ public class TestObjectStoreClient {
     } catch (Exception e) {
       assertTrue("IOException happens when HDFS is properly set.",
           e instanceof IOException);
+    } finally {
+      osc.deleteFromStore(answerUrl);
     }
   }
 }

@@ -1,5 +1,7 @@
 package com.gibbon.peeq.util;
 
+import java.io.IOException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
@@ -89,6 +91,27 @@ public class ObjectStoreClient {
         in.close();
       }
     }
+  }
+
+  public void deleteFromStore(final String path) throws IOException {
+    if (StringUtils.isBlank(path)) {
+      return;
+    }
+
+    Path fsPath = new Path(path);
+    /* root directory */
+    if ("/".equals(fsPath.toString())) {
+      return;
+    }
+
+    /* delete path */
+    FileSystem fs = FileSystem.get(conf);
+    if (fs.exists(fsPath)) {
+      fs.delete(fsPath, true);
+    }
+
+    /* delete parent */
+    deleteFromStore(fsPath.getParent().toString());
   }
 
   public void saveToStore(final String filePath, final byte[] image)
