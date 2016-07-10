@@ -41,7 +41,7 @@ public class HttpSnoopServerInitializer extends ChannelInitializer<SocketChannel
         p.addLast(new HttpRequestDecoder());
 
         // Uncomment the following line if you don't want to handle HttpChunks.
-        p.addLast(new HttpObjectAggregator(1048576));
+        p.addLast(new HttpObjectAggregator(134217728)); // 128M
 
         p.addLast(new HttpResponseEncoder());
 
