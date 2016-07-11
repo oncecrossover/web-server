@@ -42,7 +42,7 @@ public class TestQuanda {
     return quanda;
   }
 
-  private Quanda newRandomQuanda() {
+  static Quanda newRandomQuanda() {
     Quanda quanda = new Quanda();
     quanda.setId(random.nextLong())
           .setAsker(UUID.randomUUID().toString())
@@ -69,7 +69,7 @@ public class TestQuanda {
   }
 
 
-  private User insertRandomUser() {
+  static User insertRandomUser() {
     final User user = TestUser.newRandomUser();
     final Session session = HibernateTestUtil.getSessionFactory()
         .getCurrentSession();
@@ -82,6 +82,11 @@ public class TestQuanda {
   @Test(timeout = 60000)
   public void testCreateQuanda() throws JsonProcessingException {
     final Quanda quanda = newRandomQuanda();
+    testCreateQuanda(quanda);
+  }
+
+  static void testCreateQuanda(final Quanda quanda)
+      throws JsonProcessingException {
     Session session = null;
     Transaction txn = null;
     User user = null;

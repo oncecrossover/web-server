@@ -122,6 +122,8 @@ HTTP STATUS CODE OF REST API:
 500(INTERNAL_SERVER_ERROR):  <various server error/exception>
 
 
+HOW TO FIND DB SCHEMA?
+server/src/main/resources/com/gibbon/peeq/scripts/schema.sql
 
 HOW TO FILE BUGS?
 go to https://gibbon.atlassian.net

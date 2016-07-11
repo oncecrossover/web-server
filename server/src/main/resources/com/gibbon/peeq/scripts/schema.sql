@@ -1,5 +1,5 @@
 CREATE TABLE `User` (
-  `uid` varchar(100) NOT NULL,
+  `uid` varchar(200) NOT NULL,
   `firstName` varchar(100) DEFAULT NULL,
   `middleName` varchar(100) DEFAULT NULL,
   `lastName` varchar(100) DEFAULT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE `User` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Profile` (
-  `uid` varchar(100) NOT NULL,
+  `uid` varchar(200) NOT NULL,
   `avatarUrl` varchar(1000) DEFAULT NULL,
   `fullName` varchar(500) DEFAULT NULL,
   `title` varchar(1000) DEFAULT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE `Profile` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Quanda` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `asker` varchar(100) NOT NULL,
   `question` varchar(2000) NOT NULL,
   `responder` varchar(100) NOT NULL,
@@ -31,4 +31,14 @@ CREATE TABLE `Quanda` (
   PRIMARY KEY (`id`),
   FOREIGN KEY fk_asker(asker) REFERENCES User(uid),
   FOREIGN KEY fk_responder(responder) REFERENCES User(uid)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Snoop` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `uid` varchar(200) NOT NULL,
+  `quandaId` bigint NOT NULL,
+  `createdTime` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY fk_user(uid) REFERENCES User(uid),
+  FOREIGN KEY fk_quanda(quandaId) REFERENCES Quanda(id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

@@ -138,13 +138,13 @@ public class Quanda {
     }
 
     if (getClass() == obj.getClass()) {
-      Quanda qanda = (Quanda) obj;
-      if (this.getId() == qanda.getId()
-          && this.getAsker() == qanda.getAsker()
-          && this.getQuestion() == qanda.getQuestion()
-          && this.getResponder() == qanda.getResponder()
-          && this.getAnswerUrl() == qanda.getAnswerUrl()
-          && this.getStatus() == qanda.getStatus()) {
+      Quanda quanda = (Quanda) obj;
+      if (this.getId() == quanda.getId()
+          && this.getAsker() == quanda.getAsker()
+          && this.getQuestion() == quanda.getQuestion()
+          && this.getResponder() == quanda.getResponder()
+          && this.getAnswerUrl() == quanda.getAnswerUrl()
+          && this.getStatus() == quanda.getStatus()) {
         return true;
       }
     }
