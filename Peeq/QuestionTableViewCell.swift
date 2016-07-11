@@ -40,8 +40,6 @@ class QuestionTableViewCell: UITableViewCell {
     titleLabel.textColor = UIColor.grayColor()
     titleLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
     titleLabel.sizeToFit()
-
-    listenButton.layer.cornerRadius = 4
   }
   override func setSelected(selected: Bool, animated: Bool) {
     super.setSelected(selected, animated: animated)

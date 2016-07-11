@@ -48,8 +48,7 @@ class AskViewController: UIViewController {
     self.questionView.layer.borderWidth = 2
     self.questionView.layer.borderColor = UIColor.blackColor().CGColor
     self.questionView.layer.cornerRadius = 4
-
-    self.askButton.layer.cornerRadius = 4}
+  }
 
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()

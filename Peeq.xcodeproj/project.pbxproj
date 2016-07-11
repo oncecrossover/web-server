@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C0571D3448F400AEF95D /* CircleImageView.swift */; };
+		4A11C05C1D344DF500AEF95D /* RoundCornerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */; };
 		4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */; };
 		4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */; };
 		4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26821D218FC60001989E /* ProfileViewController.swift */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		4A11C0571D3448F400AEF95D /* CircleImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
+		4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundCornerButton.swift; sourceTree = "<group>"; };
 		4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewCell.swift; sourceTree = "<group>"; };
 		4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 		4A8F26821D218FC60001989E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +65,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A11C05A1D344D1700AEF95D /* UIView */ = {
+			isa = PBXGroup;
+			children = (
+				4A11C0571D3448F400AEF95D /* CircleImageView.swift */,
+				4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */,
+			);
+			name = UIView;
+			sourceTree = "<group>";
+		};
 		4ABE1CC11D25C7AA00320529 /* ControllerGroup */ = {
 			isa = PBXGroup;
 			children = (
@@ -115,7 +126,7 @@
 				4AC2836D1CE2F58100A08D35 /* Peep.xcdatamodeld */,
 				4ABE1CC21D25C7BD00320529 /* Model */,
 				4AF322701D29DF220043FCE5 /* TableViewCell */,
-				4A11C0571D3448F400AEF95D /* CircleImageView.swift */,
+				4A11C05A1D344D1700AEF95D /* UIView */,
 			);
 			path = Peeq;
 			sourceTree = "<group>";
@@ -209,6 +220,7 @@
 				4AC2837E1CED0E4500A08D35 /* LoginViewController.swift in Sources */,
 				4AC2837C1CECEE3800A08D35 /* SignupPageViewController.swift in Sources */,
 				4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */,
+				4A11C05C1D344DF500AEF95D /* RoundCornerButton.swift in Sources */,
 				4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */,
 				4AF3226C1D29DE120043FCE5 /* ActivityViewController.swift in Sources */,
 				4AF3226A1D29A1E10043FCE5 /* Question.swift in Sources */,
