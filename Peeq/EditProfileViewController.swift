@@ -25,12 +25,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    //Since our design shows a circular profile photo, we will make it circular
-    profilePhoto.layer.cornerRadius = (profilePhoto.frame.size.width) / 2
-    profilePhoto.clipsToBounds = true
-    profilePhoto.layer.borderColor = UIColor.blackColor().CGColor
-    profilePhoto.layer.borderWidth = 2
-
     // fill in values for all the editable fields
     titleField.text = profileValues.title
     nameField.text = profileValues.name

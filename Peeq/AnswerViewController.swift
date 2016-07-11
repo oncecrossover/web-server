@@ -65,11 +65,6 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     status.text = question.status
     questionText.text = question.content
 
-    profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
-    profileImage.clipsToBounds = true
-    profileImage.layer.borderColor = UIColor.blackColor().CGColor
-    profileImage.layer.borderWidth = 1
-
     questionText.lineBreakMode = NSLineBreakMode.ByWordWrapping
     questionText.numberOfLines = 0
     questionText.sizeToFit()

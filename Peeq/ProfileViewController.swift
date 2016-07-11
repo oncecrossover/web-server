@@ -48,11 +48,6 @@ class ProfileViewController: UIViewController{
         self.titleLabel.text = title
         self.titleLabel.font = self.titleLabel.font.fontWithSize(12)
 
-        self.profilePhoto.layer.cornerRadius = (self.profilePhoto.frame.size.width) / 2
-        self.profilePhoto.clipsToBounds = true
-        self.profilePhoto.layer.borderColor = UIColor.blackColor().CGColor
-        self.profilePhoto.layer.borderWidth = 2
-
         if (avatarImage.length > 0) {
           self.profilePhoto.image = UIImage(data: avatarImage)
         }

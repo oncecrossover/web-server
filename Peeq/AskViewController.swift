@@ -44,11 +44,6 @@ class AskViewController: UIViewController {
     if (profileInfo.avatarImage.length > 0) {
       self.profilePhoto.image = UIImage(data: profileInfo.avatarImage)
     }
-   
-    self.profilePhoto.layer.cornerRadius = (self.profilePhoto.frame.size.width) / 2
-    self.profilePhoto.clipsToBounds = true
-    self.profilePhoto.layer.borderColor = UIColor.blackColor().CGColor
-    self.profilePhoto.layer.borderWidth = 2
 
     self.questionView.layer.borderWidth = 2
     self.questionView.layer.borderColor = UIColor.blackColor().CGColor

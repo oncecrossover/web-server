@@ -167,11 +167,6 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
       myCell.discoverImageView.image = UIImage(data: profile.avatarImage)
     }
 
-    myCell.discoverImageView.layer.cornerRadius = myCell.discoverImageView.frame.size.width / 2
-    myCell.discoverImageView.clipsToBounds = true
-    myCell.discoverImageView.layer.borderColor = UIColor.blackColor().CGColor
-    myCell.discoverImageView.layer.borderWidth = 1
-
     myCell.discoverImageView.userInteractionEnabled = true
     let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedOnImage:")
     myCell.discoverImageView.addGestureRecognizer(tappedOnImage)

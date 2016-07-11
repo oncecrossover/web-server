@@ -24,10 +24,6 @@ class QuestionTableViewCell: UITableViewCell {
 
 
   func initConfig(){
-    profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
-    profileImage.clipsToBounds = true
-    profileImage.layer.borderColor = UIColor.blackColor().CGColor
-    profileImage.layer.borderWidth = 1
 
 //    myCell.discoverImageView.userInteractionEnabled = true
 //    let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedOnImage:")
