@@ -99,6 +99,14 @@ curl -i -X GET "http://127.0.0.1:8080/quandas?filter=asker=kuan"
 curl -i -X GET "http://127.0.0.1:8080/quandas?filter=responder=edmund"
 The column name is case sensitive, it only supports single column. In addition, it essentially does equal matched query.
 
+RESTFUL APIs OF SNOOPS:
+1. get snoop by id, e.g.
+curl -i -X GET "http://127.0.0.1:8080/snoops/1"
+
+2. create new snoop, e.g.
+curl -i -X POST "http://127.0.0.1:8080/snoops" -d '{"uid":"edmund","quandaId":"1"}'
+
+
 
 HTTP STATUS CODE OF REST API:
 1. get user (i.e. HTTP GET):
@@ -124,6 +132,8 @@ HTTP STATUS CODE OF REST API:
 
 HOW TO FIND DB SCHEMA?
 server/src/main/resources/com/gibbon/peeq/scripts/schema.sql
+
+
 
 HOW TO FILE BUGS?
 go to https://gibbon.atlassian.net
