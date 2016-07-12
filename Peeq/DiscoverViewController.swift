@@ -45,6 +45,10 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
       var count = jsonArray.count
       for profileInfo in jsonArray as! [[String:AnyObject]] {
         let profileUid = profileInfo["uid"] as! String
+        if (profileUid == uid) {
+          count--
+          continue
+        }
         let profileName = profileInfo["fullName"] as! String
         var profileTitle = ""
         var profileAbout = ""
