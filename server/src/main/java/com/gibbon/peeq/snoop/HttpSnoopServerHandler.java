@@ -45,6 +45,7 @@ import com.gibbon.peeq.handlers.NotFoundResourceWebHandler;
 import com.gibbon.peeq.handlers.NullResouceWebHandler;
 import com.gibbon.peeq.handlers.ProfilesWebHandler;
 import com.gibbon.peeq.handlers.QuandasWebHandler;
+import com.gibbon.peeq.handlers.SnoopsWebHandler;
 import com.gibbon.peeq.handlers.UsersWebHandler;
 import com.gibbon.peeq.util.ResourceURIParser;
 import com.google.common.io.ByteArrayDataOutput;
@@ -107,6 +108,12 @@ public class HttpSnoopServerHandler
           request).handle();
     } else if ("quandas".equalsIgnoreCase(resourceName)) {
       return new QuandasWebHandler(
+          uriParser,
+          respBuf,
+          ctx,
+          request).handle();
+    } else if ("snoops".equalsIgnoreCase(resourceName)) {
+      return new SnoopsWebHandler(
           uriParser,
           respBuf,
           ctx,

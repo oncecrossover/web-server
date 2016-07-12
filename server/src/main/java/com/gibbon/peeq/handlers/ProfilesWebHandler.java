@@ -35,7 +35,7 @@ public class ProfilesWebHandler extends AbastractPeeqWebHandler {
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    PeeqWebHandler pwh = new ProfileFilterWebHandler(getUriParser(),
+    PeeqWebHandler pwh = new ProfilesFilterWebHandler(getUriParser(),
         getRespBuf(), getHandlerContext(), getRequest());
 
     if (pwh.willFilter()) {
