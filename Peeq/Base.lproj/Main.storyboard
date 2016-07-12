@@ -26,28 +26,18 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vaj-4a-v2Z">
-                                <rect key="frame" x="16" y="117" width="288" height="30"/>
-                                <state key="normal" title="Log Out"/>
-                                <connections>
-                                    <action selector="logoutButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Kro-cX-qyV"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="leadingMargin" secondItem="J2g-qw-lFO" secondAttribute="leading" constant="4" id="DEt-yQ-G68"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Vaj-4a-v2Z" secondAttribute="trailing" id="E1h-Fw-ZIy"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="Vaj-4a-v2Z" secondAttribute="leading" id="PBH-qg-ugz"/>
                             <constraint firstAttribute="trailingMargin" secondItem="J2g-qw-lFO" secondAttribute="trailing" constant="-4" id="fXy-Ra-fSZ"/>
                             <constraint firstItem="J2g-qw-lFO" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="19" id="mtJ-vY-Qtj"/>
-                            <constraint firstItem="Vaj-4a-v2Z" firstAttribute="top" secondItem="J2g-qw-lFO" secondAttribute="bottom" constant="13.5" id="xRz-OS-Hj3"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="0qt-kj-boo"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <segue destination="vry-Hq-iLC" kind="presentation" identifier="loginView" id="EX3-Zk-gpY"/>
+                        <segue destination="vry-Hq-iLC" kind="presentation" identifier="loginView" id="me6-Y0-ggX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -411,6 +401,9 @@
                                 <state key="normal" title="Log Out">
                                     <color key="titleColor" red="0.78992798289999999" green="0.35112627097857274" blue="0.080874840005065521" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="logoutButtonTapped:" destination="O35-TS-Yh5" eventType="touchUpInside" id="V0i-Gf-cJt"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="I am software engineer turned entrepreneur" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HwQ-vQ-n9N">
                                 <rect key="frame" x="8" y="237" width="304" height="30"/>
@@ -500,6 +493,7 @@
                         <outlet property="nameLabel" destination="RJq-hu-4zi" id="gl3-3N-QJn"/>
                         <outlet property="profilePhoto" destination="GSG-GZ-gfF" id="gQh-Mt-muF"/>
                         <outlet property="titleLabel" destination="ji3-uv-Rem" id="Sx5-uD-v6w"/>
+                        <segue destination="vry-Hq-iLC" kind="presentation" identifier="loginView" id="KUN-Oa-H5r"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fhi-L7-UpJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1191,6 +1185,6 @@
         <image name="me" width="38" height="38"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="EX3-Zk-gpY"/>
+        <segue reference="me6-Y0-ggX"/>
     </inferredMetricsTieBreakers>
 </document>
