@@ -1107,11 +1107,11 @@
             </objects>
             <point key="canvasLocation" x="581" y="1793"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Home-->
         <scene sceneID="hvF-ce-z2g">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="szO-Di-lvK" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="topRated" id="E6P-kg-kNZ"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="home" id="E6P-kg-kNZ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Bb5-z9-0fC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1126,11 +1126,11 @@
             </objects>
             <point key="canvasLocation" x="1017" y="361"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Me-->
         <scene sceneID="ZvP-1a-Pzq">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mRw-qN-LLF" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="more" id="xaE-nT-LjV"/>
+                    <tabBarItem key="tabBarItem" title="Me" image="me" id="xaE-nT-LjV"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="G8N-XE-r6q">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1145,11 +1145,11 @@
             </objects>
             <point key="canvasLocation" x="1851" y="1078"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Discover-->
         <scene sceneID="5IW-ip-66T">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cKS-8W-qmj" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="search" id="7jo-2K-ODz"/>
+                    <tabBarItem key="tabBarItem" title="Discover" image="discover" id="7jo-2K-ODz"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Shi-bn-s1N">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1164,11 +1164,11 @@
             </objects>
             <point key="canvasLocation" x="176" y="1078"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Activity-->
         <scene sceneID="3u6-dx-icO">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="j0j-2s-KNR" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="mostRecent" id="xJz-gC-7Qq"/>
+                    <tabBarItem key="tabBarItem" title="Activity" image="activity" id="xJz-gC-7Qq"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="3r4-LY-8Kp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1184,7 +1184,13 @@
             <point key="canvasLocation" x="1017" y="1078"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="activity" width="30" height="30"/>
+        <image name="discover" width="30" height="30"/>
+        <image name="home" width="30" height="30"/>
+        <image name="me" width="38" height="38"/>
+    </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="3es-nC-buN"/>
+        <segue reference="EX3-Zk-gpY"/>
     </inferredMetricsTieBreakers>
 </document>
