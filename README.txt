@@ -106,6 +106,14 @@ curl -i -X GET "http://127.0.0.1:8080/snoops/1"
 2. create new snoop, e.g.
 curl -i -X POST "http://127.0.0.1:8080/snoops" -d '{"uid":"edmund","quandaId":"1"}'
 
+RESTFUL APIs OF SNOOPS FILTERING:
+1. load all snoops
+curl -i -X GET "http://127.0.0.1:8080/snoops?filter=*"
+
+2. query snoops by a single column(e.g. uid), e.g.
+curl -i -X GET "http://127.0.0.1:8080/snoops?filter=uid=kuan"
+The column name is case sensitive, it only supports single column. In addition, it essentially does equal matched query.
+
 
 
 HTTP STATUS CODE OF REST API:
