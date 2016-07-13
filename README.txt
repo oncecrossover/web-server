@@ -91,6 +91,7 @@ curl -i -X POST "http://127.0.0.1:8080/quandas" -d '{"asker":"kuan","question":"
 curl -i -X PUT "http://127.0.0.1:8080/quandas/1" -d '{"asker":"kuan","question":"How do you define good man?","responder":"edmund","answerAudio":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","status":"ANSWERED"}'
 
 RESTFUL APIs OF QUANDAS FILTERING:
+The results are reversely chronologically ordered by updatedTime as the first preference, and then createdTime.
 1. load all quandas
 curl -i -X GET "http://127.0.0.1:8080/quandas?filter=*"
 
