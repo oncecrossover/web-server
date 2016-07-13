@@ -100,7 +100,8 @@ public class ObjectStoreClient {
 
     Path fsPath = new Path(path);
     /* root directory */
-    if ("/".equals(fsPath.toString())) {
+    if ("/".equals(fsPath.toString())
+        || ANSWER_ROOT.equals(fsPath.toString())) {
       return;
     }
 
