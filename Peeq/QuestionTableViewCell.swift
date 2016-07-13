@@ -29,17 +29,10 @@ class QuestionTableViewCell: UITableViewCell {
 //    let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedOnImage:")
 //    myCell.discoverImageView.addGestureRecognizer(tappedOnImage)
 
-
-    questionText.lineBreakMode = NSLineBreakMode.ByWordWrapping
-    questionText.numberOfLines = 0
-    questionText.sizeToFit()
     questionText.font = questionText.font.fontWithSize(13)
 
-    titleLabel.numberOfLines = 0
     titleLabel.font = titleLabel.font.fontWithSize(13)
     titleLabel.textColor = UIColor.grayColor()
-    titleLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
-    titleLabel.sizeToFit()
   }
   override func setSelected(selected: Bool, animated: Bool) {
     super.setSelected(selected, animated: animated)

@@ -65,16 +65,9 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     status.text = question.status
     questionText.text = question.content
 
-    questionText.lineBreakMode = NSLineBreakMode.ByWordWrapping
-    questionText.numberOfLines = 0
-    questionText.sizeToFit()
     questionText.font = questionText.font.fontWithSize(15)
 
-    askerName.numberOfLines = 0
-    askerName.font = askerName.font.fontWithSize(15)
-    askerName.lineBreakMode = NSLineBreakMode.ByWordWrapping
-    askerName.sizeToFit()
-    
+    askerName.font = askerName.font.fontWithSize(15)    
   }
 
   func getCacheDirectory() -> String {

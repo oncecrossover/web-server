@@ -29,9 +29,6 @@ class AskViewController: UIViewController {
   }
 
   func initView() {
-    self.aboutLabel.numberOfLines = 0
-    self.aboutLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
-    self.aboutLabel.sizeToFit()
     self.aboutLabel.text = profileInfo.about
     self.aboutLabel.font = self.aboutLabel.font.fontWithSize(12)
 

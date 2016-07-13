@@ -36,9 +36,6 @@ class ProfileViewController: UIViewController{
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     userModule.getProfile(uid) { fullName, title, aboutMe, avatarImage in
       dispatch_sync(dispatch_get_main_queue(), {
-        self.aboutLabel.numberOfLines = 0
-        self.aboutLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
-        self.aboutLabel.sizeToFit()
         self.aboutLabel.text = aboutMe
         self.aboutLabel.font = self.aboutLabel.font.fontWithSize(12)
 

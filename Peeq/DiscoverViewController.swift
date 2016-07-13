@@ -179,15 +179,9 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     myCell.title.text = profile.title
     myCell.about.text = profile.about
 
-    myCell.about.numberOfLines = 0
-    myCell.about.lineBreakMode = NSLineBreakMode.ByWordWrapping
-    myCell.about.sizeToFit()
     myCell.about.font = myCell.about.font.fontWithSize(12)
 
-    myCell.name.numberOfLines = 1
     myCell.name.font = UIFont.boldSystemFontOfSize(18)
-    myCell.name.lineBreakMode = NSLineBreakMode.ByCharWrapping
-    myCell.name.sizeToFit()
 
     myCell.title.font = myCell.title.font.fontWithSize(15)
 
