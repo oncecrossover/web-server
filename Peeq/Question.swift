@@ -10,7 +10,9 @@ import Foundation
 
 class Question {
   private var QUESTIONURI : String
+  private var SNOOPURI : String
   init () {
+    SNOOPURI = "http://localhost:8080/snoops"
     QUESTIONURI = "http://localhost:8080/quandas"
   }
 
@@ -27,7 +29,7 @@ class Question {
       }
       catch {
         print("error=\(error)")
-        completion("an error occurs when creating user: \(error)")
+        completion("an error occurs when creating question: \(error)")
       }
       let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
         data, response, error in
@@ -128,5 +130,35 @@ class Question {
       
     }
     task.resume()
+  }
+
+  func createSnoop(id: Int, completion: (String) -> ()) {
+    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    let myUrl = NSURL(string: SNOOPURI);
+    let request = NSMutableURLRequest(URL:myUrl!);
+    request.HTTPMethod = "POST";
+    let jsonData:[String:AnyObject] = ["uid": uid, "quandaId": id]
+
+    do {
+      request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
+    }
+    catch {
+      print("error=\(error)")
+      completion("an error occurs when creating snoop: \(error)")
+    }
+
+    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+      data, response, error in
+      if (error != nil)
+      {
+        print("error=\(error)")
+        return
+      }
+
+      completion("")
+      
+    }
+    task.resume()
+
   }
 }
