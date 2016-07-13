@@ -92,6 +92,7 @@ curl -i -X PUT "http://127.0.0.1:8080/quandas/1" -d '{"asker":"kuan","question":
 
 RESTFUL APIs OF QUANDAS FILTERING:
 The results are reversely chronologically ordered by updatedTime as the first preference, and then createdTime.
+
 1. load all quandas
 curl -i -X GET "http://127.0.0.1:8080/quandas?filter=*"
 
@@ -101,6 +102,8 @@ curl -i -X GET "http://127.0.0.1:8080/quandas?filter=responder=edmund"
 The column name is case sensitive, it only supports single column. In addition, it essentially does equal matched query.
 
 RESTFUL APIs OF SNOOPS:
+The results are reversely chronologically ordered by createdTime.
+
 1. get snoop by id, e.g.
 curl -i -X GET "http://127.0.0.1:8080/snoops/1"
 

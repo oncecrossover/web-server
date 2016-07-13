@@ -7,6 +7,7 @@ import org.apache.commons.lang3.text.StrBuilder;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +61,7 @@ public class SnoopsFilterWebHandler extends AbastractPeeqWebHandler
   String getResultJson(final Session session) throws JsonProcessingException {
     StrBuilder sb = new StrBuilder();
     Criteria criteria = session.createCriteria(Snoop.class);
+    criteria.addOrder(Order.desc("createdTime"));
 
     Map<String, String> kvs = getFilterParamParser().getQueryKVs();
     List<Snoop> snoops = null;
