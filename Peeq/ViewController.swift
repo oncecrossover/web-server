@@ -24,8 +24,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    loadData()
-    // Do any additional setup after loading the view, typically from a nib.
   }
   
   override func didReceiveMemoryWarning() {
@@ -38,9 +36,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     if (!isUserLoggedIn){
       self.performSegueWithIdentifier("loginView", sender: self)
     }
+    else {
+      loadData()
+    }
   }
 
   func loadData() {
+    self.feeds = []
     questionModule.getQuestions("*") { jsonArray in
       var count = jsonArray.count
       for feedInfo in jsonArray as! [[String:AnyObject]] {

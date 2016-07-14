@@ -42,7 +42,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
 
   func setupRecorder() {
-    let recordSettings = [AVFormatIDKey : Int(kAudioFormatMPEG4AAC), AVEncoderAudioQualityKey: AVAudioQuality.Max.rawValue, AVEncoderBitRateKey: 320000, AVNumberOfChannelsKey : 2, AVSampleRateKey : 44100.0 ] as [String: AnyObject]
+    let recordSettings = [AVFormatIDKey : Int(kAudioFormatMPEG4AAC), AVEncoderAudioQualityKey: AVAudioQuality.High.rawValue, AVEncoderBitRateKey: 320000, AVNumberOfChannelsKey : 2, AVSampleRateKey : 44100.0 ] as [String: AnyObject]
 
     do {
       soundRecorder = try AVAudioRecorder(URL: getFileUrl(), settings: recordSettings)

@@ -20,9 +20,11 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   var soundPlayer: AVAudioPlayer!
 
   var questions:[(id: Int!, question: String!, status: String!, responderImage: NSData!,
-  responderName: String!, responderTitle: String!)] = []
+    responderName: String!, responderTitle: String!)] = []
   var answers:[(id: Int!, question: String!, status: String!, askerImage: NSData!,
-  askerName: String!, askerTitle: String!, askerId: String!)] = []
+    askerName: String!, askerTitle: String!, askerId: String!)] = []
+  var snoops:[(id: Int!, question: String!, status: String!, responderImage: NSData!, responderName: String!,
+    responderTitle: String!)] = []
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -38,34 +40,22 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
 
   @IBAction func segmentedControlClicked(sender: AnyObject) {
-    if (segmentedControl.selectedSegmentIndex == 0) {
-      if (questions.count == 0) {
-        loadData()
-      }
-      else {
-        self.activityTableView.reloadData()
-      }
-    }
-    else if (segmentedControl.selectedSegmentIndex == 1) {
-      if (answers.count == 0) {
-        loadData()
-      }
-      else {
-        self.activityTableView.reloadData()
-      }
-    }
-    else if (segmentedControl.selectedSegmentIndex == 2) {
-      self.activityTableView.reloadData()
-    }
+    loadData()
   }
 
   func loadData() {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    if segmentedControl.selectedSegmentIndex == 0 {
+    if (segmentedControl.selectedSegmentIndex == 0) {
+      questions = []
       loadDataWithFilter("asker=" + uid)
     }
-    else if segmentedControl.selectedSegmentIndex == 1 {
+    else if (segmentedControl.selectedSegmentIndex == 1) {
+      answers = []
       loadDataWithFilter("responder=" + uid)
+    }
+    else if (segmentedControl.selectedSegmentIndex == 2) {
+      snoops = []
+      loadSnoops(uid)
     }
 
   }
@@ -115,12 +105,42 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   }
 
+  func loadSnoops(uid: String) {
+    questionModule.getSnoops(uid) { jsonArray in
+      var count = jsonArray.count
+      if count == 0 {
+        dispatch_async(dispatch_get_main_queue()) {
+          self.activityTableView.reloadData()
+        }
+        return
+      }
+      for snoop in jsonArray as! [[String:AnyObject]] {
+        let questionId = snoop["quandaId"] as! Int
+        self.questionModule.getQuestionById(questionId) { responderId, question in
+          self.userModule.getProfile(responderId) {name, title, _, avatarImage in
+            self.snoops.append((id: questionId, question: question, status: "ANSWERED", responderImage: avatarImage,
+              responderName: name, responderTitle: title))
+            count--
+            if (count == 0) {
+              dispatch_async(dispatch_get_main_queue()) {
+                self.activityTableView.reloadData()
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if (segmentedControl.selectedSegmentIndex == 0) {
       return self.questions.count
     }
     else if (segmentedControl.selectedSegmentIndex == 1) {
       return self.answers.count
+    }
+    else if (segmentedControl.selectedSegmentIndex == 2) {
+      return self.snoops.count
     }
     return 0
   }
@@ -151,8 +171,13 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         return 1
       }
     }
-    else {
-      noDataLabel.text = "You have no snoops so far"
+    else if (segmentedControl.selectedSegmentIndex == 2) {
+      if (snoops.count == 0) {
+        noDataLabel.text = "You have no snoops so far"
+      }
+      else {
+        return 1
+      }
     }
 
     noDataLabel.textColor = UIColor.grayColor()
@@ -168,7 +193,16 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
     //using the tapLocation, we retrieve the corresponding indexPath
     let indexPath = self.activityTableView.indexPathForRowAtPoint(tapLocation)!
-    let questionInfo = questions[indexPath.row]
+    var questionInfo:(id: Int!, question: String!, status: String!, responderImage: NSData!,
+    responderName: String!, responderTitle: String!)
+
+    if (segmentedControl.selectedSegmentIndex == 0) {
+      questionInfo = questions[indexPath.row]
+    }
+    else {
+      questionInfo = snoops[indexPath.row]
+    }
+
     let questionId = questionInfo.id
     questionModule.getQuestionAudio(questionId) { audioString in
       if (!audioString.isEmpty) {
@@ -182,17 +216,26 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   }
 
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    if segmentedControl.selectedSegmentIndex == 0 {
+    if (segmentedControl.selectedSegmentIndex == 0 || segmentedControl.selectedSegmentIndex == 2) {
       let myCell = tableView.dequeueReusableCellWithIdentifier("questionCell", forIndexPath: indexPath)
         as! QuestionTableViewCell
-      let question = questions[indexPath.row]
-      myCell.questionText.text = question.question
-      myCell.titleLabel.text = "\(question.responderName)" + " | "  + "\(question.responderTitle)"
-      if (question.responderImage.length > 0) {
-        myCell.profileImage.image = UIImage(data: question.responderImage)
+
+      var cellInfo:(id: Int!, question: String!, status: String!, responderImage: NSData!,
+      responderName: String!, responderTitle: String!)
+      if (segmentedControl.selectedSegmentIndex == 2) {
+        cellInfo = snoops[indexPath.row]
+      }
+      else {
+        cellInfo = questions[indexPath.row]
       }
 
-      if question.status == "PENDING" {
+      myCell.questionText.text = cellInfo.question
+      myCell.titleLabel.text = "\(cellInfo.responderName)" + " | "  + "\(cellInfo.responderTitle)"
+      if (cellInfo.responderImage.length > 0) {
+        myCell.profileImage.image = UIImage(data: cellInfo.responderImage)
+      }
+
+      if cellInfo.status == "PENDING" {
         myCell.listenButton.hidden = true
       }
 
@@ -202,7 +245,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
       return myCell
     }
-    else if segmentedControl.selectedSegmentIndex == 1 {
+    else if (segmentedControl.selectedSegmentIndex == 1) {
       let myCell = tableView.dequeueReusableCellWithIdentifier("answerCell", forIndexPath: indexPath) as! AnswerTableViewCell
       let answer = answers[indexPath.row]
       myCell.askerName.text = answer.askerName
@@ -229,7 +272,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       let questionInfo = answers[indexPath.row]
       dvc.question = (id: questionInfo.id, avatarImage: questionInfo.askerImage, askerName: questionInfo.askerName,
         askerId: questionInfo.askerId, status: questionInfo.status,
-      content: questionInfo.question)
+        content: questionInfo.question)
     }
     
   }

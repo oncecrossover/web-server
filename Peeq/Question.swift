@@ -88,10 +88,10 @@ class Question {
       }
 
       do {
-        if data!.length == 1 {
-          let emptyResult: [[String:AnyObject]] = []
-          completion(emptyResult)
-        }
+//        if data!.length == 1 {
+//          let emptyResult: [[String:AnyObject]] = []
+//          completion(emptyResult)
+//        }
         if let jsonArray = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSArray {
           completion(jsonArray)
         }
@@ -132,6 +132,32 @@ class Question {
     task.resume()
   }
 
+  func getQuestionById(id: Int, completion: (String, String) -> ()){
+    let myUrl = NSURL(string: QUESTIONURI + "/" + "\(id)")
+    let request = NSMutableURLRequest(URL: myUrl!)
+    request.HTTPMethod = "GET"
+    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+      data, response, error in
+      if error != nil {
+        print ("error: \(error)")
+        return
+      }
+
+      do {
+        if let convertedJsonIntoDict = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSDictionary {
+
+          let responderId = convertedJsonIntoDict["responder"] as! String
+          let quesiton = convertedJsonIntoDict["question"] as! String
+          completion(responderId, quesiton)
+        }
+      } catch let error as NSError {
+        print(error.localizedDescription)
+      }
+
+    }
+    task.resume()
+  }
+
   func createSnoop(id: Int, completion: (String) -> ()) {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     let myUrl = NSURL(string: SNOOPURI);
@@ -160,5 +186,32 @@ class Question {
     }
     task.resume()
 
+  }
+
+  func getSnoops(uid: String, completion: (NSArray) -> ()) {
+    let myUrl = NSURL(string: SNOOPURI + "?filter=uid=" + uid)
+    let request = NSMutableURLRequest(URL: myUrl!)
+    request.HTTPMethod = "GET"
+
+    let task = NSURLSession.sharedSession().dataTaskWithRequest(request){
+      data, response, error in
+      if error != nil {
+        print ("error: \(error)")
+        return
+      }
+
+      do {
+//        if data!.length == 1 {
+//          let emptyResult: [[String:AnyObject]] = []
+//          completion(emptyResult)
+//        }
+        if let jsonArray = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSArray {
+          completion(jsonArray)
+        }
+      } catch let error as NSError {
+        print(error.localizedDescription)
+      }
+    }
+    task.resume()
   }
 }

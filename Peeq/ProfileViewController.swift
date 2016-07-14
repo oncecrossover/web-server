@@ -32,6 +32,11 @@ class ProfileViewController: UIViewController{
     // Do any additional setup after loading the view.
   }
 
+  override func viewWillAppear(animated: Bool) {
+    super.viewWillAppear(animated)
+    initView()
+  }
+
   func initView() {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     userModule.getProfile(uid) { fullName, title, aboutMe, avatarImage in
@@ -60,8 +65,12 @@ class ProfileViewController: UIViewController{
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if (segue.identifier == "segueToProfileEdit") {
       let dvc = segue.destinationViewController as! EditProfileViewController;
+      var image = UIImage()
+      if (profilePhoto.image != nil) {
+        image = profilePhoto.image!
+      }
       dvc.profileValues = (name: nameLabel.text, title: titleLabel.text, about: aboutLabel.text,
-        avatarImage : profilePhoto.image!)
+        avatarImage : image)
       
     }
   }

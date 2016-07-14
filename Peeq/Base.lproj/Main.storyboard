@@ -28,7 +28,7 @@
                                         <rect key="frame" x="0.0" y="92" width="320" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0jz-Fb-nvV" id="7uX-w0-SyT">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="119.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="question" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zM4-xp-xB4" customClass="TextFitLabel" customModule="Peeq" customModuleProvider="target">
@@ -683,11 +683,9 @@
                         <outlet property="profilePhoto" destination="U4Z-cH-Bdo" id="R0i-9z-Xqz"/>
                         <outlet property="titleField" destination="cXl-vZ-j1B" id="VTJ-6j-guL"/>
                         <outlet property="uploadButton" destination="9E2-vB-LtY" id="P9y-eb-qSQ"/>
-                        <segue destination="Oga-zt-P2y" kind="unwind" identifier="segueToUpdatedProfile" unwindAction="backFromModal:" id="FIn-QN-cmX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="88m-2m-uis" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="Oga-zt-P2y" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2289" y="1793"/>
         </scene>

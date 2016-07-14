@@ -44,13 +44,13 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   @IBAction func saveButtonTapped(sender: AnyObject) {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
     userModule.updateProfile(uid!, name: nameField.text!, title: titleField.text!, about: aboutField.text){ resultString in
-      if (resultString.isEmpty) {
-        NSOperationQueue.mainQueue().addOperationWithBlock{
-          self.performSegueWithIdentifier("segueToUpdatedProfile", sender: self)
-        }
+      var message = "Your profile is successfully updated!"
+      if (!resultString.isEmpty) {
+        message = resultString
       }
-      else {
-        self.displayAlertMessage(resultString)
+
+      dispatch_async(dispatch_get_main_queue()) {
+        self.displayAlertMessage(message)
       }
     }
   }
