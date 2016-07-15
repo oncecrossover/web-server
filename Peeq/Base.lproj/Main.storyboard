@@ -1192,7 +1192,7 @@
         <scene sceneID="ZvP-1a-Pzq">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mRw-qN-LLF" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Me" image="me" id="xaE-nT-LjV"/>
+                    <tabBarItem key="tabBarItem" title="Me" image="ic_person" id="xaE-nT-LjV"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="G8N-XE-r6q">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1250,7 +1250,7 @@
         <image name="activity" width="30" height="30"/>
         <image name="discover" width="30" height="30"/>
         <image name="home" width="30" height="30"/>
-        <image name="me" width="38" height="38"/>
+        <image name="ic_person" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="me6-Y0-ggX"/>
