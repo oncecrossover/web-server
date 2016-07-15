@@ -18,13 +18,14 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   var questionModule = Question()
 
   var soundPlayer: AVAudioPlayer!
+  var activeCell: (Bool!, Int!)!
 
   var questions:[(id: Int!, question: String!, status: String!, responderImage: NSData!,
-    responderName: String!, responderTitle: String!)] = []
+  responderName: String!, responderTitle: String!, isPlaying: Bool!)] = []
   var answers:[(id: Int!, question: String!, status: String!, askerImage: NSData!,
     askerName: String!, askerTitle: String!, askerId: String!)] = []
   var snoops:[(id: Int!, question: String!, status: String!, responderImage: NSData!, responderName: String!,
-    responderTitle: String!)] = []
+  responderTitle: String!, isPlaying: Bool!)] = []
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -78,7 +79,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
           let responderId = questionInfo["responder"] as! String
           self.userModule.getProfile(responderId) {name, title, about, avatarImage in
             self.questions.append((id: questionId, question: question, status: status,
-              responderImage: avatarImage, responderName: name, responderTitle: title))
+              responderImage: avatarImage, responderName: name, responderTitle: title, isPlaying: false))
             count--
             if (count == 0) {
               dispatch_async(dispatch_get_main_queue()) {
@@ -119,7 +120,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         self.questionModule.getQuestionById(questionId) { responderId, question in
           self.userModule.getProfile(responderId) {name, title, _, avatarImage in
             self.snoops.append((id: questionId, question: question, status: "ANSWERED", responderImage: avatarImage,
-              responderName: name, responderTitle: title))
+              responderName: name, responderTitle: title, isPlaying: false))
             count--
             if (count == 0) {
               dispatch_async(dispatch_get_main_queue()) {
@@ -194,14 +195,40 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     //using the tapLocation, we retrieve the corresponding indexPath
     let indexPath = self.activityTableView.indexPathForRowAtPoint(tapLocation)!
     var questionInfo:(id: Int!, question: String!, status: String!, responderImage: NSData!,
-    responderName: String!, responderTitle: String!)
+    responderName: String!, responderTitle: String!, isPlaying: Bool!)
 
+    var isSnoop = false
     if (segmentedControl.selectedSegmentIndex == 0) {
       questionInfo = questions[indexPath.row]
     }
     else {
       questionInfo = snoops[indexPath.row]
+      isSnoop = true
     }
+
+    self.activeCell = (isSnoop, indexPath.row)
+
+    if (questionInfo.isPlaying!) {
+      self.soundPlayer.stop()
+      if (self.activeCell.0!) {
+        snoops[self.activeCell.1].isPlaying = false
+      }
+      else {
+        questions[self.activeCell.1].isPlaying = false
+      }
+
+      self.activityTableView.reloadData()
+      return
+    }
+
+    if (isSnoop) {
+      snoops[self.activeCell.1].isPlaying = true
+    }
+    else {
+      questions[self.activeCell.1].isPlaying = true
+    }
+
+    self.activityTableView.reloadData()
 
     let questionId = questionInfo.id
     questionModule.getQuestionAudio(questionId) { audioString in
@@ -221,7 +248,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         as! QuestionTableViewCell
 
       var cellInfo:(id: Int!, question: String!, status: String!, responderImage: NSData!,
-      responderName: String!, responderTitle: String!)
+      responderName: String!, responderTitle: String!, isPlaying: Bool!)
       if (segmentedControl.selectedSegmentIndex == 2) {
         cellInfo = snoops[indexPath.row]
       }
@@ -235,8 +262,15 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         myCell.profileImage.image = UIImage(data: cellInfo.responderImage)
       }
 
-      if cellInfo.status == "PENDING" {
+      if (cellInfo.status == "PENDING") {
         myCell.listenButton.hidden = true
+      }
+
+      if (cellInfo.isPlaying!) {
+        myCell.listenButton.titleLabel?.text = "Stop"
+      }
+      else {
+        myCell.listenButton.titleLabel?.text = "Listen"
       }
 
       myCell.listenButton.userInteractionEnabled = true
@@ -290,6 +324,15 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
 
   func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+    if (self.activeCell.0!){
+      snoops[self.activeCell.1].isPlaying = false
+    }
+    else {
+      questions[self.activeCell.1].isPlaying = false
+    }
+
+    self.activityTableView.reloadData()
+
   }
 
 
