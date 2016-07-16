@@ -265,6 +265,9 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       if (cellInfo.status == "PENDING") {
         myCell.listenButton.hidden = true
       }
+      else {
+        myCell.listenButton.hidden = false
+      }
 
       if (cellInfo.isPlaying!) {
         myCell.listenButton.titleLabel?.text = "Stop"

@@ -9,3 +9,4 @@ target/
 **/target/*
 **/Peeq.xcodeproj/xcuserdata/*
 xcuserdata/
+server/src/main/resources/com/gibbon/peeq/scripts/hibernate-mysql.conf.xml
