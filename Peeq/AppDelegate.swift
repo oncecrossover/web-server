@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Stripe
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Override point for customization after application launch.
     let nav = UINavigationBar.appearance()
     nav.titleTextAttributes = [ NSForegroundColorAttributeName:UIColor.orangeColor()]
+    STPPaymentConfiguration.sharedConfiguration().publishableKey = "pk_test_Mn99c0kYcKvT4yDyYNORk4cX"
     return true
   }
   

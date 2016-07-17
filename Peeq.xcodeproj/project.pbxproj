@@ -23,6 +23,8 @@
 		4AC2837C1CECEE3800A08D35 /* SignupPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC2837B1CECEE3800A08D35 /* SignupPageViewController.swift */; };
 		4AC2837E1CED0E4500A08D35 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC2837D1CED0E4500A08D35 /* LoginViewController.swift */; };
 		4AC9231F1D360A0800C83177 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9231E1D360A0800C83177 /* FeedTableViewCell.swift */; };
+		4AE8660B1D3C2A3600316DBA /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE8660A1D3C2A3600316DBA /* Stripe.framework */; };
+		4AE8660D1D3C2A3F00316DBA /* Stripe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4AE8660C1D3C2A3F00316DBA /* Stripe.bundle */; };
 		4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF2A1B1D14BABA002E3CFE /* User.swift */; };
 		4AF3226A1D29A1E10043FCE5 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF322691D29A1E10043FCE5 /* Question.swift */; };
 		4AF3226C1D29DE120043FCE5 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF3226B1D29DE120043FCE5 /* ActivityViewController.swift */; };
@@ -50,6 +52,8 @@
 		4AC2837B1CECEE3800A08D35 /* SignupPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupPageViewController.swift; sourceTree = "<group>"; };
 		4AC2837D1CED0E4500A08D35 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4AC9231E1D360A0800C83177 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
+		4AE8660A1D3C2A3600316DBA /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Stripe.framework; sourceTree = "<group>"; };
+		4AE8660C1D3C2A3F00316DBA /* Stripe.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Stripe.bundle; path = Stripe.framework/Stripe.bundle; sourceTree = "<group>"; };
 		4AEF2A1B1D14BABA002E3CFE /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4AF322691D29A1E10043FCE5 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		4AF3226B1D29DE120043FCE5 /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AE8660B1D3C2A3600316DBA /* Stripe.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +129,8 @@
 			isa = PBXGroup;
 			children = (
 				4AC283661CE2F58100A08D35 /* AppDelegate.swift */,
+				4AE8660C1D3C2A3F00316DBA /* Stripe.bundle */,
+				4AE8660A1D3C2A3600316DBA /* Stripe.framework */,
 				4ABE1CC11D25C7AA00320529 /* ControllerGroup */,
 				4AC2836A1CE2F58100A08D35 /* Main.storyboard */,
 				4AC283701CE2F58100A08D35 /* Assets.xcassets */,
@@ -206,6 +213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AC283711CE2F58100A08D35 /* Assets.xcassets in Resources */,
+				4AE8660D1D3C2A3F00316DBA /* Stripe.bundle in Resources */,
 				4AC2836C1CE2F58100A08D35 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -341,6 +349,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Peeq",
+				);
 				INFOPLIST_FILE = Peeq/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.peeq.Peeq;
@@ -352,6 +364,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Peeq",
+				);
 				INFOPLIST_FILE = Peeq/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.peeq.Peeq;
