@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.gibbon.peeq.db.model.Payment" dynamic-update="true"
+  table="PAYMENT">
+    <id name="id" type="long">
+      <column name="id" />
+      <generator class="increment" />
+    </id>
+    <property name="uid" type="java.lang.String">
+      <column name="uid" />
+    </property>
+    <property name="accId" type="java.lang.String">
+      <column name="accId" />
+    </property>
+    <property name="type" type="java.lang.String">
+      <column name="type" />
+    </property>
+    <property name="lastFour" type="java.lang.String">
+      <column name="lastFour" />
+    </property>
+    <property name="createdTime" type="timestamp">
+      <column name="createdTime" />
+    </property>
+  </class>
+</hibernate-mapping>

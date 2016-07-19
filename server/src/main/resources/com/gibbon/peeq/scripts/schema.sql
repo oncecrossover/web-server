@@ -42,3 +42,15 @@ CREATE TABLE `Snoop` (
   FOREIGN KEY fk_user(uid) REFERENCES User(uid),
   FOREIGN KEY fk_quanda(quandaId) REFERENCES Quanda(id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Payment` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `uid` varchar(200) NOT NULL,
+  `accId` varchar(200) NOT NULL,
+  `type` ENUM('CARD', 'CHECKING') NOT NULL,
+  `lastFour` varchar(10) NOT NULL,
+  `createdTime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY(uid, accId),
+  FOREIGN KEY fk_user(uid) REFERENCES User(uid)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
