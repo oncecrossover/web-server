@@ -29,18 +29,39 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    loadData()
+//    loadData()
 
     // Do any additional setup after loading the view.
   }
 
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+  override func viewWillAppear(animated: Bool) {
+    super.viewWillAppear(animated)
+    loadData()
   }
 
+  override func viewWillDisappear(animated: Bool) {
+    super.viewWillDisappear(animated)
+    stopPlayer()
+  }
+
+  func stopPlayer() {
+    if (self.soundPlayer != nil) {
+      if (self.soundPlayer.playing) {
+        self.soundPlayer.stop()
+        if (self.activeCell != nil) {
+          if (self.activeCell.0!) {
+            snoops[self.activeCell.1].isPlaying = false
+          }
+          else {
+            questions[self.activeCell.1].isPlaying = false
+          }
+        }
+      }
+    }
+  }
 
   @IBAction func segmentedControlClicked(sender: AnyObject) {
+    stopPlayer()
     loadData()
   }
 
@@ -209,13 +230,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     self.activeCell = (isSnoop, indexPath.row)
 
     if (questionInfo.isPlaying!) {
-      self.soundPlayer.stop()
-      if (self.activeCell.0!) {
-        snoops[self.activeCell.1].isPlaying = false
-      }
-      else {
-        questions[self.activeCell.1].isPlaying = false
-      }
+      stopPlayer()
 
       self.activityTableView.reloadData()
       return

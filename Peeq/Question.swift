@@ -88,10 +88,6 @@ class Question {
       }
 
       do {
-//        if data!.length == 1 {
-//          let emptyResult: [[String:AnyObject]] = []
-//          completion(emptyResult)
-//        }
         if let jsonArray = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSArray {
           completion(jsonArray)
         }
