@@ -18,6 +18,7 @@ public class Payment {
   private String accId;
   private String type;
   private String lastFour;
+  private String token;
   @JsonIgnore
   private Date createdTime;
 
@@ -63,6 +64,15 @@ public class Payment {
 
   public Payment setLastFour(final String lastFour) {
     this.lastFour = lastFour;
+    return this;
+  }
+
+  public String getToken() {
+    return token;
+  }
+
+  public Payment setToken(final String token) {
+    this.token = token;
     return this;
   }
 

@@ -40,7 +40,8 @@ public class TestPayment {
            .setUid(UUID.randomUUID().toString())
            .setAccId(UUID.randomUUID().toString())
            .setType(PaymentType.CARD.toString())
-           .setLastFour(UUID.randomUUID().toString());
+           .setLastFour(UUID.randomUUID().toString())
+           .setToken(UUID.randomUUID().toString());
     return payment;
   }
 
@@ -50,7 +51,8 @@ public class TestPayment {
            .setUid("kuan")
            .setAccId("this_is_my_acc_id")
            .setType(PaymentType.CARD.toString())
-           .setLastFour("1234");
+           .setLastFour("1234")
+           .setToken(UUID.randomUUID().toString());
     return payment;
   }
 
