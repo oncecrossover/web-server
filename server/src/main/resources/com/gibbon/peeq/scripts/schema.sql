@@ -54,3 +54,10 @@ CREATE TABLE `Payment` (
   UNIQUE KEY(uid, accId),
   FOREIGN KEY fk_user(uid) REFERENCES User(uid)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Balance` (
+  `uid` varchar(200) NOT NULL,
+  `val` bigint DEFAULT 0,
+  PRIMARY KEY (`uid`),
+  FOREIGN KEY fk_user(uid) REFERENCES User(uid)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

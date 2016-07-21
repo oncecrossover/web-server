@@ -2,6 +2,7 @@ package com.gibbon.peeq.db.model;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 public class TestUser {
   private static final Logger LOG = LoggerFactory.getLogger(TestUser.class);
+  private static Random random = new Random(System.currentTimeMillis());
 
   static User newRandomUser() {
     User user = new User();
@@ -37,7 +39,12 @@ public class TestUser {
            .setAboutMe(UUID.randomUUID().toString())
            .setUser(user);
 
+    final Balance balance = new Balance();
+    balance.setVal(random.nextLong())
+           .setUser(user);
+
     user.setProfile(profile);
+    user.setBalance(balance);
 
     return user;
   }
@@ -62,7 +69,12 @@ public class TestUser {
                 + " is often regarded as the father of modern conservatism.")
            .setUser(user);
 
+    final Balance balance = new Balance();
+    balance.setVal(random.nextLong())
+           .setUser(user);
+
     user.setProfile(profile);
+    user.setBalance(balance);
 
     return user;
   }
@@ -87,7 +99,12 @@ public class TestUser {
                 + " Spring and Autumn Period of Chinese history.")
            .setUser(user);
 
+    final Balance balance = new Balance();
+    balance.setVal(random.nextLong())
+           .setUser(user);
+
     user.setProfile(profile);
+    user.setBalance(balance);
 
     return user;
   }
@@ -128,13 +145,14 @@ public class TestUser {
 
   @Test(timeout = 60000)
   public void testCreateUserFromJson() throws IOException {
-    final String userJson = "{\"uid\":\"edmund\",\"firstName\":\"Edmund\",\"middleName\":\"Peng\",\"lastName\":\"Burke\",\"pwd\":\"123\",\"createdTime\":1467156716625,\"updatedTime\":1467156716625,\"profile\":{\"uid\":null,\"avatarUrl\":\"https://en.wikiquote.org/wiki/Edmund_Burke\",\"avatarImage\":null,\"fullName\":\"Edmund Peng Burke\",\"title\":\"Philosopher\",\"aboutMe\":\"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.\"}}";
+    final String userJson = "{\"uid\":\"edmund\",\"firstName\":\"Edmund\",\"middleName\":\"Peng\",\"lastName\":\"Burke\",\"pwd\":\"123\",\"createdTime\":1467156716625,\"updatedTime\":1467156716625,\"profile\":{\"uid\":null,\"avatarUrl\":\"https://en.wikiquote.org/wiki/Edmund_Burke\",\"avatarImage\":null,\"fullName\":\"Edmund Peng Burke\",\"title\":\"Philosopher\",\"aboutMe\":\"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.\"},\"balance\":{\"uid\":null,\"val\":100}}";
 
     ObjectMapper mapper = new ObjectMapper();
 
     // convert json to object
     User user = mapper.readValue(userJson, User.class);
     user.getProfile().setUser(user);
+    user.getBalance().setUser(user);
 
     createAndVerifyUser(user);
   }
@@ -200,7 +218,8 @@ public class TestUser {
     final User randomUser = newRandomUser();
     final User newRandomUser = newRandomUser()
                                 .setUid(randomUser.getUid())
-                                .setProfile(randomUser.getProfile());
+                                .setProfile(randomUser.getProfile())
+                                .setBalance(randomUser.getBalance());
 
     Session session = null;
     Transaction txn = null;
