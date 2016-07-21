@@ -19,6 +19,7 @@ import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.util.CharsetUtil;
 
@@ -46,11 +47,6 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
   @Override
   protected FullHttpResponse handleUpdate() {
     return onUpdate();
-  }
-
-  @Override
-  protected FullHttpResponse handleDeletion() {
-    return onDelete();
   }
 
   private FullHttpResponse onCreate() {
@@ -110,33 +106,6 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
       appendByteArray(user.toJsonByteArray());
     } else {
       appendln(String.format("Nonexistent resource with URI: /users/%s", uid));
-    }
-  }
-
-  private FullHttpResponse onDelete() {
-    /* get user id */
-    final String uid = getUriParser().getPathStream().nextToken();
-
-    /* no uid */
-    if (StringUtils.isBlank(uid)) {
-      appendln("Missing parameter: uid");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
-    }
-
-    final User user = new User();
-    user.setUid(uid);
-    /* assign uid for profile so that Hibernate can do cascade delete */
-    user.setProfile(new Profile().setUid(user.getUid()));
-
-    Transaction txn = null;
-    try {
-      txn = getSession().beginTransaction();
-      getSession().delete(user);
-      txn.commit();
-      return newResponse(HttpResponseStatus.NO_CONTENT);
-    } catch (Exception e) {
-      txn.rollback();
-      return newServerErrorResponse(e, LOG);
     }
   }
 

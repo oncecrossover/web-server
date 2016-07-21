@@ -183,35 +183,6 @@ public class TestUser {
     user.equals(anotherUser);
   }
 
-  /* test delete user using HSQL embedded DB */
-  @Test(timeout = 60000)
-  public void testDeleteUser() throws JsonProcessingException {
-    final User randomUser = newRandomUser();
-    Session session = null;
-    Transaction txn = null;
-
-    /* insert user */
-    session = HibernateTestUtil.getSessionFactory().getCurrentSession();
-    txn = session.beginTransaction();
-    session.save(randomUser);
-    txn.commit();
-
-    /* delete user */
-    session = HibernateTestUtil.getSessionFactory().getCurrentSession();
-    txn = session.beginTransaction();
-    session.delete(randomUser);
-    txn.commit();
-
-    /* query user */
-    session = HibernateTestUtil.getSessionFactory().getCurrentSession();
-    txn = session.beginTransaction();
-    final User user = (User) session.get(User.class, randomUser.getUid());
-    txn.commit();
-
-    /* assert user */
-    assertEquals(null, user);
-  }
-
   /* test update user using HSQL embedded DB */
   @Test(timeout = 60000)
   public void testUpdateUser() throws JsonProcessingException {
