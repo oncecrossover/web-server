@@ -7,16 +7,16 @@
 //
 
 import UIKit
+import Stripe
 
 class PaymentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
 
   var cards:[(bank: String!, cardCompany: String!, digits: String!)] = [("Bank Of America", "Visa", "0000")]
 
   @IBOutlet weak var cardTableView: UITableView!
+
   override func viewDidLoad() {
     super.viewDidLoad()
-
-    // Do any additional setup after loading the view.
   }
 
   override func didReceiveMemoryWarning() {

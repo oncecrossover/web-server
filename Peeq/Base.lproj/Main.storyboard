@@ -926,7 +926,7 @@
         <!--Add A Card-->
         <scene sceneID="MPh-Lf-c4Y">
             <objects>
-                <viewController id="6Pt-rF-4DL" sceneMemberID="viewController">
+                <viewController id="6Pt-rF-4DL" customClass="AddCardViewController" customModule="Peeq" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="b5F-cZ-1qx"/>
                         <viewControllerLayoutGuide type="bottom" id="UxR-iF-x3s"/>
@@ -937,15 +937,28 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fdU-MJ-VsS">
                                 <rect key="frame" x="137" y="146" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGi-Kz-HqG">
+                                <rect key="frame" x="16" y="269" width="288" height="30"/>
+                                <color key="backgroundColor" red="0.21227260449999999" green="0.72222222219999999" blue="0.098522010379999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Save Card"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="qGi-Kz-HqG" firstAttribute="centerX" secondItem="rjB-2h-bxb" secondAttribute="centerX" id="L1e-lB-p7p"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="qGi-Kz-HqG" secondAttribute="leading" id="tZD-WE-ero"/>
+                            <constraint firstItem="qGi-Kz-HqG" firstAttribute="centerY" secondItem="rjB-2h-bxb" secondAttribute="centerY" id="ytF-b8-baY"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Add A Card" id="YWw-28-AbX">
                         <barButtonItem key="rightBarButtonItem" title="Done" id="TiQ-hW-M6K"/>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="saveButton" destination="qGi-Kz-HqG" id="o2R-Nt-fhV"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jwt-QC-VjG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
