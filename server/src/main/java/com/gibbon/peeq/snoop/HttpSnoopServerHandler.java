@@ -43,6 +43,7 @@ import org.slf4j.LoggerFactory;
 
 import com.gibbon.peeq.handlers.NotFoundResourceWebHandler;
 import com.gibbon.peeq.handlers.NullResouceWebHandler;
+import com.gibbon.peeq.handlers.PaymentsWebHandler;
 import com.gibbon.peeq.handlers.ProfilesWebHandler;
 import com.gibbon.peeq.handlers.QuandasWebHandler;
 import com.gibbon.peeq.handlers.SnoopsWebHandler;
@@ -114,6 +115,12 @@ public class HttpSnoopServerHandler
           request).handle();
     } else if ("snoops".equalsIgnoreCase(resourceName)) {
       return new SnoopsWebHandler(
+          uriParser,
+          respBuf,
+          ctx,
+          request).handle();
+    } else if ("payments".equalsIgnoreCase(resourceName)) {
+      return new PaymentsWebHandler(
           uriParser,
           respBuf,
           ctx,
