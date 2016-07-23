@@ -138,6 +138,10 @@ curl -i -X GET "http://127.0.0.1:8080/payments?filter=*"
 curl -i -X GET "http://127.0.0.1:8080/payments?filter=uid=edmund"
 The column name is case sensitive, it only supports single column. In addition, it essentially does equal matched query.
 
+RESTFUL APIs OF BALANCES:
+1. get balance by id, e.g.
+curl -i -X GET "http://127.0.0.1:8080/balances/kuan"
+
 
 
 HTTP STATUS CODE OF REST API:
