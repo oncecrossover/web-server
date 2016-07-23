@@ -49,7 +49,14 @@ public class PaymentsWebHandler extends AbastractPeeqWebHandler
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    return onGet();
+    final PeeqWebHandler pwh = new PaymentsFilterWebHandler(getUriParser(),
+        getRespBuf(), getHandlerContext(), getRequest());
+
+    if (pwh.willFilter()) {
+      return pwh.handle();
+    } else {
+      return onGet();
+    }
   }
 
   private FullHttpResponse onGet() {

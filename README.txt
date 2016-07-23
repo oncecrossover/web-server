@@ -125,6 +125,14 @@ curl -i -X POST "http://127.0.0.1:8080/payments" -d '{"uid":"kuan","type":"CARD"
 3. delete payment, e.g.
 curl -i -X DELETE "http://127.0.0.1:8080/payments/1"
 
+RESTFUL APIs OF PAYMENTS FILTERING:
+1. load all payments, e.g.
+curl -i -X GET "http://127.0.0.1:8080/payments?filter=*"
+
+2. query payments by a single column(e.g. uid), e.g.
+curl -i -X GET "http://127.0.0.1:8080/payments?filter=uid=edmund"
+The column name is case sensitive, it only supports single column. In addition, it essentially does equal matched query.
+
 
 
 HTTP STATUS CODE OF REST API:

@@ -13,8 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.gibbon.peeq.db.model.Profile;
-import com.gibbon.peeq.db.model.Quanda;
+import com.gibbon.peeq.db.model.Payment;
 import com.gibbon.peeq.util.FilterParamParser;
 import com.gibbon.peeq.util.ResourceURIParser;
 import com.google.common.base.Joiner;
@@ -25,12 +24,12 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
-public class QuandasFilterWebHandler extends AbastractPeeqWebHandler
+public class PaymentsFilterWebHandler extends AbastractPeeqWebHandler
     implements PeeqWebHandler {
   protected static final Logger LOG = LoggerFactory
-      .getLogger(QuandasFilterWebHandler.class);
+      .getLogger(PaymentsFilterWebHandler.class);
 
-  public QuandasFilterWebHandler(ResourceURIParser uriParser,
+  public PaymentsFilterWebHandler(ResourceURIParser uriParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
     super(uriParser, respBuf, ctx, request,
@@ -45,7 +44,7 @@ public class QuandasFilterWebHandler extends AbastractPeeqWebHandler
   private FullHttpResponse onQuery() {
     Transaction txn = null;
     try {
-      Session session = getSession();
+      final Session session = getSession();
       txn = session.beginTransaction();
       String resultJson = getResultJson(session);
       txn.commit();
@@ -60,31 +59,30 @@ public class QuandasFilterWebHandler extends AbastractPeeqWebHandler
   }
 
   String getResultJson(final Session session) throws JsonProcessingException {
-    StrBuilder sb = new StrBuilder();
-    Criteria criteria = session.createCriteria(Quanda.class);
-    criteria.addOrder(Order.desc("updatedTime"));
+    final StrBuilder sb = new StrBuilder();
+    final Criteria criteria = session.createCriteria(Payment.class);
     criteria.addOrder(Order.desc("createdTime"));
 
-    Map<String, String> kvs = getFilterParamParser().getQueryKVs();
-    List<Quanda> quandas = null;
+    final Map<String, String> kvs = getFilterParamParser().getQueryKVs();
+    List<Payment> payments = null;
 
     /* no query condition specified */
     if (kvs.entrySet().size() == 0) {
       return "";
     } else if (kvs.containsKey(FilterParamParser.SB_STAR)) {
       /* select * from xxx */
-      quandas = criteria.list();
+      payments = criteria.list();
     } else {
       for (Map.Entry<String, String> kv : kvs.entrySet()) {
         if (kv.getKey() != FilterParamParser.SB_STAR) {
           criteria.add(Restrictions.eq(kv.getKey(), kv.getValue()));
         }
       }
-      quandas = criteria.list();
+      payments = criteria.list();
     }
 
     sb.append("[");
-    sb.append(Joiner.on(",").skipNulls().join(quandas));
+    sb.append(Joiner.on(",").skipNulls().join(payments));
     sb.append("]");
     return sb.toString();
   }
