@@ -25,7 +25,7 @@ CREATE TABLE `Quanda` (
   `question` varchar(2000) NOT NULL,
   `responder` varchar(100) NOT NULL,
   `answerUrl` varchar(1000) DEFAULT NULL,
-  `status` ENUM('PENDING', 'ANSWERED', 'EXPIRED'),
+  `status` ENUM('PENDING', 'ANSWERED', 'EXPIRED') NOT NULL DEFAULT 'PENDING',
   `createdTime` datetime NOT NULL,
   `updatedTime` datetime NOT NULL,
   PRIMARY KEY (`id`),
