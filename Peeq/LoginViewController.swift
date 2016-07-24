@@ -12,6 +12,9 @@ class LoginViewController: UIViewController {
 
   @IBOutlet weak var userEmailTextField: UITextField!
   @IBOutlet weak var userPasswordTextField: UITextField!
+
+  var utility = UIUtility()
+
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -38,33 +41,13 @@ class LoginViewController: UIViewController {
       }
       else {
         NSOperationQueue.mainQueue().addOperationWithBlock {
-          self.displayAlertMessage(displayMessage)
+          self.utility.displayAlertMessage(displayMessage, title: "Alert", sender: self)
         }
       }
     }
     
   }
   
-  func displayAlertMessage(userMessage:String) {
-    
-    let myAlert = UIAlertController(title: "Alert", message: userMessage, preferredStyle: UIAlertControllerStyle.Alert)
-    
-    let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil)
-    
-    myAlert.addAction(okAction)
-    
-    self.presentViewController(myAlert, animated: true, completion: nil)
-    
-  }
-  
-  /*
-  // MARK: - Navigation
-  
-  // In a storyboard-based application, you will often want to do a little preparation before navigation
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-  // Get the new view controller using segue.destinationViewController.
-  // Pass the selected object to the new view controller.
-  }
-  */
+
 
 }

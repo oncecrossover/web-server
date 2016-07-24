@@ -21,6 +21,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   var profileValues: (name: String!, title: String!, about: String!, avatarImage:  UIImage!)
 
   var userModule = User()
+  var utility = UIUtility()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -50,7 +51,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
       }
 
       dispatch_async(dispatch_get_main_queue()) {
-        self.displayAlertMessage(message)
+        self.utility.displayAlertMessage(message, title: "OK", sender: self)
       }
     }
   }
@@ -74,25 +75,19 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     userModule.updateProfilePhoto(uid, imageData: photoData){ resultString in
       var message = ""
+      var title = "Alert"
       if (resultString.isEmpty) {
         message = "Profile photo updated Successfully!"
+        title = "Success!"
       }
       else {
         message = resultString
       }
-      self.displayAlertMessage(message)
+
+      dispatch_async(dispatch_get_main_queue()) {
+        self.utility.displayAlertMessage(message, title: title, sender: self)
+      }
     }
   }
 
-  func displayAlertMessage(userMessage:String) {
-
-    let myAlert = UIAlertController(title: "Alert", message: userMessage, preferredStyle: UIAlertControllerStyle.Alert)
-
-    let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil)
-
-    myAlert.addAction(okAction)
-
-    self.presentViewController(myAlert, animated: true, completion: nil)
-
-  }
 }

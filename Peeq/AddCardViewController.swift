@@ -12,18 +12,19 @@ import Stripe
 class AddCardViewController: UIViewController, STPPaymentCardTextFieldDelegate {
 
   var stripeView: STPPaymentCardTextField = STPPaymentCardTextField()
+  var card: STPCardParams = STPCardParams()
+  var paymentModule = Payment()
+  var utility = UIUtility()
 
   @IBOutlet weak var saveButton: UIButton!
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    stripeView = STPPaymentCardTextField(frame: CGRectMake(15, 100, 290, 100))
+    stripeView = STPPaymentCardTextField(frame: CGRectMake(15, 100, 290, 60))
     stripeView.delegate = self
     view.addSubview(stripeView)
     saveButton.enabled = false
 
-
-    // Do any additional setup after loading the view.
   }
 
   override func didReceiveMemoryWarning() {
@@ -31,22 +32,38 @@ class AddCardViewController: UIViewController, STPPaymentCardTextFieldDelegate {
     // Dispose of any resources that can be recreated.
   }
 
+  @IBAction func saveButtonTapped(sender: AnyObject) {
+    let client = STPAPIClient.init(publishableKey: "pk_test_wyZIIuEmr4TQLHVnZHUxlTtm")
+    client.createTokenWithCard(card) { token, error in
+      if (error != nil) {
+        print(error)
+      }
+      else {
+        let lastFour = self.card.number!.substringFromIndex(self.card.number!.startIndex.advancedBy(12))
+        self.paymentModule.createPayment("CARD", lastFour: lastFour, token: token?.tokenId) { result in
+          if (!result.isEmpty) {
+            print("error is \(result)")
+          }
+          else {
+            dispatch_async(dispatch_get_main_queue()) {
+              self.saveButton.enabled = false
+              self.utility.displayAlertMessage("Card successfully added", title: "OK", sender: self)
+            }
+          }
+        }
+
+      }
+    }
+  }
+
   func paymentCardTextFieldDidChange(textField: STPPaymentCardTextField) {
     if (textField.isValid) {
-      let card: STPCardParams = STPCardParams();
-      card.number = textField.cardNumber;
-      card.expMonth = textField.expirationMonth;
-      card.expYear = textField.expirationYear;
-      card.cvc = textField.cvc;
-
-      let client = STPAPIClient.init(publishableKey: "pk_test_Mn99c0kYcKvT4yDyYNORk4cX")
-      client.createTokenWithCard(card) { token, error in
-        if (error != nil) {
-          print(error)
-        } else {
-          print("card is valid and the token is: \(token!)")
-        }
-      }
+      self.card.number = textField.cardNumber;
+      self.card.expMonth = textField.expirationMonth;
+      self.card.expYear = textField.expirationYear;
+      self.card.cvc = textField.cvc;
+      saveButton.enabled = true
+      stripeView.resignFirstResponder()
     }
   }
 

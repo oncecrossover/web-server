@@ -21,6 +21,7 @@ class AskViewController: UIViewController {
   @IBOutlet weak var askButton: UIButton!
 
   var questionModule = Question()
+  var utility = UIUtility()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -62,15 +63,9 @@ class AskViewController: UIViewController {
         resultMessage = "We will notify you once your question is answered"
       }
 
-      //Display success message
-      let myAlert = UIAlertController(title: "Thank you for your question", message: resultMessage, preferredStyle: UIAlertControllerStyle.Alert)
-      let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default){ action in
-        self.dismissViewControllerAnimated(true, completion: nil)
-      }
-
-      myAlert.addAction(okAction)
-      NSOperationQueue.mainQueue().addOperationWithBlock {
-        self.presentViewController(myAlert, animated: true, completion: nil)
+      dispatch_async(dispatch_get_main_queue()){
+        self.utility.displayAlertMessage(resultMessage,
+          title: "Thank you for your question", sender: self)
       }
     }
 

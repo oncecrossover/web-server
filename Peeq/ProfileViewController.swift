@@ -9,11 +9,6 @@
 import UIKit
 
 class ProfileViewController: UIViewController{
-//  var userEmail: String!
-//  var fullname = "Bowen Zhang"
-//  var userTitle = "Entrepreneur"
-//  var about = "I am a software engineer turned entrepreneur and I love programming"
-
 
   @IBOutlet weak var profilePhoto: UIImageView!
   @IBOutlet weak var editButton: UIButton!
@@ -81,10 +76,5 @@ class ProfileViewController: UIViewController{
     NSUserDefaults.standardUserDefaults().synchronize()
     self.performSegueWithIdentifier("loginView", sender: self)
   }
-//  @IBAction func backFromModal(segue: UIStoryboardSegue) {
-//    // Switch to the second tab (tabs are numbered 0, 1, 2)
-//    self.tabBarController?.selectedIndex = 3
-//    initView()
-//  }
 
 }

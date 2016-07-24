@@ -14,6 +14,7 @@ class SignupPageViewController: UIViewController {
   @IBOutlet weak var userConfirmPasswordTextField: UITextField!
   @IBOutlet weak var userPasswordTextField: UITextField!
   var userModule = User()
+  var utilityModule = UIUtility()
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -37,7 +38,7 @@ class SignupPageViewController: UIViewController {
     if (userEmail.isEmpty || userPassword.isEmpty || userConfirmPassword.isEmpty)
     {
       //Display alert message
-      displayAlertMessage("all fields are required")
+      utilityModule.displayAlertMessage("all fields are required", title: "OK", sender: self)
       return
     }
     
@@ -45,7 +46,7 @@ class SignupPageViewController: UIViewController {
     if (userPassword != userConfirmPassword)
     {
       //Display alert
-      displayAlertMessage("passwords don't match")
+      utilityModule.displayAlertMessage("passwords don't match", title: "OK", sender: self)
       return
     }
     
@@ -71,18 +72,6 @@ class SignupPageViewController: UIViewController {
       }
       
     }
-    
-  }
-  
-  func displayAlertMessage(userMessage:String) {
-    
-    let myAlert = UIAlertController(title: "Alert", message: userMessage, preferredStyle: UIAlertControllerStyle.Alert)
-    
-    let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil)
-    
-    myAlert.addAction(okAction)
-    
-    self.presentViewController(myAlert, animated: true, completion: nil)
     
   }
 }

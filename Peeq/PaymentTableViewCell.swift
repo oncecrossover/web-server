@@ -11,8 +11,6 @@ import UIKit
 class PaymentTableViewCell: UITableViewCell {
 
   @IBOutlet weak var lastDigit: UILabel!
-  @IBOutlet weak var cardCompany: UILabel!
-  @IBOutlet weak var bank: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

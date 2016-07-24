@@ -644,62 +644,24 @@
                                         <rect key="frame" x="0.0" y="1" width="288" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OWI-pC-n7T" id="0Iv-oN-Qzu">
-                                            <rect key="frame" x="0.0" y="0.0" width="288" height="53.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="288" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bank Of America" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bff-h8-ucq">
-                                                    <rect key="frame" x="8" y="8" width="144" height="38"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="137" id="Wzu-17-d0k"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="Wzu-17-d0k"/>
-                                                        </mask>
-                                                    </variation>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visa" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yoC-UH-lme">
-                                                    <rect key="frame" x="165" y="7" width="57.5" height="38"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="61" id="kBj-iu-cre"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="kBj-iu-cre"/>
-                                                        </mask>
-                                                    </variation>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4111" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDk-v4-VQf">
-                                                    <rect key="frame" x="230" y="8" width="49.5" height="37"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4111" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDk-v4-VQf">
+                                                    <rect key="frame" x="8" y="8" width="272" height="37"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="dDk-v4-VQf" firstAttribute="leading" secondItem="yoC-UH-lme" secondAttribute="trailing" constant="8" symbolic="YES" id="1Nm-SU-9cP"/>
-                                                <constraint firstItem="yoC-UH-lme" firstAttribute="leading" secondItem="bff-h8-ucq" secondAttribute="trailing" constant="13" id="3dh-sx-44t"/>
                                                 <constraint firstItem="dDk-v4-VQf" firstAttribute="trailing" secondItem="0Iv-oN-Qzu" secondAttribute="trailingMargin" id="5eK-Rx-y9N"/>
-                                                <constraint firstItem="dDk-v4-VQf" firstAttribute="baseline" secondItem="yoC-UH-lme" secondAttribute="baseline" id="DDl-zl-Dfg"/>
-                                                <constraint firstItem="dDk-v4-VQf" firstAttribute="firstBaseline" secondItem="bff-h8-ucq" secondAttribute="firstBaseline" id="L3s-le-iTa"/>
-                                                <constraint firstItem="bff-h8-ucq" firstAttribute="centerY" secondItem="0Iv-oN-Qzu" secondAttribute="centerY" id="Lma-Wi-8uH"/>
-                                                <constraint firstItem="dDk-v4-VQf" firstAttribute="centerY" secondItem="yoC-UH-lme" secondAttribute="centerY" id="QFq-8z-QRU"/>
-                                                <constraint firstItem="bff-h8-ucq" firstAttribute="leading" secondItem="0Iv-oN-Qzu" secondAttribute="leadingMargin" id="SQu-BB-ewq"/>
-                                                <constraint firstItem="yoC-UH-lme" firstAttribute="width" secondItem="0Iv-oN-Qzu" secondAttribute="width" multiplier="0.2" id="lOS-8I-F15"/>
-                                                <constraint firstItem="bff-h8-ucq" firstAttribute="width" secondItem="0Iv-oN-Qzu" secondAttribute="width" multiplier="0.5" id="mvb-U7-ynU"/>
-                                                <constraint firstItem="bff-h8-ucq" firstAttribute="top" secondItem="0Iv-oN-Qzu" secondAttribute="topMargin" id="qB1-SS-F9J"/>
-                                                <constraint firstItem="dDk-v4-VQf" firstAttribute="centerY" secondItem="bff-h8-ucq" secondAttribute="centerY" id="qNp-zm-jTy"/>
+                                                <constraint firstItem="dDk-v4-VQf" firstAttribute="leading" secondItem="0Iv-oN-Qzu" secondAttribute="leadingMargin" id="D7g-XJ-fyE"/>
+                                                <constraint firstItem="dDk-v4-VQf" firstAttribute="centerY" secondItem="0Iv-oN-Qzu" secondAttribute="centerY" id="V5B-K0-mUc"/>
+                                                <constraint firstItem="dDk-v4-VQf" firstAttribute="top" secondItem="0Iv-oN-Qzu" secondAttribute="topMargin" id="bgj-qE-Ghf"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="bank" destination="bff-h8-ucq" id="2Ts-01-OUL"/>
-                                            <outlet property="cardCompany" destination="yoC-UH-lme" id="ZCO-rQ-5Gz"/>
                                             <outlet property="lastDigit" destination="dDk-v4-VQf" id="60v-5s-vnD"/>
                                         </connections>
                                     </tableViewCell>
@@ -938,11 +900,14 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fdU-MJ-VsS">
                                 <rect key="frame" x="137" y="146" width="46" height="30"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGi-Kz-HqG">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGi-Kz-HqG" customClass="RoundCornerButton" customModule="Peeq" customModuleProvider="target">
                                 <rect key="frame" x="16" y="269" width="288" height="30"/>
                                 <color key="backgroundColor" red="0.21227260449999999" green="0.72222222219999999" blue="0.098522010379999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="Save Card"/>
+                                <connections>
+                                    <action selector="saveButtonTapped:" destination="6Pt-rF-4DL" eventType="touchUpInside" id="JtS-FJ-9tF"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

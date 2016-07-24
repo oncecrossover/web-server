@@ -9,14 +9,20 @@
 import UIKit
 import Stripe
 
-class PaymentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
+class PaymentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-  var cards:[(bank: String!, cardCompany: String!, digits: String!)] = [("Bank Of America", "Visa", "0000")]
+  var cards:[(id: Int!, lastFour: String!)] = []
+  var paymentModule = Payment()
 
   @IBOutlet weak var cardTableView: UITableView!
 
   override func viewDidLoad() {
     super.viewDidLoad()
+  }
+
+  override func viewWillAppear(animated: Bool) {
+    super.viewWillAppear(animated)
+    loadData()
   }
 
   override func didReceiveMemoryWarning() {
@@ -28,10 +34,33 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
     return true
   }
 
+  func loadData(){
+    cards = []
+    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
+    paymentModule.getPayments("uid=" + uid!) { jsonArray in
+      for paymentInfo in jsonArray as! [[String:AnyObject]] {
+        let lastFour = paymentInfo["lastFour"] as! String
+        let id = paymentInfo["id"] as! Int
+        self.cards.append((id: id, lastFour: lastFour))
+      }
+
+      dispatch_async(dispatch_get_main_queue()) {
+        self.cardTableView.reloadData()
+      }
+    }
+  }
+
   func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
     if (editingStyle == .Delete) {
+      let id = cards[indexPath.row].id
       cards.removeAtIndex(indexPath.row)
-      cardTableView.reloadData()
+      paymentModule.deletePayment(id) {result in
+        if (result.isEmpty) {
+          dispatch_async(dispatch_get_main_queue()) {
+            self.cardTableView.reloadData()
+          }
+        }
+      }
     }
   }
 
@@ -42,9 +71,7 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let myCell = tableView.dequeueReusableCellWithIdentifier("cardCell", forIndexPath: indexPath) as! PaymentTableViewCell
     let cardInfo = cards[indexPath.row]
-    myCell.bank.text = cardInfo.bank
-    myCell.cardCompany.text = cardInfo.cardCompany
-    myCell.lastDigit.text = cardInfo.digits
+    myCell.lastDigit.text = "**** **** **** " + cardInfo.lastFour
     return myCell
   }
 
