@@ -644,7 +644,7 @@
                                         <rect key="frame" x="0.0" y="1" width="288" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OWI-pC-n7T" id="0Iv-oN-Qzu">
-                                            <rect key="frame" x="0.0" y="0.0" width="288" height="54"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="288" height="53.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4111" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDk-v4-VQf">
@@ -734,6 +734,9 @@
                                 <rect key="frame" x="16" y="194" width="288" height="28.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="LoA-NY-dJ5" id="3Zk-A0-h0T"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AZX-So-yaS">
                                 <rect key="frame" x="16" y="225" width="288" height="27.5"/>
@@ -745,6 +748,9 @@
                                 <rect key="frame" x="16" y="254" width="288" height="28.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="LoA-NY-dJ5" id="Gnq-eJ-e8F"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About Me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJP-Jr-Har">
                                 <rect key="frame" x="16" y="285" width="288" height="28.5"/>
@@ -757,6 +763,9 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="LoA-NY-dJ5" id="g5N-GS-zCr"/>
+                                </connections>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZB-nu-dQN" customClass="RoundCornerButton" customModule="Peeq" customModuleProvider="target">
                                 <rect key="frame" x="16" y="431" width="288" height="30"/>
@@ -951,6 +960,9 @@
                                 <rect key="frame" x="16" y="84" width="288" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="dJF-BI-ivb" id="wAd-iB-Ire"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ozg-Ea-TAK">
                                 <rect key="frame" x="16" y="122" width="288" height="20.5"/>
@@ -962,6 +974,9 @@
                                 <rect key="frame" x="16" y="150" width="288" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="dJF-BI-ivb" id="Evy-gm-CrW"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirm Password:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T7F-bo-Kj5">
                                 <rect key="frame" x="16" y="188" width="288" height="20.5"/>
@@ -973,6 +988,9 @@
                                 <rect key="frame" x="16" y="216" width="288" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="dJF-BI-ivb" id="saf-pd-W67"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BJN-Wr-uOL" customClass="RoundCornerButton" customModule="Peeq" customModuleProvider="target">
                                 <rect key="frame" x="16" y="279" width="288" height="30"/>
@@ -987,7 +1005,7 @@
                                 <rect key="frame" x="20" y="372" width="280" height="30"/>
                                 <state key="normal" title="Already a member? Please login"/>
                                 <connections>
-                                    <segue destination="vry-Hq-iLC" kind="presentation" id="3es-nC-buN"/>
+                                    <action selector="goToLoginTapped:" destination="dJF-BI-ivb" eventType="touchUpInside" id="y2r-tp-NTd"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join Now" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1w9-YY-fSJ">
@@ -1064,6 +1082,9 @@
                                 <rect key="frame" x="16" y="85" width="288" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="vry-Hq-iLC" id="61E-7b-UbD"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AiP-I9-VWN">
                                 <rect key="frame" x="16" y="123" width="288" height="20.5"/>
@@ -1075,6 +1096,9 @@
                                 <rect key="frame" x="16" y="151" width="288" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="vry-Hq-iLC" id="lh8-n0-v6h"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Or" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hz4-eF-L27">
                                 <rect key="frame" x="16" y="265" width="288" height="20.5"/>
@@ -1356,6 +1380,9 @@
                                         <exclude reference="FGp-Wm-E20"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <outlet property="delegate" destination="PqM-Ta-C7q" id="782-QS-xme"/>
+                                </connections>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

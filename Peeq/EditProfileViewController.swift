@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class EditProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
 
 
   @IBOutlet weak var profilePhoto: UIImageView!
@@ -36,14 +36,28 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
   }
 
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+
+  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    self.view.endEditing(true)
+  }
+
+  func textFieldShouldReturn(textField: UITextField) -> Bool {
+    dismissKeyboard()
+    return true
+  }
+
+  func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    if(text == "\n") {
+      textView.resignFirstResponder()
+      return false
+    }
+    return true
   }
 
 
   @IBAction func saveButtonTapped(sender: AnyObject) {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
+    dismissKeyboard()
     userModule.updateProfile(uid!, name: nameField.text!, title: titleField.text!, about: aboutField.text){ resultString in
       var message = "Your profile is successfully updated!"
       if (!resultString.isEmpty) {
@@ -88,6 +102,12 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         self.utility.displayAlertMessage(message, title: title, sender: self)
       }
     }
+  }
+
+  func dismissKeyboard() {
+    nameField.resignFirstResponder()
+    titleField.resignFirstResponder()
+    aboutField.resignFirstResponder()
   }
 
 }

@@ -8,28 +8,27 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
 
   @IBOutlet weak var userEmailTextField: UITextField!
   @IBOutlet weak var userPasswordTextField: UITextField!
 
   var utility = UIUtility()
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    
-    // Do any additional setup after loading the view.
+  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    self.view.endEditing(true)
   }
-  
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+
+  func textFieldShouldReturn(textField: UITextField) -> Bool {
+    dismissKeyboard()
+    return true
   }
-  
   
   @IBAction func LoginButtonTapped(sender: AnyObject) {
     let userEmail = userEmailTextField.text!
     let userPassword = userPasswordTextField.text!
+
+    dismissKeyboard()
     
     let userModule = User()
     userModule.getUser(userEmail, password: userPassword) { displayMessage in
@@ -46,6 +45,11 @@ class LoginViewController: UIViewController {
       }
     }
     
+  }
+
+  func dismissKeyboard() {
+    userEmailTextField.resignFirstResponder()
+    userPasswordTextField.resignFirstResponder()
   }
   
 

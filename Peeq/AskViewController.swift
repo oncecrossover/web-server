@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AskViewController: UIViewController {
+class AskViewController: UIViewController, UITextViewDelegate {
 
   var profileInfo:(uid: String!, name: String!, title: String!, about: String!, avatarImage:NSData!)
 
@@ -48,12 +48,21 @@ class AskViewController: UIViewController {
     self.questionView.layer.cornerRadius = 4
   }
 
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+
+  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    self.view.endEditing(true)
+  }
+
+  func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    if(text == "\n") {
+      textView.resignFirstResponder()
+      return false
+    }
+    return true
   }
 
   @IBAction func askButtonTapped(sender: AnyObject) {
+    questionView.resignFirstResponder()
     let asker = NSUserDefaults.standardUserDefaults().stringForKey("email")
     let responder = profileInfo.uid
     let question = questionView.text

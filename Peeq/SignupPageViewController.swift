@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignupPageViewController: UIViewController {
+class SignupPageViewController: UIViewController, UITextFieldDelegate {
   
   @IBOutlet weak var userEmailTextField: UITextField!
   @IBOutlet weak var userConfirmPasswordTextField: UITextField!
@@ -25,14 +25,23 @@ class SignupPageViewController: UIViewController {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
+
+  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    self.view.endEditing(true)
+  }
   
-  
-  
+  @IBAction func goToLoginTapped(sender: AnyObject) {
+    dismissKeyboard()
+    self.dismissViewControllerAnimated(true, completion: nil)
+  }
+
   @IBAction func JoinbuttonTapped(sender: AnyObject) {
     
     let userEmail = userEmailTextField.text!
     let userPassword = userPasswordTextField.text!
     let userConfirmPassword = userConfirmPasswordTextField.text!
+
+    dismissKeyboard()
     
     //check for empty field
     if (userEmail.isEmpty || userPassword.isEmpty || userConfirmPassword.isEmpty)
@@ -73,5 +82,16 @@ class SignupPageViewController: UIViewController {
       
     }
     
+  }
+
+  func textFieldShouldReturn(textField: UITextField) -> Bool {
+    dismissKeyboard()
+    return true
+  }
+
+  func dismissKeyboard() {
+    userEmailTextField.resignFirstResponder()
+    userPasswordTextField.resignFirstResponder()
+    userConfirmPasswordTextField.resignFirstResponder()
   }
 }
