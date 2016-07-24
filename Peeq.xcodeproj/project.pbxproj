@@ -37,6 +37,7 @@
 		4AF322741D2C83260043FCE5 /* AnswerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF322731D2C83260043FCE5 /* AnswerTableViewCell.swift */; };
 		4AF322761D2DBCB50043FCE5 /* AnswerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF322751D2DBCB50043FCE5 /* AnswerViewController.swift */; };
 		4AF910741D449F1800546F95 /* InteractiveUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF910731D449F1800546F95 /* InteractiveUITextField.swift */; };
+		4AF910761D45315B00546F95 /* InteractiveUITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF910751D45315B00546F95 /* InteractiveUITextView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,7 @@
 		4AF322731D2C83260043FCE5 /* AnswerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerTableViewCell.swift; sourceTree = "<group>"; };
 		4AF322751D2DBCB50043FCE5 /* AnswerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerViewController.swift; sourceTree = "<group>"; };
 		4AF910731D449F1800546F95 /* InteractiveUITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveUITextField.swift; sourceTree = "<group>"; };
+		4AF910751D45315B00546F95 /* InteractiveUITextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveUITextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 				4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */,
 				4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */,
 				4AF910731D449F1800546F95 /* InteractiveUITextField.swift */,
+				4AF910751D45315B00546F95 /* InteractiveUITextView.swift */,
 			);
 			name = UIView;
 			sourceTree = "<group>";
@@ -268,6 +271,7 @@
 				4AE866111D3C4CA000316DBA /* PaymentTableViewCell.swift in Sources */,
 				4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */,
 				4AF3226C1D29DE120043FCE5 /* ActivityViewController.swift in Sources */,
+				4AF910761D45315B00546F95 /* InteractiveUITextView.swift in Sources */,
 				4AF3226A1D29A1E10043FCE5 /* Question.swift in Sources */,
 				4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */,
 				4AF3226E1D29DEEB0043FCE5 /* QuestionTableViewCell.swift in Sources */,

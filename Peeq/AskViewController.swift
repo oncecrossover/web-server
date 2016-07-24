@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AskViewController: UIViewController, UITextViewDelegate {
+class AskViewController: UIViewController {
 
   var profileInfo:(uid: String!, name: String!, title: String!, about: String!, avatarImage:NSData!)
 
@@ -51,14 +51,6 @@ class AskViewController: UIViewController, UITextViewDelegate {
 
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
     self.view.endEditing(true)
-  }
-
-  func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-    if(text == "\n") {
-      textView.resignFirstResponder()
-      return false
-    }
-    return true
   }
 
   @IBAction func askButtonTapped(sender: AnyObject) {

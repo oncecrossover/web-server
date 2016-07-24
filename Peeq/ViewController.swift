@@ -24,6 +24,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
   override func viewDidLoad() {
     super.viewDidLoad()
+//    self.navigationController?.tabBarItem?.badgeValue = "2"
   }
   
   override func didReceiveMemoryWarning() {
