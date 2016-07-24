@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignupPageViewController: UIViewController, UITextFieldDelegate {
+class SignupPageViewController: UIViewController {
   
   @IBOutlet weak var userEmailTextField: UITextField!
   @IBOutlet weak var userConfirmPasswordTextField: UITextField!
@@ -82,11 +82,6 @@ class SignupPageViewController: UIViewController, UITextFieldDelegate {
       
     }
     
-  }
-
-  func textFieldShouldReturn(textField: UITextField) -> Bool {
-    dismissKeyboard()
-    return true
   }
 
   func dismissKeyboard() {

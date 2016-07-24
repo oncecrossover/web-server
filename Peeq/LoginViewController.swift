@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController {
 
   @IBOutlet weak var userEmailTextField: UITextField!
   @IBOutlet weak var userPasswordTextField: UITextField!
@@ -19,11 +19,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     self.view.endEditing(true)
   }
 
-  func textFieldShouldReturn(textField: UITextField) -> Bool {
-    dismissKeyboard()
-    return true
-  }
-  
   @IBAction func LoginButtonTapped(sender: AnyObject) {
     let userEmail = userEmailTextField.text!
     let userPassword = userPasswordTextField.text!

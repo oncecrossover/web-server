@@ -36,6 +36,7 @@
 		4AF3226E1D29DEEB0043FCE5 /* QuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF3226D1D29DEEB0043FCE5 /* QuestionTableViewCell.swift */; };
 		4AF322741D2C83260043FCE5 /* AnswerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF322731D2C83260043FCE5 /* AnswerTableViewCell.swift */; };
 		4AF322761D2DBCB50043FCE5 /* AnswerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF322751D2DBCB50043FCE5 /* AnswerViewController.swift */; };
+		4AF910741D449F1800546F95 /* InteractiveUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF910731D449F1800546F95 /* InteractiveUITextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		4AF3226D1D29DEEB0043FCE5 /* QuestionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionTableViewCell.swift; sourceTree = "<group>"; };
 		4AF322731D2C83260043FCE5 /* AnswerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerTableViewCell.swift; sourceTree = "<group>"; };
 		4AF322751D2DBCB50043FCE5 /* AnswerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerViewController.swift; sourceTree = "<group>"; };
+		4AF910731D449F1800546F95 /* InteractiveUITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveUITextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 				4A11C0571D3448F400AEF95D /* CircleImageView.swift */,
 				4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */,
 				4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */,
+				4AF910731D449F1800546F95 /* InteractiveUITextField.swift */,
 			);
 			name = UIView;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 				4AF322741D2C83260043FCE5 /* AnswerTableViewCell.swift in Sources */,
 				4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */,
 				4ABD20371D4409F900C3B74E /* Payment.swift in Sources */,
+				4AF910741D449F1800546F95 /* InteractiveUITextField.swift in Sources */,
 				4A11C0621D35BA6900AEF95D /* TextFitLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

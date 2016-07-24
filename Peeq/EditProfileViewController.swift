@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
+class EditProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate,  UITextViewDelegate {
 
 
   @IBOutlet weak var profilePhoto: UIImageView!
@@ -39,11 +39,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
 
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
     self.view.endEditing(true)
-  }
-
-  func textFieldShouldReturn(textField: UITextField) -> Bool {
-    dismissKeyboard()
-    return true
   }
 
   func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
