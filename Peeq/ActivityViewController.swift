@@ -209,7 +209,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     return 0
   }
 
-  func tappedOnButton(sender:UIGestureRecognizer) {
+  func tappedOnImage(sender:UIGestureRecognizer) {
     let tapLocation = sender.locationInView(self.activityTableView)
 
     //using the tapLocation, we retrieve the corresponding indexPath
@@ -284,22 +284,23 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       }
 
       if (cellInfo.status == "PENDING") {
-        myCell.listenButton.hidden = true
+        myCell.listenImage.image = UIImage(named: "pending")
+        myCell.listenImage.userInteractionEnabled = false
       }
       else {
-        myCell.listenButton.hidden = false
+        if (cellInfo.isPlaying!) {
+          myCell.listenImage.image = UIImage(named: "stop")
+        }
+        else {
+          myCell.listenImage.image = UIImage(named: "listen")
+        }
+
+        myCell.listenImage.userInteractionEnabled = true
+        let tappedOnButton = UITapGestureRecognizer(target: self, action: "tappedOnImage:")
+        myCell.listenImage.addGestureRecognizer(tappedOnButton)
+
       }
 
-      if (cellInfo.isPlaying!) {
-        myCell.listenButton.titleLabel?.text = "Stop"
-      }
-      else {
-        myCell.listenButton.titleLabel?.text = "Listen"
-      }
-
-      myCell.listenButton.userInteractionEnabled = true
-      let tappedOnButton = UITapGestureRecognizer(target: self, action: "tappedOnButton:")
-      myCell.listenButton.addGestureRecognizer(tappedOnButton)
 
       return myCell
     }

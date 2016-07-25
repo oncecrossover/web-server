@@ -14,7 +14,7 @@ class QuestionTableViewCell: UITableViewCell {
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var profileImage: UIImageView!
   @IBOutlet weak var questionText: UILabel!
-  @IBOutlet weak var listenButton: UIButton!
+  @IBOutlet weak var listenImage: UIImageView!
 
   override func awakeFromNib() {
     super.awakeFromNib()
