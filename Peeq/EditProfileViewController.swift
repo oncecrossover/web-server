@@ -8,11 +8,12 @@
 
 import UIKit
 
-class EditProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class EditProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
 
 
   @IBOutlet weak var profilePhoto: UIImageView!
 
+  @IBOutlet weak var scrollView: UIScrollView!
   @IBOutlet weak var titleField: UITextField!
   @IBOutlet weak var aboutField: UITextView!
   @IBOutlet weak var nameField: UITextField!
@@ -22,6 +23,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
 
   var userModule = User()
   var utility = UIUtility()
+
+  var contentOffset: CGPoint = CGPointZero
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -34,10 +37,30 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     if (profileValues.avatarImage != nil) {
       profilePhoto.image = profileValues.avatarImage
     }
+
+    self.scrollView.addGestureRecognizer(UITapGestureRecognizer(target: self,action: "dismissKeyboard:"))
   }
 
+  func textViewDidBeginEditing(textView: UITextView) {
+    self.scrollView.scrollEnabled = true
+    self.contentOffset = self.scrollView.contentOffset
+    self.scrollView.setContentOffset(CGPointMake(0, self.contentOffset.y + 200), animated: true)
+  }
+
+  func textViewDidEndEditing(textView: UITextView) {
+    self.scrollView.setContentOffset(self.contentOffset, animated: true)
+  }
+
+  func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    if(text == "\n") {
+      textView.resignFirstResponder()
+      return false
+    }
+    return true
+  }
 
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//    self.view.endEditing(true)
     self.view.endEditing(true)
   }
 
@@ -88,6 +111,10 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         self.utility.displayAlertMessage(message, title: title, sender: self)
       }
     }
+  }
+
+  func dismissKeyboard(sender:UIGestureRecognizer) {
+    dismissKeyboard()
   }
 
   func dismissKeyboard() {
