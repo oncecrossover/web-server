@@ -35,8 +35,6 @@ class AnswerTableViewCell: UITableViewCell {
     askerName.textColor = UIColor.grayColor()
 
     status.font = status.font.fontWithSize(13)
-    status.textColor = UIColor.greenColor()
-    
   }
 
 }

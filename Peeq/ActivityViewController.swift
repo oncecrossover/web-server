@@ -311,7 +311,15 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       if (answer.askerImage.length > 0) {
         myCell.profileImage.image = UIImage(data: answer.askerImage)
       }
+
       myCell.status.text = answer.status
+
+      if (answer.status == "PENDING") {
+        myCell.status.textColor = UIColor.orangeColor()
+      }
+      else if (answer.status == "ANSWERED") {
+        myCell.status.textColor = UIColor(red: 0.125, green: 0.55, blue: 0.17, alpha: 1.0)
+      }
       myCell.question.text = answer.question
       return myCell
     }
