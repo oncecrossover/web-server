@@ -14,7 +14,8 @@ class FeedTableViewCell: UITableViewCell {
   @IBOutlet weak var questionLabel: UILabel!
 
   @IBOutlet weak var titleLabel: UILabel!
-  @IBOutlet weak var snoopButton: UIButton!
+
+  @IBOutlet weak var snoopImage: UIImageView!
   @IBOutlet weak var profileImage: UIImageView!
 
 

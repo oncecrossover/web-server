@@ -114,18 +114,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     myCell.titleLabel.text = feedInfo.responderName + " | " + feedInfo.responderTitle
 
     if (feedInfo.status == "PENDING") {
-      myCell.snoopButton.hidden = true
+      myCell.snoopImage.userInteractionEnabled = false
+      myCell.snoopImage.image = UIImage(named: "pending")
     }
-
-    myCell.snoopButton.userInteractionEnabled = true
-    let tappedOnButton = UITapGestureRecognizer(target: self, action: "tappedOnButton:")
-    myCell.snoopButton.addGestureRecognizer(tappedOnButton)
+    else {
+      myCell.snoopImage.image = UIImage(named: "snoop")
+      myCell.snoopImage.userInteractionEnabled = true
+      let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedOnImage:")
+      myCell.snoopImage.addGestureRecognizer(tappedOnImage)
+    }
 
     return myCell
   }
 
 
-  func tappedOnButton(sender:UIGestureRecognizer) {
+  func tappedOnImage(sender:UIGestureRecognizer) {
     let tapLocation = sender.locationInView(self.feedTable)
 
     //using the tapLocation, we retrieve the corresponding indexPath

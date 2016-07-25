@@ -45,12 +45,6 @@
                                                         <constraint firstAttribute="width" constant="48" id="gZf-2c-KE3"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pgm-f4-b9K" customClass="RoundCornerButton" customModule="Peeq" customModuleProvider="target">
-                                                    <rect key="frame" x="71" y="50" width="191" height="30"/>
-                                                    <color key="backgroundColor" red="0.21227260449999999" green="0.72222222219999999" blue="0.098522010379999997" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <state key="normal" title="Snoop"/>
-                                                </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name | title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J6z-jH-QVL" customClass="TextFitLabel" customModule="Peeq" customModuleProvider="target">
                                                     <rect key="frame" x="8" y="91" width="304" height="28"/>
                                                     <constraints>
@@ -60,26 +54,56 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,111" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jz6-0t-BUo">
+                                                    <rect key="frame" x="270" y="47" width="42" height="19"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="42" id="wOb-CN-CIv"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" red="0.23426312657021398" green="0.80142524288018868" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Snoops" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xG8-zn-gtm">
+                                                    <rect key="frame" x="270" y="62" width="42" height="19"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" red="0.83500768619999999" green="0.81417692409999998" blue="0.75407956320000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GTR-LW-6t8">
+                                                    <rect key="frame" x="64" y="46" width="198" height="38"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="38" id="fL8-3v-sM4"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="X1w-H1-nib" firstAttribute="centerY" secondItem="pgm-f4-b9K" secondAttribute="centerY" id="3w7-am-gIm"/>
+                                                <constraint firstItem="jz6-0t-BUo" firstAttribute="top" secondItem="zM4-xp-xB4" secondAttribute="bottom" constant="8" symbolic="YES" id="369-i4-hiV"/>
                                                 <constraint firstItem="zM4-xp-xB4" firstAttribute="trailing" secondItem="7uX-w0-SyT" secondAttribute="trailingMargin" id="4wj-vQ-Buk"/>
                                                 <constraint firstItem="X1w-H1-nib" firstAttribute="leading" secondItem="zM4-xp-xB4" secondAttribute="leading" id="6Vd-R1-JuL"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="J6z-jH-QVL" secondAttribute="bottom" constant="-8" id="DNI-F0-Sxk"/>
+                                                <constraint firstItem="xG8-zn-gtm" firstAttribute="height" secondItem="jz6-0t-BUo" secondAttribute="height" id="F8Z-wO-r8G"/>
+                                                <constraint firstItem="jz6-0t-BUo" firstAttribute="leading" secondItem="GTR-LW-6t8" secondAttribute="trailing" constant="8" id="GcQ-Yb-eTo"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="jz6-0t-BUo" secondAttribute="trailing" id="PhY-hS-pxL"/>
+                                                <constraint firstItem="J6z-jH-QVL" firstAttribute="top" secondItem="jz6-0t-BUo" secondAttribute="bottom" constant="25" id="Qun-kF-aBF"/>
+                                                <constraint firstItem="xG8-zn-gtm" firstAttribute="width" secondItem="jz6-0t-BUo" secondAttribute="width" id="SCh-NV-u3L"/>
                                                 <constraint firstItem="X1w-H1-nib" firstAttribute="leading" secondItem="J6z-jH-QVL" secondAttribute="leading" id="V8j-qf-fom"/>
-                                                <constraint firstItem="pgm-f4-b9K" firstAttribute="leading" secondItem="X1w-H1-nib" secondAttribute="trailing" constant="15" id="Xcn-pl-KXe"/>
+                                                <constraint firstItem="GTR-LW-6t8" firstAttribute="leading" secondItem="X1w-H1-nib" secondAttribute="trailing" constant="8" id="XM7-xD-cFI"/>
                                                 <constraint firstItem="X1w-H1-nib" firstAttribute="leading" secondItem="7uX-w0-SyT" secondAttribute="leadingMargin" id="brX-xp-msW"/>
                                                 <constraint firstItem="zM4-xp-xB4" firstAttribute="trailing" secondItem="J6z-jH-QVL" secondAttribute="trailing" id="c43-md-S3R"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="pgm-f4-b9K" secondAttribute="trailing" constant="50" id="dPL-Bm-Pmv"/>
                                                 <constraint firstItem="J6z-jH-QVL" firstAttribute="top" secondItem="X1w-H1-nib" secondAttribute="bottom" constant="2" id="eEo-aC-K4L"/>
                                                 <constraint firstItem="X1w-H1-nib" firstAttribute="top" secondItem="zM4-xp-xB4" secondAttribute="bottom" constant="2" id="fju-f5-H0o"/>
                                                 <constraint firstItem="zM4-xp-xB4" firstAttribute="top" secondItem="7uX-w0-SyT" secondAttribute="topMargin" constant="-6" id="gEl-5J-Jo6"/>
+                                                <constraint firstItem="GTR-LW-6t8" firstAttribute="centerY" secondItem="X1w-H1-nib" secondAttribute="centerY" id="lLy-ij-JNb"/>
+                                                <constraint firstItem="GTR-LW-6t8" firstAttribute="top" secondItem="zM4-xp-xB4" secondAttribute="bottom" constant="7" id="taZ-FB-929"/>
+                                                <constraint firstItem="J6z-jH-QVL" firstAttribute="top" secondItem="GTR-LW-6t8" secondAttribute="bottom" constant="7" id="wbD-yU-Bu2"/>
+                                                <constraint firstItem="xG8-zn-gtm" firstAttribute="centerX" secondItem="jz6-0t-BUo" secondAttribute="centerX" id="ycs-Qi-zYO"/>
+                                                <constraint firstItem="xG8-zn-gtm" firstAttribute="top" secondItem="jz6-0t-BUo" secondAttribute="bottom" constant="-4" id="zxr-sw-yR4"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="profileImage" destination="X1w-H1-nib" id="iB3-LT-05J"/>
                                             <outlet property="questionLabel" destination="zM4-xp-xB4" id="6tg-sE-cxC"/>
-                                            <outlet property="snoopButton" destination="pgm-f4-b9K" id="8sO-HP-Jd8"/>
+                                            <outlet property="snoopImage" destination="GTR-LW-6t8" id="rmq-ek-J4s"/>
                                             <outlet property="titleLabel" destination="J6z-jH-QVL" id="9pj-CM-11l"/>
                                         </connections>
                                     </tableViewCell>
@@ -1560,6 +1584,6 @@
         <image name="ic_person" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="KUN-Oa-H5r"/>
+        <segue reference="me6-Y0-ggX"/>
     </inferredMetricsTieBreakers>
 </document>
