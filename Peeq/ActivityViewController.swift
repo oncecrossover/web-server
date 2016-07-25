@@ -29,13 +29,12 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   override func viewDidLoad() {
     super.viewDidLoad()
-//    loadData()
 
     // Do any additional setup after loading the view.
   }
 
-  override func viewWillAppear(animated: Bool) {
-    super.viewWillAppear(animated)
+  override func viewDidAppear(animated: Bool) {
+    super.viewDidAppear(animated)
     loadData()
   }
 
@@ -272,7 +271,14 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       }
 
       myCell.questionText.text = cellInfo.question
-      myCell.titleLabel.text = "\(cellInfo.responderName)" + " | "  + "\(cellInfo.responderTitle)"
+
+      if (cellInfo.responderTitle.isEmpty) {
+        myCell.titleLabel.text = cellInfo.responderName
+      }
+      else {
+        myCell.titleLabel.text = "\(cellInfo.responderName)" + " | "  + "\(cellInfo.responderTitle)"
+      }
+
       if (cellInfo.responderImage.length > 0) {
         myCell.profileImage.image = UIImage(data: cellInfo.responderImage)
       }
