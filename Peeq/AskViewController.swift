@@ -8,10 +8,11 @@
 
 import UIKit
 
-class AskViewController: UIViewController {
+class AskViewController: UIViewController, UITextViewDelegate {
 
   var profileInfo:(uid: String!, name: String!, title: String!, about: String!, avatarImage:NSData!)
 
+  @IBOutlet weak var scrollView: UIScrollView!
   @IBOutlet weak var profilePhoto: UIImageView!
   @IBOutlet weak var titleLabel: UILabel!
 
@@ -19,6 +20,9 @@ class AskViewController: UIViewController {
   @IBOutlet weak var questionView: UITextView!
   @IBOutlet weak var nameLabel: UILabel!
   @IBOutlet weak var askButton: UIButton!
+
+  var contentOffset: CGPoint = CGPointZero
+  var placeholder: String = "Pay to ask this celebrity question. No answer, no charge. If someone snoops the recorded answer, you will get a cut of the fee"
 
   var questionModule = Question()
   var utility = UIUtility()
@@ -46,11 +50,45 @@ class AskViewController: UIViewController {
     self.questionView.layer.borderWidth = 2
     self.questionView.layer.borderColor = UIColor.blackColor().CGColor
     self.questionView.layer.cornerRadius = 4
+
+    // Mimic a palceholder for text view
+    self.questionView.text = placeholder
+    self.questionView.textColor = UIColor.lightGrayColor()
+
+    self.scrollView.addGestureRecognizer(UITapGestureRecognizer(target: self,action: "dismissKeyboard:"))
   }
 
 
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
     self.view.endEditing(true)
+  }
+
+  func textViewDidBeginEditing(textView: UITextView) {
+    if (self.questionView.textColor == UIColor.lightGrayColor()) {
+      self.questionView.text = ""
+      self.questionView.textColor = UIColor.blackColor()
+    }
+
+    self.scrollView.scrollEnabled = true
+    self.contentOffset = self.scrollView.contentOffset
+    self.scrollView.setContentOffset(CGPointMake(0, self.contentOffset.y + 120), animated: true)
+  }
+
+  func textViewDidEndEditing(textView: UITextView) {
+    if (self.questionView.text.isEmpty) {
+      self.questionView.text = placeholder
+      self.questionView.textColor = UIColor.lightGrayColor()
+    }
+    
+    self.scrollView.setContentOffset(self.contentOffset, animated: true)
+  }
+
+  func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    if(text == "\n") {
+      textView.resignFirstResponder()
+      return false
+    }
+    return true
   }
 
   @IBAction func askButtonTapped(sender: AnyObject) {
@@ -72,6 +110,8 @@ class AskViewController: UIViewController {
 
   }
 
-
+  func dismissKeyboard(sender:UIGestureRecognizer) {
+    self.view.endEditing(true)
+  }
 
 }

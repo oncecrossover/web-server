@@ -114,7 +114,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   }
 
   func dismissKeyboard(sender:UIGestureRecognizer) {
-    dismissKeyboard()
+    self.view.endEditing(true)
   }
 
   func dismissKeyboard() {
