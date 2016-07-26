@@ -14,15 +14,11 @@ class DiscoverTableViewCell: UITableViewCell {
   @IBOutlet weak var name: UILabel!
   @IBOutlet weak var title: UILabel!
   @IBOutlet weak var about: UILabel!
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+  override func awakeFromNib() {
+    about.font = about.font.fontWithSize(14)
+    name.font = name.font.fontWithSize(14)
+    title.font = title.font.fontWithSize(14)
+  }
 
 }

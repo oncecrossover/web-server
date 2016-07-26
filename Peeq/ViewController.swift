@@ -111,7 +111,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 
     myCell.questionLabel.text = feedInfo.question
-    myCell.titleLabel.text = feedInfo.responderName + " | " + feedInfo.responderTitle
+
+    if (feedInfo.responderTitle.isEmpty) {
+      myCell.titleLabel.text = feedInfo.responderName
+    }
+    else {
+      myCell.titleLabel.text = feedInfo.responderName + " | " + feedInfo.responderTitle
+    }
 
     if (feedInfo.status == "PENDING") {
       myCell.snoopImage.userInteractionEnabled = false
