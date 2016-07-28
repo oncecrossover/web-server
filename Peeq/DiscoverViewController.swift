@@ -90,21 +90,11 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     return profiles.count
   }
 
-  func tappedOnImage(sender:UITapGestureRecognizer){
-    self.performSegueWithIdentifier("segueFromDiscoverToAsk", sender: sender)
-  }
-
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if (segue.identifier == "segueFromDiscoverToAsk") {
       let dvc = segue.destinationViewController as! AskViewController
 
-      //using sender, we can get the point in respect to the table view
-      let tapLocation = sender!.locationInView(self.discoverTableView)
-
-      //using the tapLocation, we retrieve the corresponding indexPath
-      let indexPath = self.discoverTableView.indexPathForRowAtPoint(tapLocation)!
-
-//      let indexPath = self.discoverTableView.indexPathForSelectedRow!
+      let indexPath = self.discoverTableView.indexPathForSelectedRow!
 
       if (searchController.active && searchController.searchBar.text != "") {
         dvc.profileInfo = self.filteredProfiles[indexPath.row]
@@ -113,6 +103,10 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
         dvc.profileInfo = self.profiles[indexPath.row]
       }
     }
+  }
+
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    self.performSegueWithIdentifier("segueFromDiscoverToAsk", sender: self)
   }
 
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -170,10 +164,6 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     if (profile.avatarImage.length > 0) {
       myCell.discoverImageView.image = UIImage(data: profile.avatarImage)
     }
-
-    myCell.discoverImageView.userInteractionEnabled = true
-    let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedOnImage:")
-    myCell.discoverImageView.addGestureRecognizer(tappedOnImage)
 
     myCell.name.text = profile.name
     myCell.title.text = profile.title
