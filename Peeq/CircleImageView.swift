@@ -14,8 +14,6 @@ class CircleImageView: UIImageView {
     super.awakeFromNib()
     self.layer.cornerRadius = (self.frame.size.width) / 2
     self.clipsToBounds = true
-    self.layer.borderColor = UIColor.blackColor().CGColor
-    self.layer.borderWidth = 2
   }
 
 }

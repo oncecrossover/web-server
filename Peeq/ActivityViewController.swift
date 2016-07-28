@@ -173,12 +173,23 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   func numberOfSectionsInTableView(tableView: UITableView) -> Int {
     let noDataLabel: UILabel = UILabel(frame: CGRectMake(0, 0, self.activityTableView.bounds.size.width,
       self.activityTableView.bounds.size.height))
+    let x = CGFloat(10.0)
+    let y = self.activityTableView.bounds.size.height * 2 / 3 - 30
+    let width = self.activityTableView.bounds.size.width - x - x
+    let button = RoundCornerButton(frame: CGRect(x: x, y: y, width: width, height: 30))
+    button.layer.cornerRadius = 4
     self.activityTableView.backgroundView = nil
     self.activityTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
 
     if (segmentedControl.selectedSegmentIndex == 0) {
       if (questions.count == 0) {
-        noDataLabel.text = "You haven't asked any questions yet"
+        noDataLabel.text = "You haven't asked any questions yet. Let's discover someone interesting"
+
+        button.setTitle("Discover", forState: .Normal)
+        button.backgroundColor = UIColor(red: 0.125, green: 0.55, blue: 0.17, alpha: 1.0)
+        button.userInteractionEnabled = true
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: "tappedOnDiscoverButton:")
+        button.addGestureRecognizer(gestureRecognizer)
       }
       else {
         return 1
@@ -194,19 +205,38 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     else if (segmentedControl.selectedSegmentIndex == 2) {
       if (snoops.count == 0) {
-        noDataLabel.text = "You have no snoops so far"
+        noDataLabel.text = "You haven't listened to any questions so far. Let's see what's trending"
+        button.setTitle("See Trending", forState: .Normal)
+        button.backgroundColor = UIColor(red: 0.125, green: 0.55, blue: 0.17, alpha: 1.0)
+        button.userInteractionEnabled = true
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: "tappedOnHomeButton:")
+        button.addGestureRecognizer(gestureRecognizer)
       }
       else {
         return 1
       }
     }
 
-    noDataLabel.textColor = UIColor.grayColor()
+    noDataLabel.textColor = UIColor.lightGrayColor()
     noDataLabel.textAlignment = NSTextAlignment.Center
+    noDataLabel.numberOfLines = 0
     self.activityTableView.separatorStyle = UITableViewCellSeparatorStyle.None
-    self.activityTableView.backgroundView = noDataLabel
+
+    let customView = UIView(frame: CGRectMake(0, 0, self.activityTableView.bounds.size.width,
+      self.activityTableView.bounds.size.height))
+    customView.addSubview(noDataLabel)
+    customView.addSubview(button)
+    self.activityTableView.backgroundView = customView
 
     return 0
+  }
+
+  func tappedOnHomeButton(sender: UIGestureRecognizer) {
+    self.tabBarController?.selectedIndex = 0
+  }
+
+  func tappedOnDiscoverButton(sender: UIGestureRecognizer) {
+    self.tabBarController?.selectedIndex = 1
   }
 
   func tappedOnImage(sender:UIGestureRecognizer) {
