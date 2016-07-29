@@ -9,15 +9,14 @@
 import UIKit
 import AVFoundation
 
-class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
+class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDelegate, UITableViewDelegate, UITableViewDataSource {
 
-  @IBOutlet weak var scrollView: UILabel!
-  @IBOutlet weak var profileImage: UIImageView!
-  @IBOutlet weak var askerName: UILabel!
-  @IBOutlet weak var status: UILabel!
-  @IBOutlet weak var questionText: UILabel!
+  @IBOutlet weak var answerTableView: UITableView!
+
   @IBOutlet weak var recordbutton: UIButton!
   @IBOutlet weak var playButton: UIButton!
+  @IBOutlet weak var explanation: UILabel!
+  @IBOutlet weak var reminder: UILabel!
 
   var soundRecorder: AVAudioRecorder!
   var soundPlayer: AVAudioPlayer!
@@ -27,17 +26,19 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
   var question:(id: Int!, avatarImage: NSData!, askerName: String!, askerId: String!, status: String!, content: String!)
 
+  var isRecording = false
+  var isPlaying = false
+
+  var count = 60
+
+  var timer = NSTimer()
+
   override func viewDidLoad() {
     super.viewDidLoad()
     setupRecorder()
     initView()
 
     // Do any additional setup after loading the view.
-  }
-
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
   }
 
 
@@ -58,16 +59,40 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
 
   func initView() {
-    askerName.text = question.askerName
-    if (question.avatarImage.length > 0) {
-      profileImage.image = UIImage(data: question.avatarImage)
+    reminder.hidden = true
+    recordbutton.setImage(UIImage(named: "speak"), forState: .Normal)
+    playButton.setImage(UIImage(named: "listen"), forState: .Normal)
+
+    if (question.status == "PENDING") {
+      explanation.text = "Touch button to start recording up to 60 sec"
+      playButton.hidden = true
     }
-    status.text = question.status
-    questionText.text = question.content
+    else {
+      explanation.text = "Click mic to re-answer"
+      playButton.hidden = false
+    }
+    self.answerTableView.reloadData()
+  }
 
-    questionText.font = questionText.font.fontWithSize(15)
+  func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    return 120
+  }
 
-    askerName.font = askerName.font.fontWithSize(15)    
+  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return 1
+  }
+
+  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    let myCell = tableView.dequeueReusableCellWithIdentifier("answerCell", forIndexPath: indexPath) as! AnswerTableViewCell
+    myCell.askerName.text = question.askerName
+    myCell.status.text = question.status
+    myCell.question.text = question.content
+
+    if (question.avatarImage.length > 0) {
+      myCell.profileImage.image = UIImage(data: question.avatarImage)
+    }
+
+    return myCell
   }
 
   func getCacheDirectory() -> String {
@@ -79,38 +104,74 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     let prefix = getCacheDirectory() as NSString
     let path = prefix.stringByAppendingPathComponent(fileName)
     return NSURL(fileURLWithPath: path)
+  }
 
+  func update() {
+    if(count > 0) {
+      reminder.text = String(count--)
+    }
+    else {
+      stopRecording(recordbutton)
+    }
   }
 
 
   @IBAction func record(sender: UIButton) {
-    if sender.titleLabel!.text == "Record" {
+    if (isRecording == false) {
       soundRecorder.record()
-      sender.setTitle("Stop", forState: .Normal)
+      isRecording = true
+      sender.setImage(UIImage(named: "stopButton"), forState: .Normal)
       playButton.enabled = false
+      reminder.hidden = false
+      explanation.text = "Recording... Touch the button again to stop"
+
+      //Setup timer to remind the user
+      timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("update"), userInfo: nil, repeats: true)
     }
     else {
-      soundRecorder.stop()
-      sender.setTitle("Record", forState: .Normal)
+      stopRecording(sender)
     }
   }
 
+  func stopRecording(sender: UIButton) {
+    soundRecorder.stop()
+    isRecording = false
+    sender.setImage(UIImage(named: "speak"), forState: .Normal)
+    playButton.hidden = false
+    playButton.enabled = true
+    reminder.hidden = true
+    explanation.text = "Click mic to re-answer"
+
+    timer.invalidate()
+    count = 60
+  }
+
   @IBAction func play(sender: UIButton) {
-    if sender.titleLabel?.text == "Play" {
-      sender.setTitle("Stop", forState: .Normal)
+    if (isPlaying == false) {
+      isPlaying = true
+      sender.setImage(UIImage(named: "stop"), forState: .Normal)
       recordbutton.enabled = false
-      preparePlayer()
-      soundPlayer.play()
+
+      questionModule.getQuestionAudio(question.id) { audioString in
+        if (!audioString.isEmpty) {
+          let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
+          dispatch_async(dispatch_get_main_queue()) {
+            self.preparePlayer(data)
+            self.soundPlayer.play()
+          }
+        }
+      }
     }
     else {
-      sender.setTitle("Play", forState: .Normal)
+      sender.setImage(UIImage(named: "listen"), forState: .Normal)
+      isPlaying = false
       soundPlayer.stop()
     }
   }
 
-  func preparePlayer() {
+  func preparePlayer(data: NSData!) {
     do {
-      soundPlayer = try AVAudioPlayer(contentsOfURL: getFileUrl())
+      soundPlayer = try AVAudioPlayer(data: data)
       soundPlayer.delegate = self
       soundPlayer.prepareToPlay()
       soundPlayer.volume = 1.0
@@ -133,6 +194,8 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
   func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
     self.recordbutton.enabled = true
-    self.playButton.setTitle("Play", forState : .Normal)
+    isPlaying = false
+    explanation.text = "Click mic to re-answer"
+    playButton.setImage(UIImage(named: "listen"), forState: .Normal)
   }
 }

@@ -184,8 +184,6 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       if (questions.count == 0) {
         noDataLabel.text = "You haven't asked any questions yet. Let's discover someone interesting"
 
-//        button.setTitle("Discover", forState: .Normal)
-//        button.backgroundColor = UIColor(red: 0.125, green: 0.55, blue: 0.17, alpha: 1.0)
         button.setImage(UIImage(named: "discoverButton"), forState: .Normal)
         button.userInteractionEnabled = true
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: "tappedOnDiscoverButton:")
