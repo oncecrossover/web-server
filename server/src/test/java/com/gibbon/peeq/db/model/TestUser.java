@@ -116,6 +116,16 @@ public class TestUser {
     assertUserEquals(originalUser, newUser);
   }
 
+  static User insertRandomUser() {
+    final User user = newRandomUser();
+    final Session session = HibernateTestUtil.getSessionFactory()
+        .getCurrentSession();
+    Transaction txn = session.beginTransaction();
+    session.save(user);
+    txn.commit();
+    return user;
+  }
+
   @Test(timeout = 60000)
   public void testUserToJason() throws IOException {
     verifyUserJason(newUser());

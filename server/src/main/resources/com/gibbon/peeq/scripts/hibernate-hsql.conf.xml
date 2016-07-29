@@ -33,5 +33,6 @@
     <mapping resource="com/gibbon/peeq/scripts/quanda.hbm.xml" />
     <mapping resource="com/gibbon/peeq/scripts/snoop.hbm.xml" />
     <mapping resource="com/gibbon/peeq/scripts/pcAccount.hbm.xml" />
+    <mapping resource="com/gibbon/peeq/scripts/pcEntry.hbm.xml" />
   </session-factory>
 </hibernate-configuration>

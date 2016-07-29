@@ -68,17 +68,6 @@ public class TestQuanda {
     originalQuanda.equals(newQuanda);
   }
 
-
-  static User insertRandomUser() {
-    final User user = TestUser.newRandomUser();
-    final Session session = HibernateTestUtil.getSessionFactory()
-        .getCurrentSession();
-    Transaction txn = session.beginTransaction();
-    session.save(user);
-    txn.commit();
-    return user;
-  }
-
   @Test(timeout = 60000)
   public void testCreateQuanda() throws JsonProcessingException {
     final Quanda quanda = newRandomQuanda();
@@ -93,10 +82,10 @@ public class TestQuanda {
     User anotherUser = null;
 
     /* insert user */
-    user = insertRandomUser();
+    user = TestUser.insertRandomUser();
 
     /* insert another user */
-    anotherUser = insertRandomUser();
+    anotherUser = TestUser.insertRandomUser();
 
     /* set asker and responder */
     quanda.setAsker(user.getUid())
@@ -128,10 +117,10 @@ public class TestQuanda {
     Quanda retQuanda = null;
 
     /* insert user */
-    user = insertRandomUser();
+    user = TestUser.insertRandomUser();
 
     /* insert another user */
-    anotherUser = insertRandomUser();
+    anotherUser = TestUser.insertRandomUser();
 
     /* set asker and responder */
     quanda.setAsker(user.getUid())
@@ -178,10 +167,10 @@ public class TestQuanda {
     Quanda retQuanda = null;
 
     /* insert user */
-    user = insertRandomUser();
+    user = TestUser.insertRandomUser();
 
     /* insert another user */
-    anotherUser = insertRandomUser();
+    anotherUser = TestUser.insertRandomUser();
 
     /* assign asker and responder */
     quanda.setAsker(user.getUid())

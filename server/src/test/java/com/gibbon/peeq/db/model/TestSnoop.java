@@ -72,7 +72,7 @@ public class TestSnoop {
     Transaction txn = null;
 
     /* insert user */
-    final User user = TestQuanda.insertRandomUser();
+    final User user = TestUser.insertRandomUser();
 
     /* insert quanda */
     final Quanda quanda = TestQuanda.newRandomQuanda();
