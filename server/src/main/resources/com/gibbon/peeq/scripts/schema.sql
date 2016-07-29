@@ -36,7 +36,7 @@ CREATE TABLE `Quanda` (
 CREATE TABLE `Snoop` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `uid` varchar(200) NOT NULL,
-  `quandaId` bigint NOT NULL,
+  `quandaId` bigint unsigned NOT NULL,
   `createdTime` datetime NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY fk_user(uid) REFERENCES User(uid),
