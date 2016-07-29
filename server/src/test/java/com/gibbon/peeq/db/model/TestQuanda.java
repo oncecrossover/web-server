@@ -200,7 +200,7 @@ public class TestQuanda {
     txn.commit();
 
     /* verify */
-    quanda.equals(retQuanda);
+    assertEquals(quanda, retQuanda);
 
     /* set something new */
     quanda.setAsker(UUID.randomUUID().toString())
@@ -209,7 +209,7 @@ public class TestQuanda {
     /* update quanda */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
     txn = session.beginTransaction();
-    session.delete(quanda);
+    session.update(quanda);
     txn.commit();
 
     /* query... */
@@ -219,6 +219,6 @@ public class TestQuanda {
     txn.commit();
 
     /* verify */
-    quanda.equals(retQuanda);
+    assertEquals(quanda, retQuanda);
   }
 }
