@@ -3,7 +3,6 @@ package com.gibbon.peeq.db.model;
 import java.io.IOException;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -18,7 +17,6 @@ public class Quanda {
   private String asker;
   private String question;
   private String responder;
-  @JsonIgnore
   private String answerUrl;
   private byte[] answerAudio;
   private String status;
@@ -136,18 +134,22 @@ public class Quanda {
     }
 
     if (getClass() == obj.getClass()) {
-      Quanda quanda = (Quanda) obj;
-      if (this.getId() == quanda.getId()
-          && this.getAsker() == quanda.getAsker()
-          && this.getQuestion() == quanda.getQuestion()
-          && this.getResponder() == quanda.getResponder()
-          && this.getAnswerUrl() == quanda.getAnswerUrl()
-          && this.getStatus() == quanda.getStatus()) {
+      Quanda that = (Quanda) obj;
+      if (isEqual(this.getId(), that.getId())
+          && isEqual(this.getAsker(), that.getAsker())
+          && isEqual(this.getQuestion(), that.getQuestion())
+          && isEqual(this.getResponder(), that.getResponder())
+          && isEqual(this.getAnswerUrl(), that.getAnswerUrl())
+          && isEqual(this.getStatus(), that.getStatus())) {
         return true;
       }
     }
 
     return false;
+  }
+
+  private boolean isEqual(Object a, Object b) {
+    return a == null ? b == null : a.equals(b);
   }
 
   public static Quanda newQuanda(final byte[] json)

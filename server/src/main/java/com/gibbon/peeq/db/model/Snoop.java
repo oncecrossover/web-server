@@ -88,15 +88,19 @@ public class Snoop {
     }
 
     if (getClass() == obj.getClass()) {
-      Snoop snoop = (Snoop) obj;
-      if (this.getId() == snoop.getId()
-          && this.getUid() == snoop.getUid()
-          && this.getQuandaId() == snoop.getQuandaId()) {
+      Snoop that = (Snoop) obj;
+      if (isEqual(this.getId(), that.getId())
+          && isEqual(this.getUid(), that.getUid())
+          && isEqual(this.getQuandaId(), that.getQuandaId())) {
         return true;
       }
     }
 
     return false;
+  }
+
+  private boolean isEqual(Object a, Object b) {
+    return a == null ? b == null : a.equals(b);
   }
 
   public Snoop setAsIgnoreNull(final Snoop snoop) {

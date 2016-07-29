@@ -5,7 +5,6 @@ import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -20,6 +19,7 @@ public class User {
   private Date createdTime;
   private Date updatedTime;
   private Profile profile;
+  private PcAccount pcAccount;
 
   public String getUid() {
     return uid;
@@ -93,6 +93,15 @@ public class User {
     return this;
   }
 
+  public PcAccount getPcAccount() {
+    return pcAccount;
+  }
+
+  public User setPcAccount(final PcAccount pcAccount) {
+    this.pcAccount = pcAccount;
+    return this;
+  }
+
   /**
    * Instantiates a new User.
    * @param userJson Json byte array of User.
@@ -100,23 +109,27 @@ public class User {
    */
   public static User newUser(final byte[] json)
       throws JsonParseException, JsonMappingException, IOException {
-    ObjectMapper mapper = new ObjectMapper();
-    User user = mapper.readValue(json, User.class);
+    final ObjectMapper mapper = new ObjectMapper();
+    final User user = mapper.readValue(json, User.class);
+
     if (user.getProfile() == null) {
       user.setProfile(new Profile());
     }
     user.getProfile().setUser(user);
+
+    if (user.getPcAccount() == null) {
+      user.setPcAccount(new PcAccount());
+    }
+    user.getPcAccount().setUser(user);
     return user;
   }
 
   @Override
   public String toString() {
-    if (StringUtils.isBlank(middleName)) {
-      return String.format("%s, %s %s, %s, %s,", uid, firstName,
-          lastName, pwd, createdTime);
-    } else {
-      return String.format("%s, %s %s %s, %s, %s,", uid, firstName,
-          middleName, lastName, pwd, createdTime);
+    try {
+      return toJsonStr();
+    } catch (JsonProcessingException e) {
+      return "";
     }
   }
 
@@ -141,19 +154,22 @@ public class User {
     }
 
     if (getClass() == obj.getClass()) {
-      User user = (User) obj;
-      if (this.getUid() == user.getUid()
-          && this.getFirstName() == user.getFirstName()
-          && this.getMiddleName() == user.getMiddleName()
-          && this.getLastName() == user.getLastName()
-          && this.getPwd() == user.getPwd()
-          && this.getCreatedTime() == user.getCreatedTime()
-          && this.getUpdatedTime() == user.getUpdatedTime()
-          && this.getProfile().equals(user.getProfile())) {
+      final User that = (User) obj;
+      if (isEqual(this.getUid(), that.getUid())
+          && isEqual(this.getFirstName(), that.getFirstName())
+          && isEqual(this.getMiddleName(), that.getMiddleName())
+          && isEqual(this.getLastName(), that.getLastName())
+          && isEqual(this.getPwd(), that.getPwd())
+          && isEqual(this.getProfile(), that.getProfile())
+          && isEqual(this.getPcAccount(), that.getPcAccount())) {
         return true;
       }
     }
 
     return false;
+  }
+
+  private boolean isEqual(Object a, Object b) {
+    return a == null ? b == null : a.equals(b);
   }
 }

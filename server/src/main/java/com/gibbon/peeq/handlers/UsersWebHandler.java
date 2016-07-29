@@ -131,11 +131,12 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
     }
 
     /*
-     * assign uid for profile to explicitly tell Hibernate to update profile
+     * assign uid for children to explicitly tell Hibernate to update them
      * insteading of inserting
      */
     user.setUid(uid);
     user.getProfile().setUid(user.getUid());
+    user.getPcAccount().setUid(user.getUid());
 
     Transaction txn = null;
     try {

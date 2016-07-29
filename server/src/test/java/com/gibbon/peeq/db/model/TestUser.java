@@ -1,7 +1,6 @@
 package com.gibbon.peeq.db.model;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.UUID;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,14 +19,14 @@ public class TestUser {
   private static final Logger LOG = LoggerFactory.getLogger(TestUser.class);
 
   static User newRandomUser() {
-    User user = new User();
+    final User user = new User();
     user.setUid(UUID.randomUUID().toString())
         .setFirstName(UUID.randomUUID().toString())
         .setMiddleName(UUID.randomUUID().toString())
         .setLastName(UUID.randomUUID().toString())
         .setPwd(UUID.randomUUID().toString());
 
-    Profile profile = new Profile();
+    final Profile profile = new Profile();
     profile.setAvatarUrl(UUID.randomUUID().toString())
            .setFullName(String.format("%s %s %s", user.getFirstName(),
                user.getMiddleName(), user.getLastName()))
@@ -35,20 +34,26 @@ public class TestUser {
            .setAboutMe(UUID.randomUUID().toString())
            .setUser(user);
 
+    final PcAccount pcAccount = new PcAccount();
+    pcAccount.setChargeFrom(UUID.randomUUID().toString())
+             .setPayTo(UUID.randomUUID().toString())
+             .setUser(user);
+
     user.setProfile(profile);
+    user.setPcAccount(pcAccount);
 
     return user;
   }
 
   static User newUser() {
-    User user = new User();
+    final User user = new User();
     user.setUid("edmund")
         .setFirstName("Edmund")
         .setMiddleName("Peng")
         .setLastName("Burke")
         .setPwd("123");
 
-    Profile profile = new Profile();
+    final Profile profile = new Profile();
     profile.setAvatarUrl("https://en.wikiquote.org/wiki/Edmund_Burke")
            .setFullName(String.format("%s %s %s", user.getFirstName(),
                user.getMiddleName(), user.getLastName()))
@@ -58,20 +63,26 @@ public class TestUser {
                 + " is often regarded as the father of modern conservatism.")
            .setUser(user);
 
+    final PcAccount pcAccount = new PcAccount();
+    pcAccount.setChargeFrom("1234 5678")
+             .setPayTo("5678 1234")
+             .setUser(user);
+
     user.setProfile(profile);
+    user.setPcAccount(pcAccount);
 
     return user;
   }
 
   static User newAnotherUser() {
-    User user = new User();
+    final User user = new User();
     user.setUid("kuan")
         .setFirstName("Kuan")
         .setMiddleName("Shuya")
         .setLastName("Chung")
         .setPwd("456");
 
-    Profile profile = new Profile();
+    final Profile profile = new Profile();
     profile.setAvatarUrl("https://en.wikipedia.org/wiki/Guan_Zhong")
            .setFullName(String.format("%s %s %s", user.getFirstName(),
                user.getMiddleName(), user.getLastName()))
@@ -81,7 +92,13 @@ public class TestUser {
                 + " Spring and Autumn Period of Chinese history.")
            .setUser(user);
 
+    final PcAccount pcAccount = new PcAccount();
+    pcAccount.setChargeFrom("this_is_my_charge_from_account")
+             .setPayTo("this_is_my_pay_to_account")
+             .setUser(user);
+
     user.setProfile(profile);
+    user.setPcAccount(pcAccount);
 
     return user;
   }
@@ -127,11 +144,13 @@ public class TestUser {
     // convert json to object
     User user = mapper.readValue(userJson, User.class);
     user.getProfile().setUser(user);
+    user.getPcAccount().setUser(user);
 
     createAndVerifyUser(user);
   }
 
-  private void createAndVerifyUser(final User user) {
+  private void createAndVerifyUser(final User user)
+      throws JsonProcessingException {
     Session session = null;
     Transaction txn = null;
 
@@ -147,32 +166,43 @@ public class TestUser {
     final User retUser = (User) session.get(User.class, user.getUid());
     txn.commit();
 
-    assertEquals(user.getUid(), retUser.getUid());
+    assertUserEquals(user, retUser);
   }
 
   private void assertUserEquals(final User user, final User anotherUser)
       throws JsonProcessingException {
     assertEquals(user.getUid(), anotherUser.getUid());
     assertEquals(user.toJsonStr(), anotherUser.toJsonStr());
-    user.equals(anotherUser);
+    assertEquals(user, anotherUser);
   }
 
   /* test update user using HSQL embedded DB */
-  @Test(timeout = 60000)
+  //@Test(timeout = 60000)
+  @Test
   public void testUpdateUser() throws JsonProcessingException {
     final User randomUser = newRandomUser();
     final User newRandomUser = newRandomUser()
                                 .setUid(randomUser.getUid())
-                                .setProfile(randomUser.getProfile());
-
+                                .setProfile(randomUser.getProfile())
+                                .setPcAccount(randomUser.getPcAccount());
     Session session = null;
     Transaction txn = null;
+    User retUser = null;
 
     /* insert user */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
     txn = session.beginTransaction();
     session.save(randomUser);
     txn.commit();
+
+    /* query user */
+    session = HibernateTestUtil.getSessionFactory().getCurrentSession();
+    txn = session.beginTransaction();
+    retUser = (User) session.get(User.class, randomUser.getUid());
+    txn.commit();
+
+    /* verify */
+    assertUserEquals(randomUser, retUser);
 
     /* update user */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
@@ -183,10 +213,10 @@ public class TestUser {
     /* query user */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
     txn = session.beginTransaction();
-    final User user = (User) session.get(User.class, randomUser.getUid());
+    retUser = (User) session.get(User.class, randomUser.getUid());
     txn.commit();
 
-    /* assert user */
-    assertEquals(randomUser.getUid(), user.getUid());
+    /* verify */
+    assertUserEquals(newRandomUser, retUser);
   }
 }

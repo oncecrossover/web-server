@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Profile {
   private String uid;
-  @JsonIgnore
   private String avatarUrl;
   private byte[] avatarImage;
   private String fullName;
@@ -94,12 +93,10 @@ public class Profile {
     return this;
   }
 
-  @JsonIgnore
   public User getUser() {
     return user;
   }
 
-  @JsonIgnore
   public Profile setUser(final User user) {
     this.user = user;
     return this;
@@ -116,18 +113,21 @@ public class Profile {
     }
 
     if (getClass() == obj.getClass()) {
-      Profile profile = (Profile) obj;
-      if (this.getUid() == profile.getUid()
-          && this.getAvatarUrl() == profile.getAvatarUrl()
-          && this.getAvatarImage() == profile.getAvatarImage()
-          && this.getFullName() == profile.getFullName()
-          && this.getTitle() == profile.getTitle()
-          && this.getAboutMe() == profile.getAboutMe()) {
+      Profile that = (Profile) obj;
+      if (isEqual(this.getUid(), that.getUid())
+          && isEqual(this.getAvatarUrl(), that.getAvatarUrl())
+          && isEqual(this.getFullName(), that.getFullName())
+          && isEqual(this.getTitle(), that.getTitle())
+          && isEqual(this.getAboutMe(), that.getAboutMe())) {
         return true;
       }
     }
 
     return false;
+  }
+
+  private boolean isEqual(Object a, Object b) {
+    return a == null ? b == null : a.equals(b);
   }
 
   public Profile setAsIgnoreNull(final Profile profile) {

@@ -28,5 +28,7 @@
     </property>
     <one-to-one name="profile" class="com.gibbon.peeq.db.model.Profile"
       cascade="save-update" />
+    <one-to-one name="PcAccount" class="com.gibbon.peeq.db.model.PcAccount"
+      cascade="save-update" />
   </class>
 </hibernate-mapping>
