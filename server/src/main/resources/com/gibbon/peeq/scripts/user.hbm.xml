@@ -28,7 +28,5 @@
     </property>
     <one-to-one name="profile" class="com.gibbon.peeq.db.model.Profile"
       cascade="save-update" />
-    <one-to-one name="balance" class="com.gibbon.peeq.db.model.Balance"
-      cascade="save-update" />
   </class>
 </hibernate-mapping>

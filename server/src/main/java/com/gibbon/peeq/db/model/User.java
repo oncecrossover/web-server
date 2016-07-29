@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -19,7 +20,6 @@ public class User {
   private Date createdTime;
   private Date updatedTime;
   private Profile profile;
-  private Balance balance;
 
   public String getUid() {
     return uid;
@@ -93,15 +93,6 @@ public class User {
     return this;
   }
 
-  public Balance getBalance() {
-    return balance;
-  }
-
-  public User setBalance(final Balance balance) {
-    this.balance = balance;
-    return this;
-  }
-
   /**
    * Instantiates a new User.
    * @param userJson Json byte array of User.
@@ -114,11 +105,7 @@ public class User {
     if (user.getProfile() == null) {
       user.setProfile(new Profile());
     }
-    if (user.getBalance() == null) {
-      user.setBalance(new Balance());
-    }
     user.getProfile().setUser(user);
-    user.getBalance().setUser(user);
     return user;
   }
 
@@ -162,8 +149,7 @@ public class User {
           && this.getPwd() == user.getPwd()
           && this.getCreatedTime() == user.getCreatedTime()
           && this.getUpdatedTime() == user.getUpdatedTime()
-          && this.getProfile().equals(user.getProfile())
-          && this.getBalance().equals(user.getBalance())) {
+          && this.getProfile().equals(user.getProfile())) {
         return true;
       }
     }

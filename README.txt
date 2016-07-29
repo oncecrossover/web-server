@@ -41,18 +41,13 @@ Example: run-jar.sh -Dport=8443 -Dssl peeq-snoop-server
          run-jar.sh -Dhost=127.0.0.1 -Dport=8009 peeq-snoop-server
          run-jar.sh -DlogLevel=debug -Dhost=127.0.0.1 -Dport=8009 peeq-snoop-server
 
-Available services:
+Available servers:
 
   http-snoop-client       peeq-snoop-server
 
 Specially, ./run-jar.sh peeq-snoop-server to start peeq-snoop-server
 
 ./run-jar.sh will also compile/package any changes you made to the code base.
-
-
-
-PUBLIC KEY OF PAYMENT SERVICE:
-pk_test_wyZIIuEmr4TQLHVnZHUxlTtm
 
 
 
@@ -120,28 +115,6 @@ curl -i -X GET "http://127.0.0.1:8080/snoops?filter=*"
 curl -i -X GET "http://127.0.0.1:8080/snoops?filter=uid=kuan"
 The column name is case sensitive, it only supports single column. In addition, it essentially does equal matched query.
 
-RESTFUL APIs OF PAYMENTS:
-1. get payment by id, e.g.
-curl -i -X GET "http://127.0.0.1:8080/payments/1"
-
-2. create new payment, e.g.
-curl -i -X POST "http://127.0.0.1:8080/payments" -d '{"uid":"kuan","type":"CARD","lastFour":"1234","token":"tok_18aUp0El5MEVXMYqJON9upiu"}'
-
-3. delete payment, e.g.
-curl -i -X DELETE "http://127.0.0.1:8080/payments/1"
-
-RESTFUL APIs OF PAYMENTS FILTERING:
-1. load all payments, e.g.
-curl -i -X GET "http://127.0.0.1:8080/payments?filter=*"
-
-2. query payments by a single column(e.g. uid), e.g.
-curl -i -X GET "http://127.0.0.1:8080/payments?filter=uid=edmund"
-The column name is case sensitive, it only supports single column. In addition, it essentially does equal matched query.
-
-RESTFUL APIs OF BALANCES:
-1. get balance by id, e.g.
-curl -i -X GET "http://127.0.0.1:8080/balances/kuan"
-
 
 
 HTTP STATUS CODE OF REST API:
@@ -164,7 +137,6 @@ HTTP STATUS CODE OF REST API:
 400(BAD_REQUEST):            "No user or incorrect format specified."
 204(NO_CONTENT):             <updated or not updated depending on whether the uid is correct or the DB record exists>
 500(INTERNAL_SERVER_ERROR):  <various server error/exception>
-
 
 
 HOW TO FIND DB SCHEMA?

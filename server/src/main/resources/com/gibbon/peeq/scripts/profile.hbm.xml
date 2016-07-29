@@ -4,7 +4,7 @@
 
 <hibernate-mapping>
   <class name="com.gibbon.peeq.db.model.Profile" dynamic-update="true"
-    table="PROFILE">
+  table="PROFILE">
     <id name="uid" type="java.lang.String">
       <column name="uid" />
       <generator class="foreign">
@@ -21,7 +21,13 @@
       <column name="title" />
     </property>
     <property name="aboutMe" type="java.lang.String">
-      <column name="aboutMe" />
+      <column name="aboutMe"/>
+    </property>
+    <property name="createdTime" type="timestamp">
+      <column name="createdTime" />
+    </property>
+    <property name="updatedTime" type="timestamp">
+      <column name="updatedTime" />
     </property>
     <one-to-one name="user" class="com.gibbon.peeq.db.model.User"
       constrained="true" />

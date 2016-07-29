@@ -22,9 +22,7 @@ public class Quanda {
   private String answerUrl;
   private byte[] answerAudio;
   private String status;
-  @JsonIgnore
   private Date createdTime;
-  @JsonIgnore
   private Date updatedTime;
 
   public long getId() {

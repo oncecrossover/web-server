@@ -32,7 +32,5 @@
     <mapping resource="com/gibbon/peeq/scripts/profile.hbm.xml" />
     <mapping resource="com/gibbon/peeq/scripts/quanda.hbm.xml" />
     <mapping resource="com/gibbon/peeq/scripts/snoop.hbm.xml" />
-    <mapping resource="com/gibbon/peeq/scripts/payment.hbm.xml" />
-    <mapping resource="com/gibbon/peeq/scripts/balance.hbm.xml" />
   </session-factory>
 </hibernate-configuration>

@@ -13,7 +13,6 @@ public class Snoop {
   private long id;
   private String uid;
   private long quandaId;
-  @JsonIgnore
   private Date createdTime;
 
   public long getId() {

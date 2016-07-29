@@ -1,6 +1,7 @@
 package com.gibbon.peeq.db.model;
 
 import java.io.IOException;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -16,6 +17,8 @@ public class Profile {
   private String fullName;
   private String title;
   private String aboutMe;
+  private Date createdTime;
+  private Date updatedTime;
   @JsonIgnore
   private User user;
 
@@ -70,6 +73,24 @@ public class Profile {
 
   public Profile setAboutMe(final String aboutMe) {
     this.aboutMe = aboutMe;
+    return this;
+  }
+
+  public Date getCreatedTime() {
+    return createdTime;
+  }
+
+  public Profile setCreatedTime(Date createdTime) {
+    this.createdTime = createdTime;
+    return this;
+  }
+
+  public Date getUpdatedTime() {
+    return updatedTime;
+  }
+
+  public Profile setUpdatedTime(Date updatedTime) {
+    this.updatedTime = updatedTime;
     return this;
   }
 

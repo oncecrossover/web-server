@@ -2,7 +2,6 @@ package com.gibbon.peeq.db.model;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.Random;
 import java.util.UUID;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,7 +18,6 @@ import org.slf4j.LoggerFactory;
 
 public class TestUser {
   private static final Logger LOG = LoggerFactory.getLogger(TestUser.class);
-  private static Random random = new Random(System.currentTimeMillis());
 
   static User newRandomUser() {
     User user = new User();
@@ -27,9 +25,7 @@ public class TestUser {
         .setFirstName(UUID.randomUUID().toString())
         .setMiddleName(UUID.randomUUID().toString())
         .setLastName(UUID.randomUUID().toString())
-        .setPwd(UUID.randomUUID().toString())
-        .setCreatedTime(new Date())
-        .setUpdatedTime(new Date());
+        .setPwd(UUID.randomUUID().toString());
 
     Profile profile = new Profile();
     profile.setAvatarUrl(UUID.randomUUID().toString())
@@ -39,12 +35,7 @@ public class TestUser {
            .setAboutMe(UUID.randomUUID().toString())
            .setUser(user);
 
-    final Balance balance = new Balance();
-    balance.setVal(random.nextLong())
-           .setUser(user);
-
     user.setProfile(profile);
-    user.setBalance(balance);
 
     return user;
   }
@@ -55,9 +46,7 @@ public class TestUser {
         .setFirstName("Edmund")
         .setMiddleName("Peng")
         .setLastName("Burke")
-        .setPwd("123")
-        .setCreatedTime(new Date())
-        .setUpdatedTime(new Date());
+        .setPwd("123");
 
     Profile profile = new Profile();
     profile.setAvatarUrl("https://en.wikiquote.org/wiki/Edmund_Burke")
@@ -69,12 +58,7 @@ public class TestUser {
                 + " is often regarded as the father of modern conservatism.")
            .setUser(user);
 
-    final Balance balance = new Balance();
-    balance.setVal(random.nextLong())
-           .setUser(user);
-
     user.setProfile(profile);
-    user.setBalance(balance);
 
     return user;
   }
@@ -85,9 +69,7 @@ public class TestUser {
         .setFirstName("Kuan")
         .setMiddleName("Shuya")
         .setLastName("Chung")
-        .setPwd("456")
-        .setCreatedTime(new Date())
-        .setUpdatedTime(new Date());
+        .setPwd("456");
 
     Profile profile = new Profile();
     profile.setAvatarUrl("https://en.wikipedia.org/wiki/Guan_Zhong")
@@ -99,12 +81,7 @@ public class TestUser {
                 + " Spring and Autumn Period of Chinese history.")
            .setUser(user);
 
-    final Balance balance = new Balance();
-    balance.setVal(random.nextLong())
-           .setUser(user);
-
     user.setProfile(profile);
-    user.setBalance(balance);
 
     return user;
   }
@@ -143,16 +120,13 @@ public class TestUser {
     createAndVerifyUser(newRandomUser());
   }
 
-  @Test(timeout = 60000)
   public void testCreateUserFromJson() throws IOException {
-    final String userJson = "{\"uid\":\"edmund\",\"firstName\":\"Edmund\",\"middleName\":\"Peng\",\"lastName\":\"Burke\",\"pwd\":\"123\",\"createdTime\":1467156716625,\"updatedTime\":1467156716625,\"profile\":{\"uid\":null,\"avatarUrl\":\"https://en.wikiquote.org/wiki/Edmund_Burke\",\"avatarImage\":null,\"fullName\":\"Edmund Peng Burke\",\"title\":\"Philosopher\",\"aboutMe\":\"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.\"},\"balance\":{\"uid\":null,\"val\":100}}";
-
+    final String userJson = "{\"uid\":\"edmund\",\"firstName\":\"Edmund\",\"middleName\":\"Peng\",\"lastName\":\"Burke\",\"pwd\":\"123\",\"profile\":{\"uid\":null,\"avatarUrl\":\"https://en.wikiquote.org/wiki/Edmund_Burke\",\"avatarImage\":null,\"fullName\":\"Edmund Peng Burke\",\"title\":\"Philosopher\",\"aboutMe\":\"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.\"}}";
     ObjectMapper mapper = new ObjectMapper();
 
     // convert json to object
     User user = mapper.readValue(userJson, User.class);
     user.getProfile().setUser(user);
-    user.getBalance().setUser(user);
 
     createAndVerifyUser(user);
   }
@@ -189,8 +163,7 @@ public class TestUser {
     final User randomUser = newRandomUser();
     final User newRandomUser = newRandomUser()
                                 .setUid(randomUser.getUid())
-                                .setProfile(randomUser.getProfile())
-                                .setBalance(randomUser.getBalance());
+                                .setProfile(randomUser.getProfile());
 
     Session session = null;
     Transaction txn = null;
