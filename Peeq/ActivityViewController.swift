@@ -173,10 +173,9 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   func numberOfSectionsInTableView(tableView: UITableView) -> Int {
     let noDataLabel: UILabel = UILabel(frame: CGRectMake(0, 0, self.activityTableView.bounds.size.width,
       self.activityTableView.bounds.size.height))
-    let x = CGFloat(10.0)
-    let y = self.activityTableView.bounds.size.height * 2 / 3 - 30
-    let width = self.activityTableView.bounds.size.width - x - x
-    let button = RoundCornerButton(frame: CGRect(x: x, y: y, width: width, height: 30))
+    let x = (self.activityTableView.bounds.size.width - 280) / 2
+    let y = self.activityTableView.bounds.size.height * 3 / 4 - 30
+    let button = RoundCornerButton(frame: CGRect(x: x, y: y, width: 280, height: 55))
     button.layer.cornerRadius = 4
     self.activityTableView.backgroundView = nil
     self.activityTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
@@ -185,8 +184,9 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       if (questions.count == 0) {
         noDataLabel.text = "You haven't asked any questions yet. Let's discover someone interesting"
 
-        button.setTitle("Discover", forState: .Normal)
-        button.backgroundColor = UIColor(red: 0.125, green: 0.55, blue: 0.17, alpha: 1.0)
+//        button.setTitle("Discover", forState: .Normal)
+//        button.backgroundColor = UIColor(red: 0.125, green: 0.55, blue: 0.17, alpha: 1.0)
+        button.setImage(UIImage(named: "discoverButton"), forState: .Normal)
         button.userInteractionEnabled = true
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: "tappedOnDiscoverButton:")
         button.addGestureRecognizer(gestureRecognizer)
@@ -206,8 +206,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     else if (segmentedControl.selectedSegmentIndex == 2) {
       if (snoops.count == 0) {
         noDataLabel.text = "You haven't listened to any questions so far. Let's see what's trending"
-        button.setTitle("See Trending", forState: .Normal)
-        button.backgroundColor = UIColor(red: 0.125, green: 0.55, blue: 0.17, alpha: 1.0)
+        button.setImage(UIImage(named: "trendingButton"), forState: .Normal)
         button.userInteractionEnabled = true
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: "tappedOnHomeButton:")
         button.addGestureRecognizer(gestureRecognizer)
