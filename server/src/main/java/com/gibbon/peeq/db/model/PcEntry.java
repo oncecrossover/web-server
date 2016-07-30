@@ -12,6 +12,9 @@ public class PcEntry {
   private long id;
   private String uid;
   private String entryId;
+  private String brand;
+  private String last4;
+  private String token;
   private Date createdTime;
 
   public long getId() {
@@ -41,6 +44,33 @@ public class PcEntry {
     return this;
   }
 
+  public String getBrand() {
+    return brand;
+  }
+
+  public PcEntry setBrand(final String brand) {
+    this.brand = brand;
+    return this;
+  }
+
+  public String getLast4() {
+    return last4;
+  }
+
+  public PcEntry setLast4(final String last4) {
+    this.last4 = last4;
+    return this;
+  }
+
+  public String getToken() {
+    return token;
+  }
+
+  public PcEntry setToken(final String token) {
+    this.token = token;
+    return this;
+  }
+
   public Date getCreatedTime() {
     return createdTime;
   }
@@ -65,7 +95,9 @@ public class PcEntry {
       final PcEntry that = (PcEntry) obj;
       if (isEqual(this.getId(), that.getId())
           && isEqual(this.getUid(), that.getUid())
-          && isEqual(this.getEntryId(), that.getEntryId())) {
+          && isEqual(this.getEntryId(), that.getEntryId())
+          && isEqual(this.getBrand(), that.getBrand())
+          && isEqual(this.getLast4(), that.getLast4())) {
         return true;
       }
     }
@@ -88,6 +120,12 @@ public class PcEntry {
     }
     if (that.getEntryId() != null) {
       this.setEntryId(that.getEntryId());
+    }
+    if (that.getBrand() != null) {
+      this.setBrand(that.getBrand());
+    }
+    if (that.getLast4() != null) {
+      this.setLast4(that.getLast4());
     }
     return this;
   }

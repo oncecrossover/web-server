@@ -15,6 +15,12 @@
     <property name="entryId" type="java.lang.String">
       <column name="entryId" />
     </property>
+    <property name="brand" type="java.lang.String">
+      <column name="brand" />
+    </property>
+    <property name="last4" type="java.lang.String">
+      <column name="last4" />
+    </property>
     <property name="createdTime" type="timestamp">
       <column name="createdTime" />
     </property>

@@ -16,8 +16,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gibbon.peeq.db.util.HibernateTestUtil;
 
-public class TestEntry {
-  private static final Logger LOG = LoggerFactory.getLogger(TestEntry.class);
+public class TestPcEntry {
+  private static final Logger LOG = LoggerFactory.getLogger(TestPcEntry.class);
   private static Random random = new Random(System.currentTimeMillis());
 
   @Test(timeout = 60000)
@@ -50,15 +50,21 @@ public class TestEntry {
     final PcEntry result = new PcEntry();
     result.setId(random.nextLong())
           .setUid(UUID.randomUUID().toString())
-          .setEntryId(UUID.randomUUID().toString());
+          .setEntryId(UUID.randomUUID().toString())
+          .setBrand(UUID.randomUUID().toString())
+          .setLast4(UUID.randomUUID().toString())
+          .setToken(UUID.randomUUID().toString());
     return result;
   }
 
   private Object newInstance() {
     final PcEntry result = new PcEntry();
     result.setId(random.nextLong())
-         .setUid("kuan")
-         .setEntryId("card_12345678");
+          .setUid("kuan")
+          .setEntryId("card_12345678")
+          .setBrand("VISA")
+          .setLast4("5678")
+          .setToken("tok_hiuahoi783JHGddhujd");
     return result;
   }
 
