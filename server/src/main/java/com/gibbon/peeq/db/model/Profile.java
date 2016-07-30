@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Profile {
   private String uid;
+  private Double rate = 0.0;
   private String avatarUrl;
   private byte[] avatarImage;
   private String fullName;
@@ -27,6 +28,16 @@ public class Profile {
 
   public Profile setUid(final String uid) {
     this.uid = uid;
+    return this;
+  }
+
+
+  public Double getRate() {
+    return rate;
+  }
+
+  public Profile setRate(final Double rate) {
+    this.rate = rate;
     return this;
   }
 
@@ -115,6 +126,7 @@ public class Profile {
     if (getClass() == obj.getClass()) {
       Profile that = (Profile) obj;
       if (isEqual(this.getUid(), that.getUid())
+          && isEqual(this.getRate(), that.getRate())
           && isEqual(this.getAvatarUrl(), that.getAvatarUrl())
           && isEqual(this.getFullName(), that.getFullName())
           && isEqual(this.getTitle(), that.getTitle())
@@ -130,28 +142,31 @@ public class Profile {
     return a == null ? b == null : a.equals(b);
   }
 
-  public Profile setAsIgnoreNull(final Profile profile) {
-    if (profile == null) {
+  public Profile setAsIgnoreNull(final Profile that) {
+    if (that == null) {
       return null;
     }
 
-    if (profile.getUid() != null) {
-      this.setUid(profile.getUid());
+    if (that.getUid() != null) {
+      this.setUid(that.getUid());
     }
-    if (profile.getAvatarUrl() != null) {
-      this.setAvatarUrl(profile.getAvatarUrl());
+    if (that.getRate() != null) {
+      this.setRate(that.getRate());
     }
-    if (profile.getAvatarImage() != null) {
-      this.setAvatarImage(profile.getAvatarImage());
+    if (that.getAvatarUrl() != null) {
+      this.setAvatarUrl(that.getAvatarUrl());
     }
-    if (profile.getFullName() != null) {
-      this.setFullName(profile.getFullName());
+    if (that.getAvatarImage() != null) {
+      this.setAvatarImage(that.getAvatarImage());
     }
-    if (profile.getTitle() != null) {
-      this.setTitle(profile.getTitle());
+    if (that.getFullName() != null) {
+      this.setFullName(that.getFullName());
     }
-    if (profile.getAboutMe() != null) {
-      this.setAboutMe(profile.getAboutMe());
+    if (that.getTitle() != null) {
+      this.setTitle(that.getTitle());
+    }
+    if (that.getAboutMe() != null) {
+      this.setAboutMe(that.getAboutMe());
     }
     return this;
   }

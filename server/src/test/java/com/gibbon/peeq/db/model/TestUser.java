@@ -1,6 +1,7 @@
 package com.gibbon.peeq.db.model;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.UUID;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 public class TestUser {
   private static final Logger LOG = LoggerFactory.getLogger(TestUser.class);
+  private static Random random = new Random(System.currentTimeMillis());
 
   static User newRandomUser() {
     final User user = new User();
@@ -27,7 +29,8 @@ public class TestUser {
         .setPwd(UUID.randomUUID().toString());
 
     final Profile profile = new Profile();
-    profile.setAvatarUrl(UUID.randomUUID().toString())
+    profile.setRate(random.nextDouble())
+           .setAvatarUrl(UUID.randomUUID().toString())
            .setFullName(String.format("%s %s %s", user.getFirstName(),
                user.getMiddleName(), user.getLastName()))
            .setTitle(UUID.randomUUID().toString())
@@ -54,7 +57,8 @@ public class TestUser {
         .setPwd("123");
 
     final Profile profile = new Profile();
-    profile.setAvatarUrl("https://en.wikiquote.org/wiki/Edmund_Burke")
+    profile.setRate(101.11)
+           .setAvatarUrl("https://en.wikiquote.org/wiki/Edmund_Burke")
            .setFullName(String.format("%s %s %s", user.getFirstName(),
                user.getMiddleName(), user.getLastName()))
            .setTitle("Philosopher")
@@ -83,7 +87,8 @@ public class TestUser {
         .setPwd("456");
 
     final Profile profile = new Profile();
-    profile.setAvatarUrl("https://en.wikipedia.org/wiki/Guan_Zhong")
+    profile.setRate(1001.89)
+           .setAvatarUrl("https://en.wikipedia.org/wiki/Guan_Zhong")
            .setFullName(String.format("%s %s %s", user.getFirstName(),
                user.getMiddleName(), user.getLastName()))
            .setTitle("Chancellor and Reformer")

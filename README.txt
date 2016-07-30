@@ -57,17 +57,23 @@ RESTFUL APIs OF USERS:
 curl -i -X GET "http://127.0.0.1:8080/users/edmund"
 
 2. create new user, e.g.
-curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"edmund","firstName":"Edmund","middleName":"Peng","lastName":"Burke","pwd":"123","createdTime":1467156716625,"updatedTime":1467156716625,"profile":{"uid":null,"avatarUrl":"https://en.wikiquote.org/wiki/Edmund_Burke","avatarImage":null,"fullName":"Edmund Peng Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism."}}'
+curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"edmund","firstName":"Edmund","middleName":"Peng","lastName":"Burke","pwd":"123"}'
+
+curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"kuan","firstName":"Kuan","middleName":"Shuya","lastName":"Chung","pwd":"123"}'
 
 3. update user by uid, e.g.
-curl -i -X PUT "http://127.0.0.1:8080/users/edmund" -d '{"uid":"edmund","firstName":"Edmund","middleName":"Peng","lastName":"Burke","pwd":"456","createdTime":1467156716625,"updatedTime":1467156716625,"profile":{"uid":null,"avatarUrl":"https://en.wikiquote.org/wiki/Edmund_Burke","avatarImage":null,"fullName":"Edmund Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism."}}'
+curl -i -X PUT "http://127.0.0.1:8080/users/edmund" -d '{"uid":"edmund","firstName":"Edmund","middleName":null,"lastName":"Burke","pwd":"456"}'
+
+curl -i -X PUT "http://127.0.0.1:8080/users/kuan" -d '{"uid":"kuan","firstName":"Kuan","middleName":"Shuya","lastName":"Chung","pwd":"456"}'
 
 RESTFUL APIs OF PROFILES:
 1. get profile by uid, e.g.
 curl -i -X GET "http://127.0.0.1:8080/profiles/edmund"
 
 2. update profile by uid, e.g.
-curl -i -X PUT "http://127.0.0.1:8080/profiles/edmund" -d '{"avatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","fullName":"Edmund Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism."}'
+curl -i -X PUT "http://127.0.0.1:8080/profiles/edmund" -d '{"fullName":"Edmund Burke","rate": 4999, "title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism."}'
+
+curl -i -X PUT "http://127.0.0.1:8080/profiles/kuan" -d '{"fullName":"Kuan Shuya Chung","rate": 99999,"title":"Chancellor and Reformer","aboutMe":"I was was a chancellor and reformer of the State of Qi during the Spring and Autumn Period of Chinese history."}'
 
 RESTFUL APIs OF PROFILE FILTERING:
 1. load all profiles, e.g.
@@ -137,6 +143,7 @@ HTTP STATUS CODE OF REST API:
 400(BAD_REQUEST):            "No user or incorrect format specified."
 204(NO_CONTENT):             <updated or not updated depending on whether the uid is correct or the DB record exists>
 500(INTERNAL_SERVER_ERROR):  <various server error/exception>
+
 
 
 HOW TO FIND DB SCHEMA?

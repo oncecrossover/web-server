@@ -16,7 +16,7 @@ public class TestProfile {
 
   @Test(timeout = 60000)
   public void testCreateProfileFromJson() throws IOException {
-    final String json = "{\"uid\":\"edmund\",\"avatarImage\":\"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==\",\"fullName\":\"Edmund Burke\",\"title\":\"Philosopher\",\"aboutMe\":\"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.\"}";
+    final String json = "{\"uid\":\"edmund\",\"rate\":100.02,\"avatarImage\":\"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==\",\"fullName\":\"Edmund Burke\",\"title\":\"Philosopher\",\"aboutMe\":\"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.\"}";
 
     ObjectMapper mapper = new ObjectMapper();
 
