@@ -11,23 +11,38 @@ import UIKit
 class SignupPageViewController: UIViewController {
   
   @IBOutlet weak var userEmailTextField: UITextField!
-  @IBOutlet weak var userConfirmPasswordTextField: UITextField!
+
+  @IBOutlet weak var signupButton: UIButton!
+  @IBOutlet weak var userNameTextField: UITextField!
   @IBOutlet weak var userPasswordTextField: UITextField!
   var userModule = User()
   var utilityModule = UIUtility()
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    // Do any additional setup after loading the view.
-  }
-  
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+
+    signupButton.enabled = false
+    signupButton.setImage(UIImage(named: "disabledSignup"), forState: .Disabled)
+    signupButton.setImage(UIImage(named: "enabledSignup"), forState: .Normal)
+
+    userNameTextField.addTarget(self, action: "checkFields:", forControlEvents: .EditingChanged)
+    userEmailTextField.addTarget(self, action: "checkFields:", forControlEvents: .EditingChanged)
+    userPasswordTextField.addTarget(self, action: "checkFields:", forControlEvents: .EditingChanged)
   }
 
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
     self.view.endEditing(true)
+  }
+
+  func checkFields(sender: UITextField) {
+    guard
+      let name = userNameTextField.text where !name.isEmpty,
+      let email = userEmailTextField.text where !email.isEmpty,
+      let password = userPasswordTextField.text where !password.isEmpty
+      else {
+        return
+    }
+
+    self.signupButton.enabled = true
   }
   
   @IBAction func goToLoginTapped(sender: AnyObject) {
@@ -39,26 +54,17 @@ class SignupPageViewController: UIViewController {
     
     let userEmail = userEmailTextField.text!
     let userPassword = userPasswordTextField.text!
-    let userConfirmPassword = userConfirmPasswordTextField.text!
+    let name = userNameTextField.text!
 
     dismissKeyboard()
     
     //check for empty field
-    if (userEmail.isEmpty || userPassword.isEmpty || userConfirmPassword.isEmpty)
+    if (userEmail.isEmpty || userPassword.isEmpty || name.isEmpty)
     {
       //Display alert message
       utilityModule.displayAlertMessage("all fields are required", title: "OK", sender: self)
       return
     }
-    
-    //Check if password matches
-    if (userPassword != userConfirmPassword)
-    {
-      //Display alert
-      utilityModule.displayAlertMessage("passwords don't match", title: "OK", sender: self)
-      return
-    }
-    
     
     var resultMessage = ""
     userModule.createUser(userEmail, userPassword: userPassword) { resultString in
@@ -87,6 +93,6 @@ class SignupPageViewController: UIViewController {
   func dismissKeyboard() {
     userEmailTextField.resignFirstResponder()
     userPasswordTextField.resignFirstResponder()
-    userConfirmPasswordTextField.resignFirstResponder()
+    userNameTextField.resignFirstResponder()
   }
 }

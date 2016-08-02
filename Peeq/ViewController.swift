@@ -19,12 +19,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   var snoopQuestionId = 0
 
   @IBOutlet weak var feedTable: UITableView!
+  @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
   var feeds:[(id: Int!, question: String!, responderId: String!, responderName: String!, responderTitle: String!, profileData: NSData!, status: String!)] = []
 
   override func viewDidLoad() {
     super.viewDidLoad()
-//    self.navigationController?.tabBarItem?.badgeValue = "2"
   }
   
   override func didReceiveMemoryWarning() {
@@ -44,6 +44,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
   func loadData() {
     self.feeds = []
+    activityIndicator.startAnimating()
     questionModule.getQuestions("*") { jsonArray in
       var count = jsonArray.count
       for feedInfo in jsonArray as! [[String:AnyObject]] {
@@ -65,6 +66,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
           count--
           if (count == 0) {
             dispatch_async(dispatch_get_main_queue()) {
+              self.activityIndicator.stopAnimating()
               self.feedTable.reloadData()
             }
           }

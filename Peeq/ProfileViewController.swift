@@ -74,7 +74,8 @@ class ProfileViewController: UIViewController{
     NSUserDefaults.standardUserDefaults().setBool(false, forKey: "isUserLoggedIn")
     NSUserDefaults.standardUserDefaults().removeObjectForKey("email")
     NSUserDefaults.standardUserDefaults().synchronize()
-    self.performSegueWithIdentifier("loginView", sender: self)
+//    self.performSegueWithIdentifier("loginView", sender: self)
+    self.tabBarController?.selectedIndex = 0
   }
 
 }

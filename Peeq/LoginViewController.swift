@@ -12,11 +12,32 @@ class LoginViewController: UIViewController {
 
   @IBOutlet weak var userEmailTextField: UITextField!
   @IBOutlet weak var userPasswordTextField: UITextField!
+  @IBOutlet weak var loginButton: UIButton!
 
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    loginButton.setImage(UIImage(named: "disabledLogin"), forState: .Disabled)
+    loginButton.setImage(UIImage(named: "enabledLogin"), forState: .Normal)
+    loginButton.enabled = false
+    userEmailTextField.addTarget(self, action: "checkFields:", forControlEvents: .EditingChanged)
+    userPasswordTextField.addTarget(self, action: "checkFields:", forControlEvents: .EditingChanged)
+  }
   var utility = UIUtility()
 
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
     self.view.endEditing(true)
+  }
+
+  func checkFields(sender: UITextField) {
+    guard
+      let email = userEmailTextField.text where !email.isEmpty,
+      let password = userPasswordTextField.text where !password.isEmpty
+    else {
+      return
+    }
+
+    self.loginButton.enabled = true
   }
 
   @IBAction func LoginButtonTapped(sender: AnyObject) {
