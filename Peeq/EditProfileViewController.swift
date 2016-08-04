@@ -44,8 +44,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     rateField.text = String(profileValues.rate)
     rateField.textColor = textColor
 
-    activeText = aboutField
-
     if (profileValues.avatarImage != nil) {
       profilePhoto.image = profileValues.avatarImage
     }
@@ -58,13 +56,24 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   }
 
 
-  func textFieldDidBeginEditing(textField: UITextField) {
-    activeText = textField
-    print("textFielddidbeginediting")
+  func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+    print("textview")
+    activeText = aboutField
+    return true
+  }
+
+  func textViewDidEndEditing(textView: UITextView) {
+    activeText = nil
+  }
+
+  func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    print("textfield")
+    activeText = rateField
+    return true
   }
 
   func textFieldDidEndEditing(textField: UITextField) {
-    activeText = aboutField
+    activeText = nil
   }
 
   func keyboardWillShow(notification: NSNotification)
@@ -74,7 +83,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     let info : NSDictionary = notification.userInfo!
     let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
     let keyboardHeight = keyboardSize!.height
-    print("keyboardWillShow")
 
     var aRect : CGRect = self.scrollView.frame
     aRect.size.height -= keyboardHeight
@@ -107,22 +115,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
 //    self.scrollView.scrollEnabled = false
 
   }
-
-
-//  func scrollUpView() {
-//    if (self.contentOffset == self.scrollView.contentOffset) {
-//      self.scrollView.scrollEnabled = true
-////      self.contentOffset = self.scrollView.contentOffset
-//      self.scrollView.setContentOffset(CGPointMake(0, self.contentOffset.y + 200), animated: true)
-//    }
-//  }
-//
-//  func scrollDownView() {
-//    if (self.contentOffset != self.scrollView.contentOffset) {
-//      self.scrollView.scrollEnabled = false
-//      self.scrollView.setContentOffset(self.contentOffset, animated: true)
-//    }
-//  }
 
   func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
     if(text == "\n") {
