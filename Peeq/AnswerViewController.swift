@@ -192,7 +192,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
           self.playButton.enabled = true
           self.isSaved = true
           self.confirmButton.hidden = true
-          self.recordbutton.hidden = true
+          self.recordbutton.enabled = false
           self.explanation.hidden = true
           self.utilityModule.displayAlertMessage("Your Answer is successfully saved!", title: "OK", sender: self)
         }
