@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
+class EditProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UITextFieldDelegate {
 
 
   @IBOutlet weak var profilePhoto: UIImageView!
@@ -18,38 +18,111 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   @IBOutlet weak var aboutField: UITextView!
   @IBOutlet weak var nameField: UITextField!
   @IBOutlet weak var uploadButton: UIButton!
+  @IBOutlet weak var rateField: UITextField!
 
-  var profileValues: (name: String!, title: String!, about: String!, avatarImage:  UIImage!)
+  var textColor = UIColor(red: 0.3333, green: 0.6745, blue: 0.9333, alpha: 1.0)
+
+  var profileValues: (name: String!, title: String!, about: String!, avatarImage:  UIImage!, rate: Double!)
 
   var userModule = User()
   var utility = UIUtility()
 
   var contentOffset: CGPoint = CGPointZero
+
+  var activeText: UIView?
   
   override func viewDidLoad() {
     super.viewDidLoad()
 
     // fill in values for all the editable fields
     titleField.text = profileValues.title
+    titleField.textColor = textColor
     nameField.text = profileValues.name
+    nameField.textColor = textColor
     aboutField.text = profileValues.about
+    aboutField.textColor = textColor
+    rateField.text = String(profileValues.rate)
+    rateField.textColor = textColor
+
+    activeText = aboutField
 
     if (profileValues.avatarImage != nil) {
       profilePhoto.image = profileValues.avatarImage
     }
 
-    self.scrollView.addGestureRecognizer(UITapGestureRecognizer(target: self,action: "dismissKeyboard:"))
-  }
-
-  func textViewDidBeginEditing(textView: UITextView) {
-    self.scrollView.scrollEnabled = true
     self.contentOffset = self.scrollView.contentOffset
-    self.scrollView.setContentOffset(CGPointMake(0, self.contentOffset.y + 200), animated: true)
+    self.scrollView.addGestureRecognizer(UITapGestureRecognizer(target: self,action: "dismissKeyboard:"))
+
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
   }
 
-  func textViewDidEndEditing(textView: UITextView) {
-    self.scrollView.setContentOffset(self.contentOffset, animated: true)
+
+  func textFieldDidBeginEditing(textField: UITextField) {
+    activeText = textField
+    print("textFielddidbeginediting")
   }
+
+  func textFieldDidEndEditing(textField: UITextField) {
+    activeText = aboutField
+  }
+
+  func keyboardWillShow(notification: NSNotification)
+  {
+    //Need to calculate keyboard exact size due to Apple suggestions
+    self.scrollView.scrollEnabled = true
+    let info : NSDictionary = notification.userInfo!
+    let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
+    let keyboardHeight = keyboardSize!.height
+    print("keyboardWillShow")
+
+    var aRect : CGRect = self.scrollView.frame
+    aRect.size.height -= keyboardHeight
+    if let _ = activeText
+    {
+      // pt is the lower left corner of the rectangular textfield or textview
+      let pt = CGPointMake(activeText!.frame.origin.x, activeText!.frame.origin.y + activeText!.frame.size.height)
+      if (!CGRectContainsPoint(aRect, pt))
+      {
+        // Compute the exact offset we need to scroll the view up
+        let offset = activeText!.frame.origin.y + activeText!.frame.size.height - (aRect.origin.y + aRect.size.height)
+        self.scrollView.setContentOffset(CGPointMake(0, self.contentOffset.y + offset + 20), animated: true)
+      }
+    }
+
+    
+  }
+
+  func keyboardWillHide(notification: NSNotification)
+  {
+    //Once keyboard disappears, restore original positions
+    let info : NSDictionary = notification.userInfo!
+    let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
+    let _ = keyboardSize!.height
+//    var contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, -keyboardSize!.height, 0.0)
+//    self.scrollView.contentInset = contentInsets
+//    self.scrollView.scrollIndicatorInsets = contentInsets
+    self.view.endEditing(true)
+    self.scrollView.setContentOffset(CGPointMake(0, self.contentOffset.y), animated: true)
+//    self.scrollView.scrollEnabled = false
+
+  }
+
+
+//  func scrollUpView() {
+//    if (self.contentOffset == self.scrollView.contentOffset) {
+//      self.scrollView.scrollEnabled = true
+////      self.contentOffset = self.scrollView.contentOffset
+//      self.scrollView.setContentOffset(CGPointMake(0, self.contentOffset.y + 200), animated: true)
+//    }
+//  }
+//
+//  func scrollDownView() {
+//    if (self.contentOffset != self.scrollView.contentOffset) {
+//      self.scrollView.scrollEnabled = false
+//      self.scrollView.setContentOffset(self.contentOffset, animated: true)
+//    }
+//  }
 
   func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
     if(text == "\n") {
@@ -60,14 +133,18 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   }
 
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-//    self.view.endEditing(true)
     self.view.endEditing(true)
   }
 
   @IBAction func saveButtonTapped(sender: AnyObject) {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
     dismissKeyboard()
-    userModule.updateProfile(uid!, name: nameField.text!, title: titleField.text!, about: aboutField.text){ resultString in
+    var newRate = 0.0
+    if (!rateField.text!.isEmpty) {
+      newRate = Double(rateField.text!)!
+    }
+    userModule.updateProfile(uid!, name: nameField.text!, title: titleField.text!, about: aboutField.text,
+      rate: newRate){ resultString in
       var message = "Your profile is successfully updated!"
       if (!resultString.isEmpty) {
         message = resultString

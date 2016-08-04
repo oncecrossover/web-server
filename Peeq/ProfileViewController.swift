@@ -17,6 +17,9 @@ class ProfileViewController: UIViewController{
 
   @IBOutlet weak var aboutLabel: UILabel!
   @IBOutlet weak var titleLabel: UILabel!
+  @IBOutlet weak var rateLabel: UILabel!
+
+  var rate:Double = 0.0
 
   var userModule = User()
 
@@ -34,7 +37,7 @@ class ProfileViewController: UIViewController{
 
   func initView() {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    userModule.getProfile(uid) { fullName, title, aboutMe, avatarImage in
+    userModule.getProfile(uid) { fullName, title, aboutMe, avatarImage, rate in
       dispatch_sync(dispatch_get_main_queue(), {
         self.aboutLabel.text = aboutMe
         self.aboutLabel.font = self.aboutLabel.font.fontWithSize(12)
@@ -44,6 +47,10 @@ class ProfileViewController: UIViewController{
 
         self.titleLabel.text = title
         self.titleLabel.font = self.titleLabel.font.fontWithSize(12)
+
+        self.rateLabel.text = String(rate) + " to answer a question"
+        self.rateLabel.font = self.rateLabel.font.fontWithSize(12)
+        self.rate = rate
 
         if (avatarImage.length > 0) {
           self.profilePhoto.image = UIImage(data: avatarImage)
@@ -65,7 +72,7 @@ class ProfileViewController: UIViewController{
         image = profilePhoto.image!
       }
       dvc.profileValues = (name: nameLabel.text, title: titleLabel.text, about: aboutLabel.text,
-        avatarImage : image)
+        avatarImage : image, rate: self.rate)
       
     }
   }

@@ -61,7 +61,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
           profileAbout = profileInfo["aboutMe"] as! String
         }
 
-        self.userModule.getProfile(profileUid) { _, _, _, avatarImage in
+        self.userModule.getProfile(profileUid) { _, _, _, avatarImage, _ in
           self.profiles.append((uid: profileUid, name: profileName, title: profileTitle, about: profileAbout, avatarImage: avatarImage))
           count--
           if (count == 0) {

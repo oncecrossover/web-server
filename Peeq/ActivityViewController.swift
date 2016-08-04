@@ -97,7 +97,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
         if (self.segmentedControl.selectedSegmentIndex == 0) {
           let responderId = questionInfo["responder"] as! String
-          self.userModule.getProfile(responderId) {name, title, about, avatarImage in
+          self.userModule.getProfile(responderId) {name, title, about, avatarImage, _ in
             self.questions.append((id: questionId, question: question, status: status,
               responderImage: avatarImage, responderName: name, responderTitle: title, isPlaying: false))
             count--
@@ -110,7 +110,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         else if (self.segmentedControl.selectedSegmentIndex == 1) {
           let askerId = questionInfo["asker"] as! String
-          self.userModule.getProfile(askerId){name, title, about, avatarImage in
+          self.userModule.getProfile(askerId){name, title, about, avatarImage, _ in
             self.answers.append((id: questionId, question: question, status: status,
               askerImage: avatarImage, askerName: name, askerTitle: title, askerId: askerId))
             count--
@@ -138,7 +138,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       for snoop in jsonArray as! [[String:AnyObject]] {
         let questionId = snoop["quandaId"] as! Int
         self.questionModule.getQuestionById(questionId) { responderId, question in
-          self.userModule.getProfile(responderId) {name, title, _, avatarImage in
+          self.userModule.getProfile(responderId) {name, title, _, avatarImage, _ in
             self.snoops.append((id: questionId, question: question, status: "ANSWERED", responderImage: avatarImage,
               responderName: name, responderTitle: title, isPlaying: false))
             count--

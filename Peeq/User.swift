@@ -85,11 +85,11 @@ class User
     task.resume()
   }
 
-  func updateProfile(uid: String, name: String, title: String, about: String, completion: (String) -> ()) {
+  func updateProfile(uid: String, name: String, title: String, about: String, rate: Double, completion: (String) -> ()) {
     let myUrl = NSURL(string: PROFILEURI + uid);
     let request = NSMutableURLRequest(URL:myUrl!);
     request.HTTPMethod = "PUT";
-    let jsonData = ["fullName": name, "title" : title, "aboutMe": about]
+    let jsonData = ["fullName": name, "title" : title, "aboutMe": about, "rate" : rate]
 
     do {
       request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
@@ -144,7 +144,7 @@ class User
     task.resume()
   }
 
-  func getProfile(uid: String, completion: (String, String, String, NSData) -> ()){
+  func getProfile(uid: String, completion: (String, String, String, NSData, Double) -> ()){
     let myUrl = NSURL(string: PROFILEURI + uid);
     let request = NSMutableURLRequest(URL:myUrl!);
     request.HTTPMethod = "GET";
@@ -167,6 +167,7 @@ class User
           var title = ""
           var aboutMe = ""
           var avatarImage: NSData = NSData()
+          var rate = 0.0
 
           // Get value by key
           if ((convertedJsonIntoDict["fullName"] as? String) != nil) {
@@ -185,7 +186,11 @@ class User
             avatarImage = NSData(base64EncodedString: (convertedJsonIntoDict["avatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
           }
 
-          completion(fullName, title, aboutMe, avatarImage)
+          if ((convertedJsonIntoDict["rate"] as? Double) != nil) {
+            rate = (convertedJsonIntoDict["rate"] as? Double)!
+          }
+
+          completion(fullName, title, aboutMe, avatarImage, rate)
 
         }
       } catch let error as NSError {

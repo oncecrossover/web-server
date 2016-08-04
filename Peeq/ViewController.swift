@@ -60,7 +60,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
           continue
         }
 
-        self.userModule.getProfile(responderId) {name, title, _, avatarImage in
+        self.userModule.getProfile(responderId) {name, title, _, avatarImage, _ in
           self.feeds.append((id: questionId, question: question, responderId: responderId, responderName: name,
             responderTitle: title, profileData: avatarImage, status: status))
           count--
