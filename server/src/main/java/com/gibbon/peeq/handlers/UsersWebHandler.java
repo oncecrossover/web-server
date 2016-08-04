@@ -2,6 +2,8 @@ package com.gibbon.peeq.handlers;
 
 import java.io.IOException;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,19 +11,19 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.db.model.User;
 import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.util.StripeUtils;
 import com.google.common.io.ByteArrayDataOutput;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Customer;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
-import io.netty.util.CharsetUtil;
 
 public class UsersWebHandler extends AbastractPeeqWebHandler
     implements PeeqWebHandler {
@@ -50,10 +52,10 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
   }
 
   private FullHttpResponse onCreate() {
-    final User user;
+    final User fromJson;
     try {
-      user = newUserFromRequest();
-      if (user == null) {
+      fromJson = newUserFromRequest();
+      if (fromJson == null) {
         appendln("No user or incorrect format specified.");
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
@@ -62,15 +64,38 @@ public class UsersWebHandler extends AbastractPeeqWebHandler
     }
 
     Transaction txn = null;
+    Customer customer = null;
+    Session session = null;
     try {
-      txn = getSession().beginTransaction();
-      getSession().save(user);
+      /* create Stripe customer */
+      customer = StripeUtils.createCustomerForUser(fromJson.getUid());
+      if (customer == null) {
+        appendln(String.format("Creating Customer for user '%s' failed.",
+            fromJson.getUid()));
+        return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
+      }
+
+      /* save customer id */
+      fromJson.getPcAccount().setChargeFrom(customer.getId());
+
+      session = getSession();
+      txn = session.beginTransaction();
+      session.save(fromJson);
       txn.commit();
       appendln(String.format("New resource created with URI: /users/%s",
-          user.getUid()));
+          fromJson.getUid()));
       return newResponse(HttpResponseStatus.CREATED);
-    } catch (Exception e) {
+    } catch (StripeException e) {
+      return newServerErrorResponse(e, LOG);
+    } catch (HibernateException e) {
       txn.rollback();
+      try {
+        StripeUtils.deleteCustomer(customer);
+      } catch (StripeException se) {
+        stashServerError(se, LOG);
+      }
+      return newServerErrorResponse(e, LOG);
+    } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
   }

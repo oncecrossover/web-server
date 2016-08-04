@@ -483,12 +483,6 @@
       </dependency>
 
       <!-- Test dependency used by http/2 hpack -->
-      <dependency>
-        <groupId>com.google.code.gson</groupId>
-        <artifactId>gson</artifactId>
-        <version>2.6.2</version>
-        <scope>test</scope>
-      </dependency>
 
       <!-- Test suite dependency for generating a compressed heap dump file -->
       <dependency>
