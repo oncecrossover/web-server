@@ -51,6 +51,11 @@ Specially, ./run-jar.sh peeq-snoop-server to start peeq-snoop-server
 
 
 
+PUBLIC KEY OF PAYMENT SERVICE:
+pk_test_wyZIIuEmr4TQLHVnZHUxlTtm
+
+
+
 WHAT RESTFUL APIs AVAILABLE?
 RESTFUL APIs OF USERS:
 1. get user by uid, e.g.
