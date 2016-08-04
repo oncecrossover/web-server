@@ -17,6 +17,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
   @IBOutlet weak var playButton: UIButton!
   @IBOutlet weak var explanation: UILabel!
   @IBOutlet weak var reminder: UILabel!
+  @IBOutlet weak var confirmButton: UIButton!
 
   var soundRecorder: AVAudioRecorder!
   var soundPlayer: AVAudioPlayer!
@@ -28,10 +29,13 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
   var isRecording = false
   var isPlaying = false
+  var isSaved = false
 
   var count = 60
 
   var timer = NSTimer()
+
+  var utilityModule = UIUtility()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -60,16 +64,20 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
   func initView() {
     reminder.hidden = true
+    confirmButton.hidden = true
     recordbutton.setImage(UIImage(named: "speak"), forState: .Normal)
     playButton.setImage(UIImage(named: "listen"), forState: .Normal)
 
     if (question.status == "PENDING") {
       explanation.text = "Touch button to start recording up to 60 sec"
       playButton.hidden = true
+      isSaved = false
     }
     else {
-      explanation.text = "Click mic to re-answer"
+      explanation.hidden = true
+      recordbutton.enabled = false
       playButton.hidden = false
+      isSaved = true
     }
     self.answerTableView.reloadData()
   }
@@ -140,6 +148,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     playButton.hidden = false
     playButton.enabled = true
     reminder.hidden = true
+    confirmButton.hidden = false
     explanation.text = "Click mic to re-answer"
 
     timer.invalidate()
@@ -152,20 +161,41 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
       sender.setImage(UIImage(named: "stop"), forState: .Normal)
       recordbutton.enabled = false
 
-      questionModule.getQuestionAudio(question.id) { audioString in
-        if (!audioString.isEmpty) {
-          let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
-          dispatch_async(dispatch_get_main_queue()) {
-            self.preparePlayer(data)
-            self.soundPlayer.play()
+      if (isSaved == true) {
+        questionModule.getQuestionAudio(question.id) { audioString in
+          if (!audioString.isEmpty) {
+            let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
+              dispatch_async(dispatch_get_main_queue()) {
+                  self.preparePlayer(data)
+                  self.soundPlayer.play()
+              }
           }
         }
+      }
+      else {
+        self.preparePlayer(NSData(contentsOfURL: getFileUrl())!)
+        self.soundPlayer.play()
       }
     }
     else {
       sender.setImage(UIImage(named: "listen"), forState: .Normal)
       isPlaying = false
       soundPlayer.stop()
+    }
+  }
+
+  @IBAction func confirmButtonTapped(sender: AnyObject) {
+    let responderId = NSUserDefaults.standardUserDefaults().stringForKey("email")
+    questionModule.updateQuestion(question.id, askerId: question.askerId, content: question.content,
+      responderId: responderId, answerAudio: NSData(contentsOfURL: getFileUrl())) { result in
+        dispatch_async(dispatch_get_main_queue()){
+          self.playButton.enabled = true
+          self.isSaved = true
+          self.confirmButton.hidden = true
+          self.recordbutton.hidden = true
+          self.explanation.hidden = true
+          self.utilityModule.displayAlertMessage("Your Answer is successfully saved!", title: "OK", sender: self)
+        }
     }
   }
 
@@ -182,13 +212,14 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
 
   func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
-    let responderId = NSUserDefaults.standardUserDefaults().stringForKey("email")
-    questionModule.updateQuestion(question.id, askerId: question.askerId, content: question.content,
-      responderId: responderId, answerAudio: NSData(contentsOfURL: getFileUrl())) { result in
-        dispatch_async(dispatch_get_main_queue()){
-          self.playButton.enabled = true
-        }
-    }
+//    let responderId = NSUserDefaults.standardUserDefaults().stringForKey("email")
+//    questionModule.updateQuestion(question.id, askerId: question.askerId, content: question.content,
+//      responderId: responderId, answerAudio: NSData(contentsOfURL: getFileUrl())) { result in
+//        dispatch_async(dispatch_get_main_queue()){
+//          self.playButton.enabled = true
+//        }
+//    }
+    self.confirmButton.hidden = false
   }
 
 
