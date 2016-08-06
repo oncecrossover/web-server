@@ -278,11 +278,15 @@ public class TestStripeUtils {
     System.out.println(token.toString());
     token = Token.create(defaultTokenParams);
     System.out.println(token.toString());
+    token = Token.create(defaultTokenParams);
+    System.out.println(token.toString());
   }
 
-  @Test(timeout = 60000)
+  // @Test(timeout = 60000)
   public void testVerifyCustomer() throws StripeException {
-    final Customer customer = StripeUtils.getCustomer("cus_8xUE4dwv0HMu9Z");
+    Customer customer = StripeUtils.getCustomer("cus_8xUE4dwv0HMu9Z");
+    System.out.println(customer.toString());
+    customer = StripeUtils.getCustomer("cus_8xUGEPr984Lmrc");
     System.out.println(customer.toString());
   }
 }

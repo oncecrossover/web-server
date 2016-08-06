@@ -16,6 +16,7 @@ public class PcEntry {
   private String last4;
   private String token;
   private Date createdTime;
+  private Boolean isDefault = false;
 
   public long getId() {
     return id;
@@ -80,6 +81,14 @@ public class PcEntry {
     return this;
   }
 
+  public Boolean getDefault() {
+    return isDefault;
+  }
+
+  public PcEntry setDefault(final Boolean isDefault) {
+    this.isDefault = isDefault;
+    return this;
+  }
 
   @Override
   public boolean equals(Object obj) {
@@ -97,7 +106,8 @@ public class PcEntry {
           && isEqual(this.getUid(), that.getUid())
           && isEqual(this.getEntryId(), that.getEntryId())
           && isEqual(this.getBrand(), that.getBrand())
-          && isEqual(this.getLast4(), that.getLast4())) {
+          && isEqual(this.getLast4(), that.getLast4())
+          && isEqual(this.getDefault(), that.getDefault())) {
         return true;
       }
     }

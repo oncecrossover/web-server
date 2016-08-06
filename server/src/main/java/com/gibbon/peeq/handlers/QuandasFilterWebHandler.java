@@ -66,25 +66,25 @@ public class QuandasFilterWebHandler extends AbastractPeeqWebHandler
     criteria.addOrder(Order.desc("createdTime"));
 
     Map<String, String> kvs = getFilterParamParser().getQueryKVs();
-    List<Profile> profiles = null;
+    List<Quanda> quandas = null;
 
     /* no query condition specified */
     if (kvs.entrySet().size() == 0) {
       return "";
     } else if (kvs.containsKey(FilterParamParser.SB_STAR)) {
       /* select * from xxx */
-      profiles = criteria.list();
+      quandas = criteria.list();
     } else {
       for (Map.Entry<String, String> kv : kvs.entrySet()) {
         if (kv.getKey() != FilterParamParser.SB_STAR) {
           criteria.add(Restrictions.eq(kv.getKey(), kv.getValue()));
         }
       }
-      profiles = criteria.list();
+      quandas = criteria.list();
     }
 
     sb.append("[");
-    sb.append(Joiner.on(",").skipNulls().join(profiles));
+    sb.append(Joiner.on(",").skipNulls().join(quandas));
     sb.append("]");
     return sb.toString();
   }
