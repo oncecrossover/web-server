@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.BeforeClass;
@@ -16,9 +15,11 @@ import org.slf4j.LoggerFactory;
 
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
+import com.stripe.model.Card;
 import com.stripe.model.Customer;
+import com.stripe.model.DeletedCard;
 import com.stripe.model.DeletedCustomer;
-import com.stripe.model.ExternalAccount;
+import com.stripe.model.DeletedExternalAccount;
 import com.stripe.model.Token;
 
 public class TestStripeUtils {
@@ -176,5 +177,112 @@ public class TestStripeUtils {
         defaultUpdatedCustomer.getDefaultSource());
     assertEquals(anotherToken.getCard().getId(),
         defaultUpdatedCustomer.getSources().getData().get(0).getId());
+  }
+
+  @Test(timeout = 60000)
+  public void testDeleteCard() throws StripeException {
+    /* create new customer */
+    Customer customer = StripeUtils.createCustomerForUser("test@example.com");
+
+    /* create new card by token */
+    final Token token = Token.create(defaultTokenParams);
+    final Card card = StripeUtils.addCardToCustomer(customer, token.getId());
+
+    /* retrieve updated customer */
+    customer = Customer.retrieve(customer.getId());
+    assertEquals(1, customer.getSources().getData().size());
+    assertEquals(token.getCard().getId(), customer.getDefaultSource());
+    assertEquals(token.getCard().getId(),
+        customer.getSources().getData().get(0).getId());
+
+    /* delete card */
+    DeletedCard deletedCard = StripeUtils.deleteCard(card);
+    assertEquals(true, deletedCard.getDeleted());
+    assertEquals(card.getId(), deletedCard.getId());
+
+    /* retrieve updated customer */
+    customer = Customer.retrieve(customer.getId());
+    assertEquals(0, customer.getSources().getData().size());
+    assertEquals(null, customer.getDefaultSource());
+  }
+
+  @Test(timeout = 60000)
+  public void testDeleteCardById() throws StripeException {
+    /* create new customer */
+    final Customer customer = StripeUtils
+        .createCustomerForUser("test@example.com");
+
+    /* add one card */
+    final Token oneToken = Token.create(defaultTokenParams);
+    final Card oneCard = StripeUtils.addCardToCustomer(customer,
+        oneToken.getId());
+    final Customer oneCustomer = Customer.retrieve(customer.getId());
+
+    assertEquals(1, oneCustomer.getSources().getData().size());
+    assertEquals(oneToken.getCard().getId(), oneCustomer.getDefaultSource());
+    assertEquals(oneToken.getCard().getId(),
+        oneCustomer.getSources().getData().get(0).getId());
+
+    /* add another card */
+    final Token anotherToken = Token.create(defaultDebitTokenParams);
+    final Card anotherCard = StripeUtils.addCardToCustomer(customer,
+        anotherToken.getId());
+    final Customer anotherCustomer = Customer.retrieve(customer.getId());
+
+    assertEquals(2, anotherCustomer.getSources().getData().size());
+    assertEquals(oneToken.getCard().getId(),
+        anotherCustomer.getDefaultSource());
+    assertEquals(oneToken.getCard().getId(),
+        anotherCustomer.getSources().getData().get(0).getId());
+
+    /* delete one card */
+    final DeletedExternalAccount oneDeletedAccount = StripeUtils
+        .deleteCard(oneCustomer, oneCard.getId());
+    assertEquals(true, oneDeletedAccount.getDeleted());
+    assertEquals(oneCard.getId(), oneDeletedAccount.getId());
+
+    final Customer oneDeletedAccountCustomer = Customer
+        .retrieve(customer.getId());
+
+    assertEquals(1, oneDeletedAccountCustomer.getSources().getData().size());
+    assertEquals(anotherToken.getCard().getId(),
+        oneDeletedAccountCustomer.getDefaultSource());
+    assertEquals(anotherToken.getCard().getId(),
+        oneDeletedAccountCustomer.getSources().getData().get(0).getId());
+
+    /* delete another card */
+    final DeletedExternalAccount anotherDeletedAccount = StripeUtils
+        .deleteCard(anotherCustomer, anotherCard.getId());
+    assertEquals(true, anotherDeletedAccount.getDeleted());
+    assertEquals(anotherCard.getId(), anotherDeletedAccount.getId());
+
+    final Customer anotherDeletedAccountCustomer = Customer
+        .retrieve(customer.getId());
+
+    assertEquals(0,
+        anotherDeletedAccountCustomer.getSources().getData().size());
+    assertEquals(null, anotherDeletedAccountCustomer.getDefaultSource());
+  }
+
+  //@Test(timeout = 60000)
+  public void testGenerateCustomer() throws StripeException {
+    /* create new customer */
+    final Customer customer = StripeUtils
+        .createCustomerForUser("test@example.com");
+    System.out.println(customer.toString());
+
+    /* create new token */
+    Token token = Token.create(defaultTokenParams);
+    System.out.println(token.toString());
+    token = Token.create(defaultTokenParams);
+    System.out.println(token.toString());
+    token = Token.create(defaultTokenParams);
+    System.out.println(token.toString());
+  }
+
+  @Test(timeout = 60000)
+  public void testVerifyCustomer() throws StripeException {
+    final Customer customer = StripeUtils.getCustomer("cus_8xUE4dwv0HMu9Z");
+    System.out.println(customer.toString());
   }
 }

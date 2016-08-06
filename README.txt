@@ -126,6 +126,16 @@ curl -i -X GET "http://127.0.0.1:8080/snoops?filter=*"
 curl -i -X GET "http://127.0.0.1:8080/snoops?filter=uid=kuan"
 The column name is case sensitive, it only supports single column. In addition, it essentially does equal matched query.
 
+RESTFUL APIs OF PCENTRY (i.e. credit/debit card or bank account):
+1. get PcEntry by id, e.g.
+curl -i -X GET "http://127.0.0.1:8080/pcentries/1"
+
+2. create new PcEntry, e.g.
+curl -i -X POST "http://127.0.0.1:8080/pcentries" -d '{"uid":"edmund","token":"tok_18fZTsEl5MEVXMYqdo1MHZtn"}'
+
+3. delete PcEntry, e.g.
+curl -i -X DELETE "http://127.0.0.1:8080/pcentries/1"
+
 
 
 HTTP STATUS CODE OF REST API:

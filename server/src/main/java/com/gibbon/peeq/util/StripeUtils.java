@@ -7,7 +7,9 @@ import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Card;
 import com.stripe.model.Customer;
+import com.stripe.model.DeletedCard;
 import com.stripe.model.DeletedCustomer;
+import com.stripe.model.DeletedExternalAccount;
 
 public class StripeUtils {
   static {
@@ -50,5 +52,14 @@ public class StripeUtils {
     final Map<String, Object> updateParams = new HashMap<String, Object>();
     updateParams.put("default_source", card.getId());
     return customer.update(updateParams);
+  }
+
+  public static DeletedCard deleteCard(final Card card) throws StripeException {
+    return card.delete();
+  }
+
+  public static DeletedExternalAccount deleteCard(final Customer customer,
+      final String cardId) throws StripeException {
+    return customer.getSources().retrieve(cardId).delete();
   }
 }
