@@ -139,7 +139,7 @@ curl -i -X DELETE "http://127.0.0.1:8080/pcentries/1"
 RESTFUL APIs OF FILTERING PCENTRY (i.e. credit/debit card or bank account):
 1. load PcEntries by user id, e.g.
 curl -i -X GET "http://127.0.0.1:8080/pcentries?filter=uid=edmund"
-It doesn't support loading all, e.g. filter=uid=*
+It doesn't support loading all, e.g. filter=*
 
 
 
