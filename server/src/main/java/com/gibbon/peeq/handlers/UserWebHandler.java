@@ -25,12 +25,12 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
-public class UsersWebHandler extends AbastractPeeqWebHandler
+public class UserWebHandler extends AbastractPeeqWebHandler
     implements PeeqWebHandler {
   protected static final Logger LOG = LoggerFactory
-      .getLogger(UsersWebHandler.class);
+      .getLogger(UserWebHandler.class);
 
-  public UsersWebHandler(ResourceURIParser uriParser,
+  public UserWebHandler(ResourceURIParser uriParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
     super(uriParser, respBuf, ctx, request);

@@ -44,10 +44,10 @@ import org.slf4j.LoggerFactory;
 import com.gibbon.peeq.handlers.NotFoundResourceWebHandler;
 import com.gibbon.peeq.handlers.NullResouceWebHandler;
 import com.gibbon.peeq.handlers.PcEntryWebHandler;
-import com.gibbon.peeq.handlers.ProfilesWebHandler;
-import com.gibbon.peeq.handlers.QuandasWebHandler;
-import com.gibbon.peeq.handlers.SnoopsWebHandler;
-import com.gibbon.peeq.handlers.UsersWebHandler;
+import com.gibbon.peeq.handlers.ProfileWebHandler;
+import com.gibbon.peeq.handlers.QuandaWebHandler;
+import com.gibbon.peeq.handlers.SnoopWebHandler;
+import com.gibbon.peeq.handlers.UserWebHandler;
 import com.gibbon.peeq.util.ResourceURIParser;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -96,25 +96,25 @@ public class HttpSnoopServerHandler
     final String resourceName = uriParser.getPathStream().nextToken();
 
     if ("users".equalsIgnoreCase(resourceName)) {
-      return new UsersWebHandler(
+      return new UserWebHandler(
           uriParser,
           respBuf,
           ctx,
           request).handle();
     } else if ("profiles".equalsIgnoreCase(resourceName)) {
-      return new ProfilesWebHandler(
+      return new ProfileWebHandler(
           uriParser,
           respBuf,
           ctx,
           request).handle();
     } else if ("quandas".equalsIgnoreCase(resourceName)) {
-      return new QuandasWebHandler(
+      return new QuandaWebHandler(
           uriParser,
           respBuf,
           ctx,
           request).handle();
     } else if ("snoops".equalsIgnoreCase(resourceName)) {
-      return new SnoopsWebHandler(
+      return new SnoopWebHandler(
           uriParser,
           respBuf,
           ctx,

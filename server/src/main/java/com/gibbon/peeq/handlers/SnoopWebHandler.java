@@ -22,12 +22,12 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
-public class SnoopsWebHandler extends AbastractPeeqWebHandler
+public class SnoopWebHandler extends AbastractPeeqWebHandler
     implements PeeqWebHandler {
   protected static final Logger LOG = LoggerFactory
-      .getLogger(SnoopsWebHandler.class);
+      .getLogger(SnoopWebHandler.class);
 
-  public SnoopsWebHandler(ResourceURIParser uriParser,
+  public SnoopWebHandler(ResourceURIParser uriParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
     super(uriParser, respBuf, ctx, request);
@@ -35,7 +35,7 @@ public class SnoopsWebHandler extends AbastractPeeqWebHandler
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    PeeqWebHandler pwh = new SnoopsFilterWebHandler(getUriParser(),
+    PeeqWebHandler pwh = new SnoopFilterWebHandler(getUriParser(),
         getRespBuf(), getHandlerContext(), getRequest());
 
     if (pwh.willFilter()) {

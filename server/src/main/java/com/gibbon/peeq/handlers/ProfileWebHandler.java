@@ -1,7 +1,6 @@
 package com.gibbon.peeq.handlers;
 
 import java.io.IOException;
-import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Transaction;
@@ -11,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.gibbon.peeq.db.model.Quanda;
+import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.util.ObjectStoreClient;
 import com.gibbon.peeq.util.ResourceURIParser;
 import com.google.common.io.ByteArrayDataOutput;
@@ -21,14 +20,14 @@ import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
-public class QuandasWebHandler extends AbastractPeeqWebHandler
-    implements PeeqWebHandler {
+public class ProfileWebHandler extends AbastractPeeqWebHandler {
   protected static final Logger LOG = LoggerFactory
-      .getLogger(QuandasWebHandler.class);
+      .getLogger(ProfileWebHandler.class);
 
-  public QuandasWebHandler(ResourceURIParser uriParser,
+  public ProfileWebHandler(ResourceURIParser uriParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
     super(uriParser, respBuf, ctx, request);
@@ -36,7 +35,7 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    PeeqWebHandler pwh = new QuandasFilterWebHandler(getUriParser(),
+    PeeqWebHandler pwh = new ProfileFilterWebHandler(getUriParser(),
         getRespBuf(), getHandlerContext(), getRequest());
 
     if (pwh.willFilter()) {
@@ -56,28 +55,32 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
     return onUpdate();
   }
 
+  @Override
+  protected FullHttpResponse handleDeletion() {
+    return onDelete();
+  }
+
   private FullHttpResponse onGet() {
     /* get id */
-    final String id = getUriParser().getPathStream().nextToken();
+    final String uid = getUriParser().getPathStream().nextToken();
 
-    /* no id */
-    if (StringUtils.isBlank(id)) {
-      appendln("Missing parameter: id");
+    /* no uid */
+    if (StringUtils.isBlank(uid)) {
+      appendln("Missing parameter: uid");
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
     Transaction txn = null;
     try {
       txn = getSession().beginTransaction();
-      final Quanda quanda = (Quanda) getSession().get(Quanda.class,
-          Long.parseLong(id));
+      final Profile profile = (Profile) getSession().get(Profile.class, uid);
       txn.commit();
 
       /* load from object store */
-      setAnswerAudio(quanda);
+      setAvatarImage(profile);
 
-      /* buffer result */
-      appendQuanda(id, quanda);
+      /* result queried */
+      appendProfile(uid, profile);
       return newResponse(HttpResponseStatus.OK);
     } catch (Exception e) {
       txn.rollback();
@@ -85,52 +88,53 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  private void setAnswerAudio(final Quanda quanda) {
-    if (quanda == null) {
+  private void setAvatarImage(final Profile profile) {
+    if (profile == null) {
       return;
     }
 
-    final byte[] readContent = readAnswerAudio(quanda);
+    final byte[] readContent = readAvatarImage(profile);
     if (readContent != null) {
-      quanda.setAnswerAudio(readContent);
+      profile.setAvatarImage(readContent);
     }
   }
 
-  private byte[] readAnswerAudio(final Quanda quanda) {
+  private byte[] readAvatarImage(final Profile profile) {
     ObjectStoreClient osc = new ObjectStoreClient();
     try {
-      return osc.readAnswerAudio(quanda.getAnswerUrl());
+      return osc.readAvatarImage(profile.getAvatarUrl());
     } catch (Exception e) {
       LOG.warn(super.stackTraceToString(e));
     }
     return null;
   }
 
-  private void appendQuanda(final String id, final Quanda quanda)
-      throws JsonProcessingException {
-    if (quanda != null) {
-      appendByteArray(quanda.toJsonByteArray());
-    } else {
-      appendln(String.format("Nonexistent resource with URI: /quandas/%s", id));
-    }
+  private FullHttpResponse onCreate() {
+    appendMethodNotAllowed(HttpMethod.POST.name());
+    return newResponse(HttpResponseStatus.METHOD_NOT_ALLOWED);
+  }
+
+  private FullHttpResponse onDelete() {
+    appendMethodNotAllowed(HttpMethod.DELETE.name());
+    return newResponse(HttpResponseStatus.METHOD_NOT_ALLOWED);
   }
 
   private FullHttpResponse onUpdate() {
     /* get id */
-    final String id = getUriParser().getPathStream().nextToken();
+    final String uid = getUriParser().getPathStream().nextToken();
 
-    /* no id */
-    if (StringUtils.isBlank(id)) {
-      appendln("Missing parameter: id");
+    /* no uid */
+    if (StringUtils.isBlank(uid)) {
+      appendln("Missing parameter: uid");
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
     /* deserialize json */
-    final Quanda fromJson;
+    final Profile fromJson;
     try {
-      fromJson = newQuandaFromRequest();
+      fromJson = newProfileFromRequest();
       if (fromJson == null) {
-        appendln("No quanda or incorrect format specified.");
+        appendln("No profile or incorrect format specified.");
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (Exception e) {
@@ -142,10 +146,10 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
      * query to get DB copy to avoid updating fields (not explicitly set by
      * Json) to NULL
      */
-    Quanda fromDB = null;
+    Profile fromDB = null;
     try {
       txn = getSession().beginTransaction();
-      fromDB = (Quanda) getSession().get(Quanda.class, Long.parseLong(id));
+      fromDB = (Profile) getSession().get(Profile.class, uid);
       txn.commit();
     } catch (Exception e) {
       txn.rollback();
@@ -153,15 +157,13 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
     }
 
     /* ignore id from json */
-    fromJson.setId(Long.parseLong(id));
+    fromJson.setUid(uid);
     if (fromDB != null) {
       fromDB.setAsIgnoreNull(fromJson);
-      /* update updatedTime */
-      fromDB.setUpdatedTime(new Date());
     }
 
     /* save to object store */
-    setAnswerUrl(fromDB);
+    setAvatarUrl(fromDB);
 
     try {
       txn = getSession().beginTransaction();
@@ -174,62 +176,46 @@ public class QuandasWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  private void setAnswerUrl(final Quanda fromDB) {
-    final String url = saveAnswerAudio(fromDB);
+  private void setAvatarUrl(final Profile profile) {
+    final String url = saveAvatarImage(profile);
     if (url != null) {
-      fromDB.setAnswerUrl(url);
+      profile.setAvatarUrl(url);
     }
   }
 
-  private String saveAnswerAudio(final Quanda fromDB) {
+  private String saveAvatarImage(final Profile profile) {
     ObjectStoreClient osc = new ObjectStoreClient();
     try {
-      return osc.saveAnswerAudio(fromDB);
+      return osc.saveAvatarImage(profile);
     } catch (Exception e) {
       LOG.warn(super.stackTraceToString(e));
     }
     return null;
   }
 
-  private FullHttpResponse onCreate() {
-    final Quanda fromJson;
-    try {
-      fromJson = newQuandaFromRequest();
-      if (fromJson == null) {
-        appendln("No quanda or incorrect format specified.");
-        return newResponse(HttpResponseStatus.BAD_REQUEST);
-      }
-    } catch (Exception e) {
-      return newServerErrorResponse(e, LOG);
-    }
-
-    /* set time */
-    final Date now = new Date();
-    fromJson.setCreatedTime(now);
-    fromJson.setUpdatedTime(now);
-
-    Transaction txn = null;
-    try {
-      txn = getSession().beginTransaction();
-      getSession().save(fromJson);
-      txn.commit();
-      appendln(String.format("New resource created with URI: /quandas/%s",
-          fromJson.getId()));
-      return newResponse(HttpResponseStatus.CREATED);
-    } catch (Exception e) {
-      txn.rollback();
-      return newServerErrorResponse(e, LOG);
-    }
-  }
-
-  private Quanda newQuandaFromRequest()
+  private Profile newProfileFromRequest()
       throws JsonParseException, JsonMappingException, IOException {
     final ByteBuf content = getRequest().content();
     if (content.isReadable()) {
       final byte[] json = ByteBufUtil.getBytes(content);
-      return Quanda.newQuanda(json);
+      return Profile.newProfile(json);
     }
     return null;
   }
 
+  private void appendMethodNotAllowed(final String methodName) {
+    final String resourceName = getUriParser().getPathStream().getTouchedPath();
+    appendln(String.format("Method '%s' not allowed on resource '%s'",
+        methodName, resourceName));
+  }
+
+  private void appendProfile(final String id, final Profile profile)
+      throws JsonProcessingException {
+    if (profile != null) {
+      appendByteArray(profile.toJsonByteArray());
+    } else {
+      appendln(String.format("Nonexistent resource with URI: /profiles/%s",
+          id));
+    }
+  }
 }

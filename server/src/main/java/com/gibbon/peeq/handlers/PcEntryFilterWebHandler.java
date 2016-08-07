@@ -30,12 +30,12 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PcEntriesFilterWebHandler extends AbastractPeeqWebHandler
+public class PcEntryFilterWebHandler extends AbastractPeeqWebHandler
     implements PeeqWebHandler {
   private static final Logger LOG = LoggerFactory
-      .getLogger(PcEntriesFilterWebHandler.class);
+      .getLogger(PcEntryFilterWebHandler.class);
 
-  public PcEntriesFilterWebHandler(ResourceURIParser uriParser,
+  public PcEntryFilterWebHandler(ResourceURIParser uriParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
     super(uriParser, respBuf, ctx, request,

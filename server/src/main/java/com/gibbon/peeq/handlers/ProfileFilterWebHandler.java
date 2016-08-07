@@ -7,14 +7,12 @@ import org.apache.commons.lang3.text.StrBuilder;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gibbon.peeq.db.model.Profile;
-import com.gibbon.peeq.db.model.Quanda;
 import com.gibbon.peeq.util.FilterParamParser;
 import com.gibbon.peeq.util.ResourceURIParser;
 import com.google.common.base.Joiner;
@@ -25,12 +23,12 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
-public class QuandasFilterWebHandler extends AbastractPeeqWebHandler
+public class ProfileFilterWebHandler extends AbastractPeeqWebHandler
     implements PeeqWebHandler {
   protected static final Logger LOG = LoggerFactory
-      .getLogger(QuandasFilterWebHandler.class);
+      .getLogger(ProfileFilterWebHandler.class);
 
-  public QuandasFilterWebHandler(ResourceURIParser uriParser,
+  public ProfileFilterWebHandler(ResourceURIParser uriParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
     super(uriParser, respBuf, ctx, request,
@@ -40,6 +38,36 @@ public class QuandasFilterWebHandler extends AbastractPeeqWebHandler
   @Override
   protected FullHttpResponse handleRetrieval() {
     return onQuery();
+  }
+
+  String getResultJson(final Session session) throws JsonProcessingException {
+    StrBuilder sb = new StrBuilder();
+    Criteria criteria = session.createCriteria(Profile.class);
+
+    Map<String, String> kvs = getFilterParamParser().getQueryKVs();
+    List<Profile> profiles = null;
+
+    /* no query condition specified */
+    if (kvs.entrySet().size() == 0) {
+      return "";
+    } else if (kvs.containsKey(FilterParamParser.SB_STAR)) {
+      /* select * from xxx */
+      profiles = criteria.list();
+    } else {
+      for (Map.Entry<String, String> kv : kvs.entrySet()) {
+        if (kv.getKey() != FilterParamParser.SB_STAR) {
+          /* Edmund --> %Edmund% */
+          String pattern = String.format("%%%s%%", kv.getValue());
+          criteria.add(Restrictions.like(kv.getKey(), pattern));
+        }
+      }
+      profiles = criteria.list();
+    }
+
+    sb.append("[");
+    sb.append(Joiner.on(",").skipNulls().join(profiles));
+    sb.append("]");
+    return sb.toString();
   }
 
   private FullHttpResponse onQuery() {
@@ -57,35 +85,5 @@ public class QuandasFilterWebHandler extends AbastractPeeqWebHandler
       txn.rollback();
       return newServerErrorResponse(e, LOG);
     }
-  }
-
-  String getResultJson(final Session session) throws JsonProcessingException {
-    StrBuilder sb = new StrBuilder();
-    Criteria criteria = session.createCriteria(Quanda.class);
-    criteria.addOrder(Order.desc("updatedTime"));
-    criteria.addOrder(Order.desc("createdTime"));
-
-    Map<String, String> kvs = getFilterParamParser().getQueryKVs();
-    List<Quanda> quandas = null;
-
-    /* no query condition specified */
-    if (kvs.entrySet().size() == 0) {
-      return "";
-    } else if (kvs.containsKey(FilterParamParser.SB_STAR)) {
-      /* select * from xxx */
-      quandas = criteria.list();
-    } else {
-      for (Map.Entry<String, String> kv : kvs.entrySet()) {
-        if (kv.getKey() != FilterParamParser.SB_STAR) {
-          criteria.add(Restrictions.eq(kv.getKey(), kv.getValue()));
-        }
-      }
-      quandas = criteria.list();
-    }
-
-    sb.append("[");
-    sb.append(Joiner.on(",").skipNulls().join(quandas));
-    sb.append("]");
-    return sb.toString();
   }
 }

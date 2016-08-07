@@ -44,7 +44,7 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    final PeeqWebHandler pwh = new PcEntriesFilterWebHandler(getUriParser(),
+    final PeeqWebHandler pwh = new PcEntryFilterWebHandler(getUriParser(),
         getRespBuf(), getHandlerContext(), getRequest());
 
     if (pwh.willFilter()) {
