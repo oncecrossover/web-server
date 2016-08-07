@@ -13,6 +13,12 @@ public class JournalUtil {
   private static final Logger LOG = LoggerFactory
       .getLogger(BalanceWebHandler.class);
 
+  public static double getBalanceIgnoreNull(final Session session,
+      final String uid) throws Exception {
+    final Double result = getBalance(session, uid);
+    return result == null ? 0 : result.doubleValue();
+  }
+
   public static Double getBalance(final Session session, final String uid)
       throws Exception {
     final String sql = String
