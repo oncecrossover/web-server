@@ -76,7 +76,7 @@ public class TestSnoop {
 
     /* insert quanda */
     final Quanda quanda = TestQuanda.newRandomQuanda();
-    TestQuanda.testCreateQuanda(quanda);
+    TestQuanda.insertRandomQuanda(quanda);
 
     final Snoop snoop = newRandomSnoop();
     snoop.setUid(user.getUid())

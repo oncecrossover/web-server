@@ -79,3 +79,14 @@ CREATE TABLE `QaTransaction` (
   FOREIGN KEY fk_user(uid) REFERENCES User(uid),
   FOREIGN KEY fk_quanda(quandaId) REFERENCES Quanda(id)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Journal` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `transactionId` BIGINT UNSIGNED NOT NULL,
+  `uid` VARCHAR(200) NOT NULL,
+  `amount` DOUBLE NOT NULL,
+  `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY fk_user(uid) REFERENCES User(uid),
+  FOREIGN KEY fk_transaction(transactionId) REFERENCES Transaction(id)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

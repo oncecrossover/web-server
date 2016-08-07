@@ -48,7 +48,7 @@ public class TestQaTransaction {
     assertEquals(originalInstance, newInstance);
   }
 
-  private QaTransaction newRandomInstance() {
+  private static QaTransaction newRandomInstance() {
     final QaTransaction result = new QaTransaction();
     result.setId(random.nextLong())
           .setUid(UUID.randomUUID().toString())
@@ -58,7 +58,7 @@ public class TestQaTransaction {
     return result;
   }
 
-  private Object newInstance() {
+  private static Object newInstance() {
     final QaTransaction result = new QaTransaction();
     result.setId(random.nextLong())
           .setUid("edmuand")
@@ -66,6 +66,28 @@ public class TestQaTransaction {
           .setQuandaId(10)
           .setAmount(1000);
     return result;
+  }
+
+  static QaTransaction insertRandomQaTransanction()
+      throws JsonProcessingException {
+    /* insert user */
+    final User randomUser = TestUser.insertRandomUser();
+
+    /* insert quanda */
+    final Quanda randomQuanda = TestQuanda.newRandomQuanda();
+    TestQuanda.insertRandomQuanda(randomQuanda);
+
+    final QaTransaction randomInstance = newRandomInstance();
+    randomInstance.setUid(randomUser.getUid());
+    randomInstance.setQuandaId(randomQuanda.getId());
+
+    /* insert QaTransaction */
+    final Session session = HibernateTestUtil.getSessionFactory()
+        .getCurrentSession();
+    Transaction txn = session.beginTransaction();
+    session.save(randomInstance);
+    txn.commit();
+    return randomInstance;
   }
 
   @Test(timeout = 60000)
@@ -77,8 +99,13 @@ public class TestQaTransaction {
     /* insert user */
     final User randomUser = TestUser.insertRandomUser();
 
+    /* insert quanda */
+    final Quanda randomQuanda = TestQuanda.newRandomQuanda();
+    TestQuanda.insertRandomQuanda(randomQuanda);
+
     final QaTransaction randomInstance = newRandomInstance();
     randomInstance.setUid(randomUser.getUid());
+    randomInstance.setQuandaId(randomQuanda.getId());
 
     /* insert */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();

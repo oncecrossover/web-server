@@ -71,10 +71,10 @@ public class TestQuanda {
   @Test(timeout = 60000)
   public void testCreateQuanda() throws JsonProcessingException {
     final Quanda quanda = newRandomQuanda();
-    testCreateQuanda(quanda);
+    insertRandomQuanda(quanda);
   }
 
-  static void testCreateQuanda(final Quanda quanda)
+  static void insertRandomQuanda(final Quanda quanda)
       throws JsonProcessingException {
     Session session = null;
     Transaction txn = null;

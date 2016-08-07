@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.gibbon.peeq.db.model.Journal" dynamic-update="true"
+  table="JOURNAL">
+    <id name="id" type="long">
+      <column name="id" />
+      <generator class="increment" />
+    </id>
+    <property name="transactionId" type="long">
+      <column name="transactionId" />
+    </property>
+    <property name="uid" type="java.lang.String">
+      <column name="uid" />
+    </property>
+    <property name="amount" type="java.lang.Double">
+      <column name="amount" />
+    </property>
+    <property name="createdTime" type="timestamp">
+      <column name="createdTime" />
+    </property>
+  </class>
+</hibernate-mapping>
