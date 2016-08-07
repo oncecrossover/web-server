@@ -11,7 +11,7 @@ import Stripe
 
 class PaymentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-  var cards:[(id: Int!, lastFour: String!)] = []
+  var cards:[(id: Int!, lastFour: String!, brand: String!, isDefault: Bool!)] = []
   var paymentModule = Payment()
 
   @IBOutlet weak var cardTableView: UITableView!
@@ -39,9 +39,11 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
     paymentModule.getPayments("uid=" + uid!) { jsonArray in
       for paymentInfo in jsonArray as! [[String:AnyObject]] {
-        let lastFour = paymentInfo["lastFour"] as! String
+        let lastFour = paymentInfo["last4"] as! String
         let id = paymentInfo["id"] as! Int
-        self.cards.append((id: id, lastFour: lastFour))
+        let brand = paymentInfo["brand"]! as! String
+        let isDefault = paymentInfo["default"] as! Bool
+        self.cards.append((id: id, lastFour: lastFour, brand: brand, isDefault: isDefault))
       }
 
       dispatch_async(dispatch_get_main_queue()) {
@@ -69,9 +71,19 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
   }
 
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let myCell = tableView.dequeueReusableCellWithIdentifier("cardCell", forIndexPath: indexPath) as! PaymentTableViewCell
+//    let myCell = tableView.dequeueReusableCellWithIdentifier("cardCell", forIndexPath: indexPath) as! PaymentTableViewCell
+    let myCell = tableView.dequeueReusableCellWithIdentifier("cardCell")!
     let cardInfo = cards[indexPath.row]
-    myCell.lastDigit.text = "**** **** **** " + cardInfo.lastFour
+//    myCell.lastDigit.text = "**** **** **** " + cardInfo.lastFour
+    myCell.textLabel?.text = "ending in " + cardInfo.lastFour + "  \(cardInfo.brand)"
+
+    if (cardInfo.isDefault!) {
+      myCell.accessoryType = .Checkmark
+    }
+    else {
+      myCell.accessoryType = .None
+    }
+
     return myCell
   }
 

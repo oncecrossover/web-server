@@ -13,7 +13,7 @@ class Payment {
   private var PAYMENTURI: String
 
   init(){
-    PAYMENTURI = "http://localhost:8080/payments"
+    PAYMENTURI = "http://localhost:8080/pcentries"
   }
 
   func createPayment(type: String!, lastFour: String!, token: String!, completion: (String) ->()) {
@@ -22,7 +22,7 @@ class Payment {
     let request = NSMutableURLRequest(URL: url!)
     request.HTTPMethod = "POST"
 
-    let jsonData = ["uid" : uid, "type" : type, "lastFour" : lastFour, "token" : token]
+    let jsonData = ["uid" : uid, "token" : token]
 
     do {
       request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
