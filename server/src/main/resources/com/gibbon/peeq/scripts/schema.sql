@@ -88,5 +88,5 @@ CREATE TABLE `Journal` (
   `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   FOREIGN KEY fk_user(uid) REFERENCES User(uid),
-  FOREIGN KEY fk_transaction(transactionId) REFERENCES Transaction(id)
+  FOREIGN KEY fk_qaTransaction(transactionId) REFERENCES QaTransaction(id)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

@@ -68,7 +68,7 @@ public class TestQaTransaction {
     return result;
   }
 
-  static QaTransaction insertRandomQaTransanction()
+  public static QaTransaction insertRandomQaTransanction()
       throws JsonProcessingException {
     /* insert user */
     final User randomUser = TestUser.insertRandomUser();

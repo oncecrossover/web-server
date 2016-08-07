@@ -41,6 +41,7 @@ import org.apache.commons.lang3.text.StrBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gibbon.peeq.handlers.BalanceWebHandler;
 import com.gibbon.peeq.handlers.NotFoundResourceWebHandler;
 import com.gibbon.peeq.handlers.NullResouceWebHandler;
 import com.gibbon.peeq.handlers.PcEntryWebHandler;
@@ -121,6 +122,12 @@ public class HttpSnoopServerHandler
           request).handle();
     } else if ("pcentries".equalsIgnoreCase(resourceName)) {
       return new PcEntryWebHandler(
+          uriParser,
+          respBuf,
+          ctx,
+          request).handle();
+    } else if ("balances".equalsIgnoreCase(resourceName)) {
+      return new BalanceWebHandler(
           uriParser,
           respBuf,
           ctx,

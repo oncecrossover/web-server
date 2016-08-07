@@ -121,7 +121,7 @@ public class TestUser {
     assertUserEquals(originalUser, newUser);
   }
 
-  static User insertRandomUser() {
+  public static User insertRandomUser() {
     final User user = newRandomUser();
     final Session session = HibernateTestUtil.getSessionFactory()
         .getCurrentSession();

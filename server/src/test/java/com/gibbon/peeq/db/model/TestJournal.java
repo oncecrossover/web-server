@@ -47,7 +47,7 @@ public class TestJournal {
     assertEquals(originalInstance, newInstance);
   }
 
-  private Journal newRandomInstance() {
+  public static Journal newRandomInstance() {
     final Journal result = new Journal();
     result.setId(random.nextLong())
           .setTransactionId(random.nextLong())

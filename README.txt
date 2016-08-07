@@ -143,6 +143,12 @@ It doesn't support loading all, e.g. filter=*
 
 
 
+RESTFUL APIs OF BALANCE:
+1. get balance for a user with 'kuan' as uid, e.g.
+curl -i -X GET "http://127.0.0.1:8080/balances/kuan"
+
+
+
 HTTP STATUS CODE OF REST API:
 1. get user (i.e. HTTP GET):
 400(BAD_REQUEST):            Missing parameter: uid
