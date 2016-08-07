@@ -1,11 +1,16 @@
 package com.gibbon.peeq.handlers;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gibbon.peeq.db.model.Balance;
+import com.gibbon.peeq.db.model.PcEntry;
+import com.gibbon.peeq.db.model.User;
 import com.gibbon.peeq.db.util.JournalUtil;
 import com.gibbon.peeq.util.ResourceURIParser;
 import com.google.common.io.ByteArrayDataOutput;
@@ -40,15 +45,35 @@ public class BalanceWebHandler extends AbastractPeeqWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
+    /* query user */
+    Transaction txn = null;
+    Session session = null;
+    try {
+      session = getSession();
+      txn = session.beginTransaction();
+      final User retInstance = (User) session.get(User.class, uid);
+      txn.commit();
+
+      if (retInstance == null) {
+        appendln(String.format("Nonexistent user ('%s')", uid));
+        return newResponse(HttpResponseStatus.BAD_REQUEST);
+      }
+    } catch (HibernateException e) {
+      txn.rollback();
+      return newServerErrorResponse(e, LOG);
+    } catch (Exception e) {
+      return newServerErrorResponse(e, LOG);
+    }
+
+    /* query balance */
     try {
       final Double balance = JournalUtil.getBalance(getSession(), uid);
       if (balance == null) {
-        appendln(String.format("Nonexistent balance for user ('%s')", uid));
-        return newResponse(HttpResponseStatus.BAD_REQUEST);
+        appendNewInstance(uid, new Balance().setUid(uid).setBalance(0.0));
+      } else {
+        /* buffer result */
+        appendNewInstance(uid, new Balance().setUid(uid).setBalance(balance));
       }
-
-      /* buffer result */
-      appendNewInstance(uid, new Balance().setUid(uid).setBalance(balance));
       return newResponse(HttpResponseStatus.OK);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
