@@ -1021,31 +1021,27 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="54" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="WdK-wR-8yl">
                                 <rect key="frame" x="16" y="64" width="288" height="170.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <activityIndicatorView key="tableFooterView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" id="0QO-jz-TpF">
+                                    <rect key="frame" x="0.0" y="55" width="288" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cardCell" rowHeight="54" id="OWI-pC-n7T" customClass="PaymentTableViewCell" customModule="Peeq" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cardCell" textLabel="1Lb-rc-db0" rowHeight="54" style="IBUITableViewCellStyleDefault" id="OWI-pC-n7T">
                                         <rect key="frame" x="0.0" y="1" width="288" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OWI-pC-n7T" id="0Iv-oN-Qzu">
                                             <rect key="frame" x="0.0" y="0.0" width="288" height="53.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4111" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDk-v4-VQf">
-                                                    <rect key="frame" x="8" y="8" width="272" height="37"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1Lb-rc-db0">
+                                                    <rect key="frame" x="15" y="0.0" width="258" height="53.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="dDk-v4-VQf" firstAttribute="trailing" secondItem="0Iv-oN-Qzu" secondAttribute="trailingMargin" id="5eK-Rx-y9N"/>
-                                                <constraint firstItem="dDk-v4-VQf" firstAttribute="leading" secondItem="0Iv-oN-Qzu" secondAttribute="leadingMargin" id="D7g-XJ-fyE"/>
-                                                <constraint firstItem="dDk-v4-VQf" firstAttribute="centerY" secondItem="0Iv-oN-Qzu" secondAttribute="centerY" id="V5B-K0-mUc"/>
-                                                <constraint firstItem="dDk-v4-VQf" firstAttribute="top" secondItem="0Iv-oN-Qzu" secondAttribute="topMargin" id="bgj-qE-Ghf"/>
-                                            </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="lastDigit" destination="dDk-v4-VQf" id="60v-5s-vnD"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -1079,6 +1075,7 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="0QO-jz-TpF" id="qqo-mH-9TT"/>
                         <outlet property="cardTableView" destination="WdK-wR-8yl" id="Moy-8U-erU"/>
                     </connections>
                 </viewController>

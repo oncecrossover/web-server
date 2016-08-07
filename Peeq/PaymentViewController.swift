@@ -16,6 +16,7 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
 
   @IBOutlet weak var cardTableView: UITableView!
 
+  @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   override func viewDidLoad() {
     super.viewDidLoad()
   }
@@ -35,6 +36,7 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
   }
 
   func loadData(){
+    activityIndicator.startAnimating()
     cards = []
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
     paymentModule.getPayments("uid=" + uid!) { jsonArray in
@@ -47,6 +49,7 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
       }
 
       dispatch_async(dispatch_get_main_queue()) {
+        self.activityIndicator.stopAnimating()
         self.cardTableView.reloadData()
       }
     }
