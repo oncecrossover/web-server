@@ -57,7 +57,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
 
 
   func textViewShouldBeginEditing(textView: UITextView) -> Bool {
-    print("textview")
     activeText = aboutField
     return true
   }
@@ -67,7 +66,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   }
 
   func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-    print("textfield")
     activeText = rateField
     return true
   }
@@ -103,17 +101,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
 
   func keyboardWillHide(notification: NSNotification)
   {
-    //Once keyboard disappears, restore original positions
-    let info : NSDictionary = notification.userInfo!
-    let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
-    let _ = keyboardSize!.height
-//    var contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, -keyboardSize!.height, 0.0)
-//    self.scrollView.contentInset = contentInsets
-//    self.scrollView.scrollIndicatorInsets = contentInsets
     self.view.endEditing(true)
     self.scrollView.setContentOffset(CGPointMake(0, self.contentOffset.y), animated: true)
-//    self.scrollView.scrollEnabled = false
-
   }
 
   func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
@@ -135,6 +124,13 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     if (!rateField.text!.isEmpty) {
       newRate = Double(rateField.text!)!
     }
+
+    if (newRate < 0.0) {
+      // In real app, this should never happen since we don't provide keyboard that can input negative
+      self.utility.displayAlertMessage("Your rate cannot be negative", title: "Alert", sender: self)
+      return
+    }
+    
     userModule.updateProfile(uid!, name: nameField.text!, title: titleField.text!, about: aboutField.text,
       rate: newRate){ resultString in
       var message = "Your profile is successfully updated!"
