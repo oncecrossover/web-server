@@ -11,6 +11,7 @@ import Foundation
 class Question {
   private var QUESTIONURI : String
   private var SNOOPURI : String
+  private var generics = Generics()
   init () {
     SNOOPURI = "http://localhost:8080/snoops"
     QUESTIONURI = "http://localhost:8080/quandas"
@@ -18,31 +19,11 @@ class Question {
 
   func createQuestion(asker: String, question: String, responder: String,
     status: String, completion: (String) -> () ){
-      let myUrl = NSURL(string: QUESTIONURI);
-      let request = NSMutableURLRequest(URL:myUrl!);
-      request.HTTPMethod = "POST";
       let jsonData = ["asker": asker, "question": question,
         "responder": responder, "status": "PENDING"]
-
-      do {
-        request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
+      generics.createObject(QUESTIONURI, jsonData: jsonData) { result in
+        completion(result)
       }
-      catch {
-        print("error=\(error)")
-        completion("an error occurs when creating question: \(error)")
-      }
-      let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
-        data, response, error in
-        if (error != nil)
-        {
-          print("error=\(error)")
-          return
-        }
-
-        completion("")
-        
-      }
-      task.resume()
   }
 
   func updateQuestion(id: Int!, askerId: String!, content: String!, responderId: String!,
@@ -156,32 +137,10 @@ class Question {
 
   func createSnoop(id: Int, completion: (String) -> ()) {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    let myUrl = NSURL(string: SNOOPURI);
-    let request = NSMutableURLRequest(URL:myUrl!);
-    request.HTTPMethod = "POST";
     let jsonData:[String:AnyObject] = ["uid": uid, "quandaId": id]
-
-    do {
-      request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
+    generics.createObject(SNOOPURI, jsonData: jsonData) { result in
+      completion(result)
     }
-    catch {
-      print("error=\(error)")
-      completion("an error occurs when creating snoop: \(error)")
-    }
-
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
-      data, response, error in
-      if (error != nil)
-      {
-        print("error=\(error)")
-        return
-      }
-
-      completion("")
-      
-    }
-    task.resume()
-
   }
 
   func getSnoops(uid: String, completion: (NSArray) -> ()) {
@@ -197,10 +156,6 @@ class Question {
       }
 
       do {
-//        if data!.length == 1 {
-//          let emptyResult: [[String:AnyObject]] = []
-//          completion(emptyResult)
-//        }
         if let jsonArray = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSArray {
           completion(jsonArray)
         }

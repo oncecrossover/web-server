@@ -10,6 +10,7 @@
 		4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C0571D3448F400AEF95D /* CircleImageView.swift */; };
 		4A11C05C1D344DF500AEF95D /* RoundCornerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */; };
 		4A11C0621D35BA6900AEF95D /* TextFitLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */; };
+		4A152F621D59106700FA48E7 /* Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A152F611D59106700FA48E7 /* Generics.swift */; };
 		4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */; };
 		4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */; };
 		4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26821D218FC60001989E /* ProfileViewController.swift */; };
@@ -42,6 +43,7 @@
 		4A11C0571D3448F400AEF95D /* CircleImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
 		4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundCornerButton.swift; sourceTree = "<group>"; };
 		4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFitLabel.swift; sourceTree = "<group>"; };
+		4A152F611D59106700FA48E7 /* Generics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generics.swift; sourceTree = "<group>"; };
 		4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewCell.swift; sourceTree = "<group>"; };
 		4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 		4A8F26821D218FC60001989E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				4AEF2A1B1D14BABA002E3CFE /* User.swift */,
 				4AF322691D29A1E10043FCE5 /* Question.swift */,
 				4ABD20361D4409F900C3B74E /* Payment.swift */,
+				4A152F611D59106700FA48E7 /* Generics.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 				4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */,
 				4AF3226C1D29DE120043FCE5 /* ActivityViewController.swift in Sources */,
 				4AF3226A1D29A1E10043FCE5 /* Question.swift in Sources */,
+				4A152F621D59106700FA48E7 /* Generics.swift in Sources */,
 				4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */,
 				4AF3226E1D29DEEB0043FCE5 /* QuestionTableViewCell.swift in Sources */,
 				4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */,

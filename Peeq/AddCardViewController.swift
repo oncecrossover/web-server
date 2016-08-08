@@ -39,8 +39,7 @@ class AddCardViewController: UIViewController, STPPaymentCardTextFieldDelegate {
         print(error)
       }
       else {
-        let lastFour = self.card.number!.substringFromIndex(self.card.number!.startIndex.advancedBy(12))
-        self.paymentModule.createPayment("CARD", lastFour: lastFour, token: token?.tokenId) { result in
+        self.paymentModule.createPayment(token?.tokenId) { result in
           if (!result.isEmpty) {
             print("error is \(result)")
           }

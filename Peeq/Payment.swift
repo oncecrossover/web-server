@@ -11,38 +11,19 @@ import Foundation
 class Payment {
 
   private var PAYMENTURI: String
+  private var generics = Generics()
 
   init(){
     PAYMENTURI = "http://localhost:8080/pcentries"
   }
 
-  func createPayment(type: String!, lastFour: String!, token: String!, completion: (String) ->()) {
+  func createPayment(token: String!, completion: (String) ->()) {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
-    let url = NSURL(string: PAYMENTURI + "/")
-    let request = NSMutableURLRequest(URL: url!)
-    request.HTTPMethod = "POST"
 
     let jsonData = ["uid" : uid, "token" : token]
-
-    do {
-      request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
+    generics.createObject(PAYMENTURI, jsonData: jsonData) { result in
+      completion(result)
     }
-    catch {
-      print("error=\(error)")
-      completion("an error occurs when creating payment: \(error)")
-    }
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
-      data, response, error in
-      if (error != nil)
-      {
-        print("error=\(error)")
-        return
-      }
-
-      completion("")
-
-    }
-    task.resume()
   }
 
   func getPayments(filterString: String!, completion: (NSArray) -> ()) {

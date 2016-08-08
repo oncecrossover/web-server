@@ -6,6 +6,7 @@ class User
   
   private var USERURI: String
   private var PROFILEURI: String
+  private var generics = Generics()
   
   init(){
     USERURI = "http://localhost:8080/users/"
@@ -13,34 +14,10 @@ class User
   }
   
   func createUser(userEmail: String, userPassword: String, completion: (String) -> ()) {
-    let myUrl = NSURL(string: USERURI);
-    let request = NSMutableURLRequest(URL:myUrl!);
-    request.HTTPMethod = "POST";
     let jsonData = ["uid": userEmail, "pwd": userPassword]
-    
-    do {
-      request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
+    generics.createObject(USERURI, jsonData: jsonData) { result in
+      completion(result)
     }
-    catch {
-      print("error=\(error)")
-      completion("an error occurs when creating user: \(error)")
-    }
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
-      data, response, error in
-      if (error != nil)
-      {
-        print("error=\(error)")
-        return
-      }
-
-      
-      // Print out response body
-      let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-      print("responseString = \(responseString)")
-      completion("")
-      
-    }
-    task.resume()
   }
   
   func getUser(email: String, password: String, completion: (String) -> ()){
