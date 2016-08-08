@@ -29,32 +29,35 @@ class Question {
   func updateQuestion(id: Int!, askerId: String!, content: String!, responderId: String!,
     answerAudio: NSData!, completion: (String) -> ()) {
       let myUrl = NSURL(string: QUESTIONURI + "/" + "\(id)")
-      let request = NSMutableURLRequest(URL: myUrl!)
-      request.HTTPMethod = "PUT"
+//      let request = NSMutableURLRequest(URL: myUrl!)
+//      request.HTTPMethod = "PUT"
       let audioString = answerAudio?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+      let jsonData: [String: AnyObject] = ["asker": askerId, "question" : content, "responder":responderId,
+                  "answerAudio": audioString!, "status" : "ANSWERED"]
+//
+//      do {
+//        request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
+//      }
+//      catch {
+//        print("error=\(error)")
+//        completion("an error occurs when uploading audio: \(error)")
+//      }
+//      let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+//        data, response, error in
+//        if (error != nil)
+//        {
+//          print("error=\(error)")
+//          return
+//        }
+//
+//        completion("")
+//
+//      }
+//      task.resume()
 
-      do {
-        let jsonData: [String: AnyObject] = ["asker": askerId, "question" : content, "responder":responderId,
-          "answerAudio": audioString!, "status" : "ANSWERED"]
-
-        request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
+      generics.updateObject(myUrl!, jsonData: jsonData) { result in
+        completion(result)
       }
-      catch {
-        print("error=\(error)")
-        completion("an error occurs when uploading audio: \(error)")
-      }
-      let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
-        data, response, error in
-        if (error != nil)
-        {
-          print("error=\(error)")
-          return
-        }
-
-        completion("")
-
-      }
-      task.resume()
   }
 
   func getQuestions(filterString: String, completion: (NSArray) -> ()) {

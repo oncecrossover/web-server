@@ -37,4 +37,29 @@ class Generics {
     task.resume()
   }
 
+  func updateObject(myUrl: NSURL, jsonData: [String:AnyObject], completion: (String) -> ()) {
+    let request = NSMutableURLRequest(URL:myUrl);
+    request.HTTPMethod = "PUT";
+
+    do {
+      request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
+    }
+    catch {
+      print("error=\(error)")
+      completion("an error occurs when updating object: \(error)")
+    }
+    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+      data, response, error in
+      if (error != nil)
+      {
+        print("error=\(error)")
+        return
+      }
+
+      completion("")
+
+    }
+    task.resume()
+  }
+
 }

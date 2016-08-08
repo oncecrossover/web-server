@@ -25,7 +25,6 @@ class ProfileViewController: UIViewController{
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    initView()
 
     // Do any additional setup after loading the view.
   }
