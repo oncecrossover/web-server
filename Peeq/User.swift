@@ -2,8 +2,7 @@
 import Foundation
 
 class User
-{
-  
+{  
   private var USERURI: String
   private var PROFILEURI: String
   private var generics = Generics()
@@ -20,46 +19,22 @@ class User
     }
   }
   
-  func getUser(email: String, password: String, completion: (String) -> ()){
+  func getUser(email: String, password: String, completion: (String) -> ()) {
     let myUrl = NSURL(string: USERURI + email);
-    let request = NSMutableURLRequest(URL:myUrl!);
-    request.HTTPMethod = "GET";
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
-      data, response, error in
-      
-      // Check for error
-      if error != nil
-      {
-        print("error=\(error)")
-        return
-      }
-
-      // Convert server json response to NSDictionary
-      do {
-        if let convertedJsonIntoDict = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSDictionary {
-
-          // Get value by key
-          if let storedEmail = convertedJsonIntoDict["uid"] as? String {
-            if let storedPassword = convertedJsonIntoDict["pwd"] as? String {
-              if (storedPassword != password){
-                completion("Password does not match with email account \(storedEmail)")
-              }
-              else {
-                completion("")
-              }
-            }
-          }
-          else {
-            completion("Email account: \(email) does not exist")
-          }
-          
+    generics.getObjectById(myUrl!) { convertedJsonIntoDict in
+      if let storedEmail = convertedJsonIntoDict["uid"] as? String {
+        let storedPassword = convertedJsonIntoDict["pwd"] as! String
+        if (storedPassword != password){
+          completion("Password does not match with email account \(storedEmail)")
         }
-      } catch let error as NSError {
-        print(error.localizedDescription)
+        else {
+          completion("")
+        }
+      }
+      else {
+        completion("Email account: \(email) does not exist")
       }
     }
-    
-    task.resume()
   }
 
   func updateProfile(uid: String, name: String, title: String, about: String, rate: Double, completion: (String) -> ()) {
@@ -80,59 +55,36 @@ class User
 
   func getProfile(uid: String, completion: (String, String, String, NSData, Double) -> ()){
     let myUrl = NSURL(string: PROFILEURI + uid);
-    let request = NSMutableURLRequest(URL:myUrl!);
-    request.HTTPMethod = "GET";
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
-      data, response, error in
+    generics.getObjectById(myUrl!) { convertedJsonIntoDict in
+      var fullName = ""
+      var title = ""
+      var aboutMe = ""
+      var avatarImage: NSData = NSData()
+      var rate = 0.0
 
-      // Check for error
-      if error != nil
-      {
-        print("error=\(error)")
-        return
+      // Get value by key
+      if ((convertedJsonIntoDict["fullName"] as? String) != nil) {
+        fullName = (convertedJsonIntoDict["fullName"] as? String)!
       }
 
-
-      // Convert server json response to NSDictionary
-      do {
-        if let convertedJsonIntoDict = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSDictionary {
-
-          var fullName = ""
-          var title = ""
-          var aboutMe = ""
-          var avatarImage: NSData = NSData()
-          var rate = 0.0
-
-          // Get value by key
-          if ((convertedJsonIntoDict["fullName"] as? String) != nil) {
-            fullName = (convertedJsonIntoDict["fullName"] as? String)!
-          }
-
-          if ((convertedJsonIntoDict["title"] as? String) != nil) {
-            title = (convertedJsonIntoDict["title"] as? String)!
-          }
-
-          if ((convertedJsonIntoDict["aboutMe"] as? String) != nil) {
-            aboutMe = (convertedJsonIntoDict["aboutMe"] as? String)!
-          }
-
-          if ((convertedJsonIntoDict["avatarImage"] as? String) != nil) {
-            avatarImage = NSData(base64EncodedString: (convertedJsonIntoDict["avatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-          }
-
-          if ((convertedJsonIntoDict["rate"] as? Double) != nil) {
-            rate = (convertedJsonIntoDict["rate"] as? Double)!
-          }
-
-          completion(fullName, title, aboutMe, avatarImage, rate)
-
-        }
-      } catch let error as NSError {
-        print(error.localizedDescription)
+      if ((convertedJsonIntoDict["title"] as? String) != nil) {
+        title = (convertedJsonIntoDict["title"] as? String)!
       }
+
+      if ((convertedJsonIntoDict["aboutMe"] as? String) != nil) {
+        aboutMe = (convertedJsonIntoDict["aboutMe"] as? String)!
+      }
+
+      if ((convertedJsonIntoDict["avatarImage"] as? String) != nil) {
+        avatarImage = NSData(base64EncodedString: (convertedJsonIntoDict["avatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+      }
+
+      if ((convertedJsonIntoDict["rate"] as? Double) != nil) {
+        rate = (convertedJsonIntoDict["rate"] as? Double)!
+      }
+
+      completion(fullName, title, aboutMe, avatarImage, rate)
     }
-
-    task.resume()
   }
 
   func getDiscover(uid: String, filterString: String, completion: (NSArray) -> ()) {

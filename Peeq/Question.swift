@@ -47,57 +47,23 @@ class Question {
 
   func getQuestionAudio(id: Int, completion: (String) -> ()){
     let myUrl = NSURL(string: QUESTIONURI + "/" + "\(id)")
-    let request = NSMutableURLRequest(URL: myUrl!)
-    request.HTTPMethod = "GET"
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
-      data, response, error in
-      if error != nil {
-        print ("error: \(error)")
-        return
+    generics.getObjectById(myUrl!) { convertedJsonIntoDict in
+      if let storedAudio = convertedJsonIntoDict["answerAudio"] as? String {
+        completion(storedAudio)
       }
-
-      do {
-        if let convertedJsonIntoDict = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSDictionary {
-
-          if let storedAudio = convertedJsonIntoDict["answerAudio"] as? String {
-            completion(storedAudio)
-          }
-          else {
-            completion("")
-          }
-        }
-      } catch let error as NSError {
-        print(error.localizedDescription)
+      else {
+        completion("")
       }
-      
     }
-    task.resume()
   }
 
   func getQuestionById(id: Int, completion: (String, String) -> ()){
     let myUrl = NSURL(string: QUESTIONURI + "/" + "\(id)")
-    let request = NSMutableURLRequest(URL: myUrl!)
-    request.HTTPMethod = "GET"
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
-      data, response, error in
-      if error != nil {
-        print ("error: \(error)")
-        return
-      }
-
-      do {
-        if let convertedJsonIntoDict = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSDictionary {
-
-          let responderId = convertedJsonIntoDict["responder"] as! String
-          let quesiton = convertedJsonIntoDict["question"] as! String
-          completion(responderId, quesiton)
-        }
-      } catch let error as NSError {
-        print(error.localizedDescription)
-      }
-
+    generics.getObjectById(myUrl!) { convertedJsonIntoDict in
+      let responderId = convertedJsonIntoDict["responder"] as! String
+      let question = convertedJsonIntoDict["question"] as! String
+      completion(responderId, question)
     }
-    task.resume()
   }
 
   func createSnoop(id: Int, completion: (String) -> ()) {

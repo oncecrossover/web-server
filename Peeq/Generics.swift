@@ -83,4 +83,26 @@ class Generics {
     task.resume()
   }
 
+  func getObjectById(myUrl: NSURL, completion: (NSDictionary) -> ()) {
+    let request = NSMutableURLRequest(URL: myUrl)
+    request.HTTPMethod = "GET"
+    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+      data, response, error in
+      if error != nil {
+        print ("error: \(error)")
+        return
+      }
+
+      do {
+        if let convertedJsonIntoDict = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSDictionary {
+          completion(convertedJsonIntoDict)
+        }
+      } catch let error as NSError {
+        print(error.localizedDescription)
+      }
+
+    }
+    task.resume()
+  }
+
 }
