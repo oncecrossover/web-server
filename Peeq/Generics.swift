@@ -62,4 +62,25 @@ class Generics {
     task.resume()
   }
 
+  func getFilteredObjects(myUrl: NSURL, completion: (NSArray) -> ()) {
+    let request = NSMutableURLRequest(URL: myUrl)
+    request.HTTPMethod = "GET"
+    let task = NSURLSession.sharedSession().dataTaskWithRequest(request){
+      data, response, error in
+      if error != nil {
+        print ("error: \(error)")
+        return
+      }
+
+      do {
+        if let jsonArray = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSArray {
+          completion(jsonArray)
+        }
+      } catch let error as NSError {
+        print(error.localizedDescription)
+      }
+    }
+    task.resume()
+  }
+
 }

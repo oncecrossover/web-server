@@ -28,24 +28,9 @@ class Payment {
 
   func getPayments(filterString: String!, completion: (NSArray) -> ()) {
     let url = NSURL(string: PAYMENTURI + "?filter=" + filterString)
-    let request = NSMutableURLRequest(URL: url!)
-    request.HTTPMethod = "GET"
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request){
-      data, response, error in
-      if error != nil {
-        print ("error: \(error)")
-        return
-      }
-
-      do {
-        if let jsonArray = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSArray {
-          completion(jsonArray)
-        }
-      } catch let error as NSError {
-        print(error.localizedDescription)
-      }
+    generics.getFilteredObjects(url!) { result in
+      completion(result)
     }
-    task.resume()
   }
 
   func deletePayment(id: Int, completion: (String) -> ()) {

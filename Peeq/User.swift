@@ -64,32 +64,7 @@ class User
 
   func updateProfile(uid: String, name: String, title: String, about: String, rate: Double, completion: (String) -> ()) {
     let myUrl = NSURL(string: PROFILEURI + uid);
-//    let request = NSMutableURLRequest(URL:myUrl!);
-//    request.HTTPMethod = "PUT";
-    let jsonData = ["fullName": name, "title" : title, "aboutMe": about, "rate" : rate] 
-//
-//    do {
-//      request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
-//    }
-//    catch {
-//      print("error=\(error)")
-//      completion("an error occurs when updating user profile: \(error)")
-//    }
-//    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
-//      data, response, error in
-//      if (error != nil)
-//      {
-//        print("error=\(error)")
-//        return
-//      }
-//
-//      // Print out response body
-//      let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-//      print("responseString = \(responseString)")
-//      completion("")
-//
-//    }
-//    task.resume()
+    let jsonData = ["fullName": name, "title" : title, "aboutMe": about, "rate" : rate]
     generics.updateObject(myUrl!, jsonData: jsonData as! [String : AnyObject]) { result in
       completion(result)
     }
@@ -97,31 +72,7 @@ class User
 
   func updateProfilePhoto(uid: String, imageData: NSData!, completion: (String) -> ()) {
     let myUrl = NSURL(string: PROFILEURI + uid);
-//    let request = NSMutableURLRequest(URL:myUrl!);
-//    request.HTTPMethod = "PUT";
     let jsonData = ["avatarImage" : imageData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))]
-//    do {
-//      request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
-//    }
-//    catch {
-//      print("error=\(error)")
-//      completion("an error occurs when updating user profile: \(error)")
-//    }
-//    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
-//      data, response, error in
-//      if (error != nil)
-//      {
-//        print("error=\(error)")
-//        return
-//      }
-//
-//      // Print out response body
-//      let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-//      print("responseString = \(responseString)")
-//      completion("")
-//
-//    }
-//    task.resume()
     generics.updateObject(myUrl!, jsonData: jsonData) { result in
       completion(result)
     }
@@ -186,24 +137,9 @@ class User
 
   func getDiscover(uid: String, filterString: String, completion: (NSArray) -> ()) {
     let url = NSURL(string: "http://127.0.0.1:8080/profiles?filter=" + filterString)
-    let request = NSMutableURLRequest(URL: url!)
-    request.HTTPMethod = "GET"
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request){
-      data, response, error in
-      if error != nil {
-        print ("error: \(error)")
-        return
-      }
-
-      do {
-        if let jsonArray = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSArray {
-          completion(jsonArray)
-        }
-      } catch let error as NSError {
-        print(error.localizedDescription)
-      }
+    generics.getFilteredObjects(url!) { result in
+      completion(result)
     }
-    task.resume()
   }
 
 }
