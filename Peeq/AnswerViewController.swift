@@ -94,6 +94,14 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     let myCell = tableView.dequeueReusableCellWithIdentifier("answerCell", forIndexPath: indexPath) as! AnswerTableViewCell
     myCell.askerName.text = question.askerName
     myCell.status.text = question.status
+
+    if (question.status == "ANSWERED") {
+      myCell.status.textColor = UIColor(red: 0.125, green: 0.55, blue: 0.17, alpha: 1.0)
+    }
+    else {
+      myCell.status.textColor = UIColor.orangeColor()
+    }
+
     myCell.question.text = question.content
 
     if (question.avatarImage.length > 0) {
@@ -195,6 +203,8 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
           self.recordbutton.enabled = false
           self.explanation.hidden = true
           self.utilityModule.displayAlertMessage("Your Answer is successfully saved!", title: "OK", sender: self)
+          self.question.status = "ANSWERED"
+          self.answerTableView.reloadData()
         }
     }
   }
@@ -212,13 +222,6 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
 
   func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
-//    let responderId = NSUserDefaults.standardUserDefaults().stringForKey("email")
-//    questionModule.updateQuestion(question.id, askerId: question.askerId, content: question.content,
-//      responderId: responderId, answerAudio: NSData(contentsOfURL: getFileUrl())) { result in
-//        dispatch_async(dispatch_get_main_queue()){
-//          self.playButton.enabled = true
-//        }
-//    }
     self.confirmButton.hidden = false
   }
 
