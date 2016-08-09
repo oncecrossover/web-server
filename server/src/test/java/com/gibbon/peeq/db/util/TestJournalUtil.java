@@ -10,6 +10,7 @@ import org.hibernate.Transaction;
 import org.junit.Test;
 
 import com.gibbon.peeq.db.model.Journal;
+import com.gibbon.peeq.db.model.Journal.JournalType;
 import com.gibbon.peeq.db.model.QaTransaction;
 import com.gibbon.peeq.db.model.TestJournal;
 import com.gibbon.peeq.db.model.TestQaTransaction;
@@ -44,8 +45,9 @@ public class TestJournalUtil {
 
     for (int i = 1; i <= 5; i++) {
       final Journal randomInstance = TestJournal.newRandomInstance();
-      randomInstance.setTransactionId(qaTransaction.getId()).setUid(uid);
-      randomInstance.setAmount(i * 12.3);
+      randomInstance.setTransactionId(qaTransaction.getId()).setUid(uid)
+                    .setAmount(i * 12.3)
+                    .setType(JournalType.BALANCE.toString());
 
       /* insert */
       session = HibernateTestUtil.getSessionFactory().getCurrentSession();

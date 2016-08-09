@@ -9,11 +9,17 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Journal {
+  public enum JournalType {
+    BALANCE, CARD, BANKING
+  }
+
   private long id;
   private long transactionId;
   private String uid;
   private Double amount;
+  private String type;
   private Date createdTime;
+
 
   public long getId() {
     return id;
@@ -51,6 +57,15 @@ public class Journal {
     return this;
   }
 
+  public String getType() {
+    return type;
+  }
+
+  public Journal setType(final String type) {
+    this.type = type;
+    return this;
+  }
+
   public Date getCreatedTime() {
     return createdTime;
   }
@@ -75,7 +90,8 @@ public class Journal {
       if (isEqual(this.getId(), that.getId())
           && isEqual(this.getTransactionId(), that.getTransactionId())
           && isEqual(this.getUid(), that.getUid())
-          && isEqual(this.getAmount(), that.getAmount())) {
+          && isEqual(this.getAmount(), that.getAmount())
+          && isEqual(this.getType(), that.getType())) {
         return true;
       }
     }
@@ -99,6 +115,9 @@ public class Journal {
     }
     if (that.getAmount() != null) {
       this.setAmount(that.getAmount());
+    }
+    if (that.getType() != null) {
+      this.setType(that.getType());
     }
     return this;
   }

@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gibbon.peeq.db.model.Journal.JournalType;
 import com.gibbon.peeq.db.util.HibernateTestUtil;
 
 public class TestJournal {
@@ -52,7 +53,8 @@ public class TestJournal {
     result.setId(random.nextLong())
           .setTransactionId(random.nextLong())
           .setUid(UUID.randomUUID().toString())
-          .setAmount(random.nextDouble());
+          .setAmount(random.nextDouble())
+          .setType(JournalType.BALANCE.toString());
     return result;
   }
 
@@ -61,7 +63,8 @@ public class TestJournal {
     result.setId(random.nextLong())
           .setTransactionId(random.nextLong())
           .setUid("edmuand")
-          .setAmount(-199);
+          .setAmount(-199)
+          .setType(JournalType.BALANCE.toString());
     return result;
   }
 

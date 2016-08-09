@@ -18,6 +18,9 @@
     <property name="amount" type="java.lang.Double">
       <column name="amount" />
     </property>
+    <property name="type" type="java.lang.String">
+      <column name="type" />
+    </property>
     <property name="createdTime" type="timestamp">
       <column name="createdTime" />
     </property>
