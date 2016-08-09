@@ -169,6 +169,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
       sender.setImage(UIImage(named: "stop"), forState: .Normal)
       recordbutton.enabled = false
 
+      // If the answer is saved, we need to retrieve it from the server
       if (isSaved == true) {
         questionModule.getQuestionAudio(question.id) { audioString in
           if (!audioString.isEmpty) {
@@ -200,9 +201,13 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
           self.playButton.enabled = true
           self.isSaved = true
           self.confirmButton.hidden = true
+
+          // After the answer is submitted, the user can no longer re-record his answer
           self.recordbutton.enabled = false
           self.explanation.hidden = true
           self.utilityModule.displayAlertMessage("Your Answer is successfully saved!", title: "OK", sender: self)
+
+          // Refresh the status of the question to "ANSWERED"
           self.question.status = "ANSWERED"
           self.answerTableView.reloadData()
         }
@@ -227,9 +232,13 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
 
   func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
-    self.recordbutton.enabled = true
     isPlaying = false
-    explanation.text = "Click mic to re-answer"
     playButton.setImage(UIImage(named: "listen"), forState: .Normal)
+
+    // If the answer is not submitted, we need to enable re-recording
+    if (!isSaved) {
+      self.recordbutton.enabled = true
+      explanation.text = "Click mic to re-answer"
+    }
   }
 }
