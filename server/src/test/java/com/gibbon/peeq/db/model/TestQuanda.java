@@ -74,7 +74,12 @@ public class TestQuanda {
     insertRandomQuanda(quanda);
   }
 
-  static void insertRandomQuanda(final Quanda quanda)
+  public static Quanda insertRandomQuanda() throws JsonProcessingException {
+    final Quanda quanda = newRandomQuanda();
+    return insertRandomQuanda(quanda);
+  }
+
+  public static Quanda insertRandomQuanda(final Quanda quanda)
       throws JsonProcessingException {
     Session session = null;
     Transaction txn = null;
@@ -105,6 +110,7 @@ public class TestQuanda {
 
     /* verify */
     assertTrue(quanda.equals(retQuanda));
+    return quanda;
   }
 
   @Test(timeout = 60000)

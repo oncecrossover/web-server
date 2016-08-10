@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gibbon.peeq.db.model.QaTransaction;
 import com.gibbon.peeq.db.model.QaTransaction.TransType;
 import com.gibbon.peeq.db.util.HibernateTestUtil;
+import com.google.common.base.Charsets;
 
 public class TestQaTransaction {
   private static final Logger LOG = LoggerFactory.getLogger(TestQaTransaction.class);
@@ -32,6 +33,15 @@ public class TestQaTransaction {
     verifyObjectJason(newInstance());
   }
 
+  @Test(timeout = 60000)
+  public void testCreateInstanceFromJson() throws IOException {
+    final String json = "{\"id\":-4135475961452305480,\"uid\":\"edmuand\",\"type\":\"ASKED\",\"quandaId\":10,\"amount\":1000.0,\"createdTime\":null}";
+    QaTransaction instance = QaTransaction.newInstance(json.getBytes(Charsets.UTF_8));
+
+    ObjectMapper mapper = new ObjectMapper();
+
+    verifyObjectJason(instance);
+  }
 
   private void verifyObjectJason(Object originalInstance) throws IOException {
     final ObjectMapper mapper = new ObjectMapper();

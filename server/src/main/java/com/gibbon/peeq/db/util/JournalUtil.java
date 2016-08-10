@@ -12,35 +12,70 @@ public class JournalUtil {
   private static final Logger LOG = LoggerFactory
       .getLogger(BalanceWebHandler.class);
 
-  public static double getBalanceIgnoreNull(final Session session,
-      final String uid) throws Exception {
-    final Double result = getBalance(session, uid);
+  /*
+   * query from a session that will open new transaction.
+   * @return balance, return 0 in case of null.
+   */
+  public static double getBalanceIgnoreNull(final String uid) throws Exception {
+    final Session session = HibernateUtil.getSessionFactory()
+        .getCurrentSession();
+    final Double result = getBalance(session, uid, true);
     return result == null ? 0 : result.doubleValue();
   }
 
+  /*
+   * query from a session that already opened transaction.
+   * @return balance, return 0 in case of null.
+   */
+  public static double getBalanceIgnoreNull(final Session session,
+      final String uid) throws Exception {
+    final Double result = getBalance(session, uid, false);
+    return result == null ? 0 : result.doubleValue();
+  }
+
+  /*
+   * query from a session that will open new transaction.
+   * @return balance, could be null.
+   */
+  public static Double getBalance(final String uid) throws Exception {
+    final Session session = HibernateUtil.getSessionFactory()
+        .getCurrentSession();
+    return getBalance(session, uid, true);
+  }
+
+  /*
+   * query from a session that already opened transaction.
+   * @return balance, could be null.
+   */
   public static Double getBalance(final Session session, final String uid)
       throws Exception {
-    final String sql = String
-        .format("SELECT SUM(amount) FROM Journal WHERE uid='%s' AND type='BALANCE'", uid);
+    return getBalance(session, uid, false);
+  }
+
+  static Double getBalance(final Session session, final String uid,
+      final boolean newTransaction) throws Exception {
+    final String sql = String.format(
+        "SELECT SUM(amount) FROM Journal WHERE uid='%s' AND type='BALANCE'",
+        uid);
     Double result = null;
     Transaction txn = null;
     try {
-      txn = session.beginTransaction();
+      if (newTransaction) {
+        txn = session.beginTransaction();
+      }
       result = (Double) session.createSQLQuery(sql).uniqueResult();
-      txn.commit();
+      if (txn != null) {
+        txn.commit();
+      }
     } catch (HibernateException e) {
-      txn.rollback();
+      if (txn != null) {
+        txn.rollback();
+      }
       throw e;
     } catch (Exception e) {
       throw e;
     }
 
     return result;
-  }
-
-  public static Double getBalance(final String uid) throws Exception {
-    final Session session = HibernateUtil.getSessionFactory()
-        .getCurrentSession();
-    return getBalance(session, uid);
   }
 }

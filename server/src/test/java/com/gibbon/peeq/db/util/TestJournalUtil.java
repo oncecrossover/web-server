@@ -25,7 +25,7 @@ public class TestJournalUtil {
         .getCurrentSession();
 
     final Double result = JournalUtil.getBalance(session,
-        UUID.randomUUID().toString());
+        UUID.randomUUID().toString(), true);
     assertEquals(null, result);
   }
 
@@ -69,7 +69,7 @@ public class TestJournalUtil {
     /* handle balance */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
 
-    final Double result = JournalUtil.getBalance(session, uid);
+    final Double result = JournalUtil.getBalance(session, uid, true);
     assertTrue(result != null);
     assertEquals(184.5, result.doubleValue(), 0);
   }

@@ -67,8 +67,7 @@ public class BalanceWebHandler extends AbastractPeeqWebHandler
 
     /* query balance */
     try {
-      final Double balance =
-          JournalUtil.getBalanceIgnoreNull(getSession(), uid);
+      final Double balance = JournalUtil.getBalanceIgnoreNull(uid);
       appendNewInstance(uid, new Balance().setUid(uid).setBalance(balance));
       return newResponse(HttpResponseStatus.OK);
     } catch (Exception e) {
