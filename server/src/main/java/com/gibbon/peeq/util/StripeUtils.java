@@ -3,9 +3,11 @@ package com.gibbon.peeq.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.gibbon.peeq.db.model.QaTransaction;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Card;
+import com.stripe.model.Charge;
 import com.stripe.model.Customer;
 import com.stripe.model.DeletedCard;
 import com.stripe.model.DeletedCustomer;
@@ -61,5 +63,17 @@ public class StripeUtils {
   public static DeletedExternalAccount deleteCard(final Customer customer,
       final String cardId) throws StripeException {
     return customer.getSources().retrieve(cardId).delete();
+  }
+
+  public static void chargeCustomer(final String cusId, final double amount)
+      throws StripeException {
+    final double val = Math.round(amount * 100.0) / 100.0;
+
+    final Map<String, Object> chargeParams = new HashMap<String, Object>();
+    /* amount in cents */
+    chargeParams.put("amount", (long) val * 100);
+    chargeParams.put("currency", "usd");
+    chargeParams.put("customer", cusId);
+    Charge.create(chargeParams);
   }
 }

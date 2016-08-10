@@ -46,6 +46,7 @@ import com.gibbon.peeq.handlers.NotFoundResourceWebHandler;
 import com.gibbon.peeq.handlers.NullResouceWebHandler;
 import com.gibbon.peeq.handlers.PcEntryWebHandler;
 import com.gibbon.peeq.handlers.ProfileWebHandler;
+import com.gibbon.peeq.handlers.QaTransactionWebHandler;
 import com.gibbon.peeq.handlers.QuandaWebHandler;
 import com.gibbon.peeq.handlers.SnoopWebHandler;
 import com.gibbon.peeq.handlers.UserWebHandler;
@@ -128,6 +129,12 @@ public class HttpSnoopServerHandler
           request).handle();
     } else if ("balances".equalsIgnoreCase(resourceName)) {
       return new BalanceWebHandler(
+          uriParser,
+          respBuf,
+          ctx,
+          request).handle();
+    } else if ("qatransactions".equalsIgnoreCase(resourceName)) {
+      return new QaTransactionWebHandler(
           uriParser,
           respBuf,
           ctx,

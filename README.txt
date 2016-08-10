@@ -149,6 +149,17 @@ curl -i -X GET "http://127.0.0.1:8080/balances/kuan"
 
 
 
+RESTFUL APIs OF QATRANSACTION:
+1. get QaTransaction by id, e.g.
+curl -i -X GET "http://127.0.0.1:8080/qatransactions/1"
+
+2. create new QaTransaction, e.g.
+curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":"kuan","type":"ASKED","quandaId":1,"amount":4999}'
+
+curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":"xiaobingo","type":"SNOOPED","quandaId":1,"amount":1.5}'
+
+
+
 HTTP STATUS CODE OF REST API:
 1. get user (i.e. HTTP GET):
 400(BAD_REQUEST):            Missing parameter: uid
