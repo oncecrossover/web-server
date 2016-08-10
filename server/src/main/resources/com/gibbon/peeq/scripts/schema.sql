@@ -76,6 +76,7 @@ CREATE TABLE `QaTransaction` (
   `amount` DOUBLE UNSIGNED NOT NULL,
   `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
+  UNIQUE KEY (`uid`, `type`, `quandaId`),
   FOREIGN KEY fk_user(uid) REFERENCES User(uid),
   FOREIGN KEY fk_quanda(quandaId) REFERENCES Quanda(id)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
