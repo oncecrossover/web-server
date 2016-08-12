@@ -13,10 +13,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
   var questionModule = Question()
   var userModule = User()
+  var generics = Generics()
 
   var soundPlayer: AVAudioPlayer!
 
   var snoopQuestionId = 0
+
+  var paymentInfo:(quandaId: Int!, index: Int!)
 
   @IBOutlet weak var feedTable: UITableView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -45,7 +48,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   func loadData() {
     self.feeds = []
     activityIndicator.startAnimating()
-    questionModule.getQuestions("*") { jsonArray in
+    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    let myUrl = NSURL(string: "http://localhost:8080/newsfeeds/" + uid)
+    generics.getFilteredObjects(myUrl!) { jsonArray in
       var count = jsonArray.count
       for feedInfo in jsonArray as! [[String:AnyObject]] {
         let questionId = feedInfo["id"] as! Int
@@ -126,17 +131,25 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       myCell.snoopImage.image = UIImage(named: "pending")
     }
     else {
-      myCell.snoopImage.image = UIImage(named: "snoop")
-      myCell.snoopImage.userInteractionEnabled = true
-      let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedOnImage:")
-      myCell.snoopImage.addGestureRecognizer(tappedOnImage)
+      if (paymentInfo.index != nil && paymentInfo.index == indexPath.row) {
+        myCell.snoopImage.image = UIImage(named: "listen")
+        myCell.snoopImage.userInteractionEnabled = true
+        let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedToListen:")
+        myCell.snoopImage.addGestureRecognizer(tappedOnImage)
+      }
+      else {
+        myCell.snoopImage.image = UIImage(named: "snoop")
+        myCell.snoopImage.userInteractionEnabled = true
+        let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedOnImage:")
+        myCell.snoopImage.addGestureRecognizer(tappedOnImage)
+      }
     }
 
     return myCell
   }
 
 
-  func tappedOnImage(sender:UIGestureRecognizer) {
+  func tappedToListen(sender:UIGestureRecognizer) {
     let tapLocation = sender.locationInView(self.feedTable)
 
     //using the tapLocation, we retrieve the corresponding indexPath
@@ -152,6 +165,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
           self.snoopQuestionId = questionId
         }
       }
+    }
+  }
+
+  func tappedOnImage(sender: UIGestureRecognizer) {
+    let tapLocation = sender.locationInView(self.feedTable)
+    let indexPath = self.feedTable.indexPathForRowAtPoint(tapLocation)!
+    self.performSegueWithIdentifier("homeToPayment", sender: indexPath)
+  }
+
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    if (segue.identifier == "homeToPayment") {
+      let indexPath = sender as! NSIndexPath
+      let dvc = segue.destinationViewController as! ChargeViewController;
+      dvc.chargeInfo = (amount: 1.00, type: "SNOOPED", quandaId: feeds[indexPath.row].id, index: indexPath.row)
     }
   }
 
