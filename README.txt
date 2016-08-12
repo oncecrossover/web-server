@@ -160,6 +160,12 @@ curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":"xiaobingo","t
 
 
 
+RESTFUL APIs OF NEWSFEED:
+1. get news feed for a user by id, e.g.
+curl -i -X GET "http://127.0.0.1:8080/newsfeeds/edmund"
+
+
+
 HTTP STATUS CODE OF REST API:
 1. get user (i.e. HTTP GET):
 400(BAD_REQUEST):            Missing parameter: uid
