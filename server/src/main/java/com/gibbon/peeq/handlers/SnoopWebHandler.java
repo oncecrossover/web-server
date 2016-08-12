@@ -107,8 +107,7 @@ public class SnoopWebHandler extends AbastractPeeqWebHandler
       txn = getSession().beginTransaction();
       getSession().save(fromJson);
       txn.commit();
-      appendln(String.format("New resource created with URI: /snoops/%s",
-          fromJson.getId()));
+      appendln(Long.toString(fromJson.getId()));
       return newResponse(HttpResponseStatus.CREATED);
     } catch (Exception e) {
       txn.rollback();

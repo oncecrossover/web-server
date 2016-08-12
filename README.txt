@@ -179,7 +179,7 @@ HTTP STATUS CODE OF REST API:
 
 3. create user (i.e. HTTP POST):
 400(BAD_REQUEST):            "No user or incorrect format specified."
-201(CREATED):                "New resource created with URI: /users/<user_id>"
+201(CREATED):                <resource id>
 500(INTERNAL_SERVER_ERROR):  <various server error/exception>
 
 4. update user (i.e. HTTP PUT)

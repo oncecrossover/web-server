@@ -213,8 +213,7 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       txn = getSession().beginTransaction();
       getSession().save(fromJson);
       txn.commit();
-      appendln(String.format("New resource created with URI: /quandas/%s",
-          fromJson.getId()));
+      appendln(Long.toString(fromJson.getId()));
       return newResponse(HttpResponseStatus.CREATED);
     } catch (Exception e) {
       txn.rollback();

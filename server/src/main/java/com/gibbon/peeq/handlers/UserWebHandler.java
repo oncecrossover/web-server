@@ -82,8 +82,7 @@ public class UserWebHandler extends AbastractPeeqWebHandler
       txn = session.beginTransaction();
       session.save(fromJson);
       txn.commit();
-      appendln(String.format("New resource created with URI: /users/%s",
-          fromJson.getUid()));
+      appendln(fromJson.getUid());
       return newResponse(HttpResponseStatus.CREATED);
     } catch (StripeException e) {
       return newServerErrorResponse(e, LOG);

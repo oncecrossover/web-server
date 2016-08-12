@@ -1,8 +1,6 @@
 package com.gibbon.peeq.handlers;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.HibernateException;
@@ -16,7 +14,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.Journal;
 import com.gibbon.peeq.db.model.Journal.JournalType;
-import com.gibbon.peeq.db.model.PcAccount;
 import com.gibbon.peeq.db.model.QaTransaction;
 import com.gibbon.peeq.db.model.QaTransaction.TransType;
 import com.gibbon.peeq.db.model.Quanda;
@@ -28,9 +25,6 @@ import com.gibbon.peeq.exceptions.SnoopException;
 import com.gibbon.peeq.util.ResourceURIParser;
 import com.gibbon.peeq.util.StripeUtils;
 import com.google.common.io.ByteArrayDataOutput;
-import com.stripe.exception.StripeException;
-import com.stripe.model.Charge;
-import com.stripe.model.Customer;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
@@ -186,9 +180,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
 
         /* commit inserting transaction and journals */
         txn.commit();
-        appendln(
-            String.format("New resource created with URI: /qatransactions/%d",
-                fromJson.getId()));
+        appendln(Long.toString(fromJson.getId()));
         return newResponse(HttpResponseStatus.CREATED);
       } catch (HibernateException e) {
         txn.rollback();

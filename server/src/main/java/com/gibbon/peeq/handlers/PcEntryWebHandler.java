@@ -161,8 +161,7 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
               .setLast4(card.getLast4());
       session.save(fromJson);
       txn.commit();
-      appendln(String.format("New resource created with URI: /pcentries/%d",
-          fromJson.getId()));
+      appendln(Long.toString(fromJson.getId()));
       return newResponse(HttpResponseStatus.CREATED);
     } catch (HibernateException e) {
       txn.rollback();
