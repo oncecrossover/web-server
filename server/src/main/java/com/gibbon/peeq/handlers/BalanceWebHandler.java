@@ -67,12 +67,17 @@ public class BalanceWebHandler extends AbastractPeeqWebHandler
 
     /* query balance */
     try {
-      final Double balance = JournalUtil.getBalanceIgnoreNull(uid);
-      appendNewInstance(uid, new Balance().setUid(uid).setBalance(balance));
+      final Double amount = JournalUtil.getBalanceIgnoreNull(uid);
+      appendNewInstance(uid,
+          new Balance().setUid(uid).setBalance(floorValue(amount)));
       return newResponse(HttpResponseStatus.OK);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
+  }
+
+  private double floorValue(final double amount) {
+    return Math.floor(amount * 100.0) / 100.0;
   }
 
   private void appendNewInstance(final String id, final Balance instance)
