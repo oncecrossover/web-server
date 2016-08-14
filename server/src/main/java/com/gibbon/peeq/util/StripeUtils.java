@@ -3,7 +3,6 @@ package com.gibbon.peeq.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.gibbon.peeq.db.model.QaTransaction;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Card;
@@ -65,15 +64,23 @@ public class StripeUtils {
     return customer.getSources().retrieve(cardId).delete();
   }
 
-  public static void chargeCustomer(final String cusId, final double amount)
+  public static Charge chargeCustomer(final String cusId, final double amount)
       throws StripeException {
-    final double val = Math.round(amount * 100.0) / 100.0;
+    final long cents = StripeUtils.toCents(StripeUtils.ceilingValue(amount));
 
     final Map<String, Object> chargeParams = new HashMap<String, Object>();
     /* amount in cents */
-    chargeParams.put("amount", (long) val * 100);
+    chargeParams.put("amount", cents);
     chargeParams.put("currency", "usd");
     chargeParams.put("customer", cusId);
-    Charge.create(chargeParams);
+    return Charge.create(chargeParams);
+  }
+
+  public static double ceilingValue(final double amount) {
+    return Math.ceil(amount * 100.0) / 100.0;
+  }
+
+  public static long toCents(final double amount) {
+    return (long)(ceilingValue(amount)*100);
   }
 }

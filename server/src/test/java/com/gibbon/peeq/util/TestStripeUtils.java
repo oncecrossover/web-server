@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Card;
+import com.stripe.model.Charge;
 import com.stripe.model.Customer;
 import com.stripe.model.DeletedCard;
 import com.stripe.model.DeletedCustomer;
@@ -262,6 +263,96 @@ public class TestStripeUtils {
     assertEquals(0,
         anotherDeletedAccountCustomer.getSources().getData().size());
     assertEquals(null, anotherDeletedAccountCustomer.getDefaultSource());
+  }
+
+  @Test(timeout = 60000)
+  public void testChargeCustomer() throws StripeException {
+    /* create new customer */
+    Customer customer = StripeUtils.createCustomerForUser("test@example.com");
+
+    /* create new card by token */
+    final Token token = Token.create(defaultTokenParams);
+    final Card card = StripeUtils.addCardToCustomer(customer, token.getId());
+
+    Charge charge = null;
+    charge = StripeUtils.chargeCustomer(customer.getId(), 1.5);
+    assertEquals(150, charge.getAmount().intValue());
+
+    charge = StripeUtils.chargeCustomer(customer.getId(), 1.52);
+    assertEquals(152, charge.getAmount().intValue());
+
+    charge = StripeUtils.chargeCustomer(customer.getId(), 1.55);
+    assertEquals(155, charge.getAmount().intValue());
+
+    charge = StripeUtils.chargeCustomer(customer.getId(), 1.57);
+    assertEquals(157, charge.getAmount().intValue());
+
+    charge = StripeUtils.chargeCustomer(customer.getId(), 1.501);
+    assertEquals(151, charge.getAmount().intValue());
+
+    charge = StripeUtils.chargeCustomer(customer.getId(), 1.504);
+    assertEquals(151, charge.getAmount().intValue());
+
+    charge = StripeUtils.chargeCustomer(customer.getId(), 1.505);
+    assertEquals(151, charge.getAmount().intValue());
+
+    charge = StripeUtils.chargeCustomer(customer.getId(), 1.507);
+    assertEquals(151, charge.getAmount().intValue());
+  }
+
+  @Test(timeout = 60000)
+  public void testCeilToDecimalPoints() throws StripeException {
+    double amount = 0;
+    double round = 0;
+    long charge = 0;
+
+    amount = 1.5;
+    round = StripeUtils.ceilingValue(amount);
+    assertEquals(1.5, round, 0);
+    charge = StripeUtils.toCents(round);
+    assertEquals(150, charge);
+
+    amount = 1.52;
+    round = StripeUtils.ceilingValue(amount);
+    assertEquals(1.52, round, 0);
+    charge = StripeUtils.toCents(round);
+    assertEquals(152, charge);
+
+    amount = 1.55;
+    round = StripeUtils.ceilingValue(amount);
+    assertEquals(1.55, round, 0);
+    charge = StripeUtils.toCents(round);
+    assertEquals(155, charge);
+
+    amount = 1.57;
+    round = StripeUtils.ceilingValue(amount);
+    assertEquals(1.57, round, 0);
+    charge = StripeUtils.toCents(round);
+    assertEquals(157, charge);
+
+    amount = 1.501;
+    round = StripeUtils.ceilingValue(amount);
+    assertEquals(1.51, round, 0);
+    charge = StripeUtils.toCents(round);
+    assertEquals(151, charge);
+
+    amount = 1.504;
+    round = StripeUtils.ceilingValue(amount);
+    assertEquals(1.51, round, 0);
+    charge = StripeUtils.toCents(round);
+    assertEquals(151, charge);
+
+    amount = 1.505;
+    round = StripeUtils.ceilingValue(amount);
+    assertEquals(1.51, round, 0);
+    charge = StripeUtils.toCents(round);
+    assertEquals(151, charge);
+
+    amount = 1.507;
+    round = StripeUtils.ceilingValue(amount);
+    assertEquals(1.51, round, 0);
+    charge = StripeUtils.toCents(round);
+    assertEquals(151, charge);
   }
 
   //@Test(timeout = 60000)
