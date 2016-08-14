@@ -10,7 +10,7 @@ import UIKit
 
 class AskViewController: UIViewController, UITextViewDelegate {
 
-  var profileInfo:(uid: String!, name: String!, title: String!, about: String!, avatarImage:NSData!)
+  var profileInfo:(uid: String!, name: String!, title: String!, about: String!, avatarImage:NSData!, rate: Double!)
 
   @IBOutlet weak var scrollView: UIScrollView!
   @IBOutlet weak var profilePhoto: UIImageView!
@@ -91,23 +91,14 @@ class AskViewController: UIViewController, UITextViewDelegate {
     return true
   }
 
-  @IBAction func askButtonTapped(sender: AnyObject) {
-    questionView.resignFirstResponder()
-    let asker = NSUserDefaults.standardUserDefaults().stringForKey("email")
-    let responder = profileInfo.uid
-    let question = questionView.text
-    questionModule.createQuestion(asker!, question: question!, responder: responder!, status: "PENDING"){ resultString in
-      var resultMessage = resultString
-      if (resultString.isEmpty) {
-        resultMessage = "We will notify you once your question is answered"
-      }
-
-      dispatch_async(dispatch_get_main_queue()){
-        self.utility.displayAlertMessage(resultMessage,
-          title: "Thank you for your question", sender: self)
-      }
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    if (segue.identifier == "askToPayment") {
+      let dvc = segue.destinationViewController as! ChargeViewController;
+      let askerId = NSUserDefaults.standardUserDefaults().stringForKey("email")
+      dvc.submittedQuestion = (amount: profileInfo.rate, type: "ASKED",
+        question: questionView.text!, askerId: askerId!, responderId: profileInfo.uid)
+      dvc.isSnooped = false
     }
-
   }
 
   func dismissKeyboard(sender:UIGestureRecognizer) {

@@ -13,8 +13,10 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   @IBOutlet weak var discoverTableView: UITableView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-  var profiles: [(uid: String!, name: String!, title: String!, about: String!, avatarImage: NSData!)] = []
-  var filteredProfiles: [(uid: String!, name: String!, title: String!, about: String!, avatarImage: NSData!)] = []
+  var profiles: [(uid: String!, name: String!, title: String!, about: String!,
+    avatarImage: NSData!, rate: Double!)] = []
+  var filteredProfiles: [(uid: String!, name: String!, title: String!, about: String!,
+    avatarImage: NSData!, rate: Double!)] = []
 
   let searchController = UISearchController(searchResultsController: nil)
 
@@ -52,6 +54,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
         let profileName = profileInfo["fullName"] as! String
         var profileTitle = ""
         var profileAbout = ""
+        var rate = 0.0
 
         if profileInfo["title"] as? String != nil {
           profileTitle = profileInfo["title"] as! String
@@ -61,8 +64,12 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
           profileAbout = profileInfo["aboutMe"] as! String
         }
 
+        if profileInfo["rate"] as? Double != nil {
+          rate = profileInfo["rate"] as! Double
+        }
+
         self.userModule.getProfile(profileUid) { _, _, _, avatarImage, _ in
-          self.profiles.append((uid: profileUid, name: profileName, title: profileTitle, about: profileAbout, avatarImage: avatarImage))
+          self.profiles.append((uid: profileUid, name: profileName, title: profileTitle, about: profileAbout, avatarImage: avatarImage, rate: rate))
           count--
           if (count == 0) {
             self.activityIndicator.stopAnimating()
@@ -153,7 +160,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 //    });
 
 
-    let profile: (uid: String!, name: String!, title: String!, about: String!, avatarImage:NSData!)
+    let profile: (uid: String!, name: String!, title: String!, about: String!, avatarImage:NSData!, rate: Double!)
     if (searchController.active && searchController.searchBar.text != "") {
       profile = self.filteredProfiles[indexPath.row]
     }

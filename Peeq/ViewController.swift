@@ -24,7 +24,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   @IBOutlet weak var feedTable: UITableView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-  var feeds:[(id: Int!, question: String!, responderId: String!, responderName: String!, responderTitle: String!, profileData: NSData!, status: String!)] = []
+  var feeds:[(id: Int!, question: String!, responderId: String!, responderName: String!, responderTitle: String!, profileData: NSData!, status: String!, asker: String!)] = []
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -36,6 +36,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   }
   
   override func viewDidAppear(animated: Bool) {
+    print("called")
     let isUserLoggedIn = NSUserDefaults.standardUserDefaults().boolForKey("isUserLoggedIn")
     if (!isUserLoggedIn){
       self.performSegueWithIdentifier("loginView", sender: self)
@@ -46,7 +47,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   }
 
   func loadData() {
-    self.feeds = []
+    if (paymentInfo.index != nil) {
+      let paidFeed = feeds[paymentInfo.index]
+      feeds = []
+      feeds.append(paidFeed)
+    }
+    else {
+      self.feeds = []
+    }
+    
     activityIndicator.startAnimating()
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     let myUrl = NSURL(string: "http://localhost:8080/newsfeeds/" + uid)
@@ -67,7 +76,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         self.userModule.getProfile(responderId) {name, title, _, avatarImage, _ in
           self.feeds.append((id: questionId, question: question, responderId: responderId, responderName: name,
-            responderTitle: title, profileData: avatarImage, status: status))
+            responderTitle: title, profileData: avatarImage, status: status, asker: askerId))
           count--
           if (count == 0) {
             dispatch_async(dispatch_get_main_queue()) {
@@ -178,7 +187,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     if (segue.identifier == "homeToPayment") {
       let indexPath = sender as! NSIndexPath
       let dvc = segue.destinationViewController as! ChargeViewController;
-      dvc.chargeInfo = (amount: 1.00, type: "SNOOPED", quandaId: feeds[indexPath.row].id, index: indexPath.row)
+      let feed = feeds[indexPath.row]
+      dvc.chargeInfo = (amount: 1.00, type: "SNOOPED", quandaId: feed.id,
+        asker: feed.asker, responder: feed.responderId, index: indexPath.row)
+      dvc.isSnooped = true
     }
   }
 
@@ -195,8 +207,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   }
 
   func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
-    questionModule.createSnoop(self.snoopQuestionId) { resultString in
-    }
   }
 }
 
