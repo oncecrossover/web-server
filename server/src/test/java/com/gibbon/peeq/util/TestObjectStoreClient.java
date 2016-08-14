@@ -42,7 +42,12 @@ public class TestObjectStoreClient {
       assertTrue("IOException shoudn't happen when HDFS is properly set.",
           e instanceof IOException);
     } finally {
-      osc.deleteFromStore(osPath);
+      try {
+        osc.deleteFromStore(osPath);
+      } catch (Exception e) {
+        assertTrue("IOException shoudn't happen when HDFS is properly set.",
+            e instanceof IOException);
+      }
     }
   }
 
@@ -59,7 +64,12 @@ public class TestObjectStoreClient {
       assertTrue("IOException shoudn't happen when HDFS is properly set.",
           e instanceof IOException);
     } finally {
-      osc.deleteFromStore(osPath);
+      try {
+        osc.deleteFromStore(osPath);
+      } catch (Exception e) {
+        assertTrue("IOException shoudn't happen when HDFS is properly set.",
+            e instanceof IOException);
+      }
     }
   }
 
@@ -82,7 +92,12 @@ public class TestObjectStoreClient {
       assertTrue("IOException shoudn't happen when HDFS is properly set.",
           e instanceof IOException);
     } finally {
-      osc.deleteFromStore(url);
+      try {
+        osc.deleteFromStore(url);
+      } catch (Exception e) {
+        assertTrue("IOException shoudn't happen when HDFS is properly set.",
+            e instanceof IOException);
+      }
     }
   }
 
@@ -104,7 +119,12 @@ public class TestObjectStoreClient {
       assertTrue("IOException shoudn't happen when HDFS is properly set.",
           e instanceof IOException);
     } finally {
-      osc.deleteFromStore(url);
+      try {
+        osc.deleteFromStore(url);
+      } catch (Exception e) {
+        assertTrue("IOException shoudn't happen when HDFS is properly set.",
+            e instanceof IOException);
+      }
     }
   }
 
@@ -135,7 +155,12 @@ public class TestObjectStoreClient {
       assertTrue("IOException shoudn't happen when HDFS is properly set.",
           e instanceof IOException);
     } finally {
-      osc.deleteFromStore(url);
+      try {
+        osc.deleteFromStore(url);
+      } catch (Exception e) {
+        assertTrue("IOException shoudn't happen when HDFS is properly set.",
+            e instanceof IOException);
+      }
     }
   }
 }
