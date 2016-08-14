@@ -38,7 +38,8 @@ public class TestQuanda {
           .setQuestion("How do you define good man?")
           .setResponder("edmund")
           .setAnswerAudio("This is answer audio.".getBytes())
-          .setStatus(Quanda.QnaStatus.ANSWERED.toString());
+          .setStatus(Quanda.QnaStatus.ANSWERED.toString())
+          .setRate(random.nextDouble());
     return quanda;
   }
 
@@ -49,7 +50,8 @@ public class TestQuanda {
           .setQuestion(UUID.randomUUID().toString())
           .setResponder(UUID.randomUUID().toString())
           .setAnswerAudio("This is random answer audio.".getBytes())
-          .setStatus(Quanda.QnaStatus.PENDING.toString());
+          .setStatus(Quanda.QnaStatus.PENDING.toString())
+          .setRate(random.nextDouble());
     return quanda;
   }
 

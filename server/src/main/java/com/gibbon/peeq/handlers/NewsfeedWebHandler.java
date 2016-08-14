@@ -10,6 +10,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.DoubleType;
 import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 import org.hibernate.type.TimestampType;
@@ -74,6 +75,7 @@ public class NewsfeedWebHandler extends AbastractPeeqWebHandler
            .addScalar("asker", new StringType())
            .addScalar("question", new StringType())
            .addScalar("responder", new StringType())
+           .addScalar("rate", new DoubleType())
            .addScalar("answerUrl", new StringType())
            .addScalar("status", new StringType())
            .addScalar("createdTime", new TimestampType())

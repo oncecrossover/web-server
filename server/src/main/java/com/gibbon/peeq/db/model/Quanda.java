@@ -17,6 +17,7 @@ public class Quanda {
   private String asker;
   private String question;
   private String responder;
+  private Double rate;
   private String answerUrl;
   private byte[] answerAudio;
   private String status;
@@ -56,6 +57,15 @@ public class Quanda {
 
   public Quanda setResponder(final String responder) {
     this.responder = responder;
+    return this;
+  }
+
+  public Double getRate() {
+    return rate;
+  }
+
+  public Quanda setRate(final Double rate) {
+    this.rate = rate;
     return this;
   }
 
@@ -140,7 +150,8 @@ public class Quanda {
           && isEqual(this.getQuestion(), that.getQuestion())
           && isEqual(this.getResponder(), that.getResponder())
           && isEqual(this.getAnswerUrl(), that.getAnswerUrl())
-          && isEqual(this.getStatus(), that.getStatus())) {
+          && isEqual(this.getStatus(), that.getStatus())
+          && isEqual(this.getRate(), that.getRate())) {
         return true;
       }
     }
@@ -181,6 +192,9 @@ public class Quanda {
     }
     if (quanda.getStatus() != null) {
       this.setStatus(quanda.getStatus());
+    }
+    if (quanda.getRate() != null) {
+      this.setRate(quanda.getRate());
     }
     if (quanda.getCreatedTime() != null) {
       this.setCreatedTime(quanda.getCreatedTime());

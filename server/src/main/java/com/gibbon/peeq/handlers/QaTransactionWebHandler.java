@@ -238,6 +238,11 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
+    if (quanda.getRate() == null) {
+      appendln("No rate specified in quanda");
+      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    }
+
     if (quanda.getResponder().equals(asker)) {
       appendln(String.format(
           "Quanda asker ('%s') can't be the same as responder ('%s')",
@@ -309,8 +314,8 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
       return resp;
     }
     /* QaTransaction user must be same as quanda asker */
-    quanda.setAsker(qaTransaction.getUid());
-    quanda.setStatus(QnaStatus.PENDING.toString());
+    quanda.setAsker(qaTransaction.getUid())
+          .setStatus(QnaStatus.PENDING.toString());
 
     /* get answer rate */
     double answerRate = 0;
@@ -319,6 +324,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
+    quanda.setRate(answerRate);
 
     /* get asker balance */
     double balance = 0;

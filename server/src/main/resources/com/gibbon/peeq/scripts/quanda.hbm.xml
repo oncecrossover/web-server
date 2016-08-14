@@ -24,6 +24,9 @@
     <property name="status" type="java.lang.String">
       <column name="status" />
     </property>
+    <property name="rate" type="java.lang.Double">
+      <column name="rate" />
+    </property>
     <property name="createdTime" type="timestamp">
       <column name="createdTime" />
     </property>

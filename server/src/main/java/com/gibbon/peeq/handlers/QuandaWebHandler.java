@@ -244,6 +244,11 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
+    if (quanda.getRate() == null) {
+      appendln("No rate specified in quanda");
+      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    }
+
     if (quanda.getAsker().equals(quanda.getResponder())) {
       appendln(String.format(
           "Quanda asker ('%s') can't be the same as responder ('%s')",
