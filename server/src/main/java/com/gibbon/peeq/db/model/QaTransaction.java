@@ -19,6 +19,7 @@ public class QaTransaction {
   private long quandaId;
   private Double amount;
   private Date createdTime;
+  private Quanda quanda;
 
   public long getId() {
     return id;
@@ -74,6 +75,14 @@ public class QaTransaction {
     return this;
   }
 
+  public Quanda getquanda() {
+    return quanda;
+  }
+
+  public QaTransaction setquanda(final Quanda quanda) {
+    this.quanda = quanda;
+    return this;
+  }
 
   @Override
   public boolean equals(Object obj) {
