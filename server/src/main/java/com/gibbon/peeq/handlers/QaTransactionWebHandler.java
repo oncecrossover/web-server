@@ -212,7 +212,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
           chargeSnooperFromCard(session, qaTransaction, quanda, SNOOP_RATE);
         }
         txn.commit();
-        appendln(Long.toString(qaTransaction.getId()));
+        appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
       } catch (Exception e) {
         txn.rollback();
@@ -363,7 +363,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
           chargeAskerFromCard(session, qaTransaction, quanda, answerRate);
         }
         txn.commit();
-        appendln(Long.toString(qaTransaction.getId()));
+        appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
       } catch (Exception e) {
         txn.rollback();

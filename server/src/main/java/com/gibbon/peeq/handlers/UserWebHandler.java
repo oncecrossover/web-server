@@ -82,7 +82,7 @@ public class UserWebHandler extends AbastractPeeqWebHandler
       txn = session.beginTransaction();
       session.save(fromJson);
       txn.commit();
-      appendln(fromJson.getUid());
+      appendln(toIdJson("uid", fromJson.getUid()));
       return newResponse(HttpResponseStatus.CREATED);
     } catch (StripeException e) {
       return newServerErrorResponse(e, LOG);

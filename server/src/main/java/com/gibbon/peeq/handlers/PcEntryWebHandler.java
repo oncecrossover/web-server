@@ -161,7 +161,7 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
               .setLast4(card.getLast4());
       session.save(fromJson);
       txn.commit();
-      appendln(Long.toString(fromJson.getId()));
+      appendln(toIdJson("id", fromJson.getId()));
       return newResponse(HttpResponseStatus.CREATED);
     } catch (HibernateException e) {
       txn.rollback();

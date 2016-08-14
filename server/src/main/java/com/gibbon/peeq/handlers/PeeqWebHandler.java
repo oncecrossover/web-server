@@ -148,6 +148,16 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
     getRespBuf().write(byteArray);
   }
 
+  static <T> String toIdJson(final String idKey, final T idVal) {
+    if (idVal instanceof String) {
+      return String.format("{\"%s\":\"%s\"}", idKey, idVal);
+    } else if (idVal instanceof Long || idVal instanceof Integer) {
+      return String.format("{\"%s\":%d}", idKey, idVal);
+    } else {
+      return null;
+    }
+  }
+
   protected void appendln(final String str) {
     final String line = String.format("%s%n", str);
     getRespBuf().write(line.getBytes(CharsetUtil.UTF_8));

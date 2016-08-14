@@ -214,7 +214,7 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       txn = getSession().beginTransaction();
       getSession().save(fromJson);
       txn.commit();
-      appendln(Long.toString(fromJson.getId()));
+      appendln(toIdJson("id", fromJson.getId()));
       return newResponse(HttpResponseStatus.CREATED);
     } catch (Exception e) {
       txn.rollback();
