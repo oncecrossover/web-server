@@ -195,12 +195,13 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
     final Quanda fromJson;
     try {
       fromJson = newQuandaFromRequest();
-      if (fromJson == null) {
-        appendln("No quanda or incorrect format specified.");
-        return newResponse(HttpResponseStatus.BAD_REQUEST);
-      }
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
+    }
+
+    final FullHttpResponse resp = verifyQuanda(fromJson);
+    if (resp != null) {
+      return resp;
     }
 
     /* set time */
@@ -219,6 +220,38 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       txn.rollback();
       return newServerErrorResponse(e, LOG);
     }
+  }
+
+  private FullHttpResponse verifyQuanda(final Quanda quanda) {
+
+    if (quanda == null) {
+      appendln("No quanda or incorrect format specified.");
+      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    }
+
+    if (StringUtils.isBlank(quanda.getAsker())) {
+      appendln("No asker specified in quanda");
+      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    }
+
+    if (StringUtils.isBlank(quanda.getQuestion())) {
+      appendln("No question specified in quanda");
+      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    }
+
+    if (StringUtils.isBlank(quanda.getResponder())) {
+      appendln("No responder specified in quanda");
+      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    }
+
+    if (quanda.getAsker().equals(quanda.getResponder())) {
+      appendln(String.format(
+          "Quanda asker ('%s') can't be the same as responder ('%s')",
+          quanda.getAsker(), quanda.getResponder()));
+      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    }
+
+    return null;
   }
 
   private Quanda newQuandaFromRequest()
