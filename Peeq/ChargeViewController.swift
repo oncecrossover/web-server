@@ -119,7 +119,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate {
     let asker = submittedQuestion.askerId
     let responder = submittedQuestion.responderId
     let question = submittedQuestion.question
-    let quandaData = ["question" : question, "responder" : responder]
+    let quandaData = ["question" : question, "responder" : responder, "rate" : submittedQuestion.amount]
     let jsonData:[String: AnyObject] = ["uid": asker, "type" : "ASKED", "quanda" : quandaData]
     generics.createObject("http://127.0.0.1:8080/qatransactions", jsonData: jsonData) { result in
       var message = "Your question is successfully submitted"

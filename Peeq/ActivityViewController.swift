@@ -21,11 +21,13 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   var activeCell: (Bool!, Int!)!
 
   var questions:[(id: Int!, question: String!, status: String!, responderImage: NSData!,
-  responderName: String!, responderTitle: String!, isPlaying: Bool!)] = []
+  responderName: String!, responderTitle: String!, isPlaying: Bool!, rate: Double!)] = []
+
   var answers:[(id: Int!, question: String!, status: String!, askerImage: NSData!,
-    askerName: String!, askerTitle: String!, askerId: String!)] = []
+  askerName: String!, askerTitle: String!, askerId: String!, rate: Double!)] = []
+
   var snoops:[(id: Int!, question: String!, status: String!, responderImage: NSData!, responderName: String!,
-  responderTitle: String!, isPlaying: Bool!)] = []
+  responderTitle: String!, isPlaying: Bool!, rate: Double!)] = []
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -94,12 +96,17 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         let questionId = questionInfo["id"] as! Int
         let question = questionInfo["question"] as! String
         let status = questionInfo["status"] as! String
+        var rate = 0.0
+        if (questionInfo["rate"] != nil) {
+          rate = questionInfo["rate"] as! Double
+        }
 
         if (self.segmentedControl.selectedSegmentIndex == 0) {
           let responderId = questionInfo["responder"] as! String
           self.userModule.getProfile(responderId) {name, title, about, avatarImage, _ in
             self.questions.append((id: questionId, question: question, status: status,
-              responderImage: avatarImage, responderName: name, responderTitle: title, isPlaying: false))
+              responderImage: avatarImage, responderName: name, responderTitle: title,
+              isPlaying: false, rate: rate))
             count--
             if (count == 0) {
               dispatch_async(dispatch_get_main_queue()) {
@@ -112,7 +119,8 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
           let askerId = questionInfo["asker"] as! String
           self.userModule.getProfile(askerId){name, title, about, avatarImage, _ in
             self.answers.append((id: questionId, question: question, status: status,
-              askerImage: avatarImage, askerName: name, askerTitle: title, askerId: askerId))
+              askerImage: avatarImage, askerName: name, askerTitle: title,
+              askerId: askerId, rate: rate))
             count--
             if (count == 0) {
               dispatch_async(dispatch_get_main_queue()) {
@@ -140,7 +148,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         self.questionModule.getQuestionById(questionId) { responderId, question in
           self.userModule.getProfile(responderId) {name, title, _, avatarImage, _ in
             self.snoops.append((id: questionId, question: question, status: "ANSWERED", responderImage: avatarImage,
-              responderName: name, responderTitle: title, isPlaying: false))
+              responderName: name, responderTitle: title, isPlaying: false, rate: 0.0))
             count--
             if (count == 0) {
               dispatch_async(dispatch_get_main_queue()) {
@@ -242,7 +250,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     //using the tapLocation, we retrieve the corresponding indexPath
     let indexPath = self.activityTableView.indexPathForRowAtPoint(tapLocation)!
     var questionInfo:(id: Int!, question: String!, status: String!, responderImage: NSData!,
-    responderName: String!, responderTitle: String!, isPlaying: Bool!)
+    responderName: String!, responderTitle: String!, isPlaying: Bool!, rate: Double!)
 
     var isSnoop = false
     if (segmentedControl.selectedSegmentIndex == 0) {
@@ -289,12 +297,13 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         as! QuestionTableViewCell
 
       var cellInfo:(id: Int!, question: String!, status: String!, responderImage: NSData!,
-      responderName: String!, responderTitle: String!, isPlaying: Bool!)
+      responderName: String!, responderTitle: String!, isPlaying: Bool!, rate: Double!)
       if (segmentedControl.selectedSegmentIndex == 2) {
         cellInfo = snoops[indexPath.row]
       }
       else {
         cellInfo = questions[indexPath.row]
+        myCell.rateLabel.text = "$\(cellInfo.rate)"
       }
 
       myCell.questionText.text = cellInfo.question
@@ -325,9 +334,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         myCell.listenImage.userInteractionEnabled = true
         let tappedOnButton = UITapGestureRecognizer(target: self, action: "tappedOnImage:")
         myCell.listenImage.addGestureRecognizer(tappedOnButton)
-
       }
-
 
       return myCell
     }
@@ -335,6 +342,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       let myCell = tableView.dequeueReusableCellWithIdentifier("answerCell", forIndexPath: indexPath) as! AnswerTableViewCell
       let answer = answers[indexPath.row]
       myCell.askerName.text = answer.askerName
+      myCell.rateLabel.text = "$\(answer.rate)"
       if (answer.askerImage.length > 0) {
         myCell.profileImage.image = UIImage(data: answer.askerImage)
       }
@@ -366,7 +374,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       let questionInfo = answers[indexPath.row]
       dvc.question = (id: questionInfo.id, avatarImage: questionInfo.askerImage, askerName: questionInfo.askerName,
         askerId: questionInfo.askerId, status: questionInfo.status,
-        content: questionInfo.question)
+        content: questionInfo.question, rate: questionInfo.rate)
     }
     
   }

@@ -25,7 +25,8 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
   var questionModule = Question()
 
-  var question:(id: Int!, avatarImage: NSData!, askerName: String!, askerId: String!, status: String!, content: String!)
+  var question:(id: Int!, avatarImage: NSData!, askerName: String!, askerId: String!, status: String!,
+  content: String!, rate: Double!)
 
   var isRecording = false
   var isPlaying = false
@@ -103,6 +104,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     }
 
     myCell.question.text = question.content
+    myCell.rateLabel.text = "$\(question.rate)"
 
     if (question.avatarImage.length > 0) {
       myCell.profileImage.image = UIImage(data: question.avatarImage)

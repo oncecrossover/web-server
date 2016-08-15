@@ -421,6 +421,7 @@
                                             <outlet property="listenImage" destination="0ap-ec-xF9" id="UUv-Nd-tsH"/>
                                             <outlet property="profileImage" destination="Wpm-c4-pJf" id="tZ4-AF-dYL"/>
                                             <outlet property="questionText" destination="bDx-KA-8Zm" id="5nb-jl-m9S"/>
+                                            <outlet property="rateLabel" destination="9dO-eV-9Zb" id="ViJ-Ig-lft"/>
                                             <outlet property="titleLabel" destination="ZfU-oh-YqU" id="egB-FR-woc"/>
                                         </connections>
                                     </tableViewCell>
@@ -519,6 +520,7 @@
                                             <outlet property="askerName" destination="Zna-pk-Cpn" id="xRg-8G-9tR"/>
                                             <outlet property="profileImage" destination="8uV-l4-WtN" id="yS5-lz-WoM"/>
                                             <outlet property="question" destination="gSD-yZ-Ax7" id="gdA-gt-sBK"/>
+                                            <outlet property="rateLabel" destination="Qzw-qO-3mY" id="zQ5-P0-ecJ"/>
                                             <outlet property="status" destination="Rem-0l-QD2" id="Mel-bN-Frt"/>
                                         </connections>
                                     </tableViewCell>
@@ -665,6 +667,7 @@
                                             <outlet property="askerName" destination="cbS-J9-2KG" id="ego-hF-SOz"/>
                                             <outlet property="profileImage" destination="g4m-7C-dSn" id="WrK-gu-0vx"/>
                                             <outlet property="question" destination="lp0-Yu-bcM" id="I8E-py-f1n"/>
+                                            <outlet property="rateLabel" destination="T02-5y-aNU" id="y4y-xE-Q7a"/>
                                             <outlet property="status" destination="8fy-8F-nrZ" id="IGA-bg-fCi"/>
                                         </connections>
                                     </tableViewCell>

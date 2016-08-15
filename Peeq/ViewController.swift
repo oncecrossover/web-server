@@ -20,6 +20,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   var snoopQuestionId = 0
 
   var paymentInfo:(quandaId: Int!, index: Int!)
+  var paidFeed:(id: Int!, question: String!, responderId: String!, responderName: String!, responderTitle: String!, profileData: NSData!, status: String!, asker: String!)
 
   @IBOutlet weak var feedTable: UITableView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -36,7 +37,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   }
   
   override func viewDidAppear(animated: Bool) {
-    print("called")
     let isUserLoggedIn = NSUserDefaults.standardUserDefaults().boolForKey("isUserLoggedIn")
     if (!isUserLoggedIn){
       self.performSegueWithIdentifier("loginView", sender: self)
@@ -47,13 +47,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   }
 
   func loadData() {
+    self.feeds = []
     if (paymentInfo.index != nil) {
-      let paidFeed = feeds[paymentInfo.index]
-      feeds = []
       feeds.append(paidFeed)
-    }
-    else {
-      self.feeds = []
     }
     
     activityIndicator.startAnimating()
@@ -61,6 +57,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let myUrl = NSURL(string: "http://localhost:8080/newsfeeds/" + uid)
     generics.getFilteredObjects(myUrl!) { jsonArray in
       var count = jsonArray.count
+      if (count == 0) {
+        dispatch_async(dispatch_get_main_queue()) {
+          self.activityIndicator.stopAnimating()
+        }
+        return
+      }
       for feedInfo in jsonArray as! [[String:AnyObject]] {
         let questionId = feedInfo["id"] as! Int
         let question = feedInfo["question"] as! String
@@ -140,11 +142,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       myCell.snoopImage.image = UIImage(named: "pending")
     }
     else {
-      if (paymentInfo.index != nil && paymentInfo.index == indexPath.row) {
+      if (paymentInfo.index != nil && paymentInfo.quandaId == feedInfo.id) {
         myCell.snoopImage.image = UIImage(named: "listen")
         myCell.snoopImage.userInteractionEnabled = true
         let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedToListen:")
         myCell.snoopImage.addGestureRecognizer(tappedOnImage)
+        paymentInfo.index = nil
       }
       else {
         myCell.snoopImage.image = UIImage(named: "snoop")
@@ -190,6 +193,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       let feed = feeds[indexPath.row]
       dvc.chargeInfo = (amount: 1.00, type: "SNOOPED", quandaId: feed.id,
         asker: feed.asker, responder: feed.responderId, index: indexPath.row)
+      self.paidFeed = feeds[indexPath.row]
       dvc.isSnooped = true
     }
   }

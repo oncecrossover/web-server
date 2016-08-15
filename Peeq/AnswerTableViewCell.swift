@@ -15,6 +15,7 @@ class AnswerTableViewCell: UITableViewCell {
   @IBOutlet weak var status: UILabel!
 
   @IBOutlet weak var question: UILabel!
+  @IBOutlet weak var rateLabel: UILabel!
 
   override func awakeFromNib() {
     super.awakeFromNib()
