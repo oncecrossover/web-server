@@ -67,7 +67,7 @@ class SignupPageViewController: UIViewController {
     }
     
     var resultMessage = ""
-    userModule.createUser(userEmail, userPassword: userPassword) { resultString in
+    userModule.createUser(userEmail, userPassword: userPassword, fullName: name) { resultString in
       if (resultString.isEmpty) {
         resultMessage = "Registration is successful"
       }

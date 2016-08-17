@@ -12,8 +12,8 @@ class User
     PROFILEURI = "http://localhost:8080/profiles/"
   }
   
-  func createUser(userEmail: String, userPassword: String, completion: (String) -> ()) {
-    let jsonData = ["uid": userEmail, "pwd": userPassword]
+  func createUser(userEmail: String, userPassword: String, fullName: String!, completion: (String) -> ()) {
+    let jsonData = ["uid": userEmail, "pwd": userPassword, "fullName" : fullName]
     generics.createObject(USERURI, jsonData: jsonData) { result in
       completion(result)
     }
