@@ -17,8 +17,6 @@
 		4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26821D218FC60001989E /* ProfileViewController.swift */; };
 		4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26861D21D01D0001989E /* EditProfileViewController.swift */; };
 		4ABD20311D407ECC00C3B74E /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD20301D407ECC00C3B74E /* AddCardViewController.swift */; };
-		4ABD20331D408FF300C3B74E /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ABD20321D408FF300C3B74E /* Stripe.framework */; };
-		4ABD20351D40900400C3B74E /* Stripe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4ABD20341D40900400C3B74E /* Stripe.bundle */; };
 		4ABD20371D4409F900C3B74E /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD20361D4409F900C3B74E /* Payment.swift */; };
 		4ABD203D1D443E1A00C3B74E /* UiUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD203C1D443E1A00C3B74E /* UiUtility.swift */; };
 		4ABE1CC01D25BBF100320529 /* AskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABE1CBF1D25BBF100320529 /* AskViewController.swift */; };
@@ -30,6 +28,8 @@
 		4AC2837C1CECEE3800A08D35 /* SignupPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC2837B1CECEE3800A08D35 /* SignupPageViewController.swift */; };
 		4AC2837E1CED0E4500A08D35 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC2837D1CED0E4500A08D35 /* LoginViewController.swift */; };
 		4AC9231F1D360A0800C83177 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9231E1D360A0800C83177 /* FeedTableViewCell.swift */; };
+		4AD8A6A21D63E8AF00757D9D /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD8A6A11D63E8AF00757D9D /* Stripe.framework */; };
+		4AD8A6A41D63E8C600757D9D /* Stripe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4AD8A6A31D63E8C600757D9D /* Stripe.bundle */; };
 		4AE8660F1D3C3CF400316DBA /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE8660E1D3C3CF400316DBA /* PaymentViewController.swift */; };
 		4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF2A1B1D14BABA002E3CFE /* User.swift */; };
 		4AF3226A1D29A1E10043FCE5 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF322691D29A1E10043FCE5 /* Question.swift */; };
@@ -51,12 +51,10 @@
 		4A8F26821D218FC60001989E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		4A8F26861D21D01D0001989E /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		4ABD20301D407ECC00C3B74E /* AddCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardViewController.swift; sourceTree = "<group>"; };
-		4ABD20321D408FF300C3B74E /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Stripe.framework; sourceTree = "<group>"; };
-		4ABD20341D40900400C3B74E /* Stripe.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Stripe.bundle; path = Stripe.framework/Stripe.bundle; sourceTree = "<group>"; };
 		4ABD20361D4409F900C3B74E /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		4ABD203C1D443E1A00C3B74E /* UiUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UiUtility.swift; sourceTree = "<group>"; };
 		4ABE1CBF1D25BBF100320529 /* AskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AskViewController.swift; sourceTree = "<group>"; };
-		4AC283631CE2F58100A08D35 /* Peeq.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Peeq.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4AC283631CE2F58100A08D35 /* Snoop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Snoop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AC283661CE2F58100A08D35 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4AC283681CE2F58100A08D35 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4AC2836B1CE2F58100A08D35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -66,6 +64,8 @@
 		4AC2837B1CECEE3800A08D35 /* SignupPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupPageViewController.swift; sourceTree = "<group>"; };
 		4AC2837D1CED0E4500A08D35 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4AC9231E1D360A0800C83177 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
+		4AD8A6A11D63E8AF00757D9D /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Stripe.framework; sourceTree = "<group>"; };
+		4AD8A6A31D63E8C600757D9D /* Stripe.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Stripe.bundle; path = Stripe.framework/Stripe.bundle; sourceTree = "<group>"; };
 		4AE8660E1D3C3CF400316DBA /* PaymentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
 		4AEF2A1B1D14BABA002E3CFE /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4AF322691D29A1E10043FCE5 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
@@ -81,7 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4ABD20331D408FF300C3B74E /* Stripe.framework in Frameworks */,
+				4AD8A6A21D63E8AF00757D9D /* Stripe.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,7 +140,7 @@
 		4AC2835A1CE2F58100A08D35 = {
 			isa = PBXGroup;
 			children = (
-				4AC283651CE2F58100A08D35 /* Peeq */,
+				4AC283651CE2F58100A08D35 /* Snoop */,
 				4AC283641CE2F58100A08D35 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -148,17 +148,17 @@
 		4AC283641CE2F58100A08D35 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4AC283631CE2F58100A08D35 /* Peeq.app */,
+				4AC283631CE2F58100A08D35 /* Snoop.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4AC283651CE2F58100A08D35 /* Peeq */ = {
+		4AC283651CE2F58100A08D35 /* Snoop */ = {
 			isa = PBXGroup;
 			children = (
+				4AD8A6A31D63E8C600757D9D /* Stripe.bundle */,
+				4AD8A6A11D63E8AF00757D9D /* Stripe.framework */,
 				4ABD203B1D443E0300C3B74E /* Utility */,
-				4ABD20341D40900400C3B74E /* Stripe.bundle */,
-				4ABD20321D408FF300C3B74E /* Stripe.framework */,
 				4AC283661CE2F58100A08D35 /* AppDelegate.swift */,
 				4ABE1CC11D25C7AA00320529 /* ControllerGroup */,
 				4AC2836A1CE2F58100A08D35 /* Main.storyboard */,
@@ -169,7 +169,7 @@
 				4AF322701D29DF220043FCE5 /* TableViewCell */,
 				4A11C05A1D344D1700AEF95D /* UIView */,
 			);
-			path = Peeq;
+			path = Snoop;
 			sourceTree = "<group>";
 		};
 		4AF322701D29DF220043FCE5 /* TableViewCell */ = {
@@ -186,9 +186,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4AC283621CE2F58100A08D35 /* Peeq */ = {
+		4AC283621CE2F58100A08D35 /* Snoop */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4AC283781CE2F58100A08D35 /* Build configuration list for PBXNativeTarget "Peeq" */;
+			buildConfigurationList = 4AC283781CE2F58100A08D35 /* Build configuration list for PBXNativeTarget "Snoop" */;
 			buildPhases = (
 				4AC2835F1CE2F58100A08D35 /* Sources */,
 				4AC283601CE2F58100A08D35 /* Frameworks */,
@@ -198,9 +198,9 @@
 			);
 			dependencies = (
 			);
-			name = Peeq;
+			name = Snoop;
 			productName = Peep;
-			productReference = 4AC283631CE2F58100A08D35 /* Peeq.app */;
+			productReference = 4AC283631CE2F58100A08D35 /* Snoop.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -218,7 +218,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4AC2835E1CE2F58100A08D35 /* Build configuration list for PBXProject "Peeq" */;
+			buildConfigurationList = 4AC2835E1CE2F58100A08D35 /* Build configuration list for PBXProject "Snoop" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -231,7 +231,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4AC283621CE2F58100A08D35 /* Peeq */,
+				4AC283621CE2F58100A08D35 /* Snoop */,
 			);
 		};
 /* End PBXProject section */
@@ -242,7 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AC283711CE2F58100A08D35 /* Assets.xcassets in Resources */,
-				4ABD20351D40900400C3B74E /* Stripe.bundle in Resources */,
+				4AD8A6A41D63E8C600757D9D /* Stripe.bundle in Resources */,
 				4AC2836C1CE2F58100A08D35 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -389,11 +389,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Peeq",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Snoop",
 				);
-				INFOPLIST_FILE = Peeq/Info.plist;
+				INFOPLIST_FILE = Snoop/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.peeq.Peeq;
-				PRODUCT_NAME = Peeq;
+				PRODUCT_BUNDLE_IDENTIFIER = com.snoop.Snoop;
+				PRODUCT_NAME = Snoop;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -406,11 +407,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Peeq",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Snoop",
 				);
-				INFOPLIST_FILE = Peeq/Info.plist;
+				INFOPLIST_FILE = Snoop/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.peeq.Peeq;
-				PRODUCT_NAME = Peeq;
+				PRODUCT_BUNDLE_IDENTIFIER = com.snoop.Snoop;
+				PRODUCT_NAME = Snoop;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -418,7 +420,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4AC2835E1CE2F58100A08D35 /* Build configuration list for PBXProject "Peeq" */ = {
+		4AC2835E1CE2F58100A08D35 /* Build configuration list for PBXProject "Snoop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4AC283761CE2F58100A08D35 /* Debug */,
@@ -427,7 +429,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4AC283781CE2F58100A08D35 /* Build configuration list for PBXNativeTarget "Peeq" */ = {
+		4AC283781CE2F58100A08D35 /* Build configuration list for PBXNativeTarget "Snoop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4AC283791CE2F58100A08D35 /* Debug */,
