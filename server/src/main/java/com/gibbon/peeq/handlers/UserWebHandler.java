@@ -63,6 +63,9 @@ public class UserWebHandler extends AbastractPeeqWebHandler
       return newServerErrorResponse(e, LOG);
     }
 
+    /* set fullName to profile, user table doesn't store fullName */
+    fromJson.getProfile().setFullName(fromJson.getFullName());
+
     Transaction txn = null;
     Customer customer = null;
     Session session = null;
@@ -143,10 +146,11 @@ public class UserWebHandler extends AbastractPeeqWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
-    final User user;
+    /* deserialize json */
+    final User fromJson;
     try {
-      user = newUserFromRequest();
-      if (user == null) {
+      fromJson = newUserFromRequest();
+      if (fromJson == null) {
         appendln("No user or incorrect format specified.");
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
@@ -154,18 +158,32 @@ public class UserWebHandler extends AbastractPeeqWebHandler
       return newServerErrorResponse(e, LOG);
     }
 
-    /*
-     * assign uid for children to explicitly tell Hibernate to update them
-     * insteading of inserting
-     */
-    user.setUid(uid);
-    user.getProfile().setUid(user.getUid());
-    user.getPcAccount().setUid(user.getUid());
-
     Transaction txn = null;
+    Session sesion = null;
+    /*
+     * query to get DB copy to avoid updating fields (not explicitly set by
+     * Json) to NULL
+     */
+    User fromDB = null;
+    try {
+      sesion = getSession();
+      txn = sesion.beginTransaction();
+      fromDB = (User) getSession().get(User.class, uid);
+      txn.commit();
+    } catch (Exception e) {
+      txn.rollback();
+      return newServerErrorResponse(e, LOG);
+    }
+
+    /* use uid from url, ignore that from json */
+    fromJson.setUid(uid);
+    if (fromDB != null) {
+      fromDB.setAsIgnoreNull(fromJson);
+    }
+
     try {
       txn = getSession().beginTransaction();
-      getSession().update(user);
+      getSession().update(fromDB);
       txn.commit();
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {
@@ -179,7 +197,7 @@ public class UserWebHandler extends AbastractPeeqWebHandler
     final ByteBuf content = getRequest().content();
     if (content.isReadable()) {
       final byte[] json = ByteBufUtil.getBytes(content);
-      return User.newUser(json);
+      return User.newInstance(json);
     }
     return null;
   }

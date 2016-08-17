@@ -3,8 +3,6 @@ package com.gibbon.peeq.db.model;
 import java.io.IOException;
 import java.util.Date;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -12,12 +10,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class User {
   private String uid;
-  private String firstName;
-  private String middleName;
-  private String lastName;
   private String pwd;
   private Date createdTime;
   private Date updatedTime;
+  private String fullName;
   private Profile profile;
   private PcAccount pcAccount;
 
@@ -30,30 +26,12 @@ public class User {
     return this;
   }
 
-  public String getFirstName() {
-    return this.firstName;
+  public String getFullName() {
+    return fullName;
   }
 
-  public User setFirstName(String firstName) {
-    this.firstName = firstName;
-    return this;
-  }
-
-  public String getMiddleName() {
-    return this.middleName;
-  }
-
-  public User setMiddleName(String middleName) {
-    this.middleName = middleName;
-    return this;
-  }
-
-  public String getLastName() {
-    return this.lastName;
-  }
-
-  public User setLastName(String lastName) {
-    this.lastName = lastName;
+  public User setFullName(final String fullName) {
+    this.fullName = fullName;
     return this;
   }
 
@@ -107,7 +85,7 @@ public class User {
    * @param userJson Json byte array of User.
    * @return new instance of User.
    */
-  public static User newUser(final byte[] json)
+  public static User newInstance(final byte[] json)
       throws JsonParseException, JsonMappingException, IOException {
     final ObjectMapper mapper = new ObjectMapper();
     final User user = mapper.readValue(json, User.class);
@@ -156,9 +134,6 @@ public class User {
     if (getClass() == obj.getClass()) {
       final User that = (User) obj;
       if (isEqual(this.getUid(), that.getUid())
-          && isEqual(this.getFirstName(), that.getFirstName())
-          && isEqual(this.getMiddleName(), that.getMiddleName())
-          && isEqual(this.getLastName(), that.getLastName())
           && isEqual(this.getPwd(), that.getPwd())
           && isEqual(this.getProfile(), that.getProfile())
           && isEqual(this.getPcAccount(), that.getPcAccount())) {
@@ -171,5 +146,23 @@ public class User {
 
   private boolean isEqual(Object a, Object b) {
     return a == null ? b == null : a.equals(b);
+  }
+
+  public User setAsIgnoreNull(final User that) {
+    if (that == null) {
+      return null;
+    }
+
+    if (that.getUid() != null) {
+      this.setUid(that.getUid());
+    }
+    if (that.getPwd() != null) {
+      this.setPwd(that.getPwd());
+    }
+    if (that.getFullName() != null && this.getProfile() != null) {
+      this.getProfile().setFullName(that.getFullName());
+    }
+
+    return this;
   }
 }

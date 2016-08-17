@@ -8,15 +8,6 @@
       <column name="uid" />
       <generator class="assigned" />
     </id>
-    <property name="firstName" type="java.lang.String">
-      <column name="firstName" />
-    </property>
-    <property name="middleName" type="java.lang.String">
-      <column name="middleName" />
-    </property>
-    <property name="lastName" type="java.lang.String">
-      <column name="lastName" />
-    </property>
     <property name="pwd" type="java.lang.String">
       <column name="pwd" />
     </property>

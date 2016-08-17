@@ -1,7 +1,5 @@
 package com.gibbon.peeq.db.main;
 
-import java.util.Date;
-
 import org.hibernate.Session;
 
 import com.gibbon.peeq.db.model.User;
@@ -31,8 +29,6 @@ public class UserMain {
   private static void insertUser() {
     User user = new User();
     user.setUid("xiaobingo");
-    user.setFirstName("Xiaobing");
-    user.setLastName("Zhou");
     user.setPwd("123");
 
     // start transaction

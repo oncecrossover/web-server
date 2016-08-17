@@ -62,14 +62,14 @@ RESTFUL APIs OF USERS:
 curl -i -X GET "http://127.0.0.1:8080/users/edmund"
 
 2. create new user, e.g.
-curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"edmund","firstName":"Edmund","middleName":"Peng","lastName":"Burke","pwd":"123"}'
+curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"edmund","fullName":"Edmund Burke","pwd":"123"}'
 
-curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"kuan","firstName":"Kuan","middleName":"Shuya","lastName":"Chung","pwd":"123"}'
+curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"kuan","fullName":"Kuan Chung","pwd":"123"}'
 
 3. update user by uid, e.g.
-curl -i -X PUT "http://127.0.0.1:8080/users/edmund" -d '{"uid":"edmund","firstName":"Edmund","middleName":null,"lastName":"Burke","pwd":"456"}'
+curl -i -X PUT "http://127.0.0.1:8080/users/edmund" -d '{"pwd":"456"}'
 
-curl -i -X PUT "http://127.0.0.1:8080/users/kuan" -d '{"uid":"kuan","firstName":"Kuan","middleName":"Shuya","lastName":"Chung","pwd":"456"}'
+curl -i -X PUT "http://127.0.0.1:8080/users/kuan" -d '{"pwd":"456"}'
 
 RESTFUL APIs OF PROFILES:
 1. get profile by uid, e.g.

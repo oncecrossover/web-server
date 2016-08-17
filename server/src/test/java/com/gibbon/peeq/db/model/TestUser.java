@@ -23,16 +23,12 @@ public class TestUser {
   static User newRandomUser() {
     final User user = new User();
     user.setUid(UUID.randomUUID().toString())
-        .setFirstName(UUID.randomUUID().toString())
-        .setMiddleName(UUID.randomUUID().toString())
-        .setLastName(UUID.randomUUID().toString())
         .setPwd(UUID.randomUUID().toString());
 
     final Profile profile = new Profile();
     profile.setRate(random.nextDouble())
            .setAvatarUrl(UUID.randomUUID().toString())
-           .setFullName(String.format("%s %s %s", user.getFirstName(),
-               user.getMiddleName(), user.getLastName()))
+           .setFullName(UUID.randomUUID().toString())
            .setTitle(UUID.randomUUID().toString())
            .setAboutMe(UUID.randomUUID().toString())
            .setUser(user);
@@ -51,16 +47,12 @@ public class TestUser {
   static User newUser() {
     final User user = new User();
     user.setUid("edmund")
-        .setFirstName("Edmund")
-        .setMiddleName("Peng")
-        .setLastName("Burke")
         .setPwd("123");
 
     final Profile profile = new Profile();
     profile.setRate(101.11)
            .setAvatarUrl("https://en.wikiquote.org/wiki/Edmund_Burke")
-           .setFullName(String.format("%s %s %s", user.getFirstName(),
-               user.getMiddleName(), user.getLastName()))
+           .setFullName("Edmund Burke")
            .setTitle("Philosopher")
            .setAboutMe(
             "I was an Irish political philosopher, Whig politician and statesman who"
@@ -81,16 +73,12 @@ public class TestUser {
   static User newAnotherUser() {
     final User user = new User();
     user.setUid("kuan")
-        .setFirstName("Kuan")
-        .setMiddleName("Shuya")
-        .setLastName("Chung")
         .setPwd("456");
 
     final Profile profile = new Profile();
     profile.setRate(1001.89)
            .setAvatarUrl("https://en.wikipedia.org/wiki/Guan_Zhong")
-           .setFullName(String.format("%s %s %s", user.getFirstName(),
-               user.getMiddleName(), user.getLastName()))
+           .setFullName("Kuan Chung")
            .setTitle("Chancellor and Reformer")
            .setAboutMe(
             "I was was a chancellor and reformer of the State of Qi during the"

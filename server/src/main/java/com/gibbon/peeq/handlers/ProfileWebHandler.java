@@ -156,7 +156,7 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
       return newServerErrorResponse(e, LOG);
     }
 
-    /* ignore id from json */
+    /* use uid from url, ignore that from json */
     fromJson.setUid(uid);
     if (fromDB != null) {
       fromDB.setAsIgnoreNull(fromJson);
