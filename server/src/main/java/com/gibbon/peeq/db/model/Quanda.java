@@ -23,6 +23,7 @@ public class Quanda {
   private String status;
   private Date createdTime;
   private Date updatedTime;
+  private long snoops;
 
   public long getId() {
     return id;
@@ -111,6 +112,15 @@ public class Quanda {
 
   public Quanda setUpdatedTime(final Date updatedTime) {
     this.updatedTime = updatedTime;
+    return this;
+  }
+
+  public long getSnoops() {
+    return snoops;
+  }
+
+  public Quanda setSnoops(final long snoops) {
+    this.snoops = snoops;
     return this;
   }
 

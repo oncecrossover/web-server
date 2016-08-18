@@ -55,11 +55,7 @@ public class NewsfeedWebHandler extends AbastractPeeqWebHandler
     }
 
     /* build sql */
-    final String sql = String
-        .format("SELECT * FROM Quanda WHERE asker != '%s' AND"
-            + " responder != '%s' AND id NOT IN"
-            + " (SELECT DISTINCT quandaId FROM Snoop WHERE uid = '%s')"
-            + " ORDER BY updatedTime DESC;", uid, uid, uid);
+    final String sql = getSql(uid);
 
     Session session = null;
     Transaction txn = null;
@@ -76,10 +72,10 @@ public class NewsfeedWebHandler extends AbastractPeeqWebHandler
            .addScalar("question", new StringType())
            .addScalar("responder", new StringType())
            .addScalar("rate", new DoubleType())
-           .addScalar("answerUrl", new StringType())
            .addScalar("status", new StringType())
            .addScalar("createdTime", new TimestampType())
-           .addScalar("updatedTime", new TimestampType());
+           .addScalar("updatedTime", new TimestampType())
+           .addScalar("snoops", new LongType());
       final List<Quanda> list = query.list();
 
       txn.commit();
@@ -99,5 +95,31 @@ public class NewsfeedWebHandler extends AbastractPeeqWebHandler
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
+  }
+
+  /*
+   * SELECT QQ.*, COUNT(*) snoops FROM (SELECT Q.id, Q.asker, Q.question,
+   * Q.responder, Q.rate, Q.status, Q.createdTime, Q.updatedTime FROM Quanda Q
+   * WHERE Q.asker != 'yunxuan' AND Q.responder != 'yunxuan' AND NOT
+   * EXISTS (SELECT DISTINCT S.quandaId FROM Snoop S WHERE S.uid = 'yunxuan' AND
+   * Q.id = S.quandaId)) QQ LEFT JOIN Snoop S ON QQ.id = S.quandaId GROUP BY
+   * QQ.id ORDER BY QQ.updatedTime DESC;
+   */
+  private String getSql(final String uid) {
+    final StrBuilder sb = new StrBuilder();
+    sb.appendln("SELECT QQ.*, COUNT(*) snoops FROM");
+    sb.appendln("(SELECT Q.id, Q.asker, Q.question, Q.responder,");
+    sb.appendln("Q.rate, Q.status, Q.createdTime, Q.updatedTime");
+    sb.appendln("FROM Quanda Q WHERE Q.asker != '%s'");
+    sb.appendln("AND  Q.responder != '%s'");
+    sb.appendln("AND NOT EXISTS (");
+    sb.appendln("SELECT DISTINCT S.quandaId FROM Snoop S");
+    sb.appendln("WHERE S.uid = '%s'");
+    sb.appendln("AND Q.id = S.quandaId)) QQ");
+    sb.appendln("LEFT JOIN Snoop S ON QQ.id = S.quandaId");
+    sb.appendln("GROUP BY QQ.id");
+    sb.appendln("ORDER BY QQ.updatedTime DESC");
+
+    return String.format(sb.toString(), uid, uid, uid);
   }
 }
