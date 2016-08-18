@@ -12,6 +12,8 @@
 		4A11C0621D35BA6900AEF95D /* TextFitLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */; };
 		4A152F621D59106700FA48E7 /* Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A152F611D59106700FA48E7 /* Generics.swift */; };
 		4A368E8C1D5CFA8000176C54 /* ChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */; };
+		4A5B257D1D65247700691696 /* SnoopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B257C1D65247700691696 /* SnoopUITests.swift */; };
+		4A5B25851D6524EB00691696 /* ViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B25841D6524EB00691696 /* ViewControllerUITests.swift */; };
 		4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */; };
 		4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */; };
 		4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26821D218FC60001989E /* ProfileViewController.swift */; };
@@ -40,12 +42,26 @@
 		4AF910741D449F1800546F95 /* InteractiveUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF910731D449F1800546F95 /* InteractiveUITextField.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		4A5B257F1D65247700691696 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4AC2835B1CE2F58100A08D35 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4AC283621CE2F58100A08D35;
+			remoteInfo = Snoop;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		4A11C0571D3448F400AEF95D /* CircleImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
 		4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundCornerButton.swift; sourceTree = "<group>"; };
 		4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFitLabel.swift; sourceTree = "<group>"; };
 		4A152F611D59106700FA48E7 /* Generics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generics.swift; sourceTree = "<group>"; };
 		4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargeViewController.swift; sourceTree = "<group>"; };
+		4A5B257A1D65247700691696 /* SnoopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnoopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A5B257C1D65247700691696 /* SnoopUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoopUITests.swift; sourceTree = "<group>"; };
+		4A5B257E1D65247700691696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4A5B25841D6524EB00691696 /* ViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerUITests.swift; sourceTree = "<group>"; };
 		4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewCell.swift; sourceTree = "<group>"; };
 		4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 		4A8F26821D218FC60001989E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +93,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4A5B25771D65247700691696 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4AC283601CE2F58100A08D35 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -97,6 +120,16 @@
 				4AF910731D449F1800546F95 /* InteractiveUITextField.swift */,
 			);
 			name = UIView;
+			sourceTree = "<group>";
+		};
+		4A5B257B1D65247700691696 /* SnoopUITests */ = {
+			isa = PBXGroup;
+			children = (
+				4A5B257C1D65247700691696 /* SnoopUITests.swift */,
+				4A5B257E1D65247700691696 /* Info.plist */,
+				4A5B25841D6524EB00691696 /* ViewControllerUITests.swift */,
+			);
+			path = SnoopUITests;
 			sourceTree = "<group>";
 		};
 		4ABD203B1D443E0300C3B74E /* Utility */ = {
@@ -141,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				4AC283651CE2F58100A08D35 /* Snoop */,
+				4A5B257B1D65247700691696 /* SnoopUITests */,
 				4AC283641CE2F58100A08D35 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -149,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				4AC283631CE2F58100A08D35 /* Snoop.app */,
+				4A5B257A1D65247700691696 /* SnoopUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -186,6 +221,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4A5B25791D65247700691696 /* SnoopUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4A5B25811D65247700691696 /* Build configuration list for PBXNativeTarget "SnoopUITests" */;
+			buildPhases = (
+				4A5B25761D65247700691696 /* Sources */,
+				4A5B25771D65247700691696 /* Frameworks */,
+				4A5B25781D65247700691696 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4A5B25801D65247700691696 /* PBXTargetDependency */,
+			);
+			name = SnoopUITests;
+			productName = SnoopUITests;
+			productReference = 4A5B257A1D65247700691696 /* SnoopUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		4AC283621CE2F58100A08D35 /* Snoop */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4AC283781CE2F58100A08D35 /* Build configuration list for PBXNativeTarget "Snoop" */;
@@ -213,6 +266,10 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Bowen Zhang";
 				TargetAttributes = {
+					4A5B25791D65247700691696 = {
+						CreatedOnToolsVersion = 7.2.1;
+						TestTargetID = 4AC283621CE2F58100A08D35;
+					};
 					4AC283621CE2F58100A08D35 = {
 						CreatedOnToolsVersion = 7.2.1;
 					};
@@ -232,11 +289,19 @@
 			projectRoot = "";
 			targets = (
 				4AC283621CE2F58100A08D35 /* Snoop */,
+				4A5B25791D65247700691696 /* SnoopUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4A5B25781D65247700691696 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4AC283611CE2F58100A08D35 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -250,6 +315,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4A5B25761D65247700691696 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A5B25851D6524EB00691696 /* ViewControllerUITests.swift in Sources */,
+				4A5B257D1D65247700691696 /* SnoopUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4AC2835F1CE2F58100A08D35 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -286,6 +360,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		4A5B25801D65247700691696 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4AC283621CE2F58100A08D35 /* Snoop */;
+			targetProxy = 4A5B257F1D65247700691696 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		4AC2836A1CE2F58100A08D35 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -298,6 +380,30 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4A5B25821D65247700691696 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = SnoopUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.snoop.SnoopUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Snoop;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		4A5B25831D65247700691696 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = SnoopUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.snoop.SnoopUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Snoop;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
 		4AC283761CE2F58100A08D35 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -387,7 +493,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Peeq",
+					"$(PROJECT_DIR)/Snoop",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Snoop",
 				);
@@ -405,7 +511,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Peeq",
+					"$(PROJECT_DIR)/Snoop",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Snoop",
 				);
@@ -420,6 +526,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4A5B25811D65247700691696 /* Build configuration list for PBXNativeTarget "SnoopUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4A5B25821D65247700691696 /* Debug */,
+				4A5B25831D65247700691696 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		4AC2835E1CE2F58100A08D35 /* Build configuration list for PBXProject "Snoop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
