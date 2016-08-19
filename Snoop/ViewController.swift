@@ -29,6 +29,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    feedTable.rowHeight = UITableViewAutomaticDimension
+    feedTable.estimatedRowHeight = 120
   }
   
   override func didReceiveMemoryWarning() {
@@ -112,10 +114,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     self.feedTable.backgroundView = noDataLabel
 
     return 0
-  }
-
-  func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    return 120
   }
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
