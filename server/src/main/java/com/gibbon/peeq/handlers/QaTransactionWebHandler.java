@@ -161,8 +161,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
     }
 
     /* QaTransaction user shouldn't be same as quanda asker or responder */
-    resp = verifyTransactionUserShoundNotBeSameAsAskerOrResponder(transUserId,
-        quanda);
+    resp = verifyTransactionForSnooping(transUserId, quanda);
     if (resp != null) {
       return resp;
     }
@@ -221,36 +220,10 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  private FullHttpResponse verifyQuandaForAsking(final String asker,
-      final Quanda quanda) {
-    if (quanda == null) {
-      appendln("No quanda or incorrect format specified.");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
-    }
-
-    if (StringUtils.isBlank(quanda.getQuestion())) {
-      appendln("No question specified in quanda");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
-    }
-
-    if (StringUtils.isBlank(quanda.getResponder())) {
-      appendln("No responder specified in quanda");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
-    }
-
-    if (quanda.getRate() == null) {
-      appendln("No rate specified in quanda");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
-    }
-
-    if (quanda.getResponder().equals(asker)) {
-      appendln(String.format(
-          "Quanda asker ('%s') can't be the same as responder ('%s')",
-          quanda.getAsker(), quanda.getResponder()));
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
-    }
-
-    return null;
+  private static FullHttpResponse verifyQuandaForAsking(
+      final Quanda quanda,
+      final ByteArrayDataOutput respBuf) {
+    return QuandaWebHandler.verifyQuanda(quanda, respBuf);
   }
 
   private FullHttpResponse verifyQuandaForSnooping(final Quanda quanda) {
@@ -284,7 +257,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
     return null;
   }
 
-  private FullHttpResponse verifyTransactionUserShoundNotBeSameAsAskerOrResponder(
+  private FullHttpResponse verifyTransactionForSnooping(
       final String transUserId, final Quanda quanda) {
     if (transUserId.equals(quanda.getAsker())
         || transUserId.equals(quanda.getResponder())) {
@@ -304,17 +277,17 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
     Session session = null;
     Transaction txn = null;
     FullHttpResponse resp = null;
-
     final String transUserId = qaTransaction.getUid();
 
-    /* verify quanda */
+    /* get quanda */
     final Quanda quanda = qaTransaction.getquanda();
-    resp = verifyQuandaForAsking(qaTransaction.getUid(), quanda);
-    if (resp != null) {
-      return resp;
+    if (quanda == null) {
+      appendln("No quanda or incorrect format specified.");
+      return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
+
     /* QaTransaction user must be same as quanda asker */
-    quanda.setAsker(qaTransaction.getUid())
+    quanda.setAsker(transUserId)
           .setStatus(QnaStatus.PENDING.toString());
 
     /* get answer rate */
@@ -325,6 +298,12 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
       return newServerErrorResponse(e, LOG);
     }
     quanda.setRate(answerRate);
+
+    /* verify quanda */
+    resp = verifyQuandaForAsking(quanda, getRespBuf());
+    if (resp != null) {
+      return resp;
+    }
 
     /* get asker balance */
     double balance = 0;
@@ -386,10 +365,15 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
     snoop.setUid(qaTransaction.getUid()).setQuandaId(quanda.getId());
     session.save(snoop);
 
+    /* free to snoop answer, skip insert qaTransaction */
+    if (snoopRate <= 0) {
+      return;
+    }
+
     /* insert qaTransaction */
     qaTransaction.setType(TransType.SNOOPED.toString());
     qaTransaction.setQuandaId(quanda.getId());
-    qaTransaction.setAmount(snoopRate);
+    qaTransaction.setAmount(Math.abs(snoopRate));
     session.save(qaTransaction);
   }
 
@@ -399,10 +383,15 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
     /* insert quanda */
     session.save(quanda);
 
+    /* free to answer question, skip insert qaTransaction */
+    if (answerRate <= 0) {
+      return;
+    }
+
     /* insert qaTransaction */
     qaTransaction.setType(TransType.ASKED.toString());
     qaTransaction.setQuandaId(quanda.getId());
-    qaTransaction.setAmount(answerRate);
+    qaTransaction.setAmount(Math.abs(answerRate));
     session.save(qaTransaction);
   }
 

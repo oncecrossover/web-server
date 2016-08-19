@@ -223,37 +223,42 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
   }
 
   private FullHttpResponse verifyQuanda(final Quanda quanda) {
+    return verifyQuanda(quanda, getRespBuf());
+  }
+
+  static FullHttpResponse verifyQuanda(final Quanda quanda,
+      final ByteArrayDataOutput respBuf) {
 
     if (quanda == null) {
-      appendln("No quanda or incorrect format specified.");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+      appendln("No quanda or incorrect format specified.", respBuf);
+      return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
     if (StringUtils.isBlank(quanda.getAsker())) {
-      appendln("No asker specified in quanda");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+      appendln("No asker specified in quanda", respBuf);
+      return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
     if (StringUtils.isBlank(quanda.getQuestion())) {
-      appendln("No question specified in quanda");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+      appendln("No question specified in quanda", respBuf);
+      return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
     if (StringUtils.isBlank(quanda.getResponder())) {
-      appendln("No responder specified in quanda");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+      appendln("No responder specified in quanda", respBuf);
+      return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
     if (quanda.getRate() == null) {
-      appendln("No rate specified in quanda");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+      appendln("No rate specified in quanda", respBuf);
+      return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
     if (quanda.getAsker().equals(quanda.getResponder())) {
       appendln(String.format(
           "Quanda asker ('%s') can't be the same as responder ('%s')",
-          quanda.getAsker(), quanda.getResponder()));
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+          quanda.getAsker(), quanda.getResponder()), respBuf);
+      return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
     return null;

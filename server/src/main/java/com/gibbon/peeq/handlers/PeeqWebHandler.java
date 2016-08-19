@@ -135,13 +135,19 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
     }
   }
 
-  protected FullHttpResponse newResponse(HttpResponseStatus status) {
+  protected static FullHttpResponse newResponse(
+      final HttpResponseStatus status,
+      final ByteArrayDataOutput respBuf) {
     FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, status,
-        Unpooled.copiedBuffer(getRespBuf().toByteArray()));
+        Unpooled.copiedBuffer(respBuf.toByteArray()));
 
     response.headers().set(HttpHeaderNames.CONTENT_TYPE,
         "application/json; charset=UTF-8");
     return response;
+  }
+
+  protected FullHttpResponse newResponse(final HttpResponseStatus status) {
+    return newResponse(status, getRespBuf());
   }
 
   protected void appendByteArray(final byte[] byteArray) {
@@ -158,9 +164,15 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
     }
   }
 
-  protected void appendln(final String str) {
+  protected static void appendln(
+      final String str,
+      final ByteArrayDataOutput respBuf) {
     final String line = String.format("%s%n", str);
-    getRespBuf().write(line.getBytes(CharsetUtil.UTF_8));
+    respBuf.write(line.getBytes(CharsetUtil.UTF_8));
+  }
+
+  protected void appendln(final String str) {
+    appendln(str, getRespBuf());
   }
 
   protected FullHttpResponse handleRetrieval() {
