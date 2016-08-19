@@ -20,12 +20,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   var snoopQuestionId = 0
 
   var paymentInfo:(quandaId: Int!, index: Int!)
-  var paidFeed:(id: Int!, question: String!, responderId: String!, responderName: String!, responderTitle: String!, profileData: NSData!, status: String!, asker: String!)
+  var paidFeed:(id: Int!, question: String!, responderId: String!, responderName: String!, responderTitle: String!, profileData: NSData!, status: String!, asker: String!, snoops: Int!)
 
   @IBOutlet weak var feedTable: UITableView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-  var feeds:[(id: Int!, question: String!, responderId: String!, responderName: String!, responderTitle: String!, profileData: NSData!, status: String!, asker: String!)] = []
+  var feeds:[(id: Int!, question: String!, responderId: String!, responderName: String!, responderTitle: String!, profileData: NSData!, status: String!, asker: String!, snoops: Int!)] = []
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -60,6 +60,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       if (count == 0) {
         dispatch_async(dispatch_get_main_queue()) {
           self.activityIndicator.stopAnimating()
+          self.feedTable.reloadData()
         }
         return
       }
@@ -69,6 +70,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let status = feedInfo["status"] as! String
         let responderId = feedInfo["responder"] as! String
         let askerId = feedInfo["asker"] as! String
+        let numberOfSnoops = feedInfo["snoops"] as! Int
         let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
 
         if (uid == askerId || uid == responderId || status == "EXPIRED") {
@@ -78,7 +80,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         self.userModule.getProfile(responderId) {name, title, _, avatarImage, _ in
           self.feeds.append((id: questionId, question: question, responderId: responderId, responderName: name,
-            responderTitle: title, profileData: avatarImage, status: status, asker: askerId))
+            responderTitle: title, profileData: avatarImage, status: status, asker: askerId, snoops: numberOfSnoops))
           count--
           if (count == 0) {
             dispatch_async(dispatch_get_main_queue()) {
@@ -129,6 +131,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 
     myCell.questionLabel.text = feedInfo.question
+    myCell.numOfSnoops.text = String(feedInfo.snoops)
 
     if (feedInfo.responderTitle.isEmpty) {
       myCell.titleLabel.text = feedInfo.responderName

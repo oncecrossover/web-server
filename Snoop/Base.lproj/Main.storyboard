@@ -238,18 +238,18 @@
                                                     <color key="textColor" red="0.23426312657021398" green="0.80142524288018868" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Snoops" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xG8-zn-gtm">
-                                                    <rect key="frame" x="270" y="62" width="42" height="19"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                                    <color key="textColor" red="0.83500768619999999" green="0.81417692409999998" blue="0.75407956320000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GTR-LW-6t8">
                                                     <rect key="frame" x="64" y="46" width="198" height="38"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="38" id="fL8-3v-sM4"/>
                                                     </constraints>
                                                 </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Snoops" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xG8-zn-gtm">
+                                                    <rect key="frame" x="270" y="62" width="42" height="19"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" red="0.83500768619999999" green="0.81417692409999998" blue="0.75407956320000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="jz6-0t-BUo" firstAttribute="top" secondItem="zM4-xp-xB4" secondAttribute="bottom" constant="8" symbolic="YES" id="369-i4-hiV"/>
@@ -276,6 +276,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="numOfSnoops" destination="jz6-0t-BUo" id="SWm-xE-uYB"/>
                                             <outlet property="profileImage" destination="X1w-H1-nib" id="iB3-LT-05J"/>
                                             <outlet property="questionLabel" destination="zM4-xp-xB4" id="6tg-sE-cxC"/>
                                             <outlet property="snoopImage" destination="GTR-LW-6t8" id="rmq-ek-J4s"/>
@@ -367,7 +368,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0ap-ec-xF9">
-                                                    <rect key="frame" x="67" y="46" width="168" height="34"/>
+                                                    <rect key="frame" x="60" y="46" width="164" height="34"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="34" id="3VY-Wd-76k"/>
                                                         <constraint firstAttribute="width" constant="200" id="F5x-S1-6dV"/>
@@ -378,10 +379,10 @@
                                                         </mask>
                                                     </variation>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$9.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9dO-eV-9Zb">
-                                                    <rect key="frame" x="240" y="52" width="36" height="20.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$999.99" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9dO-eV-9Zb">
+                                                    <rect key="frame" x="226" y="52" width="50" height="20.5"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="36" id="24T-dU-KC9"/>
+                                                        <constraint firstAttribute="width" constant="50" id="24T-dU-KC9"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.92607460539999997" green="0.0" blue="0.14604693839999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -389,10 +390,10 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="9dO-eV-9Zb" firstAttribute="leading" secondItem="0ap-ec-xF9" secondAttribute="trailing" constant="5" id="0dd-MZ-Xwv"/>
+                                                <constraint firstItem="9dO-eV-9Zb" firstAttribute="leading" secondItem="0ap-ec-xF9" secondAttribute="trailing" constant="2" id="0dd-MZ-Xwv"/>
                                                 <constraint firstItem="Wpm-c4-pJf" firstAttribute="leading" secondItem="bDx-KA-8Zm" secondAttribute="leading" id="3Wr-yM-o24"/>
                                                 <constraint firstItem="9dO-eV-9Zb" firstAttribute="centerX" secondItem="0ap-ec-xF9" secondAttribute="centerX" id="A8o-wQ-wh4"/>
-                                                <constraint firstItem="0ap-ec-xF9" firstAttribute="leading" secondItem="Wpm-c4-pJf" secondAttribute="trailing" constant="11" id="ADY-UL-7wC"/>
+                                                <constraint firstItem="0ap-ec-xF9" firstAttribute="leading" secondItem="Wpm-c4-pJf" secondAttribute="trailing" constant="4" id="ADY-UL-7wC"/>
                                                 <constraint firstItem="ZfU-oh-YqU" firstAttribute="top" secondItem="Wpm-c4-pJf" secondAttribute="bottom" constant="2" id="DNa-Wr-c4f"/>
                                                 <constraint firstItem="9dO-eV-9Zb" firstAttribute="top" secondItem="bDx-KA-8Zm" secondAttribute="bottom" constant="11" id="HOZ-7U-0X4"/>
                                                 <constraint firstItem="0ap-ec-xF9" firstAttribute="top" secondItem="bDx-KA-8Zm" secondAttribute="bottom" constant="5" id="HYt-L6-LEq"/>
@@ -469,7 +470,7 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$9.11" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qzw-qO-3mY">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$999.99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qzw-qO-3mY">
                                                     <rect key="frame" x="226" y="90" width="50" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="UqY-12-WIa"/>
@@ -2119,8 +2120,8 @@
         <image name="speak" width="124" height="124"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bHf-mE-1Xg"/>
-        <segue reference="KPI-O4-rSf"/>
         <segue reference="me6-Y0-ggX"/>
+        <segue reference="KRu-3m-3Wk"/>
+        <segue reference="KPI-O4-rSf"/>
     </inferredMetricsTieBreakers>
 </document>

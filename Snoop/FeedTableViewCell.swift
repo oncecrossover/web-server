@@ -18,6 +18,7 @@ class FeedTableViewCell: UITableViewCell {
   @IBOutlet weak var snoopImage: UIImageView!
   @IBOutlet weak var profileImage: UIImageView!
 
+  @IBOutlet weak var numOfSnoops: UILabel!
 
 
   override func awakeFromNib() {
