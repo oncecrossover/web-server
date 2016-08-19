@@ -107,7 +107,7 @@ public class NewsfeedWebHandler extends AbastractPeeqWebHandler
    */
   private String getSql(final String uid) {
     final StrBuilder sb = new StrBuilder();
-    sb.appendln("SELECT QQ.*, COUNT(*) snoops FROM");
+    sb.appendln("SELECT QQ.*, COUNT(S.quandaId) snoops FROM");
     sb.appendln("(SELECT Q.id, Q.asker, Q.question, Q.responder,");
     sb.appendln("Q.rate, Q.status, Q.createdTime, Q.updatedTime");
     sb.appendln("FROM Quanda Q WHERE Q.asker != '%s'");
