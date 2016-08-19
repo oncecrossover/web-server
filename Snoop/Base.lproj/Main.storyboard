@@ -346,29 +346,39 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wpm-c4-pJf" customClass="CircleImageView" customModule="Snoop" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="41" width="48" height="48"/>
+                                                    <rect key="frame" x="8" y="49.5" width="53" height="53"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="Wpm-c4-pJf" secondAttribute="height" multiplier="1:1" id="3dd-Cw-BaW"/>
                                                         <constraint firstAttribute="height" constant="48" id="Ikc-pb-3vk"/>
                                                     </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="Ikc-pb-3vk"/>
+                                                        </mask>
+                                                    </variation>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do you think you will hurt the Mayor's campaign since you are a convicted rapist?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bDx-KA-8Zm" customClass="TextFitLabel" customModule="Snoop" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="4" width="268" height="37"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Do you think you will hurt the Mayor's campaign since you are a convicted rapist?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bDx-KA-8Zm" customClass="TextFitLabel" customModule="Snoop" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="2" width="268" height="48"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="37" id="gx0-zD-Iwx"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="gx0-zD-Iwx"/>
+                                                        </mask>
+                                                    </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="steph Curry | MVP NBA" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZfU-oh-YqU" customClass="TextFitLabel" customModule="Snoop" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="91" width="268" height="28"/>
+                                                    <rect key="frame" x="8" y="104" width="268" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0ap-ec-xF9">
-                                                    <rect key="frame" x="60" y="46" width="164" height="34"/>
+                                                    <rect key="frame" x="64.5" y="59" width="159.5" height="34"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="34" id="3VY-Wd-76k"/>
                                                         <constraint firstAttribute="width" constant="200" id="F5x-S1-6dV"/>
@@ -380,7 +390,7 @@
                                                     </variation>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$999.99" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9dO-eV-9Zb">
-                                                    <rect key="frame" x="226" y="52" width="50" height="20.5"/>
+                                                    <rect key="frame" x="226" y="60.5" width="50" height="31"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="24T-dU-KC9"/>
                                                     </constraints>
@@ -395,25 +405,33 @@
                                                 <constraint firstItem="9dO-eV-9Zb" firstAttribute="centerX" secondItem="0ap-ec-xF9" secondAttribute="centerX" id="A8o-wQ-wh4"/>
                                                 <constraint firstItem="0ap-ec-xF9" firstAttribute="leading" secondItem="Wpm-c4-pJf" secondAttribute="trailing" constant="4" id="ADY-UL-7wC"/>
                                                 <constraint firstItem="ZfU-oh-YqU" firstAttribute="top" secondItem="Wpm-c4-pJf" secondAttribute="bottom" constant="2" id="DNa-Wr-c4f"/>
+                                                <constraint firstItem="Wpm-c4-pJf" firstAttribute="leading" secondItem="bDx-KA-8Zm" secondAttribute="leading" id="GTC-zw-WUX"/>
                                                 <constraint firstItem="9dO-eV-9Zb" firstAttribute="top" secondItem="bDx-KA-8Zm" secondAttribute="bottom" constant="11" id="HOZ-7U-0X4"/>
                                                 <constraint firstItem="0ap-ec-xF9" firstAttribute="top" secondItem="bDx-KA-8Zm" secondAttribute="bottom" constant="5" id="HYt-L6-LEq"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="bDx-KA-8Zm" secondAttribute="leading" id="IFj-xg-IRs"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="9dO-eV-9Zb" secondAttribute="trailing" id="Kt8-No-RvE"/>
                                                 <constraint firstItem="ZfU-oh-YqU" firstAttribute="trailing" secondItem="bDx-KA-8Zm" secondAttribute="trailing" id="M4l-me-WL0"/>
                                                 <constraint firstItem="ZfU-oh-YqU" firstAttribute="leading" secondItem="Wpm-c4-pJf" secondAttribute="leading" id="X1i-9q-DS7"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="bDx-KA-8Zm" secondAttribute="trailing" id="Yxm-Sj-TqP"/>
                                                 <constraint firstItem="ZfU-oh-YqU" firstAttribute="trailing" secondItem="RPN-em-CsP" secondAttribute="trailingMargin" id="agC-Ej-ZuT"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="0ap-ec-xF9" secondAttribute="trailing" constant="38" id="agn-z7-68d"/>
                                                 <constraint firstItem="9dO-eV-9Zb" firstAttribute="centerY" secondItem="0ap-ec-xF9" secondAttribute="centerY" id="c9R-3H-q1V"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="0ap-ec-xF9" secondAttribute="trailing" id="cE4-iU-gn3"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="ZfU-oh-YqU" secondAttribute="bottom" constant="-7.5" id="d5k-lP-72W"/>
+                                                <constraint firstItem="ZfU-oh-YqU" firstAttribute="top" secondItem="0ap-ec-xF9" secondAttribute="bottom" constant="11" id="gs7-ek-vyi"/>
                                                 <constraint firstItem="Wpm-c4-pJf" firstAttribute="top" secondItem="bDx-KA-8Zm" secondAttribute="bottom" id="kJq-WI-Rsc"/>
-                                                <constraint firstItem="0ap-ec-xF9" firstAttribute="centerY" secondItem="Wpm-c4-pJf" secondAttribute="centerY" constant="-2" id="u9z-DX-klb"/>
-                                                <constraint firstItem="bDx-KA-8Zm" firstAttribute="top" secondItem="RPN-em-CsP" secondAttribute="topMargin" constant="-4" id="z3z-YJ-ONb"/>
+                                                <constraint firstItem="0ap-ec-xF9" firstAttribute="centerY" secondItem="Wpm-c4-pJf" secondAttribute="centerY" id="u9z-DX-klb"/>
+                                                <constraint firstItem="bDx-KA-8Zm" firstAttribute="top" secondItem="RPN-em-CsP" secondAttribute="topMargin" constant="-6" id="z3z-YJ-ONb"/>
                                                 <constraint firstItem="Wpm-c4-pJf" firstAttribute="leading" secondItem="RPN-em-CsP" secondAttribute="leadingMargin" id="zM4-nd-2HG"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="3Wr-yM-o24"/>
+                                                    <exclude reference="zM4-nd-2HG"/>
+                                                    <exclude reference="HYt-L6-LEq"/>
                                                     <exclude reference="agn-z7-68d"/>
                                                     <exclude reference="cE4-iU-gn3"/>
+                                                    <exclude reference="M4l-me-WL0"/>
                                                     <exclude reference="A8o-wQ-wh4"/>
                                                 </mask>
                                             </variation>
@@ -462,7 +480,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Expires in 40 hrs" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pnc-iC-oAg">
-                                                    <rect key="frame" x="8" y="90" width="110" height="21"/>
+                                                    <rect key="frame" x="8" y="96.5" width="110" height="14.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="110" id="gy5-Mj-NCr"/>
                                                     </constraints>
@@ -471,7 +489,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$999.99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qzw-qO-3mY">
-                                                    <rect key="frame" x="226" y="90" width="50" height="21"/>
+                                                    <rect key="frame" x="226" y="96" width="50" height="14.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="UqY-12-WIa"/>
                                                     </constraints>
@@ -480,13 +498,18 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What do you think about Floyd talking about he is greater than Ali?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gSD-yZ-Ax7" customClass="TextFitLabel" customModule="Snoop" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="52" width="268" height="37"/>
+                                                    <rect key="frame" x="8" y="52" width="268" height="43.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="37" id="D1b-n9-eGw"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="D1b-n9-eGw"/>
+                                                        </mask>
+                                                    </variation>
                                                 </label>
                                             </subviews>
                                             <constraints>
@@ -602,16 +625,21 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="question text" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lp0-Yu-bcM">
-                                                    <rect key="frame" x="8" y="52" width="284" height="37"/>
+                                                    <rect key="frame" x="8" y="52" width="284" height="43.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="37" id="BC3-ZZ-pFX"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="BC3-ZZ-pFX"/>
+                                                        </mask>
+                                                    </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="expires in 40 hrs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I2V-kt-0aV">
-                                                    <rect key="frame" x="8" y="90" width="110" height="21"/>
+                                                    <rect key="frame" x="8" y="96.5" width="110" height="14.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="110" id="sFM-lj-wKT"/>
                                                     </constraints>
@@ -620,7 +648,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$9.11" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T02-5y-aNU">
-                                                    <rect key="frame" x="242" y="90" width="50" height="21"/>
+                                                    <rect key="frame" x="242" y="96" width="50" height="14.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="fVA-zm-rxQ"/>
                                                     </constraints>

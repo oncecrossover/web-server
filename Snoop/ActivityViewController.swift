@@ -32,6 +32,9 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    activityTableView.rowHeight = UITableViewAutomaticDimension
+    activityTableView.estimatedRowHeight = 120
+
     // Do any additional setup after loading the view.
   }
 
@@ -172,10 +175,6 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       return self.snoops.count
     }
     return 0
-  }
-
-  func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    return 120
   }
 
   func numberOfSectionsInTableView(tableView: UITableView) -> Int {

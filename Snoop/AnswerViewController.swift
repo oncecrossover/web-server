@@ -40,6 +40,8 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    answerTableView.rowHeight = UITableViewAutomaticDimension
+    answerTableView.estimatedRowHeight = 120
     setupRecorder()
     initView()
 
@@ -81,10 +83,6 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
       isSaved = true
     }
     self.answerTableView.reloadData()
-  }
-
-  func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    return 120
   }
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
