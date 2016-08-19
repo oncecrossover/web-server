@@ -23,13 +23,20 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   var userModule = User()
   override func viewDidLoad() {
     super.viewDidLoad()
-    loadImages()
+
+    discoverTableView.rowHeight = UITableViewAutomaticDimension
+    discoverTableView.estimatedRowHeight = 80
 
     searchController.searchResultsUpdater = self
     searchController.dimsBackgroundDuringPresentation = false
     discoverTableView.tableHeaderView = searchController.searchBar
 
     // Do any additional setup after loading the view.
+  }
+
+  override func viewDidAppear(animated: Bool) {
+    super.viewDidAppear(animated)
+    loadImages()
   }
 
   func filterContentForSearchText(searchText: String, scope: String = "All") {
@@ -41,6 +48,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   }
 
   func loadImages() {
+    profiles = []
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     activityIndicator.startAnimating()
     userModule.getDiscover(uid, filterString: "*") { jsonArray in
