@@ -18,6 +18,7 @@
 		4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */; };
 		4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26821D218FC60001989E /* ProfileViewController.swift */; };
 		4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26861D21D01D0001989E /* EditProfileViewController.swift */; };
+		4A9F53C01D68DB5100D753B2 /* PaymentViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9F53BF1D68DB5100D753B2 /* PaymentViewControllerUITests.swift */; };
 		4ABD20311D407ECC00C3B74E /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD20301D407ECC00C3B74E /* AddCardViewController.swift */; };
 		4ABD20371D4409F900C3B74E /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD20361D4409F900C3B74E /* Payment.swift */; };
 		4ABD203D1D443E1A00C3B74E /* UiUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD203C1D443E1A00C3B74E /* UiUtility.swift */; };
@@ -66,6 +67,7 @@
 		4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 		4A8F26821D218FC60001989E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		4A8F26861D21D01D0001989E /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		4A9F53BF1D68DB5100D753B2 /* PaymentViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewControllerUITests.swift; sourceTree = "<group>"; };
 		4ABD20301D407ECC00C3B74E /* AddCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardViewController.swift; sourceTree = "<group>"; };
 		4ABD20361D4409F900C3B74E /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		4ABD203C1D443E1A00C3B74E /* UiUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UiUtility.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				4A5B257C1D65247700691696 /* SnoopUITests.swift */,
 				4A5B257E1D65247700691696 /* Info.plist */,
 				4A5B25841D6524EB00691696 /* ViewControllerUITests.swift */,
+				4A9F53BF1D68DB5100D753B2 /* PaymentViewControllerUITests.swift */,
 			);
 			path = SnoopUITests;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A9F53C01D68DB5100D753B2 /* PaymentViewControllerUITests.swift in Sources */,
 				4A5B25851D6524EB00691696 /* ViewControllerUITests.swift in Sources */,
 				4A5B257D1D65247700691696 /* SnoopUITests.swift in Sources */,
 			);
@@ -533,6 +537,7 @@
 				4A5B25831D65247700691696 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4AC2835E1CE2F58100A08D35 /* Build configuration list for PBXProject "Snoop" */ = {
 			isa = XCConfigurationList;
