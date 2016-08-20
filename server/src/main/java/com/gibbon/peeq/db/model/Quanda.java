@@ -13,6 +13,26 @@ public class Quanda {
     PENDING, ANSWERED, EXPIRED
   }
 
+  public enum ClearedStatus {
+    TRUE(1, "TRUE"), FALSE(0, "FALSE");
+
+    private final int code;
+    private final String value;
+
+    ClearedStatus(final int code, final String value) {
+      this.code = code;
+      this.value = value;
+    }
+
+    public int code() {
+      return code;
+    }
+
+    public String value() {
+      return value;
+    }
+  }
+
   private long id;
   private String asker;
   private String question;
@@ -21,6 +41,7 @@ public class Quanda {
   private String answerUrl;
   private byte[] answerAudio;
   private String status;
+  private String cleared;
   private Date createdTime;
   private Date updatedTime;
   private long snoops;
@@ -97,6 +118,15 @@ public class Quanda {
     return this;
   }
 
+  public String getCleared() {
+    return cleared;
+  }
+
+  public Quanda setCleared(final String cleared) {
+    this.cleared = cleared;
+    return this;
+  }
+
   public Date getCreatedTime() {
     return createdTime;
   }
@@ -159,9 +189,10 @@ public class Quanda {
           && isEqual(this.getAsker(), that.getAsker())
           && isEqual(this.getQuestion(), that.getQuestion())
           && isEqual(this.getResponder(), that.getResponder())
+          && isEqual(this.getRate(), that.getRate())
           && isEqual(this.getAnswerUrl(), that.getAnswerUrl())
           && isEqual(this.getStatus(), that.getStatus())
-          && isEqual(this.getRate(), that.getRate())) {
+          && isEqual(this.getCleared(), that.getCleared())) {
         return true;
       }
     }
@@ -180,37 +211,40 @@ public class Quanda {
     return quanda;
   }
 
-  public Quanda setAsIgnoreNull(final Quanda quanda) {
-    if (quanda == null) {
+  public Quanda setAsIgnoreNull(final Quanda that) {
+    if (that == null) {
       return this;
     }
-    this.setId(quanda.getId());
-    if (quanda.getAsker() != null) {
-      this.setAsker(quanda.getAsker());
+    this.setId(that.getId());
+    if (that.getAsker() != null) {
+      this.setAsker(that.getAsker());
     }
-    if (quanda.getQuestion() != null) {
-      this.setQuestion(quanda.getQuestion());
+    if (that.getQuestion() != null) {
+      this.setQuestion(that.getQuestion());
     }
-    if (quanda.getResponder() != null) {
-      this.setResponder(quanda.getResponder());
+    if (that.getResponder() != null) {
+      this.setResponder(that.getResponder());
     }
-    if (quanda.getAnswerUrl() != null) {
-      this.setAnswerUrl(quanda.getAnswerUrl());
+    if (that.getRate() != null) {
+      this.setRate(that.getRate());
     }
-    if (quanda.getAnswerAudio() != null) {
-      this.setAnswerAudio(quanda.getAnswerAudio());
+    if (that.getAnswerUrl() != null) {
+      this.setAnswerUrl(that.getAnswerUrl());
     }
-    if (quanda.getStatus() != null) {
-      this.setStatus(quanda.getStatus());
+    if (that.getAnswerAudio() != null) {
+      this.setAnswerAudio(that.getAnswerAudio());
     }
-    if (quanda.getRate() != null) {
-      this.setRate(quanda.getRate());
+    if (that.getStatus() != null) {
+      this.setStatus(that.getStatus());
     }
-    if (quanda.getCreatedTime() != null) {
-      this.setCreatedTime(quanda.getCreatedTime());
+    if (that.getCleared() != null) {
+      this.setCleared(that.getCleared());
     }
-    if (quanda.getUpdatedTime() != null) {
-      this.setUpdatedTime(quanda.getUpdatedTime());
+    if (that.getCreatedTime() != null) {
+      this.setCreatedTime(that.getCreatedTime());
+    }
+    if (that.getUpdatedTime() != null) {
+      this.setUpdatedTime(that.getUpdatedTime());
     }
     return this;
   }
