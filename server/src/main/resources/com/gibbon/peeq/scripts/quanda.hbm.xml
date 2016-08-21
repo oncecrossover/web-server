@@ -27,9 +27,6 @@
     <property name="rate" type="java.lang.Double">
       <column name="rate" />
     </property>
-    <property name="cleared" type="java.lang.String">
-      <column name="cleared" />
-    </property>
     <property name="createdTime" type="timestamp">
       <column name="createdTime" />
     </property>
