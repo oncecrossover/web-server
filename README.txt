@@ -169,22 +169,23 @@ curl -i -X GET "http://127.0.0.1:8080/newsfeeds/edmund"
 
 HTTP STATUS CODE OF REST API:
 1. get user (i.e. HTTP GET):
-400(BAD_REQUEST):            Missing parameter: uid
-200(OK):                     <user-json-string> or "Nonexistent resource with URI: /users/<user_id>"
+400(BAD_REQUEST):            "Missing parameter: uid" or various other information
+404(NOT_FOUND):				 "Nonexistent resource with URI: /users/<user_id>"
+200(OK):                     <user-json-string>
 500(INTERNAL_SERVER_ERROR):  <various server error/exception>
 
 2. delete user (i.e. HTTP DELETE):
-400(BAD_REQUEST):            Missing parameter: uid
+400(BAD_REQUEST):            "Missing parameter: uid" or various other information
 204(NO_CONTENT):             <deleted or not deleted depending on whether the uid is correct or the DB record exists>
 500(INTERNAL_SERVER_ERROR):  <various server error/exception>
 
 3. create user (i.e. HTTP POST):
-400(BAD_REQUEST):            "No user or incorrect format specified."
-201(CREATED):                <resource id>
+400(BAD_REQUEST):            "No user or incorrect format specified." or various other information
+201(CREATED):                "{"id":<id>}"
 500(INTERNAL_SERVER_ERROR):  <various server error/exception>
 
 4. update user (i.e. HTTP PUT)
-400(BAD_REQUEST):            "No user or incorrect format specified."
+400(BAD_REQUEST):            "No user or incorrect format specified." or various other information
 204(NO_CONTENT):             <updated or not updated depending on whether the uid is correct or the DB record exists>
 500(INTERNAL_SERVER_ERROR):  <various server error/exception>
 

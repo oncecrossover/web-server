@@ -3,6 +3,7 @@ package com.gibbon.peeq.handlers;
 import java.io.IOException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,18 +71,20 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
+    Session session = null;
     Transaction txn = null;
     try {
-      txn = getSession().beginTransaction();
-      final Profile profile = (Profile) getSession().get(Profile.class, uid);
+      session = getSession();
+      txn = session.beginTransaction();
+      final Profile retInstance = (Profile) session.get(Profile.class,
+          uid);
       txn.commit();
 
       /* load from object store */
-      setAvatarImage(profile);
+      setAvatarImage(retInstance);
 
-      /* result queried */
-      appendProfile(uid, profile);
-      return newResponse(HttpResponseStatus.OK);
+      /* buffer result */
+      return newResponseForInstance(uid, retInstance);
     } catch (Exception e) {
       txn.rollback();
       return newServerErrorResponse(e, LOG);
@@ -209,13 +212,15 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
         methodName, resourceName));
   }
 
-  private void appendProfile(final String id, final Profile profile)
-      throws JsonProcessingException {
-    if (profile != null) {
-      appendByteArray(profile.toJsonByteArray());
+  private FullHttpResponse newResponseForInstance(final String id,
+      final Profile instance) throws JsonProcessingException {
+    if (instance != null) {
+      appendByteArray(instance.toJsonByteArray());
+      return newResponse(HttpResponseStatus.OK);
     } else {
-      appendln(String.format("Nonexistent resource with URI: /profiles/%s",
-          id));
+      appendln(
+          String.format("Nonexistent resource with URI: /profiles/%s", id));
+      return newResponse(HttpResponseStatus.NOT_FOUND);
     }
   }
 }

@@ -64,25 +64,26 @@ public class SnoopWebHandler extends AbastractPeeqWebHandler
     Transaction txn = null;
     try {
       txn = getSession().beginTransaction();
-      final Snoop snoop = (Snoop) getSession().get(Snoop.class,
+      final Snoop retInstance = (Snoop) getSession().get(Snoop.class,
           Long.parseLong(id));
       txn.commit();
 
       /* buffer result */
-      appendSnoop(id, snoop);
-      return newResponse(HttpResponseStatus.OK);
+      return newResponseForInstance(id, retInstance);
     } catch (Exception e) {
       txn.rollback();
       return newServerErrorResponse(e, LOG);
     }
   }
 
-  private void appendSnoop(final String id, final Snoop snoop)
-      throws JsonProcessingException {
-    if (snoop != null) {
-      appendByteArray(snoop.toJsonByteArray());
+  private FullHttpResponse newResponseForInstance(final String id,
+      final Snoop instance) throws JsonProcessingException {
+    if (instance != null) {
+      appendByteArray(instance.toJsonByteArray());
+      return newResponse(HttpResponseStatus.OK);
     } else {
       appendln(String.format("Nonexistent resource with URI: /snoops/%s", id));
+      return newResponse(HttpResponseStatus.NOT_FOUND);
     }
   }
 

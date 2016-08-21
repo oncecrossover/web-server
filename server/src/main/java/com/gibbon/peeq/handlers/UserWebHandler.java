@@ -112,27 +112,30 @@ public class UserWebHandler extends AbastractPeeqWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
+    Session session = null;
     Transaction txn = null;
     try {
-      txn = getSession().beginTransaction();
-      final User user = (User) getSession().get(User.class, uid);
+      session = getSession();
+      txn = session.beginTransaction();
+      final User retInstance = (User) session.get(User.class, uid);
       txn.commit();
 
-      /* user queried */
-      appendUser(uid, user);
-      return newResponse(HttpResponseStatus.OK);
+      /* buffer result */
+      return newResponseForInstance(uid, retInstance);
     } catch (Exception e) {
       txn.rollback();
       return newServerErrorResponse(e, LOG);
     }
   }
 
-  private void appendUser(final String uid, final User user)
-      throws JsonProcessingException {
-    if (user != null) {
-      appendByteArray(user.toJsonByteArray());
+  private FullHttpResponse newResponseForInstance(final String uid,
+      final User instance) throws JsonProcessingException {
+    if (instance != null) {
+      appendByteArray(instance.toJsonByteArray());
+      return newResponse(HttpResponseStatus.OK);
     } else {
       appendln(String.format("Nonexistent resource with URI: /users/%s", uid));
+      return newResponse(HttpResponseStatus.NOT_FOUND);
     }
   }
 

@@ -68,9 +68,11 @@ public class BalanceWebHandler extends AbastractPeeqWebHandler
     /* query balance */
     try {
       final Double amount = JournalUtil.getBalanceIgnoreNull(uid);
-      appendNewInstance(uid,
-          new Balance().setUid(uid).setBalance(floorValue(amount)));
-      return newResponse(HttpResponseStatus.OK);
+      final Balance instance = new Balance().setUid(uid)
+          .setBalance(floorValue(amount));
+
+      /* buffer result */
+      return newResponseForInstance(uid, instance);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
@@ -80,12 +82,14 @@ public class BalanceWebHandler extends AbastractPeeqWebHandler
     return Math.floor(amount * 100.0) / 100.0;
   }
 
-  private void appendNewInstance(final String id, final Balance instance)
-      throws JsonProcessingException {
+  private FullHttpResponse newResponseForInstance(final String id,
+      final Balance instance) throws JsonProcessingException {
     if (instance != null) {
       appendByteArray(instance.toJsonByteArray());
+      return newResponse(HttpResponseStatus.OK);
     } else {
       appendln(String.format("Nonexistent balance for user ('%s')", id));
+      return newResponse(HttpResponseStatus.NOT_FOUND);
     }
   }
 }

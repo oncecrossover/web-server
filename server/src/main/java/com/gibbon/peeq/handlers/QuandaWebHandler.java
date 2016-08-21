@@ -69,16 +69,15 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
     Transaction txn = null;
     try {
       txn = getSession().beginTransaction();
-      final Quanda quanda = (Quanda) getSession().get(Quanda.class,
+      final Quanda retInstance = (Quanda) getSession().get(Quanda.class,
           Long.parseLong(id));
       txn.commit();
 
       /* load from object store */
-      setAnswerAudio(quanda);
+      setAnswerAudio(retInstance);
 
       /* buffer result */
-      appendQuanda(id, quanda);
-      return newResponse(HttpResponseStatus.OK);
+      return newResponseForInstance(id, retInstance);
     } catch (Exception e) {
       txn.rollback();
       return newServerErrorResponse(e, LOG);
@@ -106,12 +105,14 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
     return null;
   }
 
-  private void appendQuanda(final String id, final Quanda quanda)
-      throws JsonProcessingException {
-    if (quanda != null) {
-      appendByteArray(quanda.toJsonByteArray());
+  private FullHttpResponse newResponseForInstance(final String id,
+      final Quanda instance) throws JsonProcessingException {
+    if (instance != null) {
+      appendByteArray(instance.toJsonByteArray());
+      return newResponse(HttpResponseStatus.OK);
     } else {
       appendln(String.format("Nonexistent resource with URI: /quandas/%s", id));
+      return newResponse(HttpResponseStatus.NOT_FOUND);
     }
   }
 

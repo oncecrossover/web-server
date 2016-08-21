@@ -207,8 +207,7 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
       txn.commit();
 
       /* buffer result */
-      appendNewInstance(id, retInstance);
-      return newResponse(HttpResponseStatus.OK);
+      return newResponseForInstance(id, retInstance);
     } catch (HibernateException e) {
       txn.rollback();
       return newServerErrorResponse(e, LOG);
@@ -217,13 +216,15 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  private void appendNewInstance(final String id, final PcEntry instance)
-      throws JsonProcessingException {
+  private FullHttpResponse newResponseForInstance(final String id,
+      final PcEntry instance) throws JsonProcessingException {
     if (instance != null) {
       appendByteArray(instance.toJsonByteArray());
+      return newResponse(HttpResponseStatus.OK);
     } else {
       appendln(
           String.format("Nonexistent resource with URI: /pcentries/%s", id));
+      return newResponse(HttpResponseStatus.NOT_FOUND);
     }
   }
 

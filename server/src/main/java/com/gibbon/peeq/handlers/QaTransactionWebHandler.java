@@ -71,8 +71,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
       txn.commit();
 
       /* buffer result */
-      appendNewInstance(id, retInstance);
-      return newResponse(HttpResponseStatus.OK);
+      return newResponseForInstance(id, retInstance);
     } catch (HibernateException e) {
       txn.rollback();
       return newServerErrorResponse(e, LOG);
@@ -81,13 +80,15 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  private void appendNewInstance(final String id, final QaTransaction instance)
-      throws JsonProcessingException {
+  private FullHttpResponse newResponseForInstance(final String id,
+      final QaTransaction instance) throws JsonProcessingException {
     if (instance != null) {
       appendByteArray(instance.toJsonByteArray());
+      return newResponse(HttpResponseStatus.OK);
     } else {
       appendln(String
           .format("Nonexistent resource with URI: /qatransactions/%s", id));
+      return newResponse(HttpResponseStatus.NOT_FOUND);
     }
   }
 
