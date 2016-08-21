@@ -62,32 +62,50 @@ class SignupPageViewController: UIViewController {
     if (userEmail.isEmpty || userPassword.isEmpty || name.isEmpty)
     {
       //Display alert message
-      utilityModule.displayAlertMessage("all fields are required", title: "OK", sender: self)
+      utilityModule.displayAlertMessage("all fields are required", title: "Alert", sender: self)
       return
     }
-    
-    var resultMessage = ""
-    userModule.createUser(userEmail, userPassword: userPassword, fullName: name) { resultString in
-      if (resultString.isEmpty) {
-        resultMessage = "Registration is successful"
+
+    //Check for valid email address
+    let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+
+    let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+
+    if (!emailTest.evaluateWithObject(userEmail)) {
+      utilityModule.displayAlertMessage("Email address invalid", title: "Alert", sender: self)
+      return
+    }
+
+    //Check if the email already exists
+    userModule.getUser(userEmail) { user in
+      if let _ = user["uid"] as? String {
+        dispatch_async(dispatch_get_main_queue()) {
+          self.utilityModule.displayAlertMessage("Email \(userEmail) already exists", title: "Alert", sender: self)
+        }
       }
       else {
-        resultMessage = resultString
+        var resultMessage = ""
+        self.userModule.createUser(userEmail, userPassword: userPassword, fullName: name) { resultString in
+          if (resultString.isEmpty) {
+            resultMessage = "Registration is successful"
+          }
+          else {
+            resultMessage = resultString
+          }
+
+          //Display success message
+          let myAlert = UIAlertController(title: "Alert", message: resultMessage, preferredStyle: UIAlertControllerStyle.Alert)
+          let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default){ action in
+            self.dismissViewControllerAnimated(true, completion: nil)
+          }
+
+          myAlert.addAction(okAction)
+          NSOperationQueue.mainQueue().addOperationWithBlock {
+            self.presentViewController(myAlert, animated: true, completion: nil)
+          }
+        }
       }
-      
-      //Display success message
-      let myAlert = UIAlertController(title: "Alert", message: resultMessage, preferredStyle: UIAlertControllerStyle.Alert)
-      let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default){ action in
-        self.dismissViewControllerAnimated(true, completion: nil)
-      }
-      
-      myAlert.addAction(okAction)
-      NSOperationQueue.mainQueue().addOperationWithBlock {
-        self.presentViewController(myAlert, animated: true, completion: nil)
-      }
-      
     }
-    
   }
 
   func dismissKeyboard() {

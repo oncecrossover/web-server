@@ -93,6 +93,11 @@ class Generics {
         return
       }
 
+      let httpResponse = response as! NSHTTPURLResponse
+      if (httpResponse.statusCode == 404) {
+        completion(NSDictionary())
+      }
+
       do {
         if let convertedJsonIntoDict = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSDictionary {
           completion(convertedJsonIntoDict)

@@ -37,6 +37,13 @@ class User
     }
   }
 
+  func getUser(email: String, completion: (NSDictionary) -> ()) {
+    let myUrl = NSURL(string: USERURI + email);
+    generics.getObjectById(myUrl!) {
+      completion($0)
+    }
+  }
+
   func updateProfile(uid: String, name: String, title: String, about: String, rate: Double, completion: (String) -> ()) {
     let myUrl = NSURL(string: PROFILEURI + uid);
     let jsonData = ["fullName": name, "title" : title, "aboutMe": about, "rate" : rate]

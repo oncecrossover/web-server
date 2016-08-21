@@ -41,6 +41,7 @@
 		4AF322741D2C83260043FCE5 /* AnswerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF322731D2C83260043FCE5 /* AnswerTableViewCell.swift */; };
 		4AF322761D2DBCB50043FCE5 /* AnswerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF322751D2DBCB50043FCE5 /* AnswerViewController.swift */; };
 		4AF910741D449F1800546F95 /* InteractiveUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF910731D449F1800546F95 /* InteractiveUITextField.swift */; };
+		4AFB985D1D6A1B6C0067EF33 /* SignupViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFB985C1D6A1B6C0067EF33 /* SignupViewControllerUITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,7 @@
 		4AF322731D2C83260043FCE5 /* AnswerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerTableViewCell.swift; sourceTree = "<group>"; };
 		4AF322751D2DBCB50043FCE5 /* AnswerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerViewController.swift; sourceTree = "<group>"; };
 		4AF910731D449F1800546F95 /* InteractiveUITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveUITextField.swift; sourceTree = "<group>"; };
+		4AFB985C1D6A1B6C0067EF33 /* SignupViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewControllerUITests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 				4A5B257E1D65247700691696 /* Info.plist */,
 				4A5B25841D6524EB00691696 /* ViewControllerUITests.swift */,
 				4A9F53BF1D68DB5100D753B2 /* PaymentViewControllerUITests.swift */,
+				4AFB985C1D6A1B6C0067EF33 /* SignupViewControllerUITests.swift */,
 			);
 			path = SnoopUITests;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 			files = (
 				4A9F53C01D68DB5100D753B2 /* PaymentViewControllerUITests.swift in Sources */,
 				4A5B25851D6524EB00691696 /* ViewControllerUITests.swift in Sources */,
+				4AFB985D1D6A1B6C0067EF33 /* SignupViewControllerUITests.swift in Sources */,
 				4A5B257D1D65247700691696 /* SnoopUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
