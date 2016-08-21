@@ -41,7 +41,7 @@ CREATE TABLE `Snoop` (
   `quandaId` BIGINT UNSIGNED NOT NULL,
   `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `pk_snoop` PRIMARY KEY (`id`),
-  CONSTRAINT `unique_snoop` UNIQUE (`uid`,`quandaId`),
+  CONSTRAINT `uk_snoop` UNIQUE (`uid`,`quandaId`),
   CONSTRAINT `fk_user` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`),
   CONSTRAINT `fk_quanda` FOREIGN KEY (`quandaId`) REFERENCES `Quanda` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
@@ -75,10 +75,10 @@ CREATE TABLE `QaTransaction` (
   `quandaId` BIGINT UNSIGNED NOT NULL,
   `amount` DOUBLE UNSIGNED NOT NULL,
   `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY (`uid`, `type`, `quandaId`),
-  FOREIGN KEY fk_user(uid) REFERENCES User(uid),
-  FOREIGN KEY fk_quanda(quandaId) REFERENCES Quanda(id)
+  CONSTRAINT `pk_qaTransaction` PRIMARY KEY (`id`),
+  CONSTRAINT `uk_qaTransaction` UNIQUE (`uid`, `type`, `quandaId`, `amount`),
+  CONSTRAINT `fk_user` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`),
+  CONSTRAINT `fk_quanda` FOREIGN KEY (`quandaId`) REFERENCES `Quanda` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Journal` (
