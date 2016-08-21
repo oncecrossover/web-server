@@ -41,7 +41,7 @@ class SignupViewControllerUITests: XCTestCase {
 
     let passwordSecureTextField = app.secureTextFields["Password:"]
     passwordSecureTextField.tap()
-    passwordSecureTextField.typeText("1234")
+    passwordSecureTextField.typeText("123456")
 
     app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).elementBoundByIndex(1).childrenMatchingType(.Other).element.tap()
     app.buttons["Join Now"].tap()
@@ -64,7 +64,7 @@ class SignupViewControllerUITests: XCTestCase {
 
     let passwordSecureTextField = app.secureTextFields["Password:"]
     passwordSecureTextField.tap()
-    passwordSecureTextField.typeText("1234")
+    passwordSecureTextField.typeText("123456")
     app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).elementBoundByIndex(1).childrenMatchingType(.Other).element.tap()
 
     app.buttons["Join Now"].tap()
@@ -87,12 +87,36 @@ class SignupViewControllerUITests: XCTestCase {
     
     let passwordSecureTextField = app.secureTextFields["Password:"]
     passwordSecureTextField.tap()
-    passwordSecureTextField.typeText("1234")
+    passwordSecureTextField.typeText("123456")
 
     app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).elementBoundByIndex(1).childrenMatchingType(.Other).element.tap()
     app.buttons["Join Now"].tap()
 
     //We should see a popup indicating user exists already
+    let okButton = app.alerts["Alert"].collectionViews.buttons["OK"]
+    okButton.tap()
+  }
+
+  func testSignupWithUnqualifiedPassword() {
+    let app = XCUIApplication()
+    app.buttons["Sign Up"].tap()
+
+    let nameTextField = app.textFields["Name:"]
+    nameTextField.tap()
+    nameTextField.typeText("Irvin")
+
+    let emailTextField = app.textFields["Email:"]
+    emailTextField.tap()
+    emailTextField.typeText("irvin@test.com")
+
+    let passwordSecureTextField = app.secureTextFields["Password:"]
+    passwordSecureTextField.tap()
+    passwordSecureTextField.typeText("1234")
+
+    app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).elementBoundByIndex(1).childrenMatchingType(.Other).element.tap()
+    app.buttons["Join Now"].tap()
+
+    //We should see a popup indicating password is not long enough
     let okButton = app.alerts["Alert"].collectionViews.buttons["OK"]
     okButton.tap()
   }

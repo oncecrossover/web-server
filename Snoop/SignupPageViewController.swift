@@ -76,6 +76,11 @@ class SignupPageViewController: UIViewController {
       return
     }
 
+    if (userPassword.characters.count < 6) {
+      utilityModule.displayAlertMessage("Password must be at least 6 character long", title: "Alert", sender: self)
+      return
+    }
+
     //Check if the email already exists
     userModule.getUser(userEmail) { user in
       if let _ = user["uid"] as? String {
