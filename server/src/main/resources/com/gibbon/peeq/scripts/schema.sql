@@ -86,8 +86,12 @@ CREATE TABLE `Journal` (
   `uid` NVARCHAR(200) NOT NULL,
   `amount` DOUBLE NOT NULL,
   `type` ENUM('BALANCE', 'CARD', 'BANKING') NOT NULL,
+  `chargeId` NVARCHAR(200) NULL,
+  `status` ENUM('PENDING', 'CLEARED', 'REFOUNDED') NOT NULL,
+  `origineId` BIGINT UNSIGNED NOT NULL,
   `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `pk_journal` PRIMARY KEY (`id`),
   CONSTRAINT `fk_user` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`),
-  CONSTRAINT `fk_qaTransaction` FOREIGN KEY (`transactionId`) REFERENCES `QaTransaction` (`id`)
+  CONSTRAINT `fk_qaTransaction` FOREIGN KEY (`transactionId`) REFERENCES `QaTransaction` (`id`),
+  CONSTRAINT `fk_origineId` FOREIGN KEY (`origineId`) REFERENCES `Journal` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

@@ -21,6 +21,15 @@
     <property name="type" type="java.lang.String">
       <column name="type" />
     </property>
+    <property name="chargeId" type="java.lang.String">
+      <column name="chargeId" />
+    </property>
+    <property name="status" type="java.lang.String">
+      <column name="status" />
+    </property>
+    <property name="origineId" type="long">
+      <column name="origineId" />
+    </property>
     <property name="createdTime" type="timestamp">
       <column name="createdTime" />
     </property>

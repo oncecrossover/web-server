@@ -13,28 +13,53 @@ public class Journal {
     BALANCE, CARD, BANKING
   }
 
-  private long id;
-  private long transactionId;
+  public enum JournalStatus {
+    PENDING(0, "PENDING"),
+    CLEARED(1, "CLEARED"),
+    REFUNDED(1, "REFUNDED");
+
+    private final int code;
+    private final String value;
+
+    JournalStatus(final int code, final String value) {
+      this.code = code;
+      this.value = value;
+    }
+
+    public int code() {
+      return code;
+    }
+
+    public String value() {
+      return value;
+    }
+  }
+
+  private Long id;
+  private Long transactionId;
   private String uid;
   private Double amount;
   private String type;
+  private String chargeId;
+  private String status;
+  private Long origineId;
   private Date createdTime;
 
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public Journal setId(final long id) {
+  public Journal setId(final Long id) {
     this.id = id;
     return this;
   }
 
-  public long getTransactionId() {
+  public Long getTransactionId() {
     return transactionId;
   }
 
-  public Journal setTransactionId(final long transactionId) {
+  public Journal setTransactionId(final Long transactionId) {
     this.transactionId = transactionId;
     return this;
   }
@@ -63,6 +88,33 @@ public class Journal {
 
   public Journal setType(final String type) {
     this.type = type;
+    return this;
+  }
+
+  public String getChargeId() {
+    return chargeId;
+  }
+
+  public Journal setChargeId(final String chargeId) {
+    this.chargeId = chargeId;
+    return this;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public Journal setStatus(final String status) {
+    this.status = status;
+    return this;
+  }
+
+  public Long getOrigineId() {
+    return origineId;
+  }
+
+  public Journal setOrigineId(final Long origineId) {
+    this.origineId = origineId;
     return this;
   }
 
@@ -108,8 +160,12 @@ public class Journal {
       return null;
     }
 
-    this.setId(that.getId());
-    this.setTransactionId(that.getTransactionId());
+    if (that.getId() != null) {
+      this.setId(that.getId());
+    }
+    if (that.getTransactionId() != null) {
+      this.setTransactionId(that.getTransactionId());
+    }
     if (that.getUid() != null) {
       this.setUid(that.getUid());
     }
@@ -118,6 +174,15 @@ public class Journal {
     }
     if (that.getType() != null) {
       this.setType(that.getType());
+    }
+    if (that.getChargeId() != null) {
+      this.setChargeId(that.getChargeId());
+    }
+    if (that.getStatus() != null) {
+      this.setStatus(that.getStatus());
+    }
+    if (that.getOrigineId() != null) {
+      this.setOrigineId(that.getOrigineId());
     }
     return this;
   }
