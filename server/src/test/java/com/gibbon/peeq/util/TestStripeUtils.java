@@ -266,6 +266,26 @@ public class TestStripeUtils {
   }
 
   @Test(timeout = 60000)
+  public void testChargeThenDeleteCard() throws StripeException {
+    /* create new customer */
+    Customer customer = StripeUtils.createCustomerForUser("test@example.com");
+
+    /* create new card by token */
+    final Token token = Token.create(defaultTokenParams);
+    final Card card = StripeUtils.addCardToCustomer(customer, token.getId());
+
+    Charge charge = null;
+    charge = StripeUtils.chargeCustomer(customer.getId(), 1.5);
+    assertEquals(150, charge.getAmount().intValue());
+
+    final DeletedCard deletedCard = card.delete();
+    assertEquals(deletedCard.getId(), card.getId());
+    assertEquals(deletedCard.getDeleted(), true);
+
+    assertEquals(charge.getSource().getId(), card.getId());
+  }
+
+  @Test(timeout = 60000)
   public void testChargeCustomer() throws StripeException {
     /* create new customer */
     Customer customer = StripeUtils.createCustomerForUser("test@example.com");
