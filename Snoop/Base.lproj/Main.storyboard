@@ -305,6 +305,7 @@
                         <outlet property="feedTable" destination="c0l-Fx-eS5" id="xYx-4L-coZ"/>
                         <segue destination="vry-Hq-iLC" kind="presentation" identifier="loginView" id="me6-Y0-ggX"/>
                         <segue destination="wox-rn-42m" kind="show" identifier="homeToPayment" id="KRu-3m-3Wk"/>
+                        <segue destination="PqM-Ta-C7q" kind="show" identifier="homeToAsk" id="Kjo-bx-Bbf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -2148,6 +2149,7 @@
         <image name="speak" width="124" height="124"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Kjo-bx-Bbf"/>
         <segue reference="me6-Y0-ggX"/>
         <segue reference="KRu-3m-3Wk"/>
         <segue reference="KPI-O4-rSf"/>

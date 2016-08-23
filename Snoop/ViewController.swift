@@ -126,6 +126,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     if (feedInfo.profileData.length > 0) {
       myCell.profileImage.image = UIImage(data: feedInfo.profileData)
+      myCell.profileImage.userInteractionEnabled = true
+      let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedOnProfile:")
+      myCell.profileImage.addGestureRecognizer(tappedOnImage)
     }
 
     myCell.questionLabel.text = feedInfo.question
@@ -161,6 +164,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     return myCell
   }
 
+  func tappedOnProfile(sender:UIGestureRecognizer) {
+    let tapLocation = sender.locationInView(self.feedTable)
+    let indexPath = self.feedTable.indexPathForRowAtPoint(tapLocation)!
+    let responderId = self.feeds[indexPath.row].responderId
+    self.userModule.getProfile(responderId) {name, title, about, avatarImage, rate in
+      let profileInfo:[String:AnyObject] = ["uid": responderId, "name" : name, "title" : title, "about" : about,
+        "avatarImage" : avatarImage, "rate" : rate]
+      dispatch_async(dispatch_get_main_queue()) {
+        self.performSegueWithIdentifier("homeToAsk", sender: profileInfo)
+      }
+    }
+  }
 
   func tappedToListen(sender:UIGestureRecognizer) {
     let tapLocation = sender.locationInView(self.feedTable)
@@ -190,12 +205,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if (segue.identifier == "homeToPayment") {
       let indexPath = sender as! NSIndexPath
-      let dvc = segue.destinationViewController as! ChargeViewController;
+      let dvc = segue.destinationViewController as! ChargeViewController
       let feed = feeds[indexPath.row]
       dvc.chargeInfo = (amount: 1.00, type: "SNOOPED", quandaId: feed.id,
         asker: feed.asker, responder: feed.responderId, index: indexPath.row)
       self.paidFeed = feeds[indexPath.row]
       dvc.isSnooped = true
+    }
+    else if (segue.identifier == "homeToAsk") {
+      let dvc = segue.destinationViewController as! AskViewController
+      let profileInfo = sender as! [String:AnyObject]
+      let uid = profileInfo["uid"] as! String
+      let name = profileInfo["name"] as! String
+      let title = profileInfo["title"] as! String
+      let about = profileInfo["about"] as! String
+      let avatarImage = profileInfo["avatarImage"] as! NSData
+      let rate = profileInfo["rate"] as! Double
+      dvc.profileInfo = (uid: uid, name: name, title: title, about: about, avatarImage : avatarImage, rate: rate)
     }
   }
 
