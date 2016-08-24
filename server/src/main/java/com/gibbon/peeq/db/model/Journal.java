@@ -16,7 +16,7 @@ public class Journal {
   public enum JournalStatus {
     PENDING(0, "PENDING"),
     CLEARED(1, "CLEARED"),
-    REFUNDED(1, "REFUNDED");
+    REFUNDED(2, "REFUNDED");
 
     private final int code;
     private final String value;

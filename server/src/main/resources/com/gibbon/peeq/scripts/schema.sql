@@ -6,6 +6,17 @@ CREATE TABLE `User` (
   CONSTRAINT `pk_user` PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `TempPwd` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `uid` NVARCHAR(200) NOT NULL,
+  `pwd` NVARCHAR(50) NOT NULL,
+  `status` ENUM('PENDING', 'EXPIRED') NOT NULL DEFAULT 'PENDING',
+  `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT `pk_tempPwd` PRIMARY KEY (`id`),
+  CONSTRAINT `fk_tempPwd_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
 CREATE TABLE `Profile` (
   `uid` NVARCHAR(200) NOT NULL,
   `rate` DOUBLE UNSIGNED NOT NULL,
@@ -15,23 +26,23 @@ CREATE TABLE `Profile` (
   `aboutMe` NVARCHAR(2000) DEFAULT NULL,
   `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  CONSTRAINT `pk_profile` PRIMARY KEY (`uid`)
-  CONSTRAINT `fk_user` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`)
+  CONSTRAINT `pk_profile` PRIMARY KEY (`uid`),
+  CONSTRAINT `fk_profile_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Quanda` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `asker` NVARCHAR(100) NOT NULL,
+  `asker` NVARCHAR(200) NOT NULL,
   `question` NVARCHAR(2000) NOT NULL,
-  `responder` NVARCHAR(100) NOT NULL,
+  `responder` NVARCHAR(200) NOT NULL,
   `rate` DOUBLE UNSIGNED NOT NULL,
   `answerUrl` NVARCHAR(1000) DEFAULT NULL,
   `status` ENUM('PENDING', 'ANSWERED', 'EXPIRED') NOT NULL DEFAULT 'PENDING',
   `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   CONSTRAINT `pk_quanda` PRIMARY KEY (`id`),
-  CONSTRAINT `fk_asker` FOREIGN KEY (`asker`) REFERENCES `User` (`uid`),
-  CONSTRAINT `fk_responder` FOREIGN KEY (`responder`) REFERENCES `User` (`uid`)
+  CONSTRAINT `fk_quanda_asker` FOREIGN KEY (`asker`) REFERENCES `User` (`uid`),
+  CONSTRAINT `fk_quanda_responder` FOREIGN KEY (`responder`) REFERENCES `User` (`uid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Snoop` (
@@ -41,8 +52,8 @@ CREATE TABLE `Snoop` (
   `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `pk_snoop` PRIMARY KEY (`id`),
   CONSTRAINT `uk_snoop` UNIQUE (`uid`,`quandaId`),
-  CONSTRAINT `fk_user` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`),
-  CONSTRAINT `fk_quanda` FOREIGN KEY (`quandaId`) REFERENCES `Quanda` (`id`)
+  CONSTRAINT `fk_snoop_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`),
+  CONSTRAINT `fk_snoop_quandaId` FOREIGN KEY (`quandaId`) REFERENCES `Quanda` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `PcAccount` (
@@ -51,8 +62,8 @@ CREATE TABLE `PcAccount` (
   `payTo` NVARCHAR(200) NULL,
   `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  CONSTRAINT `pk_pcAccount` PRIMARY KEY (`uid`)
-  CONSTRAINT `fk_user` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`)
+  CONSTRAINT `pk_pcAccount` PRIMARY KEY (`uid`),
+  CONSTRAINT `fk_pcAccount_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `PcEntry` (
@@ -62,9 +73,9 @@ CREATE TABLE `PcEntry` (
   `brand` NVARCHAR(10) NULL,
   `last4` NVARCHAR(10) NOT NULL,
   `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT `pk_pcEntry` PRIMARY KEY (`id`)
+  CONSTRAINT `pk_pcEntry` PRIMARY KEY (`id`),
   CONSTRAINT `uk_pcEntry` UNIQUE (`uid`,`entryId`),
-  CONSTRAINT `fk_pcAccount` FOREIGN KEY (`uid`) REFERENCES `PcAccount` (`uid`)
+  CONSTRAINT `fk_pcEntry_uid` FOREIGN KEY (`uid`) REFERENCES `PcAccount` (`uid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `QaTransaction` (
@@ -76,8 +87,8 @@ CREATE TABLE `QaTransaction` (
   `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `pk_qaTransaction` PRIMARY KEY (`id`),
   CONSTRAINT `uk_qaTransaction` UNIQUE (`uid`, `type`, `quandaId`),
-  CONSTRAINT `fk_user` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`),
-  CONSTRAINT `fk_quanda` FOREIGN KEY (`quandaId`) REFERENCES `Quanda` (`id`)
+  CONSTRAINT `fk_qaTransaction_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`),
+  CONSTRAINT `fk_qaTransaction_quandaId` FOREIGN KEY (`quandaId`) REFERENCES `Quanda` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Journal` (
@@ -91,7 +102,7 @@ CREATE TABLE `Journal` (
   `origineId` BIGINT UNSIGNED NOT NULL,
   `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `pk_journal` PRIMARY KEY (`id`),
-  CONSTRAINT `fk_user` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`),
-  CONSTRAINT `fk_qaTransaction` FOREIGN KEY (`transactionId`) REFERENCES `QaTransaction` (`id`),
-  CONSTRAINT `fk_origineId` FOREIGN KEY (`origineId`) REFERENCES `Journal` (`id`)
+  CONSTRAINT `fk_journal_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`),
+  CONSTRAINT `fk_journal_transactionId` FOREIGN KEY (`transactionId`) REFERENCES `QaTransaction` (`id`),
+  CONSTRAINT `fk_journal_origineId` FOREIGN KEY (`origineId`) REFERENCES `Journal` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

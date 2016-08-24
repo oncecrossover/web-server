@@ -33,5 +33,6 @@
     <mapping resource="com/gibbon/peeq/scripts/pcEntry.hbm.xml" />
     <mapping resource="com/gibbon/peeq/scripts/qaTransaction.hbm.xml" />
     <mapping resource="com/gibbon/peeq/scripts/journal.hbm.xml" />
+    <mapping resource="com/gibbon/peeq/scripts/tempPwd.hbm.xml" />
   </session-factory>
 </hibernate-configuration>
