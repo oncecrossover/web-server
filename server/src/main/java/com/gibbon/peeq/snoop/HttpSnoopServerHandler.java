@@ -47,9 +47,11 @@ import com.gibbon.peeq.handlers.NotFoundResourceWebHandler;
 import com.gibbon.peeq.handlers.NullResouceWebHandler;
 import com.gibbon.peeq.handlers.PcEntryWebHandler;
 import com.gibbon.peeq.handlers.ProfileWebHandler;
+import com.gibbon.peeq.handlers.ResetPwdWebHandler;
 import com.gibbon.peeq.handlers.QaTransactionWebHandler;
 import com.gibbon.peeq.handlers.QuandaWebHandler;
 import com.gibbon.peeq.handlers.SnoopWebHandler;
+import com.gibbon.peeq.handlers.TempPwdWebHandler;
 import com.gibbon.peeq.handlers.UserWebHandler;
 import com.gibbon.peeq.util.ResourceURIParser;
 import com.google.common.io.ByteArrayDataOutput;
@@ -142,6 +144,18 @@ public class HttpSnoopServerHandler
           request).handle();
     } else if ("newsfeeds".equalsIgnoreCase(resourceName)) {
       return new NewsfeedWebHandler(
+          uriParser,
+          respBuf,
+          ctx,
+          request).handle();
+    } else if ("temppwds".equalsIgnoreCase(resourceName)) {
+      return new TempPwdWebHandler(
+          uriParser,
+          respBuf,
+          ctx,
+          request).handle();
+    } else if ("resetpwd".equalsIgnoreCase(resourceName)) {
+      return new ResetPwdWebHandler(
           uriParser,
           respBuf,
           ctx,

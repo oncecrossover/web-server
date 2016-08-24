@@ -24,12 +24,12 @@ public class TestTempPwd {
 
   @Test(timeout = 60000)
   public void testRandomTempPwdToJason() throws IOException {
-    verifyTempPwdJason(newRandomTempPwd());
+    verifyTempPwdJason(newRandomInstance());
   }
 
   @Test(timeout = 60000)
   public void testTempPwdToJason() throws IOException {
-    verifyTempPwdJason(newTempPwd());
+    verifyTempPwdJason(newInstance());
   }
 
 
@@ -41,14 +41,14 @@ public class TestTempPwd {
     LOG.info(originalTempPwdJson);
 
     // convert json to object
-    TempPwd newTempPwd = mapper.readValue(originalTempPwdJson, TempPwd.class);
-    String newTempPwdJson = mapper.writeValueAsString(newTempPwd);
+    TempPwd newInstance = mapper.readValue(originalTempPwdJson, TempPwd.class);
+    String newTempPwdJson = mapper.writeValueAsString(newInstance);
     LOG.info(newTempPwdJson);
     assertEquals(originalTempPwdJson, newTempPwdJson);
-    originalTempPwd.equals(newTempPwd);
+    originalTempPwd.equals(newInstance);
   }
 
-  private TempPwd newRandomTempPwd() {
+  public static TempPwd newRandomInstance() {
     TempPwd tempPwd = new TempPwd();
     tempPwd.setId(random.nextLong())
            .setUid(UUID.randomUUID().toString())
@@ -57,7 +57,7 @@ public class TestTempPwd {
     return tempPwd;
   }
 
-  private Object newTempPwd() {
+  static TempPwd newInstance() {
     TempPwd tempPwd = new TempPwd();
     tempPwd.setId(random.nextLong())
            .setUid("kuan")
@@ -74,7 +74,7 @@ public class TestTempPwd {
     /* insert user */
     final User user = TestUser.insertRandomUser();
 
-    final TempPwd tempPwd = newRandomTempPwd();
+    final TempPwd tempPwd = newRandomInstance();
     tempPwd.setUid(user.getUid())
            .setPwd("123456")
            .setStatus(TempPwd.Status.PENDING.value());
@@ -103,7 +103,7 @@ public class TestTempPwd {
     /* insert user */
     final User user = TestUser.insertRandomUser();
 
-    final TempPwd tempPwd = newRandomTempPwd();
+    final TempPwd tempPwd = newRandomInstance();
     tempPwd.setUid(user.getUid())
            .setPwd("123456")
            .setStatus(TempPwd.Status.PENDING.value());

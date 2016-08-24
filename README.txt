@@ -166,6 +166,15 @@ RESTFUL APIs OF NEWSFEED:
 curl -i -X GET "http://127.0.0.1:8080/newsfeeds/edmund"
 
 
+RESTFUL APIs OF TEMP PASSWORD:
+1. request new temp password, e.g.
+curl -i -X POST "http://127.0.0.1:8080/temppwds" -d '{"uid":"edmund@gmail.com"}'
+
+RESTFUL APIs OF RESETING PASSWORD:
+1. reset password for a user, e.g.
+curl -i -X PUT "http://127.0.0.1:8080/resetpwd/edmund@gmail.com" -d '{"tempPwd":"1*j@Tz", "newPwd":"yyyy"}'
+
+
 
 HTTP STATUS CODE OF REST API:
 1. get user (i.e. HTTP GET):

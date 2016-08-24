@@ -160,33 +160,35 @@ public class UserWebHandler extends AbastractPeeqWebHandler
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
+    /* use uid from url, ignore that from json */
+    fromJson.setUid(uid);
 
     Transaction txn = null;
-    Session sesion = null;
-    /*
-     * query to get DB copy to avoid updating fields (not explicitly set by
-     * Json) to NULL
-     */
+    Session session = null;
+    /* query DB copy */
     User fromDB = null;
     try {
-      sesion = getSession();
-      txn = sesion.beginTransaction();
+      session = getSession();
+      txn = session.beginTransaction();
       fromDB = (User) getSession().get(User.class, uid);
       txn.commit();
+      if (fromDB == null) {
+        appendln(String.format("Nonexistent user ('%s') in the DB", uid));
+        return newResponse(HttpResponseStatus.BAD_REQUEST);
+      }
     } catch (Exception e) {
       txn.rollback();
       return newServerErrorResponse(e, LOG);
     }
 
-    /* use uid from url, ignore that from json */
-    fromJson.setUid(uid);
-    if (fromDB != null) {
-      fromDB.setAsIgnoreNull(fromJson);
-    }
+    /* set value by ignoring null to avoid updating columns to NULL */
+    fromDB.setAsIgnoreNull(fromJson);
 
     try {
-      txn = getSession().beginTransaction();
-      getSession().update(fromDB);
+      session = getSession();
+      txn = session.beginTransaction();
+      /* update */
+      session.update(fromDB);
       txn.commit();
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {

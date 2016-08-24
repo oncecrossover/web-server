@@ -213,4 +213,8 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
     stashServerError(e, LOG);
     return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
   }
+
+  boolean isEqual(Object a, Object b) {
+    return a == null ? b == null : a.equals(b);
+  }
 }
