@@ -87,7 +87,7 @@ public class TempPwdWebHandler extends AbastractPeeqWebHandler
 
   private void sendTempPwdToUser(final TempPwd tempPwd)
       throws UnsupportedEncodingException, MessagingException {
-    EmailUtil.sendTempPwd(tempPwd.getUid(), EmailUtil.getRandomPwd());
+    EmailUtil.sendTempPwd(tempPwd.getUid(), tempPwd.getPwd());
   }
 
   private TempPwd newTempPwdFromRequest()
