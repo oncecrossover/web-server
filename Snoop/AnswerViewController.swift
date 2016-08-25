@@ -156,6 +156,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     playButton.hidden = false
     playButton.enabled = true
     reminder.hidden = true
+    reminder.text = String(60)
     confirmButton.hidden = false
     explanation.text = "Click mic to re-answer"
 
@@ -190,10 +191,16 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
       sender.setImage(UIImage(named: "listen"), forState: .Normal)
       isPlaying = false
       soundPlayer.stop()
+
+      if (!isSaved) {
+        self.recordbutton.enabled = true
+        explanation.text = "Click mic to re-answer"
+      }
     }
   }
 
   @IBAction func confirmButtonTapped(sender: AnyObject) {
+    let activityIndicator = utilityModule.createCustomActivityIndicator(self.view, text: "Submitting Answer...")
     let responderId = NSUserDefaults.standardUserDefaults().stringForKey("email")
     questionModule.updateQuestion(question.id, askerId: question.askerId, content: question.content,
       responderId: responderId, answerAudio: NSData(contentsOfURL: getFileUrl())) { result in
@@ -205,7 +212,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
           // After the answer is submitted, the user can no longer re-record his answer
           self.recordbutton.enabled = false
           self.explanation.hidden = true
-          self.utilityModule.displayAlertMessage("Your Answer is successfully saved!", title: "OK", sender: self)
+          activityIndicator.hideAnimated(true)
 
           // Refresh the status of the question to "ANSWERED"
           self.question.status = "ANSWERED"
