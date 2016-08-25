@@ -1767,7 +1767,7 @@
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account yet?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hz4-eF-L27">
-                                <rect key="frame" x="16" y="319" width="288" height="20.5"/>
+                                <rect key="frame" x="16" y="337" width="288" height="20.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="wiM-Zi-ibZ"/>
                                 </constraints>
@@ -1776,7 +1776,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sx3-Gp-beh" customClass="RoundCornerButton" customModule="Snoop" customModuleProvider="target">
-                                <rect key="frame" x="16" y="359" width="288" height="40"/>
+                                <rect key="frame" x="16" y="377" width="288" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="eQt-ER-yUM"/>
                                     <constraint firstAttribute="width" constant="288" id="ywi-Dd-DkI"/>
@@ -1824,7 +1824,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dul-IQ-nkJ">
-                                <rect key="frame" x="16" y="281" width="288" height="20"/>
+                                <rect key="frame" x="16" y="299" width="288" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="NFK-St-S7K"/>
                                 </constraints>
@@ -1850,7 +1850,7 @@
                             <constraint firstItem="hz4-eF-L27" firstAttribute="leading" secondItem="cVY-iQ-c19" secondAttribute="leading" id="9y8-02-hMb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="y8o-IY-Z62" secondAttribute="trailing" id="B2U-F6-4Yy"/>
                             <constraint firstAttribute="leadingMargin" secondItem="y8o-IY-Z62" secondAttribute="leading" id="BmB-xE-cwL"/>
-                            <constraint firstItem="dul-IQ-nkJ" firstAttribute="top" secondItem="cVY-iQ-c19" secondAttribute="bottom" constant="2" id="CEx-oe-M91"/>
+                            <constraint firstItem="dul-IQ-nkJ" firstAttribute="top" secondItem="cVY-iQ-c19" secondAttribute="bottom" constant="20" id="CEx-oe-M91"/>
                             <constraint firstItem="hz4-eF-L27" firstAttribute="top" secondItem="cVY-iQ-c19" secondAttribute="bottom" constant="40" id="DSs-ZF-Ovu"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Sx3-Gp-beh" secondAttribute="trailing" id="F3O-dL-DnR"/>
                             <constraint firstItem="hz4-eF-L27" firstAttribute="top" secondItem="cVY-iQ-c19" secondAttribute="bottom" constant="16" id="Faf-ht-ydJ"/>

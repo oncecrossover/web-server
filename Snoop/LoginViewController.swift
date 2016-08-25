@@ -45,6 +45,11 @@ class LoginViewController: UIViewController {
     let userPassword = userPasswordTextField.text!
 
     dismissKeyboard()
+    let activityIndicator = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+    activityIndicator.label.text = "Signing In"
+    activityIndicator.backgroundColor = UIColor.whiteColor()
+    activityIndicator.layer.borderWidth = 1
+    activityIndicator.layer.borderColor = UIColor.lightGrayColor().CGColor
     
     let userModule = User()
     userModule.getUser(userEmail, password: userPassword) { displayMessage in
@@ -52,10 +57,14 @@ class LoginViewController: UIViewController {
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isUserLoggedIn")
         NSUserDefaults.standardUserDefaults().setObject(userEmail, forKey: "email")
         NSUserDefaults.standardUserDefaults().synchronize()
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dispatch_async(dispatch_get_main_queue()) {
+          activityIndicator.hideAnimated(true)
+          self.dismissViewControllerAnimated(true, completion: nil)
+        }
       }
       else {
         NSOperationQueue.mainQueue().addOperationWithBlock {
+          activityIndicator.hideAnimated(true)
           self.utility.displayAlertMessage(displayMessage, title: "Alert", sender: self)
         }
       }
