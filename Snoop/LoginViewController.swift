@@ -45,10 +45,8 @@ class LoginViewController: UIViewController {
     let userPassword = userPasswordTextField.text!
 
     dismissKeyboard()
-    let activityIndicator = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-    activityIndicator.label.text = "Signing In..."
-    activityIndicator.label.textColor = UIColor.blackColor()
-    
+    let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Signing In...")
+
     let userModule = User()
     userModule.getUser(userEmail, password: userPassword) { displayMessage in
       if (displayMessage.isEmpty) {

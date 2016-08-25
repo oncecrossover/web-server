@@ -1622,7 +1622,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Email:" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="f4J-lG-TDd">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Email:" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="f4J-lG-TDd" customClass="InteractiveUITextField" customModule="Snoop" customModuleProvider="target">
                                 <rect key="frame" x="16" y="60" width="288" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="UFC-Kz-8eq"/>
@@ -1656,7 +1656,7 @@
                                     <action selector="sendEmailButtonTapped:" destination="gyI-6N-ca8" eventType="touchUpInside" id="87S-CK-HTg"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Temporary Password:" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="ep9-Iz-nPh">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Temporary Password:" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="ep9-Iz-nPh" customClass="InteractiveUITextField" customModule="Snoop" customModuleProvider="target">
                                 <rect key="frame" x="16" y="181" width="288" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="2ey-0n-FZI"/>
@@ -1671,7 +1671,7 @@
                                     <constraint firstAttribute="height" constant="1" id="BEn-2V-gik"/>
                                 </constraints>
                             </view>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Password:" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="1DY-bV-vIf">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Password:" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="1DY-bV-vIf" customClass="InteractiveUITextField" customModule="Snoop" customModuleProvider="target">
                                 <rect key="frame" x="16" y="231" width="288" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="nTl-Tg-OML"/>

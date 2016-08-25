@@ -20,4 +20,15 @@ class UIUtility {
     sender.presentViewController(myAlert, animated: true, completion: nil)
 
   }
+
+  func createCustomActivityIndicator(view: UIView, text: String!) -> MBProgressHUD{
+    let activityIndicator = MBProgressHUD.showHUDAddedTo(view, animated: true)
+    activityIndicator.label.text = text
+    activityIndicator.label.textColor = UIColor.blackColor()
+    activityIndicator.bezelView.color = UIColor.whiteColor()
+    activityIndicator.bezelView.layer.borderWidth = 1
+    activityIndicator.bezelView.layer.borderColor = UIColor.lightGrayColor().CGColor
+    activityIndicator.userInteractionEnabled = false
+    return activityIndicator
+  }
 }

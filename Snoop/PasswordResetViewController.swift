@@ -69,12 +69,7 @@ class PasswordResetViewController: UIViewController{
       return
     }
 
-    let activityIndicator = MBProgressHUD.showHUDAddedTo(self.view, animated: false)
-    activityIndicator.label.text = "Updating Password..."
-    activityIndicator.backgroundColor = UIColor.whiteColor()
-    activityIndicator.layer.borderWidth = 1
-    activityIndicator.layer.borderColor = UIColor.lightGrayColor().CGColor
-    activityIndicator.userInteractionEnabled = false
+    let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Updating Password...")
 
     let myUrl = NSURL(string: "http://localhost:8080/resetpwd/" + email.text!)
     let jsonData = ["tempPwd" : tmpPwd, "newPwd" : newPwd]

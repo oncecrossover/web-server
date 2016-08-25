@@ -33,20 +33,29 @@ class AddCardViewController: UIViewController, STPPaymentCardTextFieldDelegate {
   }
 
   @IBAction func saveButtonTapped(sender: AnyObject) {
+    let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Adding New Card...")
+
     let client = STPAPIClient.init(publishableKey: "pk_test_wyZIIuEmr4TQLHVnZHUxlTtm")
     client.createTokenWithCard(card) { token, error in
       if (error != nil) {
         print(error)
+        dispatch_async(dispatch_get_main_queue()) {
+          activityIndicator.hideAnimated(true)
+        }
       }
       else {
         self.paymentModule.createPayment(token?.tokenId) { result in
           if (!result.isEmpty) {
             print("error is \(result)")
+            dispatch_async(dispatch_get_main_queue()) {
+              activityIndicator.hideAnimated(true)
+              self.utility.displayAlertMessage("Please try again later", title: "Failed to Add your card", sender: self)
+            }
           }
           else {
             dispatch_async(dispatch_get_main_queue()) {
               self.saveButton.enabled = false
-              self.utility.displayAlertMessage("Card successfully added", title: "OK", sender: self)
+              activityIndicator.hideAnimated(true)
             }
           }
         }
