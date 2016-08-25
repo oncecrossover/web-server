@@ -55,6 +55,9 @@ class Generics {
         print("error=\(error)")
         return
       }
+      print(response)
+      print(data)
+      print(error)
 
       completion("")
 

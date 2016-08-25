@@ -1623,7 +1623,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Email:" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="f4J-lG-TDd">
-                                <rect key="frame" x="16" y="60.5" width="288" height="30"/>
+                                <rect key="frame" x="16" y="60" width="288" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="UFC-Kz-8eq"/>
                                 </constraints>
@@ -1631,21 +1631,22 @@
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y6Y-ms-7vu">
-                                <rect key="frame" x="16" y="90.5" width="288" height="1"/>
+                                <rect key="frame" x="16" y="90" width="288" height="1"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="7Ko-jd-08c"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwG-7E-6b8">
-                                <rect key="frame" x="16" y="121.5" width="288" height="30"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwG-7E-6b8" customClass="RoundCornerButton" customModule="Snoop" customModuleProvider="target">
+                                <rect key="frame" x="16" y="121" width="288" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="LO4-Y9-UPb"/>
+                                    <constraint firstAttribute="height" constant="40" id="LO4-Y9-UPb"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="q9B-4k-ULW"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Send Password Reset Email"/>
+                                <state key="normal" title="Send Password Reset Email">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="q9B-4k-ULW"/>
@@ -1656,7 +1657,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Temporary Password:" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="ep9-Iz-nPh">
-                                <rect key="frame" x="16" y="171.5" width="288" height="30"/>
+                                <rect key="frame" x="16" y="181" width="288" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="2ey-0n-FZI"/>
                                 </constraints>
@@ -1664,14 +1665,14 @@
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="saN-0i-vqY">
-                                <rect key="frame" x="16" y="201.5" width="288" height="1"/>
+                                <rect key="frame" x="16" y="211" width="288" height="1"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="BEn-2V-gik"/>
                                 </constraints>
                             </view>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Password:" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="1DY-bV-vIf">
-                                <rect key="frame" x="16" y="221.5" width="288" height="30"/>
+                                <rect key="frame" x="16" y="231" width="288" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="nTl-Tg-OML"/>
                                 </constraints>
@@ -1679,20 +1680,19 @@
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oOq-Gg-bd6">
-                                <rect key="frame" x="16" y="251.5" width="288" height="1"/>
+                                <rect key="frame" x="16" y="261" width="288" height="1"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="zto-bX-nbj"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FYq-yQ-vAx">
-                                <rect key="frame" x="16" y="281.5" width="288" height="30"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FYq-yQ-vAx" customClass="RoundCornerButton" customModule="Snoop" customModuleProvider="target">
+                                <rect key="frame" x="16" y="291" width="288" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="Raj-1r-4W9"/>
+                                    <constraint firstAttribute="height" constant="40" id="Raj-1r-4W9"/>
                                 </constraints>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Save"/>
+                                <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Save" image="save"/>
                                 <connections>
                                     <action selector="saveButtonTapped:" destination="gyI-6N-ca8" eventType="touchUpInside" id="kWc-Xq-Qkl"/>
                                 </connections>
@@ -1733,7 +1733,11 @@
                     <connections>
                         <outlet property="email" destination="f4J-lG-TDd" id="fnw-rX-06H"/>
                         <outlet property="newPassword" destination="1DY-bV-vIf" id="WUc-RF-3zp"/>
+                        <outlet property="saveButton" destination="FYq-yQ-vAx" id="Jws-vg-TO1"/>
+                        <outlet property="sendButton" destination="gwG-7E-6b8" id="deT-0X-4Ba"/>
                         <outlet property="tmpPassword" destination="ep9-Iz-nPh" id="Olz-LC-hHX"/>
+                        <outlet property="underline1" destination="saN-0i-vqY" id="Cms-i5-cDt"/>
+                        <outlet property="underline2" destination="oOq-Gg-bd6" id="UVm-Vd-Hua"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gim-XK-3Oo" userLabel="First Responder" sceneMemberID="firstResponder"/>
