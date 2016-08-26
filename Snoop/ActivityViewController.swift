@@ -29,18 +29,21 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   var snoops:[(id: Int!, question: String!, status: String!, responderImage: NSData!, responderName: String!,
   responderTitle: String!, isPlaying: Bool!, rate: Double!)] = []
 
+  var refreshControl: UIRefreshControl = UIRefreshControl()
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
     activityTableView.rowHeight = UITableViewAutomaticDimension
     activityTableView.estimatedRowHeight = 120
 
-    // Do any additional setup after loading the view.
+    refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
+    activityTableView.addSubview(refreshControl)
   }
 
   override func viewDidAppear(animated: Bool) {
     super.viewDidAppear(animated)
-    loadData()
+    displayData()
   }
 
   override func viewWillDisappear(animated: Bool) {
@@ -66,7 +69,39 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   @IBAction func segmentedControlClicked(sender: AnyObject) {
     stopPlayer()
+    displayData()
+  }
+
+  func refresh(sender: AnyObject) {
     loadData()
+    refreshControl.endRefreshing()
+  }
+
+  func displayData() {
+    if (segmentedControl.selectedSegmentIndex == 0) {
+      if (questions.count == 0) {
+        loadData()
+      }
+      else {
+        activityTableView.reloadData()
+      }
+    }
+    else if (segmentedControl.selectedSegmentIndex == 1) {
+      if (answers.count == 0) {
+        loadData()
+      }
+      else {
+        activityTableView.reloadData()
+      }
+    }
+    else {
+      if (snoops.count == 0) {
+        loadData()
+      }
+      else {
+        activityTableView.reloadData()
+      }
+    }
   }
 
   func loadData() {
