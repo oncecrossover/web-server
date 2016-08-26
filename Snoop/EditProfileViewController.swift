@@ -118,6 +118,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   }
 
   @IBAction func saveButtonTapped(sender: AnyObject) {
+    let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Updating Profile...")
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
     dismissKeyboard()
     var newRate = 0.0
@@ -136,10 +137,17 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
       var message = "Your profile is successfully updated!"
       if (!resultString.isEmpty) {
         message = resultString
+        dispatch_async(dispatch_get_main_queue()) {
+          activityIndicator.hideAnimated(true)
+          self.utility.displayAlertMessage(message, title: "OK", sender: self)
+        }
       }
-
-      dispatch_async(dispatch_get_main_queue()) {
-        self.utility.displayAlertMessage(message, title: "OK", sender: self)
+      else {
+        let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
+        dispatch_after(time, dispatch_get_main_queue()) {
+          activityIndicator.hideAnimated(true)
+          self.navigationController?.popViewControllerAnimated(true)
+        }
       }
     }
   }
