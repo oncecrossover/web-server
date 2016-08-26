@@ -18,6 +18,8 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   var filteredProfiles: [(uid: String!, name: String!, title: String!, about: String!,
     avatarImage: NSData!, rate: Double!)] = []
 
+  var refreshControl: UIRefreshControl = UIRefreshControl()
+
   let searchController = UISearchController(searchResultsController: nil)
 
   var userModule = User()
@@ -31,12 +33,16 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     searchController.dimsBackgroundDuringPresentation = false
     discoverTableView.tableHeaderView = searchController.searchBar
 
-    // Do any additional setup after loading the view.
+    refreshControl = UIRefreshControl()
+    refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
+    discoverTableView.addSubview(refreshControl)
   }
 
   override func viewDidAppear(animated: Bool) {
     super.viewDidAppear(animated)
-    loadImages()
+    if (profiles.count == 0) {
+      loadImages()
+    }
   }
 
   func filterContentForSearchText(searchText: String, scope: String = "All") {
@@ -45,6 +51,11 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     }
     self.discoverTableView.reloadData()
 
+  }
+
+  func refresh(sender:AnyObject) {
+    loadImages()
+    refreshControl.endRefreshing()
   }
 
   func loadImages() {
