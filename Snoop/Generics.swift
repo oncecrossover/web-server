@@ -52,14 +52,18 @@ class Generics {
       data, response, error in
       if (error != nil)
       {
-        print("error=\(error)")
+        completion("\(error)")
         return
       }
-      print(response)
-      print(data)
-      print(error)
 
-      completion("")
+      let httpResponse = response as! NSHTTPURLResponse
+      if (httpResponse.statusCode == 400) {
+        let responseData = String(data: data!, encoding: NSUTF8StringEncoding)!
+        completion(responseData)
+      }
+      else {
+        completion("")
+      }
 
     }
     task.resume()

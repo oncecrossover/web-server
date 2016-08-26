@@ -62,6 +62,7 @@ class PasswordResetViewController: UIViewController{
     self.view.endEditing(true)
   }
   @IBAction func saveButtonTapped(sender: AnyObject) {
+    dismissKeyboard()
     let tmpPwd = tmpPassword.text!
     let newPwd = newPassword.text!
     if (newPwd.characters.count < 6) {
@@ -73,7 +74,8 @@ class PasswordResetViewController: UIViewController{
 
     let myUrl = NSURL(string: "http://localhost:8080/resetpwd/" + email.text!)
     let jsonData = ["tempPwd" : tmpPwd, "newPwd" : newPwd]
-    generics.updateObject(myUrl!, jsonData: jsonData) {result in
+    generics.updateObject(myUrl!, jsonData: jsonData) { result in
+      let message = result
       if (result.isEmpty) {
         dispatch_sync(dispatch_get_main_queue()){
           activityIndicator.hideAnimated(true)
@@ -83,13 +85,14 @@ class PasswordResetViewController: UIViewController{
       else {
         dispatch_async(dispatch_get_main_queue()) {
           activityIndicator.hideAnimated(true)
-          self.utility.displayAlertMessage("Failed to update password. Please try again later", title: "Alert", sender: self)
+          self.utility.displayAlertMessage(message, title: "Alert", sender: self)
         }
       }
     }
   }
 
   @IBAction func sendEmailButtonTapped(sender: AnyObject) {
+    dismissKeyboard()
     let activityIndicator = MBProgressHUD.showHUDAddedTo(self.view, animated: false)
     activityIndicator.label.text = "Sending..."
     activityIndicator.label.textColor = UIColor.blackColor()
@@ -123,5 +126,11 @@ class PasswordResetViewController: UIViewController{
         }
       }
     }
+  }
+
+  func dismissKeyboard() {
+    email.resignFirstResponder()
+    tmpPassword.resignFirstResponder()
+    newPassword.resignFirstResponder()
   }
 }
