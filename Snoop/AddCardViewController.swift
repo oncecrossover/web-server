@@ -56,6 +56,7 @@ class AddCardViewController: UIViewController, STPPaymentCardTextFieldDelegate {
             dispatch_async(dispatch_get_main_queue()) {
               self.saveButton.enabled = false
               activityIndicator.hideAnimated(true)
+              self.navigationController?.popViewControllerAnimated(true)
             }
           }
         }
