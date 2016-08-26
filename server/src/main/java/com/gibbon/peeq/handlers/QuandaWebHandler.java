@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +13,13 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.gibbon.peeq.db.model.Journal;
+import com.gibbon.peeq.db.model.QaTransaction;
 import com.gibbon.peeq.db.model.Quanda;
+import com.gibbon.peeq.db.util.HibernateTestUtil;
+import com.gibbon.peeq.db.util.JournalUtil;
+import com.gibbon.peeq.db.util.QaTransactionUtil;
+import com.gibbon.peeq.exceptions.SnoopException;
 import com.gibbon.peeq.util.ObjectStoreClient;
 import com.gibbon.peeq.util.ResourceURIParser;
 import com.google.common.io.ByteArrayDataOutput;
@@ -66,10 +74,12 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
+    Session session = null;
     Transaction txn = null;
     try {
-      txn = getSession().beginTransaction();
-      final Quanda retInstance = (Quanda) getSession().get(Quanda.class,
+      session = getSession();
+      txn = session.beginTransaction();
+      final Quanda retInstance = (Quanda) session.get(Quanda.class,
           Long.parseLong(id));
       txn.commit();
 
@@ -78,8 +88,10 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
 
       /* buffer result */
       return newResponseForInstance(id, retInstance);
-    } catch (Exception e) {
+    } catch (HibernateException e) {
       txn.rollback();
+      return newServerErrorResponse(e, LOG);
+    } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
   }
@@ -116,6 +128,35 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
     }
   }
 
+  /*
+   * Quanda.status and Quanda.answerUrl (as a result of Quanda.answerAudio) are
+   * the only DB columns that can be updated by client.
+   */
+  private void checkColumnsToBeUpdated(final Quanda fromJson)
+      throws SnoopException {
+    /* check fields not allowed to be updated */
+    if (fromJson.getId() != null ||
+        fromJson.getAsker() != null ||
+        fromJson.getQuestion() != null ||
+        fromJson.getResponder() != null ||
+        fromJson.getRate() != null ||
+        fromJson.getAnswerUrl() != null ||
+        fromJson.getCreatedTime() != null ||
+        fromJson.getUpdatedTime() != null ||
+        fromJson.getSnoops() != null) {
+      throw new SnoopException(
+          "The fields except answerAudio and status can't be updated");
+    }
+
+    /* check ANSWERED only */
+    if (fromJson.getStatus() != null
+        && !fromJson.getStatus().equals(Quanda.QnaStatus.ANSWERED.toString())) {
+      throw new SnoopException(
+          "The status can be changed to ANSWERED only in this API");
+    }
+  }
+
+
   private FullHttpResponse onUpdate() {
     /* get id */
     final String id = getUriParser().getPathStream().nextToken();
@@ -126,7 +167,7 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
-    /* deserialize json */
+    /* get instance from json */
     final Quanda fromJson;
     try {
       fromJson = newQuandaFromRequest();
@@ -134,48 +175,123 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
         appendln("No quanda or incorrect format specified.");
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
+      checkColumnsToBeUpdated(fromJson);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
 
+    Session session = null;
     Transaction txn = null;
     /*
-     * query to get DB copy to avoid updating fields (not explicitly set by
-     * Json) to NULL
+     * the fields with null value in fromJson will update DB columns to NULL
+     * since null means either 'not specified' or real NULL. This DB copy can
+     * prevent that confusion.
      */
     Quanda fromDB = null;
     try {
-      txn = getSession().beginTransaction();
-      fromDB = (Quanda) getSession().get(Quanda.class, Long.parseLong(id));
+      /* get DB copy */
+      session  = getSession();
+      txn = session.beginTransaction();
+      fromDB = (Quanda) session.get(Quanda.class, Long.parseLong(id));
       txn.commit();
-    } catch (Exception e) {
+
+      if (fromDB == null) {
+        appendln(String.format("Nonexistent quanda ('%d')", id));
+        return newResponse(HttpResponseStatus.BAD_REQUEST);
+      }
+    } catch (HibernateException e) {
       txn.rollback();
+      return newServerErrorResponse(e, LOG);
+    } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
 
-    /* ignore id from json */
-    fromJson.setId(Long.parseLong(id));
-    if (fromDB != null) {
-      fromDB.setAsIgnoreNull(fromJson);
-      /* update updatedTime */
-      fromDB.setUpdatedTime(new Date());
-    }
-
-    /* save to object store */
-    setAnswerUrl(fromDB);
-
     try {
-      txn = getSession().beginTransaction();
-      getSession().update(fromDB);
+      session = getSession();
+      txn = session.beginTransaction();
+
+      /* updating status and finalize charge */
+      answerQuestion(session, fromJson, fromDB);
+
+      /* save audio */
+      saveAudioToObjectStore(fromJson, fromDB);
+
+      session.update(fromDB);
       txn.commit();
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {
       txn.rollback();
+      /* delete answer audio from object store */
       return newServerErrorResponse(e, LOG);
     }
   }
 
-  private void setAnswerUrl(final Quanda fromDB) {
+  /**
+   * Here's the processing when responder answers the question:
+   * <p>
+   * 1. update status to 'ANSWERED',
+   * </p>
+   * <p>
+   * if the quanda is not free
+   * </p>
+   * <p>
+   * 2. for asker charged from balance, insert +charged_amount with 'BALANCE'
+   * type for responder to Journal table.
+   * </p>
+   * <p>
+   * 3. for asker charged from card, capture charge through Stripe
+   * </p>
+   * @throws Exception
+   */
+  private void answerQuestion(
+      final Session session,
+      final Quanda fromJson,
+      final Quanda fromDB) throws Exception {
+    /* only update PENDING to ANSWERED */
+    if (!fromJson.getStatus().equals(Quanda.QnaStatus.ANSWERED.toString()) ||
+        !fromDB.getStatus().equals(Quanda.QnaStatus.PENDING.toString())) {
+      return;
+    }
+
+    /* set to ANSWERED */
+    fromDB.setStatus(fromJson.getStatus());
+
+    /* query qaTransaction */
+    final QaTransaction qaTransaction = QaTransactionUtil.getQaTransaction(
+        session,
+        fromDB.getAsker(),
+        QaTransaction.TransType.ASKED.toString(),
+        fromDB.getId());
+
+    /* query pending journal */
+    final Journal journal = JournalUtil.getPendingJournal(
+        session,
+        qaTransaction);
+
+    /* insert journals for clearance and responder */
+    if (!JournalUtil.pendingJournalCleared(session, journal)) {
+      /* insert clearance journal */
+      final Journal clearanceJournal = JournalUtil.insertClearanceJournal(
+          session,
+          journal,
+          false);
+
+      /* insert responder journal */
+      JournalUtil.insertResponderJournal(
+          session,
+          clearanceJournal,
+          fromDB,
+          false);
+    }
+  }
+
+  private void saveAudioToObjectStore(
+      final Quanda fromJson,
+      final Quanda fromDB) {
+    if (fromJson.getAnswerAudio() != null) {
+      fromDB.setAnswerAudio(fromJson.getAnswerAudio());
+    }
+
     final String url = saveAnswerAudio(fromDB);
     if (url != null) {
       fromDB.setAnswerUrl(url);
@@ -210,10 +326,12 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
     fromJson.setCreatedTime(now);
     fromJson.setUpdatedTime(now);
 
+    Session session = null;
     Transaction txn = null;
     try {
-      txn = getSession().beginTransaction();
-      getSession().save(fromJson);
+      session = getSession();
+      txn = session.beginTransaction();
+      session.save(fromJson);
       txn.commit();
       appendln(toIdJson("id", fromJson.getId()));
       return newResponse(HttpResponseStatus.CREATED);
@@ -274,5 +392,4 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
     }
     return null;
   }
-
 }

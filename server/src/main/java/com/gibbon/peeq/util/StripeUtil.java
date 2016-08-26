@@ -12,7 +12,7 @@ import com.stripe.model.DeletedCard;
 import com.stripe.model.DeletedCustomer;
 import com.stripe.model.DeletedExternalAccount;
 
-public class StripeUtils {
+public class StripeUtil {
   static {
     Stripe.apiKey = "sk_test_qHGH10BjT9f7jSze3mhHijuU";
   }
@@ -64,23 +64,35 @@ public class StripeUtils {
     return customer.getSources().retrieve(cardId).delete();
   }
 
+  public static Charge chargeCustomerUncaptured(final String cusId,
+      final double amount) throws StripeException {
+    return chargeCustomer(cusId, amount, false);
+  }
+
   public static Charge chargeCustomer(final String cusId, final double amount)
       throws StripeException {
-    final long cents = StripeUtils.toCents(StripeUtils.ceilingValue(amount));
+    return chargeCustomer(cusId, amount, true);
+  }
+
+  static Charge chargeCustomer(final String cusId, final double amount,
+      final boolean capture)
+      throws StripeException {
+    final long cents = StripeUtil.toCents(StripeUtil.ceilingValue(amount));
 
     final Map<String, Object> chargeParams = new HashMap<String, Object>();
     /* amount in cents */
     chargeParams.put("amount", cents);
     chargeParams.put("currency", "usd");
     chargeParams.put("customer", cusId);
+    chargeParams.put("capture", capture);
     return Charge.create(chargeParams);
   }
 
-  public static double ceilingValue(final double amount) {
+  static double ceilingValue(final double amount) {
     return Math.ceil(amount * 100.0) / 100.0;
   }
 
-  public static long toCents(final double amount) {
+  static long toCents(final double amount) {
     return (long)(ceilingValue(amount)*100);
   }
 }

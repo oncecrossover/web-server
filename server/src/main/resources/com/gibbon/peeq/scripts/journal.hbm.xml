@@ -27,8 +27,8 @@
     <property name="status" type="java.lang.String">
       <column name="status" />
     </property>
-    <property name="origineId" type="long">
-      <column name="origineId" />
+    <property name="originId" type="long">
+      <column name="originId" />
     </property>
     <property name="createdTime" type="timestamp">
       <column name="createdTime" />

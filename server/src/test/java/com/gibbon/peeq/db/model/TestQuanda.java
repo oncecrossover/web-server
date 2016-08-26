@@ -3,7 +3,6 @@ package com.gibbon.peeq.db.model;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 

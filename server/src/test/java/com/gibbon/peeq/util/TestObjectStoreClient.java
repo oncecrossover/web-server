@@ -108,7 +108,7 @@ public class TestObjectStoreClient {
     final byte[] fileContent = Files.readAllBytes(file.toPath());
     final ObjectStoreClient osc = new ObjectStoreClient();
     final Quanda quanda = new Quanda();
-    quanda.setId(1010).setAnswerAudio(fileContent);
+    quanda.setId(1010L).setAnswerAudio(fileContent);
     final String url = "/answers/1010";
 
     String answerUrl = null;
@@ -134,7 +134,7 @@ public class TestObjectStoreClient {
     final byte[] fileContent = Files.readAllBytes(file.toPath());
     final ObjectStoreClient osc = new ObjectStoreClient();
     final Quanda quanda = new Quanda();
-    quanda.setId(1011).setAnswerAudio(fileContent);
+    quanda.setId(1011L).setAnswerAudio(fileContent);
     final String url = "/answers/1011";
 
     String answerUrl = null;

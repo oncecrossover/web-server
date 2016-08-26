@@ -5,7 +5,7 @@ import com.gibbon.peeq.db.model.PcAccount;
 import com.gibbon.peeq.db.model.PcEntry;
 import com.gibbon.peeq.util.FilterParamParser;
 import com.gibbon.peeq.util.ResourceURIParser;
-import com.gibbon.peeq.util.StripeUtils;
+import com.gibbon.peeq.util.StripeUtil;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.io.ByteArrayDataOutput;
@@ -98,7 +98,7 @@ public class PcEntryFilterWebHandler extends AbastractPeeqWebHandler
     try {
       /* retrieve customer */
       final String cusId = pcAccount.getChargeFrom();
-      customer = StripeUtils.getCustomer(cusId);
+      customer = StripeUtil.getCustomer(cusId);
       if (customer == null) {
         appendln(String.format("Nonexistent Customer ('%s') for user ('%s')",
             cusId, uid));

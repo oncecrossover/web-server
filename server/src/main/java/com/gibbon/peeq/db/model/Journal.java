@@ -13,7 +13,7 @@ public class Journal {
     BALANCE, CARD, BANKING
   }
 
-  public enum JournalStatus {
+  public enum Status {
     PENDING(0, "PENDING"),
     CLEARED(1, "CLEARED"),
     REFUNDED(2, "REFUNDED");
@@ -21,7 +21,7 @@ public class Journal {
     private final int code;
     private final String value;
 
-    JournalStatus(final int code, final String value) {
+    Status(final int code, final String value) {
       this.code = code;
       this.value = value;
     }
@@ -42,7 +42,7 @@ public class Journal {
   private String type;
   private String chargeId;
   private String status;
-  private Long origineId;
+  private Long originId;
   private Date createdTime;
 
 
@@ -109,12 +109,12 @@ public class Journal {
     return this;
   }
 
-  public Long getOrigineId() {
-    return origineId;
+  public Long getOriginId() {
+    return originId;
   }
 
-  public Journal setOrigineId(final Long origineId) {
-    this.origineId = origineId;
+  public Journal setOriginId(final Long originId) {
+    this.originId = originId;
     return this;
   }
 
@@ -139,11 +139,14 @@ public class Journal {
 
     if (getClass() == obj.getClass()) {
       final Journal that = (Journal) obj;
-      if (isEqual(this.getId(), that.getId())
-          && isEqual(this.getTransactionId(), that.getTransactionId())
-          && isEqual(this.getUid(), that.getUid())
-          && isEqual(this.getAmount(), that.getAmount())
-          && isEqual(this.getType(), that.getType())) {
+      if (isEqual(this.getId(), that.getId()) &&
+          isEqual(this.getTransactionId(), that.getTransactionId()) &&
+          isEqual(this.getUid(), that.getUid()) &&
+          isEqual(this.getAmount(), that.getAmount()) &&
+          isEqual(this.getType(), that.getType()) &&
+          isEqual(this.getChargeId(), that.getChargeId()) &&
+          isEqual(this.getStatus(), that.getStatus()) &&
+          isEqual(this.getOriginId(), that.getOriginId())) {
         return true;
       }
     }
@@ -181,8 +184,8 @@ public class Journal {
     if (that.getStatus() != null) {
       this.setStatus(that.getStatus());
     }
-    if (that.getOrigineId() != null) {
-      this.setOrigineId(that.getOrigineId());
+    if (that.getOriginId() != null) {
+      this.setOriginId(that.getOriginId());
     }
     return this;
   }

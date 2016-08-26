@@ -22,7 +22,7 @@ import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Card;
 import com.stripe.model.Customer;
-import com.gibbon.peeq.util.StripeUtils;
+import com.gibbon.peeq.util.StripeUtil;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
@@ -117,7 +117,7 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
     try {
       /* retrieve customer */
       final String cusId = pcAccount.getChargeFrom();
-      customer = StripeUtils.getCustomer(cusId);
+      customer = StripeUtil.getCustomer(cusId);
       if (customer == null) {
         appendln(String.format("Nonexistent Customer ('%s') for user ('%s')",
             cusId, fromJson.getUid()));
@@ -129,7 +129,7 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
 
     try {
       /* add card to customer */
-      card = StripeUtils.addCardToCustomer(customer, fromJson.getToken());
+      card = StripeUtil.addCardToCustomer(customer, fromJson.getToken());
       if (card == null) {
         appendln(String.format("Failed to add card (%s) for user ('%s')",
             fromJson.getToken(), fromJson.getUid()));
@@ -141,11 +141,11 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
 
     try {
       /* update default card */
-      StripeUtils.updateDefaultSource(customer, card);
+      StripeUtil.updateDefaultSource(customer, card);
     } catch (Exception e) {
       try {
         /* delete card */
-        StripeUtils.deleteCard(card);
+        StripeUtil.deleteCard(card);
       } catch (StripeException se) {
         stashServerError(se, LOG);
       }
@@ -167,7 +167,7 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
       txn.rollback();
       try {
         /* delete card */
-        StripeUtils.deleteCard(card);
+        StripeUtil.deleteCard(card);
       } catch (StripeException se) {
         stashServerError(se, LOG);
       }
@@ -285,7 +285,7 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
     try {
       /* retrieve customer */
       final String cusId = pcAccount.getChargeFrom();
-      customer = StripeUtils.getCustomer(cusId);
+      customer = StripeUtil.getCustomer(cusId);
       if (customer == null) {
         appendln(String.format("Nonexistent Customer ('%s') for user ('%s')",
             cusId, pcEntry.getUid()));
@@ -302,7 +302,7 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
       session.delete(pcEntry);
 
       /* delete card */
-      StripeUtils.deleteCard(customer, pcEntry.getEntryId());
+      StripeUtil.deleteCard(customer, pcEntry.getEntryId());
 
       /* commit DB delete */
       txn.commit();

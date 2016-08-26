@@ -71,14 +71,16 @@ curl -i -X PUT "http://127.0.0.1:8080/users/edmund" -d '{"pwd":"456"}'
 
 curl -i -X PUT "http://127.0.0.1:8080/users/kuan" -d '{"pwd":"456"}'
 
+
 RESTFUL APIs OF PROFILES:
 1. get profile by uid, e.g.
 curl -i -X GET "http://127.0.0.1:8080/profiles/edmund"
 
 2. update profile by uid, e.g.
-curl -i -X PUT "http://127.0.0.1:8080/profiles/edmund" -d '{"fullName":"Edmund Burke","rate": 4999, "title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism."}'
+curl -i -X PUT "http://127.0.0.1:8080/profiles/edmund" -d '{"rate":200,"title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism."}'
 
-curl -i -X PUT "http://127.0.0.1:8080/profiles/kuan" -d '{"fullName":"Kuan Shuya Chung","rate": 99999,"title":"Chancellor and Reformer","aboutMe":"I was was a chancellor and reformer of the State of Qi during the Spring and Autumn Period of Chinese history."}'
+curl -i -X PUT "http://127.0.0.1:8080/profiles/kuan" -d '{"rate":400,"title":"Chancellor and Reformer","aboutMe":"I was was a chancellor and reformer of the State of Qi during the Spring and Autumn Period of Chinese history."}'
+
 
 RESTFUL APIs OF PROFILE FILTERING:
 1. load all profiles, e.g.
@@ -88,19 +90,17 @@ curl -i -X GET "http://127.0.0.1:8080/profiles?filter=*"
 curl -i -X GET "http://127.0.0.1:8080/profiles?filter=fullName=edmund"
 The column name is case sensitive, it only supports single column. In addition, it essentially does parttern matched query, e.g. fullName LIKE '%edmund%'
 
+
 RESTFUL APIs OF QUANDAS:
 1. get quanda by id, e.g.
 curl -i -X GET "http://127.0.0.1:8080/quandas/1"
 
-2. create new quanda, e.g.
-curl -i -X POST "http://127.0.0.1:8080/quandas" -d '{"asker":"kuan","question":"How do you define good man?","responder":"kuan","answerAudio":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","status":"PENDING"}'
+2. update quanda by id, e.g.
+curl -i -X PUT "http://127.0.0.1:8080/quandas/1" -d '{"status":"ANSWERED"}'
 
-3. update quanda by id, e.g.
-curl -i -X PUT "http://127.0.0.1:8080/quandas/1" -d '{"asker":"kuan","question":"How do you define good man?","responder":"edmund","answerAudio":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","status":"ANSWERED"}'
 
 RESTFUL APIs OF QUANDAS FILTERING:
 The results are reversely chronologically ordered by updatedTime as the first preference, and then createdTime.
-
 1. load all quandas
 curl -i -X GET "http://127.0.0.1:8080/quandas?filter=*"
 
@@ -109,14 +109,12 @@ curl -i -X GET "http://127.0.0.1:8080/quandas?filter=asker=kuan"
 curl -i -X GET "http://127.0.0.1:8080/quandas?filter=responder=edmund"
 The column name is case sensitive, it only supports single column. In addition, it essentially does equal matched query.
 
+
 RESTFUL APIs OF SNOOPS:
 The results are reversely chronologically ordered by createdTime.
-
 1. get snoop by id, e.g.
 curl -i -X GET "http://127.0.0.1:8080/snoops/1"
 
-2. create new snoop, e.g.
-curl -i -X POST "http://127.0.0.1:8080/snoops" -d '{"uid":"edmund","quandaId":"1"}'
 
 RESTFUL APIs OF SNOOPS FILTERING:
 1. load all snoops
@@ -125,6 +123,7 @@ curl -i -X GET "http://127.0.0.1:8080/snoops?filter=*"
 2. query snoops by a single column(e.g. uid), e.g.
 curl -i -X GET "http://127.0.0.1:8080/snoops?filter=uid=kuan"
 The column name is case sensitive, it only supports single column. In addition, it essentially does equal matched query.
+
 
 RESTFUL APIs OF PCENTRY (i.e. credit/debit card or bank account):
 1. get PcEntry by id, e.g.
@@ -136,11 +135,11 @@ curl -i -X POST "http://127.0.0.1:8080/pcentries" -d '{"uid":"edmund","token":"t
 3. delete PcEntry, e.g.
 curl -i -X DELETE "http://127.0.0.1:8080/pcentries/1"
 
+
 RESTFUL APIs OF FILTERING PCENTRY (i.e. credit/debit card or bank account):
 1. load PcEntries by user id, e.g.
 curl -i -X GET "http://127.0.0.1:8080/pcentries?filter=uid=edmund"
 It doesn't support loading all, e.g. filter=*
-
 
 
 RESTFUL APIs OF BALANCE:
@@ -148,17 +147,15 @@ RESTFUL APIs OF BALANCE:
 curl -i -X GET "http://127.0.0.1:8080/balances/kuan"
 
 
-
 RESTFUL APIs OF QATRANSACTION:
 1. get QaTransaction by id, e.g.
 curl -i -X GET "http://127.0.0.1:8080/qatransactions/1"
 
 2. create new QaTransaction with type of ASKED, e.g.
-curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":"kuan","type":"ASKED","quanda":{"question":"How do you define a good man","responder":"edmund"}}'
+curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":"kuan","type":"ASKED","quanda":{"question":"How do you define a good man?","responder":"edmund"}}'
 
 create new QaTransaction with type of SNOOPED, e.g.
 curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":"xiaobingo","type":"SNOOPED","quanda":{"id":1,"asker":"kuan","responder":"edmund"}}'
-
 
 
 RESTFUL APIs OF NEWSFEED:

@@ -56,8 +56,8 @@ public class TestJournal {
           .setAmount(random.nextDouble())
           .setType(JournalType.BALANCE.toString())
           .setChargeId(UUID.randomUUID().toString())
-          .setStatus(Journal.JournalStatus.PENDING.toString())
-          .setOrigineId(random.nextLong());
+          .setStatus(Journal.Status.PENDING.toString())
+          .setOriginId(random.nextLong());
     return result;
   }
 
@@ -69,8 +69,8 @@ public class TestJournal {
           .setAmount(-199)
           .setType(JournalType.BALANCE.toString())
           .setChargeId(UUID.randomUUID().toString())
-          .setStatus(Journal.JournalStatus.PENDING.toString())
-          .setOrigineId(10L);
+          .setStatus(Journal.Status.PENDING.toString())
+          .setOriginId(10L);
     return result;
   }
 

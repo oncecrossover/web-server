@@ -13,7 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.User;
 import com.gibbon.peeq.util.ResourceURIParser;
-import com.gibbon.peeq.util.StripeUtils;
+import com.gibbon.peeq.util.StripeUtil;
 import com.google.common.io.ByteArrayDataOutput;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
@@ -71,7 +71,7 @@ public class UserWebHandler extends AbastractPeeqWebHandler
     Session session = null;
     try {
       /* create Stripe customer */
-      customer = StripeUtils.createCustomerForUser(fromJson.getUid());
+      customer = StripeUtil.createCustomerForUser(fromJson.getUid());
       if (customer == null) {
         appendln(String.format("Creating Customer for user '%s' failed.",
             fromJson.getUid()));
@@ -92,7 +92,7 @@ public class UserWebHandler extends AbastractPeeqWebHandler
     } catch (HibernateException e) {
       txn.rollback();
       try {
-        StripeUtils.deleteCustomer(customer);
+        StripeUtil.deleteCustomer(customer);
       } catch (StripeException se) {
         stashServerError(se, LOG);
       }

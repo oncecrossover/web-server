@@ -23,10 +23,10 @@ import com.stripe.model.DeletedCustomer;
 import com.stripe.model.DeletedExternalAccount;
 import com.stripe.model.Token;
 
-public class TestStripeUtils {
+public class TestStripeUtil {
 
   private static final Logger LOG = LoggerFactory
-      .getLogger(TestStripeUtils.class);
+      .getLogger(TestStripeUtil.class);
 
   static Map<String, Object> defaultTokenParams = new HashMap<String, Object>();
   static Map<String, Object> defaultCardParams = new HashMap<String, Object>();
@@ -79,10 +79,10 @@ public class TestStripeUtils {
   @Test(timeout = 60000)
   public void testGetCustomer() throws StripeException {
     /* create new customer */
-    final Customer customer = StripeUtils
+    final Customer customer = StripeUtil
         .createCustomerForUser("test@example.com");
     /* retrieve customer */
-    final Customer retCustomer = StripeUtils.getCustomer(customer.getId());
+    final Customer retCustomer = StripeUtil.getCustomer(customer.getId());
 
     assertEquals(0, retCustomer.getAccountBalance().intValue());
     assertEquals(null, retCustomer.getDefaultSource());
@@ -93,7 +93,7 @@ public class TestStripeUtils {
   @Test(timeout = 60000)
   public void testCreateCustomerForUser() throws StripeException {
     /* create new customer */
-    final Customer customer = StripeUtils
+    final Customer customer = StripeUtil
         .createCustomerForUser("test@example.com");
 
     assertEquals(0, customer.getAccountBalance().intValue());
@@ -106,7 +106,7 @@ public class TestStripeUtils {
   public void testCreateCustomerByCard() throws StripeException {
     /* create new customer by token */
     final Token token = Token.create(defaultTokenParams);
-    final Customer customer = StripeUtils.createCustomerByCard(token.getId());
+    final Customer customer = StripeUtil.createCustomerByCard(token.getId());
 
     assertEquals(1, customer.getSources().getData().size());
     assertEquals(token.getCard().getId(), customer.getDefaultSource());
@@ -117,11 +117,11 @@ public class TestStripeUtils {
   @Test(timeout = 60000)
   public void testAddCardToCustomer() throws StripeException {
     /* create new customer */
-    Customer customer = StripeUtils.createCustomerForUser("test@example.com");
+    Customer customer = StripeUtil.createCustomerForUser("test@example.com");
 
     /* create new card by token */
     final Token token = Token.create(defaultTokenParams);
-    StripeUtils.addCardToCustomer(customer, token.getId());
+    StripeUtil.addCardToCustomer(customer, token.getId());
 
     /* retrieve updated customer */
     customer = Customer.retrieve(customer.getId());
@@ -134,11 +134,11 @@ public class TestStripeUtils {
   @Test(timeout = 60000)
   public void testDeleteCustomer() throws StripeException {
     /* create new customer */
-    final Customer customer = StripeUtils
+    final Customer customer = StripeUtil
         .createCustomerForUser("test@example.com");
 
     /* delete customer */
-    DeletedCustomer deletedCustomer = StripeUtils.deleteCustomer(customer);
+    DeletedCustomer deletedCustomer = StripeUtil.deleteCustomer(customer);
     assertEquals(customer.getId(), deletedCustomer.getId());
     assertEquals(true, deletedCustomer.getDeleted());
   }
@@ -146,12 +146,12 @@ public class TestStripeUtils {
   @Test(timeout = 60000)
   public void testUpdateDefaultSource() throws StripeException {
     /* create new customer */
-    final Customer customer = StripeUtils
+    final Customer customer = StripeUtil
         .createCustomerForUser("test@example.com");
 
     /* add one card */
     final Token oneToken = Token.create(defaultTokenParams);
-    StripeUtils.addCardToCustomer(customer, oneToken.getId());
+    StripeUtil.addCardToCustomer(customer, oneToken.getId());
     final Customer oneCustomer = Customer.retrieve(customer.getId());
 
     assertEquals(1, oneCustomer.getSources().getData().size());
@@ -161,7 +161,7 @@ public class TestStripeUtils {
 
     /* add another card */
     final Token anotherToken = Token.create(defaultDebitTokenParams);
-    StripeUtils.addCardToCustomer(customer, anotherToken.getId());
+    StripeUtil.addCardToCustomer(customer, anotherToken.getId());
     final Customer anotherCustomer = Customer.retrieve(customer.getId());
 
     assertEquals(2, anotherCustomer.getSources().getData().size());
@@ -171,7 +171,7 @@ public class TestStripeUtils {
         anotherCustomer.getSources().getData().get(0).getId());
 
     /* update default source */
-    StripeUtils.updateDefaultSource(customer, anotherToken.getCard());
+    StripeUtil.updateDefaultSource(customer, anotherToken.getCard());
     final Customer defaultUpdatedCustomer = Customer.retrieve(customer.getId());
     assertEquals(2, defaultUpdatedCustomer.getSources().getData().size());
     assertEquals(anotherToken.getCard().getId(),
@@ -183,11 +183,11 @@ public class TestStripeUtils {
   @Test(timeout = 60000)
   public void testDeleteCard() throws StripeException {
     /* create new customer */
-    Customer customer = StripeUtils.createCustomerForUser("test@example.com");
+    Customer customer = StripeUtil.createCustomerForUser("test@example.com");
 
     /* create new card by token */
     final Token token = Token.create(defaultTokenParams);
-    final Card card = StripeUtils.addCardToCustomer(customer, token.getId());
+    final Card card = StripeUtil.addCardToCustomer(customer, token.getId());
 
     /* retrieve updated customer */
     customer = Customer.retrieve(customer.getId());
@@ -197,7 +197,7 @@ public class TestStripeUtils {
         customer.getSources().getData().get(0).getId());
 
     /* delete card */
-    DeletedCard deletedCard = StripeUtils.deleteCard(card);
+    DeletedCard deletedCard = StripeUtil.deleteCard(card);
     assertEquals(true, deletedCard.getDeleted());
     assertEquals(card.getId(), deletedCard.getId());
 
@@ -210,12 +210,12 @@ public class TestStripeUtils {
   @Test(timeout = 60000)
   public void testDeleteCardById() throws StripeException {
     /* create new customer */
-    final Customer customer = StripeUtils
+    final Customer customer = StripeUtil
         .createCustomerForUser("test@example.com");
 
     /* add one card */
     final Token oneToken = Token.create(defaultTokenParams);
-    final Card oneCard = StripeUtils.addCardToCustomer(customer,
+    final Card oneCard = StripeUtil.addCardToCustomer(customer,
         oneToken.getId());
     final Customer oneCustomer = Customer.retrieve(customer.getId());
 
@@ -226,7 +226,7 @@ public class TestStripeUtils {
 
     /* add another card */
     final Token anotherToken = Token.create(defaultDebitTokenParams);
-    final Card anotherCard = StripeUtils.addCardToCustomer(customer,
+    final Card anotherCard = StripeUtil.addCardToCustomer(customer,
         anotherToken.getId());
     final Customer anotherCustomer = Customer.retrieve(customer.getId());
 
@@ -237,7 +237,7 @@ public class TestStripeUtils {
         anotherCustomer.getSources().getData().get(0).getId());
 
     /* delete one card */
-    final DeletedExternalAccount oneDeletedAccount = StripeUtils
+    final DeletedExternalAccount oneDeletedAccount = StripeUtil
         .deleteCard(oneCustomer, oneCard.getId());
     assertEquals(true, oneDeletedAccount.getDeleted());
     assertEquals(oneCard.getId(), oneDeletedAccount.getId());
@@ -252,7 +252,7 @@ public class TestStripeUtils {
         oneDeletedAccountCustomer.getSources().getData().get(0).getId());
 
     /* delete another card */
-    final DeletedExternalAccount anotherDeletedAccount = StripeUtils
+    final DeletedExternalAccount anotherDeletedAccount = StripeUtil
         .deleteCard(anotherCustomer, anotherCard.getId());
     assertEquals(true, anotherDeletedAccount.getDeleted());
     assertEquals(anotherCard.getId(), anotherDeletedAccount.getId());
@@ -268,14 +268,14 @@ public class TestStripeUtils {
   @Test(timeout = 60000)
   public void testChargeThenDeleteCard() throws StripeException {
     /* create new customer */
-    Customer customer = StripeUtils.createCustomerForUser("test@example.com");
+    Customer customer = StripeUtil.createCustomerForUser("test@example.com");
 
     /* create new card by token */
     final Token token = Token.create(defaultTokenParams);
-    final Card card = StripeUtils.addCardToCustomer(customer, token.getId());
+    final Card card = StripeUtil.addCardToCustomer(customer, token.getId());
 
     Charge charge = null;
-    charge = StripeUtils.chargeCustomer(customer.getId(), 1.5);
+    charge = StripeUtil.chargeCustomer(customer.getId(), 1.5);
     assertEquals(150, charge.getAmount().intValue());
 
     final DeletedCard deletedCard = card.delete();
@@ -286,37 +286,53 @@ public class TestStripeUtils {
   }
 
   @Test(timeout = 60000)
-  public void testChargeCustomer() throws StripeException {
+  public void testChargeCustomerUncaptured() throws StripeException {
     /* create new customer */
-    Customer customer = StripeUtils.createCustomerForUser("test@example.com");
+    Customer customer = StripeUtil.createCustomerForUser("test@example.com");
 
     /* create new card by token */
     final Token token = Token.create(defaultTokenParams);
-    final Card card = StripeUtils.addCardToCustomer(customer, token.getId());
+    final Card card = StripeUtil.addCardToCustomer(customer, token.getId());
 
     Charge charge = null;
-    charge = StripeUtils.chargeCustomer(customer.getId(), 1.5);
+    charge = StripeUtil.chargeCustomerUncaptured(customer.getId(), 1.5);
+    assertEquals(false, charge.getCaptured());
+    assertEquals(false, charge.getRefunded());
+    assertEquals(150, charge.getAmount().intValue());
+  }
+
+  @Test(timeout = 60000)
+  public void testChargeCustomer() throws StripeException {
+    /* create new customer */
+    Customer customer = StripeUtil.createCustomerForUser("test@example.com");
+
+    /* create new card by token */
+    final Token token = Token.create(defaultTokenParams);
+    final Card card = StripeUtil.addCardToCustomer(customer, token.getId());
+
+    Charge charge = null;
+    charge = StripeUtil.chargeCustomer(customer.getId(), 1.5);
     assertEquals(150, charge.getAmount().intValue());
 
-    charge = StripeUtils.chargeCustomer(customer.getId(), 1.52);
+    charge = StripeUtil.chargeCustomer(customer.getId(), 1.52);
     assertEquals(152, charge.getAmount().intValue());
 
-    charge = StripeUtils.chargeCustomer(customer.getId(), 1.55);
+    charge = StripeUtil.chargeCustomer(customer.getId(), 1.55);
     assertEquals(155, charge.getAmount().intValue());
 
-    charge = StripeUtils.chargeCustomer(customer.getId(), 1.57);
+    charge = StripeUtil.chargeCustomer(customer.getId(), 1.57);
     assertEquals(157, charge.getAmount().intValue());
 
-    charge = StripeUtils.chargeCustomer(customer.getId(), 1.501);
+    charge = StripeUtil.chargeCustomer(customer.getId(), 1.501);
     assertEquals(151, charge.getAmount().intValue());
 
-    charge = StripeUtils.chargeCustomer(customer.getId(), 1.504);
+    charge = StripeUtil.chargeCustomer(customer.getId(), 1.504);
     assertEquals(151, charge.getAmount().intValue());
 
-    charge = StripeUtils.chargeCustomer(customer.getId(), 1.505);
+    charge = StripeUtil.chargeCustomer(customer.getId(), 1.505);
     assertEquals(151, charge.getAmount().intValue());
 
-    charge = StripeUtils.chargeCustomer(customer.getId(), 1.507);
+    charge = StripeUtil.chargeCustomer(customer.getId(), 1.507);
     assertEquals(151, charge.getAmount().intValue());
   }
 
@@ -327,58 +343,58 @@ public class TestStripeUtils {
     long charge = 0;
 
     amount = 1.5;
-    round = StripeUtils.ceilingValue(amount);
+    round = StripeUtil.ceilingValue(amount);
     assertEquals(1.5, round, 0);
-    charge = StripeUtils.toCents(round);
+    charge = StripeUtil.toCents(round);
     assertEquals(150, charge);
 
     amount = 1.52;
-    round = StripeUtils.ceilingValue(amount);
+    round = StripeUtil.ceilingValue(amount);
     assertEquals(1.52, round, 0);
-    charge = StripeUtils.toCents(round);
+    charge = StripeUtil.toCents(round);
     assertEquals(152, charge);
 
     amount = 1.55;
-    round = StripeUtils.ceilingValue(amount);
+    round = StripeUtil.ceilingValue(amount);
     assertEquals(1.55, round, 0);
-    charge = StripeUtils.toCents(round);
+    charge = StripeUtil.toCents(round);
     assertEquals(155, charge);
 
     amount = 1.57;
-    round = StripeUtils.ceilingValue(amount);
+    round = StripeUtil.ceilingValue(amount);
     assertEquals(1.57, round, 0);
-    charge = StripeUtils.toCents(round);
+    charge = StripeUtil.toCents(round);
     assertEquals(157, charge);
 
     amount = 1.501;
-    round = StripeUtils.ceilingValue(amount);
+    round = StripeUtil.ceilingValue(amount);
     assertEquals(1.51, round, 0);
-    charge = StripeUtils.toCents(round);
+    charge = StripeUtil.toCents(round);
     assertEquals(151, charge);
 
     amount = 1.504;
-    round = StripeUtils.ceilingValue(amount);
+    round = StripeUtil.ceilingValue(amount);
     assertEquals(1.51, round, 0);
-    charge = StripeUtils.toCents(round);
+    charge = StripeUtil.toCents(round);
     assertEquals(151, charge);
 
     amount = 1.505;
-    round = StripeUtils.ceilingValue(amount);
+    round = StripeUtil.ceilingValue(amount);
     assertEquals(1.51, round, 0);
-    charge = StripeUtils.toCents(round);
+    charge = StripeUtil.toCents(round);
     assertEquals(151, charge);
 
     amount = 1.507;
-    round = StripeUtils.ceilingValue(amount);
+    round = StripeUtil.ceilingValue(amount);
     assertEquals(1.51, round, 0);
-    charge = StripeUtils.toCents(round);
+    charge = StripeUtil.toCents(round);
     assertEquals(151, charge);
   }
 
-  //@Test(timeout = 60000)
+  @Test(timeout = 60000)
   public void testGenerateCustomer() throws StripeException {
     /* create new customer */
-    final Customer customer = StripeUtils
+    final Customer customer = StripeUtil
         .createCustomerForUser("test@example.com");
     System.out.println(customer.toString());
 
@@ -395,9 +411,9 @@ public class TestStripeUtils {
 
   // @Test(timeout = 60000)
   public void testVerifyCustomer() throws StripeException {
-    Customer customer = StripeUtils.getCustomer("cus_8xUE4dwv0HMu9Z");
+    Customer customer = StripeUtil.getCustomer("cus_8xUE4dwv0HMu9Z");
     System.out.println(customer.toString());
-    customer = StripeUtils.getCustomer("cus_8xUGEPr984Lmrc");
+    customer = StripeUtil.getCustomer("cus_8xUGEPr984Lmrc");
     System.out.println(customer.toString());
   }
 }

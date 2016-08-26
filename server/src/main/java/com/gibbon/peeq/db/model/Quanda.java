@@ -3,6 +3,7 @@ package com.gibbon.peeq.db.model;
 import java.io.IOException;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -13,7 +14,7 @@ public class Quanda {
     PENDING, ANSWERED, EXPIRED
   }
 
-  private long id;
+  private Long id;
   private String asker;
   private String question;
   private String responder;
@@ -23,13 +24,13 @@ public class Quanda {
   private String status;
   private Date createdTime;
   private Date updatedTime;
-  private long snoops;
+  private Long snoops;
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public Quanda setId(final long id) {
+  public Quanda setId(final Long id) {
     this.id = id;
     return this;
   }
@@ -115,13 +116,18 @@ public class Quanda {
     return this;
   }
 
-  public long getSnoops() {
+  public Long getSnoops() {
     return snoops;
   }
 
-  public Quanda setSnoops(final long snoops) {
+  public Quanda setSnoops(final Long snoops) {
     this.snoops = snoops;
     return this;
+  }
+
+  @JsonIgnore
+  public double getPayment4Answer() {
+   return rate * 0.9;
   }
 
   @Override

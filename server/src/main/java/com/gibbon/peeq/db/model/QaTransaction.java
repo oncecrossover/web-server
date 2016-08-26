@@ -13,19 +13,19 @@ public class QaTransaction {
     ASKED, SNOOPED
   }
 
-  private long id;
+  private Long id;
   private String uid;
   private String type;
-  private long quandaId;
+  private Long quandaId;
   private Double amount;
   private Date createdTime;
   private Quanda quanda;
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public QaTransaction setId(final long id) {
+  public QaTransaction setId(final Long id) {
     this.id = id;
     return this;
   }
@@ -48,11 +48,11 @@ public class QaTransaction {
     return this;
   }
 
-  public long getQuandaId() {
+  public Long getQuandaId() {
     return quandaId;
   }
 
-  public QaTransaction setQuandaId(final long quandaId) {
+  public QaTransaction setQuandaId(final Long quandaId) {
     this.quandaId = quandaId;
     return this;
   }
@@ -117,14 +117,18 @@ public class QaTransaction {
       return null;
     }
 
-    this.setId(that.getId());
+    if (that.getId() != null) {
+      this.setId(that.getId());
+    }
     if (that.getUid() != null) {
       this.setUid(that.getUid());
     }
     if (that.getType() != null) {
       this.setType(that.getType());
     }
-    this.setQuandaId(that.getQuandaId());
+    if (that.getQuandaId() != null) {
+      this.setQuandaId(that.getQuandaId());
+    }
     if (that.getAmount() != null) {
       this.setAmount(that.getAmount());
     }

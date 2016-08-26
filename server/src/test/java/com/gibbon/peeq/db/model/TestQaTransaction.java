@@ -58,7 +58,7 @@ public class TestQaTransaction {
     assertEquals(originalInstance, newInstance);
   }
 
-  private static QaTransaction newRandomInstance() {
+  public static QaTransaction newRandomInstance() {
     final QaTransaction result = new QaTransaction();
     result.setId(random.nextLong())
           .setUid(UUID.randomUUID().toString())
@@ -68,12 +68,12 @@ public class TestQaTransaction {
     return result;
   }
 
-  private static Object newInstance() {
+  public static Object newInstance() {
     final QaTransaction result = new QaTransaction();
     result.setId(random.nextLong())
           .setUid("edmuand")
           .setType(TransType.ASKED.toString())
-          .setQuandaId(10)
+          .setQuandaId(10L)
           .setAmount(1000);
     return result;
   }
