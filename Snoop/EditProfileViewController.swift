@@ -118,6 +118,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   }
 
   @IBAction func saveButtonTapped(sender: AnyObject) {
+    //First start the activity indicator
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Updating Profile...")
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
     dismissKeyboard()
@@ -139,10 +140,11 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         message = resultString
         dispatch_async(dispatch_get_main_queue()) {
           activityIndicator.hideAnimated(true)
-          self.utility.displayAlertMessage(message, title: "OK", sender: self)
+          self.utility.displayAlertMessage(message, title: "Alert", sender: self)
         }
       }
       else {
+        // We use the delay so users can always see the activity indicator showing profile is being updated
         let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
         dispatch_after(time, dispatch_get_main_queue()) {
           activityIndicator.hideAnimated(true)
@@ -161,27 +163,31 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
 
   func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
     profilePhoto.image = info[UIImagePickerControllerOriginalImage] as? UIImage
-    profilePhoto.backgroundColor = UIColor.clearColor()
     self.dismissViewControllerAnimated(true, completion: nil)
     uploadImage()
   }
 
   func uploadImage() {
+    //Start activity Indicator
+    let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Uploading Your Photo...")
     let photoData = UIImageJPEGRepresentation(profilePhoto.image!, 1)
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     userModule.updateProfilePhoto(uid, imageData: photoData){ resultString in
       var message = ""
-      var title = "Alert"
       if (resultString.isEmpty) {
-        message = "Profile photo updated Successfully!"
-        title = "Success!"
+        //Give it a one second delay for better UI experience
+        let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
+        dispatch_after(time, dispatch_get_main_queue()) {
+          activityIndicator.hideAnimated(true)
+          self.navigationController?.popViewControllerAnimated(true)
+        }
       }
       else {
         message = resultString
-      }
-
-      dispatch_async(dispatch_get_main_queue()) {
-        self.utility.displayAlertMessage(message, title: title, sender: self)
+        dispatch_async(dispatch_get_main_queue()) {
+          activityIndicator.hideAnimated(true)
+          self.utility.displayAlertMessage(message, title: "Alert", sender: self)
+        }
       }
     }
   }
