@@ -31,7 +31,14 @@ class Generics {
         return
       }
 
-      completion("")
+      let httpResponse = response as! NSHTTPURLResponse
+      if (httpResponse.statusCode == 400) {
+        let responseData = String(data: data!, encoding: NSUTF8StringEncoding)!
+        completion(responseData)
+      }
+      else {
+        completion("")
+      }
 
     }
     task.resume()

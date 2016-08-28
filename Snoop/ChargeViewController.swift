@@ -97,41 +97,53 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate {
   }
 
   func submitPaymentForSnoop() {
+    let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Submitting Your Payment...")
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
     let quandaData: [String:AnyObject] = ["id": chargeInfo.quandaId, "asker": chargeInfo.asker,
       "responder": chargeInfo.responder]
     let jsonData: [String:AnyObject] = ["uid": uid!, "type": "SNOOPED", "quanda": quandaData]
     generics.createObject("http://localhost:8080/qatransactions", jsonData: jsonData) { result in
-      var message = "Payment submitted successfully!"
       self.isPaid = true
       if (!result.isEmpty) {
-        message = result
         self.isPaid = false
+        dispatch_async(dispatch_get_main_queue()) {
+          activityIndicator.hideAnimated(true)
+          self.displayPaymentResultMessage(result)
+        }
       }
-
-      dispatch_async(dispatch_get_main_queue()) {
-        self.displayPaymentResultMessage(message)
+      else {
+        let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 2 * Int64(NSEC_PER_SEC))
+        dispatch_after(time, dispatch_get_main_queue()) {
+          activityIndicator.hideAnimated(true)
+          self.navigationController?.popViewControllerAnimated(true)
+        }
       }
     }
   }
 
   func submitPaymentForQuestion() {
+    let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Submitting Your Question...")
     let asker = submittedQuestion.askerId
     let responder = submittedQuestion.responderId
     let question = submittedQuestion.question
     let quandaData = ["question" : question, "responder" : responder, "rate" : submittedQuestion.amount]
     let jsonData:[String: AnyObject] = ["uid": asker, "type" : "ASKED", "quanda" : quandaData]
     generics.createObject("http://127.0.0.1:8080/qatransactions", jsonData: jsonData) { result in
-      var message = "Your question is successfully submitted"
       self.isPaid = true
       if (!result.isEmpty) {
-        message = result
         self.isPaid = false
+        dispatch_async(dispatch_get_main_queue()) {
+          activityIndicator.hideAnimated(true)
+          self.displayPaymentResultMessage(result)
+        }
       }
-      dispatch_async(dispatch_get_main_queue()) {
-        self.displayPaymentResultMessage(message)
+      else {
+        let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 2 * Int64(NSEC_PER_SEC))
+        dispatch_after(time, dispatch_get_main_queue()) {
+          activityIndicator.hideAnimated(true)
+          self.navigationController?.popViewControllerAnimated(true)
+        }
       }
-
     }
   }
 
