@@ -55,11 +55,6 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
   }
 
   @Override
-  protected FullHttpResponse handleCreation() {
-    return onCreate();
-  }
-
-  @Override
   protected FullHttpResponse handleUpdate() {
     return onUpdate();
   }
@@ -306,43 +301,6 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       LOG.warn(super.stackTraceToString(e));
     }
     return null;
-  }
-
-  private FullHttpResponse onCreate() {
-    final Quanda fromJson;
-    try {
-      fromJson = newQuandaFromRequest();
-    } catch (Exception e) {
-      return newServerErrorResponse(e, LOG);
-    }
-
-    final FullHttpResponse resp = verifyQuanda(fromJson);
-    if (resp != null) {
-      return resp;
-    }
-
-    /* set time */
-    final Date now = new Date();
-    fromJson.setCreatedTime(now);
-    fromJson.setUpdatedTime(now);
-
-    Session session = null;
-    Transaction txn = null;
-    try {
-      session = getSession();
-      txn = session.beginTransaction();
-      session.save(fromJson);
-      txn.commit();
-      appendln(toIdJson("id", fromJson.getId()));
-      return newResponse(HttpResponseStatus.CREATED);
-    } catch (Exception e) {
-      txn.rollback();
-      return newServerErrorResponse(e, LOG);
-    }
-  }
-
-  private FullHttpResponse verifyQuanda(final Quanda quanda) {
-    return verifyQuanda(quanda, getRespBuf());
   }
 
   static FullHttpResponse verifyQuanda(final Quanda quanda,

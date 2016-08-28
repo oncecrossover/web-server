@@ -115,56 +115,6 @@ public class TestQuanda {
   }
 
   @Test(timeout = 60000)
-  public void testDeleteQuanda() throws JsonProcessingException {
-    final Quanda quanda = newRandomQuanda();
-    Session session = null;
-    Transaction txn = null;
-    User user = null;
-    User anotherUser = null;
-    Quanda retQuanda = null;
-
-    /* insert user */
-    user = TestUser.insertRandomUser();
-
-    /* insert another user */
-    anotherUser = TestUser.insertRandomUser();
-
-    /* set asker and responder */
-    quanda.setAsker(user.getUid())
-          .setResponder(anotherUser.getUid());
-
-    /* insert quanda */
-    session = HibernateTestUtil.getSessionFactory().getCurrentSession();
-    txn = session.beginTransaction();
-    session.save(quanda);
-    txn.commit();
-
-    /* query quanda */
-    session = HibernateTestUtil.getSessionFactory().getCurrentSession();
-    txn = session.beginTransaction();
-    retQuanda = (Quanda) session.get(Quanda.class, quanda.getId());
-    txn.commit();
-
-    /* verify */
-    assertTrue(quanda.equals(retQuanda));
-
-    /* delete quanda */
-    session = HibernateTestUtil.getSessionFactory().getCurrentSession();
-    txn = session.beginTransaction();
-    session.delete(quanda);
-    txn.commit();
-
-    /* query... */
-    session = HibernateTestUtil.getSessionFactory().getCurrentSession();
-    txn = session.beginTransaction();
-    retQuanda = (Quanda) session.get(Quanda.class, quanda.getId());
-    txn.commit();
-
-    /* verify */
-    assertEquals(null, retQuanda);
-  }
-
-  @Test(timeout = 60000)
   public void testUpdateQuanda() throws JsonProcessingException {
     final Quanda quanda = newRandomQuanda();
     Session session = null;
