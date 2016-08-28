@@ -96,7 +96,7 @@ RESTFUL APIs OF QUANDAS:
 curl -i -X GET "http://127.0.0.1:8080/quandas/1"
 
 2. update quanda by id, e.g.
-curl -i -X PUT "http://127.0.0.1:8080/quandas/1" -d '{"status":"ANSWERED"}'
+curl -i -X PUT "http://127.0.0.1:8080/quandas/1" -d '{"answerAudio":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","status":"ANSWERED"}'
 
 
 RESTFUL APIs OF QUANDAS FILTERING:
