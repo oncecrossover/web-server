@@ -30,8 +30,7 @@ class Question {
     answerAudio: NSData!, completion: (String) -> ()) {
       let myUrl = NSURL(string: QUESTIONURI + "/" + "\(id)")
       let audioString = answerAudio?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
-      let jsonData: [String: AnyObject] = ["asker": askerId, "question" : content, "responder":responderId,
-                  "answerAudio": audioString!, "status" : "ANSWERED"]
+      let jsonData: [String: AnyObject] = ["answerAudio": audioString!, "status" : "ANSWERED"]
       generics.updateObject(myUrl!, jsonData: jsonData) { result in
         completion(result)
       }
