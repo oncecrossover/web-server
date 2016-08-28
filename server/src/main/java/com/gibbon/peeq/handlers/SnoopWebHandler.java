@@ -45,12 +45,6 @@ public class SnoopWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  @Override
-  protected FullHttpResponse handleCreation() {
-    return onCreate();
-  }
-
-
   private FullHttpResponse onGet() {
     /* get id */
     final String id = getUriParser().getPathStream().nextToken();
@@ -85,44 +79,5 @@ public class SnoopWebHandler extends AbastractPeeqWebHandler
       appendln(String.format("Nonexistent resource with URI: /snoops/%s", id));
       return newResponse(HttpResponseStatus.NOT_FOUND);
     }
-  }
-
-  private FullHttpResponse onCreate() {
-    final Snoop fromJson;
-    try {
-      fromJson = newSnoopFromRequest();
-      if (fromJson == null) {
-        appendln("No snoop or incorrect format specified.");
-        return newResponse(HttpResponseStatus.BAD_REQUEST);
-      }
-    } catch (Exception e) {
-      return newServerErrorResponse(e, LOG);
-    }
-
-    /* set time */
-    final Date now = new Date();
-    fromJson.setCreatedTime(now);
-
-    Transaction txn = null;
-    try {
-      txn = getSession().beginTransaction();
-      getSession().save(fromJson);
-      txn.commit();
-      appendln(toIdJson("id", fromJson.getId()));
-      return newResponse(HttpResponseStatus.CREATED);
-    } catch (Exception e) {
-      txn.rollback();
-      return newServerErrorResponse(e, LOG);
-    }
-  }
-
-  private Snoop newSnoopFromRequest()
-      throws JsonParseException, JsonMappingException, IOException {
-    final ByteBuf content = getRequest().content();
-    if (content.isReadable()) {
-      final byte[] json = ByteBufUtil.getBytes(content);
-      return Snoop.newSnoop(json);
-    }
-    return null;
   }
 }
