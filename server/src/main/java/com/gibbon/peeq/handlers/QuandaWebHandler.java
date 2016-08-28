@@ -251,6 +251,11 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
     /* set to ANSWERED */
     fromDB.setStatus(fromJson.getStatus());
 
+    /* free quanda */
+    if (fromDB.getRate() <= 0) {
+      return;
+    }
+
     /* query qaTransaction */
     final QaTransaction qaTransaction = QaTransactionUtil.getQaTransaction(
         session,
