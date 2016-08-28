@@ -169,7 +169,7 @@ curl -i -X POST "http://127.0.0.1:8080/temppwds" -d '{"uid":"edmund@gmail.com"}'
 
 RESTFUL APIs OF RESETING PASSWORD:
 1. reset password for a user, e.g.
-curl -i -X PUT "http://127.0.0.1:8080/resetpwd/edmund@gmail.com" -d '{"tempPwd":"1*j@Tz", "newPwd":"yyyy"}'
+curl -i -X POST "http://127.0.0.1:8080/resetpwd/edmund@gmail.com" -d '{"tempPwd":"1*j@Tz", "newPwd":"yyyy"}'
 
 
 

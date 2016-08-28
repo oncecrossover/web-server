@@ -1,7 +1,6 @@
 package com.gibbon.peeq.handlers;
 
 import java.io.IOException;
-import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.HibernateException;
@@ -16,7 +15,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.Journal;
 import com.gibbon.peeq.db.model.QaTransaction;
 import com.gibbon.peeq.db.model.Quanda;
-import com.gibbon.peeq.db.util.HibernateTestUtil;
 import com.gibbon.peeq.db.util.JournalUtil;
 import com.gibbon.peeq.db.util.QaTransactionUtil;
 import com.gibbon.peeq.exceptions.SnoopException;

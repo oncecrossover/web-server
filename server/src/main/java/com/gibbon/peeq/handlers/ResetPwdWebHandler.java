@@ -35,11 +35,11 @@ public class ResetPwdWebHandler extends AbastractPeeqWebHandler
   }
 
   @Override
-  protected FullHttpResponse handleUpdate() {
-    return onUpdate();
+  protected FullHttpResponse handleCreation() {
+    return onCreate();
   }
 
-  private FullHttpResponse onUpdate() {
+  private FullHttpResponse onCreate() {
     /* get user id */
     final String uid = getUriParser().getPathStream().nextToken();
 
@@ -106,7 +106,8 @@ public class ResetPwdWebHandler extends AbastractPeeqWebHandler
       /* update */
       session.update(fromDB);
       txn.commit();
-      return newResponse(HttpResponseStatus.NO_CONTENT);
+      appendln(toIdJson("uid", fromJson.getUid()));
+      return newResponse(HttpResponseStatus.CREATED);
     } catch (Exception e) {
       txn.rollback();
       return newServerErrorResponse(e, LOG);
