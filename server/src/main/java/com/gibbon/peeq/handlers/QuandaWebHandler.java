@@ -20,6 +20,7 @@ import com.gibbon.peeq.db.util.QaTransactionUtil;
 import com.gibbon.peeq.exceptions.SnoopException;
 import com.gibbon.peeq.util.ObjectStoreClient;
 import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.util.StripeUtil;
 import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.buffer.ByteBuf;
@@ -222,13 +223,16 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       session = getSession();
       txn = session.beginTransaction();
 
-      /* updating status and finalize charge */
-      answerQuestion(session, fromJson, fromDB);
+      /* process journals and capture charge */
+      processJournals4Answer(session, fromJson, fromDB);
 
       /* save audio */
       saveAudioToObjectStore(fromJson, fromDB);
 
-      session.update(fromDB);
+      /* answer */
+      answerQuanda(session, fromDB);
+
+      /* commit all transactions */
       txn.commit();
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {
@@ -236,6 +240,17 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       /* TODO: delete answer audio from object store */
       return newServerErrorResponse(e, LOG);
     }
+  }
+
+  private void answerQuanda(
+      final Session session,
+      final Quanda quanda) {
+    if (!Quanda.QnaStatus.PENDING.toString().equals(quanda.getStatus())) {
+      return;
+    }
+    /* update status */
+    quanda.setStatus(Quanda.QnaStatus.ANSWERED.toString());
+    session.update(quanda);
   }
 
   /**
@@ -255,7 +270,7 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
    * </p>
    * @throws Exception
    */
-  private void answerQuestion(
+  private void processJournals4Answer(
       final Session session,
       final Quanda fromJson,
       final Quanda fromDB) throws Exception {
@@ -264,9 +279,6 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
         !Quanda.QnaStatus.PENDING.toString().equals(fromDB.getStatus())) {
       return;
     }
-
-    /* set to ANSWERED */
-    fromDB.setStatus(fromJson.getStatus());
 
     /* free quanda */
     if (fromDB.getRate() <= 0) {
@@ -297,6 +309,12 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
           session,
           clearanceJournal,
           fromDB);
+
+      /* capture charge */
+      if (Journal.JournalType.CARD.toString()
+          .equals(pendingJournal.getType())) {
+        StripeUtil.captureCharge(pendingJournal.getChargeId());
+      }
     }
   }
 

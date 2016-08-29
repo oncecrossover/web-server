@@ -138,7 +138,7 @@ public class ExpireQuandaWebHandler extends AbastractPeeqWebHandler
         session = getSession();
         txn = session.beginTransaction();
 
-        /* process journals */
+        /* process journals and refund charge */
         processJournals4Expire(session, quanda);
 
         /* expire */
@@ -171,11 +171,20 @@ public class ExpireQuandaWebHandler extends AbastractPeeqWebHandler
   private void expireQuanda(
       final Session session,
       final Quanda quanda) {
+    if (!Quanda.QnaStatus.PENDING.toString().equals(quanda.getStatus())) {
+      return;
+    }
+
+    /* set status */
     quanda.setStatus(Quanda.QnaStatus.EXPIRED.toString());
+
+    /* query DB copy to avoid updating columns to NULL if the fields are null */
     final Quanda retInstance = (Quanda) session.get(
         Quanda.class,
         quanda.getId());
     retInstance.setStatus(quanda.getStatus());
+
+    /* update status */
     session.update(retInstance);
   }
 

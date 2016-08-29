@@ -1,6 +1,6 @@
 package com.gibbon.peeq.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -275,8 +275,7 @@ public class TestStripeUtil {
     final Token token = Token.create(defaultTokenParams);
     final Card card = StripeUtil.addCardToCustomer(customer, token.getId());
 
-    Charge charge = null;
-    charge = StripeUtil.chargeCustomer(customer.getId(), 1.5);
+    final Charge charge = StripeUtil.chargeCustomer(customer.getId(), 1.5);
     assertEquals(150, charge.getAmount().intValue());
 
     final DeletedCard deletedCard = card.delete();
@@ -293,10 +292,11 @@ public class TestStripeUtil {
 
     /* create new card by token */
     final Token token = Token.create(defaultTokenParams);
-    final Card card = StripeUtil.addCardToCustomer(customer, token.getId());
+    StripeUtil.addCardToCustomer(customer, token.getId());
 
-    Charge charge = null;
-    charge = StripeUtil.chargeCustomerUncaptured(customer.getId(), 1.5);
+    final Charge charge = StripeUtil.chargeCustomerUncaptured(
+        customer.getId(),
+        1.5);
     assertEquals(false, charge.getCaptured());
     assertEquals(false, charge.getRefunded());
     assertEquals(150, charge.getAmount().intValue());
@@ -309,10 +309,11 @@ public class TestStripeUtil {
 
     /* create new card by token */
     final Token token = Token.create(defaultTokenParams);
-    final Card card = StripeUtil.addCardToCustomer(customer, token.getId());
+    StripeUtil.addCardToCustomer(customer, token.getId());
 
-    Charge charge = null;
-    charge = StripeUtil.chargeCustomerUncaptured(customer.getId(), 1.5);
+    final Charge charge = StripeUtil.chargeCustomerUncaptured(
+        customer.getId(),
+        1.5);
     assertEquals(false, charge.getCaptured());
     assertEquals(false, charge.getRefunded());
     assertEquals(150, charge.getAmount().intValue());
@@ -321,6 +322,29 @@ public class TestStripeUtil {
     assertEquals(refund.getAmount(), charge.getAmount());
     assertEquals(refund.getCharge(), charge.getId());
     assertEquals(refund.getStatus(), "succeeded");
+  }
+
+  @Test(timeout = 60000)
+  public void testCaptureCharge() throws StripeException {
+    /* create new customer */
+    Customer customer = StripeUtil.createCustomerForUser("test@example.com");
+
+    /* create new card by token */
+    final Token token = Token.create(defaultTokenParams);
+    final Card card = StripeUtil.addCardToCustomer(customer, token.getId());
+
+    final Charge charge = StripeUtil.chargeCustomerUncaptured(
+        customer.getId(),
+        1.5);
+    assertEquals(false, charge.getCaptured());
+    assertEquals(false, charge.getRefunded());
+    assertEquals(150, charge.getAmount().intValue());
+
+    final Charge capturedCharge = StripeUtil.captureCharge(charge.getId());
+    assertTrue(capturedCharge.getCaptured());
+    assertEquals(capturedCharge.getSource().getId(), card.getId());
+    assertEquals(capturedCharge.getAmount(), charge.getAmount());
+    assertEquals(capturedCharge.getStatus(), "succeeded");
   }
 
   @Test(timeout = 60000)

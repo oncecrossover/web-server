@@ -104,4 +104,9 @@ public class StripeUtil {
 
     return Refund.create(refundParams);
   }
+
+  public static Charge captureCharge(final String chargeId)
+      throws StripeException {
+    return Charge.retrieve(chargeId).capture();
+  }
 }
