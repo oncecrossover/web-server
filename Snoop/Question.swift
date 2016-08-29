@@ -56,12 +56,10 @@ class Question {
     }
   }
 
-  func getQuestionById(id: Int, completion: (String, String) -> ()){
+  func getQuestionById(id: Int, completion: (NSDictionary) -> ()){
     let myUrl = NSURL(string: QUESTIONURI + "/" + "\(id)")
     generics.getObjectById(myUrl!) { convertedJsonIntoDict in
-      let responderId = convertedJsonIntoDict["responder"] as! String
-      let question = convertedJsonIntoDict["question"] as! String
-      completion(responderId, question)
+      completion(convertedJsonIntoDict)
     }
   }
 

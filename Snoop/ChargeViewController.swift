@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChargeViewController: UIViewController, UINavigationControllerDelegate {
+class ChargeViewController: UIViewController, UINavigationControllerDelegate, ModalViewControllerDelegate {
 
   @IBOutlet weak var chargeLabel: UILabel!
   @IBOutlet weak var balanceLabel: UILabel!
@@ -112,10 +112,10 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate {
         }
       }
       else {
-        let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 2 * Int64(NSEC_PER_SEC))
+        let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
         dispatch_after(time, dispatch_get_main_queue()) {
           activityIndicator.hideAnimated(true)
-          self.navigationController?.popViewControllerAnimated(true)
+          self.performSegueWithIdentifier("paymentToConfirmation", sender: self)
         }
       }
     }
@@ -138,12 +138,19 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate {
         }
       }
       else {
-        let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 2 * Int64(NSEC_PER_SEC))
+        let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
         dispatch_after(time, dispatch_get_main_queue()) {
           activityIndicator.hideAnimated(true)
-          self.navigationController?.popViewControllerAnimated(true)
+          self.performSegueWithIdentifier("paymentToConfirmation", sender: self)
         }
       }
+    }
+  }
+
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    if (segue.identifier == "paymentToConfirmation") {
+      let dvc = segue.destinationViewController as! ConfirmationViewController
+      dvc.delegate = self
     }
   }
 
@@ -155,8 +162,8 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate {
     }
     else if let controller = viewController as? AskViewController {
       if (isPaid) {
-        controller.askButton.hidden = true
-        controller.questionView.editable = false
+        controller.questionView.text = controller.placeholder
+        controller.questionView.textColor = UIColor.lightGrayColor()
       }
     }
   }
@@ -168,5 +175,10 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate {
     else {
       self.utility.displayAlertMessage(message, title: "ALERT", sender: self)
     }
+  }
+
+  func modalViewControllerDismissed() {
+    self.dismissViewControllerAnimated(false, completion: nil)
+    self.navigationController?.popViewControllerAnimated(true)
   }
 }

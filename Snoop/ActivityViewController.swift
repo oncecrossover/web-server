@@ -183,10 +183,16 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       }
       for snoop in jsonArray as! [[String:AnyObject]] {
         let questionId = snoop["quandaId"] as! Int
-        self.questionModule.getQuestionById(questionId) { responderId, question in
+        self.questionModule.getQuestionById(questionId) { convertedDict in
+          let responderId = convertedDict["responder"] as! String
+          let question = convertedDict["question"] as! String
+          var rate = 0.0
+          if (convertedDict["rate"] != nil) {
+            rate = convertedDict["rate"] as! Double
+          }
           self.userModule.getProfile(responderId) {name, title, _, avatarImage, _ in
             self.snoops.append((id: questionId, question: question, status: "ANSWERED", responderImage: avatarImage,
-              responderName: name, responderTitle: title, isPlaying: false, rate: 0.0))
+              responderName: name, responderTitle: title, isPlaying: false, rate: rate))
             count--
             if (count == 0) {
               dispatch_async(dispatch_get_main_queue()) {
@@ -434,8 +440,5 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
     self.activityTableView.reloadData()
-
   }
-
-
 }

@@ -9,6 +9,53 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
+        <!--Confirmation View Controller-->
+        <scene sceneID="ch7-1G-aSm">
+            <objects>
+                <viewController id="4cn-IL-B2t" customClass="ConfirmationViewController" customModule="Snoop" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ych-Cr-iVH"/>
+                        <viewControllerLayoutGuide type="bottom" id="tdi-sJ-jvd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Hfh-eK-e96">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thanks For Your Payment!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjg-32-mMy">
+                                <rect key="frame" x="16" y="65" width="288" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="j5f-8y-kD3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.21227260449999999" green="0.72222222219999999" blue="0.098522010379999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ke5-7a-pZs">
+                                <rect key="frame" x="20" y="269" width="280" height="30"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="OK"/>
+                                <connections>
+                                    <action selector="okButtonTapped:" destination="4cn-IL-B2t" eventType="touchUpInside" id="6dX-CN-8l2"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="cjg-32-mMy" secondAttribute="trailing" id="3Ry-75-0jT"/>
+                            <constraint firstItem="Ke5-7a-pZs" firstAttribute="leading" secondItem="Hfh-eK-e96" secondAttribute="leadingMargin" constant="4" id="G0x-Uf-nbV"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="cjg-32-mMy" secondAttribute="leading" id="Kla-mr-FzN"/>
+                            <constraint firstItem="Ke5-7a-pZs" firstAttribute="centerY" secondItem="Hfh-eK-e96" secondAttribute="centerY" id="cwh-k8-5Ex"/>
+                            <constraint firstItem="Ke5-7a-pZs" firstAttribute="centerX" secondItem="cjg-32-mMy" secondAttribute="centerX" id="gSg-K4-Qj1"/>
+                            <constraint firstItem="cjg-32-mMy" firstAttribute="top" secondItem="ych-Cr-iVH" secondAttribute="bottom" constant="45" id="iz8-xq-2af"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iAk-dR-WeP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1017" y="-283"/>
+        </scene>
         <!--Charge View Controller-->
         <scene sceneID="b01-t3-fBF">
             <objects>
@@ -174,6 +221,7 @@
                         <outlet property="balanceLabel" destination="GG5-GQ-ON6" id="kOy-0W-RMt"/>
                         <outlet property="chargeLabel" destination="1gS-Xd-FVx" id="Ugh-Qx-3Ml"/>
                         <outlet property="payButton" destination="2Vg-OY-1Rs" id="Eff-ZA-fN5"/>
+                        <segue destination="4cn-IL-B2t" kind="presentation" identifier="paymentToConfirmation" id="6my-As-dUe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CqK-iL-6v3" userLabel="First Responder" sceneMemberID="firstResponder"/>
