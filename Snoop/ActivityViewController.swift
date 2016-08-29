@@ -43,7 +43,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   override func viewDidAppear(animated: Bool) {
     super.viewDidAppear(animated)
-    displayData()
+    loadData()
   }
 
   override func viewWillDisappear(animated: Bool) {
@@ -69,39 +69,12 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   @IBAction func segmentedControlClicked(sender: AnyObject) {
     stopPlayer()
-    displayData()
+    loadData()
   }
 
   func refresh(sender: AnyObject) {
     loadData()
     refreshControl.endRefreshing()
-  }
-
-  func displayData() {
-    if (segmentedControl.selectedSegmentIndex == 0) {
-      if (questions.count == 0) {
-        loadData()
-      }
-      else {
-        activityTableView.reloadData()
-      }
-    }
-    else if (segmentedControl.selectedSegmentIndex == 1) {
-      if (answers.count == 0) {
-        loadData()
-      }
-      else {
-        activityTableView.reloadData()
-      }
-    }
-    else {
-      if (snoops.count == 0) {
-        loadData()
-      }
-      else {
-        activityTableView.reloadData()
-      }
-    }
   }
 
   func loadData() {
