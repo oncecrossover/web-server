@@ -3,6 +3,7 @@ package com.gibbon.peeq.db.model;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
@@ -38,7 +39,9 @@ public class TestQuanda {
           .setResponder("edmund")
           .setAnswerAudio("This is answer audio.".getBytes())
           .setStatus(Quanda.QnaStatus.ANSWERED.toString())
-          .setRate(random.nextDouble());
+          .setRate(random.nextDouble())
+          .setCreatedTime(new Date())
+          .setUpdatedTime(new Date());
     return quanda;
   }
 
@@ -50,7 +53,9 @@ public class TestQuanda {
           .setResponder(UUID.randomUUID().toString())
           .setAnswerAudio("This is random answer audio.".getBytes())
           .setStatus(Quanda.QnaStatus.PENDING.toString())
-          .setRate(random.nextDouble());
+          .setRate(random.nextDouble())
+          .setCreatedTime(new Date())
+          .setUpdatedTime(new Date());
     return quanda;
   }
 

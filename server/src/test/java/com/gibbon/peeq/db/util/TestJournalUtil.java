@@ -249,14 +249,61 @@ public class TestJournalUtil {
     assertEquals(retInstance, responderJournal);
   }
 
+  @Test(timeout = 60000)
+  public void testInsertRefundJournal() throws Exception {
+    Session session = null;
+    Transaction txn = null;
+    final Journal retInstance;
+
+    /* insert QaTransaction */
+    final QaTransaction qaTransaction = TestQaTransaction
+        .insertRandomQaTransanction();
+
+    /* new pending journal */
+    final Journal pendingJournal = newPendingJournal(qaTransaction);
+
+    /* insert pending journal */
+    session = HibernateTestUtil.getSessionFactory().getCurrentSession();
+    txn = session.beginTransaction();
+    session.save(pendingJournal);
+    txn.commit();
+
+    /* insert clearance journal */
+    session = HibernateTestUtil.getSessionFactory().getCurrentSession();
+    final Journal clearanceJournal = JournalUtil.insertClearanceJournal(
+        session,
+        pendingJournal,
+        true);
+
+    /* insert refund journal */
+    final Quanda quanda = TestQuanda.insertRandomQuanda();
+    session = HibernateTestUtil.getSessionFactory().getCurrentSession();
+    final Journal refundJournal = JournalUtil.insertRefundJournal(
+        session,
+        clearanceJournal,
+        quanda,
+        true);
+
+    /* verify refund journal */
+    session = HibernateTestUtil.getSessionFactory().getCurrentSession();
+    txn = session.beginTransaction();
+    retInstance = (Journal) session.get(
+        Journal.class,
+        refundJournal.getId());
+    txn.commit();
+
+    assertEquals(retInstance, refundJournal);
+  }
+
   private Journal newPendingJournal(final QaTransaction qaTransaction) {
     final Journal result = new Journal();
     result.setTransactionId(qaTransaction.getId())
            .setUid(qaTransaction.getUid())
            .setAmount(-1 * qaTransaction.getAmount())
-           .setType(JournalType.CARD.toString())
-           .setChargeId(UUID.randomUUID().toString())
-           .setStatus(Journal.Status.PENDING.value());
+           .setType(JournalType.BALANCE.toString())
+           .setChargeId(null)
+           .setStatus(Journal.Status.PENDING.value())
+           .setOriginId(null);
     return result;
   }
 }

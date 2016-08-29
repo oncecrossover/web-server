@@ -1,8 +1,16 @@
 package com.gibbon.peeq.db.util;
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.DoubleType;
+import org.hibernate.type.LongType;
+import org.hibernate.type.StringType;
+import org.hibernate.type.TimestampType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,5 +63,55 @@ public class QuandaUtil {
     }
 
     return retInstance;
+  }
+
+  public static List<Quanda> getExpiredQuandas()  throws Exception {
+    final Session session = HibernateUtil.getSessionFactory()
+        .getCurrentSession();
+    return getExpiredQuandas(session, true);
+  }
+
+  public static List<Quanda> getExpiredQuandas(
+      final Session session)  throws Exception {
+    return getExpiredQuandas(session, false);
+  }
+
+  public static List<Quanda> getExpiredQuandas(
+      final Session session,
+      final boolean newTransaction)  throws Exception {
+    final String sql = "SELECT id, asker, responder, rate, status,"
+        + " createdTime FROM Quanda WHERE status = 'PENDING' AND"
+        + " TIMESTAMPADD(SQL_TSI_HOUR, 48, createdTime) < CURRENT_TIMESTAMP;";
+    Transaction txn = null;
+    List<Quanda> list = null;
+    try {
+      if (newTransaction) {
+        txn = session.beginTransaction();
+      }
+
+      /* build query */
+      final SQLQuery query = session.createSQLQuery(sql);
+      query.setResultTransformer(Transformers.aliasToBean(Quanda.class));
+      /* add column mapping */
+      query.addScalar("id", new LongType())
+           .addScalar("asker", new StringType())
+           .addScalar("responder", new StringType())
+           .addScalar("rate", new DoubleType())
+           .addScalar("status", new StringType())
+           .addScalar("createdTime", new TimestampType());
+      list = query.list();
+
+      if (txn != null) {
+        txn.commit();
+      }
+    } catch (HibernateException e) {
+      if (txn != null) {
+        txn.rollback();
+      }
+      throw e;
+    } catch (Exception e) {
+      throw e;
+    }
+    return list;
   }
 }

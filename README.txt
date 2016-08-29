@@ -172,6 +172,11 @@ RESTFUL APIs OF RESETING PASSWORD:
 curl -i -X POST "http://127.0.0.1:8080/resetpwd/edmund@gmail.com" -d '{"tempPwd":"1*j@Tz", "newPwd":"yyyy"}'
 
 
+RESTFUL APIs OF EXPIRING QUANDAs:
+1. to expire quandas, e.g.
+curl -i -X POST "http://127.0.0.1:8080/quandas/expire"
+
+
 
 HTTP STATUS CODE OF REST API:
 1. get user (i.e. HTTP GET):

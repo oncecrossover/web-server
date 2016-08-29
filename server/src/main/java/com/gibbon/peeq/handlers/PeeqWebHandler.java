@@ -1,10 +1,12 @@
 package com.gibbon.peeq.handlers;
 
+import org.apache.commons.lang3.text.StrBuilder;
 import org.hibernate.Session;
 
 import com.gibbon.peeq.db.util.HibernateUtil;
 import com.gibbon.peeq.util.FilterParamParser;
 import com.gibbon.peeq.util.ResourceURIParser;
+import com.google.common.base.Joiner;
 import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.buffer.Unpooled;
@@ -26,6 +28,7 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.List;
 
 import org.slf4j.Logger;
 
@@ -216,5 +219,19 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
 
   boolean isEqual(Object a, Object b) {
     return a == null ? b == null : a.equals(b);
+  }
+
+  <T> String listToJsonString(final List<T> list) {
+    /* build json */
+    final StrBuilder sb = new StrBuilder();
+    sb.append("[");
+    if (list != null) {
+      sb.append(Joiner.on(
+          System.getProperty("line.separator"))
+          .skipNulls()
+          .join(list));
+    }
+    sb.append("]");
+    return sb.toString();
   }
 }

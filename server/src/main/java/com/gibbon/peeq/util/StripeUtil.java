@@ -11,6 +11,7 @@ import com.stripe.model.Customer;
 import com.stripe.model.DeletedCard;
 import com.stripe.model.DeletedCustomer;
 import com.stripe.model.DeletedExternalAccount;
+import com.stripe.model.Refund;
 
 public class StripeUtil {
   static {
@@ -94,5 +95,13 @@ public class StripeUtil {
 
   static long toCents(final double amount) {
     return (long)(ceilingValue(amount)*100);
+  }
+
+  public static Refund refundCharge(final String chargeId)
+      throws StripeException {
+    final Map<String, Object> refundParams = new HashMap<String, Object>();
+    refundParams.put("charge", chargeId);
+
+    return Refund.create(refundParams);
   }
 }

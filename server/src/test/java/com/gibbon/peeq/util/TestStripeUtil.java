@@ -21,6 +21,7 @@ import com.stripe.model.Customer;
 import com.stripe.model.DeletedCard;
 import com.stripe.model.DeletedCustomer;
 import com.stripe.model.DeletedExternalAccount;
+import com.stripe.model.Refund;
 import com.stripe.model.Token;
 
 public class TestStripeUtil {
@@ -302,6 +303,27 @@ public class TestStripeUtil {
   }
 
   @Test(timeout = 60000)
+  public void testRefundCharge() throws StripeException {
+    /* create new customer */
+    Customer customer = StripeUtil.createCustomerForUser("test@example.com");
+
+    /* create new card by token */
+    final Token token = Token.create(defaultTokenParams);
+    final Card card = StripeUtil.addCardToCustomer(customer, token.getId());
+
+    Charge charge = null;
+    charge = StripeUtil.chargeCustomerUncaptured(customer.getId(), 1.5);
+    assertEquals(false, charge.getCaptured());
+    assertEquals(false, charge.getRefunded());
+    assertEquals(150, charge.getAmount().intValue());
+
+    final Refund refund = StripeUtil.refundCharge(charge.getId());
+    assertEquals(refund.getAmount(), charge.getAmount());
+    assertEquals(refund.getCharge(), charge.getId());
+    assertEquals(refund.getStatus(), "succeeded");
+  }
+
+  @Test(timeout = 60000)
   public void testChargeCustomer() throws StripeException {
     /* create new customer */
     Customer customer = StripeUtil.createCustomerForUser("test@example.com");
@@ -391,7 +413,6 @@ public class TestStripeUtil {
     assertEquals(151, charge);
   }
 
-  @Test(timeout = 60000)
   public void testGenerateCustomer() throws StripeException {
     /* create new customer */
     final Customer customer = StripeUtil

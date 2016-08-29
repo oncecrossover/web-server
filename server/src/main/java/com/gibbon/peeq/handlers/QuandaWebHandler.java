@@ -53,6 +53,25 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
   }
 
   @Override
+  protected FullHttpResponse handleCreation() {
+    /* get controller, expecting expire */
+    final String controller = getUriParser().getPathStream().nextToken();
+
+    /* no id */
+    if (!"expire".equals(controller)) {
+      appendln("Unsupported controller resources: " + controller);
+      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    }
+
+    PeeqWebHandler pwh = new ExpireQuandaWebHandler(
+        getUriParser(),
+        getRespBuf(),
+        getHandlerContext(),
+        getRequest());
+    return pwh.handle();
+  }
+
+  @Override
   protected FullHttpResponse handleUpdate() {
     return onUpdate();
   }
@@ -214,7 +233,7 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {
       txn.rollback();
-      /* delete answer audio from object store */
+      /* TODO: delete answer audio from object store */
       return newServerErrorResponse(e, LOG);
     }
   }
@@ -241,8 +260,8 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       final Quanda fromJson,
       final Quanda fromDB) throws Exception {
     /* only update PENDING to ANSWERED */
-    if (!fromJson.getStatus().equals(Quanda.QnaStatus.ANSWERED.toString()) ||
-        !fromDB.getStatus().equals(Quanda.QnaStatus.PENDING.toString())) {
+    if (!Quanda.QnaStatus.ANSWERED.toString().equals(fromJson.getStatus()) ||
+        !Quanda.QnaStatus.PENDING.toString().equals(fromDB.getStatus())) {
       return;
     }
 
@@ -262,24 +281,22 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
         fromDB.getId());
 
     /* query pending journal */
-    final Journal journal = JournalUtil.getPendingJournal(
+    final Journal pendingJournal = JournalUtil.getPendingJournal(
         session,
         qaTransaction);
 
     /* insert journals for clearance and responder */
-    if (!JournalUtil.pendingJournalCleared(session, journal)) {
+    if (!JournalUtil.pendingJournalCleared(session, pendingJournal)) {
       /* insert clearance journal */
       final Journal clearanceJournal = JournalUtil.insertClearanceJournal(
           session,
-          journal,
-          false);
+          pendingJournal);
 
       /* insert responder journal */
       JournalUtil.insertResponderJournal(
           session,
           clearanceJournal,
-          fromDB,
-          false);
+          fromDB);
     }
   }
 

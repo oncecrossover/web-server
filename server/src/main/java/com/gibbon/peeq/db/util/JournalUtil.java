@@ -158,7 +158,7 @@ public class JournalUtil {
     if (list == null || list.size() == 0) {
       throw new SnoopException(
           String.format(
-              "Nonexistent journal (transactionId:%d, uid:%s, amount:%s, status:PENDING', originId:NULL)",
+              "Nonexistent journal (transactionId:%d, uid:%s, amount:%s, status:PENDING, originId:NULL)",
               qaTransaction.getId(),
               qaTransaction.getUid(),
               Double.toString(-1 * qaTransaction.getAmount())));
@@ -167,7 +167,7 @@ public class JournalUtil {
     if (list.size() != 1) {
       throw new SnoopException(
           String.format(
-              "Inconsistent journal (transactionId:%d, uid:%s, amount:%s, status:PENDING', originId:NULL)",
+              "Inconsistent journal (transactionId:%d, uid:%s, amount:%s, status:PENDING, originId:NULL)",
               qaTransaction.getId(),
               qaTransaction.getUid(),
               Double.toString(-1 * qaTransaction.getAmount())));
@@ -178,24 +178,35 @@ public class JournalUtil {
 
   public static boolean pendingJournalCleared(
       final Session session,
-      final Journal journal) throws Exception {
-    return pendingJournalCleared(session, journal, false);
+      final Journal pendingJournal) throws Exception {
+    return pendingJournalCleared(session, pendingJournal, false);
   }
 
   public static boolean pendingJournalCleared(
       final Session session,
-      final Journal journal,
+      final Journal pendingJournal,
       final boolean newTransaction) throws Exception {
+
+    /* build chargeId sub clause */
+    String chargeIdSubClause = null;
+    if (pendingJournal.getChargeId() == null) {
+      chargeIdSubClause = "chargeId IS NULL";
+    } else {
+      chargeIdSubClause = String.format(
+          "chargeId = '%s'",
+          pendingJournal.getChargeId());
+    }
+
     /* build sql */
     final String sql = String.format(
         "SELECT COUNT(*) FROM Journal WHERE transactionId = %d AND uid = '%s'"
-            + " AND  amount = 0 AND type = '%s' AND chargeId = '%s' AND"
+            + " AND amount = 0 AND type = '%s' AND %s AND"
             + " status = 'CLEARED' AND originId = %d;",
-            journal.getTransactionId(),
-            journal.getUid(),
-            journal.getType(),
-            journal.getChargeId(),
-            journal.getId());
+            pendingJournal.getTransactionId(),
+            pendingJournal.getUid(),
+            pendingJournal.getType(),
+            chargeIdSubClause,
+            pendingJournal.getId());
 
     Transaction txn = null;
     BigInteger result = null;
@@ -218,17 +229,17 @@ public class JournalUtil {
     }
 
     if (result.longValue() > 1) {
-      throw new SnoopException("Inconsistent journal: " + journal.toJsonStr());
+      throw new SnoopException(
+          "Inconsistent journal: " + pendingJournal.toJsonStr());
     }
 
     /* the pending journal is cleared */
-    return result.longValue() != 0;
+    return result.longValue() == 1;
   }
 
   public static Journal insertClearanceJournal(
       final Session session,
-      final Journal pendingJournal,
-      final QaTransaction qaTransaction) throws Exception {
+      final Journal pendingJournal) throws Exception {
     return insertClearanceJournal(session, pendingJournal, false);
   }
 
@@ -286,6 +297,7 @@ public class JournalUtil {
                     .setUid(quanda.getResponder())
                     .setAmount(quanda.getPayment4Answer())
                     .setType(Journal.JournalType.BALANCE.toString())
+                    .setChargeId(null)
                     .setStatus(Journal.Status.CLEARED.value())
                     .setOriginId(clearanceJournal.getId());
 
@@ -299,6 +311,49 @@ public class JournalUtil {
         txn.commit();
       }
       return responderJournal;
+    } catch (HibernateException e) {
+      if (txn != null) {
+        txn.rollback();
+      }
+      throw e;
+    } catch (Exception e) {
+      throw e;
+    }
+  }
+
+  public static Journal insertRefundJournal(
+      final Session session,
+      final Journal clearanceJournal,
+      final Quanda quanda) throws Exception {
+    return insertRefundJournal(session, clearanceJournal, quanda, false);
+  }
+
+  /* insert refund journal */
+  public static Journal insertRefundJournal(
+      final Session session,
+      final Journal clearanceJournal,
+      final Quanda quanda,
+      final boolean newTransaction) throws Exception {
+
+    final Journal refundJournal = new Journal();
+    refundJournal.setTransactionId(clearanceJournal.getTransactionId())
+                 .setUid(quanda.getAsker())
+                 .setAmount(quanda.getRate())
+                 .setType(clearanceJournal.getType())
+                 .setChargeId(clearanceJournal.getChargeId())
+                 .setStatus(Journal.Status.REFUNDED.value())
+                 .setOriginId(clearanceJournal.getId());
+
+    Transaction txn = null;
+    try {
+      if (newTransaction) {
+        txn = session.beginTransaction();
+      }
+      session.save(refundJournal);
+      if (txn != null) {
+        txn.commit();
+      }
+      return refundJournal;
     } catch (HibernateException e) {
       if (txn != null) {
         txn.rollback();
