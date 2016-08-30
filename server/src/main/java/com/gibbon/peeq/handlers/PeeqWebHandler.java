@@ -227,7 +227,7 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
     sb.append("[");
     if (list != null) {
       sb.append(Joiner.on(
-          System.getProperty("line.separator"))
+          ",")
           .skipNulls()
           .join(list));
     }
