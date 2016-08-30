@@ -109,6 +109,9 @@ curl -i -X GET "http://127.0.0.1:8080/quandas?filter=asker=kuan"
 curl -i -X GET "http://127.0.0.1:8080/quandas?filter=responder=edmund"
 The column name is case sensitive, it only supports single column. In addition, it essentially does equal matched query.
 
+Example response:
+{"uid":"edmund","rate":200.0,"avatarUrl":"/users/edmund/avatar","avatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","fullName":"Edmund Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.","createdTime":null,"updatedTime":null}
+
 
 RESTFUL APIs OF SNOOPS:
 The results are reversely chronologically ordered by createdTime.
