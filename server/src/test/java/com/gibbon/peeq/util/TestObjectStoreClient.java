@@ -23,17 +23,17 @@ public class TestObjectStoreClient {
     final String localPath = "src/main/resources/com/gibbon/peeq/images/matt.jpg";
     final File file = new File(localPath);
     final ObjectStoreClient osc = new ObjectStoreClient();
-    final String osPath = "/matt@gmail.com/celebrity.jpeg";
+    final String url = "/users/matt@gmail.com/celebrity.jpeg";
     final byte[] fileContent = Files.readAllBytes(file.toPath());
     try {
-      osc.saveToStore(osPath, fileContent);
+      osc.saveToStore(url, fileContent);
     } catch (Exception e) {
       assertTrue("IOException shoudn't happen when HDFS is properly set.",
           e instanceof IOException);
     }
 
     try {
-      final byte[] readContent = osc.readFromStore(osPath);
+      final byte[] readContent = osc.readFromStore(url);
       if (fileContent != null && readContent != null
           && readContent.length > 0) {
         assertEquals(fileContent.length, readContent.length);
@@ -43,8 +43,9 @@ public class TestObjectStoreClient {
           e instanceof IOException);
     } finally {
       try {
-        osc.deleteFromStore(osPath);
+        osc.deleteFromStore(url);
       } catch (Exception e) {
+        System.out.println(e.toString());
         assertTrue("IOException shoudn't happen when HDFS is properly set.",
             e instanceof IOException);
       }
@@ -56,16 +57,16 @@ public class TestObjectStoreClient {
     final String localPath = "src/main/resources/com/gibbon/peeq/images/arnold.jpg";
     final File file = new File(localPath);
     final ObjectStoreClient osc = new ObjectStoreClient();
-    final String osPath = "/arnold@gmail.com/celebrity.jpeg";
+    final String url = "/users/arnold@gmail.com/celebrity.jpeg";
     final byte[] fileContent = Files.readAllBytes(file.toPath());
     try {
-      osc.saveToStore(osPath, fileContent);
+      osc.saveToStore(url, fileContent);
     } catch (Exception e) {
       assertTrue("IOException shoudn't happen when HDFS is properly set.",
           e instanceof IOException);
     } finally {
       try {
-        osc.deleteFromStore(osPath);
+        osc.deleteFromStore(url);
       } catch (Exception e) {
         assertTrue("IOException shoudn't happen when HDFS is properly set.",
             e instanceof IOException);
@@ -82,7 +83,7 @@ public class TestObjectStoreClient {
     final String uid = "kobe@gmail.com";
     final Profile profile = new Profile();
     profile.setUid(uid).setAvatarImage(fileContent);
-    final String url = "/kobe@gmail.com/avatar";
+    final String url = "/users/kobe@gmail.com/avatar";
 
     String avatarUrl = null;
     try {
@@ -128,6 +129,7 @@ public class TestObjectStoreClient {
     }
   }
 
+  @Test(timeout = 60000)
   public void testReadAnswerAudio() throws IOException {
     final String localPath = "src/main/resources/com/gibbon/peeq/images/mike.jpg";
     final File file = new File(localPath);

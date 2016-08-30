@@ -3,19 +3,22 @@ package com.gibbon.peeq.handlers;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrBuilder;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.util.FilterParamParser;
+import com.gibbon.peeq.util.ObjectStoreClient;
 import com.gibbon.peeq.util.ResourceURIParser;
-import com.google.common.base.Joiner;
 import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -40,19 +43,45 @@ public class ProfileFilterWebHandler extends AbastractPeeqWebHandler
     return onQuery();
   }
 
-  String getResultJson(final Session session) throws JsonProcessingException {
+  private void loadAvatarsFromObjectStore(List<Profile> profiles)
+      throws Exception {
+    for (Profile profile : profiles) {
+      if (StringUtils.isBlank(profile.getAvatarUrl())) {
+        continue;
+      }
+
+      final ObjectStoreClient osc = new ObjectStoreClient();
+      final byte[] readContent = osc.readAvatarImage(profile.getAvatarUrl());
+      if (readContent != null) {
+        profile.setAvatarImage(readContent);
+      }
+    }
+  }
+
+  private String getResultJson(final Session session) throws Exception {
     StrBuilder sb = new StrBuilder();
     Criteria criteria = session.createCriteria(Profile.class);
+    criteria.addOrder(Order.desc("updatedTime"));
+    criteria.addOrder(Order.desc("createdTime"));
+    criteria.setProjection(
+        Projections.projectionList()
+          .add(Projections.property("uid"), "uid")
+          .add(Projections.property("rate"), "rate")
+          .add(Projections.property("avatarUrl"), "avatarUrl")
+          .add(Projections.property("fullName"), "fullName")
+          .add(Projections.property("title"), "title")
+          .add(Projections.property("aboutMe"), "aboutMe"))
+    .setResultTransformer(Transformers.aliasToBean(Profile.class));
 
     Map<String, String> kvs = getFilterParamParser().getQueryKVs();
-    List<Profile> profiles = null;
+    List<Profile> list = null;
 
     /* no query condition specified */
     if (kvs.entrySet().size() == 0) {
       return "";
     } else if (kvs.containsKey(FilterParamParser.SB_STAR)) {
       /* select * from xxx */
-      profiles = criteria.list();
+      list = criteria.list();
     } else {
       for (Map.Entry<String, String> kv : kvs.entrySet()) {
         if (kv.getKey() != FilterParamParser.SB_STAR) {
@@ -61,13 +90,12 @@ public class ProfileFilterWebHandler extends AbastractPeeqWebHandler
           criteria.add(Restrictions.like(kv.getKey(), pattern));
         }
       }
-      profiles = criteria.list();
+      list = criteria.list();
     }
 
-    sb.append("[");
-    sb.append(Joiner.on(",").skipNulls().join(profiles));
-    sb.append("]");
-    return sb.toString();
+    loadAvatarsFromObjectStore(list);
+
+    return listToJsonString(list);
   }
 
   private FullHttpResponse onQuery() {

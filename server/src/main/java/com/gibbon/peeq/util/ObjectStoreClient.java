@@ -13,9 +13,11 @@ import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.db.model.Quanda;
 
 public class ObjectStoreClient {
-  private final static String DEFAULT_FS = "hdfs://127.0.0.1:8020";
-  private final static String ANSWER_ROOT = "/answers";
-  private final static HdfsConfiguration conf = new HdfsConfiguration();
+  private static final String DEFAULT_FS = "hdfs://127.0.0.1:8020";
+  private static final String ROOT = "/";
+  private static final String USER_ROOT = "/users";
+  private static final String ANSWER_ROOT = "/answers";
+  private static final HdfsConfiguration conf = new HdfsConfiguration();
   static {
     conf.set("fs.defaultFS", DEFAULT_FS);
   }
@@ -24,7 +26,6 @@ public class ObjectStoreClient {
     if (StringUtils.isBlank(answerUrl)) {
       return null;
     }
-
     return readFromStore(answerUrl);
   }
 
@@ -43,7 +44,6 @@ public class ObjectStoreClient {
     if (StringUtils.isBlank(avatarUrl)) {
       return null;
     }
-
     return readFromStore(avatarUrl);
   }
 
@@ -60,7 +60,7 @@ public class ObjectStoreClient {
   }
 
   private String getAvatarUrl(final Profile profile) {
-    return String.format("/%s/%s", profile.getUid(), "avatar");
+    return String.format("%s/%s/%s", USER_ROOT, profile.getUid(), "avatar");
   }
 
   private String getAnswerUrl(final Quanda quanda) {
@@ -100,8 +100,9 @@ public class ObjectStoreClient {
 
     Path fsPath = new Path(path);
     /* root directory */
-    if ("/".equals(fsPath.toString())
-        || ANSWER_ROOT.equals(fsPath.toString())) {
+    if (ROOT.equals(fsPath.toString()) ||
+        USER_ROOT.equals(fsPath.toString()) ||
+        ANSWER_ROOT.equals(fsPath.toString())) {
       return;
     }
 

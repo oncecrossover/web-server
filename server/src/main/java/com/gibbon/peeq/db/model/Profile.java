@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Profile {
   private String uid;
-  private Double rate = 0.0;
+  private Double rate;
   private String avatarUrl;
   private byte[] avatarImage;
   private String fullName;

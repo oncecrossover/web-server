@@ -76,12 +76,11 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
     try {
       session = getSession();
       txn = session.beginTransaction();
-      final Profile retInstance = (Profile) session.get(Profile.class,
-          uid);
+      final Profile retInstance = (Profile) session.get(Profile.class, uid);
       txn.commit();
 
       /* load from object store */
-      setAvatarImage(retInstance);
+      loadAvatarFromObjectStore(retInstance);
 
       /* buffer result */
       return newResponseForInstance(uid, retInstance);
@@ -91,7 +90,8 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
     }
   }
 
-  private void setAvatarImage(final Profile profile) {
+  private void loadAvatarFromObjectStore(final Profile profile)
+      throws Exception {
     if (profile == null) {
       return;
     }
@@ -102,14 +102,9 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
     }
   }
 
-  private byte[] readAvatarImage(final Profile profile) {
-    ObjectStoreClient osc = new ObjectStoreClient();
-    try {
-      return osc.readAvatarImage(profile.getAvatarUrl());
-    } catch (Exception e) {
-      LOG.warn(super.stackTraceToString(e));
-    }
-    return null;
+  private byte[] readAvatarImage(final Profile profile) throws Exception {
+    final ObjectStoreClient osc = new ObjectStoreClient();
+    return osc.readAvatarImage(profile.getAvatarUrl());
   }
 
   private FullHttpResponse onCreate() {
@@ -154,6 +149,10 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
       txn = getSession().beginTransaction();
       fromDB = (Profile) getSession().get(Profile.class, uid);
       txn.commit();
+      if (fromDB == null) {
+        appendln(String.format("Nonexistent profile for user ('%s')", uid));
+        return newResponse(HttpResponseStatus.BAD_REQUEST);
+      }
     } catch (Exception e) {
       txn.rollback();
       return newServerErrorResponse(e, LOG);
@@ -161,12 +160,14 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
 
     /* use uid from url, ignore that from json */
     fromJson.setUid(uid);
-    if (fromDB != null) {
-      fromDB.setAsIgnoreNull(fromJson);
-    }
+    fromDB.setAsIgnoreNull(fromJson);
 
-    /* save to object store */
-    setAvatarUrl(fromDB);
+    try {
+      /* save to object store */
+      saveAvatarToObjectStore(fromDB);
+    } catch (Exception e) {
+      return newServerErrorResponse(e, LOG);
+    }
 
     try {
       txn = getSession().beginTransaction();
@@ -179,21 +180,16 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
     }
   }
 
-  private void setAvatarUrl(final Profile profile) {
+  private void saveAvatarToObjectStore(final Profile profile) throws Exception {
     final String url = saveAvatarImage(profile);
     if (url != null) {
       profile.setAvatarUrl(url);
     }
   }
 
-  private String saveAvatarImage(final Profile profile) {
+  private String saveAvatarImage(final Profile profile) throws Exception {
     ObjectStoreClient osc = new ObjectStoreClient();
-    try {
-      return osc.saveAvatarImage(profile);
-    } catch (Exception e) {
-      LOG.warn(super.stackTraceToString(e));
-    }
-    return null;
+    return osc.saveAvatarImage(profile);
   }
 
   private Profile newProfileFromRequest()
