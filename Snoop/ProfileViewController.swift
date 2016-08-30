@@ -79,6 +79,8 @@ class ProfileViewController: UIViewController{
   @IBAction func logoutButtonTapped(sender: AnyObject) {
     NSUserDefaults.standardUserDefaults().setBool(false, forKey: "isUserLoggedIn")
     NSUserDefaults.standardUserDefaults().removeObjectForKey("email")
+    NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadHome")
+    NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadDiscover")
     NSUserDefaults.standardUserDefaults().synchronize()
 //    self.performSegueWithIdentifier("loginView", sender: self)
     self.tabBarController?.selectedIndex = 0

@@ -15,12 +15,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   var userModule = User()
   var generics = Generics()
 
+  var refreshControl: UIRefreshControl = UIRefreshControl()
+
   var soundPlayer: AVAudioPlayer!
 
-  var snoopQuestionId = 0
-
-  var paymentInfo:(quandaId: Int!, index: Int!)
-  var paidFeed:(id: Int!, question: String!, responderId: String!, responderName: String!, responderTitle: String!, profileData: NSData!, status: String!, asker: String!, snoops: Int!)
+  var paidSnoops: Set<Int> = []
 
   @IBOutlet weak var feedTable: UITableView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -31,11 +30,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     super.viewDidLoad()
     feedTable.rowHeight = UITableViewAutomaticDimension
     feedTable.estimatedRowHeight = 120
-  }
-  
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+
+    refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
+    feedTable.addSubview(refreshControl)
   }
   
   override func viewDidAppear(animated: Bool) {
@@ -44,16 +41,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       self.performSegueWithIdentifier("loginView", sender: self)
     }
     else {
-      loadData()
+      if (feeds.count == 0){
+        loadData()
+      }
+      else {
+        let shouldLoadHome = NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadHome")
+        if (shouldLoadHome) {
+          NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadHome")
+          NSUserDefaults.standardUserDefaults().synchronize()
+          loadData()
+        }
+      }
     }
+  }
+
+  func refresh(sender:AnyObject) {
+    loadData()
+    refreshControl.endRefreshing()
   }
 
   func loadData() {
     self.feeds = []
-    if (paymentInfo.index != nil) {
-      feeds.append(paidFeed)
-    }
-    
+    self.paidSnoops = []
     activityIndicator.startAnimating()
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     let myUrl = NSURL(string: "http://localhost:8080/newsfeeds/" + uid)
@@ -146,12 +155,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       myCell.snoopImage.image = UIImage(named: "pending")
     }
     else {
-      if (paymentInfo.index != nil && paymentInfo.quandaId == feedInfo.id) {
+      if (self.paidSnoops.contains(feedInfo.id)) {
         myCell.snoopImage.image = UIImage(named: "listen")
         myCell.snoopImage.userInteractionEnabled = true
         let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedToListen:")
         myCell.snoopImage.addGestureRecognizer(tappedOnImage)
-        paymentInfo.index = nil
       }
       else {
         myCell.snoopImage.image = UIImage(named: "snoop")
@@ -190,7 +198,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         dispatch_async(dispatch_get_main_queue()) {
           self.preparePlayer(data)
           self.soundPlayer.play()
-          self.snoopQuestionId = questionId
         }
       }
     }
@@ -209,7 +216,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       let feed = feeds[indexPath.row]
       dvc.chargeInfo = (amount: 1.00, type: "SNOOPED", quandaId: feed.id,
         asker: feed.asker, responder: feed.responderId, index: indexPath.row)
-      self.paidFeed = feeds[indexPath.row]
       dvc.isSnooped = true
     }
     else if (segue.identifier == "homeToAsk") {

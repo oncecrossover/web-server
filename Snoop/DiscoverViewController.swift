@@ -42,6 +42,14 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     if (profiles.count == 0) {
       loadImages()
     }
+    else {
+      let shouldLoadDiscover = NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadDiscover")
+      if (shouldLoadDiscover) {
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadDiscover")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        loadImages()
+      }
+    }
   }
 
   func filterContentForSearchText(searchText: String, scope: String = "All") {

@@ -313,6 +313,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       responderName: String!, responderTitle: String!, isPlaying: Bool!, rate: Double!)
       if (segmentedControl.selectedSegmentIndex == 2) {
         cellInfo = snoops[indexPath.row]
+        myCell.rateLabel.hidden = true
       }
       else {
         cellInfo = questions[indexPath.row]
