@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -28,7 +26,7 @@ public class Quanda {
   private Date createdTime;
   private Date updatedTime;
   private Long snoops;
-  private Long effectivegHours;
+  private Long hoursToExpire;
 
   public Long getId() {
     return id;
@@ -129,12 +127,12 @@ public class Quanda {
     return this;
   }
 
-  public Quanda setEffectivegHours(final Long effectivegHours) {
-    this.effectivegHours = effectivegHours;
+  public Quanda setHoursToExpire(final Long hoursToExpire) {
+    this.hoursToExpire = hoursToExpire;
     return this;
   }
 
-  public Long getEffectivegHours() {
+  public Long getHoursToExpire() {
     if (createdTime == null) {
       return 0L;
     }
