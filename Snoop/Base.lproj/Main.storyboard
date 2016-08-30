@@ -36,7 +36,7 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="OK"/>
                                 <connections>
-                                    <action selector="okButtonTapped:" destination="4cn-IL-B2t" eventType="touchUpInside" id="6dX-CN-8l2"/>
+                                    <segue destination="HvY-wA-dd3" kind="unwind" unwindAction="unwindPage:" id="IsM-lE-S21"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -53,6 +53,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iAk-dR-WeP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="HvY-wA-dd3" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1017" y="-283"/>
         </scene>

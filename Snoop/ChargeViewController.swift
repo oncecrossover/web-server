@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChargeViewController: UIViewController, UINavigationControllerDelegate, ModalViewControllerDelegate {
+class ChargeViewController: UIViewController, UINavigationControllerDelegate{
 
   @IBOutlet weak var chargeLabel: UILabel!
   @IBOutlet weak var balanceLabel: UILabel!
@@ -147,13 +147,6 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate, Mo
     }
   }
 
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    if (segue.identifier == "paymentToConfirmation") {
-      let dvc = segue.destinationViewController as! ConfirmationViewController
-      dvc.delegate = self
-    }
-  }
-
   func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
     if let controller = viewController as? ViewController {
       if (isPaid) {
@@ -177,8 +170,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate, Mo
     }
   }
 
-  func modalViewControllerDismissed() {
-    self.dismissViewControllerAnimated(false, completion: nil)
+  @IBAction func unwindPage(segue: UIStoryboardSegue) {
     self.navigationController?.popViewControllerAnimated(true)
   }
 }

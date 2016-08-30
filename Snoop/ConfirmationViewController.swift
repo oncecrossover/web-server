@@ -8,14 +8,7 @@
 
 import UIKit
 
-protocol ModalViewControllerDelegate
-{
-  func modalViewControllerDismissed()
-}
-
 class ConfirmationViewController: UIViewController {
-
-  var delegate: ModalViewControllerDelegate?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -26,9 +19,5 @@ class ConfirmationViewController: UIViewController {
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
-  }
-
-  @IBAction func okButtonTapped(sender: AnyObject) {
-    self.delegate?.modalViewControllerDismissed()
   }
 }
