@@ -2,8 +2,11 @@ package com.gibbon.peeq.db.model;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -25,6 +28,7 @@ public class Quanda {
   private Date createdTime;
   private Date updatedTime;
   private Long snoops;
+  private Long effectivegHours;
 
   public Long getId() {
     return id;
@@ -123,6 +127,28 @@ public class Quanda {
   public Quanda setSnoops(final Long snoops) {
     this.snoops = snoops;
     return this;
+  }
+
+  public Quanda setEffectivegHours(final Long effectivegHours) {
+    this.effectivegHours = effectivegHours;
+    return this;
+  }
+
+  public Long getEffectivegHours() {
+    if (createdTime == null) {
+      return 0L;
+    }
+
+    /* time diff */
+    final Date now = new Date();
+    final long diff = now.getTime() - createdTime.getTime();
+    if (diff < 0) {
+      return 0L;
+    }
+
+    /* diff in terms of hours */
+    final long hours = TimeUnit.MILLISECONDS.toHours(diff);
+    return 48 <= hours ? 0 : 48 - hours;
   }
 
   @JsonIgnore
