@@ -2358,9 +2358,9 @@
         <image name="speak" width="124" height="124"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Kjo-bx-Bbf"/>
         <segue reference="me6-Y0-ggX"/>
-        <segue reference="KRu-3m-3Wk"/>
+        <segue reference="Kjo-bx-Bbf"/>
+        <segue reference="bHf-mE-1Xg"/>
         <segue reference="KPI-O4-rSf"/>
     </inferredMetricsTieBreakers>
 </document>
