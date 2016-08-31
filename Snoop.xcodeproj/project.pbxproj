@@ -13,6 +13,10 @@
 		4A11C0621D35BA6900AEF95D /* TextFitLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */; };
 		4A152F621D59106700FA48E7 /* Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A152F611D59106700FA48E7 /* Generics.swift */; };
 		4A368E8C1D5CFA8000176C54 /* ChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */; };
+		4A4BB82A1D769BE70085160F /* AbstractModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB8291D769BE70085160F /* AbstractModel.swift */; };
+		4A4BB82B1D769BE70085160F /* AbstractModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB8291D769BE70085160F /* AbstractModel.swift */; };
+		4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
+		4A4BB82E1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
 		4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */; };
 		4A5B257D1D65247700691696 /* SnoopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B257C1D65247700691696 /* SnoopUITests.swift */; };
 		4A5B25851D6524EB00691696 /* ViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B25841D6524EB00691696 /* ViewControllerUITests.swift */; };
@@ -66,6 +70,8 @@
 		4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFitLabel.swift; sourceTree = "<group>"; };
 		4A152F611D59106700FA48E7 /* Generics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generics.swift; sourceTree = "<group>"; };
 		4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargeViewController.swift; sourceTree = "<group>"; };
+		4A4BB8291D769BE70085160F /* AbstractModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbstractModel.swift; sourceTree = "<group>"; };
+		4A4BB82C1D769CF40085160F /* DiscoverModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverModel.swift; sourceTree = "<group>"; };
 		4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
 		4A5B257A1D65247700691696 /* SnoopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnoopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A5B257C1D65247700691696 /* SnoopUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoopUITests.swift; sourceTree = "<group>"; };
@@ -134,6 +140,15 @@
 			name = UIView;
 			sourceTree = "<group>";
 		};
+		4A4BB8281D769B8E0085160F /* ObjectModel */ = {
+			isa = PBXGroup;
+			children = (
+				4A4BB8291D769BE70085160F /* AbstractModel.swift */,
+				4A4BB82C1D769CF40085160F /* DiscoverModel.swift */,
+			);
+			name = ObjectModel;
+			sourceTree = "<group>";
+		};
 		4A5B257B1D65247700691696 /* SnoopUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,7 +190,7 @@
 			name = ControllerGroup;
 			sourceTree = "<group>";
 		};
-		4ABE1CC21D25C7BD00320529 /* Model */ = {
+		4ABE1CC21D25C7BD00320529 /* HTTPModel */ = {
 			isa = PBXGroup;
 			children = (
 				4AEF2A1B1D14BABA002E3CFE /* User.swift */,
@@ -183,7 +198,7 @@
 				4ABD20361D4409F900C3B74E /* Payment.swift */,
 				4A152F611D59106700FA48E7 /* Generics.swift */,
 			);
-			name = Model;
+			name = HTTPModel;
 			sourceTree = "<group>";
 		};
 		4AC2835A1CE2F58100A08D35 = {
@@ -207,6 +222,7 @@
 		4AC283651CE2F58100A08D35 /* Snoop */ = {
 			isa = PBXGroup;
 			children = (
+				4A4BB8281D769B8E0085160F /* ObjectModel */,
 				4A0CE3661D6ECDB10023EC2D /* MBProgressHUD.h */,
 				4A0CE3671D6ECDB10023EC2D /* MBProgressHUD.m */,
 				4AD8A6A31D63E8C600757D9D /* Stripe.bundle */,
@@ -218,7 +234,7 @@
 				4AC283701CE2F58100A08D35 /* Assets.xcassets */,
 				4AC283751CE2F58100A08D35 /* Info.plist */,
 				4AC2836D1CE2F58100A08D35 /* Peep.xcdatamodeld */,
-				4ABE1CC21D25C7BD00320529 /* Model */,
+				4ABE1CC21D25C7BD00320529 /* HTTPModel */,
 				4AF322701D29DF220043FCE5 /* TableViewCell */,
 				4A11C05A1D344D1700AEF95D /* UIView */,
 				4A0CE3651D6ECDAF0023EC2D /* Snoop-Bridging-Header.h */,
@@ -338,8 +354,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A4BB82E1D769CF40085160F /* DiscoverModel.swift in Sources */,
 				4A9F53C01D68DB5100D753B2 /* PaymentViewControllerUITests.swift in Sources */,
 				4A5B25851D6524EB00691696 /* ViewControllerUITests.swift in Sources */,
+				4A4BB82B1D769BE70085160F /* AbstractModel.swift in Sources */,
 				4AFB985D1D6A1B6C0067EF33 /* SignupViewControllerUITests.swift in Sources */,
 				4A5B257D1D65247700691696 /* SnoopUITests.swift in Sources */,
 			);
@@ -365,6 +383,7 @@
 				4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */,
 				4AC9231F1D360A0800C83177 /* FeedTableViewCell.swift in Sources */,
 				4A11C05C1D344DF500AEF95D /* RoundCornerButton.swift in Sources */,
+				4A4BB82A1D769BE70085160F /* AbstractModel.swift in Sources */,
 				4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */,
 				4AF3226C1D29DE120043FCE5 /* ActivityViewController.swift in Sources */,
 				4AF3226A1D29A1E10043FCE5 /* Question.swift in Sources */,
@@ -378,6 +397,7 @@
 				4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */,
 				4ABD20371D4409F900C3B74E /* Payment.swift in Sources */,
 				4AF910741D449F1800546F95 /* InteractiveUITextField.swift in Sources */,
+				4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */,
 				4A11C0621D35BA6900AEF95D /* TextFitLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

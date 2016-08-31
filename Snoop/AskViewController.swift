@@ -10,7 +10,7 @@ import UIKit
 
 class AskViewController: UIViewController, UITextViewDelegate {
 
-  var profileInfo:(uid: String!, name: String!, title: String!, about: String!, avatarImage:NSData!, rate: Double!)
+  var profileInfo:DiscoverModel!
 
   @IBOutlet weak var scrollView: UIScrollView!
   @IBOutlet weak var profilePhoto: UIImageView!

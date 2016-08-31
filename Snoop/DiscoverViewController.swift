@@ -13,10 +13,8 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   @IBOutlet weak var discoverTableView: UITableView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-  var profiles: [(uid: String!, name: String!, title: String!, about: String!,
-    avatarImage: NSData!, rate: Double!)] = []
-  var filteredProfiles: [(uid: String!, name: String!, title: String!, about: String!,
-    avatarImage: NSData!, rate: Double!)] = []
+  var profiles: [DiscoverModel] = []
+  var filteredProfiles: [DiscoverModel] = []
 
   var refreshControl: UIRefreshControl = UIRefreshControl()
 
@@ -70,17 +68,16 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     activityIndicator.startAnimating()
     userModule.getDiscover(uid, filterString: "*") { jsonArray in
-      var count = jsonArray.count
       for profileInfo in jsonArray as! [[String:AnyObject]] {
         let profileUid = profileInfo["uid"] as! String
         if (profileUid == uid) {
-          count--
           continue
         }
         let profileName = profileInfo["fullName"] as! String
         var profileTitle = ""
         var profileAbout = ""
         var rate = 0.0
+        var avatarImage = NSData()
 
         if profileInfo["title"] as? String != nil {
           profileTitle = profileInfo["title"] as! String
@@ -94,17 +91,17 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
           rate = profileInfo["rate"] as! Double
         }
 
-        self.userModule.getProfile(profileUid) { _, _, _, avatarImage, _ in
-          self.profiles.append((uid: profileUid, name: profileName, title: profileTitle, about: profileAbout, avatarImage: avatarImage, rate: rate))
-          count--
-          if (count == 0) {
-            self.activityIndicator.stopAnimating()
-
-            dispatch_async(dispatch_get_main_queue()) {
-              self.discoverTableView.reloadData()
-            }
-          }
+        if profileInfo["avatarImage"] as? String != nil {
+          avatarImage = NSData(base64EncodedString: profileInfo["avatarImage"] as! String, options: NSDataBase64DecodingOptions(rawValue: 0))!
         }
+
+        self.profiles.append(DiscoverModel(_name: profileName, _title: profileTitle, _avatarImage: avatarImage, _uid: profileUid, _about: profileAbout, _rate: rate))
+      }
+
+      self.activityIndicator.stopAnimating()
+
+      dispatch_async(dispatch_get_main_queue()) {
+        self.discoverTableView.reloadData()
       }
 
     }
@@ -186,7 +183,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 //    });
 
 
-    let profile: (uid: String!, name: String!, title: String!, about: String!, avatarImage:NSData!, rate: Double!)
+    let profile: DiscoverModel
     if (searchController.active && searchController.searchBar.text != "") {
       profile = self.filteredProfiles[indexPath.row]
     }

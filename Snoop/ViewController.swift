@@ -227,7 +227,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       let about = profileInfo["about"] as! String
       let avatarImage = profileInfo["avatarImage"] as! NSData
       let rate = profileInfo["rate"] as! Double
-      dvc.profileInfo = (uid: uid, name: name, title: title, about: about, avatarImage : avatarImage, rate: rate)
+      dvc.profileInfo = DiscoverModel(_name: name, _title: title, _avatarImage: avatarImage, _uid: uid, _about: about, _rate: rate)
     }
   }
 
