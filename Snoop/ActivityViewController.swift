@@ -316,6 +316,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       else {
         cellInfo = questions[indexPath.row]
         myCell.rateLabel.text = "$\(cellInfo.rate)"
+        myCell.rateLabel.hidden = false
       }
 
       myCell.questionText.text = cellInfo.question
