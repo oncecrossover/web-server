@@ -16,18 +16,19 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   var userModule = User()
   var questionModule = Question()
+  var utility = UIUtility()
 
   var soundPlayer: AVAudioPlayer!
   var activeCell: (Bool!, Int!)!
 
   var questions:[(id: Int!, question: String!, status: String!, responderImage: NSData!,
-  responderName: String!, responderTitle: String!, isPlaying: Bool!, rate: Double!)] = []
+  responderName: String!, responderTitle: String!, isPlaying: Bool!, rate: Double!, hoursToExpire: Int!)] = []
 
   var answers:[(id: Int!, question: String!, status: String!, askerImage: NSData!,
   askerName: String!, askerTitle: String!, askerId: String!, rate: Double!)] = []
 
   var snoops:[(id: Int!, question: String!, status: String!, responderImage: NSData!, responderName: String!,
-  responderTitle: String!, isPlaying: Bool!, rate: Double!)] = []
+  responderTitle: String!, isPlaying: Bool!, rate: Double!, hoursToExpire: Int!)] = []
 
   var refreshControl: UIRefreshControl = UIRefreshControl()
 
@@ -107,6 +108,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         let questionId = questionInfo["id"] as! Int
         let question = questionInfo["question"] as! String
         let status = questionInfo["status"] as! String
+        let hoursToExpire = questionInfo["hoursToExpire"] as! Int
         var rate = 0.0
         if (questionInfo["rate"] != nil) {
           rate = questionInfo["rate"] as! Double
@@ -117,7 +119,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
           self.userModule.getProfile(responderId) {name, title, about, avatarImage, _ in
             self.questions.append((id: questionId, question: question, status: status,
               responderImage: avatarImage, responderName: name, responderTitle: title,
-              isPlaying: false, rate: rate))
+              isPlaying: false, rate: rate, hoursToExpire : hoursToExpire))
             count--
             if (count == 0) {
               dispatch_async(dispatch_get_main_queue()) {
@@ -159,13 +161,9 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         self.questionModule.getQuestionById(questionId) { convertedDict in
           let responderId = convertedDict["responder"] as! String
           let question = convertedDict["question"] as! String
-          var rate = 0.0
-          if (convertedDict["rate"] != nil) {
-            rate = convertedDict["rate"] as! Double
-          }
           self.userModule.getProfile(responderId) {name, title, _, avatarImage, _ in
             self.snoops.append((id: questionId, question: question, status: "ANSWERED", responderImage: avatarImage,
-              responderName: name, responderTitle: title, isPlaying: false, rate: rate))
+              responderName: name, responderTitle: title, isPlaying: false, rate: 0.0, hoursToExpire: 0))
             count--
             if (count == 0) {
               dispatch_async(dispatch_get_main_queue()) {
@@ -263,7 +261,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     //using the tapLocation, we retrieve the corresponding indexPath
     let indexPath = self.activityTableView.indexPathForRowAtPoint(tapLocation)!
     var questionInfo:(id: Int!, question: String!, status: String!, responderImage: NSData!,
-    responderName: String!, responderTitle: String!, isPlaying: Bool!, rate: Double!)
+    responderName: String!, responderTitle: String!, isPlaying: Bool!, rate: Double!, hoursToExpire: Int!)
 
     var isSnoop = false
     if (segmentedControl.selectedSegmentIndex == 0) {
@@ -310,7 +308,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         as! QuestionTableViewCell
 
       var cellInfo:(id: Int!, question: String!, status: String!, responderImage: NSData!,
-      responderName: String!, responderTitle: String!, isPlaying: Bool!, rate: Double!)
+      responderName: String!, responderTitle: String!, isPlaying: Bool!, rate: Double!, hoursToExpire: Int!)
       if (segmentedControl.selectedSegmentIndex == 2) {
         cellInfo = snoops[indexPath.row]
         myCell.rateLabel.hidden = true
@@ -334,7 +332,15 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       }
 
       if (cellInfo.status == "PENDING") {
-        myCell.listenImage.image = UIImage(named: "pending")
+        var expireText = "Expires In \(cellInfo.hoursToExpire) Hours"
+        if (cellInfo.hoursToExpire == 1) {
+          expireText = "Expires In 1 Hour"
+        }
+        let x = myCell.listenImage.frame.size.width * 0.4
+        let y = myCell.listenImage.frame.size.height/3
+        let textPoint = CGPointMake(x, y)
+        let originalImage = UIImage(named: "pending")
+        myCell.listenImage.image = utility.addTextToImage(expireText, inImage: originalImage!, atPoint: textPoint)
         myCell.listenImage.userInteractionEnabled = false
       }
       else {
