@@ -1666,7 +1666,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password Reset" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2UA-8B-mI7">
-                                <rect key="frame" x="16" y="20" width="288" height="20.5"/>
+                                <rect key="frame" x="99" y="20" width="121.5" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="0R9-nT-hLs"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1746,6 +1749,16 @@
                                     <action selector="saveButtonTapped:" destination="gyI-6N-ca8" eventType="touchUpInside" id="kWc-Xq-Qkl"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hpV-JL-WMA">
+                                <rect key="frame" x="12" y="20" width="57" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="wvK-QK-HTq"/>
+                                </constraints>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="cancelButtonTapped:" destination="gyI-6N-ca8" eventType="touchUpInside" id="mUc-Zn-edy"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1755,6 +1768,8 @@
                             <constraint firstItem="gwG-7E-6b8" firstAttribute="top" secondItem="y6Y-ms-7vu" secondAttribute="bottom" constant="30" id="Blg-gT-gTa"/>
                             <constraint firstItem="saN-0i-vqY" firstAttribute="top" secondItem="ep9-Iz-nPh" secondAttribute="bottom" id="Hav-ul-r5W"/>
                             <constraint firstItem="oOq-Gg-bd6" firstAttribute="top" secondItem="1DY-bV-vIf" secondAttribute="bottom" id="Hhk-VO-9QY"/>
+                            <constraint firstItem="2UA-8B-mI7" firstAttribute="leading" secondItem="hpV-JL-WMA" secondAttribute="trailing" constant="41" id="Ir4-s6-UYv"/>
+                            <constraint firstItem="2UA-8B-mI7" firstAttribute="leading" secondItem="hpV-JL-WMA" secondAttribute="trailing" constant="30" id="JOr-Jp-Ay6"/>
                             <constraint firstItem="ep9-Iz-nPh" firstAttribute="trailing" secondItem="gwG-7E-6b8" secondAttribute="trailing" id="Jda-nL-gt1"/>
                             <constraint firstItem="ep9-Iz-nPh" firstAttribute="leading" secondItem="gwG-7E-6b8" secondAttribute="leading" id="Ko2-IQ-Qn5"/>
                             <constraint firstItem="f4J-lG-TDd" firstAttribute="top" secondItem="2UA-8B-mI7" secondAttribute="bottom" constant="20" id="Lkf-E0-HEY"/>
@@ -1769,14 +1784,24 @@
                             <constraint firstItem="y6Y-ms-7vu" firstAttribute="top" secondItem="f4J-lG-TDd" secondAttribute="bottom" id="XsJ-GZ-S1f"/>
                             <constraint firstItem="ep9-Iz-nPh" firstAttribute="top" secondItem="gwG-7E-6b8" secondAttribute="bottom" constant="20" id="bIT-ix-Cyf"/>
                             <constraint firstItem="saN-0i-vqY" firstAttribute="trailing" secondItem="ep9-Iz-nPh" secondAttribute="trailing" id="bSs-T4-4nR"/>
+                            <constraint firstItem="hpV-JL-WMA" firstAttribute="leading" secondItem="6Cu-UO-inB" secondAttribute="leadingMargin" constant="-4" id="frk-p5-ihz"/>
                             <constraint firstItem="FYq-yQ-vAx" firstAttribute="leading" secondItem="1DY-bV-vIf" secondAttribute="leading" id="fsT-aQ-NWp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="2UA-8B-mI7" secondAttribute="trailing" id="h3Y-xb-m2L"/>
                             <constraint firstItem="2UA-8B-mI7" firstAttribute="top" secondItem="CgI-I0-ps8" secondAttribute="bottom" id="k4n-l4-p9U"/>
                             <constraint firstAttribute="leadingMargin" secondItem="f4J-lG-TDd" secondAttribute="leading" id="mxS-WI-bsf"/>
                             <constraint firstItem="1DY-bV-vIf" firstAttribute="top" secondItem="ep9-Iz-nPh" secondAttribute="bottom" constant="20" id="rWb-U4-USj"/>
+                            <constraint firstItem="hpV-JL-WMA" firstAttribute="top" secondItem="CgI-I0-ps8" secondAttribute="bottom" id="sBY-wq-Ufu"/>
                             <constraint firstItem="FYq-yQ-vAx" firstAttribute="top" secondItem="1DY-bV-vIf" secondAttribute="bottom" constant="30" id="wj9-bh-WZS"/>
+                            <constraint firstItem="2UA-8B-mI7" firstAttribute="centerX" secondItem="6Cu-UO-inB" secondAttribute="centerX" id="yWy-uf-UUe"/>
                             <constraint firstAttribute="trailingMargin" secondItem="f4J-lG-TDd" secondAttribute="trailing" id="yfF-i5-8Aq"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Ir4-s6-UYv"/>
+                                <exclude reference="Mys-kB-MqS"/>
+                                <exclude reference="h3Y-xb-m2L"/>
+                            </mask>
+                        </variation>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>

@@ -34,6 +34,9 @@ class PasswordResetViewController: UIViewController{
     // Do any additional setup after loading the view.
   }
 
+  @IBAction func cancelButtonTapped(sender: AnyObject) {
+    self.dismissViewControllerAnimated(true, completion: nil)
+  }
   func togglePasswordView(hidden: Bool) {
     tmpPassword.hidden = hidden
     newPassword.hidden = hidden
