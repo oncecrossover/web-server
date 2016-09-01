@@ -229,7 +229,7 @@
             </objects>
             <point key="canvasLocation" x="1428" y="-283"/>
         </scene>
-        <!--Home-->
+        <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Snoop" customModuleProvider="target" sceneMemberID="viewController">
@@ -347,7 +347,7 @@
                             <constraint firstItem="c0l-Fx-eS5" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="inO-u7-hQn"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Home" id="0qt-kj-boo"/>
+                    <navigationItem key="navigationItem" id="ddU-FT-DDe"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="activityIndicator" destination="YSd-Dt-Nsc" id="END-XG-9rC"/>
@@ -2385,9 +2385,9 @@
         <image name="speak" width="124" height="124"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="KRu-3m-3Wk"/>
         <segue reference="me6-Y0-ggX"/>
         <segue reference="Kjo-bx-Bbf"/>
-        <segue reference="bHf-mE-1Xg"/>
         <segue reference="KPI-O4-rSf"/>
     </inferredMetricsTieBreakers>
 </document>

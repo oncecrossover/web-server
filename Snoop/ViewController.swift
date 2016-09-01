@@ -33,6 +33,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
     feedTable.addSubview(refreshControl)
+
+    let logo = UIImage(named: "logo")
+    let logoView = UIImageView(frame: CGRect(x: 0, y: 0, width: 130, height: 40))
+    logoView.contentMode = .ScaleAspectFit
+    logoView.image = logo
+    self.navigationItem.titleView = logoView
+    self.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
   }
   
   override func viewDidAppear(animated: Bool) {
