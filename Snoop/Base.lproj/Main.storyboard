@@ -1970,9 +1970,11 @@
                         <outlet property="loginButton" destination="cVY-iQ-c19" id="JSu-tV-vgD"/>
                         <outlet property="userEmailTextField" destination="JD2-uM-Lcr" id="YWn-Ph-97Q"/>
                         <outlet property="userPasswordTextField" destination="y8o-IY-Z62" id="V6z-vc-BJv"/>
+                        <segue destination="5FH-az-ROM" kind="unwind" identifier="unwindSegueToHome" unwindAction="unwindSegueToHome:" id="fn3-CT-5Oq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mDH-3G-C8Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="5FH-az-ROM" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1851" y="361"/>
         </scene>

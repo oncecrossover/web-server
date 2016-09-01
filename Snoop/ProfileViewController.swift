@@ -82,8 +82,7 @@ class ProfileViewController: UIViewController{
     NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadHome")
     NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadDiscover")
     NSUserDefaults.standardUserDefaults().synchronize()
-//    self.performSegueWithIdentifier("loginView", sender: self)
-    self.tabBarController?.selectedIndex = 0
+    self.performSegueWithIdentifier("loginView", sender: self)
   }
 
 }

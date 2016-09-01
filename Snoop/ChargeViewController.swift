@@ -150,7 +150,6 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
   func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
     if let controller = viewController as? ViewController {
       if (isPaid) {
-//        controller.paymentInfo = (quandaId: chargeInfo.quandaId, index: chargeInfo.index)
         controller.paidSnoops.insert(chargeInfo.quandaId)
         controller.feedTable.reloadData()
       }

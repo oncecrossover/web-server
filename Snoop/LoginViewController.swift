@@ -55,7 +55,7 @@ class LoginViewController: UIViewController {
         NSUserDefaults.standardUserDefaults().synchronize()
         dispatch_async(dispatch_get_main_queue()) {
           activityIndicator.hideAnimated(true)
-          self.dismissViewControllerAnimated(true, completion: nil)
+          self.performSegueWithIdentifier("unwindSegueToHome", sender: self)
         }
       }
       else {
@@ -67,6 +67,7 @@ class LoginViewController: UIViewController {
     }
     
   }
+
 
   func dismissKeyboard() {
     userEmailTextField.resignFirstResponder()
