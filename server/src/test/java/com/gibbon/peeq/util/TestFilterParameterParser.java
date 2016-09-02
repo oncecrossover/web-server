@@ -26,7 +26,7 @@ public class TestFilterParameterParser {
     assertEquals("Filter string should equal.", fpp.getFilter(),
         edmundReqUri.substring(PREFIX.length()));
     assertEquals("There must be only one parameter.", fpp.paramCount(), 1);
-    assertTrue("There must be 'filter'", fpp.cotnainsKey("filter"));
+    assertTrue("There must be 'filter'", fpp.containsKey("filter"));
   }
 
   @Test(timeout = 60000)

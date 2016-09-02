@@ -10,16 +10,23 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Snoop {
-  private long id;
+  private Long id;
   private String uid;
-  private long quandaId;
+  private Long quandaId;
   private Date createdTime;
+  private String question;
+  private String status;
+  private Double rate;
+  private String responderName;
+  private String responderTitle;
+  private String responderAvatarUrl;
+  private byte[] responderAvatarImage;
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public Snoop setId(final long id) {
+  public Snoop setId(final Long id) {
     this.id = id;
     return this;
   }
@@ -33,11 +40,11 @@ public class Snoop {
     return this;
   }
 
-  public long getQuandaId() {
+  public Long getQuandaId() {
     return quandaId;
   }
 
-  public Snoop setQuandaId(final long quandaId) {
+  public Snoop setQuandaId(final Long quandaId) {
     this.quandaId = quandaId;
     return this;
   }
@@ -48,6 +55,69 @@ public class Snoop {
 
   public Snoop setCreatedTime(final Date createdTime) {
     this.createdTime = createdTime;
+    return this;
+  }
+
+  public String getQuestion() {
+    return question;
+  }
+
+  public Snoop setQuestion(final String question) {
+    this.question = question;
+    return this;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public Snoop setStatus(final String status) {
+    this.status = status;
+    return this;
+  }
+
+  public Double getRate() {
+    return rate;
+  }
+
+  public Snoop setRate(final Double rate) {
+    this.rate = rate;
+    return this;
+  }
+
+  public String getResponderName() {
+    return responderName;
+  }
+
+  public Snoop setResponderName(final String responderName) {
+    this.responderName = responderName;
+    return this;
+  }
+
+  public String getResponderTitle() {
+    return responderTitle;
+  }
+
+  public Snoop setResponderTitle(final String responderTitle) {
+    this.responderTitle = responderTitle;
+    return this;
+  }
+
+  public String getResponderAvatarUrl() {
+    return responderAvatarUrl;
+  }
+
+  public Snoop setResponderAvatarUrl(final String responderAvatarUrl) {
+    this.responderAvatarUrl = responderAvatarUrl;
+    return this;
+  }
+
+  public byte[] getResponderAvatarImage() {
+    return responderAvatarImage;
+  }
+
+  public Snoop setResponderAvatarImage(final byte[] responderAvatarImage) {
+    this.responderAvatarImage = responderAvatarImage;
     return this;
   }
 
@@ -103,16 +173,19 @@ public class Snoop {
     return a == null ? b == null : a.equals(b);
   }
 
-  public Snoop setAsIgnoreNull(final Snoop snoop) {
-    if (snoop == null) {
+  public Snoop setAsIgnoreNull(final Snoop that) {
+    if (that == null) {
       return this;
     }
-    this.setId(snoop.getId());
-    if (snoop.getUid() != null) {
-      this.setUid(snoop.getUid());
+
+    if (that.getId() != null) {
+      this.setId(that.getId());
     }
-    this.setQuandaId(snoop.getQuandaId());
-    this.setCreatedTime(snoop.getCreatedTime());
+    if (that.getUid() != null) {
+      this.setUid(that.getUid());
+    }
+    this.setQuandaId(that.getQuandaId());
+    this.setCreatedTime(that.getCreatedTime());
     return this;
   }
 }

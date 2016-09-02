@@ -51,7 +51,7 @@ public class FilterParamParser {
     return params.size();
   }
 
-  public Boolean cotnainsKey(final String key) {
+  public Boolean containsKey(final String key) {
     return params.containsKey(key);
   }
 

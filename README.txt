@@ -120,12 +120,13 @@ curl -i -X GET "http://127.0.0.1:8080/snoops/1"
 
 
 RESTFUL APIs OF SNOOPS FILTERING:
-1. load all snoops
-curl -i -X GET "http://127.0.0.1:8080/snoops?filter=*"
+The column name is not case sensitive, and it supports multiple columns.
+1. query snoops by a single column(e.g. uid), e.g.
+curl -i -X GET http://127.0.0.1:8080/snoops?filter -d uid="edmund"
+curl -i -X GET http://127.0.0.1:8080/snoops?filter -d id=1 -d uid="edmund"
 
-2. query snoops by a single column(e.g. uid), e.g.
-curl -i -X GET "http://127.0.0.1:8080/snoops?filter=uid=kuan"
-The column name is case sensitive, it only supports single column. In addition, it essentially does equal matched query.
+Example response:
+[{"id":2,"uid":null,"quandaId":6,"createdTime":1472443947000,"question":"How do you believe in being an entrepreneur?","status":"ANSWERED","rate":100.0,"responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="}]
 
 
 RESTFUL APIs OF PCENTRY (i.e. credit/debit card or bank account):

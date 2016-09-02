@@ -61,7 +61,7 @@ public class TestSnoop {
     Snoop snoop = new Snoop();
     snoop.setId(random.nextLong())
          .setUid("kuan")
-         .setQuandaId(1)
+         .setQuandaId(1L)
          .setCreatedTime(new Date());
     return snoop;
   }

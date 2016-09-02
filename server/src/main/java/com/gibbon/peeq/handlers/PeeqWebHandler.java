@@ -105,7 +105,7 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
   @Override
   public Boolean willFilter() {
     return filterParamParser.paramCount() > 0
-        && filterParamParser.cotnainsKey("filter");
+        && filterParamParser.containsKey("filter");
   }
 
   public Boolean willSort() {

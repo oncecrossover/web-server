@@ -1,24 +1,25 @@
 package com.gibbon.peeq.handlers;
 
+
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.text.StrBuilder;
-import org.hibernate.Criteria;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gibbon.peeq.db.model.Snoop;
+import com.gibbon.peeq.db.util.SnoopUtil;
 import com.gibbon.peeq.util.FilterParamParser;
+import com.gibbon.peeq.util.ObjectStoreClient;
+import com.gibbon.peeq.util.QueryParamsParser;
 import com.gibbon.peeq.util.ResourceURIParser;
-import com.google.common.base.Joiner;
 import com.google.common.io.ByteArrayDataOutput;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
@@ -38,7 +39,35 @@ public class SnoopFilterWebHandler extends AbastractPeeqWebHandler
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    return onQuery();
+     return onQuery();
+//    printContent();
+//    return this.newResponse(HttpResponseStatus.OK);
+  }
+
+  private FullHttpResponse printContent() {
+    String result = null;
+    final ByteBuf content = getRequest().content();
+    if (content.isReadable()) {
+      final byte[] json = ByteBufUtil.getBytes(content);
+      result = new String(json);
+    }
+   if (result == null) {
+     result  = "nothing here";
+   }
+   this.appendln(result);
+   return this.newResponse(HttpResponseStatus.OK);
+  }
+
+
+  private Map<String, List<String>> getParams() {
+    String query = "";
+    final ByteBuf content = getRequest().content();
+    if (content.isReadable()) {
+      query = new String(ByteBufUtil.getBytes(content));
+    }
+
+    QueryParamsParser parser = new QueryParamsParser(query, false);
+    return parser.params();
   }
 
   private FullHttpResponse onQuery() {
@@ -46,10 +75,14 @@ public class SnoopFilterWebHandler extends AbastractPeeqWebHandler
     try {
       Session session = getSession();
       txn = session.beginTransaction();
-      String resultJson = getResultJson(session);
+
+      /* query */
+      String resultJson = getResultJson(
+          SnoopUtil.getSnoops(session, getParams(), false));
+
       txn.commit();
 
-      /* result queried */
+      /* buffer result */
       appendln(resultJson);
       return newResponse(HttpResponseStatus.OK);
     } catch (Exception e) {
@@ -58,32 +91,24 @@ public class SnoopFilterWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  String getResultJson(final Session session) throws JsonProcessingException {
-    StrBuilder sb = new StrBuilder();
-    Criteria criteria = session.createCriteria(Snoop.class);
-    criteria.addOrder(Order.desc("createdTime"));
+  private String getResultJson(final List<Snoop> list) throws Exception {
+    loadAvatarsFromObjectStore(list);
+    return listToJsonString(list);
+  }
 
-    Map<String, String> kvs = getFilterParamParser().getQueryKVs();
-    List<Snoop> snoops = null;
-
-    /* no query condition specified */
-    if (kvs.entrySet().size() == 0) {
-      return "";
-    } else if (kvs.containsKey(FilterParamParser.SB_STAR)) {
-      /* select * from xxx */
-      snoops = criteria.list();
-    } else {
-      for (Map.Entry<String, String> kv : kvs.entrySet()) {
-        if (kv.getKey() != FilterParamParser.SB_STAR) {
-          criteria.add(Restrictions.eq(kv.getKey(), kv.getValue()));
-        }
+  private void loadAvatarsFromObjectStore(List<Snoop> snoops)
+      throws Exception {
+    for (Snoop snoop : snoops) {
+      if (StringUtils.isBlank(snoop.getResponderAvatarUrl())) {
+        continue;
       }
-      snoops = criteria.list();
-    }
 
-    sb.append("[");
-    sb.append(Joiner.on(",").skipNulls().join(snoops));
-    sb.append("]");
-    return sb.toString();
+      final ObjectStoreClient osc = new ObjectStoreClient();
+      final byte[] readContent = osc
+          .readAvatarImage(snoop.getResponderAvatarUrl());
+      if (readContent != null) {
+        snoop.setResponderAvatarImage(readContent);
+      }
+    }
   }
 }
