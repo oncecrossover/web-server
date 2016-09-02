@@ -100,10 +100,10 @@ public class NewsfeedWebHandler extends AbastractPeeqWebHandler
   /*
    * SELECT QQ.*, COUNT(*) snoops FROM (SELECT Q.id, Q.asker, Q.question,
    * Q.responder, Q.rate, Q.status, Q.createdTime, Q.updatedTime FROM Quanda Q
-   * WHERE Q.asker != 'yunxuan' AND Q.responder != 'yunxuan' AND NOT
-   * EXISTS (SELECT DISTINCT S.quandaId FROM Snoop S WHERE S.uid = 'yunxuan' AND
-   * Q.id = S.quandaId)) QQ LEFT JOIN Snoop S ON QQ.id = S.quandaId GROUP BY
-   * QQ.id ORDER BY QQ.updatedTime DESC;
+   * WHERE Q.asker != 'yunxuan' AND Q.responder != 'yunxuan' AND Q.status =
+   * 'ANSWERED' AND NOT EXISTS (SELECT DISTINCT S.quandaId FROM Snoop S WHERE
+   * S.uid = 'yunxuan' AND Q.id = S.quandaId)) QQ LEFT JOIN Snoop S ON QQ.id =
+   * S.quandaId GROUP BY QQ.id ORDER BY QQ.updatedTime DESC;
    */
   private String getSql(final String uid) {
     final StrBuilder sb = new StrBuilder();
@@ -112,6 +112,7 @@ public class NewsfeedWebHandler extends AbastractPeeqWebHandler
     sb.appendln("Q.rate, Q.status, Q.createdTime, Q.updatedTime");
     sb.appendln("FROM Quanda Q WHERE Q.asker != '%s'");
     sb.appendln("AND  Q.responder != '%s'");
+    sb.appendln("AND  Q.status = 'ANSWERED'");
     sb.appendln("AND NOT EXISTS (");
     sb.appendln("SELECT DISTINCT S.quandaId FROM Snoop S");
     sb.appendln("WHERE S.uid = '%s'");
