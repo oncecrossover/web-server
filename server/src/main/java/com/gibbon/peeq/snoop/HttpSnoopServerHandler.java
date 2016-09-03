@@ -86,13 +86,9 @@ public class HttpSnoopServerHandler
     }
 
     final ResourceURIParser uriParser = new ResourceURIParser(request.uri());
-
-    if (!writeResponse(ctx, dispatchRequest(uriParser, ctx))) {
-      // If keep-alive is off, close the connection once the content is
-      // fully written.
-      ctx.writeAndFlush(Unpooled.EMPTY_BUFFER)
+    writeResponse(ctx, dispatchRequest(uriParser, ctx));
+    ctx.writeAndFlush(Unpooled.EMPTY_BUFFER)
           .addListener(ChannelFutureListener.CLOSE);
-    }
   }
 
   private FullHttpResponse dispatchRequest(final ResourceURIParser uriParser,

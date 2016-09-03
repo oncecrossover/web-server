@@ -75,9 +75,9 @@ class PasswordResetViewController: UIViewController{
 
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Updating Password...")
 
-    let myUrl = NSURL(string: "http://localhost:8080/resetpwd/" + email.text!)
+    let urlString = "http://localhost:8080/resetpwd/" + email.text!
     let jsonData = ["tempPwd" : tmpPwd, "newPwd" : newPwd]
-    generics.updateObject(myUrl!, jsonData: jsonData) { result in
+    generics.createObject(urlString, jsonData: jsonData) { result in
       let message = result
       if (result.isEmpty) {
         dispatch_sync(dispatch_get_main_queue()){

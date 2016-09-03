@@ -27,7 +27,7 @@ class Generics {
       data, response, error in
       if (error != nil)
       {
-        print("error=\(error)")
+        completion("\(error)")
         return
       }
 
