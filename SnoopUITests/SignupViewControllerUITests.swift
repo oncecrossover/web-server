@@ -120,4 +120,19 @@ class SignupViewControllerUITests: XCTestCase {
     let okButton = app.alerts["Alert"].collectionViews.buttons["OK"]
     okButton.tap()
   }
+
+  func testResetPasswordPage() {
+    //Make sure the user is signed out
+    let app = XCUIApplication()
+
+    let window = app.childrenMatchingType(.Window).elementBoundByIndex(0)
+    window.childrenMatchingType(.Other).element.childrenMatchingType(.Other).element.tap()
+    app.buttons["Forget Password?"].tap()
+    let enterEmailTextField = app.textFields["Enter Email:"]
+    enterEmailTextField.tap()
+    enterEmailTextField.typeText("bowenzhangusa@gmail.com")
+    window.childrenMatchingType(.Other).elementBoundByIndex(1).childrenMatchingType(.Other).element.tap()
+    app.buttons["Cancel"].tap()
+
+  }
 }

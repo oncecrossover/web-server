@@ -34,9 +34,12 @@ class PaymentViewControllerUITests: XCTestCase {
       let emailTextField = app.textFields["Email:"]
       emailTextField.tap()
       emailTextField.typeText("bzhang@test.com")
-      
+
       let passwordSecureTextField = app.secureTextFields["Password:"]
       passwordSecureTextField.tap()
+
+      let moreNumbersKey = app.keys["more, numbers"]
+      moreNumbersKey.tap()
       passwordSecureTextField.typeText("1234")
       app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).element.childrenMatchingType(.Other).element.tap()
       app.buttons["Log In"].tap()
@@ -47,18 +50,15 @@ class PaymentViewControllerUITests: XCTestCase {
       let textField = app.textFields["1234567812345678"]
       textField.tap()
       textField.typeText("5555555555554444")
-      
-      let app2 = app
-      app2.textFields["MM/YY"].typeText("1217")
-      app2.textFields["CVC"].typeText("123")
-      app.buttons["Save Card"].tap()
-      app.alerts["OK"].collectionViews.buttons["OK"].tap()
-      app.navigationBars["Add A Card"].childrenMatchingType(.Button).matchingIdentifier("Back").elementBoundByIndex(0).tap()
-      XCTAssertEqual(app.tables.count, 1)
 
-      app2.tables.staticTexts["ending in 4444  MasterCard"].tap()
+      app.textFields["MM/YY"].typeText("1217")
+      app.textFields["CVC"].typeText("123")
+
+      app.buttons["Save Card"].tap()
+      app.tables.staticTexts["ending in 4444  MasterCard"].tap()
       app.navigationBars["Payment Cards"].buttons["Profile"].tap()
       app.buttons["Log Out"].tap()
+
     }
     
 }
