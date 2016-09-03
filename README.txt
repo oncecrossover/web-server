@@ -120,10 +120,14 @@ curl -i -X GET "http://127.0.0.1:8080/snoops/1"
 
 
 RESTFUL APIs OF SNOOPS FILTERING:
-The column name is not case sensitive, and it supports multiple columns.
-1. query snoops by a single column(e.g. uid), e.g.
-curl -i -X GET http://127.0.0.1:8080/snoops?filter -d uid="edmund"
-curl -i -X GET http://127.0.0.1:8080/snoops?filter -d id=1 -d uid="edmund"
+The column name is not case sensitive, and it supports multiple columns. To make it easy to encode url, please use curl with --data-urlencode.
+1. query snoops, e.g.
+curl -i -G -X GET http://127.0.0.1:8080/snoops --data-urlencode "uid='edmund'", equivalent to
+curl -i -X GET http://127.0.0.1:8080/snoops?uid='edmund'
+
+curl -i -G -X GET http://127.0.0.1:8080/snoops --data-urlencode "uid='edmund'&createdTime='2016-08-27 18:35:54'", equivalent to
+curl -i -G -X GET http://127.0.0.1:8080/snoops?uid='edmund'&createdTime='2016-08-27 18:35:54'
+
 
 Example response:
 [{"id":2,"uid":null,"quandaId":6,"createdTime":1472443947000,"question":"How do you believe in being an entrepreneur?","status":"ANSWERED","rate":100.0,"responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="}]

@@ -1,22 +1,15 @@
 package com.gibbon.peeq.handlers;
 
-import java.io.IOException;
-import java.util.Date;
-
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.Snoop;
 import com.gibbon.peeq.util.ResourceURIParser;
 import com.google.common.io.ByteArrayDataOutput;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;

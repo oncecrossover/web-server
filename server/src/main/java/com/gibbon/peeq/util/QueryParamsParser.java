@@ -1,5 +1,6 @@
 package com.gibbon.peeq.util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,5 +44,10 @@ public class QueryParamsParser {
   public String param(String key) {
     List<String> p = params().get(key);
     return p == null ? null : p.get(0);
+  }
+
+  public List<String> params(String key) {
+    List<String> p = params().get(key);
+    return p == null ? new ArrayList<String>() : p;
   }
 }

@@ -43,7 +43,7 @@ public class ProfileFilterWebHandler extends AbastractPeeqWebHandler
     return onQuery();
   }
 
-  static void loadAvatarsFromObjectStore(List<Profile> profiles)
+  private void loadAvatarsFromObjectStore(List<Profile> profiles)
       throws Exception {
     for (Profile profile : profiles) {
       if (StringUtils.isBlank(profile.getAvatarUrl())) {

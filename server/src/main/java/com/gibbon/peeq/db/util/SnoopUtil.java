@@ -3,6 +3,7 @@ package com.gibbon.peeq.db.util;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -85,24 +86,30 @@ public class SnoopUtil {
 
     List<String> list = Lists.newArrayList();
     for (String col : params.keySet()) {
+      col = col.trim();
+      /* skip empty col, e.g. /snoops?" " */
+      if (StringUtils.isBlank(col)) {
+        continue;
+      }
+
       if (col.equals("id")) {
         list.add(
             String.format("S.id=%d", Long.parseLong(params.get(col).get(0))));
       } else if (col.equals("uid")) {
-        list.add(String.format("S.uid='%s'", params.get(col).get(0)));
+        list.add(String.format("S.uid=%s", params.get(col).get(0)));
       } else if (col.equals("quandaId")) {
         list.add(String.format("S.quandaId=%d",
             Long.parseLong(params.get(col).get(0))));
       } else if (col.equals("createdTime")) {
-        list.add(String.format("S.createdTime='%s'", params.get(col).get(0)));
+        list.add(String.format("S.createdTime=%s", params.get(col).get(0)));
       } else {
-        list.add(String.format("S.%s='%s'", col, params.get(col).get(0)));
+        list.add(String.format("S.%s=%s", col, params.get(col).get(0)));
       }
     }
 
     String where = " WHERE Q.status = 'ANSWERED' ";
     where += list.size() == 0 ?
-        ""
+        " AND 1 = 0 " /* simulate no columns specified */
         : " AND " + Joiner.on(" AND ").skipNulls().join(list);
     final String orderBy = " ORDER BY createdTime DESC;";
     return select + where + orderBy;

@@ -40,33 +40,10 @@ public class SnoopFilterWebHandler extends AbastractPeeqWebHandler
   @Override
   protected FullHttpResponse handleRetrieval() {
      return onQuery();
-//    printContent();
-//    return this.newResponse(HttpResponseStatus.OK);
   }
-
-  private FullHttpResponse printContent() {
-    String result = null;
-    final ByteBuf content = getRequest().content();
-    if (content.isReadable()) {
-      final byte[] json = ByteBufUtil.getBytes(content);
-      result = new String(json);
-    }
-   if (result == null) {
-     result  = "nothing here";
-   }
-   this.appendln(result);
-   return this.newResponse(HttpResponseStatus.OK);
-  }
-
 
   private Map<String, List<String>> getParams() {
-    String query = "";
-    final ByteBuf content = getRequest().content();
-    if (content.isReadable()) {
-      query = new String(ByteBufUtil.getBytes(content));
-    }
-
-    QueryParamsParser parser = new QueryParamsParser(query, false);
+    QueryParamsParser parser = new QueryParamsParser(getRequest().uri());
     return parser.params();
   }
 
