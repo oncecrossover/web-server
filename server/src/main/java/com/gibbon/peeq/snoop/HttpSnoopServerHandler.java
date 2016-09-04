@@ -50,10 +50,11 @@ import com.gibbon.peeq.handlers.ProfileWebHandler;
 import com.gibbon.peeq.handlers.ResetPwdWebHandler;
 import com.gibbon.peeq.handlers.QaTransactionWebHandler;
 import com.gibbon.peeq.handlers.QuandaWebHandler;
+import com.gibbon.peeq.handlers.QuestionWebHandler;
 import com.gibbon.peeq.handlers.SnoopWebHandler;
 import com.gibbon.peeq.handlers.TempPwdWebHandler;
 import com.gibbon.peeq.handlers.UserWebHandler;
-import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.util.ResourcePathParser;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
@@ -85,86 +86,92 @@ public class HttpSnoopServerHandler
       send100Continue(ctx);
     }
 
-    final ResourceURIParser uriParser = new ResourceURIParser(request.uri());
-    writeResponse(ctx, dispatchRequest(uriParser, ctx));
+    final ResourcePathParser pathParser = new ResourcePathParser(request.uri());
+    writeResponse(ctx, dispatchRequest(pathParser, ctx));
     ctx.writeAndFlush(Unpooled.EMPTY_BUFFER)
-          .addListener(ChannelFutureListener.CLOSE);
+       .addListener(ChannelFutureListener.CLOSE);
   }
 
-  private FullHttpResponse dispatchRequest(final ResourceURIParser uriParser,
+  private FullHttpResponse dispatchRequest(final ResourcePathParser pathParser,
       final ChannelHandlerContext ctx) {
     final ByteArrayDataOutput respBuf = ByteStreams.newDataOutput();
-    final String resourceName = uriParser.getPathStream().nextToken();
+    final String resourceName = pathParser.getPathStream().nextToken();
 
     if ("users".equalsIgnoreCase(resourceName)) {
       return new UserWebHandler(
-          uriParser,
+          pathParser,
           respBuf,
           ctx,
           request).handle();
     } else if ("profiles".equalsIgnoreCase(resourceName)) {
       return new ProfileWebHandler(
-          uriParser,
+          pathParser,
           respBuf,
           ctx,
           request).handle();
     } else if ("quandas".equalsIgnoreCase(resourceName)) {
       return new QuandaWebHandler(
-          uriParser,
+          pathParser,
           respBuf,
           ctx,
           request).handle();
     } else if ("snoops".equalsIgnoreCase(resourceName)) {
       return new SnoopWebHandler(
-          uriParser,
+          pathParser,
           respBuf,
           ctx,
           request).handle();
     } else if ("pcentries".equalsIgnoreCase(resourceName)) {
       return new PcEntryWebHandler(
-          uriParser,
+          pathParser,
           respBuf,
           ctx,
           request).handle();
     } else if ("balances".equalsIgnoreCase(resourceName)) {
       return new BalanceWebHandler(
-          uriParser,
+          pathParser,
           respBuf,
           ctx,
           request).handle();
     } else if ("qatransactions".equalsIgnoreCase(resourceName)) {
       return new QaTransactionWebHandler(
-          uriParser,
+          pathParser,
           respBuf,
           ctx,
           request).handle();
     } else if ("newsfeeds".equalsIgnoreCase(resourceName)) {
       return new NewsfeedWebHandler(
-          uriParser,
+          pathParser,
           respBuf,
           ctx,
           request).handle();
     } else if ("temppwds".equalsIgnoreCase(resourceName)) {
       return new TempPwdWebHandler(
-          uriParser,
+          pathParser,
           respBuf,
           ctx,
           request).handle();
     } else if ("resetpwd".equalsIgnoreCase(resourceName)) {
       return new ResetPwdWebHandler(
-          uriParser,
+          pathParser,
+          respBuf,
+          ctx,
+          request).handle();
+    } else if ("questions".equalsIgnoreCase(resourceName)) {
+      return new QuestionWebHandler(
+          pathParser,
           respBuf,
           ctx,
           request).handle();
     } else if (!StringUtils.isBlank(resourceName)) {
       return new NotFoundResourceWebHandler(
-          uriParser,
+          pathParser,
           respBuf,
           ctx,
           request).handle();
     } else {
       return new NullResouceWebHandler(
-          uriParser,
+          pathParser,
           respBuf,
           ctx,
           request).handle();

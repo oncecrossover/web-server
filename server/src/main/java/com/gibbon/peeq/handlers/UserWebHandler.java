@@ -12,7 +12,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.User;
-import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.util.ResourcePathParser;
 import com.gibbon.peeq.util.StripeUtil;
 import com.google.common.io.ByteArrayDataOutput;
 import com.stripe.exception.StripeException;
@@ -30,10 +30,10 @@ public class UserWebHandler extends AbastractPeeqWebHandler
   protected static final Logger LOG = LoggerFactory
       .getLogger(UserWebHandler.class);
 
-  public UserWebHandler(ResourceURIParser uriParser,
+  public UserWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
-    super(uriParser, respBuf, ctx, request);
+    super(pathParser, respBuf, ctx, request);
   }
 
   @Override
@@ -104,7 +104,7 @@ public class UserWebHandler extends AbastractPeeqWebHandler
 
   private FullHttpResponse onGet() {
     /* get user id */
-    final String uid = getUriParser().getPathStream().nextToken();
+    final String uid = getPathParser().getPathStream().nextToken();
 
     /* no uid */
     if (StringUtils.isBlank(uid)) {
@@ -141,7 +141,7 @@ public class UserWebHandler extends AbastractPeeqWebHandler
 
   private FullHttpResponse onUpdate() {
     /* get user id */
-    final String uid = getUriParser().getPathStream().nextToken();
+    final String uid = getPathParser().getPathStream().nextToken();
 
     /* no uid */
     if (StringUtils.isBlank(uid)) {

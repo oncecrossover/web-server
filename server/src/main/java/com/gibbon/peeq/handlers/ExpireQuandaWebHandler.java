@@ -16,7 +16,7 @@ import com.gibbon.peeq.db.model.Quanda;
 import com.gibbon.peeq.db.util.JournalUtil;
 import com.gibbon.peeq.db.util.QaTransactionUtil;
 import com.gibbon.peeq.db.util.QuandaUtil;
-import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.util.ResourcePathParser;
 import com.gibbon.peeq.util.StripeUtil;
 import com.google.common.collect.Lists;
 import com.google.common.io.ByteArrayDataOutput;
@@ -32,11 +32,11 @@ public class ExpireQuandaWebHandler extends AbastractPeeqWebHandler
       .getLogger(ExpireQuandaWebHandler.class);
 
   public ExpireQuandaWebHandler(
-      ResourceURIParser uriParser,
+      ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf,
       ChannelHandlerContext ctx,
       FullHttpRequest request) {
-    super(uriParser, respBuf, ctx, request);
+    super(pathParser, respBuf, ctx, request);
   }
 
   @Override

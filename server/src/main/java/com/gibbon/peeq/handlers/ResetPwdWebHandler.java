@@ -10,11 +10,11 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.gibbon.peeq.db.model.PwdEntry;
 import com.gibbon.peeq.db.model.Quanda;
 import com.gibbon.peeq.db.model.User;
 import com.gibbon.peeq.db.util.TempPwdUtil;
-import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.model.PwdEntry;
+import com.gibbon.peeq.util.ResourcePathParser;
 import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.buffer.ByteBuf;
@@ -29,9 +29,9 @@ public class ResetPwdWebHandler extends AbastractPeeqWebHandler
   private static final Logger LOG = LoggerFactory
       .getLogger(ResetPwdWebHandler.class);
 
-  public ResetPwdWebHandler(ResourceURIParser uriParser, ByteArrayDataOutput respBuf,
+  public ResetPwdWebHandler(ResourcePathParser pathParser, ByteArrayDataOutput respBuf,
       ChannelHandlerContext ctx, FullHttpRequest request) {
-    super(uriParser, respBuf, ctx, request);
+    super(pathParser, respBuf, ctx, request);
   }
 
   @Override
@@ -41,7 +41,7 @@ public class ResetPwdWebHandler extends AbastractPeeqWebHandler
 
   private FullHttpResponse onCreate() {
     /* get user id */
-    final String uid = getUriParser().getPathStream().nextToken();
+    final String uid = getPathParser().getPathStream().nextToken();
 
     /* no uid */
     if (StringUtils.isBlank(uid)) {

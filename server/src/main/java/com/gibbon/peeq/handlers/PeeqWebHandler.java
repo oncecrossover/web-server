@@ -1,11 +1,13 @@
 package com.gibbon.peeq.handlers;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrBuilder;
 import org.hibernate.Session;
 
 import com.gibbon.peeq.db.util.HibernateUtil;
 import com.gibbon.peeq.util.FilterParamParser;
-import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.util.QueryParamsParser;
+import com.gibbon.peeq.util.ResourcePathParser;
 import com.google.common.base.Joiner;
 import com.google.common.io.ByteArrayDataOutput;
 
@@ -28,13 +30,18 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 
 public interface PeeqWebHandler {
 
-  public ResourceURIParser getUriParser();
+  public ResourcePathParser getPathParser();
+
+  public QueryParamsParser getQueryParser();
 
   public ByteArrayDataOutput getRespBuf();
 
@@ -54,23 +61,29 @@ public interface PeeqWebHandler {
 }
 
 abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
-  private ResourceURIParser uriParser;
+  private ResourcePathParser pathParser;
+  private QueryParamsParser queryParser;
   private ByteArrayDataOutput respBuf;
   private ChannelHandlerContext ctx;
   private FullHttpRequest request;
   private FilterParamParser filterParamParser;
 
-  public AbastractPeeqWebHandler(final ResourceURIParser uriParser,
-      final ByteArrayDataOutput respBuf, final ChannelHandlerContext ctx,
+  public AbastractPeeqWebHandler(
+      final ResourcePathParser pathParser,
+      final ByteArrayDataOutput respBuf,
+      final ChannelHandlerContext ctx,
       final FullHttpRequest request) {
-    this(uriParser, respBuf, ctx, request, null);
+    this(pathParser, respBuf, ctx, request, null);
   }
 
-  public AbastractPeeqWebHandler(final ResourceURIParser uriParser,
-      final ByteArrayDataOutput respBuf, final ChannelHandlerContext ctx,
+  public AbastractPeeqWebHandler(
+      final ResourcePathParser pathParser,
+      final ByteArrayDataOutput respBuf,
+      final ChannelHandlerContext ctx,
       final FullHttpRequest request,
       final FilterParamParser filterParamParser) {
-    this.uriParser = uriParser;
+    this.pathParser = pathParser;
+    this.queryParser = new QueryParamsParser(request.uri());
     this.respBuf = respBuf;
     this.ctx = ctx;
     this.request = request;
@@ -78,8 +91,13 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
   }
 
   @Override
-  public ResourceURIParser getUriParser() {
-    return uriParser;
+  public ResourcePathParser getPathParser() {
+    return pathParser;
+  }
+
+  @Override
+  public QueryParamsParser getQueryParser() {
+    return queryParser;
   }
 
   @Override
@@ -235,4 +253,25 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
     sb.append("]");
     return sb.toString();
   }
+
+  protected Map<String, List<String>> addToQueryParams(
+      final String key,
+      final String val) {
+    if (StringUtils.isBlank(key) || StringUtils.isBlank(val)) {
+      return getQueryParser().params();
+    } else if (getQueryParser().params().isEmpty()) {
+      /* new Map since getQueryParser().params() is EmptyMap immutable */
+      final Map<String, List<String>> params =
+          new LinkedHashMap<String, List<String>>();
+      params.computeIfAbsent(key, k -> new ArrayList<>()).add(val);
+      return params;
+    } else {
+      getQueryParser()
+        .params()
+        .computeIfAbsent(key, k -> new ArrayList<>())
+        .add(val);
+      return getQueryParser().params();
+    }
+  }
+
 }

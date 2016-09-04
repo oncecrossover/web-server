@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gibbon.peeq.db.model.Snoop;
-import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.util.ResourcePathParser;
 import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -20,15 +20,15 @@ public class SnoopWebHandler extends AbastractPeeqWebHandler
   protected static final Logger LOG = LoggerFactory
       .getLogger(SnoopWebHandler.class);
 
-  public SnoopWebHandler(ResourceURIParser uriParser,
+  public SnoopWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
-    super(uriParser, respBuf, ctx, request);
+    super(pathParser, respBuf, ctx, request);
   }
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    PeeqWebHandler pwh = new SnoopFilterWebHandler(getUriParser(),
+    PeeqWebHandler pwh = new SnoopFilterWebHandler(getPathParser(),
         getRespBuf(), getHandlerContext(), getRequest());
 
     if (pwh.willFilter()) {
@@ -40,7 +40,7 @@ public class SnoopWebHandler extends AbastractPeeqWebHandler
 
   private FullHttpResponse onGet() {
     /* get id */
-    final String id = getUriParser().getPathStream().nextToken();
+    final String id = getPathParser().getPathStream().nextToken();
 
     /* no id */
     if (StringUtils.isBlank(id)) {

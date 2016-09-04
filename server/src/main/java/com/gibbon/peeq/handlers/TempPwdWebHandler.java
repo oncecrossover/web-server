@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.TempPwd;
 import com.gibbon.peeq.db.util.TempPwdUtil;
 import com.gibbon.peeq.util.EmailUtil;
-import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.util.ResourcePathParser;
 import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.buffer.ByteBuf;
@@ -33,10 +33,10 @@ public class TempPwdWebHandler extends AbastractPeeqWebHandler
   private static final Logger LOG = LoggerFactory
       .getLogger(TempPwdWebHandler.class);
 
-  public TempPwdWebHandler(ResourceURIParser uriParser,
+  public TempPwdWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
-    super(uriParser, respBuf, ctx, request);
+    super(pathParser, respBuf, ctx, request);
   }
 
   @Override

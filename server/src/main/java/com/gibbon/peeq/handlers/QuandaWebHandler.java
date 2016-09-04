@@ -19,7 +19,7 @@ import com.gibbon.peeq.db.util.JournalUtil;
 import com.gibbon.peeq.db.util.QaTransactionUtil;
 import com.gibbon.peeq.exceptions.SnoopException;
 import com.gibbon.peeq.util.ObjectStoreClient;
-import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.util.ResourcePathParser;
 import com.gibbon.peeq.util.StripeUtil;
 import com.google.common.io.ByteArrayDataOutput;
 
@@ -35,15 +35,15 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
   protected static final Logger LOG = LoggerFactory
       .getLogger(QuandaWebHandler.class);
 
-  public QuandaWebHandler(ResourceURIParser uriParser,
+  public QuandaWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
-    super(uriParser, respBuf, ctx, request);
+    super(pathParser, respBuf, ctx, request);
   }
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    PeeqWebHandler pwh = new QuandaFilterWebHandler(getUriParser(),
+    PeeqWebHandler pwh = new QuandaFilterWebHandler(getPathParser(),
         getRespBuf(), getHandlerContext(), getRequest());
 
     if (pwh.willFilter()) {
@@ -55,21 +55,22 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
 
   @Override
   protected FullHttpResponse handleCreation() {
-    /* get controller, expecting expire */
-    final String controller = getUriParser().getPathStream().nextToken();
+    /* get controller */
+    final String controller = getPathParser().getPathStream().nextToken();
 
-    /* no id */
-    if (!"expire".equals(controller)) {
-      appendln("Unsupported controller resources: " + controller);
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    /* expire */
+    if ("expire".equals(controller)) {
+      PeeqWebHandler pwh = new ExpireQuandaWebHandler(
+          getPathParser(),
+          getRespBuf(),
+          getHandlerContext(),
+          getRequest());
+      return pwh.handle();
     }
 
-    PeeqWebHandler pwh = new ExpireQuandaWebHandler(
-        getUriParser(),
-        getRespBuf(),
-        getHandlerContext(),
-        getRequest());
-    return pwh.handle();
+    appendln(
+        String.format("Unsupported controller resources: '%s'" + controller));
+    return newResponse(HttpResponseStatus.BAD_REQUEST);
   }
 
   @Override
@@ -79,7 +80,7 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
 
   private FullHttpResponse onGet() {
     /* get id */
-    final String id = getUriParser().getPathStream().nextToken();
+    final String id = getPathParser().getPathStream().nextToken();
 
     /* no id */
     if (StringUtils.isBlank(id)) {
@@ -172,7 +173,7 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
 
   private FullHttpResponse onUpdate() {
     /* get id */
-    final String id = getUriParser().getPathStream().nextToken();
+    final String id = getPathParser().getPathStream().nextToken();
 
     /* no id */
     if (StringUtils.isBlank(id)) {

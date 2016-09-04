@@ -8,11 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.gibbon.peeq.db.model.Balance;
 import com.gibbon.peeq.db.model.PcEntry;
 import com.gibbon.peeq.db.model.User;
 import com.gibbon.peeq.db.util.JournalUtil;
-import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.model.Balance;
+import com.gibbon.peeq.util.ResourcePathParser;
 import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -25,10 +25,10 @@ public class BalanceWebHandler extends AbastractPeeqWebHandler
   protected static final Logger LOG = LoggerFactory
       .getLogger(BalanceWebHandler.class);
 
-  public BalanceWebHandler(ResourceURIParser uriParser,
+  public BalanceWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
-    super(uriParser, respBuf, ctx, request);
+    super(pathParser, respBuf, ctx, request);
   }
 
   protected FullHttpResponse handleRetrieval() {
@@ -37,7 +37,7 @@ public class BalanceWebHandler extends AbastractPeeqWebHandler
 
   private FullHttpResponse onGet() {
     /* get id */
-    final String uid = getUriParser().getPathStream().nextToken();
+    final String uid = getPathParser().getPathStream().nextToken();
 
     /* no uid */
     if (StringUtils.isBlank(uid)) {

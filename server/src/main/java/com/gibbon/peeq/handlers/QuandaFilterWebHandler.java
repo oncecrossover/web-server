@@ -16,7 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.db.model.Quanda;
 import com.gibbon.peeq.util.FilterParamParser;
-import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.util.ResourcePathParser;
 import com.google.common.base.Joiner;
 import com.google.common.io.ByteArrayDataOutput;
 
@@ -30,10 +30,10 @@ public class QuandaFilterWebHandler extends AbastractPeeqWebHandler
   protected static final Logger LOG = LoggerFactory
       .getLogger(QuandaFilterWebHandler.class);
 
-  public QuandaFilterWebHandler(ResourceURIParser uriParser,
+  public QuandaFilterWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
-    super(uriParser, respBuf, ctx, request,
+    super(pathParser, respBuf, ctx, request,
         new FilterParamParser(request.uri()));
   }
 

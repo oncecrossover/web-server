@@ -13,7 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.util.ObjectStoreClient;
-import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.util.ResourcePathParser;
 import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.buffer.ByteBuf;
@@ -28,15 +28,15 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
   protected static final Logger LOG = LoggerFactory
       .getLogger(ProfileWebHandler.class);
 
-  public ProfileWebHandler(ResourceURIParser uriParser,
+  public ProfileWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
-    super(uriParser, respBuf, ctx, request);
+    super(pathParser, respBuf, ctx, request);
   }
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    PeeqWebHandler pwh = new ProfileFilterWebHandler(getUriParser(),
+    PeeqWebHandler pwh = new ProfileFilterWebHandler(getPathParser(),
         getRespBuf(), getHandlerContext(), getRequest());
 
     if (pwh.willFilter()) {
@@ -63,7 +63,7 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
 
   private FullHttpResponse onGet() {
     /* get id */
-    final String uid = getUriParser().getPathStream().nextToken();
+    final String uid = getPathParser().getPathStream().nextToken();
 
     /* no uid */
     if (StringUtils.isBlank(uid)) {
@@ -119,7 +119,7 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
 
   private FullHttpResponse onUpdate() {
     /* get id */
-    final String uid = getUriParser().getPathStream().nextToken();
+    final String uid = getPathParser().getPathStream().nextToken();
 
     /* no uid */
     if (StringUtils.isBlank(uid)) {
@@ -203,7 +203,7 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
   }
 
   private void appendMethodNotAllowed(final String methodName) {
-    final String resourceName = getUriParser().getPathStream().getTouchedPath();
+    final String resourceName = getPathParser().getPathStream().getTouchedPath();
     appendln(String.format("Method '%s' not allowed on resource '%s'",
         methodName, resourceName));
   }

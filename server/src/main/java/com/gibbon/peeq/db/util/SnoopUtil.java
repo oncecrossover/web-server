@@ -76,6 +76,13 @@ public class SnoopUtil {
     return list;
   }
 
+  /**
+   * SELECT S.id, Q.id AS quandaId, Q.question, Q.status, Q.rate, P.fullName AS
+   * responderName, P.title AS responderTitle, P.avatarUrl AS
+   * responderAvatarUrl, S.createdTime FROM Snoop AS S INNER JOIN Quanda AS Q ON
+   * S.quandaId = Q.id INNER JOIN Profile AS P ON Q.responder = P.uid WHERE
+   * Q.status = 'ANSWERED' AND S.uid='edmund' ORDER BY createdTime DESC;
+   */
   private static String buildSql(final Map<String, List<String>> params) {
     String select = "SELECT S.id, Q.id AS quandaId, Q.question, Q.status, Q.rate,"
         + " P.fullName AS responderName, P.title AS responderTitle,"
@@ -107,10 +114,10 @@ public class SnoopUtil {
       }
     }
 
-    String where = " WHERE Q.status = 'ANSWERED' ";
+    String where = " WHERE Q.status = 'ANSWERED' AND ";
     where += list.size() == 0 ?
-        " AND 1 = 0 " /* simulate no columns specified */
-        : " AND " + Joiner.on(" AND ").skipNulls().join(list);
+        "1 = 0" : /* simulate no columns specified */
+        Joiner.on(" AND ").skipNulls().join(list);
     final String orderBy = " ORDER BY createdTime DESC;";
     return select + where + orderBy;
   }

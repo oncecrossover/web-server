@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gibbon.peeq.db.model.PcAccount;
 import com.gibbon.peeq.db.model.PcEntry;
 import com.gibbon.peeq.util.FilterParamParser;
-import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.util.ResourcePathParser;
 import com.gibbon.peeq.util.StripeUtil;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -35,10 +35,10 @@ public class PcEntryFilterWebHandler extends AbastractPeeqWebHandler
   private static final Logger LOG = LoggerFactory
       .getLogger(PcEntryFilterWebHandler.class);
 
-  public PcEntryFilterWebHandler(ResourceURIParser uriParser,
+  public PcEntryFilterWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
-    super(uriParser, respBuf, ctx, request,
+    super(pathParser, respBuf, ctx, request,
         new FilterParamParser(request.uri()));
   }
 

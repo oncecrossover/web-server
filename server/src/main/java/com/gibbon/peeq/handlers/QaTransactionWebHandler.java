@@ -22,7 +22,7 @@ import com.gibbon.peeq.db.model.Quanda;
 import com.gibbon.peeq.db.util.JournalUtil;
 import com.gibbon.peeq.db.util.PcAccountUtil;
 import com.gibbon.peeq.db.util.ProfileUtil;
-import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.util.ResourcePathParser;
 import com.gibbon.peeq.util.StripeUtil;
 import com.google.common.io.ByteArrayDataOutput;
 import com.stripe.model.Charge;
@@ -41,10 +41,10 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
       .getLogger(QaTransactionWebHandler.class);
   private final static double SNOOP_RATE = 1.5;
 
-  public QaTransactionWebHandler(ResourceURIParser uriParser,
+  public QaTransactionWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
-    super(uriParser, respBuf, ctx, request);
+    super(pathParser, respBuf, ctx, request);
   }
 
   @Override
@@ -54,7 +54,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
 
   private FullHttpResponse onGet() {
     /* get id */
-    final String id = getUriParser().getPathStream().nextToken();
+    final String id = getPathParser().getPathStream().nextToken();
 
     /* no id */
     if (StringUtils.isBlank(id)) {

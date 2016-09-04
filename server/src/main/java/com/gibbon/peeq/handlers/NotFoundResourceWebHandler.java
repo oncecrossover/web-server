@@ -1,6 +1,6 @@
 package com.gibbon.peeq.handlers;
 
-import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.util.ResourcePathParser;
 import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -10,10 +10,10 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 
 public class NotFoundResourceWebHandler extends AbastractPeeqWebHandler {
 
-  public NotFoundResourceWebHandler(ResourceURIParser uriParser,
+  public NotFoundResourceWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
-    super(uriParser, respBuf, ctx, request);
+    super(pathParser, respBuf, ctx, request);
   }
 
   @Override
@@ -57,7 +57,7 @@ public class NotFoundResourceWebHandler extends AbastractPeeqWebHandler {
   }
 
   private void appendNotFoundResource() {
-    final String resourceName = getUriParser().getPathStream().getTouchedPath();
+    final String resourceName = getPathParser().getPathStream().getTouchedPath();
     appendln(String.format("Not found the resource '%s'", resourceName));
   }
 }

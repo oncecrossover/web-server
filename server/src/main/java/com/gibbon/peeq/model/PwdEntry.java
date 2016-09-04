@@ -1,4 +1,4 @@
-package com.gibbon.peeq.db.model;
+package com.gibbon.peeq.model;
 
 import java.io.IOException;
 

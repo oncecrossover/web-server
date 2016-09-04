@@ -90,6 +90,9 @@ curl -i -X GET "http://127.0.0.1:8080/profiles?filter=*"
 curl -i -X GET "http://127.0.0.1:8080/profiles?filter=fullName=edmund"
 The column name is case sensitive, it only supports single column. In addition, it essentially does parttern matched query, e.g. fullName LIKE '%edmund%'
 
+Example response:
+{"uid":"edmund","rate":200.0,"avatarUrl":"/users/edmund/avatar","avatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","fullName":"Edmund Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.","createdTime":null,"updatedTime":null}
+
 
 RESTFUL APIs OF QUANDAS:
 1. get quanda by id, e.g.
@@ -109,8 +112,18 @@ curl -i -X GET "http://127.0.0.1:8080/quandas?filter=asker=kuan"
 curl -i -X GET "http://127.0.0.1:8080/quandas?filter=responder=edmund"
 The column name is case sensitive, it only supports single column. In addition, it essentially does equal matched query.
 
+
+RESTFUL APIs OF QUESTIONS:
+1. get question by id, e.g.
+curl -i -X GET http://127.0.0.1:8080/questions/1
+
+2. query my questions, e.g
+curl -i -G -X GET http://127.0.0.1:8080/questions --data-urlencode "asker='bowen'", equivalent to
+curl -i -G -X GET http://127.0.0.1:8080/questions?asker='bowen'
+
 Example response:
-{"uid":"edmund","rate":200.0,"avatarUrl":"/users/edmund/avatar","avatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","fullName":"Edmund Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.","createdTime":null,"updatedTime":null}
+[{"id":6,"question":"How do you believe in being an entrepreneur?","rate":100.0,"status":"ANSWERED","updatedTime":1472443395000,"responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="},{"id":3,"question":"How do you define a brave man?","rate":200.0,"status":"EXPIRED","updatedTime":1472426980000,"responderName":"Edmund Burke","responderTitle":"Philosopher","responderAvatarUrl":"/users/edmund/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="}]
+
 
 
 RESTFUL APIs OF SNOOPS:

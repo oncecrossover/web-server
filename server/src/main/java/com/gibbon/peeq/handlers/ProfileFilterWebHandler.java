@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.util.FilterParamParser;
 import com.gibbon.peeq.util.ObjectStoreClient;
-import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.util.ResourcePathParser;
 import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -31,10 +31,10 @@ public class ProfileFilterWebHandler extends AbastractPeeqWebHandler
   protected static final Logger LOG = LoggerFactory
       .getLogger(ProfileFilterWebHandler.class);
 
-  public ProfileFilterWebHandler(ResourceURIParser uriParser,
+  public ProfileFilterWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
-    super(uriParser, respBuf, ctx, request,
+    super(pathParser, respBuf, ctx, request,
         new FilterParamParser(request.uri()));
   }
 

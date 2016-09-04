@@ -1,6 +1,5 @@
 package com.gibbon.peeq.handlers;
 
-
 import java.util.List;
 import java.util.Map;
 
@@ -10,46 +9,60 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gibbon.peeq.db.model.Snoop;
-import com.gibbon.peeq.db.util.SnoopUtil;
+import com.gibbon.peeq.db.util.QuandaUtil;
+import com.gibbon.peeq.model.Question;
 import com.gibbon.peeq.util.FilterParamParser;
 import com.gibbon.peeq.util.ObjectStoreClient;
-import com.gibbon.peeq.util.QueryParamsParser;
 import com.gibbon.peeq.util.ResourcePathParser;
 import com.google.common.io.ByteArrayDataOutput;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
-public class SnoopFilterWebHandler extends AbastractPeeqWebHandler
+public class QuestionFilterWebHandler extends AbastractPeeqWebHandler
     implements PeeqWebHandler {
-  protected static final Logger LOG = LoggerFactory
-      .getLogger(SnoopFilterWebHandler.class);
+  private static final Logger LOG = LoggerFactory.getLogger(
+      QuestionFilterWebHandler.class);
 
-  public SnoopFilterWebHandler(ResourcePathParser pathParser,
-      ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
+  public QuestionFilterWebHandler(
+      ResourcePathParser pathParser,
+      ByteArrayDataOutput respBuf,
+      ChannelHandlerContext ctx,
       FullHttpRequest request) {
-    super(pathParser, respBuf, ctx, request,
+    super(
+        pathParser,
+        respBuf,
+        ctx,
+        request,
         new FilterParamParser(request.uri()));
   }
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-     return onQuery();
+    return onQuery();
   }
 
   private FullHttpResponse onQuery() {
+
+    /* query with id as part of path */
+    String id = null;
+    if (getPathParser().getPathStream().hasNext()) {
+      id = getPathParser().getPathStream().nextToken();
+    }
+
+    /* add id to query criteria */
+    final Map<String, List<String>> params = addToQueryParams("id", id);
+
+    /* query questions */
     Transaction txn = null;
     try {
       Session session = getSession();
       txn = session.beginTransaction();
 
       /* query */
-      String result = getResultJson(session);
+      String result = getResultJson(session, params);
 
       txn.commit();
 
@@ -62,20 +75,21 @@ public class SnoopFilterWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  private String getResultJson(final Session session) throws Exception {
-    final QueryParamsParser parser = new QueryParamsParser(getRequest().uri());
-    final List<Snoop> list = SnoopUtil.getSnoops(
+  private String getResultJson(
+      final Session session,
+      final Map<String, List<String>> params) throws Exception {
+    final List<Question> list = QuandaUtil.getQuestions(
         session,
-        parser.params(),
+        params,
         false);
 
     loadAvatarsFromObjectStore(list);
     return listToJsonString(list);
   }
 
-  private void loadAvatarsFromObjectStore(List<Snoop> snoops)
+  private void loadAvatarsFromObjectStore(List<Question> questions)
       throws Exception {
-    for (Snoop entity : snoops) {
+    for (Question entity : questions) {
       if (StringUtils.isBlank(entity.getResponderAvatarUrl())) {
         continue;
       }

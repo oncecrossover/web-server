@@ -16,7 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.PcAccount;
 import com.gibbon.peeq.db.model.PcEntry;
-import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.util.ResourcePathParser;
 import com.google.common.io.ByteArrayDataOutput;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
@@ -36,15 +36,15 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
   protected static final Logger LOG = LoggerFactory
       .getLogger(PcEntryWebHandler.class);
 
-  public PcEntryWebHandler(ResourceURIParser uriParser,
+  public PcEntryWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
-    super(uriParser, respBuf, ctx, request);
+    super(pathParser, respBuf, ctx, request);
   }
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    final PeeqWebHandler pwh = new PcEntryFilterWebHandler(getUriParser(),
+    final PeeqWebHandler pwh = new PcEntryFilterWebHandler(getPathParser(),
         getRespBuf(), getHandlerContext(), getRequest());
 
     if (pwh.willFilter()) {
@@ -189,7 +189,7 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
 
   private FullHttpResponse onGet() {
     /* get id */
-    final String id = getUriParser().getPathStream().nextToken();
+    final String id = getPathParser().getPathStream().nextToken();
 
     /* no id */
     if (StringUtils.isBlank(id)) {
@@ -230,7 +230,7 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
 
   private FullHttpResponse onDelete() {
     /* get id */
-    final String id = getUriParser().getPathStream().nextToken();
+    final String id = getPathParser().getPathStream().nextToken();
 
     /* verify id */
     if (StringUtils.isBlank(id)) {

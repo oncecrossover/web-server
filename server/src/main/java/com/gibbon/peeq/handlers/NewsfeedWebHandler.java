@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gibbon.peeq.db.model.Quanda;
-import com.gibbon.peeq.util.ResourceURIParser;
+import com.gibbon.peeq.util.ResourcePathParser;
 import com.google.common.base.Joiner;
 import com.google.common.io.ByteArrayDataOutput;
 
@@ -33,10 +33,10 @@ public class NewsfeedWebHandler extends AbastractPeeqWebHandler
   protected static final Logger LOG = LoggerFactory
       .getLogger(NewsfeedWebHandler.class);
 
-  public NewsfeedWebHandler(ResourceURIParser uriParser,
+  public NewsfeedWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
-    super(uriParser, respBuf, ctx, request);
+    super(pathParser, respBuf, ctx, request);
   }
 
   @Override
@@ -46,7 +46,7 @@ public class NewsfeedWebHandler extends AbastractPeeqWebHandler
 
   private FullHttpResponse onGet() {
     /* get uid */
-    final String uid = getUriParser().getPathStream().nextToken();
+    final String uid = getPathParser().getPathStream().nextToken();
 
     /* no uid */
     if (StringUtils.isBlank(uid)) {
