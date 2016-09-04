@@ -22,6 +22,8 @@
 		4A5B25851D6524EB00691696 /* ViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B25841D6524EB00691696 /* ViewControllerUITests.swift */; };
 		4A698D411D7B7BCE004786B8 /* DiscoverViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D401D7B7BCE004786B8 /* DiscoverViewControllerUITests.swift */; };
 		4A698D431D7B8D0E004786B8 /* ProfileViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D421D7B8D0E004786B8 /* ProfileViewControllerUITests.swift */; };
+		4A698D451D7BA12D004786B8 /* QuandaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D441D7BA12D004786B8 /* QuandaModel.swift */; };
+		4A698D471D7BA334004786B8 /* SnoopModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D461D7BA334004786B8 /* SnoopModel.swift */; };
 		4A745CBE1D73A5D500797AFC /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A745CBD1D73A5D500797AFC /* ConfirmationViewController.swift */; };
 		4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */; };
 		4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */; };
@@ -81,6 +83,8 @@
 		4A5B25841D6524EB00691696 /* ViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerUITests.swift; sourceTree = "<group>"; };
 		4A698D401D7B7BCE004786B8 /* DiscoverViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewControllerUITests.swift; sourceTree = "<group>"; };
 		4A698D421D7B8D0E004786B8 /* ProfileViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewControllerUITests.swift; sourceTree = "<group>"; };
+		4A698D441D7BA12D004786B8 /* QuandaModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuandaModel.swift; sourceTree = "<group>"; };
+		4A698D461D7BA334004786B8 /* SnoopModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnoopModel.swift; sourceTree = "<group>"; };
 		4A745CBD1D73A5D500797AFC /* ConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
 		4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewCell.swift; sourceTree = "<group>"; };
 		4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
@@ -149,6 +153,8 @@
 			children = (
 				4A4BB8291D769BE70085160F /* AbstractModel.swift */,
 				4A4BB82C1D769CF40085160F /* DiscoverModel.swift */,
+				4A698D441D7BA12D004786B8 /* QuandaModel.swift */,
+				4A698D461D7BA334004786B8 /* SnoopModel.swift */,
 			);
 			name = ObjectModel;
 			sourceTree = "<group>";
@@ -394,9 +400,11 @@
 				4A4BB82A1D769BE70085160F /* AbstractModel.swift in Sources */,
 				4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */,
 				4AF3226C1D29DE120043FCE5 /* ActivityViewController.swift in Sources */,
+				4A698D451D7BA12D004786B8 /* QuandaModel.swift in Sources */,
 				4AF3226A1D29A1E10043FCE5 /* Question.swift in Sources */,
 				4A152F621D59106700FA48E7 /* Generics.swift in Sources */,
 				4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */,
+				4A698D471D7BA334004786B8 /* SnoopModel.swift in Sources */,
 				4A368E8C1D5CFA8000176C54 /* ChargeViewController.swift in Sources */,
 				4AF3226E1D29DEEB0043FCE5 /* QuestionTableViewCell.swift in Sources */,
 				4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */,

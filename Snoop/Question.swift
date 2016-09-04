@@ -72,7 +72,7 @@ class Question {
   }
 
   func getSnoops(uid: String, completion: (NSArray) -> ()) {
-    let myUrl = NSURL(string: SNOOPURI + "?filter=uid=" + uid)
+    let myUrl = NSURL(string: SNOOPURI + "?uid='" + uid + "'")
     generics.getFilteredObjects(myUrl!) { result in
       completion(result)
     }

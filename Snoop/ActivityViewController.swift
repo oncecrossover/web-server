@@ -27,8 +27,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   var answers:[(id: Int!, question: String!, status: String!, askerImage: NSData!,
   askerName: String!, askerTitle: String!, askerId: String!, rate: Double!)] = []
 
-  var snoops:[(id: Int!, question: String!, status: String!, responderImage: NSData!, responderName: String!,
-  responderTitle: String!, isPlaying: Bool!, rate: Double!, hoursToExpire: Int!)] = []
+  var snoops:[SnoopModel] = []
 
   var refreshControl: UIRefreshControl = UIRefreshControl()
 
@@ -149,29 +148,27 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   func loadSnoops(uid: String) {
     questionModule.getSnoops(uid) { jsonArray in
-      var count = jsonArray.count
-      if count == 0 {
-        dispatch_async(dispatch_get_main_queue()) {
-          self.activityTableView.reloadData()
-        }
-        return
-      }
       for snoop in jsonArray as! [[String:AnyObject]] {
         let questionId = snoop["quandaId"] as! Int
-        self.questionModule.getQuestionById(questionId) { convertedDict in
-          let responderId = convertedDict["responder"] as! String
-          let question = convertedDict["question"] as! String
-          self.userModule.getProfile(responderId) {name, title, _, avatarImage, _ in
-            self.snoops.append((id: questionId, question: question, status: "ANSWERED", responderImage: avatarImage,
-              responderName: name, responderTitle: title, isPlaying: false, rate: 0.0, hoursToExpire: 0))
-            count--
-            if (count == 0) {
-              dispatch_async(dispatch_get_main_queue()) {
-                self.activityTableView.reloadData()
-              }
-            }
-          }
+        let question = snoop["question"] as! String
+
+        var avatarImage = NSData()
+        if ((snoop["responderAvatarImage"] as? String) != nil) {
+          avatarImage = NSData(base64EncodedString: (snoop["responderAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
         }
+
+        let name = snoop["responderName"] as! String
+        var title = ""
+        if ((snoop["responderTitle"] as? String) != nil) {
+          title = snoop["responderTitle"] as! String
+        }
+
+        let snoopModel = SnoopModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: "ANSWERED")
+        self.snoops.append(snoopModel)
+      }
+
+      dispatch_async(dispatch_get_main_queue()) {
+        self.activityTableView.reloadData()
       }
     }
   }
@@ -268,7 +265,9 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       questionInfo = questions[indexPath.row]
     }
     else {
-      questionInfo = snoops[indexPath.row]
+      let snoop = snoops[indexPath.row]
+      questionInfo = (id: snoop.id, question: snoop.question, status: snoop.status, responderImage: snoop.avatarImage,
+        responderName: snoop.name, responderTitle: snoop.title, isPlaying: snoop.isPlaying, rate: 0.0, hoursToExpire: 0)
       isSnoop = true
     }
 
@@ -310,7 +309,9 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       var cellInfo:(id: Int!, question: String!, status: String!, responderImage: NSData!,
       responderName: String!, responderTitle: String!, isPlaying: Bool!, rate: Double!, hoursToExpire: Int!)
       if (segmentedControl.selectedSegmentIndex == 2) {
-        cellInfo = snoops[indexPath.row]
+        let snoop = snoops[indexPath.row]
+        cellInfo = (id: snoop.id, question: snoop.question, status: snoop.status, responderImage: snoop.avatarImage,
+          responderName: snoop.name, responderTitle: snoop.title, isPlaying: snoop.isPlaying, rate: 0.0, hoursToExpire: 0)
         myCell.rateLabel.hidden = true
       }
       else {
