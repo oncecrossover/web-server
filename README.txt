@@ -83,10 +83,7 @@ curl -i -X PUT "http://127.0.0.1:8080/profiles/kuan" -d '{"rate":400,"title":"Ch
 
 
 RESTFUL APIs OF PROFILE FILTERING:
-1. load all profiles, e.g.
-curl -i -X GET "http://127.0.0.1:8080/profiles?filter=*"
-
-2. query profiles by a single column(e.g. fullName), e.g.
+1. query profiles by a single column(e.g. fullName), e.g.
 curl -i -X GET "http://127.0.0.1:8080/profiles?filter=fullName=edmund"
 The column name is case sensitive, it only supports single column. In addition, it essentially does parttern matched query, e.g. fullName LIKE '%edmund%'
 
@@ -117,20 +114,27 @@ RESTFUL APIs OF QUESTIONS:
 1. get question by id, e.g.
 curl -i -X GET http://127.0.0.1:8080/questions/1
 
+recommended usage:
+curl -i -G -X GET http://127.0.0.1:8080/questions/ --data-urlencode "id=1", equivalent to
+curl -i -G -X GET http://127.0.0.1:8080/questions?id=1
+
 2. query my questions, e.g
 curl -i -G -X GET http://127.0.0.1:8080/questions --data-urlencode "asker='bowen'", equivalent to
 curl -i -G -X GET http://127.0.0.1:8080/questions?asker='bowen'
 
 Example response:
-[{"id":6,"question":"How do you believe in being an entrepreneur?","rate":100.0,"status":"ANSWERED","updatedTime":1472443395000,"responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="},{"id":3,"question":"How do you define a brave man?","rate":200.0,"status":"EXPIRED","updatedTime":1472426980000,"responderName":"Edmund Burke","responderTitle":"Philosopher","responderAvatarUrl":"/users/edmund/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="}]
+[{"id":6,"question":"How do you believe in being an entrepreneur?","rate":100.0,"status":"ANSWERED","updatedTime":1472443395000,"responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="}]
 
 
 RESTFUL APIs OF ANSWERS:
+1. get answers by id, e.g.
 curl -i -X GET http://127.0.0.1:8080/answers/1
 
+recommended usage:
 curl -i -G -X GET http://127.0.0.1:8080/answers/ --data-urlencode "id=1", equivalent to
 curl -i -G -X GET http://127.0.0.1:8080/answers?id=1
 
+2. query answers by other criteria, e.g.
 curl -i -G -X GET http://127.0.0.1:8080/answers/ --data-urlencode "responder='bowen'", equivalent to
 curl -i -G -X GET http://127.0.0.1:8080/answers?responder='bowen'
 
@@ -139,20 +143,12 @@ Example response:
 
 
 RESTFUL APIs OF SNOOPS:
-The results are reversely chronologically ordered by createdTime.
 1. get snoop by id, e.g.
-curl -i -X GET "http://127.0.0.1:8080/snoops/1"
+curl -i -X GET http://127.0.0.1:8080/snoops/1
 
-
-RESTFUL APIs OF SNOOPS FILTERING:
-The column name is not case sensitive, and it supports multiple columns. To make it easy to encode url, please use curl with --data-urlencode.
-1. query snoops, e.g.
+2. query snoops, e.g.
 curl -i -G -X GET http://127.0.0.1:8080/snoops --data-urlencode "uid='edmund'", equivalent to
 curl -i -X GET http://127.0.0.1:8080/snoops?uid='edmund'
-
-curl -i -G -X GET http://127.0.0.1:8080/snoops --data-urlencode "uid='edmund'&createdTime='2016-08-27 18:35:54'", equivalent to
-curl -i -G -X GET http://127.0.0.1:8080/snoops?uid='edmund'&createdTime='2016-08-27 18:35:54'
-
 
 Example response:
 [{"id":2,"uid":null,"quandaId":6,"createdTime":1472443947000,"question":"How do you believe in being an entrepreneur?","status":"ANSWERED","rate":100.0,"responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="}]
@@ -192,8 +188,15 @@ curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":"xiaobingo","t
 
 
 RESTFUL APIs OF NEWSFEED:
-1. get news feed for a user by id, e.g.
-curl -i -X GET "http://127.0.0.1:8080/newsfeeds/edmund"
+1. get news feed by uid, e.g.
+curl -i -X GET http://127.0.0.1:8080/newsfeeds/kuan
+
+2. query newsfeed, e.g.
+curl -i -G -X GET http://127.0.0.1:8080/newsfeeds/ --data-urlencode "uid=kuan", equivalent to
+curl -i -G -X GET http://127.0.0.1:8080/newsfeeds?uid='kuan'
+
+Example response:
+[{"quandaId":6,"question":"How do you believe in being an entrepreneur?","updatedTime":1472443395000,"responderId":"xiaobingo","responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","snoops":1}]
 
 
 RESTFUL APIs OF TEMP PASSWORD:

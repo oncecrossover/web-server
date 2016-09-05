@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import com.gibbon.peeq.db.model.Quanda;
 import com.gibbon.peeq.exceptions.SnoopException;
 import com.gibbon.peeq.model.Answer;
+import com.gibbon.peeq.model.Newsfeed;
 import com.gibbon.peeq.model.Question;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -143,10 +144,10 @@ public class QuandaDBUtil {
            .addScalar("question", new StringType())
            .addScalar("status", new StringType())
            .addScalar("rate", new DoubleType())
+           .addScalar("createdTime", new TimestampType())
            .addScalar("askerName", new StringType())
            .addScalar("askerTitle", new StringType())
-           .addScalar("askerAvatarUrl", new StringType())
-           .addScalar("createdTime", new TimestampType());
+           .addScalar("askerAvatarUrl", new StringType());
       list = query.list();
 
       if (txn != null) {
@@ -185,11 +186,55 @@ public class QuandaDBUtil {
            .addScalar("question", new StringType())
            .addScalar("status", new StringType())
            .addScalar("rate", new DoubleType())
+           .addScalar("createdTime", new TimestampType())
+           .addScalar("updatedTime", new TimestampType())
+           .addScalar("responderName", new StringType())
+           .addScalar("responderTitle", new StringType())
+           .addScalar("responderAvatarUrl", new StringType());
+      list = query.list();
+
+      if (txn != null) {
+        txn.commit();
+      }
+    } catch (HibernateException e) {
+      if (txn != null) {
+        txn.rollback();
+      }
+      throw e;
+    } catch (Exception e) {
+      throw e;
+    }
+    return list;
+  }
+
+  public static List<Newsfeed> getNewsfeed(
+      final Session session,
+      final Map<String, List<String>> params,
+      final boolean newTransaction)  throws Exception {
+
+    final String uid =
+        params.containsKey("uid") ? params.get("uid").get(0) : "";
+    final String sql = buildSql4Newsfeed(uid);
+    Transaction txn = null;
+    List<Newsfeed> list = null;
+
+    try {
+      if (newTransaction) {
+        txn = session.beginTransaction();
+      }
+
+      /* build query */
+      final SQLQuery query = session.createSQLQuery(sql);
+      query.setResultTransformer(Transformers.aliasToBean(Newsfeed.class));
+      /* add column mapping */
+      query.addScalar("quandaId", new LongType())
+           .addScalar("question", new StringType())
+           .addScalar("updatedTime", new TimestampType())
+           .addScalar("responderId", new StringType())
            .addScalar("responderName", new StringType())
            .addScalar("responderTitle", new StringType())
            .addScalar("responderAvatarUrl", new StringType())
-           .addScalar("createdTime", new TimestampType())
-           .addScalar("updatedTime", new TimestampType());
+           .addScalar("snoops", new LongType());
       list = query.list();
 
       if (txn != null) {
@@ -282,5 +327,19 @@ public class QuandaDBUtil {
         Joiner.on(" AND ").skipNulls().join(list);
     final String orderBy = " ORDER BY Q.updatedTime DESC;";
     return select + where + orderBy;
+  }
+
+  private static String buildSql4Newsfeed(final String uid) {
+    final String select =
+        "SELECT Q.id AS quandaId, Q.question, Q.updatedTime," +
+        " P.uid AS responderId, P.fullName AS responderName," +
+        " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl," +
+        " count(S.id) AS snoops FROM" +
+        " Quanda AS Q INNER JOIN Profile AS P ON Q.responder = P.uid" +
+        " LEFT JOIN Snoop AS S ON Q.id = S.quandaId" +
+        " WHERE Q.asker != '%s' AND Q.responder != '%s'" +
+        " AND Q.status = 'ANSWERED' AND S.uid != '%s'" +
+        " GROUP BY Q.id ORDER BY Q.updatedTime DESC;";
+    return String.format(select, uid, uid, uid);
   }
 }

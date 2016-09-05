@@ -99,7 +99,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
   }
 
 
-  /*
+  /**
    * <ul> <li>In the case of ASKING transaction, inserting quanda and
    * qaTransaction, and charging asker must be atomic. </li> <li>In the case of
    * SNOOPING, inserting snoop and qaTransaction, and charging snooper must be
