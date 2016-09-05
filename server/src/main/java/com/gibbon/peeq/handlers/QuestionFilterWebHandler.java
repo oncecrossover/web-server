@@ -9,7 +9,7 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gibbon.peeq.db.util.QuandaUtil;
+import com.gibbon.peeq.db.util.QuandaDBUtil;
 import com.gibbon.peeq.model.Question;
 import com.gibbon.peeq.util.FilterParamParser;
 import com.gibbon.peeq.util.ObjectStoreClient;
@@ -78,7 +78,7 @@ public class QuestionFilterWebHandler extends AbastractPeeqWebHandler
   private String getResultJson(
       final Session session,
       final Map<String, List<String>> params) throws Exception {
-    final List<Question> list = QuandaUtil.getQuestions(
+    final List<Question> list = QuandaDBUtil.getQuestions(
         session,
         params,
         false);

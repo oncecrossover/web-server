@@ -19,7 +19,7 @@ import com.gibbon.peeq.db.model.Quanda;
 import com.gibbon.peeq.db.model.TestQuanda;
 import com.gibbon.peeq.exceptions.SnoopException;
 
-public class TestQuandaUtil {
+public class TestQuandaDBUtil {
   private static Random random = new Random(System.currentTimeMillis());
 
   @Test(timeout = 60000)
@@ -27,7 +27,7 @@ public class TestQuandaUtil {
     final Session session = HibernateTestUtil.getSessionFactory()
         .getCurrentSession();
     try {
-      QuandaUtil.getQuanda(session, random.nextLong(), true);
+      QuandaDBUtil.getQuanda(session, random.nextLong(), true);
       fail("There shouldn't be any record.");
     } catch (Exception e) {
       assertTrue(e instanceof SnoopException);
@@ -43,7 +43,7 @@ public class TestQuandaUtil {
 
     Quanda result = null;
     try {
-      result = QuandaUtil.getQuanda(session, auanda.getId(), true);
+      result = QuandaDBUtil.getQuanda(session, auanda.getId(), true);
       assertEquals(result, auanda);
     } catch (Exception e) {
       fail("There should be any record.");
@@ -55,7 +55,7 @@ public class TestQuandaUtil {
     final Session session = HibernateTestUtil.getSessionFactory()
         .getCurrentSession();
 
-    List<Quanda> list = QuandaUtil.getExpiredQuandas(session , true);
+    List<Quanda> list = QuandaDBUtil.getExpiredQuandas(session , true);
     assertEquals(0, list.size());
   }
 
@@ -78,7 +78,7 @@ public class TestQuandaUtil {
 
     /* no one expired */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
-    list = QuandaUtil.getExpiredQuandas(session, true);
+    list = QuandaDBUtil.getExpiredQuandas(session, true);
     assertEquals(0, list.size());
 
     /**
@@ -87,7 +87,7 @@ public class TestQuandaUtil {
     /* query createdTime of quanda1 */
     resInstance = quanda1;
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
-    resInstance = QuandaUtil.getQuanda(session, resInstance.getId(), true);
+    resInstance = QuandaDBUtil.getQuanda(session, resInstance.getId(), true);
 
     /* change createdTime to 72 hours earlier */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
@@ -99,7 +99,7 @@ public class TestQuandaUtil {
 
     /* verify one expired */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
-    list = QuandaUtil.getExpiredQuandas(session, true);
+    list = QuandaDBUtil.getExpiredQuandas(session, true);
     assertEquals(1, list.size());
     assertEquals(resInstance.getId(), list.get(0).getId());
 
@@ -109,7 +109,7 @@ public class TestQuandaUtil {
     /* query createdTime of quanda2 */
     resInstance = quanda2;
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
-    resInstance = QuandaUtil.getQuanda(session, resInstance.getId(), true);
+    resInstance = QuandaDBUtil.getQuanda(session, resInstance.getId(), true);
 
     /* change createdTime to 72 hours earlier */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
@@ -121,7 +121,7 @@ public class TestQuandaUtil {
 
     /* verify two expired */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
-    list = QuandaUtil.getExpiredQuandas(session, true);
+    list = QuandaDBUtil.getExpiredQuandas(session, true);
     Collections.sort(list, QuandaComparator);
     assertEquals(2, list.size());
     assertEquals(quanda1.getId(), list.get(0).getId());
@@ -133,7 +133,7 @@ public class TestQuandaUtil {
     /* query createdTime of quanda3 */
     resInstance = quanda3;
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
-    resInstance = QuandaUtil.getQuanda(session, resInstance.getId(), true);
+    resInstance = QuandaDBUtil.getQuanda(session, resInstance.getId(), true);
 
     /* change createdTime to 72 hours earlier */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
@@ -145,7 +145,7 @@ public class TestQuandaUtil {
 
     /* verify three expired */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
-    list = QuandaUtil.getExpiredQuandas(session, true);
+    list = QuandaDBUtil.getExpiredQuandas(session, true);
     Collections.sort(list, QuandaComparator);
     assertEquals(3, list.size());
     assertEquals(quanda1.getId(), list.get(0).getId());
@@ -158,7 +158,7 @@ public class TestQuandaUtil {
     /* query createdTime of quanda4 */
     resInstance = quanda4;
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
-    resInstance = QuandaUtil.getQuanda(session, resInstance.getId(), true);
+    resInstance = QuandaDBUtil.getQuanda(session, resInstance.getId(), true);
 
     /* change createdTime to 72 hours earlier */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
@@ -170,7 +170,7 @@ public class TestQuandaUtil {
 
     /* verify four expired */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
-    list = QuandaUtil.getExpiredQuandas(session, true);
+    list = QuandaDBUtil.getExpiredQuandas(session, true);
     Collections.sort(list, QuandaComparator);
     assertEquals(4, list.size());
     assertEquals(quanda1.getId(), list.get(0).getId());

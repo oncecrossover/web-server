@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gibbon.peeq.util.QuandaUtil;
 
 public class Quanda {
   public enum QnaStatus {
@@ -133,20 +134,7 @@ public class Quanda {
   }
 
   public Long getHoursToExpire() {
-    if (createdTime == null) {
-      return 0L;
-    }
-
-    /* time diff */
-    final Date now = new Date();
-    final long diff = now.getTime() - createdTime.getTime();
-    if (diff < 0) {
-      return 0L;
-    }
-
-    /* diff in terms of hours */
-    final long hours = TimeUnit.MILLISECONDS.toHours(diff);
-    return 48 <= hours ? 0 : 48 - hours;
+    return QuandaUtil.getHoursToExpire(createdTime);
   }
 
   @JsonIgnore

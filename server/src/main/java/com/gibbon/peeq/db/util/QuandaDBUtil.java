@@ -22,8 +22,8 @@ import com.gibbon.peeq.model.Question;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
-public class QuandaUtil {
-  protected static final Logger LOG = LoggerFactory.getLogger(QuandaUtil.class);
+public class QuandaDBUtil {
+  protected static final Logger LOG = LoggerFactory.getLogger(QuandaDBUtil.class);
 
   /*
    * query from a session that will open new transaction.
@@ -145,6 +145,7 @@ public class QuandaUtil {
            .addScalar("responderName", new StringType())
            .addScalar("responderTitle", new StringType())
            .addScalar("responderAvatarUrl", new StringType())
+           .addScalar("createdTime", new TimestampType())
            .addScalar("updatedTime", new TimestampType());
       list = query.list();
 
@@ -169,9 +170,10 @@ public class QuandaUtil {
    * Q.asker='kuan' ORDER BY Q.updatedTime DESC;
    */
   private static String buildSql4Questions(final Map<String, List<String>> params) {
-    final String select = "SELECT Q.id, Q.question, Q.status, Q.rate, Q.updatedTime,"
-        + " P.fullName AS responderName, P.title AS responderTitle, P.avatarUrl "
-        + " AS responderAvatarUrl FROM Quanda AS Q"
+    final String select = "SELECT Q.id, Q.question, Q.status, Q.rate,"
+        + " Q.createdTime, Q.updatedTime, P.fullName AS responderName,"
+        + " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl "
+        + " FROM Quanda AS Q"
         + " INNER JOIN Profile AS P ON Q.responder = P.uid";
 
     List<String> list = Lists.newArrayList();

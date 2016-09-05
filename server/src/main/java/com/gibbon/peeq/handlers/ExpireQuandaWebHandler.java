@@ -15,7 +15,7 @@ import com.gibbon.peeq.db.model.QaTransaction;
 import com.gibbon.peeq.db.model.Quanda;
 import com.gibbon.peeq.db.util.JournalUtil;
 import com.gibbon.peeq.db.util.QaTransactionUtil;
-import com.gibbon.peeq.db.util.QuandaUtil;
+import com.gibbon.peeq.db.util.QuandaDBUtil;
 import com.gibbon.peeq.util.ResourcePathParser;
 import com.gibbon.peeq.util.StripeUtil;
 import com.google.common.collect.Lists;
@@ -125,7 +125,7 @@ public class ExpireQuandaWebHandler extends AbastractPeeqWebHandler
     try {
       session = getSession();
       txn = session.beginTransaction();
-      toDoList = QuandaUtil.getExpiredQuandas(session);
+      toDoList = QuandaDBUtil.getExpiredQuandas(session);
       txn.commit();
     } catch (Exception e) {
       txn.rollback();

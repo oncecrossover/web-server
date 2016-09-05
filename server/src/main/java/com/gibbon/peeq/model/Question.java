@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gibbon.peeq.util.QuandaUtil;
 
 public class Question {
 
@@ -11,7 +12,9 @@ public class Question {
   private String question;
   private Double rate;
   private String status;
+  private Date createdTime;
   private Date updatedTime;
+  private Long hoursToExpire;
   private String responderName;
   private String responderTitle;
   private String responderAvatarUrl;
@@ -53,12 +56,30 @@ public class Question {
     return this;
   }
 
+  public Date getCreatedTime() {
+    return createdTime;
+  }
+
+  public Question setCreatedTime(final Date createdTime) {
+    this.createdTime = createdTime;
+    return this;
+  }
+
   public Date getUpdatedTime() {
     return updatedTime;
   }
 
   public Question setUpdatedTime(final Date updatedTime) {
     this.updatedTime = updatedTime;
+    return this;
+  }
+
+  public Long getHoursToExpire() {
+    return QuandaUtil.getHoursToExpire(createdTime);
+  }
+
+  public Question setHoursToExpire(final Long hoursToExpire) {
+    this.hoursToExpire = hoursToExpire;
     return this;
   }
 
