@@ -125,6 +125,18 @@ Example response:
 [{"id":6,"question":"How do you believe in being an entrepreneur?","rate":100.0,"status":"ANSWERED","updatedTime":1472443395000,"responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="},{"id":3,"question":"How do you define a brave man?","rate":200.0,"status":"EXPIRED","updatedTime":1472426980000,"responderName":"Edmund Burke","responderTitle":"Philosopher","responderAvatarUrl":"/users/edmund/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="}]
 
 
+RESTFUL APIs OF ANSWERS:
+curl -i -X GET http://127.0.0.1:8080/answers/1
+
+curl -i -G -X GET http://127.0.0.1:8080/answers/ --data-urlencode "id=1", equivalent to
+curl -i -G -X GET http://127.0.0.1:8080/answers?id=1
+
+curl -i -G -X GET http://127.0.0.1:8080/answers/ --data-urlencode "responder='bowen'", equivalent to
+curl -i -G -X GET http://127.0.0.1:8080/answers?responder='bowen'
+
+Example response:
+[{"id":4,"question":"Are you nervous being an entrepreneur?","rate":300.0,"status":"EXPIRED","createdTime":1472169993000,"askerName":"Xiaobing Zhou","askerTitle":"Software Engineer","askerAvatarUrl":"/users/xiaobingo/avatar","askerAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","hoursToExpire":0}]
+
 
 RESTFUL APIs OF SNOOPS:
 The results are reversely chronologically ordered by createdTime.

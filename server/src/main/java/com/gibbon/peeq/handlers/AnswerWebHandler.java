@@ -7,9 +7,10 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 
-public class QuestionWebHandler extends AbastractPeeqWebHandler
-implements PeeqWebHandler {
-  public QuestionWebHandler(
+public class AnswerWebHandler extends AbastractPeeqWebHandler
+    implements PeeqWebHandler {
+
+  public AnswerWebHandler(
       ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf,
       ChannelHandlerContext ctx,
@@ -23,7 +24,7 @@ implements PeeqWebHandler {
   }
 
   private FullHttpResponse forward() {
-    PeeqWebHandler pwh = new QuestionFilterWebHandler(
+    final PeeqWebHandler pwh = new AnswerFilterWebHandler(
         getPathParser(),
         getRespBuf(),
         getHandlerContext(),
