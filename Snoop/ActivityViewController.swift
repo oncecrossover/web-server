@@ -21,8 +21,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   var soundPlayer: AVAudioPlayer!
   var activeCell: (Bool!, Int!)!
 
-  var questions:[(id: Int!, question: String!, status: String!, responderImage: NSData!,
-  responderName: String!, responderTitle: String!, isPlaying: Bool!, rate: Double!, hoursToExpire: Int!)] = []
+  var questions:[QuestionModel] = []
 
   var answers:[(id: Int!, question: String!, status: String!, askerImage: NSData!,
   askerName: String!, askerTitle: String!, askerId: String!, rate: Double!)] = []
@@ -81,7 +80,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     if (segmentedControl.selectedSegmentIndex == 0) {
       questions = []
-      loadDataWithFilter("asker=" + uid)
+      loadDataWithFilter("asker='" + uid + "'")
     }
     else if (segmentedControl.selectedSegmentIndex == 1) {
       answers = []
@@ -107,25 +106,22 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         let questionId = questionInfo["id"] as! Int
         let question = questionInfo["question"] as! String
         let status = questionInfo["status"] as! String
-        let hoursToExpire = questionInfo["hoursToExpire"] as! Int
         var rate = 0.0
         if (questionInfo["rate"] != nil) {
           rate = questionInfo["rate"] as! Double
         }
 
         if (self.segmentedControl.selectedSegmentIndex == 0) {
-          let responderId = questionInfo["responder"] as! String
-          self.userModule.getProfile(responderId) {name, title, about, avatarImage, _ in
-            self.questions.append((id: questionId, question: question, status: status,
-              responderImage: avatarImage, responderName: name, responderTitle: title,
-              isPlaying: false, rate: rate, hoursToExpire : hoursToExpire))
-            count--
-            if (count == 0) {
-              dispatch_async(dispatch_get_main_queue()) {
-                self.activityTableView.reloadData()
-              }
-            }
+          let hoursToExpire = questionInfo["hoursToExpire"] as! Int
+          let name = questionInfo["responderName"] as! String
+          let title = questionInfo["responderTitle"] as! String
+          var avatarImage = NSData()
+          if ((questionInfo["responderAvatarImage"] as? String) != nil) {
+            avatarImage = NSData(base64EncodedString: (questionInfo["responderAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
           }
+
+          self.questions.append(QuestionModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: status, _isPlaying: false, _rate: rate, _hoursToExpire: hoursToExpire))
+
         }
         else if (self.segmentedControl.selectedSegmentIndex == 1) {
           let askerId = questionInfo["asker"] as! String
@@ -141,6 +137,10 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
             }
           }
         }
+      }
+
+      dispatch_async(dispatch_get_main_queue()) {
+        self.activityTableView.reloadData()
       }
     }
 
@@ -163,7 +163,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
           title = snoop["responderTitle"] as! String
         }
 
-        let snoopModel = SnoopModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: "ANSWERED")
+        let snoopModel = SnoopModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: "ANSWERED", _isPlaying: false)
         self.snoops.append(snoopModel)
       }
 
@@ -257,17 +257,14 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
     //using the tapLocation, we retrieve the corresponding indexPath
     let indexPath = self.activityTableView.indexPathForRowAtPoint(tapLocation)!
-    var questionInfo:(id: Int!, question: String!, status: String!, responderImage: NSData!,
-    responderName: String!, responderTitle: String!, isPlaying: Bool!, rate: Double!, hoursToExpire: Int!)
+    var questionInfo:QuandaModel
 
     var isSnoop = false
     if (segmentedControl.selectedSegmentIndex == 0) {
       questionInfo = questions[indexPath.row]
     }
     else {
-      let snoop = snoops[indexPath.row]
-      questionInfo = (id: snoop.id, question: snoop.question, status: snoop.status, responderImage: snoop.avatarImage,
-        responderName: snoop.name, responderTitle: snoop.title, isPlaying: snoop.isPlaying, rate: 0.0, hoursToExpire: 0)
+      questionInfo = snoops[indexPath.row]
       isSnoop = true
     }
 
@@ -275,7 +272,6 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
     if (questionInfo.isPlaying!) {
       stopPlayer()
-
       self.activityTableView.reloadData()
       return
     }
@@ -306,12 +302,9 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       let myCell = tableView.dequeueReusableCellWithIdentifier("questionCell", forIndexPath: indexPath)
         as! QuestionTableViewCell
 
-      var cellInfo:(id: Int!, question: String!, status: String!, responderImage: NSData!,
-      responderName: String!, responderTitle: String!, isPlaying: Bool!, rate: Double!, hoursToExpire: Int!)
+      var cellInfo: QuandaModel
       if (segmentedControl.selectedSegmentIndex == 2) {
-        let snoop = snoops[indexPath.row]
-        cellInfo = (id: snoop.id, question: snoop.question, status: snoop.status, responderImage: snoop.avatarImage,
-          responderName: snoop.name, responderTitle: snoop.title, isPlaying: snoop.isPlaying, rate: 0.0, hoursToExpire: 0)
+        cellInfo = snoops[indexPath.row]
         myCell.rateLabel.hidden = true
       }
       else {
@@ -322,15 +315,15 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
       myCell.questionText.text = cellInfo.question
 
-      if (cellInfo.responderTitle.isEmpty) {
-        myCell.titleLabel.text = cellInfo.responderName
+      if (cellInfo.title.isEmpty) {
+        myCell.titleLabel.text = cellInfo.name
       }
       else {
-        myCell.titleLabel.text = "\(cellInfo.responderName)" + " | "  + "\(cellInfo.responderTitle)"
+        myCell.titleLabel.text = "\(cellInfo.name)" + " | "  + "\(cellInfo.title)"
       }
 
-      if (cellInfo.responderImage.length > 0) {
-        myCell.profileImage.image = UIImage(data: cellInfo.responderImage)
+      if (cellInfo.avatarImage.length > 0) {
+        myCell.profileImage.image = UIImage(data: cellInfo.avatarImage)
       }
 
       if (cellInfo.status == "PENDING") {

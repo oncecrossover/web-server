@@ -11,10 +11,12 @@ import Foundation
 class Question {
   private var QUESTIONURI : String
   private var SNOOPURI : String
+  private var QUANDAURI: String
   private var generics = Generics()
   init () {
     SNOOPURI = "http://localhost:8080/snoops"
-    QUESTIONURI = "http://localhost:8080/quandas"
+    QUESTIONURI = "http://localhost:8080/questions"
+    QUANDAURI = "http://localhost:8080/quandas"
   }
 
   func createQuestion(asker: String, question: String, responder: String,
@@ -28,7 +30,7 @@ class Question {
 
   func updateQuestion(id: Int!, askerId: String!, content: String!, responderId: String!,
     answerAudio: NSData!, completion: (String) -> ()) {
-      let myUrl = NSURL(string: QUESTIONURI + "/" + "\(id)")
+      let myUrl = NSURL(string: QUANDAURI + "/" + "\(id)")
       let audioString = answerAudio?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
       let jsonData: [String: AnyObject] = ["answerAudio": audioString!, "status" : "ANSWERED"]
       generics.updateObject(myUrl!, jsonData: jsonData) { result in
@@ -37,7 +39,7 @@ class Question {
   }
 
   func getQuestions(filterString: String, completion: (NSArray) -> ()) {
-    let myUrl = NSURL(string: QUESTIONURI + "?filter=" + filterString)
+    let myUrl = NSURL(string: QUESTIONURI + "?" + filterString)
     generics.getFilteredObjects(myUrl!) { result in
       completion(result)
     }
@@ -45,7 +47,7 @@ class Question {
   }
 
   func getQuestionAudio(id: Int, completion: (String) -> ()){
-    let myUrl = NSURL(string: QUESTIONURI + "/" + "\(id)")
+    let myUrl = NSURL(string: QUANDAURI + "/" + "\(id)")
     generics.getObjectById(myUrl!) { convertedJsonIntoDict in
       if let storedAudio = convertedJsonIntoDict["answerAudio"] as? String {
         completion(storedAudio)

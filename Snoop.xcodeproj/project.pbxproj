@@ -24,6 +24,8 @@
 		4A698D431D7B8D0E004786B8 /* ProfileViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D421D7B8D0E004786B8 /* ProfileViewControllerUITests.swift */; };
 		4A698D451D7BA12D004786B8 /* QuandaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D441D7BA12D004786B8 /* QuandaModel.swift */; };
 		4A698D471D7BA334004786B8 /* SnoopModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D461D7BA334004786B8 /* SnoopModel.swift */; };
+		4A698D491D7CCDFB004786B8 /* AnswerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D481D7CCDFB004786B8 /* AnswerModel.swift */; };
+		4A698D4B1D7CE568004786B8 /* QuestionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D4A1D7CE568004786B8 /* QuestionModel.swift */; };
 		4A745CBE1D73A5D500797AFC /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A745CBD1D73A5D500797AFC /* ConfirmationViewController.swift */; };
 		4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */; };
 		4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */; };
@@ -85,6 +87,8 @@
 		4A698D421D7B8D0E004786B8 /* ProfileViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewControllerUITests.swift; sourceTree = "<group>"; };
 		4A698D441D7BA12D004786B8 /* QuandaModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuandaModel.swift; sourceTree = "<group>"; };
 		4A698D461D7BA334004786B8 /* SnoopModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnoopModel.swift; sourceTree = "<group>"; };
+		4A698D481D7CCDFB004786B8 /* AnswerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerModel.swift; sourceTree = "<group>"; };
+		4A698D4A1D7CE568004786B8 /* QuestionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionModel.swift; sourceTree = "<group>"; };
 		4A745CBD1D73A5D500797AFC /* ConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
 		4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewCell.swift; sourceTree = "<group>"; };
 		4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
@@ -155,6 +159,8 @@
 				4A4BB82C1D769CF40085160F /* DiscoverModel.swift */,
 				4A698D441D7BA12D004786B8 /* QuandaModel.swift */,
 				4A698D461D7BA334004786B8 /* SnoopModel.swift */,
+				4A698D481D7CCDFB004786B8 /* AnswerModel.swift */,
+				4A698D4A1D7CE568004786B8 /* QuestionModel.swift */,
 			);
 			name = ObjectModel;
 			sourceTree = "<group>";
@@ -396,6 +402,7 @@
 				4AC2837C1CECEE3800A08D35 /* SignupPageViewController.swift in Sources */,
 				4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */,
 				4AC9231F1D360A0800C83177 /* FeedTableViewCell.swift in Sources */,
+				4A698D4B1D7CE568004786B8 /* QuestionModel.swift in Sources */,
 				4A11C05C1D344DF500AEF95D /* RoundCornerButton.swift in Sources */,
 				4A4BB82A1D769BE70085160F /* AbstractModel.swift in Sources */,
 				4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */,
@@ -411,6 +418,7 @@
 				4A745CBE1D73A5D500797AFC /* ConfirmationViewController.swift in Sources */,
 				4AF322741D2C83260043FCE5 /* AnswerTableViewCell.swift in Sources */,
 				4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */,
+				4A698D491D7CCDFB004786B8 /* AnswerModel.swift in Sources */,
 				4ABD20371D4409F900C3B74E /* Payment.swift in Sources */,
 				4AF910741D449F1800546F95 /* InteractiveUITextField.swift in Sources */,
 				4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */,
