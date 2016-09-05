@@ -25,7 +25,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
   var questionModule = Question()
 
-  var question:(id: Int!, avatarImage: NSData!, askerName: String!, askerId: String!, status: String!,
+  var question:(id: Int!, avatarImage: NSData!, askerName: String!, status: String!,
   content: String!, rate: Double!)
 
   var isRecording = false
@@ -201,9 +201,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
   @IBAction func confirmButtonTapped(sender: AnyObject) {
     let activityIndicator = utilityModule.createCustomActivityIndicator(self.view, text: "Submitting Answer...")
-    let responderId = NSUserDefaults.standardUserDefaults().stringForKey("email")
-    questionModule.updateQuestion(question.id, askerId: question.askerId, content: question.content,
-      responderId: responderId, answerAudio: NSData(contentsOfURL: getFileUrl())) { result in
+    questionModule.updateQuestion(question.id, answerAudio: NSData(contentsOfURL: getFileUrl())) { result in
         dispatch_async(dispatch_get_main_queue()){
           self.playButton.enabled = true
           self.isSaved = true

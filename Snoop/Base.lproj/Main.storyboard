@@ -592,6 +592,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="askerName" destination="Zna-pk-Cpn" id="xRg-8G-9tR"/>
+                                            <outlet property="expiration" destination="pnc-iC-oAg" id="kPu-m2-WIL"/>
                                             <outlet property="profileImage" destination="8uV-l4-WtN" id="yS5-lz-WoM"/>
                                             <outlet property="question" destination="gSD-yZ-Ax7" id="gdA-gt-sBK"/>
                                             <outlet property="rateLabel" destination="Qzw-qO-3mY" id="zQ5-P0-ecJ"/>

@@ -12,11 +12,13 @@ class Question {
   private var QUESTIONURI : String
   private var SNOOPURI : String
   private var QUANDAURI: String
+  private var ANSWERURI: String
   private var generics = Generics()
   init () {
     SNOOPURI = "http://localhost:8080/snoops"
     QUESTIONURI = "http://localhost:8080/questions"
     QUANDAURI = "http://localhost:8080/quandas"
+    ANSWERURI = "http://localhost:8080/answers"
   }
 
   func createQuestion(asker: String, question: String, responder: String,
@@ -28,8 +30,7 @@ class Question {
       }
   }
 
-  func updateQuestion(id: Int!, askerId: String!, content: String!, responderId: String!,
-    answerAudio: NSData!, completion: (String) -> ()) {
+  func updateQuestion(id: Int!, answerAudio: NSData!, completion: (String) -> ()) {
       let myUrl = NSURL(string: QUANDAURI + "/" + "\(id)")
       let audioString = answerAudio?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
       let jsonData: [String: AnyObject] = ["answerAudio": audioString!, "status" : "ANSWERED"]
@@ -38,8 +39,11 @@ class Question {
       }
   }
 
-  func getQuestions(filterString: String, completion: (NSArray) -> ()) {
-    let myUrl = NSURL(string: QUESTIONURI + "?" + filterString)
+  func getQuestions(filterString: String, isQuestion: Bool!, completion: (NSArray) -> ()) {
+    var myUrl = NSURL(string: QUESTIONURI + "?" + filterString)
+    if (isQuestion!) {
+      myUrl = NSURL(string: ANSWERURI + "?" + filterString)
+    }
     generics.getFilteredObjects(myUrl!) { result in
       completion(result)
     }

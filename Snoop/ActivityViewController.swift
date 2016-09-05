@@ -23,8 +23,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   var questions:[QuestionModel] = []
 
-  var answers:[(id: Int!, question: String!, status: String!, askerImage: NSData!,
-  askerName: String!, askerTitle: String!, askerId: String!, rate: Double!)] = []
+  var answers:[AnswerModel] = []
 
   var snoops:[SnoopModel] = []
 
@@ -84,7 +83,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     else if (segmentedControl.selectedSegmentIndex == 1) {
       answers = []
-      loadDataWithFilter("responder=" + uid)
+      loadDataWithFilter("responder='" + uid + "'")
     }
     else if (segmentedControl.selectedSegmentIndex == 2) {
       snoops = []
@@ -94,14 +93,11 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   }
 
   func loadDataWithFilter(filterString: String) {
-    questionModule.getQuestions(filterString) { jsonArray in
-      var count = jsonArray.count
-      if count == 0 {
-        dispatch_async(dispatch_get_main_queue()) {
-          self.activityTableView.reloadData()
-        }
-        return
-      }
+    var isQuestion = true
+    if (filterString.containsString("repsonder")) {
+      isQuestion = false
+    }
+    questionModule.getQuestions(filterString, isQuestion: isQuestion) { jsonArray in
       for questionInfo in jsonArray as! [[String:AnyObject]] {
         let questionId = questionInfo["id"] as! Int
         let question = questionInfo["question"] as! String
@@ -111,31 +107,28 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
           rate = questionInfo["rate"] as! Double
         }
 
+        let hoursToExpire = questionInfo["hoursToExpire"] as! Int
+
         if (self.segmentedControl.selectedSegmentIndex == 0) {
-          let hoursToExpire = questionInfo["hoursToExpire"] as! Int
-          let name = questionInfo["responderName"] as! String
-          let title = questionInfo["responderTitle"] as! String
           var avatarImage = NSData()
           if ((questionInfo["responderAvatarImage"] as? String) != nil) {
             avatarImage = NSData(base64EncodedString: (questionInfo["responderAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
           }
 
+          let name = questionInfo["responderName"] as! String
+          let title = questionInfo["responderTitle"] as! String
           self.questions.append(QuestionModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: status, _isPlaying: false, _rate: rate, _hoursToExpire: hoursToExpire))
 
         }
         else if (self.segmentedControl.selectedSegmentIndex == 1) {
-          let askerId = questionInfo["asker"] as! String
-          self.userModule.getProfile(askerId){name, title, about, avatarImage, _ in
-            self.answers.append((id: questionId, question: question, status: status,
-              askerImage: avatarImage, askerName: name, askerTitle: title,
-              askerId: askerId, rate: rate))
-            count--
-            if (count == 0) {
-              dispatch_async(dispatch_get_main_queue()) {
-                self.activityTableView.reloadData()
-              }
-            }
+          var avatarImage = NSData()
+          if ((questionInfo["askerAvatarImage"] as? String) != nil) {
+            avatarImage = NSData(base64EncodedString: (questionInfo["askerAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
           }
+
+          let name = questionInfo["askerName"] as! String
+          let title = questionInfo["askerTitle"] as! String
+          self.answers.append(AnswerModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: status, _hoursToExpire: hoursToExpire, _rate: rate))
         }
       }
 
@@ -356,21 +349,25 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     else if (segmentedControl.selectedSegmentIndex == 1) {
       let myCell = tableView.dequeueReusableCellWithIdentifier("answerCell", forIndexPath: indexPath) as! AnswerTableViewCell
       let answer = answers[indexPath.row]
-      myCell.askerName.text = answer.askerName
+      myCell.askerName.text = answer.name
       myCell.rateLabel.text = "$\(answer.rate)"
-      if (answer.askerImage.length > 0) {
-        myCell.profileImage.image = UIImage(data: answer.askerImage)
+      if (answer.avatarImage.length > 0) {
+        myCell.profileImage.image = UIImage(data: answer.avatarImage)
       }
 
       myCell.status.text = answer.status
 
       if (answer.status == "PENDING") {
         myCell.status.textColor = UIColor.orangeColor()
+        myCell.expiration.text = "expires in \(answer.hoursToExpire) hrs"
+        myCell.expiration.hidden = false
       }
       else if (answer.status == "ANSWERED") {
         myCell.status.textColor = UIColor(red: 0.125, green: 0.55, blue: 0.17, alpha: 1.0)
+        myCell.expiration.hidden = true
       }
       myCell.question.text = answer.question
+
       return myCell
     }
     return tableView.dequeueReusableCellWithIdentifier("questionCell", forIndexPath: indexPath) as! QuestionTableViewCell
@@ -387,8 +384,8 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       let indexPath = sender as! NSIndexPath
       let dvc = segue.destinationViewController as! AnswerViewController;
       let questionInfo = answers[indexPath.row]
-      dvc.question = (id: questionInfo.id, avatarImage: questionInfo.askerImage, askerName: questionInfo.askerName,
-        askerId: questionInfo.askerId, status: questionInfo.status,
+      dvc.question = (id: questionInfo.id, avatarImage: questionInfo.avatarImage, askerName: questionInfo.name,
+        status: questionInfo.status,
         content: questionInfo.question, rate: questionInfo.rate)
     }
     
