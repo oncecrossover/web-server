@@ -337,8 +337,8 @@ public class QuandaDBUtil {
         " count(S.id) AS snoops FROM" +
         " Quanda AS Q INNER JOIN Profile AS P ON Q.responder = P.uid" +
         " LEFT JOIN Snoop AS S ON Q.id = S.quandaId" +
-        " WHERE Q.asker != '%s' AND Q.responder != '%s'" +
-        " AND Q.status = 'ANSWERED' AND S.uid != '%s'" +
+        " WHERE Q.asker != %s AND Q.responder != %s" +
+        " AND Q.status = 'ANSWERED' AND S.uid != %s" +
         " GROUP BY Q.id ORDER BY Q.updatedTime DESC;";
     return String.format(select, uid, uid, uid);
   }

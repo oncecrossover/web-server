@@ -112,15 +112,11 @@ The column name is case sensitive, it only supports single column. In addition, 
 
 RESTFUL APIs OF QUESTIONS:
 1. get question by id, e.g.
-curl -i -X GET http://127.0.0.1:8080/questions/1
+curl -i -X GET "http://127.0.0.1:8080/questions/1"
 
-recommended usage:
-curl -i -G -X GET http://127.0.0.1:8080/questions/ --data-urlencode "id=1", equivalent to
-curl -i -G -X GET http://127.0.0.1:8080/questions?id=1
-
-2. query my questions, e.g
+2. query questions, e.g
 curl -i -G -X GET http://127.0.0.1:8080/questions --data-urlencode "asker='bowen'", equivalent to
-curl -i -G -X GET http://127.0.0.1:8080/questions?asker='bowen'
+curl -i -X GET "http://127.0.0.1:8080/questions?asker='bowen'"
 
 Example response:
 [{"id":6,"question":"How do you believe in being an entrepreneur?","rate":100.0,"status":"ANSWERED","updatedTime":1472443395000,"responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="}]
@@ -128,15 +124,11 @@ Example response:
 
 RESTFUL APIs OF ANSWERS:
 1. get answers by id, e.g.
-curl -i -X GET http://127.0.0.1:8080/answers/1
-
-recommended usage:
-curl -i -G -X GET http://127.0.0.1:8080/answers/ --data-urlencode "id=1", equivalent to
-curl -i -G -X GET http://127.0.0.1:8080/answers?id=1
+curl -i -X GET "http://127.0.0.1:8080/answers/1"
 
 2. query answers by other criteria, e.g.
 curl -i -G -X GET http://127.0.0.1:8080/answers/ --data-urlencode "responder='bowen'", equivalent to
-curl -i -G -X GET http://127.0.0.1:8080/answers?responder='bowen'
+curl -i -X GET "http://127.0.0.1:8080/answers?responder='bowen'"
 
 Example response:
 [{"id":4,"question":"Are you nervous being an entrepreneur?","rate":300.0,"status":"EXPIRED","createdTime":1472169993000,"askerName":"Xiaobing Zhou","askerTitle":"Software Engineer","askerAvatarUrl":"/users/xiaobingo/avatar","askerAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","hoursToExpire":0}]
@@ -144,11 +136,11 @@ Example response:
 
 RESTFUL APIs OF SNOOPS:
 1. get snoop by id, e.g.
-curl -i -X GET http://127.0.0.1:8080/snoops/1
+curl -i -X GET "http://127.0.0.1:8080/snoops/1"
 
 2. query snoops, e.g.
 curl -i -G -X GET http://127.0.0.1:8080/snoops --data-urlencode "uid='edmund'", equivalent to
-curl -i -X GET http://127.0.0.1:8080/snoops?uid='edmund'
+curl -i -X GET "http://127.0.0.1:8080/snoops?uid='edmund'"
 
 Example response:
 [{"id":2,"uid":null,"quandaId":6,"createdTime":1472443947000,"question":"How do you believe in being an entrepreneur?","status":"ANSWERED","rate":100.0,"responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="}]
@@ -189,11 +181,11 @@ curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":"xiaobingo","t
 
 RESTFUL APIs OF NEWSFEED:
 1. get news feed by uid, e.g.
-curl -i -X GET http://127.0.0.1:8080/newsfeeds/kuan
+curl -i -X GET "http://127.0.0.1:8080/newsfeeds/'kuan'"
 
 2. query newsfeed, e.g.
-curl -i -G -X GET http://127.0.0.1:8080/newsfeeds/ --data-urlencode "uid=kuan", equivalent to
-curl -i -G -X GET http://127.0.0.1:8080/newsfeeds?uid='kuan'
+curl -i -G -X GET http://127.0.0.1:8080/newsfeeds/ --data-urlencode "uid='kuan'", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/newsfeeds?uid='kuan'"
 
 Example response:
 [{"quandaId":6,"question":"How do you believe in being an entrepreneur?","updatedTime":1472443395000,"responderId":"xiaobingo","responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","snoops":1}]
