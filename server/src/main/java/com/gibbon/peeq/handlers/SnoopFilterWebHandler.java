@@ -49,7 +49,7 @@ public class SnoopFilterWebHandler extends AbastractPeeqWebHandler
       txn = session.beginTransaction();
 
       /* query */
-      String result = getResultJson(session);
+      String result = getResultJson(session, getQueryParser().params());
 
       txn.commit();
 
@@ -62,11 +62,12 @@ public class SnoopFilterWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  private String getResultJson(final Session session) throws Exception {
-    final QueryParamsParser parser = new QueryParamsParser(getRequest().uri());
+  private String getResultJson(
+      final Session session,
+      final Map<String, List<String>> params) throws Exception {
     final List<Snoop> list = SnoopUtil.getSnoops(
         session,
-        parser.params(),
+        params,
         false);
 
     loadAvatarsFromObjectStore(list);

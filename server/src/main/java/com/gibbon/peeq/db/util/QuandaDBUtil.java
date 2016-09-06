@@ -213,7 +213,7 @@ public class QuandaDBUtil {
       final boolean newTransaction)  throws Exception {
 
     final String uid =
-        params.containsKey("uid") ? params.get("uid").get(0) : "";
+        params.containsKey("uid") ? params.get("uid").get(0) : "NULL";
     final String sql = buildSql4Newsfeed(uid);
     Transaction txn = null;
     List<Newsfeed> list = null;

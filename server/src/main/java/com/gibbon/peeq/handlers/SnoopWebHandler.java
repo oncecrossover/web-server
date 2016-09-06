@@ -28,49 +28,15 @@ public class SnoopWebHandler extends AbastractPeeqWebHandler
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    PeeqWebHandler pwh = new SnoopFilterWebHandler(getPathParser(),
-        getRespBuf(), getHandlerContext(), getRequest());
-
-    if (pwh.willFilter()) {
-      return pwh.handle();
-    } else {
-      return onGet();
-    }
+    return forward();
   }
 
-  private FullHttpResponse onGet() {
-    /* get id */
-    final String id = getPathParser().getPathStream().nextToken();
-
-    /* no id */
-    if (StringUtils.isBlank(id)) {
-      appendln("Missing parameter: id");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
-    }
- 
-    Transaction txn = null;
-    try {
-      txn = getSession().beginTransaction();
-      final Snoop retInstance = (Snoop) getSession().get(Snoop.class,
-          Long.parseLong(id));
-      txn.commit();
-
-      /* buffer result */
-      return newResponseForInstance(id, retInstance);
-    } catch (Exception e) {
-      txn.rollback();
-      return newServerErrorResponse(e, LOG);
-    }
-  }
-
-  private FullHttpResponse newResponseForInstance(final String id,
-      final Snoop instance) throws JsonProcessingException {
-    if (instance != null) {
-      appendByteArray(instance.toJsonByteArray());
-      return newResponse(HttpResponseStatus.OK);
-    } else {
-      appendln(String.format("Nonexistent resource with URI: /snoops/%s", id));
-      return newResponse(HttpResponseStatus.NOT_FOUND);
-    }
+  private FullHttpResponse forward() {
+    PeeqWebHandler pwh = new SnoopFilterWebHandler(
+        getPathParser(),
+        getRespBuf(),
+        getHandlerContext(),
+        getRequest());
+    return pwh.handle();
   }
 }

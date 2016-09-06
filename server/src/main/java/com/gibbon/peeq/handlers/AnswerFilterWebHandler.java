@@ -39,24 +39,13 @@ public class AnswerFilterWebHandler extends AbastractPeeqWebHandler
   }
 
   private FullHttpResponse onQuery() {
-
-    /* query with id as part of path */
-    String id = null;
-    if (getPathParser().getPathStream().hasNext()) {
-      id = getPathParser().getPathStream().nextToken();
-    }
-
-    /* add id to query criteria */
-    final Map<String, List<String>> params = addToQueryParams("id", id);
-
-    /* query answers */
     Transaction txn = null;
     try {
       Session session = getSession();
       txn = session.beginTransaction();
 
       /* query */
-      String result = getResultJson(session, params);
+      String result = getResultJson(session, getQueryParser().params());
 
       txn.commit();
 

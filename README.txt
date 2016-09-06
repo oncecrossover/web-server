@@ -111,10 +111,7 @@ The column name is case sensitive, it only supports single column. In addition, 
 
 
 RESTFUL APIs OF QUESTIONS:
-1. get question by id, e.g.
-curl -i -X GET "http://127.0.0.1:8080/questions/1"
-
-2. query questions, e.g
+1. query questions, e.g.
 curl -i -G -X GET http://127.0.0.1:8080/questions --data-urlencode "asker='bowen'", equivalent to
 curl -i -X GET "http://127.0.0.1:8080/questions?asker='bowen'"
 
@@ -123,10 +120,7 @@ Example response:
 
 
 RESTFUL APIs OF ANSWERS:
-1. get answers by id, e.g.
-curl -i -X GET "http://127.0.0.1:8080/answers/1"
-
-2. query answers by other criteria, e.g.
+1. query answers by other criteria, e.g.
 curl -i -G -X GET http://127.0.0.1:8080/answers/ --data-urlencode "responder='bowen'", equivalent to
 curl -i -X GET "http://127.0.0.1:8080/answers?responder='bowen'"
 
@@ -135,10 +129,7 @@ Example response:
 
 
 RESTFUL APIs OF SNOOPS:
-1. get snoop by id, e.g.
-curl -i -X GET "http://127.0.0.1:8080/snoops/1"
-
-2. query snoops, e.g.
+1. query snoops, e.g.
 curl -i -G -X GET http://127.0.0.1:8080/snoops --data-urlencode "uid='edmund'", equivalent to
 curl -i -X GET "http://127.0.0.1:8080/snoops?uid='edmund'"
 
@@ -180,10 +171,7 @@ curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":"xiaobingo","t
 
 
 RESTFUL APIs OF NEWSFEED:
-1. get news feed by uid, e.g.
-curl -i -X GET "http://127.0.0.1:8080/newsfeeds/'kuan'"
-
-2. query newsfeed, e.g.
+1. query newsfeed, e.g.
 curl -i -G -X GET http://127.0.0.1:8080/newsfeeds/ --data-urlencode "uid='kuan'", equivalent to
 curl -i -X GET "http://127.0.0.1:8080/newsfeeds?uid='kuan'"
 
