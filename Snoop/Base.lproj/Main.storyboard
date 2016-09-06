@@ -757,7 +757,7 @@
                                     <outlet property="delegate" destination="cGi-Da-Os1" id="xtk-pG-NiF"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T96-BT-scR">
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T96-BT-scR">
                                 <rect key="frame" x="100" y="209" width="120" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="Y3C-Sq-BOv"/>
@@ -800,7 +800,7 @@
                                 <color key="textColor" red="0.78992798289999999" green="0.35112627099999999" blue="0.080874840010000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U2M-eU-JFH" customClass="RoundCornerButton" customModule="Snoop" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U2M-eU-JFH" customClass="RoundCornerButton" customModule="Snoop" customModuleProvider="target">
                                 <rect key="frame" x="10" y="458.5" width="300" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="E8j-pd-IkP"/>
@@ -821,7 +821,7 @@
                                     <action selector="confirmButtonTapped:" destination="cGi-Da-Os1" eventType="touchUpInside" id="Idj-Rb-hKO"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MuH-Xu-p8X">
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MuH-Xu-p8X">
                                 <rect key="frame" x="60" y="399" width="200" height="39.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="b6B-ln-pJw"/>

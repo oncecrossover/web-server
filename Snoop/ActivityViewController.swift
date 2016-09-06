@@ -94,7 +94,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   func loadDataWithFilter(filterString: String) {
     var isQuestion = true
-    if (filterString.containsString("repsonder")) {
+    if (filterString.containsString("responder")) {
       isQuestion = false
     }
     questionModule.getQuestions(filterString, isQuestion: isQuestion) { jsonArray in

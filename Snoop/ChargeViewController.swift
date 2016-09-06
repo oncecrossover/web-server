@@ -18,7 +18,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
   var paymentModule = Payment()
   var utility = UIUtility()
   var questionModule = Question()
-  var chargeInfo: (amount: Double!, type: String!, quandaId: Int!, asker: String!, responder: String!, index: Int!)
+  var chargeInfo: (amount: Double!, type: String!, quandaId: Int!, responder: String!, index: Int!)
   var submittedQuestion: (amount: Double!, type: String!, question: String!, askerId: String!, responderId: String!)
   var isPaid = false
   var isSnooped = true
@@ -99,7 +99,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
   func submitPaymentForSnoop() {
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Submitting Your Payment...")
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
-    let quandaData: [String:AnyObject] = ["id": chargeInfo.quandaId, "asker": chargeInfo.asker,
+    let quandaData: [String:AnyObject] = ["id": chargeInfo.quandaId,
       "responder": chargeInfo.responder]
     let jsonData: [String:AnyObject] = ["uid": uid!, "type": "SNOOPED", "quanda": quandaData]
     generics.createObject("http://localhost:8080/qatransactions", jsonData: jsonData) { result in

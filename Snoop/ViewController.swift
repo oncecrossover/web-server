@@ -24,7 +24,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   @IBOutlet weak var feedTable: UITableView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-  var feeds:[(id: Int!, question: String!, responderId: String!, responderName: String!, responderTitle: String!, profileData: NSData!, status: String!, asker: String!, snoops: Int!)] = []
+  var feeds:[FeedsModel] = []
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -72,41 +72,31 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     self.paidSnoops = []
     activityIndicator.startAnimating()
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    let myUrl = NSURL(string: "http://localhost:8080/newsfeeds/" + uid)
+    let myUrl = NSURL(string: "http://localhost:8080/newsfeeds?uid='" + uid + "'")
     generics.getFilteredObjects(myUrl!) { jsonArray in
-      var count = jsonArray.count
-      if (count == 0) {
-        dispatch_async(dispatch_get_main_queue()) {
-          self.activityIndicator.stopAnimating()
-          self.feedTable.reloadData()
-        }
-        return
-      }
       for feedInfo in jsonArray as! [[String:AnyObject]] {
-        let questionId = feedInfo["id"] as! Int
+        let questionId = feedInfo["quandaId"] as! Int
         let question = feedInfo["question"] as! String
-        let status = feedInfo["status"] as! String
-        let responderId = feedInfo["responder"] as! String
-        let askerId = feedInfo["asker"] as! String
+        let responderId = feedInfo["responderId"] as! String
         let numberOfSnoops = feedInfo["snoops"] as! Int
-        let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+        let name = feedInfo["responderName"] as! String
 
-        if (uid == askerId || uid == responderId || status == "EXPIRED") {
-          count--
-          continue
+        var title = ""
+        if (feedInfo["responderTitle"] != nil) {
+          title = feedInfo["responderTitle"] as! String
         }
 
-        self.userModule.getProfile(responderId) {name, title, _, avatarImage, _ in
-          self.feeds.append((id: questionId, question: question, responderId: responderId, responderName: name,
-            responderTitle: title, profileData: avatarImage, status: status, asker: askerId, snoops: numberOfSnoops))
-          count--
-          if (count == 0) {
-            dispatch_async(dispatch_get_main_queue()) {
-              self.activityIndicator.stopAnimating()
-              self.feedTable.reloadData()
-            }
-          }
+        var avatarImage = NSData()
+        if ((feedInfo["responderAvatarImage"] as? String) != nil) {
+          avatarImage = NSData(base64EncodedString: (feedInfo["responderAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
         }
+
+        self.feeds.append(FeedsModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops))
+      }
+
+      dispatch_async(dispatch_get_main_queue()) {
+        self.activityIndicator.stopAnimating()
+        self.feedTable.reloadData()
       }
     }
   }
@@ -140,8 +130,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let myCell = tableView.dequeueReusableCellWithIdentifier("feedCell", forIndexPath: indexPath) as! FeedTableViewCell
     let feedInfo = feeds[indexPath.row]
 
-    if (feedInfo.profileData.length > 0) {
-      myCell.profileImage.image = UIImage(data: feedInfo.profileData)
+    if (feedInfo.avatarImage.length > 0) {
+      myCell.profileImage.image = UIImage(data: feedInfo.avatarImage)
       myCell.profileImage.userInteractionEnabled = true
       let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedOnProfile:")
       myCell.profileImage.addGestureRecognizer(tappedOnImage)
@@ -150,11 +140,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     myCell.questionLabel.text = feedInfo.question
     myCell.numOfSnoops.text = String(feedInfo.snoops)
 
-    if (feedInfo.responderTitle.isEmpty) {
-      myCell.titleLabel.text = feedInfo.responderName
+    if (feedInfo.title.isEmpty) {
+      myCell.titleLabel.text = feedInfo.name
     }
     else {
-      myCell.titleLabel.text = feedInfo.responderName + " | " + feedInfo.responderTitle
+      myCell.titleLabel.text = feedInfo.name + " | " + feedInfo.title
     }
 
     if (feedInfo.status == "PENDING") {
@@ -163,7 +153,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     else {
       if (self.paidSnoops.contains(feedInfo.id)) {
-        myCell.snoopImage.image = UIImage(named: "listen")
+        if (feedInfo.isPlaying == true) {
+          myCell.snoopImage.image = UIImage(named: "stop")
+        }
+        else {
+          myCell.snoopImage.image = UIImage(named: "listen")
+        }
+
         myCell.snoopImage.userInteractionEnabled = true
         let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedToListen:")
         myCell.snoopImage.addGestureRecognizer(tappedOnImage)
@@ -199,11 +195,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let indexPath = self.feedTable.indexPathForRowAtPoint(tapLocation)!
     let questionInfo = feeds[indexPath.row]
     let questionId = questionInfo.id
+    if (questionInfo.isPlaying == true) {
+      self.soundPlayer.stop()
+      questionInfo.isPlaying = false
+      self.feedTable.reloadData()
+      return
+    }
+
     questionModule.getQuestionAudio(questionId) { audioString in
       if (!audioString.isEmpty) {
         let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
         dispatch_async(dispatch_get_main_queue()) {
           self.preparePlayer(data)
+          questionInfo.isPlaying = true
+          self.feedTable.reloadData()
           self.soundPlayer.play()
         }
       }
@@ -222,7 +227,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       let dvc = segue.destinationViewController as! ChargeViewController
       let feed = feeds[indexPath.row]
       dvc.chargeInfo = (amount: 1.00, type: "SNOOPED", quandaId: feed.id,
-        asker: feed.asker, responder: feed.responderId, index: indexPath.row)
+        responder: feed.responderId, index: indexPath.row)
       dvc.isSnooped = true
     }
     else if (segue.identifier == "homeToAsk") {

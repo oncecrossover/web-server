@@ -32,6 +32,7 @@
 		4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26821D218FC60001989E /* ProfileViewController.swift */; };
 		4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26861D21D01D0001989E /* EditProfileViewController.swift */; };
 		4A9F53C01D68DB5100D753B2 /* PaymentViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9F53BF1D68DB5100D753B2 /* PaymentViewControllerUITests.swift */; };
+		4ABB89F81D7DEE2C0022DEF2 /* FeedsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB89F71D7DEE2C0022DEF2 /* FeedsModel.swift */; };
 		4ABD20311D407ECC00C3B74E /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD20301D407ECC00C3B74E /* AddCardViewController.swift */; };
 		4ABD20371D4409F900C3B74E /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD20361D4409F900C3B74E /* Payment.swift */; };
 		4ABD203D1D443E1A00C3B74E /* UiUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD203C1D443E1A00C3B74E /* UiUtility.swift */; };
@@ -95,6 +96,7 @@
 		4A8F26821D218FC60001989E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		4A8F26861D21D01D0001989E /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		4A9F53BF1D68DB5100D753B2 /* PaymentViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewControllerUITests.swift; sourceTree = "<group>"; };
+		4ABB89F71D7DEE2C0022DEF2 /* FeedsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedsModel.swift; sourceTree = "<group>"; };
 		4ABD20301D407ECC00C3B74E /* AddCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardViewController.swift; sourceTree = "<group>"; };
 		4ABD20361D4409F900C3B74E /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		4ABD203C1D443E1A00C3B74E /* UiUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UiUtility.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				4A698D461D7BA334004786B8 /* SnoopModel.swift */,
 				4A698D481D7CCDFB004786B8 /* AnswerModel.swift */,
 				4A698D4A1D7CE568004786B8 /* QuestionModel.swift */,
+				4ABB89F71D7DEE2C0022DEF2 /* FeedsModel.swift */,
 			);
 			name = ObjectModel;
 			sourceTree = "<group>";
@@ -416,6 +419,7 @@
 				4AF3226E1D29DEEB0043FCE5 /* QuestionTableViewCell.swift in Sources */,
 				4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */,
 				4A745CBE1D73A5D500797AFC /* ConfirmationViewController.swift in Sources */,
+				4ABB89F81D7DEE2C0022DEF2 /* FeedsModel.swift in Sources */,
 				4AF322741D2C83260043FCE5 /* AnswerTableViewCell.swift in Sources */,
 				4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */,
 				4A698D491D7CCDFB004786B8 /* AnswerModel.swift in Sources */,

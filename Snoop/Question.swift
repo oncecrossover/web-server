@@ -41,7 +41,7 @@ class Question {
 
   func getQuestions(filterString: String, isQuestion: Bool!, completion: (NSArray) -> ()) {
     var myUrl = NSURL(string: QUESTIONURI + "?" + filterString)
-    if (isQuestion!) {
+    if (!isQuestion) {
       myUrl = NSURL(string: ANSWERURI + "?" + filterString)
     }
     generics.getFilteredObjects(myUrl!) { result in
