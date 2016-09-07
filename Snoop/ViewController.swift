@@ -21,6 +21,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
   var paidSnoops: Set<Int> = []
 
+  var activeCellIndex: Int!
+
   @IBOutlet weak var feedTable: UITableView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
@@ -202,6 +204,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       return
     }
 
+    activeCellIndex = indexPath.row
     questionModule.getQuestionAudio(questionId) { audioString in
       if (!audioString.isEmpty) {
         let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
@@ -226,8 +229,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       let indexPath = sender as! NSIndexPath
       let dvc = segue.destinationViewController as! ChargeViewController
       let feed = feeds[indexPath.row]
-      dvc.chargeInfo = (amount: 1.00, type: "SNOOPED", quandaId: feed.id,
-        responder: feed.responderId, index: indexPath.row)
+      dvc.chargeInfo = (amount: 1.00, type: "SNOOPED", quandaId: feed.id)
       dvc.isSnooped = true
     }
     else if (segue.identifier == "homeToAsk") {
@@ -256,6 +258,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   }
 
   func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+    feeds[activeCellIndex].isPlaying = false
+    feedTable.reloadData()
   }
 
   @IBAction func unwindSegueToHome(segue: UIStoryboardSegue) {
