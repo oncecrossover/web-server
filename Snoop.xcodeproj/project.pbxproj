@@ -18,6 +18,7 @@
 		4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
 		4A4BB82E1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
 		4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */; };
+		4A5A9A311D80D38F00140AA9 /* AskViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9A301D80D38F00140AA9 /* AskViewControllerUITests.swift */; };
 		4A5B257D1D65247700691696 /* SnoopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B257C1D65247700691696 /* SnoopUITests.swift */; };
 		4A5B25851D6524EB00691696 /* ViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B25841D6524EB00691696 /* ViewControllerUITests.swift */; };
 		4A698D411D7B7BCE004786B8 /* DiscoverViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D401D7B7BCE004786B8 /* DiscoverViewControllerUITests.swift */; };
@@ -80,6 +81,7 @@
 		4A4BB8291D769BE70085160F /* AbstractModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbstractModel.swift; sourceTree = "<group>"; };
 		4A4BB82C1D769CF40085160F /* DiscoverModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverModel.swift; sourceTree = "<group>"; };
 		4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
+		4A5A9A301D80D38F00140AA9 /* AskViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AskViewControllerUITests.swift; sourceTree = "<group>"; };
 		4A5B257A1D65247700691696 /* SnoopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnoopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A5B257C1D65247700691696 /* SnoopUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoopUITests.swift; sourceTree = "<group>"; };
 		4A5B257E1D65247700691696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				4AFB985C1D6A1B6C0067EF33 /* SignupViewControllerUITests.swift */,
 				4A698D401D7B7BCE004786B8 /* DiscoverViewControllerUITests.swift */,
 				4A698D421D7B8D0E004786B8 /* ProfileViewControllerUITests.swift */,
+				4A5A9A301D80D38F00140AA9 /* AskViewControllerUITests.swift */,
 			);
 			path = SnoopUITests;
 			sourceTree = "<group>";
@@ -380,6 +383,7 @@
 				4A698D411D7B7BCE004786B8 /* DiscoverViewControllerUITests.swift in Sources */,
 				4A5B25851D6524EB00691696 /* ViewControllerUITests.swift in Sources */,
 				4A4BB82B1D769BE70085160F /* AbstractModel.swift in Sources */,
+				4A5A9A311D80D38F00140AA9 /* AskViewControllerUITests.swift in Sources */,
 				4AFB985D1D6A1B6C0067EF33 /* SignupViewControllerUITests.swift in Sources */,
 				4A698D431D7B8D0E004786B8 /* ProfileViewControllerUITests.swift in Sources */,
 				4A5B257D1D65247700691696 /* SnoopUITests.swift in Sources */,
