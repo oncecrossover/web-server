@@ -21,20 +21,55 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thanks For Your Payment!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjg-32-mMy">
-                                <rect key="frame" x="16" y="65" width="288" height="45"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thanks For Your Payment! A confirmation email will be sent to you soon..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjg-32-mMy">
+                                <rect key="frame" x="16" y="248" width="288" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="j5f-8y-kD3"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.21227260449999999" green="0.72222222219999999" blue="0.098522010379999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ke5-7a-pZs">
-                                <rect key="frame" x="20" y="269" width="280" height="30"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="payment" translatesAutoresizingMaskIntoConstraints="NO" id="9w0-Qi-4kA" customClass="CircleImageView" customModule="Snoop" customModuleProvider="target">
+                                <rect key="frame" x="100" y="60" width="120" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="Aes-zp-MHw"/>
+                                    <constraint firstAttribute="width" secondItem="9w0-Qi-4kA" secondAttribute="height" multiplier="1:1" id="xfv-9i-arl"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Payment Successful!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Se0-ny-RlY">
+                                <rect key="frame" x="20" y="200" width="280" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="ixh-MS-KjF"/>
+                                    <constraint firstAttribute="height" constant="32" id="wgP-KQ-RgS"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="wgP-KQ-RgS"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ke5-7a-pZs" customClass="RoundCornerButton" customModule="Snoop" customModuleProvider="target">
+                                <rect key="frame" x="35" y="333" width="250" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="7St-x4-gcP"/>
+                                    <constraint firstAttribute="width" secondItem="Ke5-7a-pZs" secondAttribute="height" multiplier="375:55" id="YYD-sn-Dkd"/>
+                                    <constraint firstAttribute="width" constant="250" id="YpS-eA-DpI"/>
+                                    <constraint firstAttribute="height" constant="55" id="col-rp-6Cy"/>
+                                </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="OK"/>
+                                <state key="normal" image="done">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="YYD-sn-Dkd"/>
+                                        <exclude reference="col-rp-6Cy"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <segue destination="HvY-wA-dd3" kind="unwind" unwindAction="unwindPage:" id="IsM-lE-S21"/>
                                 </connections>
@@ -43,12 +78,27 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="cjg-32-mMy" secondAttribute="trailing" id="3Ry-75-0jT"/>
+                            <constraint firstItem="Se0-ny-RlY" firstAttribute="centerX" secondItem="9w0-Qi-4kA" secondAttribute="centerX" id="5V4-sM-GXX"/>
                             <constraint firstItem="Ke5-7a-pZs" firstAttribute="leading" secondItem="Hfh-eK-e96" secondAttribute="leadingMargin" constant="4" id="G0x-Uf-nbV"/>
                             <constraint firstAttribute="leadingMargin" secondItem="cjg-32-mMy" secondAttribute="leading" id="Kla-mr-FzN"/>
+                            <constraint firstItem="cjg-32-mMy" firstAttribute="centerX" secondItem="Se0-ny-RlY" secondAttribute="centerX" id="UgE-ig-IWV"/>
+                            <constraint firstItem="9w0-Qi-4kA" firstAttribute="top" secondItem="ych-Cr-iVH" secondAttribute="bottom" constant="40" id="Wpm-MS-9wA"/>
                             <constraint firstItem="Ke5-7a-pZs" firstAttribute="centerY" secondItem="Hfh-eK-e96" secondAttribute="centerY" id="cwh-k8-5Ex"/>
+                            <constraint firstItem="Se0-ny-RlY" firstAttribute="leading" secondItem="Hfh-eK-e96" secondAttribute="leadingMargin" constant="4" id="gEc-qS-PGz"/>
                             <constraint firstItem="Ke5-7a-pZs" firstAttribute="centerX" secondItem="cjg-32-mMy" secondAttribute="centerX" id="gSg-K4-Qj1"/>
+                            <constraint firstItem="Ke5-7a-pZs" firstAttribute="top" secondItem="cjg-32-mMy" secondAttribute="bottom" constant="40" id="iyp-jd-MR1"/>
                             <constraint firstItem="cjg-32-mMy" firstAttribute="top" secondItem="ych-Cr-iVH" secondAttribute="bottom" constant="45" id="iz8-xq-2af"/>
+                            <constraint firstItem="cjg-32-mMy" firstAttribute="top" secondItem="Se0-ny-RlY" secondAttribute="bottom" constant="8" id="pwI-jt-Y65"/>
+                            <constraint firstItem="9w0-Qi-4kA" firstAttribute="centerX" secondItem="Hfh-eK-e96" secondAttribute="centerX" id="s8o-SS-JeT"/>
+                            <constraint firstItem="Se0-ny-RlY" firstAttribute="top" secondItem="9w0-Qi-4kA" secondAttribute="bottom" constant="20" id="uyf-l4-3KM"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="iz8-xq-2af"/>
+                                <exclude reference="G0x-Uf-nbV"/>
+                                <exclude reference="cwh-k8-5Ex"/>
+                            </mask>
+                        </variation>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                 </viewController>
@@ -2377,11 +2427,13 @@
         <image name="checkmark" width="18" height="14"/>
         <image name="confirm" width="300" height="40"/>
         <image name="discover" width="30" height="30"/>
+        <image name="done" width="250" height="40"/>
         <image name="edit" width="45" height="18"/>
         <image name="home" width="30" height="30"/>
         <image name="ic_person" width="25" height="25"/>
         <image name="joinNow" width="300" height="40"/>
         <image name="listenButton" width="284" height="47"/>
+        <image name="payment" width="122" height="122"/>
         <image name="save" width="300" height="40"/>
         <image name="speak" width="124" height="124"/>
     </resources>
