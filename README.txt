@@ -99,17 +99,6 @@ curl -i -X GET "http://127.0.0.1:8080/quandas/1"
 curl -i -X PUT "http://127.0.0.1:8080/quandas/1" -d '{"answerAudio":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","status":"ANSWERED"}'
 
 
-RESTFUL APIs OF QUANDAS FILTERING:
-The results are reversely chronologically ordered by updatedTime as the first preference, and then createdTime.
-1. load all quandas
-curl -i -X GET "http://127.0.0.1:8080/quandas?filter=*"
-
-2. query quandas by a single column(e.g. asker or responder), e.g.
-curl -i -X GET "http://127.0.0.1:8080/quandas?filter=asker=kuan"
-curl -i -X GET "http://127.0.0.1:8080/quandas?filter=responder=edmund"
-The column name is case sensitive, it only supports single column. In addition, it essentially does equal matched query.
-
-
 RESTFUL APIs OF QUESTIONS:
 1. query questions, e.g.
 curl -i -G -X GET http://127.0.0.1:8080/questions --data-urlencode "asker='bowen'", equivalent to
