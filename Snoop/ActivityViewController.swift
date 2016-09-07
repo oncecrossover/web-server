@@ -331,6 +331,10 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         myCell.listenImage.image = utility.addTextToImage(expireText, inImage: originalImage!, atPoint: textPoint)
         myCell.listenImage.userInteractionEnabled = false
       }
+      else if (cellInfo.status == "EXPIRED") {
+        myCell.listenImage.image = UIImage(named: "expired")
+        myCell.listenImage.userInteractionEnabled = false
+      }
       else {
         if (cellInfo.isPlaying!) {
           myCell.listenImage.image = UIImage(named: "stop")
