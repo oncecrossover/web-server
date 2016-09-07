@@ -92,6 +92,7 @@ public class User {
 
     if (user.getProfile() == null) {
       user.setProfile(new Profile());
+      user.getProfile().setRate(0.0);
     }
     user.getProfile().setUser(user);
 
