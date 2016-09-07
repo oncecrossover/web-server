@@ -140,14 +140,16 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
     }
 
     Transaction txn = null;
+    Session session = null;
     /*
      * query to get DB copy to avoid updating fields (not explicitly set by
      * Json) to NULL
      */
     Profile fromDB = null;
     try {
-      txn = getSession().beginTransaction();
-      fromDB = (Profile) getSession().get(Profile.class, uid);
+      session = getSession();
+      txn = session.beginTransaction();
+      fromDB = (Profile) session.get(Profile.class, uid);
       txn.commit();
       if (fromDB == null) {
         appendln(String.format("Nonexistent profile for user ('%s')", uid));
@@ -170,8 +172,9 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
     }
 
     try {
-      txn = getSession().beginTransaction();
-      getSession().update(fromDB);
+      session = getSession();
+      txn = session.beginTransaction();
+      session.update(fromDB);
       txn.commit();
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {

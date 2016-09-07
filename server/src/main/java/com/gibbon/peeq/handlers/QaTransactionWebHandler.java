@@ -22,6 +22,7 @@ import com.gibbon.peeq.db.model.Quanda;
 import com.gibbon.peeq.db.util.JournalUtil;
 import com.gibbon.peeq.db.util.PcAccountUtil;
 import com.gibbon.peeq.db.util.ProfileUtil;
+import com.gibbon.peeq.db.util.QuandaDBUtil;
 import com.gibbon.peeq.util.ResourcePathParser;
 import com.gibbon.peeq.util.StripeUtil;
 import com.google.common.io.ByteArrayDataOutput;
@@ -155,15 +156,27 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
 
     final String transUserId = qaTransaction.getUid();
 
-    /* verify quanda */
-    final Quanda quanda = qaTransaction.getquanda();
-    resp = verifyQuandaForSnooping(quanda);
+    /* get client copy */
+    final Quanda quandaFromClient = qaTransaction.getquanda();
+    resp = verifyQuandaFromClientForSnooping(quandaFromClient);
+    if (resp != null) {
+      return resp;
+    }
+
+    /* get DB copy */
+    Quanda quandaFromDB = null;
+    try {
+      quandaFromDB = QuandaDBUtil.getQuanda(quandaFromClient.getId());
+    } catch (Exception e) {
+      return newServerErrorResponse(e, LOG);
+    }
+    resp = verifyQuandaFromDBForSnooping(quandaFromDB);
     if (resp != null) {
       return resp;
     }
 
     /* QaTransaction user shouldn't be same as quanda asker or responder */
-    resp = verifyTransactionForSnooping(transUserId, quanda);
+    resp = verifyTransactionForSnooping(transUserId, quandaFromDB);
     if (resp != null) {
       return resp;
     }
@@ -171,7 +184,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
     /* get answer rate */
     double answerRate = 0;
     try {
-      answerRate = ProfileUtil.getRate(quanda.getResponder());
+      answerRate = ProfileUtil.getRate(quandaFromDB.getResponder());
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
@@ -191,7 +204,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
       txn = session.beginTransaction();
 
       /* insert snoop */
-      insertSnoop(session, quanda, qaTransaction);
+      insertSnoop(session, quandaFromDB, qaTransaction);
 
       txn.commit();
       appendln(Long.toString(qaTransaction.getId()));
@@ -204,13 +217,13 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
         txn = session.beginTransaction();
 
         /* insert snoop and qaTransaction */
-        insertSnoopAndQaTransaction(session, quanda, qaTransaction, SNOOP_RATE);
+        insertSnoopAndQaTransaction(session, quandaFromDB, qaTransaction, SNOOP_RATE);
 
         /* insert journals and charge */
         if (balance >= SNOOP_RATE) {
-          chargeSnooperFromBalance(session, qaTransaction, quanda, SNOOP_RATE);
+          chargeSnooperFromBalance(session, qaTransaction, quandaFromDB, SNOOP_RATE);
         } else {
-          chargeSnooperFromCard(session, qaTransaction, quanda, SNOOP_RATE);
+          chargeSnooperFromCard(session, qaTransaction, quandaFromDB, SNOOP_RATE);
         }
         txn.commit();
         appendln(toIdJson("id", qaTransaction.getId()));
@@ -228,15 +241,26 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
     return QuandaWebHandler.verifyQuanda(quanda, respBuf);
   }
 
-  private FullHttpResponse verifyQuandaForSnooping(final Quanda quanda) {
+  private FullHttpResponse verifyQuandaFromClientForSnooping(
+      final Quanda quanda) {
     if (quanda == null) {
       appendln("No quanda or incorrect format specified.");
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
-    if (quanda.getId() <= 0) {
-      appendln("Incorrect quanda id specified");
+    if (quanda.getId() == null || quanda.getId() <= 0) {
+      appendln("Incorrect or no quanda id specified");
       return newResponse(HttpResponseStatus.BAD_REQUEST);
+    }
+
+    return null;
+  }
+
+  private FullHttpResponse verifyQuandaFromDBForSnooping(final Quanda quanda) {
+
+    FullHttpResponse resp = verifyQuandaFromClientForSnooping(quanda);
+    if (resp != null) {
+      return resp;
     }
 
     if (StringUtils.isBlank(quanda.getAsker())) {

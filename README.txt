@@ -167,7 +167,7 @@ curl -i -X GET "http://127.0.0.1:8080/qatransactions/1"
 curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":"kuan","type":"ASKED","quanda":{"question":"How do you define a good man?","responder":"edmund"}}'
 
 create new QaTransaction with type of SNOOPED, e.g.
-curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":"xiaobingo","type":"SNOOPED","quanda":{"id":1,"asker":"kuan","responder":"edmund"}}'
+curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":"xiaobingo","type":"SNOOPED","quanda":{"id":1}}'
 
 
 RESTFUL APIs OF NEWSFEED:

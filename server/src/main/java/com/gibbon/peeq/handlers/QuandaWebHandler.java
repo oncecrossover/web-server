@@ -210,7 +210,8 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       txn.commit();
 
       if (fromDB == null) {
-        appendln(String.format("Nonexistent quanda ('%d')", id));
+        appendln(
+            String.format("Nonexistent quanda ('%d')", Long.parseLong(id)));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (HibernateException e) {
