@@ -17,6 +17,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   var userModule = User()
   var questionModule = Question()
   var utility = UIUtility()
+  var generics = Generics()
 
   var soundPlayer: AVAudioPlayer!
   var activeCell: (Bool!, Int!)!
@@ -285,6 +286,31 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         dispatch_async(dispatch_get_main_queue()) {
           self.preparePlayer(data)
           self.soundPlayer.play()
+        }
+      }
+    }
+  }
+
+  func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    if (segmentedControl.selectedSegmentIndex == 0 && questions[indexPath.row].status == "EXPIRED") {
+      return true
+    }
+    return false
+  }
+
+  func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    if (segmentedControl.selectedSegmentIndex == 0) {
+      if (editingStyle == .Delete) {
+        let quandaId = questions[indexPath.row].id
+        questions.removeAtIndex(indexPath.row)
+        let jsonData = ["active" : "FALSE"]
+        let url = NSURL(string: "http://localhost:8080/quandas/" + "\(quandaId)")!
+        generics.updateObject(url, jsonData: jsonData) { result in
+          if (result.isEmpty) {
+            dispatch_async(dispatch_get_main_queue()) {
+              self.activityTableView.reloadData()
+            }
+          }
         }
       }
     }
