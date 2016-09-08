@@ -318,11 +318,11 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       final Quanda fromDB) {
     if (fromJson.getAnswerAudio() != null) {
       fromDB.setAnswerAudio(fromJson.getAnswerAudio());
-    }
 
-    final String url = saveAnswerAudio(fromDB);
-    if (url != null) {
-      fromDB.setAnswerUrl(url);
+      final String url = saveAnswerAudio(fromDB);
+      if (url != null) {
+        fromDB.setAnswerUrl(url);
+      }
     }
   }
 
