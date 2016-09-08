@@ -102,7 +102,12 @@ public class StripeUtil {
     final Map<String, Object> refundParams = new HashMap<String, Object>();
     refundParams.put("charge", chargeId);
 
-    return Refund.create(refundParams);
+    Charge charge = Charge.retrieve(chargeId);
+    if (!charge.getRefunded()) {
+      return Refund.create(refundParams);
+    } else {
+      return null;
+    }
   }
 
   public static Charge captureCharge(final String chargeId)

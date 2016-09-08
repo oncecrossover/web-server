@@ -311,17 +311,31 @@ public class TestStripeUtil {
     final Token token = Token.create(defaultTokenParams);
     StripeUtil.addCardToCustomer(customer, token.getId());
 
-    final Charge charge = StripeUtil.chargeCustomerUncaptured(
+    Charge charge = null;
+    Refund refund = null;
+
+    /* charge with auth */
+    charge = StripeUtil.chargeCustomerUncaptured(
         customer.getId(),
         1.5);
-    assertEquals(false, charge.getCaptured());
-    assertEquals(false, charge.getRefunded());
+    assertFalse(charge.getCaptured());
+    assertFalse(charge.getRefunded());
     assertEquals(150, charge.getAmount().intValue());
 
-    final Refund refund = StripeUtil.refundCharge(charge.getId());
+    /* refund */
+    refund = StripeUtil.refundCharge(charge.getId());
     assertEquals(refund.getAmount(), charge.getAmount());
     assertEquals(refund.getCharge(), charge.getId());
     assertEquals(refund.getStatus(), "succeeded");
+
+    /* verify refund */
+    charge = Charge.retrieve(charge.getId());
+    assertFalse(charge.getCaptured());
+    assertTrue(charge.getRefunded());
+
+    /* refund again */
+    refund = StripeUtil.refundCharge(charge.getId());
+    assertNull(refund);
   }
 
   @Test(timeout = 60000)
