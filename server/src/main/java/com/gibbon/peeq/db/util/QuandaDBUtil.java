@@ -321,7 +321,7 @@ public class QuandaDBUtil {
       };
     }
 
-    String where = " WHERE ";
+    String where = " WHERE Q.active = 'TRUE' AND ";
     where += list.size() == 0 ?
         "1 = 0" : /* simulate no columns specified */
         Joiner.on(" AND ").skipNulls().join(list);

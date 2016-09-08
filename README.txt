@@ -95,8 +95,11 @@ RESTFUL APIs OF QUANDAS:
 1. get quanda by id, e.g.
 curl -i -X GET "http://127.0.0.1:8080/quandas/1"
 
-2. update quanda by id, e.g.
+2. answer question by id, e.g.
 curl -i -X PUT "http://127.0.0.1:8080/quandas/1" -d '{"answerAudio":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","status":"ANSWERED"}'
+
+3. deactivate quanda by id, e.g.
+curl -i -X PUT "http://127.0.0.1:8080/quandas/1" -d '{"active":"FALSE"}'
 
 
 RESTFUL APIs OF QUESTIONS:

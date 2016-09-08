@@ -16,6 +16,27 @@ public class Quanda {
     PENDING, ANSWERED, EXPIRED
   }
 
+  public enum LiveStatus {
+    FALSE(0, "FALSE"),
+    TRUE(1, "TRUE");
+
+    private final int code;
+    private final String value;
+
+    LiveStatus(final int code, final String value) {
+      this.code = code;
+      this.value = value;
+    }
+
+    public int code() {
+      return code;
+    }
+
+    public String value() {
+      return value;
+    }
+  }
+
   private Long id;
   private String asker;
   private String question;
@@ -24,6 +45,7 @@ public class Quanda {
   private String answerUrl;
   private byte[] answerAudio;
   private String status;
+  private String active;
   private Date createdTime;
   private Date updatedTime;
   private Long snoops;
@@ -98,6 +120,15 @@ public class Quanda {
 
   public Quanda setStatus(final String status) {
     this.status = status;
+    return this;
+  }
+
+  public String getActive() {
+    return active;
+  }
+
+  public Quanda setActive(final String active) {
+    this.active = active;
     return this;
   }
 
@@ -177,9 +208,10 @@ public class Quanda {
           && isEqual(this.getAsker(), that.getAsker())
           && isEqual(this.getQuestion(), that.getQuestion())
           && isEqual(this.getResponder(), that.getResponder())
+          && isEqual(this.getRate(), that.getRate())
           && isEqual(this.getAnswerUrl(), that.getAnswerUrl())
           && isEqual(this.getStatus(), that.getStatus())
-          && isEqual(this.getRate(), that.getRate())) {
+          && isEqual(this.getActive(), that.getActive())) {
         return true;
       }
     }
@@ -212,6 +244,9 @@ public class Quanda {
     if (quanda.getResponder() != null) {
       this.setResponder(quanda.getResponder());
     }
+    if (quanda.getStatus() != null) {
+      this.setStatus(quanda.getStatus());
+    }
     if (quanda.getAnswerUrl() != null) {
       this.setAnswerUrl(quanda.getAnswerUrl());
     }
@@ -221,8 +256,8 @@ public class Quanda {
     if (quanda.getStatus() != null) {
       this.setStatus(quanda.getStatus());
     }
-    if (quanda.getRate() != null) {
-      this.setRate(quanda.getRate());
+    if (quanda.getActive() != null) {
+      this.setActive(quanda.getActive());
     }
     if (quanda.getCreatedTime() != null) {
       this.setCreatedTime(quanda.getCreatedTime());

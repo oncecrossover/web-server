@@ -39,6 +39,7 @@ public class TestQuanda {
           .setResponder("edmund")
           .setAnswerAudio("This is answer audio.".getBytes())
           .setStatus(Quanda.QnaStatus.ANSWERED.toString())
+          .setActive(Quanda.LiveStatus.TRUE.value())
           .setRate(random.nextDouble())
           .setCreatedTime(new Date())
           .setUpdatedTime(new Date());
@@ -53,6 +54,7 @@ public class TestQuanda {
           .setResponder(UUID.randomUUID().toString())
           .setAnswerAudio("This is random answer audio.".getBytes())
           .setStatus(Quanda.QnaStatus.PENDING.toString())
+          .setActive(Quanda.LiveStatus.TRUE.value())
           .setRate(random.nextDouble())
           .setCreatedTime(new Date())
           .setUpdatedTime(new Date());

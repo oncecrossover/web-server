@@ -224,8 +224,8 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       /* save audio */
       saveAudioToObjectStore(fromJson, fromDB);
 
-      /* answer */
-      answerQuanda(session, fromDB);
+      /* update */
+      UpdateStatusActive(session, fromJson, fromDB);
 
       /* commit all transactions */
       txn.commit();
@@ -237,15 +237,29 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  private void answerQuanda(
+  private void UpdateStatusActive(
       final Session session,
-      final Quanda quanda) {
-    if (!Quanda.QnaStatus.PENDING.toString().equals(quanda.getStatus())) {
-      return;
+      final Quanda fromJson,
+      final Quanda fromDB) {
+
+    boolean needUpdate = false;
+    if (Quanda.QnaStatus.ANSWERED.toString().equals(fromJson.getStatus()) &&
+        Quanda.QnaStatus.PENDING.toString().equals(fromDB.getStatus())) {
+      /* answer it */
+      fromDB.setStatus(Quanda.QnaStatus.ANSWERED.toString());
+      needUpdate = true;
     }
-    /* update status */
-    quanda.setStatus(Quanda.QnaStatus.ANSWERED.toString());
-    session.update(quanda);
+
+    if (Quanda.LiveStatus.FALSE.value().equals(fromJson.getActive()) &&
+        Quanda.LiveStatus.TRUE.value().equals(fromDB.getActive())) {
+      /* deactivate it */
+      fromDB.setActive(Quanda.LiveStatus.FALSE.toString());
+      needUpdate = true;
+    }
+
+    if (needUpdate) {
+      session.update(fromDB);
+    }
   }
 
   /**
