@@ -21,6 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let nav = UINavigationBar.appearance()
     nav.titleTextAttributes = [ NSForegroundColorAttributeName:UIColor.orangeColor()]
     STPPaymentConfiguration.sharedConfiguration().publishableKey = "pk_test_Mn99c0kYcKvT4yDyYNORk4cX"
+
+    let pageController = UIPageControl.appearance()
+    pageController.pageIndicatorTintColor = UIColor.lightGrayColor()
+    pageController.currentPageIndicatorTintColor = UIColor.blackColor()
+    pageController.backgroundColor = UIColor.whiteColor()
     return true
   }
   

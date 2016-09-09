@@ -99,9 +99,9 @@ class SignupPageViewController: UIViewController {
           }
 
           //Display success message
-          let myAlert = UIAlertController(title: "Alert", message: resultMessage, preferredStyle: UIAlertControllerStyle.Alert)
+          let myAlert = UIAlertController(title: "OK", message: resultMessage, preferredStyle: UIAlertControllerStyle.Alert)
           let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default){ action in
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.performSegueWithIdentifier("signupToTutorial", sender: self)
           }
 
           myAlert.addAction(okAction)
@@ -117,5 +117,9 @@ class SignupPageViewController: UIViewController {
     userEmailTextField.resignFirstResponder()
     userPasswordTextField.resignFirstResponder()
     userNameTextField.resignFirstResponder()
+  }
+
+  @IBAction func unwindToLogin(segue: UIStoryboardSegue) {
+    self.dismissViewControllerAnimated(true, completion: nil)
   }
 }

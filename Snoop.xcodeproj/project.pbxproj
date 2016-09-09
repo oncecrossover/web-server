@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4A0CE3681D6ECDB10023EC2D /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0CE3671D6ECDB10023EC2D /* MBProgressHUD.m */; };
+		4A0EB0EB1D8276DC00390D06 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0EB0EA1D8276DC00390D06 /* TutorialViewController.swift */; };
+		4A0EB0ED1D8277C700390D06 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0EB0EC1D8277C700390D06 /* ContentViewController.swift */; };
 		4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C0571D3448F400AEF95D /* CircleImageView.swift */; };
 		4A11C05C1D344DF500AEF95D /* RoundCornerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */; };
 		4A11C0621D35BA6900AEF95D /* TextFitLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */; };
@@ -73,6 +75,8 @@
 		4A0CE3651D6ECDAF0023EC2D /* Snoop-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Snoop-Bridging-Header.h"; sourceTree = "<group>"; };
 		4A0CE3661D6ECDB10023EC2D /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		4A0CE3671D6ECDB10023EC2D /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		4A0EB0EA1D8276DC00390D06 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
+		4A0EB0EC1D8277C700390D06 /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		4A11C0571D3448F400AEF95D /* CircleImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
 		4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundCornerButton.swift; sourceTree = "<group>"; };
 		4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFitLabel.swift; sourceTree = "<group>"; };
@@ -210,6 +214,8 @@
 				4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */,
 				4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */,
 				4A745CBD1D73A5D500797AFC /* ConfirmationViewController.swift */,
+				4A0EB0EA1D8276DC00390D06 /* TutorialViewController.swift */,
+				4A0EB0EC1D8277C700390D06 /* ContentViewController.swift */,
 			);
 			name = ControllerGroup;
 			sourceTree = "<group>";
@@ -402,6 +408,7 @@
 				4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */,
 				4AF322761D2DBCB50043FCE5 /* AnswerViewController.swift in Sources */,
 				4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */,
+				4A0EB0EB1D8276DC00390D06 /* TutorialViewController.swift in Sources */,
 				4A0CE3681D6ECDB10023EC2D /* MBProgressHUD.m in Sources */,
 				4AC2837E1CED0E4500A08D35 /* LoginViewController.swift in Sources */,
 				4AE8660F1D3C3CF400316DBA /* PaymentViewController.swift in Sources */,
@@ -409,6 +416,7 @@
 				4AC2837C1CECEE3800A08D35 /* SignupPageViewController.swift in Sources */,
 				4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */,
 				4AC9231F1D360A0800C83177 /* FeedTableViewCell.swift in Sources */,
+				4A0EB0ED1D8277C700390D06 /* ContentViewController.swift in Sources */,
 				4A698D4B1D7CE568004786B8 /* QuestionModel.swift in Sources */,
 				4A11C05C1D344DF500AEF95D /* RoundCornerButton.swift in Sources */,
 				4A4BB82A1D769BE70085160F /* AbstractModel.swift in Sources */,

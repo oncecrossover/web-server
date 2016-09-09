@@ -127,7 +127,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
     let question = submittedQuestion.question
     let quandaData = ["question" : question, "responder" : responder]
     let jsonData:[String: AnyObject] = ["uid": asker, "type" : "ASKED", "quanda" : quandaData]
-    generics.createObject("http://127.0.0.1:8080/qatransactions", jsonData: jsonData) { result in
+    generics.createObject("http://localhost:8080/qatransactions", jsonData: jsonData) { result in
       self.isPaid = true
       if (!result.isEmpty) {
         self.isPaid = false
