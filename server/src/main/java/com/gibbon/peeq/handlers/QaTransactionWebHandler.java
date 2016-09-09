@@ -16,6 +16,7 @@ import com.gibbon.peeq.db.model.Journal;
 import com.gibbon.peeq.db.model.Journal.JournalType;
 import com.gibbon.peeq.db.model.QaTransaction;
 import com.gibbon.peeq.db.model.QaTransaction.TransType;
+import com.gibbon.peeq.db.model.Quanda.LiveStatus;
 import com.gibbon.peeq.db.model.Quanda.QnaStatus;
 import com.gibbon.peeq.db.model.Snoop;
 import com.gibbon.peeq.db.model.Quanda;
@@ -314,7 +315,8 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
 
     /* QaTransaction user must be same as quanda asker */
     quanda.setAsker(transUserId)
-          .setStatus(QnaStatus.PENDING.toString());
+          .setStatus(QnaStatus.PENDING.toString())
+          .setActive(LiveStatus.TRUE.value());
 
     /* get answer rate */
     double answerRate = 0;
