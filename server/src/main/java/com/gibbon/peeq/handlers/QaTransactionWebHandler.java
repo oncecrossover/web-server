@@ -208,7 +208,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
       insertSnoop(session, quandaFromDB, qaTransaction);
 
       txn.commit();
-      appendln(Long.toString(qaTransaction.getId()));
+      appendln(toIdJson("id", qaTransaction.getId()));
       return newResponse(HttpResponseStatus.CREATED);
     } else { /* pay to snoop */
       /* insert snoop, qaTransaction and journals */
@@ -352,7 +352,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
         insertQuanda(session, quanda);
 
         txn.commit();
-        appendln(Long.toString(qaTransaction.getId()));
+        appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
       } catch (Exception e) {
         txn.rollback();
