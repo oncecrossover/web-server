@@ -75,7 +75,7 @@ class PasswordResetViewController: UIViewController{
 
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Updating Password...")
 
-    let urlString = "http://localhost:8080/resetpwd/" + email.text!
+    let urlString = generics.HTTPHOST + "resetpwd/" + email.text!
     let jsonData = ["tempPwd" : tmpPwd, "newPwd" : newPwd]
     generics.createObject(urlString, jsonData: jsonData) { result in
       let message = result
@@ -104,7 +104,7 @@ class PasswordResetViewController: UIViewController{
     //Check if the email address exists in our system
     userModule.getUser(email.text!) { user in
       if let _ = user["uid"] as? String {
-        let URI = "http://localhost:8080/temppwds"
+        let URI = self.generics.HTTPHOST + "temppwds"
         let jsonData = ["uid" : self.email.text!]
         self.generics.createObject(URI, jsonData: jsonData) { result in
           if (result.isEmpty) {

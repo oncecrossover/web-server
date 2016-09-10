@@ -8,8 +8,8 @@ class User
   private var generics = Generics()
   
   init(){
-    USERURI = "http://localhost:8080/users/"
-    PROFILEURI = "http://localhost:8080/profiles/"
+    USERURI = generics.HTTPHOST + "users/"
+    PROFILEURI = generics.HTTPHOST + "profiles/"
   }
   
   func createUser(userEmail: String, userPassword: String, fullName: String!, completion: (String) -> ()) {
@@ -95,7 +95,7 @@ class User
   }
 
   func getDiscover(uid: String, filterString: String, completion: (NSArray) -> ()) {
-    let url = NSURL(string: "http://127.0.0.1:8080/profiles?filter=" + filterString)
+    let url = NSURL(string: generics.HTTPHOST + "profiles?filter=" + filterString)
     generics.getFilteredObjects(url!) { result in
       completion(result)
     }

@@ -14,7 +14,7 @@ class Payment {
   private var generics = Generics()
 
   init(){
-    PAYMENTURI = "http://localhost:8080/pcentries"
+    PAYMENTURI = generics.HTTPHOST + "pcentries"
   }
 
   func createPayment(token: String!, completion: (String) ->()) {

@@ -866,7 +866,7 @@
                                     <constraint firstAttribute="width" constant="200" id="b6B-ln-pJw"/>
                                     <constraint firstAttribute="height" constant="40" id="nbQ-WZ-FcB"/>
                                 </constraints>
-                                <state key="normal" title="Button" image="listenButton"/>
+                                <state key="normal" title="Button" image="listen"/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="nbQ-WZ-FcB"/>
@@ -2540,7 +2540,7 @@
         <image name="home" width="30" height="30"/>
         <image name="ic_person" width="25" height="25"/>
         <image name="joinNow" width="300" height="40"/>
-        <image name="listenButton" width="284" height="47"/>
+        <image name="listen" width="252" height="47"/>
         <image name="payment" width="122" height="122"/>
         <image name="save" width="300" height="40"/>
         <image name="speak" width="124" height="124"/>

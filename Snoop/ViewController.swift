@@ -73,7 +73,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     self.paidSnoops = []
     activityIndicator.startAnimating()
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    let myUrl = NSURL(string: "http://localhost:8080/newsfeeds?uid='" + uid + "'")
+    let myUrl = NSURL(string: generics.HTTPHOST + "newsfeeds?uid='" + uid + "'")
     generics.getFilteredObjects(myUrl!) { jsonArray in
       for feedInfo in jsonArray as! [[String:AnyObject]] {
         let questionId = feedInfo["quandaId"] as! Int

@@ -50,7 +50,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
 
   func loadPaymentMethod() {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
-    let myUrl = NSURL(string: "http://localhost:8080/balances/" + uid!)
+    let myUrl = NSURL(string: generics.HTTPHOST + "balances/" + uid!)
     self.generics.getObjectById(myUrl!) { dict in
       let balance = dict["balance"] as! Double
       if (balance > self.chargeAmount) {
@@ -101,7 +101,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
     let quandaData: [String:AnyObject] = ["id": chargeInfo.quandaId]
     let jsonData: [String:AnyObject] = ["uid": uid!, "type": "SNOOPED", "quanda": quandaData]
-    generics.createObject("http://localhost:8080/qatransactions", jsonData: jsonData) { result in
+    generics.createObject(generics.HTTPHOST + "qatransactions", jsonData: jsonData) { result in
       self.isPaid = true
       if (!result.isEmpty) {
         self.isPaid = false
@@ -127,7 +127,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
     let question = submittedQuestion.question
     let quandaData = ["question" : question, "responder" : responder]
     let jsonData:[String: AnyObject] = ["uid": asker, "type" : "ASKED", "quanda" : quandaData]
-    generics.createObject("http://localhost:8080/qatransactions", jsonData: jsonData) { result in
+    generics.createObject(generics.HTTPHOST + "qatransactions", jsonData: jsonData) { result in
       self.isPaid = true
       if (!result.isEmpty) {
         self.isPaid = false

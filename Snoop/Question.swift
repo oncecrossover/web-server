@@ -15,10 +15,10 @@ class Question {
   private var ANSWERURI: String
   private var generics = Generics()
   init () {
-    SNOOPURI = "http://localhost:8080/snoops"
-    QUESTIONURI = "http://localhost:8080/questions"
-    QUANDAURI = "http://localhost:8080/quandas"
-    ANSWERURI = "http://localhost:8080/answers"
+    SNOOPURI = generics.HTTPHOST + "snoops"
+    QUESTIONURI = generics.HTTPHOST + "questions"
+    QUANDAURI = generics.HTTPHOST + "quandas"
+    ANSWERURI = generics.HTTPHOST + "answers"
   }
 
   func createQuestion(asker: String, question: String, responder: String,

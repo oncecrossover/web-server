@@ -8,6 +8,7 @@
 
 import Foundation
 class Generics {
+  var HTTPHOST = "http://localhost:8080/"
   init() {
   }
 
