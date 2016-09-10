@@ -876,7 +876,7 @@
                                     <action selector="play:" destination="cGi-Da-Os1" eventType="touchUpInside" id="Uii-jF-cm7"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="explanation" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="zTF-fP-HJV" customClass="TextFitLabel" customModule="Snoop" customModuleProvider="target">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="explanation" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="zTF-fP-HJV">
                                 <rect key="frame" x="60" y="387.5" width="200" height="32.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="nAe-FX-1hl"/>
