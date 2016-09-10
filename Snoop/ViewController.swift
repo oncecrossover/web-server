@@ -41,7 +41,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     logoView.contentMode = .ScaleAspectFit
     logoView.image = logo
     self.navigationItem.titleView = logoView
-    self.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
   }
   
   override func viewDidAppear(animated: Bool) {
