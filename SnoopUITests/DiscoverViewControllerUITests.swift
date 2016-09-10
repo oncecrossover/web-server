@@ -86,4 +86,36 @@ class DiscoverViewControllerUITests: XCTestCase {
     app.buttons["Log Out"].tap()
   }
 
+  func testDiscoverWithSearch() {
+    let app = XCUIApplication()
+    let emailTextField = app.textFields["Email:"]
+    emailTextField.tap()
+    emailTextField.typeText("bzhang@test.com")
+
+    let passwordSecureTextField = app.secureTextFields["Password:"]
+    passwordSecureTextField.tap()
+    passwordSecureTextField.typeText("1234")
+
+    let element = app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).element.childrenMatchingType(.Other).element
+    element.tap()
+    app.buttons["Log In"].tap()
+
+    let tabBarsQuery = app.tabBars
+    tabBarsQuery.buttons["Discover"].tap()
+    app.tables.searchFields["Search"].tap()
+    app.searchFields["Search"].typeText("Ra")
+
+    //For some reasons, the cell when search is active is not hittable. So
+    //we need to instantiate a coordinate to tap
+    let cell = app.tables.cells.elementBoundByIndex(0)
+    let coordinate: XCUICoordinate = cell.coordinateWithNormalizedOffset(CGVectorMake(0.0, 0.0))
+    coordinate.tap()
+
+
+    app.navigationBars["Snoop.AskView"].buttons["Discover"].tap()
+    app.buttons["Cancel"].tap()
+    tabBarsQuery.buttons["Me"].tap()
+    app.buttons["Log Out"].tap()
+  }
+
 }
