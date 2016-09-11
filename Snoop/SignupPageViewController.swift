@@ -24,9 +24,9 @@ class SignupPageViewController: UIViewController {
     signupButton.setImage(UIImage(named: "disabledSignup"), forState: .Disabled)
     signupButton.setImage(UIImage(named: "enabledSignup"), forState: .Normal)
 
-    userNameTextField.addTarget(self, action: "checkFields:", forControlEvents: .EditingChanged)
-    userEmailTextField.addTarget(self, action: "checkFields:", forControlEvents: .EditingChanged)
-    userPasswordTextField.addTarget(self, action: "checkFields:", forControlEvents: .EditingChanged)
+    userNameTextField.addTarget(self, action: #selector(SignupPageViewController.checkFields(_:)), forControlEvents: .EditingChanged)
+    userEmailTextField.addTarget(self, action: #selector(SignupPageViewController.checkFields(_:)), forControlEvents: .EditingChanged)
+    userPasswordTextField.addTarget(self, action: #selector(SignupPageViewController.checkFields(_:)), forControlEvents: .EditingChanged)
   }
 
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {

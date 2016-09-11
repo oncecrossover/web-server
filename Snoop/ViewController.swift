@@ -33,7 +33,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     feedTable.rowHeight = UITableViewAutomaticDimension
     feedTable.estimatedRowHeight = 120
 
-    refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
+    refreshControl.addTarget(self, action: #selector(ViewController.refresh(_:)), forControlEvents: .ValueChanged)
     feedTable.addSubview(refreshControl)
 
     let logo = UIImage(named: "logo")
@@ -134,7 +134,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     if (feedInfo.avatarImage.length > 0) {
       myCell.profileImage.image = UIImage(data: feedInfo.avatarImage)
       myCell.profileImage.userInteractionEnabled = true
-      let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedOnProfile:")
+      let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnProfile(_:)))
       myCell.profileImage.addGestureRecognizer(tappedOnImage)
     }
 
@@ -162,13 +162,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
 
         myCell.snoopImage.userInteractionEnabled = true
-        let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedToListen:")
+        let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToListen(_:)))
         myCell.snoopImage.addGestureRecognizer(tappedOnImage)
       }
       else {
         myCell.snoopImage.image = UIImage(named: "snoop")
         myCell.snoopImage.userInteractionEnabled = true
-        let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedOnImage:")
+        let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnImage(_:)))
         myCell.snoopImage.addGestureRecognizer(tappedOnImage)
       }
     }

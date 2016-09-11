@@ -29,7 +29,7 @@ class PasswordResetViewController: UIViewController{
     sendButton.setImage(UIImage(named: "sendEmailDisabled"), forState: .Disabled)
     sendButton.setImage(UIImage(named: "sendEmailEnabled"), forState: .Normal)
     sendButton.enabled = false
-    email.addTarget(self, action: "checkEmail:", forControlEvents: .EditingChanged)
+    email.addTarget(self, action: #selector(PasswordResetViewController.checkEmail(_:)), forControlEvents: .EditingChanged)
 
     // Do any additional setup after loading the view.
   }

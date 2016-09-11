@@ -50,7 +50,7 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
       return nil
     }
 
-    index--
+    index-=1
 
     return self.pageViewControllerAtIndex(index)
   }
@@ -63,7 +63,7 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
       return nil
     }
 
-    index++
+    index+=1
 
     if (index == pageImages.count) {
       return nil

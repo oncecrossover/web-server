@@ -36,7 +36,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     activityTableView.rowHeight = UITableViewAutomaticDimension
     activityTableView.estimatedRowHeight = 120
 
-    refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
+    refreshControl.addTarget(self, action: #selector(ActivityViewController.refresh(_:)), forControlEvents: .ValueChanged)
     activityTableView.addSubview(refreshControl)
   }
 
@@ -196,7 +196,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
         button.setImage(UIImage(named: "discoverButton"), forState: .Normal)
         button.userInteractionEnabled = true
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: "tappedOnDiscoverButton:")
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnDiscoverButton(_:)))
         button.addGestureRecognizer(gestureRecognizer)
       }
       else {
@@ -216,7 +216,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         noDataLabel.text = "You haven't listened to any questions so far. Let's see what's trending"
         button.setImage(UIImage(named: "trendingButton"), forState: .Normal)
         button.userInteractionEnabled = true
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: "tappedOnHomeButton:")
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnHomeButton(_:)))
         button.addGestureRecognizer(gestureRecognizer)
       }
       else {
@@ -370,7 +370,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         }
 
         myCell.listenImage.userInteractionEnabled = true
-        let tappedOnButton = UITapGestureRecognizer(target: self, action: "tappedOnImage:")
+        let tappedOnButton = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnImage(_:)))
         myCell.listenImage.addGestureRecognizer(tappedOnButton)
       }
 

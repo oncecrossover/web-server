@@ -124,7 +124,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
   func update() {
     if(count > 0) {
-      reminder.text = String(count--)
+      reminder.text = String(count-=1)
     }
     else {
       stopRecording(recordbutton)
@@ -142,7 +142,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
       explanation.text = "Recording... Touch the button again to stop"
 
       //Setup timer to remind the user
-      timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("update"), userInfo: nil, repeats: true)
+      timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(AnswerViewController.update), userInfo: nil, repeats: true)
     }
     else {
       stopRecording(sender)

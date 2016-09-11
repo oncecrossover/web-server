@@ -55,7 +55,7 @@ class AskViewController: UIViewController, UITextViewDelegate {
     self.questionView.text = placeholder
     self.questionView.textColor = UIColor.lightGrayColor()
 
-    self.scrollView.addGestureRecognizer(UITapGestureRecognizer(target: self,action: "dismissKeyboard:"))
+    self.scrollView.addGestureRecognizer(UITapGestureRecognizer(target: self,action: #selector(AskViewController.dismissKeyboard(_:))))
   }
 
 

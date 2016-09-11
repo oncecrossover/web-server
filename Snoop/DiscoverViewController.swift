@@ -32,7 +32,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     discoverTableView.tableHeaderView = searchController.searchBar
     self.definesPresentationContext = true
 
-    refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
+    refreshControl.addTarget(self, action: #selector(DiscoverViewController.refresh(_:)), forControlEvents: .ValueChanged)
     discoverTableView.addSubview(refreshControl)
   }
 

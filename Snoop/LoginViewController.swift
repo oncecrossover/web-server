@@ -20,8 +20,8 @@ class LoginViewController: UIViewController {
     loginButton.setImage(UIImage(named: "disabledLogin"), forState: .Disabled)
     loginButton.setImage(UIImage(named: "enabledLogin"), forState: .Normal)
     loginButton.enabled = false
-    userEmailTextField.addTarget(self, action: "checkFields:", forControlEvents: .EditingChanged)
-    userPasswordTextField.addTarget(self, action: "checkFields:", forControlEvents: .EditingChanged)
+    userEmailTextField.addTarget(self, action: #selector(LoginViewController.checkFields(_:)), forControlEvents: .EditingChanged)
+    userPasswordTextField.addTarget(self, action: #selector(LoginViewController.checkFields(_:)), forControlEvents: .EditingChanged)
   }
   var utility = UIUtility()
 
