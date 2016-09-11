@@ -69,6 +69,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   }
 
   func loadData() {
+    feedTable.userInteractionEnabled = false
     self.feeds = []
     self.paidSnoops = []
     activityIndicator.startAnimating()
@@ -98,6 +99,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       dispatch_async(dispatch_get_main_queue()) {
         self.activityIndicator.stopAnimating()
         self.feedTable.reloadData()
+        self.feedTable.userInteractionEnabled = true
       }
     }
   }

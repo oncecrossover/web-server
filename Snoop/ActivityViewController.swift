@@ -77,6 +77,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   }
 
   func loadData() {
+    activityTableView.userInteractionEnabled = false
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     if (segmentedControl.selectedSegmentIndex == 0) {
       questions = []
@@ -135,6 +136,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
       dispatch_async(dispatch_get_main_queue()) {
         self.activityTableView.reloadData()
+        self.activityTableView.userInteractionEnabled = true
       }
     }
 
@@ -163,6 +165,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
       dispatch_async(dispatch_get_main_queue()) {
         self.activityTableView.reloadData()
+        self.activityTableView.userInteractionEnabled = true
       }
     }
   }

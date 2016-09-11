@@ -65,6 +65,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   }
 
   func loadImages() {
+    discoverTableView.userInteractionEnabled = false
     profiles = []
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     activityIndicator.startAnimating()
@@ -103,6 +104,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
       dispatch_async(dispatch_get_main_queue()) {
         self.discoverTableView.reloadData()
+        self.discoverTableView.userInteractionEnabled = true
       }
 
     }
