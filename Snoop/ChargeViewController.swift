@@ -36,6 +36,8 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
       chargeAmount = submittedQuestion.amount
     }
 
+    payButton.setImage(UIImage(named: "disabledPay"), forState: .Disabled)
+    payButton.setImage(UIImage(named: "enabledPay"), forState: .Normal)
     payButton.enabled = false
 
     navigationController?.delegate = self
@@ -61,10 +63,10 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
       }
       else {
         self.paymentModule.getPayments("uid=" + uid!) { jsonArray in
-          var usingCard = false
+          var hasCardOnFile = false
           for paymentInfo in jsonArray {
             if (paymentInfo["default"] as! Bool == true) {
-              usingCard = true
+              hasCardOnFile = true
               let brand = paymentInfo["brand"] as! String
               let last4 = paymentInfo["last4"] as! String
               dispatch_async(dispatch_get_main_queue()) {
@@ -75,7 +77,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
             }
           }
 
-          if (!usingCard) {
+          if (!hasCardOnFile) {
             dispatch_async(dispatch_get_main_queue()) {
               self.balanceLabel.text = "Balance(" + String(balance) + ")"
               self.payButton.enabled = false
