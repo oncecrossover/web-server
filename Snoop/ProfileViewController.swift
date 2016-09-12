@@ -19,22 +19,24 @@ class ProfileViewController: UIViewController{
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var rateLabel: UILabel!
 
+  @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   var rate:Double = 0.0
 
   var userModule = User()
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    initView()
 
     // Do any additional setup after loading the view.
   }
 
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
-    initView()
   }
 
   func initView() {
+    activityIndicator.startAnimating()
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     userModule.getProfile(uid) { fullName, title, aboutMe, avatarImage, rate in
       dispatch_sync(dispatch_get_main_queue(), {
@@ -57,6 +59,8 @@ class ProfileViewController: UIViewController{
         else {
           self.profilePhoto.image = UIImage(named: "default")
         }
+
+        self.activityIndicator.stopAnimating()
       })
     }
   }

@@ -30,6 +30,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   var contentOffset: CGPoint = CGPointZero
 
   var activeText: UIView?
+
+  var isProfileUpdated = false
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -53,6 +55,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
 
     NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditProfileViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
     NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditProfileViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+
+    navigationController?.delegate = self
   }
 
 
@@ -147,6 +151,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         // We use the delay so users can always see the activity indicator showing profile is being updated
         let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
         dispatch_after(time, dispatch_get_main_queue()) {
+          self.isProfileUpdated = true
           activityIndicator.hideAnimated(true)
           self.navigationController?.popViewControllerAnimated(true)
         }
@@ -175,9 +180,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     userModule.updateProfilePhoto(uid, imageData: photoData){ resultString in
       var message = ""
       if (resultString.isEmpty) {
-        //Give it a one second delay for better UI experience
-        let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
-        dispatch_after(time, dispatch_get_main_queue()) {
+        dispatch_async(dispatch_get_main_queue()) {
+          self.isProfileUpdated = true
           activityIndicator.hideAnimated(true)
           self.navigationController?.popViewControllerAnimated(true)
         }
@@ -200,6 +204,14 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     nameField.resignFirstResponder()
     titleField.resignFirstResponder()
     aboutField.resignFirstResponder()
+  }
+
+  func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+    if let controller = viewController as? ProfileViewController {
+      if (isProfileUpdated) {
+        controller.initView()
+      }
+    }
   }
 
 }

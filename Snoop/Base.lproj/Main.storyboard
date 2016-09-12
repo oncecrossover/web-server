@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1808" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="MT6-4y-LwK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="MT6-4y-LwK">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -994,7 +994,7 @@
                                     <segue destination="LoA-NY-dJ5" kind="show" identifier="segueToProfileEdit" id="MX5-eG-AeF"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJq-hu-4zi">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJq-hu-4zi">
                                 <rect key="frame" x="20" y="172" width="280" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="pw9-yZ-zfQ"/>
@@ -1015,7 +1015,7 @@
                                     <action selector="logoutButtonTapped:" destination="O35-TS-Yh5" eventType="touchUpInside" id="V0i-Gf-cJt"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ji3-uv-Rem">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ji3-uv-Rem">
                                 <rect key="frame" x="20" y="200" width="280" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="31" id="Nvl-8f-ya0"/>
@@ -1035,7 +1035,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="About" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HwQ-vQ-n9N" customClass="TextFitLabel" customModule="Snoop" customModuleProvider="target">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HwQ-vQ-n9N" customClass="TextFitLabel" customModule="Snoop" customModuleProvider="target">
                                 <rect key="frame" x="20" y="237" width="280" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="49i-dO-mP1"/>
@@ -1052,7 +1052,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rate" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M21-13-mBH">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M21-13-mBH">
                                 <rect key="frame" x="20" y="283" width="280" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="9fx-cM-0xa"/>
@@ -1070,6 +1070,9 @@
                                     <segue destination="AKp-Uf-jpw" kind="show" identifier="profileToPaymentSegue" id="Lg0-n3-dUq"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Sfp-pO-hDk">
+                                <rect key="frame" x="150" y="225" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="0.91232126951217651" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1154,6 +1157,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="aboutLabel" destination="HwQ-vQ-n9N" id="c4g-Ux-J2O"/>
+                        <outlet property="activityIndicator" destination="Sfp-pO-hDk" id="XiJ-xe-VFH"/>
                         <outlet property="editButton" destination="4ar-5m-0Mi" id="v5t-4F-kcf"/>
                         <outlet property="nameLabel" destination="RJq-hu-4zi" id="gl3-3N-QJn"/>
                         <outlet property="profilePhoto" destination="GSG-GZ-gfF" id="gQh-Mt-muF"/>
@@ -2547,7 +2551,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="KRu-3m-3Wk"/>
-        <segue reference="me6-Y0-ggX"/>
+        <segue reference="Dj5-e0-VQE"/>
         <segue reference="Kjo-bx-Bbf"/>
         <segue reference="KPI-O4-rSf"/>
     </inferredMetricsTieBreakers>
