@@ -197,6 +197,9 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     if (profile.avatarImage.length > 0) {
       myCell.discoverImageView.image = UIImage(data: profile.avatarImage)
     }
+    else {
+      myCell.discoverImageView.image = UIImage(named: "default")
+    }
 
     myCell.name.text = profile.name
     myCell.title.text = profile.title

@@ -135,10 +135,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     if (feedInfo.avatarImage.length > 0) {
       myCell.profileImage.image = UIImage(data: feedInfo.avatarImage)
-      myCell.profileImage.userInteractionEnabled = true
-      let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnProfile(_:)))
-      myCell.profileImage.addGestureRecognizer(tappedOnImage)
     }
+    else {
+      myCell.profileImage.image = UIImage(named: "default")
+    }
+
+    myCell.profileImage.userInteractionEnabled = true
+    let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnProfile(_:)))
+    myCell.profileImage.addGestureRecognizer(tappedOnImage)
 
     myCell.questionLabel.text = feedInfo.question
     myCell.numOfSnoops.text = String(feedInfo.snoops)

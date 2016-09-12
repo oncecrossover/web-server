@@ -54,6 +54,9 @@ class ProfileViewController: UIViewController{
         if (avatarImage.length > 0) {
           self.profilePhoto.image = UIImage(data: avatarImage)
         }
+        else {
+          self.profilePhoto.image = UIImage(named: "default")
+        }
       })
     }
   }

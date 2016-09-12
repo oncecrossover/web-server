@@ -347,6 +347,9 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       if (cellInfo.avatarImage.length > 0) {
         myCell.profileImage.image = UIImage(data: cellInfo.avatarImage)
       }
+      else {
+        myCell.profileImage.image = UIImage(named: "default")
+      }
 
       if (cellInfo.status == "PENDING") {
         var expireText = "Expires In \(cellInfo.hoursToExpire) Hours"
@@ -386,6 +389,9 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       myCell.rateLabel.text = "$\(answer.rate)"
       if (answer.avatarImage.length > 0) {
         myCell.profileImage.image = UIImage(data: answer.avatarImage)
+      }
+      else {
+        myCell.profileImage.image = UIImage(named: "default")
       }
 
       myCell.status.text = answer.status
