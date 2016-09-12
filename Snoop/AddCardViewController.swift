@@ -20,7 +20,7 @@ class AddCardViewController: UIViewController, STPPaymentCardTextFieldDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    stripeView = STPPaymentCardTextField(frame: CGRectMake(15, 100, 290, 60))
+    stripeView = STPPaymentCardTextField(frame: CGRectMake((self.view.frame.width - 300)/2, 100, 300, 60))
     stripeView.delegate = self
     view.addSubview(stripeView)
     saveButton.enabled = false
