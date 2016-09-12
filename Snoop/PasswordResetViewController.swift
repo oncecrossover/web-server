@@ -31,6 +31,12 @@ class PasswordResetViewController: UIViewController{
     sendButton.enabled = false
     email.addTarget(self, action: #selector(PasswordResetViewController.checkEmail(_:)), forControlEvents: .EditingChanged)
 
+    saveButton.setImage(UIImage(named: "enabledReset"), forState: .Normal)
+    saveButton.setImage(UIImage(named: "disabledReset"), forState: .Disabled)
+    saveButton.enabled = false
+    tmpPassword.addTarget(self, action: #selector(PasswordResetViewController.checkPassword(_:)), forControlEvents: .EditingChanged)
+    newPassword.addTarget(self, action: #selector(PasswordResetViewController.checkPassword(_:)), forControlEvents: .EditingChanged)
+
     // Do any additional setup after loading the view.
   }
 
@@ -59,6 +65,17 @@ class PasswordResetViewController: UIViewController{
     }
 
     sendButton.enabled = true
+  }
+
+  func checkPassword(sender: UITextField) {
+    guard
+      let tmpPassword = tmpPassword.text where !tmpPassword.isEmpty,
+      let newPassword = newPassword.text where !newPassword.isEmpty
+      else {
+        return
+    }
+
+    self.saveButton.enabled = true
   }
 
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
