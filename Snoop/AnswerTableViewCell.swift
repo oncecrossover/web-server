@@ -31,12 +31,14 @@ class AnswerTableViewCell: UITableViewCell {
   }
 
   func initConfig(){
-    question.font = question.font.fontWithSize(13)
+    question.font = question.font.fontWithSize(16.5)
 
-    askerName.font = askerName.font.fontWithSize(13)
+    askerName.font = askerName.font.fontWithSize(14.5)
     askerName.textColor = UIColor.grayColor()
 
-    status.font = status.font.fontWithSize(13)
+    status.font = status.font.fontWithSize(14)
+    rateLabel.font = rateLabel.font.fontWithSize(12)
+    expiration.font = expiration.font.fontWithSize(13)
   }
 
 }

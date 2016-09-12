@@ -30,10 +30,11 @@ class QuestionTableViewCell: UITableViewCell {
 //    let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedOnImage:")
 //    myCell.discoverImageView.addGestureRecognizer(tappedOnImage)
 
-    questionText.font = questionText.font.fontWithSize(13)
+    questionText.font = questionText.font.fontWithSize(16.5)
 
-    titleLabel.font = titleLabel.font.fontWithSize(13)
+    titleLabel.font = titleLabel.font.fontWithSize(14.5)
     titleLabel.textColor = UIColor.grayColor()
+    rateLabel.font = rateLabel.font.fontWithSize(12)
   }
   override func setSelected(selected: Bool, animated: Bool) {
     super.setSelected(selected, animated: animated)

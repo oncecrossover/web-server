@@ -23,7 +23,7 @@ class FeedTableViewCell: UITableViewCell {
 
   override func awakeFromNib() {
     super.awakeFromNib()
-    // Initialization code
+    initConfig()
   }
 
   override func setSelected(selected: Bool, animated: Bool) {
@@ -35,9 +35,9 @@ class FeedTableViewCell: UITableViewCell {
 
   func initConfig(){
 
-    questionLabel.font = questionLabel.font.fontWithSize(13)
+    questionLabel.font = questionLabel.font.fontWithSize(16.5)
 
-    titleLabel.font = titleLabel.font.fontWithSize(13)
+    titleLabel.font = titleLabel.font.fontWithSize(14.5)
     titleLabel.textColor = UIColor.grayColor()
   }
 

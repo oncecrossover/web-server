@@ -41,16 +41,16 @@ class ProfileViewController: UIViewController{
     userModule.getProfile(uid) { fullName, title, aboutMe, avatarImage, rate in
       dispatch_sync(dispatch_get_main_queue(), {
         self.aboutLabel.text = aboutMe
-        self.aboutLabel.font = self.aboutLabel.font.fontWithSize(12)
+        self.aboutLabel.font = self.aboutLabel.font.fontWithSize(14)
 
         self.nameLabel.text = fullName
-        self.nameLabel.font = self.nameLabel.font.fontWithSize(15)
+        self.nameLabel.font = self.nameLabel.font.fontWithSize(14.5)
 
         self.titleLabel.text = title
-        self.titleLabel.font = self.titleLabel.font.fontWithSize(12)
+        self.titleLabel.font = self.titleLabel.font.fontWithSize(13)
 
         self.rateLabel.text = String(rate) + " to answer a question"
-        self.rateLabel.font = self.rateLabel.font.fontWithSize(12)
+        self.rateLabel.font = self.rateLabel.font.fontWithSize(15)
         self.rate = rate
 
         if (avatarImage.length > 0) {
