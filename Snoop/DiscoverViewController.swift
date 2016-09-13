@@ -42,8 +42,8 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
       loadImages()
     }
     else {
-      let shouldLoadDiscover = NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadDiscover")
-      if (shouldLoadDiscover) {
+      if (NSUserDefaults.standardUserDefaults().objectForKey("shouldLoadDiscover") == nil ||
+        NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadDiscover") == true) {
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadDiscover")
         NSUserDefaults.standardUserDefaults().synchronize()
         loadImages()

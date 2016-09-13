@@ -24,15 +24,21 @@ class ProfileViewController: UIViewController{
 
   var userModule = User()
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    initView()
-
-    // Do any additional setup after loading the view.
-  }
-
-  override func viewWillAppear(animated: Bool) {
-    super.viewWillAppear(animated)
+  override func viewDidAppear(animated: Bool) {
+    super.viewDidAppear(animated)
+    if (NSUserDefaults.standardUserDefaults().objectForKey("shouldLoadProfile") == nil) {
+      NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadProfile")
+      NSUserDefaults.standardUserDefaults().synchronize()
+      initView()
+    }
+    else {
+      let shouldLoadProfile = NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadProfile")
+      if (shouldLoadProfile) {
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadProfile")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        initView()
+      }
+    }
   }
 
   func initView() {
@@ -88,6 +94,7 @@ class ProfileViewController: UIViewController{
     NSUserDefaults.standardUserDefaults().removeObjectForKey("email")
     NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadHome")
     NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadDiscover")
+    NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadProfile")
     NSUserDefaults.standardUserDefaults().synchronize()
     self.performSegueWithIdentifier("loginView", sender: self)
   }

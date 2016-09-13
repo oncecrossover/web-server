@@ -53,8 +53,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         loadData()
       }
       else {
-        let shouldLoadHome = NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadHome")
-        if (shouldLoadHome) {
+        if (NSUserDefaults.standardUserDefaults().objectForKey("shouldLoadHome") == nil ||
+          NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadHome") == true) {
           NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadHome")
           NSUserDefaults.standardUserDefaults().synchronize()
           loadData()
