@@ -20,7 +20,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   @IBOutlet weak var uploadButton: UIButton!
   @IBOutlet weak var rateField: UITextField!
 
-  var textColor = UIColor(red: 0.3333, green: 0.6745, blue: 0.9333, alpha: 1.0)
+  var textColor = UIColor(red: 51/255, green: 181/255, blue: 159/255, alpha: 1.0)
 
   var profileValues: (name: String!, title: String!, about: String!, avatarImage:  UIImage!, rate: Double!)
 
