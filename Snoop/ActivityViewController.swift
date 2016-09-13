@@ -425,7 +425,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       let questionInfo = answers[indexPath.row]
       dvc.question = (id: questionInfo.id, avatarImage: questionInfo.avatarImage, askerName: questionInfo.name,
         status: questionInfo.status,
-        content: questionInfo.question, rate: questionInfo.rate)
+        content: questionInfo.question, rate: questionInfo.rate, hoursToExpire : questionInfo.hoursToExpire)
     }
     
   }

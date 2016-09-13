@@ -26,7 +26,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
   var questionModule = Question()
 
   var question:(id: Int!, avatarImage: NSData!, askerName: String!, status: String!,
-  content: String!, rate: Double!)
+  content: String!, rate: Double!, hoursToExpire: Int!)
 
   var isRecording = false
   var isPlaying = false
@@ -103,6 +103,11 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
     myCell.question.text = question.content
     myCell.rateLabel.text = "$\(question.rate)"
+
+    myCell.expiration.text = "expires in \(question.hoursToExpire) hrs"
+    if (question.hoursToExpire == 1) {
+      myCell.expiration.text = "expires in 1 hr"
+    }
 
     if (question.avatarImage.length > 0) {
       myCell.profileImage.image = UIImage(data: question.avatarImage)

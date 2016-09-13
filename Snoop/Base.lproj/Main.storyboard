@@ -801,6 +801,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="askerName" destination="cbS-J9-2KG" id="ego-hF-SOz"/>
+                                            <outlet property="expiration" destination="I2V-kt-0aV" id="Row-di-Sji"/>
                                             <outlet property="profileImage" destination="g4m-7C-dSn" id="WrK-gu-0vx"/>
                                             <outlet property="question" destination="lp0-Yu-bcM" id="I8E-py-f1n"/>
                                             <outlet property="rateLabel" destination="T02-5y-aNU" id="y4y-xE-Q7a"/>
