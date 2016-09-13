@@ -24,24 +24,29 @@ class ProfileViewController: UIViewController{
 
   var userModule = User()
 
+  override func viewDidLoad() {
+    super.viewDidLoad()
+  }
+
   override func viewDidAppear(animated: Bool) {
     super.viewDidAppear(animated)
-    if (NSUserDefaults.standardUserDefaults().objectForKey("shouldLoadProfile") == nil) {
+    if (NSUserDefaults.standardUserDefaults().objectForKey("shouldLoadProfile") == nil ||
+      NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadProfile") == true) {
       NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadProfile")
       NSUserDefaults.standardUserDefaults().synchronize()
       initView()
     }
-    else {
-      let shouldLoadProfile = NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadProfile")
-      if (shouldLoadProfile) {
-        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadProfile")
-        NSUserDefaults.standardUserDefaults().synchronize()
-        initView()
-      }
+    else if (nameLabel.text?.isEmpty == true) {
+      initView()
     }
   }
 
   func initView() {
+    profilePhoto.image = UIImage(named: "default")
+    nameLabel.text = ""
+    aboutLabel.text = ""
+    titleLabel.text = ""
+    rateLabel.text = ""
     activityIndicator.startAnimating()
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     userModule.getProfile(uid) { fullName, title, aboutMe, avatarImage, rate in
