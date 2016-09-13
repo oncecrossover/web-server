@@ -42,6 +42,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     super.viewDidLoad()
     answerTableView.rowHeight = UITableViewAutomaticDimension
     answerTableView.estimatedRowHeight = 120
+    setSessionPlayAndRecord()
     setupRecorder()
     initView()
 
@@ -60,8 +61,16 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     } catch let error as NSError {
       print(error.localizedDescription)
     }
+  }
 
-
+  func setSessionPlayAndRecord() {
+    let session:AVAudioSession = AVAudioSession.sharedInstance()
+    do {
+      try session.setCategory("AVAudioSessionCategoryPlayAndRecord", withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
+    }
+    catch let error as NSError {
+      print(error.description)
+    }
   }
 
 
@@ -129,7 +138,8 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
   func update() {
     if(count > 0) {
-      reminder.text = String(count-=1)
+      count-=1
+      reminder.text = String(count)
     }
     else {
       stopRecording(recordbutton)
