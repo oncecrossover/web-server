@@ -34,7 +34,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     super.viewDidLoad()
 
     activityTableView.rowHeight = UITableViewAutomaticDimension
-    activityTableView.estimatedRowHeight = 120
+    activityTableView.estimatedRowHeight = 130
 
     refreshControl.addTarget(self, action: #selector(ActivityViewController.refresh(_:)), forControlEvents: .ValueChanged)
     activityTableView.addSubview(refreshControl)
@@ -356,8 +356,8 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         if (cellInfo.hoursToExpire == 1) {
           expireText = "Expires In 1 Hour"
         }
-        let x = myCell.listenImage.frame.size.width * 0.4
-        let y = myCell.listenImage.frame.size.height/3
+        let x = myCell.listenImage.frame.size.width * 0.3
+        let y = myCell.listenImage.frame.size.height * 0.3
         let textPoint = CGPointMake(x, y)
         let originalImage = UIImage(named: "pending")
         myCell.listenImage.image = utility.addTextToImage(expireText, inImage: originalImage!, atPoint: textPoint)

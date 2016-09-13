@@ -31,7 +31,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   override func viewDidLoad() {
     super.viewDidLoad()
     feedTable.rowHeight = UITableViewAutomaticDimension
-    feedTable.estimatedRowHeight = 120
+    feedTable.estimatedRowHeight = 130
 
     refreshControl.addTarget(self, action: #selector(ViewController.refresh(_:)), forControlEvents: .ValueChanged)
     feedTable.addSubview(refreshControl)

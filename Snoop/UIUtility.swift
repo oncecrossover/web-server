@@ -39,7 +39,7 @@ class UIUtility {
 
   func addTextToImage(drawText: NSString, inImage: UIImage, atPoint: CGPoint) -> UIImage {
     // Setup the font specific variables
-    let textColor = UIColor(red: 75/255, green: 179/255, blue: 104/255, alpha: 1.0)
+    let textColor = UIColor(red: 21/255, green: 196/255, blue: 70/255, alpha: 1.0)
     let textFont = UIFont(name: "Helvetica Neue", size: 16)!
 
     // Setup the image context using the passed image

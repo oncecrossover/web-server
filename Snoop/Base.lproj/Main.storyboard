@@ -283,32 +283,32 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="511"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <activityIndicatorView key="tableFooterView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" id="YSd-Dt-Nsc">
-                                    <rect key="frame" x="0.0" y="212" width="320" height="20"/>
+                                    <rect key="frame" x="0.0" y="222" width="320" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </activityIndicatorView>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="feedCell" rowHeight="120" id="0jz-Fb-nvV" customClass="FeedTableViewCell" customModule="Snoop" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="92" width="320" height="120"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="feedCell" rowHeight="130" id="0jz-Fb-nvV" customClass="FeedTableViewCell" customModule="Snoop" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="92" width="320" height="130"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0jz-Fb-nvV" id="7uX-w0-SyT">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="119.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="129.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="question" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zM4-xp-xB4" customClass="TextFitLabel" customModule="Snoop" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="2" width="304" height="37"/>
+                                                    <rect key="frame" x="8" y="2" width="304" height="42"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="X1w-H1-nib" customClass="CircleImageView" customModule="Snoop" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="41" width="48" height="48"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="X1w-H1-nib" customClass="CircleImageView" customModule="Snoop" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="46" width="53" height="53"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="48" id="7Jz-Og-zPO"/>
-                                                        <constraint firstAttribute="width" constant="48" id="gZf-2c-KE3"/>
+                                                        <constraint firstAttribute="height" constant="53" id="7Jz-Og-zPO"/>
+                                                        <constraint firstAttribute="width" constant="53" id="gZf-2c-KE3"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name | title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J6z-jH-QVL" customClass="TextFitLabel" customModule="Snoop" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="91" width="304" height="28"/>
+                                                    <rect key="frame" x="8" y="101" width="304" height="28"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="28" id="5ka-g2-yv3"/>
                                                     </constraints>
@@ -317,7 +317,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,111" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jz6-0t-BUo">
-                                                    <rect key="frame" x="270" y="47" width="42" height="19"/>
+                                                    <rect key="frame" x="270" y="52" width="42" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="42" id="wOb-CN-CIv"/>
                                                     </constraints>
@@ -326,13 +326,13 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GTR-LW-6t8">
-                                                    <rect key="frame" x="64" y="46" width="198" height="38"/>
+                                                    <rect key="frame" x="69" y="50" width="193" height="45"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="38" id="fL8-3v-sM4"/>
+                                                        <constraint firstAttribute="height" constant="45" id="fL8-3v-sM4"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Snoops" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xG8-zn-gtm">
-                                                    <rect key="frame" x="270" y="62" width="42" height="19"/>
+                                                    <rect key="frame" x="270" y="72" width="42" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" red="0.83500768619999999" green="0.81417692409999998" blue="0.75407956320000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -346,10 +346,12 @@
                                                 <constraint firstItem="xG8-zn-gtm" firstAttribute="height" secondItem="jz6-0t-BUo" secondAttribute="height" id="F8Z-wO-r8G"/>
                                                 <constraint firstItem="jz6-0t-BUo" firstAttribute="leading" secondItem="GTR-LW-6t8" secondAttribute="trailing" constant="8" id="GcQ-Yb-eTo"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="jz6-0t-BUo" secondAttribute="trailing" id="PhY-hS-pxL"/>
+                                                <constraint firstItem="GTR-LW-6t8" firstAttribute="top" secondItem="zM4-xp-xB4" secondAttribute="bottom" constant="6" id="Q1W-eV-v1p"/>
                                                 <constraint firstItem="J6z-jH-QVL" firstAttribute="top" secondItem="jz6-0t-BUo" secondAttribute="bottom" constant="25" id="Qun-kF-aBF"/>
                                                 <constraint firstItem="xG8-zn-gtm" firstAttribute="width" secondItem="jz6-0t-BUo" secondAttribute="width" id="SCh-NV-u3L"/>
                                                 <constraint firstItem="X1w-H1-nib" firstAttribute="leading" secondItem="J6z-jH-QVL" secondAttribute="leading" id="V8j-qf-fom"/>
                                                 <constraint firstItem="GTR-LW-6t8" firstAttribute="leading" secondItem="X1w-H1-nib" secondAttribute="trailing" constant="8" id="XM7-xD-cFI"/>
+                                                <constraint firstItem="J6z-jH-QVL" firstAttribute="top" secondItem="GTR-LW-6t8" secondAttribute="bottom" constant="6" id="ZOl-33-ACZ"/>
                                                 <constraint firstItem="X1w-H1-nib" firstAttribute="leading" secondItem="7uX-w0-SyT" secondAttribute="leadingMargin" id="brX-xp-msW"/>
                                                 <constraint firstItem="zM4-xp-xB4" firstAttribute="trailing" secondItem="J6z-jH-QVL" secondAttribute="trailing" id="c43-md-S3R"/>
                                                 <constraint firstItem="J6z-jH-QVL" firstAttribute="top" secondItem="X1w-H1-nib" secondAttribute="bottom" constant="2" id="eEo-aC-K4L"/>
@@ -361,6 +363,12 @@
                                                 <constraint firstItem="xG8-zn-gtm" firstAttribute="centerX" secondItem="jz6-0t-BUo" secondAttribute="centerX" id="ycs-Qi-zYO"/>
                                                 <constraint firstItem="xG8-zn-gtm" firstAttribute="top" secondItem="jz6-0t-BUo" secondAttribute="bottom" constant="-4" id="zxr-sw-yR4"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="taZ-FB-929"/>
+                                                    <exclude reference="wbD-yU-Bu2"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="numOfSnoops" destination="jz6-0t-BUo" id="SWm-xE-uYB"/>
@@ -426,16 +434,17 @@
                                 <rect key="frame" x="22" y="108" width="284" height="350"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="questionCell" rowHeight="120" id="jAL-xt-qtK" customClass="QuestionTableViewCell" customModule="Snoop" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="284" height="120"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="questionCell" rowHeight="130" id="jAL-xt-qtK" customClass="QuestionTableViewCell" customModule="Snoop" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="284" height="130"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jAL-xt-qtK" id="RPN-em-CsP">
-                                            <rect key="frame" x="0.0" y="0.0" width="284" height="119.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="284" height="129.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wpm-c4-pJf" customClass="CircleImageView" customModule="Snoop" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="49.5" width="53" height="53"/>
+                                                    <rect key="frame" x="8" y="53" width="53" height="53"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="height" constant="53" id="2nC-6e-Pw2"/>
                                                         <constraint firstAttribute="width" secondItem="Wpm-c4-pJf" secondAttribute="height" multiplier="1:1" id="3dd-Cw-BaW"/>
                                                         <constraint firstAttribute="height" constant="48" id="Ikc-pb-3vk"/>
                                                     </constraints>
@@ -446,7 +455,7 @@
                                                     </variation>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Do you think you will hurt the Mayor's campaign since you are a convicted rapist?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bDx-KA-8Zm" customClass="TextFitLabel" customModule="Snoop" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="2" width="268" height="48"/>
+                                                    <rect key="frame" x="8" y="2" width="268" height="41.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="37" id="gx0-zD-Iwx"/>
                                                     </constraints>
@@ -460,15 +469,24 @@
                                                     </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="steph Curry | MVP NBA" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZfU-oh-YqU" customClass="TextFitLabel" customModule="Snoop" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="104" width="268" height="14.5"/>
+                                                    <rect key="frame" x="8" y="114" width="268" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0ap-ec-xF9">
-                                                    <rect key="frame" x="64.5" y="59" width="159.5" height="34"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$999.99" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9dO-eV-9Zb">
+                                                    <rect key="frame" x="226" y="73" width="50" height="14.5"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="34" id="3VY-Wd-76k"/>
+                                                        <constraint firstAttribute="width" constant="50" id="24T-dU-KC9"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.92607460539999997" green="0.0" blue="0.14604693839999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0ap-ec-xF9">
+                                                    <rect key="frame" x="65" y="57" width="159" height="45"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="45" id="3VY-Wd-76k"/>
                                                         <constraint firstAttribute="width" constant="200" id="F5x-S1-6dV"/>
                                                     </constraints>
                                                     <variation key="default">
@@ -477,15 +495,6 @@
                                                         </mask>
                                                     </variation>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$999.99" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9dO-eV-9Zb">
-                                                    <rect key="frame" x="226" y="60.5" width="50" height="31"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="50" id="24T-dU-KC9"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" red="0.92607460539999997" green="0.0" blue="0.14604693839999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="9dO-eV-9Zb" firstAttribute="leading" secondItem="0ap-ec-xF9" secondAttribute="trailing" constant="2" id="0dd-MZ-Xwv"/>
@@ -506,8 +515,10 @@
                                                 <constraint firstItem="9dO-eV-9Zb" firstAttribute="centerY" secondItem="0ap-ec-xF9" secondAttribute="centerY" id="c9R-3H-q1V"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="0ap-ec-xF9" secondAttribute="trailing" id="cE4-iU-gn3"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="ZfU-oh-YqU" secondAttribute="bottom" constant="-7.5" id="d5k-lP-72W"/>
+                                                <constraint firstItem="Wpm-c4-pJf" firstAttribute="top" secondItem="bDx-KA-8Zm" secondAttribute="bottom" constant="9.5" id="g4e-Yl-a4b"/>
                                                 <constraint firstItem="ZfU-oh-YqU" firstAttribute="top" secondItem="0ap-ec-xF9" secondAttribute="bottom" constant="11" id="gs7-ek-vyi"/>
                                                 <constraint firstItem="Wpm-c4-pJf" firstAttribute="top" secondItem="bDx-KA-8Zm" secondAttribute="bottom" id="kJq-WI-Rsc"/>
+                                                <constraint firstItem="ZfU-oh-YqU" firstAttribute="top" secondItem="Wpm-c4-pJf" secondAttribute="bottom" constant="8" id="oMb-AR-4nR"/>
                                                 <constraint firstItem="0ap-ec-xF9" firstAttribute="centerY" secondItem="Wpm-c4-pJf" secondAttribute="centerY" id="u9z-DX-klb"/>
                                                 <constraint firstItem="bDx-KA-8Zm" firstAttribute="top" secondItem="RPN-em-CsP" secondAttribute="topMargin" constant="-6" id="z3z-YJ-ONb"/>
                                                 <constraint firstItem="Wpm-c4-pJf" firstAttribute="leading" secondItem="RPN-em-CsP" secondAttribute="leadingMargin" id="zM4-nd-2HG"/>
@@ -515,12 +526,16 @@
                                             <variation key="default">
                                                 <mask key="constraints">
                                                     <exclude reference="3Wr-yM-o24"/>
+                                                    <exclude reference="kJq-WI-Rsc"/>
                                                     <exclude reference="zM4-nd-2HG"/>
                                                     <exclude reference="HYt-L6-LEq"/>
                                                     <exclude reference="agn-z7-68d"/>
                                                     <exclude reference="cE4-iU-gn3"/>
+                                                    <exclude reference="DNa-Wr-c4f"/>
                                                     <exclude reference="M4l-me-WL0"/>
+                                                    <exclude reference="gs7-ek-vyi"/>
                                                     <exclude reference="A8o-wQ-wh4"/>
+                                                    <exclude reference="HOZ-7U-0X4"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -533,7 +548,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="answerCell" rowHeight="120" id="p0K-t5-Y8P" customClass="AnswerTableViewCell" customModule="Snoop" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="148" width="284" height="120"/>
+                                        <rect key="frame" x="0.0" y="158" width="284" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="p0K-t5-Y8P" id="RAg-Fp-uDn">
                                             <rect key="frame" x="0.0" y="0.0" width="284" height="119.5"/>
@@ -638,7 +653,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="snoopCell" rowHeight="61" id="1NB-2M-gYi">
-                                        <rect key="frame" x="0.0" y="268" width="284" height="61"/>
+                                        <rect key="frame" x="0.0" y="278" width="284" height="61"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1NB-2M-gYi" id="Ggo-0v-yfA">
                                             <rect key="frame" x="0.0" y="0.0" width="284" height="60.5"/>
@@ -2539,7 +2554,7 @@
         <image name="home" width="30" height="30"/>
         <image name="ic_person" width="25" height="25"/>
         <image name="joinNow" width="280" height="55"/>
-        <image name="listen" width="252" height="47"/>
+        <image name="listen" width="216" height="45"/>
         <image name="managePayment" width="280" height="40"/>
         <image name="payment" width="122" height="122"/>
         <image name="save" width="280" height="55"/>
