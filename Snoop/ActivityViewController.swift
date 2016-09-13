@@ -358,9 +358,12 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         let x = myCell.listenImage.frame.size.width * 0.3
         let y = myCell.listenImage.frame.size.height * 0.3
+        let textColor = UIColor(red: 21/255, green: 196/255, blue: 70/255, alpha: 1.0)
+        let textFont = UIFont.systemFontOfSize(16)
         let textPoint = CGPointMake(x, y)
         let originalImage = UIImage(named: "pending")
-        myCell.listenImage.image = utility.addTextToImage(expireText, inImage: originalImage!, atPoint: textPoint)
+        myCell.listenImage.image = utility.addTextToImage(expireText, inImage: originalImage!, atPoint: textPoint,
+                                                          textColor: textColor, textFont: textFont)
         myCell.listenImage.userInteractionEnabled = false
       }
       else if (cellInfo.status == "EXPIRED") {

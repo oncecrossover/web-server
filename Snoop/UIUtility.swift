@@ -37,11 +37,7 @@ class UIUtility {
     return activityIndicator
   }
 
-  func addTextToImage(drawText: NSString, inImage: UIImage, atPoint: CGPoint) -> UIImage {
-    // Setup the font specific variables
-    let textColor = UIColor(red: 21/255, green: 196/255, blue: 70/255, alpha: 1.0)
-    let textFont = UIFont(name: "Helvetica Neue", size: 16)!
-
+  func addTextToImage(drawText: NSString, inImage: UIImage, atPoint: CGPoint, textColor: UIColor, textFont: UIFont) -> UIImage {
     // Setup the image context using the passed image
     let scale = UIScreen.mainScreen().scale
     UIGraphicsBeginImageContextWithOptions(inImage.size, false, scale)
