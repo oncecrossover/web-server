@@ -234,7 +234,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       let indexPath = sender as! NSIndexPath
       let dvc = segue.destinationViewController as! ChargeViewController
       let feed = feeds[indexPath.row]
-      dvc.chargeInfo = (amount: 1.00, type: "SNOOPED", quandaId: feed.id)
+      dvc.chargeInfo = (amount: 1.50, type: "SNOOPED", quandaId: feed.id)
       dvc.isSnooped = true
     }
     else if (segue.identifier == "homeToAsk") {
