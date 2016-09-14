@@ -175,7 +175,21 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   func uploadImage() {
     //Start activity Indicator
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Uploading Your Photo...")
-    let photoData = UIImageJPEGRepresentation(profilePhoto.image!, 1)
+    var compressionRatio = 1.0
+    let photoSize = UIImageJPEGRepresentation(profilePhoto.image!, 1)
+    if (photoSize?.length > 1000000) {
+      compressionRatio = 0.005
+    }
+    else if (photoSize?.length > 500000) {
+      compressionRatio = 0.01
+    }
+    else if (photoSize?.length > 100000){
+      compressionRatio = 0.05
+    }
+    else if (photoSize?.length > 10000) {
+      compressionRatio = 0.2
+    }
+    let photoData = UIImageJPEGRepresentation(profilePhoto.image!, CGFloat(compressionRatio))
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     userModule.updateProfilePhoto(uid, imageData: photoData){ resultString in
       var message = ""
