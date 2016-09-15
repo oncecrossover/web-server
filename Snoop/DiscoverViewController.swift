@@ -61,12 +61,11 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
   func refresh(sender:AnyObject) {
     loadImages()
-    refreshControl.endRefreshing()
   }
 
   func loadImages() {
     discoverTableView.userInteractionEnabled = false
-    profiles = []
+    var tmpProfiles: [DiscoverModel] = []
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     activityIndicator.startAnimating()
     userModule.getDiscover(uid, filterString: "*") { jsonArray in
@@ -97,14 +96,16 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
           avatarImage = NSData(base64EncodedString: profileInfo["avatarImage"] as! String, options: NSDataBase64DecodingOptions(rawValue: 0))!
         }
 
-        self.profiles.append(DiscoverModel(_name: profileName, _title: profileTitle, _avatarImage: avatarImage, _uid: profileUid, _about: profileAbout, _rate: rate))
+        tmpProfiles.append(DiscoverModel(_name: profileName, _title: profileTitle, _avatarImage: avatarImage, _uid: profileUid, _about: profileAbout, _rate: rate))
       }
+      self.profiles = tmpProfiles
 
       self.activityIndicator.stopAnimating()
 
       dispatch_async(dispatch_get_main_queue()) {
         self.discoverTableView.reloadData()
         self.discoverTableView.userInteractionEnabled = true
+        self.refreshControl.endRefreshing()
       }
 
     }
@@ -144,48 +145,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let myCell = tableView.dequeueReusableCellWithIdentifier("discoverCell",
-      forIndexPath: indexPath) as! DiscoverTableViewCell
-
-    // TODO: Make these calls asynchronous to improve performance
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-//      let imageString = self.avatarUrls[indexPath.row]
-//      if (!imageString.isEmpty) {
-//        let imageUrl = NSURL(string: imageString)
-//        let imageData = NSData(contentsOfURL: imageUrl!)
-//        dispatch_async(dispatch_get_main_queue()) {
-//          if (imageData != nil) {
-//            myCell.discoverImageView.image = UIImage(data: imageData!)
-//          }
-//        }
-//      }
-//
-//      myCell.discoverImageView.layer.cornerRadius = myCell.discoverImageView.frame.size.width / 2
-//      myCell.discoverImageView.clipsToBounds = true
-//      myCell.discoverImageView.layer.borderColor = UIColor.blackColor().CGColor
-//      myCell.discoverImageView.layer.borderWidth = 1
-//
-//      myCell.discoverImageView.userInteractionEnabled = true
-//      let tappedOnImage = UITapGestureRecognizer(target: self, action: "tappedOnImage:")
-//      myCell.discoverImageView.addGestureRecognizer(tappedOnImage)
-//
-//      myCell.name.text = self.names[indexPath.row]
-//      myCell.title.text = self.titles[indexPath.row]
-//      myCell.about.text = self.abouts[indexPath.row]
-//
-//      myCell.about.numberOfLines = 0
-//      myCell.about.lineBreakMode = NSLineBreakMode.ByWordWrapping
-//      myCell.about.sizeToFit()
-//      myCell.about.font = myCell.about.font.fontWithSize(12)
-//
-//      myCell.name.numberOfLines = 1
-//      myCell.name.font = UIFont.boldSystemFontOfSize(18)
-//      myCell.name.lineBreakMode = NSLineBreakMode.ByCharWrapping
-//      myCell.name.sizeToFit()
-//      
-//      myCell.title.font = myCell.title.font.fontWithSize(15)
-//    });
-
-
+                                                             forIndexPath: indexPath) as! DiscoverTableViewCell
     let profile: DiscoverModel
     if (searchController.active && searchController.searchBar.text != "") {
       profile = self.filteredProfiles[indexPath.row]
@@ -206,6 +166,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     myCell.about.text = profile.about
 
     return myCell
+
   }
 
 }

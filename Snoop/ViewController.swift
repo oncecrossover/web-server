@@ -65,12 +65,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
   func refresh(sender:AnyObject) {
     loadData()
-    refreshControl.endRefreshing()
   }
 
   func loadData() {
     feedTable.userInteractionEnabled = false
-    self.feeds = []
+    var tmpFeeds:[FeedsModel] = []
     self.paidSnoops = []
     activityIndicator.startAnimating()
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
@@ -93,13 +92,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
           avatarImage = NSData(base64EncodedString: (feedInfo["responderAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
         }
 
-        self.feeds.append(FeedsModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops))
+        tmpFeeds.append(FeedsModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops))
       }
 
+      self.feeds = tmpFeeds
       dispatch_async(dispatch_get_main_queue()) {
         self.activityIndicator.stopAnimating()
         self.feedTable.reloadData()
         self.feedTable.userInteractionEnabled = true
+        self.refreshControl.endRefreshing()
       }
     }
   }
