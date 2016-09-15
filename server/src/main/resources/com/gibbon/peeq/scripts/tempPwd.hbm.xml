@@ -4,7 +4,7 @@
 
 <hibernate-mapping>
   <class name="com.gibbon.peeq.db.model.TempPwd" dynamic-update="true"
-  table="TEMPPWD">
+  table="TempPwd">
     <id name="id" type="long">
       <column name="id" />
       <generator class="increment" />

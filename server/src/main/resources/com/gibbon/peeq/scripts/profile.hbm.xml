@@ -4,7 +4,7 @@
 
 <hibernate-mapping>
   <class name="com.gibbon.peeq.db.model.Profile" dynamic-update="true"
-  table="PROFILE">
+  table="Profile">
     <id name="uid" type="java.lang.String">
       <column name="uid" />
       <generator class="foreign">
