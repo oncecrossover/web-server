@@ -24,6 +24,7 @@ class AddCardViewController: UIViewController, STPPaymentCardTextFieldDelegate {
     stripeView.delegate = self
     view.addSubview(stripeView)
     saveButton.enabled = false
+    self.navigationItem.rightBarButtonItem = nil
 
   }
 
