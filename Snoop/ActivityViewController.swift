@@ -73,22 +73,18 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   func refresh(sender: AnyObject) {
     loadData()
-    refreshControl.endRefreshing()
   }
 
   func loadData() {
     activityTableView.userInteractionEnabled = false
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     if (segmentedControl.selectedSegmentIndex == 0) {
-      questions = []
       loadDataWithFilter("asker='" + uid + "'")
     }
     else if (segmentedControl.selectedSegmentIndex == 1) {
-      answers = []
       loadDataWithFilter("responder='" + uid + "'")
     }
     else if (segmentedControl.selectedSegmentIndex == 2) {
-      snoops = []
       loadSnoops(uid)
     }
 
@@ -96,6 +92,9 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   func loadDataWithFilter(filterString: String) {
     var isQuestion = true
+    var tmpQuestions:[QuestionModel] = []
+    var tmpAnswers:[AnswerModel] = []
+
     if (filterString.containsString("responder")) {
       isQuestion = false
     }
@@ -119,7 +118,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
           let name = questionInfo["responderName"] as! String
           let title = questionInfo["responderTitle"] as! String
-          self.questions.append(QuestionModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: status, _isPlaying: false, _rate: rate, _hoursToExpire: hoursToExpire))
+          tmpQuestions.append(QuestionModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: status, _isPlaying: false, _rate: rate, _hoursToExpire: hoursToExpire))
 
         }
         else if (self.segmentedControl.selectedSegmentIndex == 1) {
@@ -130,19 +129,27 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
           let name = questionInfo["askerName"] as! String
           let title = questionInfo["askerTitle"] as! String
-          self.answers.append(AnswerModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: status, _hoursToExpire: hoursToExpire, _rate: rate))
+          tmpAnswers.append(AnswerModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: status, _hoursToExpire: hoursToExpire, _rate: rate))
         }
       }
 
       dispatch_async(dispatch_get_main_queue()) {
+        if (isQuestion) {
+          self.questions = tmpQuestions
+        }
+        else {
+          self.answers = tmpAnswers
+        }
         self.activityTableView.reloadData()
         self.activityTableView.userInteractionEnabled = true
+        self.refreshControl.endRefreshing()
       }
     }
 
   }
 
   func loadSnoops(uid: String) {
+    var tmpSnoops:[SnoopModel] = []
     questionModule.getSnoops(uid) { jsonArray in
       for snoop in jsonArray as! [[String:AnyObject]] {
         let questionId = snoop["quandaId"] as! Int
@@ -160,12 +167,14 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         }
 
         let snoopModel = SnoopModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: "ANSWERED", _isPlaying: false)
-        self.snoops.append(snoopModel)
+        tmpSnoops.append(snoopModel)
       }
 
       dispatch_async(dispatch_get_main_queue()) {
+        self.snoops = tmpSnoops
         self.activityTableView.reloadData()
         self.activityTableView.userInteractionEnabled = true
+        self.refreshControl.endRefreshing()
       }
     }
   }
