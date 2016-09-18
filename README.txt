@@ -45,7 +45,8 @@ Available servers:
 
   http-snoop-client       peeq-snoop-server
 
-Specially, ./run-jar.sh peeq-snoop-server to start peeq-snoop-server
+Specially, "./run-jar.sh peeq-snoop-server" to start snoop server, and
+"nohup ./run-jar.sh peeq-snoop-server &" will run snoop server as long running independent daemon.
 
 ./run-jar.sh will also compile/package any changes you made to the code base.
 
