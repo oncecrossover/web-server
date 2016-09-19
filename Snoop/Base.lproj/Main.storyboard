@@ -1736,9 +1736,11 @@
                         <outlet property="userNameTextField" destination="jRa-99-dhn" id="ztJ-IB-O0F"/>
                         <outlet property="userPasswordTextField" destination="FTa-Az-P7u" id="j7z-6k-bIV"/>
                         <segue destination="6Zp-bK-WnR" kind="show" identifier="signupToTutorial" id="zYW-UZ-ixU"/>
+                        <segue destination="RnP-f3-jM1" kind="unwind" identifier="unwindSegueToHome" unwindAction="unwindSegueToHome:" id="xTt-Bm-Dgv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="75V-MU-wqO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="RnP-f3-jM1" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2289" y="361"/>
         </scene>
@@ -2042,7 +2044,7 @@
                                 <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" image="joinNow"/>
                                 <connections>
-                                    <segue destination="dJF-BI-ivb" kind="presentation" identifier="signupView" id="VlQ-TB-VA2"/>
+                                    <segue destination="dJF-BI-ivb" kind="presentation" identifier="signupView" id="m2m-w2-XVa"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cVY-iQ-c19" customClass="RoundCornerButton" customModule="Snoop" customModuleProvider="target">

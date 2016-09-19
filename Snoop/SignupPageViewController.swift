@@ -17,6 +17,7 @@ class SignupPageViewController: UIViewController {
   @IBOutlet weak var userPasswordTextField: UITextField!
   var userModule = User()
   var utilityModule = UIUtility()
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -120,6 +121,9 @@ class SignupPageViewController: UIViewController {
   }
 
   @IBAction func unwindToLogin(segue: UIStoryboardSegue) {
-    self.dismissViewControllerAnimated(true, completion: nil)
+    NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isUserLoggedIn")
+    NSUserDefaults.standardUserDefaults().setObject(userEmailTextField.text!, forKey: "email")
+    NSUserDefaults.standardUserDefaults().synchronize()
+    self.performSegueWithIdentifier("unwindSegueToHome", sender: self)
   }
 }
