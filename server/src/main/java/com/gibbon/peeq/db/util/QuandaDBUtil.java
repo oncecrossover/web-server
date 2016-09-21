@@ -16,6 +16,7 @@ import org.hibernate.type.TimestampType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gibbon.peeq.conf.SnoopServerConf;
 import com.gibbon.peeq.db.model.Quanda;
 import com.gibbon.peeq.exceptions.SnoopException;
 import com.gibbon.peeq.model.Answer;
@@ -259,35 +260,53 @@ public class QuandaDBUtil {
    */
   private static String buildSql4Answers(
       final Map<String, List<String>> params) {
+
+    String lastSeenCreatedTime = "'0'";
+    long lastSeenId = 0;
+    int limit = SnoopServerConf.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
     final String select = "SELECT Q.id, Q.question, Q.status, Q.rate,"
         + " Q.createdTime, P.fullName AS askerName,"
-        + " P.title AS askerTitle, P.avatarUrl AS askerAvatarUrl "
+        + " P.title AS askerTitle, P.avatarUrl AS askerAvatarUrl"
         + " FROM Quanda AS Q"
         + " INNER JOIN Profile AS P ON Q.asker = P.uid";
 
     List<String> list = Lists.newArrayList();
-    for (String col : params.keySet()) {
-      col = col.trim();
-      /* skip empty col*/
-      if (StringUtils.isBlank(col)) {
-        continue;
-      }
-
-      if (col.equals("id")) {
+    for (String key : params.keySet()) {
+      if ("id".equals(key)) {
         list.add(String.format(
             "Q.id=%d",
-            Long.parseLong(params.get(col).get(0))));
-      } else if (col.equals("responder")) {
-        list.add(String.format("Q.responder=%s", params.get(col).get(0)));
+            Long.parseLong(params.get(key).get(0))));
+      } else if ("responder".equals(key)) {
+        list.add(String.format("Q.responder=%s", params.get(key).get(0)));
+      } else if ("lastSeenId".equals(key)) {
+        lastSeenId = Long.parseLong(params.get(key).get(0));
+      } else if ("lastSeenCreatedTime".equals(key)) {
+        lastSeenCreatedTime = params.get(key).get(0);
+      } else if ("limit".equals(key)) {
+        limit = Integer.parseInt(params.get(key).get(0));
       };
     }
 
     String where = " WHERE Q.status != 'EXPIRED' AND ";
+
+    /* query where clause */
     where += list.size() == 0 ?
         "1 = 0" : /* simulate no columns specified */
         Joiner.on(" AND ").skipNulls().join(list);
-    final String orderBy = " ORDER BY Q.createdTime DESC;";
-    return select + where + orderBy;
+
+    /* pagination where clause */
+    if (!lastSeenCreatedTime.equals("'0'") && lastSeenId != 0) {
+      where += String.format(
+          " AND Q.createdTime <= %s AND (Q.id < %d OR Q.createdTime < %s)",
+          lastSeenCreatedTime,
+          lastSeenId,
+          lastSeenCreatedTime);
+    }
+
+    final String orderBy = " ORDER BY Q.createdTime DESC, id DESC";
+    final String limitClause = String.format(" limit %d;", limit);
+
+    return select + where + orderBy + limitClause;
   }
 
   /**

@@ -117,6 +117,10 @@ RESTFUL APIs OF ANSWERS:
 curl -i -G -X GET http://127.0.0.1:8080/answers/ --data-urlencode "responder='bowen'", equivalent to
 curl -i -X GET "http://127.0.0.1:8080/answers?responder='bowen'"
 
+2. paginate answers. It returns 10 rows as default. Both lastSeenCreatedTime and lastSeenId must be specified since CreatedTime can have duplicate values.
+curl -i -G -X GET http://127.0.0.1:8080/answers/ -d "responder='edmund'" --data-urlencode "lastSeenCreatedTime='2016-09-09 08:43:23'" -d "lastSeenId=10"
+curl -i -G -X GET http://127.0.0.1:8080/answers/ -d "responder='edmund'" --data-urlencode "lastSeenCreatedTime='2016-09-09 08:43:23'" -d "lastSeenId=10" -d "limit=20"
+
 Example response:
 [{"id":4,"question":"Are you nervous being an entrepreneur?","rate":300.0,"status":"EXPIRED","createdTime":1472169993000,"askerName":"Xiaobing Zhou","askerTitle":"Software Engineer","askerAvatarUrl":"/users/xiaobingo/avatar","askerAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","hoursToExpire":0}]
 
