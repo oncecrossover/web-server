@@ -278,10 +278,10 @@ public class QuandaDBUtil {
             Long.parseLong(params.get(key).get(0))));
       } else if ("responder".equals(key)) {
         list.add(String.format("Q.responder=%s", params.get(key).get(0)));
-      } else if ("lastSeenId".equals(key)) {
-        lastSeenId = Long.parseLong(params.get(key).get(0));
       } else if ("lastSeenCreatedTime".equals(key)) {
         lastSeenCreatedTime = params.get(key).get(0);
+      } else if ("lastSeenId".equals(key)) {
+        lastSeenId = Long.parseLong(params.get(key).get(0));
       } else if ("limit".equals(key)) {
         limit = Integer.parseInt(params.get(key).get(0));
       };
@@ -295,15 +295,13 @@ public class QuandaDBUtil {
         Joiner.on(" AND ").skipNulls().join(list);
 
     /* pagination where clause */
-    if (!lastSeenCreatedTime.equals("'0'") && lastSeenId != 0) {
-      where += String.format(
-          " AND Q.createdTime <= %s AND (Q.id < %d OR Q.createdTime < %s)",
-          lastSeenCreatedTime,
-          lastSeenId,
-          lastSeenCreatedTime);
-    }
+    where += getPaginationClause(
+        "Q.createdTime",
+        lastSeenCreatedTime,
+        "Q.id",
+        lastSeenId);
 
-    final String orderBy = " ORDER BY Q.createdTime DESC, id DESC";
+    final String orderBy = " ORDER BY Q.createdTime DESC, Q.id DESC";
     final String limitClause = String.format(" limit %d;", limit);
 
     return select + where + orderBy + limitClause;
@@ -317,35 +315,77 @@ public class QuandaDBUtil {
    */
   private static String buildSql4Questions(
       final Map<String, List<String>> params) {
+
+    String lastSeenUpdatedTime = "'0'";
+    long lastSeenId = 0;
+    int limit = SnoopServerConf.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
     final String select = "SELECT Q.id, Q.question, Q.status, Q.rate,"
         + " Q.createdTime, Q.updatedTime, P.fullName AS responderName,"
-        + " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl "
+        + " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl"
         + " FROM Quanda AS Q"
         + " INNER JOIN Profile AS P ON Q.responder = P.uid";
 
     List<String> list = Lists.newArrayList();
-    for (String col : params.keySet()) {
-      col = col.trim();
-      /* skip empty col*/
-      if (StringUtils.isBlank(col)) {
-        continue;
-      }
-
-      if (col.equals("id")) {
+    for (String key : params.keySet()) {
+      if ("id".equals(key)) {
         list.add(String.format(
             "Q.id=%d",
-            Long.parseLong(params.get(col).get(0))));
-      } else if (col.equals("asker")) {
-        list.add(String.format("Q.asker=%s", params.get(col).get(0)));
+            Long.parseLong(params.get(key).get(0))));
+      } else if ("asker".equals(key)) {
+        list.add(String.format("Q.asker=%s", params.get(key).get(0)));
+      } else if ("lastSeenId".equals(key)) {
+        lastSeenId = Long.parseLong(params.get(key).get(0));
+      } else if ("lastSeenUpdatedTime".equals(key)) {
+        lastSeenUpdatedTime = params.get(key).get(0);
+      } else if ("limit".equals(key)) {
+        limit = Integer.parseInt(params.get(key).get(0));
       };
     }
 
     String where = " WHERE Q.active = 'TRUE' AND ";
+
+    /* query where clause */
     where += list.size() == 0 ?
         "1 = 0" : /* simulate no columns specified */
         Joiner.on(" AND ").skipNulls().join(list);
-    final String orderBy = " ORDER BY Q.updatedTime DESC;";
-    return select + where + orderBy;
+
+    /* pagination where clause */
+    where += getPaginationClause(
+        "Q.updatedTime",
+        lastSeenUpdatedTime,
+        "Q.id",
+        lastSeenId);
+
+    final String orderBy = " ORDER BY Q.updatedTime DESC, Q.id DESC";
+    final String limitClause = String.format(" limit %d;", limit);
+
+    return select + where + orderBy + limitClause;
+  }
+
+  /**
+   * the time can have duplicate values, so the following sql is necessary.
+   * <p>
+   * Q.createdTime <= '2016-09-09 08:43:23' AND (Q.id < 7 OR Q.createdTime <
+   * '2016-09-09 08:43:23')
+   * </p>
+   */
+  private static String getPaginationClause(
+      final String timeColumnName,
+      final String lastSeenTime,
+      final String idColumnName,
+      final long lastSeenId) {
+    if (!lastSeenTime.equals("'0'") && lastSeenId != 0) {
+      return String.format(
+          " AND %s <= %s AND (%s < %d OR %s < %s)",
+          timeColumnName,
+          lastSeenTime,
+          idColumnName,
+          lastSeenId,
+          timeColumnName,
+          lastSeenTime);
+    } else {
+      return "";
+    }
   }
 
   private static String buildSql4Newsfeed(final String uid) {

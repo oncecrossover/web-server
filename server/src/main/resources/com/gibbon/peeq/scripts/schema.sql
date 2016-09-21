@@ -44,6 +44,7 @@ CREATE TABLE `Quanda` (
   CONSTRAINT `pk_quanda` PRIMARY KEY (`id`),
   CONSTRAINT `fk_quanda_asker` FOREIGN KEY (`asker`) REFERENCES `User` (`uid`),
   CONSTRAINT `fk_quanda_responder` FOREIGN KEY (`responder`) REFERENCES `User` (`uid`),
+  INDEX `idx_quanda_questions` (`id`, `asker`, `active`, `updatedTime`),
   INDEX `idx_quanda_answers` (`id`, `responder`, `status`, `createdTime`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 

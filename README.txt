@@ -108,6 +108,12 @@ RESTFUL APIs OF QUESTIONS:
 curl -i -G -X GET http://127.0.0.1:8080/questions --data-urlencode "asker='bowen'", equivalent to
 curl -i -X GET "http://127.0.0.1:8080/questions?asker='bowen'"
 
+2. paginate questions.
+Both lastSeenUpdatedTime and lastSeenId must be specified since updatedTime can have duplicate values. Limit defaults as 10 if it's not specified.
+For example:
+curl -i -G -X GET http://127.0.0.1:8080/questions -d "asker='kuan'" --data-urlencode "lastSeenUpdatedTime='2016-09-09 08:43:23'" -d "lastSeenId=10" -d "limit=20", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/questions?asker='kuan'&lastSeenUpdatedTime='2016-09-09 08:43:23'&lastSeenId=10&limit=20"
+
 Example response:
 [{"id":6,"question":"How do you believe in being an entrepreneur?","rate":100.0,"status":"ANSWERED","updatedTime":1472443395000,"responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="}]
 
@@ -117,9 +123,11 @@ RESTFUL APIs OF ANSWERS:
 curl -i -G -X GET http://127.0.0.1:8080/answers/ --data-urlencode "responder='bowen'", equivalent to
 curl -i -X GET "http://127.0.0.1:8080/answers?responder='bowen'"
 
-2. paginate answers. It returns 10 rows as default. Both lastSeenCreatedTime and lastSeenId must be specified since CreatedTime can have duplicate values.
-curl -i -G -X GET http://127.0.0.1:8080/answers/ -d "responder='edmund'" --data-urlencode "lastSeenCreatedTime='2016-09-09 08:43:23'" -d "lastSeenId=10"
-curl -i -G -X GET http://127.0.0.1:8080/answers/ -d "responder='edmund'" --data-urlencode "lastSeenCreatedTime='2016-09-09 08:43:23'" -d "lastSeenId=10" -d "limit=20"
+2. paginate answers.
+Both lastSeenCreatedTime and lastSeenId must be specified since createdTime can have duplicate values. Limit defaults as 10 if it's not specified.
+For example:
+curl -i -G -X GET http://127.0.0.1:8080/answers/ -d "responder='edmund'" --data-urlencode "lastSeenCreatedTime='2016-09-09 08:43:23'" -d "lastSeenId=10" -d "limit=20", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/answers?responder='edmund'&lastSeenCreatedTime='2016-09-09 08:43:23'&lastSeenId=10&limit=20"
 
 Example response:
 [{"id":4,"question":"Are you nervous being an entrepreneur?","rate":300.0,"status":"EXPIRED","createdTime":1472169993000,"askerName":"Xiaobing Zhou","askerTitle":"Software Engineer","askerAvatarUrl":"/users/xiaobingo/avatar","askerAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","hoursToExpire":0}]
