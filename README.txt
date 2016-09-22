@@ -138,6 +138,12 @@ RESTFUL APIs OF SNOOPS:
 curl -i -G -X GET http://127.0.0.1:8080/snoops --data-urlencode "uid='edmund'", equivalent to
 curl -i -X GET "http://127.0.0.1:8080/snoops?uid='edmund'"
 
+2. paginate snoops.
+Both lastSeenCreatedTime and lastSeenId must be specified since createdTime can have duplicate values. Limit defaults as 10 if it's not specified.
+For example:
+curl -i -G -X GET http://127.0.0.1:8080/snoops -d "uid='kuan'" --data-urlencode "lastSeenCreatedTime='2016-09-09 09:20:01'" -d "lastSeenId=10" -d "limit=20", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/snoops?uid='kuan'&lastSeenCreatedTime='2016-09-09 09:20:01'&lastSeenId=10&limit=20"
+
 Example response:
 [{"id":2,"uid":null,"quandaId":6,"createdTime":1472443947000,"question":"How do you believe in being an entrepreneur?","status":"ANSWERED","rate":100.0,"responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="}]
 

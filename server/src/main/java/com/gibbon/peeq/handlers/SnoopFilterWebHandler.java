@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gibbon.peeq.db.model.Snoop;
-import com.gibbon.peeq.db.util.SnoopUtil;
+import com.gibbon.peeq.db.util.SnoopDBUtil;
 import com.gibbon.peeq.util.FilterParamParser;
 import com.gibbon.peeq.util.ObjectStoreClient;
 import com.gibbon.peeq.util.QueryParamsParser;
@@ -65,7 +65,7 @@ public class SnoopFilterWebHandler extends AbastractPeeqWebHandler
   private String getResultJson(
       final Session session,
       final Map<String, List<String>> params) throws Exception {
-    final List<Snoop> list = SnoopUtil.getSnoops(
+    final List<Snoop> list = SnoopDBUtil.getSnoops(
         session,
         params,
         false);

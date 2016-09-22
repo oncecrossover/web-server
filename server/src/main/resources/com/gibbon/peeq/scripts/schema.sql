@@ -45,7 +45,8 @@ CREATE TABLE `Quanda` (
   CONSTRAINT `fk_quanda_asker` FOREIGN KEY (`asker`) REFERENCES `User` (`uid`),
   CONSTRAINT `fk_quanda_responder` FOREIGN KEY (`responder`) REFERENCES `User` (`uid`),
   INDEX `idx_quanda_questions` (`id`, `asker`, `active`, `updatedTime`),
-  INDEX `idx_quanda_answers` (`id`, `responder`, `status`, `createdTime`)
+  INDEX `idx_quanda_answers` (`id`, `responder`, `status`, `createdTime`),
+  INDEX `idx_quanda_snoops` (`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Snoop` (
@@ -56,7 +57,8 @@ CREATE TABLE `Snoop` (
   CONSTRAINT `pk_snoop` PRIMARY KEY (`id`),
   CONSTRAINT `uk_snoop` UNIQUE (`uid`,`quandaId`),
   CONSTRAINT `fk_snoop_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`),
-  CONSTRAINT `fk_snoop_quandaId` FOREIGN KEY (`quandaId`) REFERENCES `Quanda` (`id`)
+  CONSTRAINT `fk_snoop_quandaId` FOREIGN KEY (`quandaId`) REFERENCES `Quanda` (`id`),
+  INDEX `idx_snoop_snoops` (`createdTime`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `PcAccount` (

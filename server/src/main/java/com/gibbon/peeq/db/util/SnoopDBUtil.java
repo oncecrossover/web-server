@@ -14,11 +14,12 @@ import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 import org.hibernate.type.TimestampType;
 
+import com.gibbon.peeq.conf.SnoopServerConf;
 import com.gibbon.peeq.db.model.Snoop;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
-public class SnoopUtil {
+public class SnoopDBUtil {
 
   public static List<Snoop> getSnoops(
       final Map<String, List<String>> params) throws Exception {
@@ -38,7 +39,7 @@ public class SnoopUtil {
       final Map<String, List<String>> params,
       final boolean newTransaction)  throws Exception {
 
-    final String sql = buildSql(params);
+    final String sql = buildSql4Snoops(params);
     Transaction txn = null;
     List<Snoop> list = null;
 
@@ -76,49 +77,55 @@ public class SnoopUtil {
     return list;
   }
 
-  /**
-   * SELECT S.id, Q.id AS quandaId, Q.question, Q.status, Q.rate, P.fullName AS
-   * responderName, P.title AS responderTitle, P.avatarUrl AS
-   * responderAvatarUrl, S.createdTime FROM Snoop AS S INNER JOIN Quanda AS Q ON
-   * S.quandaId = Q.id INNER JOIN Profile AS P ON Q.responder = P.uid WHERE
-   * Q.status = 'ANSWERED' AND S.uid='edmund' ORDER BY createdTime DESC;
-   */
-  private static String buildSql(final Map<String, List<String>> params) {
-    String select = "SELECT S.id, Q.id AS quandaId, Q.question, Q.status, Q.rate,"
+  private static String buildSql4Snoops(
+      final Map<String, List<String>> params) {
+
+    String lastSeenCreatedTime = "'0'";
+    long lastSeenId = 0;
+    int limit = SnoopServerConf.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
+    String select = "SELECT S.id, S.createdTime,"
+        + " Q.id AS quandaId, Q.question, Q.status, Q.rate,"
         + " P.fullName AS responderName, P.title AS responderTitle,"
-        + " P.avatarUrl AS responderAvatarUrl, S.createdTime"
+        + " P.avatarUrl AS responderAvatarUrl"
         + " FROM Snoop AS S INNER JOIN"
         + " Quanda AS Q ON S.quandaId = Q.id INNER JOIN Profile AS P"
         + " ON Q.responder = P.uid";
 
     List<String> list = Lists.newArrayList();
-    for (String col : params.keySet()) {
-      col = col.trim();
-      /* skip empty col, e.g. /snoops?" " */
-      if (StringUtils.isBlank(col)) {
-        continue;
-      }
-
-      if (col.equals("id")) {
-        list.add(
-            String.format("S.id=%d", Long.parseLong(params.get(col).get(0))));
-      } else if (col.equals("uid")) {
-        list.add(String.format("S.uid=%s", params.get(col).get(0)));
-      } else if (col.equals("quandaId")) {
-        list.add(String.format("S.quandaId=%d",
-            Long.parseLong(params.get(col).get(0))));
-      } else if (col.equals("createdTime")) {
-        list.add(String.format("S.createdTime=%s", params.get(col).get(0)));
-      } else {
-        list.add(String.format("S.%s=%s", col, params.get(col).get(0)));
+    for (String key : params.keySet()) {
+      if ("id".equals(key)) {
+        list.add(String.format(
+            "S.id=%d",
+            Long.parseLong(params.get(key).get(0))));
+      } else if ("uid".equals(key)) {
+        list.add(String.format(
+            "S.uid=%s",
+            params.get(key).get(0)));
+      } else if ("lastSeenId".equals(key)) {
+        lastSeenId = Long.parseLong(params.get(key).get(0));
+      } else if ("lastSeenCreatedTime".equals(key)) {
+        lastSeenCreatedTime = params.get(key).get(0);
+      } else if ("limit".equals(key)) {
+        limit = Integer.parseInt(params.get(key).get(0));
       }
     }
 
+    /* query where clause */
     String where = " WHERE Q.status = 'ANSWERED' AND ";
     where += list.size() == 0 ?
         "1 = 0" : /* simulate no columns specified */
         Joiner.on(" AND ").skipNulls().join(list);
-    final String orderBy = " ORDER BY createdTime DESC;";
-    return select + where + orderBy;
+
+    /* pagination where clause */
+    where += DBUtil.getPaginationClause(
+        "S.createdTime",
+        lastSeenCreatedTime,
+        "S.id",
+        lastSeenId);
+
+    final String orderBy = " ORDER BY S.createdTime DESC, S.id DESC";
+    final String limitClause = String.format(" limit %d;", limit);
+
+    return select + where + orderBy + limitClause;
   }
 }

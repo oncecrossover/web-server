@@ -284,18 +284,17 @@ public class QuandaDBUtil {
         lastSeenId = Long.parseLong(params.get(key).get(0));
       } else if ("limit".equals(key)) {
         limit = Integer.parseInt(params.get(key).get(0));
-      };
+      }
     }
 
-    String where = " WHERE Q.status != 'EXPIRED' AND ";
-
     /* query where clause */
+    String where = " WHERE Q.status != 'EXPIRED' AND ";
     where += list.size() == 0 ?
         "1 = 0" : /* simulate no columns specified */
         Joiner.on(" AND ").skipNulls().join(list);
 
     /* pagination where clause */
-    where += getPaginationClause(
+    where += DBUtil.getPaginationClause(
         "Q.createdTime",
         lastSeenCreatedTime,
         "Q.id",
@@ -339,18 +338,17 @@ public class QuandaDBUtil {
         lastSeenUpdatedTime = params.get(key).get(0);
       } else if ("limit".equals(key)) {
         limit = Integer.parseInt(params.get(key).get(0));
-      };
+      }
     }
 
-    String where = " WHERE Q.active = 'TRUE' AND ";
-
     /* query where clause */
+    String where = " WHERE Q.active = 'TRUE' AND ";
     where += list.size() == 0 ?
         "1 = 0" : /* simulate no columns specified */
         Joiner.on(" AND ").skipNulls().join(list);
 
     /* pagination where clause */
-    where += getPaginationClause(
+    where += DBUtil.getPaginationClause(
         "Q.updatedTime",
         lastSeenUpdatedTime,
         "Q.id",
@@ -360,32 +358,6 @@ public class QuandaDBUtil {
     final String limitClause = String.format(" limit %d;", limit);
 
     return select + where + orderBy + limitClause;
-  }
-
-  /**
-   * the time can have duplicate values, so the following sql is necessary.
-   * <p>
-   * Q.createdTime <= '2016-09-09 08:43:23' AND (Q.id < 7 OR Q.createdTime <
-   * '2016-09-09 08:43:23')
-   * </p>
-   */
-  private static String getPaginationClause(
-      final String timeColumnName,
-      final String lastSeenTime,
-      final String idColumnName,
-      final long lastSeenId) {
-    if (!lastSeenTime.equals("'0'") && lastSeenId != 0) {
-      return String.format(
-          " AND %s <= %s AND (%s < %d OR %s < %s)",
-          timeColumnName,
-          lastSeenTime,
-          idColumnName,
-          lastSeenId,
-          timeColumnName,
-          lastSeenTime);
-    } else {
-      return "";
-    }
   }
 
   private static String buildSql4Newsfeed(final String uid) {
