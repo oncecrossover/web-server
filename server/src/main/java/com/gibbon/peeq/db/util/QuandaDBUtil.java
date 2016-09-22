@@ -213,9 +213,7 @@ public class QuandaDBUtil {
       final Map<String, List<String>> params,
       final boolean newTransaction)  throws Exception {
 
-    final String uid =
-        params.containsKey("uid") ? params.get("uid").get(0) : "NULL";
-    final String sql = buildSql4Newsfeed(uid);
+    final String sql = buildSql4Newsfeed(params);
     Transaction txn = null;
     List<Newsfeed> list = null;
 
@@ -228,7 +226,7 @@ public class QuandaDBUtil {
       final SQLQuery query = session.createSQLQuery(sql);
       query.setResultTransformer(Transformers.aliasToBean(Newsfeed.class));
       /* add column mapping */
-      query.addScalar("quandaId", new LongType())
+      query.addScalar("id", new LongType())
            .addScalar("question", new StringType())
            .addScalar("updatedTime", new TimestampType())
            .addScalar("responderId", new StringType())
@@ -360,19 +358,51 @@ public class QuandaDBUtil {
     return select + where + orderBy + limitClause;
   }
 
-  private static String buildSql4Newsfeed(final String uid) {
+  private static String buildSql4Newsfeed(
+      final Map<String, List<String>> params) {
+
+    String lastSeenUpdatedTime = "'0'";
+    long lastSeenId = 0;
+    int limit = SnoopServerConf.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
     final String select =
-        "SELECT Q.id AS quandaId, Q.question, Q.updatedTime," +
+        "SELECT Q.id, Q.question, Q.updatedTime," +
         " P.uid AS responderId, P.fullName AS responderName," +
         " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl," +
         " count(S.id) AS snoops FROM" +
         " Quanda AS Q INNER JOIN Profile AS P ON Q.responder = P.uid" +
-        " LEFT JOIN Snoop AS S ON Q.id = S.quandaId" +
-        " WHERE Q.asker != %s AND Q.responder != %s" +
-        " AND Q.status = 'ANSWERED' AND NOT EXISTS" +
-        " (SELECT DISTINCT S.quandaId FROM Snoop S" +
-        " WHERE S.uid = %s AND S.quandaId = Q.id)" +
-        " GROUP BY Q.id ORDER BY Q.updatedTime DESC;";
-    return String.format(select, uid, uid, uid);
+        " LEFT JOIN Snoop AS S ON Q.id = S.quandaId";
+
+    String uid = "NULL";
+    List<String> list = Lists.newArrayList();
+    for (String key : params.keySet()) {
+      if ("uid".equals(key)) {
+        uid = params.get(key).get(0);
+      } else if ("lastSeenId".equals(key)) {
+        lastSeenId = Long.parseLong(params.get(key).get(0));
+      } else if ("lastSeenUpdatedTime".equals(key)) {
+        lastSeenUpdatedTime = params.get(key).get(0);
+      } else if ("limit".equals(key)) {
+        limit = Integer.parseInt(params.get(key).get(0));
+      }
+    }
+
+    /* query where clause */
+    String where = " WHERE Q.asker != %s AND Q.responder != %s"
+        + " AND Q.status = 'ANSWERED' AND NOT EXISTS"
+        + " (SELECT DISTINCT S.quandaId FROM Snoop S"
+        + " WHERE S.uid = %s AND S.quandaId = Q.id)";
+    where = String.format(where, uid, uid, uid);
+
+    /* pagination where clause */
+    where += DBUtil.getPaginationClause(
+        "Q.updatedTime",
+        lastSeenUpdatedTime,
+        "Q.id",
+        lastSeenId);
+
+    final String groupBy = " GROUP BY Q.id";
+    final String orderBy = " ORDER BY Q.updatedTime DESC, Q.id DESC";
+    final String limitClause = String.format(" limit %d;", limit);
+    return select + where + groupBy + orderBy + limitClause;
   }
 }

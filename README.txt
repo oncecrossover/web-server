@@ -186,8 +186,14 @@ RESTFUL APIs OF NEWSFEED:
 curl -i -G -X GET http://127.0.0.1:8080/newsfeeds/ --data-urlencode "uid='kuan'", equivalent to
 curl -i -X GET "http://127.0.0.1:8080/newsfeeds?uid='kuan'"
 
+2. paginate newsfeed.
+Both lastSeenUpdatedTime and lastSeenId must be specified since updatedTime can have duplicate values. Limit defaults as 10 if it's not specified.
+For example:
+curl -i -G -X GET http://127.0.0.1:8080/newsfeeds/ -d "uid='kuan'" --data-urlencode "lastSeenUpdatedTime='2016-09-21 22:32:16'" -d "lastSeenId=10" -d "limit=10", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/newsfeeds?uid='kuan'&lastSeenUpdatedTime='2016-09-21 22:32:16'&lastSeenId=10&limit=10"
+
 Example response:
-[{"quandaId":6,"question":"How do you believe in being an entrepreneur?","updatedTime":1472443395000,"responderId":"xiaobingo","responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","snoops":1}]
+[{"id":6,"question":"How do you believe in being an entrepreneur?","updatedTime":1472443395000,"responderId":"xiaobingo","responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","snoops":1}]
 
 
 RESTFUL APIs OF TEMP PASSWORD:

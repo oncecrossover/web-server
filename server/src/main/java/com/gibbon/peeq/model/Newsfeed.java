@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Newsfeed {
-  private Long quandaId;
+  private Long id;
   private String question;
   private Date updatedTime;
   private String responderId;
@@ -16,12 +16,12 @@ public class Newsfeed {
   private byte[] responderAvatarImage;
   private Long snoops;
 
-  public Long getQuandaId() {
-    return quandaId;
+  public Long getId() {
+    return id;
   }
 
-  public Newsfeed setQuandaId(final Long quandaId) {
-    this.quandaId = quandaId;
+  public Newsfeed setId(final Long id) {
+    this.id = id;
     return this;
   }
 
