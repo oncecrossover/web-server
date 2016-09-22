@@ -2235,7 +2235,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="v8d-f1-jaE" customClass="CircleImageView" customModule="Snoop" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="15" width="50" height="50"/>
+                                                    <rect key="frame" x="8" y="12" width="50" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="48" id="cmk-1p-16V"/>
                                                         <constraint firstAttribute="width" constant="50" id="jgW-Be-jdX"/>
@@ -2248,7 +2248,7 @@
                                                     </variation>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="about" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="drd-Pe-Wlq" customClass="TextFitLabel" customModule="Snoop" customModuleProvider="target">
-                                                    <rect key="frame" x="76" y="28" width="244" height="39.5"/>
+                                                    <rect key="frame" x="76" y="28" width="244" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="31" id="szv-6i-j5F"/>
                                                     </constraints>
@@ -2278,6 +2278,7 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="v8d-f1-jaE" firstAttribute="top" secondItem="V1k-z6-f1u" secondAttribute="topMargin" constant="4" id="1mJ-Aa-9ZU"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="drd-Pe-Wlq" secondAttribute="bottom" constant="4" id="Bj3-w3-8TL"/>
                                                 <constraint firstAttribute="leadingMargin" secondItem="v8d-f1-jaE" secondAttribute="leading" id="Fxd-tF-M3u"/>
                                                 <constraint firstItem="TKK-mm-kaV" firstAttribute="leading" secondItem="v8d-f1-jaE" secondAttribute="trailing" constant="18" id="RW6-zG-3lJ"/>
@@ -2577,9 +2578,9 @@
         <image name="speak" width="124" height="124"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Dj5-e0-VQE"/>
-        <segue reference="Kjo-bx-Bbf"/>
+        <segue reference="QxE-Av-LH0"/>
         <segue reference="bHf-mE-1Xg"/>
+        <segue reference="Dj5-e0-VQE"/>
         <segue reference="Wdp-Ew-5fA"/>
     </inferredMetricsTieBreakers>
 </document>

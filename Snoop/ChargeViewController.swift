@@ -28,7 +28,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
     super.viewDidLoad()
 
     if (chargeInfo.amount != nil) {
-      chargeLabel.text = "$" + String(chargeInfo.amount)
+      chargeLabel.text = "$1.50"
       chargeAmount = chargeInfo.amount
     }
     else {
