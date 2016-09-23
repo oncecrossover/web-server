@@ -75,21 +75,38 @@ curl -i -X PUT "http://127.0.0.1:8080/users/kuan" -d '{"pwd":"456"}'
 
 RESTFUL APIs OF PROFILES:
 1. get profile by uid, e.g.
-curl -i -X GET "http://127.0.0.1:8080/profiles/edmund"
+curl -i -G -X GET http://127.0.0.1:8080/profiles --data-urlencode "uid='edmund'", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/profiles?uid='edmund'"
 
-2. update profile by uid, e.g.
+2. get profile by name. It's always doing SQL LIKE style query.
+For example, fullName LIKE 'edmund burke':
+curl -i -G -X GET http://127.0.0.1:8080/profiles --data-urlencode "fullName='edmund burke'", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/profiles?fullName='edmund burke'"
+
+For example, fullName LIKE '%edmund%':
+curl -i -G -X GET http://127.0.0.1:8080/profiles --data-urlencode "fullName='%edmund%'", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/profiles?fullName='%edmund%'"
+
+3. update profile by uid, e.g.
 curl -i -X PUT "http://127.0.0.1:8080/profiles/edmund" -d '{"rate":200,"title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism."}'
 
-curl -i -X PUT "http://127.0.0.1:8080/profiles/kuan" -d '{"rate":400,"title":"Chancellor and Reformer","aboutMe":"I was was a chancellor and reformer of the State of Qi during the Spring and Autumn Period of Chinese history."}'
+4. paginate profiles.
+Both lastSeenUpdatedTime and lastSeenId must be specified since updatedTime can have duplicate values.
+Limit defaults as 10 if it's not specified.
 
+Query all, e.g.
+curl -i -G -X GET http://127.0.0.1:8080/profiles, equivalent to
+curl -i -X GET "http://127.0.0.1:8080/profiles?limit=10"
 
-RESTFUL APIs OF PROFILE FILTERING:
-1. query profiles by a single column(e.g. fullName), e.g.
-curl -i -X GET "http://127.0.0.1:8080/profiles?filter=fullName=edmund"
-The column name is case sensitive, it only supports single column. In addition, it essentially does parttern matched query, e.g. fullName LIKE '%edmund%'
+curl -i -G -X GET http://127.0.0.1:8080/profiles -d "limit=20", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/profiles?limit=20"
+
+Query based on the last seen, e.g.
+curl -i -G -X GET http://127.0.0.1:8080/profiles --data-urlencode "fullName='%zh%'" --data-urlencode "lastSeenUpdatedTime='2016-09-22 22:13:40'" -d "lastSeenId='xiaobingo'" -d "limit=20", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/questions?fullName='%zh%'&lastSeenUpdatedTime='2016-09-22 22:13:40'&lastSeenId='xiaobingo'&limit=20"
 
 Example response:
-{"uid":"edmund","rate":200.0,"avatarUrl":"/users/edmund/avatar","avatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","fullName":"Edmund Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.","createdTime":null,"updatedTime":null}
+{"uid":"edmund","rate":200.0,"avatarUrl":"/users/edmund/avatar","avatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","fullName":"Edmund Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.","updatedTime":1474607587000}
 
 
 RESTFUL APIs OF QUANDAS:

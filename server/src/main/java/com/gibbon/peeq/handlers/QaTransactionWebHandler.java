@@ -22,7 +22,7 @@ import com.gibbon.peeq.db.model.Snoop;
 import com.gibbon.peeq.db.model.Quanda;
 import com.gibbon.peeq.db.util.JournalUtil;
 import com.gibbon.peeq.db.util.PcAccountUtil;
-import com.gibbon.peeq.db.util.ProfileUtil;
+import com.gibbon.peeq.db.util.ProfileDBUtil;
 import com.gibbon.peeq.db.util.QuandaDBUtil;
 import com.gibbon.peeq.util.ResourcePathParser;
 import com.gibbon.peeq.util.StripeUtil;
@@ -185,7 +185,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
     /* get answer rate */
     double answerRate = 0;
     try {
-      answerRate = ProfileUtil.getRate(quandaFromDB.getResponder());
+      answerRate = ProfileDBUtil.getRate(quandaFromDB.getResponder());
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
@@ -321,7 +321,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
     /* get answer rate */
     double answerRate = 0;
     try {
-      answerRate = ProfileUtil.getRate(quanda.getResponder());
+      answerRate = ProfileDBUtil.getRate(quanda.getResponder());
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }

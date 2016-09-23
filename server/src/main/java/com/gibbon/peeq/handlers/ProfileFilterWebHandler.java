@@ -16,6 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gibbon.peeq.db.model.Profile;
+import com.gibbon.peeq.db.util.ProfileDBUtil;
+import com.gibbon.peeq.db.util.QuandaDBUtil;
+import com.gibbon.peeq.model.Question;
 import com.gibbon.peeq.util.FilterParamParser;
 import com.gibbon.peeq.util.ObjectStoreClient;
 import com.gibbon.peeq.util.ResourcePathParser;
@@ -43,59 +46,19 @@ public class ProfileFilterWebHandler extends AbastractPeeqWebHandler
     return onQuery();
   }
 
-  private void loadAvatarsFromObjectStore(List<Profile> profiles)
+  private void loadAvatarsFromObjectStore(final List<Profile> profiles)
       throws Exception {
-    for (Profile profile : profiles) {
-      if (StringUtils.isBlank(profile.getAvatarUrl())) {
+    for (Profile entity : profiles) {
+      if (StringUtils.isBlank(entity.getAvatarUrl())) {
         continue;
       }
 
       final ObjectStoreClient osc = new ObjectStoreClient();
-      final byte[] readContent = osc.readAvatarImage(profile.getAvatarUrl());
+      final byte[] readContent = osc.readAvatarImage(entity.getAvatarUrl());
       if (readContent != null) {
-        profile.setAvatarImage(readContent);
+        entity.setAvatarImage(readContent);
       }
     }
-  }
-
-  private String getResultJson(final Session session) throws Exception {
-    StrBuilder sb = new StrBuilder();
-    Criteria criteria = session.createCriteria(Profile.class);
-    criteria.addOrder(Order.desc("updatedTime"));
-    criteria.addOrder(Order.desc("createdTime"));
-    criteria.setProjection(
-        Projections.projectionList()
-          .add(Projections.property("uid"), "uid")
-          .add(Projections.property("rate"), "rate")
-          .add(Projections.property("avatarUrl"), "avatarUrl")
-          .add(Projections.property("fullName"), "fullName")
-          .add(Projections.property("title"), "title")
-          .add(Projections.property("aboutMe"), "aboutMe"))
-    .setResultTransformer(Transformers.aliasToBean(Profile.class));
-
-    Map<String, String> kvs = getFilterParamParser().getQueryKVs();
-    List<Profile> list = null;
-
-    /* no query condition specified */
-    if (kvs.entrySet().size() == 0) {
-      return "";
-    } else if (kvs.containsKey(FilterParamParser.SB_STAR)) {
-      /* select * from xxx */
-      list = criteria.list();
-    } else {
-      for (Map.Entry<String, String> kv : kvs.entrySet()) {
-        if (kv.getKey() != FilterParamParser.SB_STAR) {
-          /* Edmund --> %Edmund% */
-          String pattern = String.format("%%%s%%", kv.getValue());
-          criteria.add(Restrictions.like(kv.getKey(), pattern));
-        }
-      }
-      list = criteria.list();
-    }
-
-    loadAvatarsFromObjectStore(list);
-
-    return listToJsonString(list);
   }
 
   private FullHttpResponse onQuery() {
@@ -103,15 +66,30 @@ public class ProfileFilterWebHandler extends AbastractPeeqWebHandler
     try {
       Session session = getSession();
       txn = session.beginTransaction();
-      String resultJson = getResultJson(session);
+
+      /* query */
+      final String result = getResultJson(session, getQueryParser().params());
+
       txn.commit();
 
-      /* result queried */
-      appendln(resultJson);
+      /* buffer result */
+      appendln(result);
       return newResponse(HttpResponseStatus.OK);
     } catch (Exception e) {
       txn.rollback();
       return newServerErrorResponse(e, LOG);
     }
+  }
+
+  private String getResultJson(
+      final Session session,
+      final Map<String, List<String>> params) throws Exception {
+    final List<Profile> list = ProfileDBUtil.getProfiles(
+        session,
+        params,
+        false);
+
+    loadAvatarsFromObjectStore(list);
+    return listToJsonString(list);
   }
 }

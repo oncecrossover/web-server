@@ -19,7 +19,7 @@ public class TestProfileUtil {
 
     Double result = null;
     try {
-      result = ProfileUtil.getRate(session, UUID.randomUUID().toString(), true);
+      result = ProfileDBUtil.getRate(session, UUID.randomUUID().toString(), true);
       fail("There shouldn't be any record.");
     } catch (Exception e) {
       assertTrue(e instanceof SnoopException);
@@ -35,7 +35,7 @@ public class TestProfileUtil {
 
     Double result = null;
     try {
-      result = ProfileUtil.getRate(session, user.getUid(), true);
+      result = ProfileDBUtil.getRate(session, user.getUid(), true);
       assertEquals(result, user.getProfile().getRate());
     } catch (Exception e) {
       fail("There should be any record.");

@@ -21,7 +21,6 @@ import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
 public class ProfileWebHandler extends AbastractPeeqWebHandler {
@@ -36,19 +35,16 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    PeeqWebHandler pwh = new ProfileFilterWebHandler(getPathParser(),
-        getRespBuf(), getHandlerContext(), getRequest());
-
-    if (pwh.willFilter()) {
-      return pwh.handle();
-    } else {
-      return onGet();
-    }
+    return forward();
   }
 
-  @Override
-  protected FullHttpResponse handleCreation() {
-    return onCreate();
+  private FullHttpResponse forward() {
+    PeeqWebHandler pwh = new ProfileFilterWebHandler(
+        getPathParser(),
+        getRespBuf(),
+        getHandlerContext(),
+        getRequest());
+    return pwh.handle();
   }
 
   @Override
@@ -56,65 +52,9 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
     return onUpdate();
   }
 
-  @Override
-  protected FullHttpResponse handleDeletion() {
-    return onDelete();
-  }
-
-  private FullHttpResponse onGet() {
-    /* get id */
-    final String uid = getPathParser().getPathStream().nextToken();
-
-    /* no uid */
-    if (StringUtils.isBlank(uid)) {
-      appendln("Missing parameter: uid");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
-    }
-
-    Session session = null;
-    Transaction txn = null;
-    try {
-      session = getSession();
-      txn = session.beginTransaction();
-      final Profile retInstance = (Profile) session.get(Profile.class, uid);
-      txn.commit();
-
-      /* load from object store */
-      loadAvatarFromObjectStore(retInstance);
-
-      /* buffer result */
-      return newResponseForInstance(uid, retInstance);
-    } catch (Exception e) {
-      txn.rollback();
-      return newServerErrorResponse(e, LOG);
-    }
-  }
-
-  private void loadAvatarFromObjectStore(final Profile profile)
-      throws Exception {
-    if (profile == null) {
-      return;
-    }
-
-    final byte[] readContent = readAvatarImage(profile);
-    if (readContent != null) {
-      profile.setAvatarImage(readContent);
-    }
-  }
-
   private byte[] readAvatarImage(final Profile profile) throws Exception {
     final ObjectStoreClient osc = new ObjectStoreClient();
     return osc.readAvatarImage(profile.getAvatarUrl());
-  }
-
-  private FullHttpResponse onCreate() {
-    appendMethodNotAllowed(HttpMethod.POST.name());
-    return newResponse(HttpResponseStatus.METHOD_NOT_ALLOWED);
-  }
-
-  private FullHttpResponse onDelete() {
-    appendMethodNotAllowed(HttpMethod.DELETE.name());
-    return newResponse(HttpResponseStatus.METHOD_NOT_ALLOWED);
   }
 
   private FullHttpResponse onUpdate() {

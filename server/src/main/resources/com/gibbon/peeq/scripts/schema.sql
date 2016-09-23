@@ -27,7 +27,9 @@ CREATE TABLE `Profile` (
   `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   CONSTRAINT `pk_profile` PRIMARY KEY (`uid`),
-  CONSTRAINT `fk_profile_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`)
+  CONSTRAINT `fk_profile_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`),
+  INDEX `idx_profile_fullName` (`fullName`),
+  INDEX `idx_profile_discover` (`uid`, `updatedTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Quanda` (

@@ -26,4 +26,23 @@ public class DBUtil {
       return "";
     }
   }
+
+  public static String getPaginationClause(
+      final String timeColumnName,
+      final String lastSeenTime,
+      final String idColumnName,
+      final String lastSeenId) {
+    if (!lastSeenTime.equals("'0'") && !lastSeenId.equals('0')) {
+      return String.format(
+          " AND %s <= %s AND (%s < %s OR %s < %s)",
+          timeColumnName,
+          lastSeenTime,
+          idColumnName,
+          lastSeenId,
+          timeColumnName,
+          lastSeenTime);
+    } else {
+      return "";
+    }
+  }
 }
