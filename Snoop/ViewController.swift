@@ -27,6 +27,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
   var feeds:[FeedsModel] = []
+  var tmpFeeds:[FeedsModel] = []
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -67,20 +68,27 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     loadData()
   }
 
-  func loadData() {
+  func loadData(){
+    tmpFeeds = []
+    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    let url = "uid='" + uid + "'"
+    loadData(url)
+  }
+
+  func loadData(url: String!) {
     feedTable.userInteractionEnabled = false
-    var tmpFeeds:[FeedsModel] = []
     self.paidSnoops = []
     activityIndicator.startAnimating()
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    let myUrl = NSURL(string: generics.HTTPHOST + "newsfeeds?uid='" + uid + "'")
+    let encodedUrl = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+    let myUrl = NSURL(string: generics.HTTPHOST + "newsfeeds?" + encodedUrl!)
     generics.getFilteredObjects(myUrl!) { jsonArray in
       for feedInfo in jsonArray as! [[String:AnyObject]] {
-        let questionId = feedInfo["quandaId"] as! Int
+        let questionId = feedInfo["id"] as! Int
         let question = feedInfo["question"] as! String
         let responderId = feedInfo["responderId"] as! String
         let numberOfSnoops = feedInfo["snoops"] as! Int
         let name = feedInfo["responderName"] as! String
+        let updatedTime = feedInfo["updatedTime"] as! CLong!
 
         var title = ""
         if (feedInfo["responderTitle"] != nil) {
@@ -92,13 +100,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
           avatarImage = NSData(base64EncodedString: (feedInfo["responderAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
         }
 
-        tmpFeeds.append(FeedsModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops))
+        self.tmpFeeds.append(FeedsModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime))
       }
 
-      self.feeds = tmpFeeds
+      self.feeds = self.tmpFeeds
       dispatch_async(dispatch_get_main_queue()) {
         self.activityIndicator.stopAnimating()
-        self.feedTable.reloadData()
+        if (jsonArray.count > 0) {
+          self.feedTable.reloadData()
+        }
         self.feedTable.userInteractionEnabled = true
         self.refreshControl.endRefreshing()
       }
@@ -129,6 +139,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return feeds.count
   }
+
 
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let myCell = tableView.dequeueReusableCellWithIdentifier("feedCell", forIndexPath: indexPath) as! FeedTableViewCell
@@ -178,6 +189,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnImage(_:)))
         myCell.snoopImage.addGestureRecognizer(tappedOnImage)
       }
+    }
+
+    if (indexPath.row == feeds.count - 1) {
+      let lastSeenId = feeds[indexPath.row].id
+      let updatedTime = feeds[indexPath.row].updatedTime
+      let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+      let url = "uid='" + uid + "'&lastSeenUpdatedTime=\(updatedTime)&lastSeenId=\(lastSeenId)&limit=5"
+      loadData(url)
     }
 
     return myCell
