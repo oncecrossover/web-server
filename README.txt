@@ -102,8 +102,8 @@ curl -i -G -X GET http://127.0.0.1:8080/profiles -d "limit=20", equivalent to
 curl -i -X GET "http://127.0.0.1:8080/profiles?limit=20"
 
 Query based on the last seen, e.g.
-curl -i -G -X GET http://127.0.0.1:8080/profiles --data-urlencode "fullName='%zh%'" --data-urlencode "lastSeenUpdatedTime='2016-09-22 22:13:40'" -d "lastSeenId='xiaobingo'" -d "limit=20", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/questions?fullName='%zh%'&lastSeenUpdatedTime='2016-09-22 22:13:40'&lastSeenId='xiaobingo'&limit=20"
+curl -i -G -X GET http://127.0.0.1:8080/profiles --data-urlencode "fullName='%zh%'" --data-urlencode "lastSeenUpdatedTime=1474607620000" -d "lastSeenId='xiaobingo'" -d "limit=20", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/questions?fullName='%zh%'&lastSeenUpdatedTime=1474607620000&lastSeenId='xiaobingo'&limit=20"
 
 Example response:
 {"uid":"edmund","rate":200.0,"avatarUrl":"/users/edmund/avatar","avatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","fullName":"Edmund Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.","updatedTime":1474607587000}
@@ -128,8 +128,8 @@ curl -i -X GET "http://127.0.0.1:8080/questions?asker='bowen'"
 2. paginate questions.
 Both lastSeenUpdatedTime and lastSeenId must be specified since updatedTime can have duplicate values. Limit defaults as 10 if it's not specified.
 For example:
-curl -i -G -X GET http://127.0.0.1:8080/questions -d "asker='kuan'" --data-urlencode "lastSeenUpdatedTime='2016-09-09 08:43:23'" -d "lastSeenId=10" -d "limit=20", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/questions?asker='kuan'&lastSeenUpdatedTime='2016-09-09 08:43:23'&lastSeenId=10&limit=20"
+curl -i -G -X GET http://127.0.0.1:8080/questions -d "asker='kuan'" --data-urlencode "lastSeenUpdatedTime=1474522304000" -d "lastSeenId=3" -d "limit=20", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/questions?asker='kuan'&lastSeenUpdatedTime=1474522304000&lastSeenId=3&limit=20"
 
 Example response:
 [{"id":6,"question":"How do you believe in being an entrepreneur?","rate":100.0,"status":"ANSWERED","updatedTime":1472443395000,"responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="}]
@@ -143,8 +143,8 @@ curl -i -X GET "http://127.0.0.1:8080/answers?responder='bowen'"
 2. paginate answers.
 Both lastSeenCreatedTime and lastSeenId must be specified since createdTime can have duplicate values. Limit defaults as 10 if it's not specified.
 For example:
-curl -i -G -X GET http://127.0.0.1:8080/answers/ -d "responder='edmund'" --data-urlencode "lastSeenCreatedTime='2016-09-09 08:43:23'" -d "lastSeenId=10" -d "limit=20", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/answers?responder='edmund'&lastSeenCreatedTime='2016-09-09 08:43:23'&lastSeenId=10&limit=20"
+curl -i -G -X GET http://127.0.0.1:8080/answers/ -d "responder='edmund'" --data-urlencode "lastSeenCreatedTime=1473224175000" -d "lastSeenId=3" -d "limit=20", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/answers?responder='edmund'&lastSeenCreatedTime=1473224175000&lastSeenId=3&limit=20"
 
 Example response:
 [{"id":4,"question":"Are you nervous being an entrepreneur?","rate":300.0,"status":"EXPIRED","createdTime":1472169993000,"askerName":"Xiaobing Zhou","askerTitle":"Software Engineer","askerAvatarUrl":"/users/xiaobingo/avatar","askerAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","hoursToExpire":0}]
@@ -158,8 +158,8 @@ curl -i -X GET "http://127.0.0.1:8080/snoops?uid='edmund'"
 2. paginate snoops.
 Both lastSeenCreatedTime and lastSeenId must be specified since createdTime can have duplicate values. Limit defaults as 10 if it's not specified.
 For example:
-curl -i -G -X GET http://127.0.0.1:8080/snoops -d "uid='kuan'" --data-urlencode "lastSeenCreatedTime='2016-09-09 09:20:01'" -d "lastSeenId=10" -d "limit=20", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/snoops?uid='kuan'&lastSeenCreatedTime='2016-09-09 09:20:01'&lastSeenId=10&limit=20"
+curl -i -G -X GET http://127.0.0.1:8080/snoops -d "uid='kuan'" --data-urlencode "lastSeenCreatedTime=1473225675000" -d "lastSeenId=10" -d "limit=20", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/snoops?uid='kuan'&lastSeenCreatedTime=1473225675000&lastSeenId=10&limit=20"
 
 Example response:
 [{"id":2,"uid":null,"quandaId":6,"createdTime":1472443947000,"question":"How do you believe in being an entrepreneur?","status":"ANSWERED","rate":100.0,"responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="}]
@@ -206,8 +206,8 @@ curl -i -X GET "http://127.0.0.1:8080/newsfeeds?uid='kuan'"
 2. paginate newsfeed.
 Both lastSeenUpdatedTime and lastSeenId must be specified since updatedTime can have duplicate values. Limit defaults as 10 if it's not specified.
 For example:
-curl -i -G -X GET http://127.0.0.1:8080/newsfeeds/ -d "uid='kuan'" --data-urlencode "lastSeenUpdatedTime='2016-09-21 22:32:16'" -d "lastSeenId=10" -d "limit=10", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/newsfeeds?uid='kuan'&lastSeenUpdatedTime='2016-09-21 22:32:16'&lastSeenId=10&limit=10"
+curl -i -G -X GET http://127.0.0.1:8080/newsfeeds/ -d "uid='bowen'" --data-urlencode "lastSeenUpdatedTime=1474522304000" -d "lastSeenId=3" -d "limit=10", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/newsfeeds?uid='bowen'&lastSeenUpdatedTime=1474522304000&lastSeenId=3&limit=10"
 
 Example response:
 [{"id":6,"question":"How do you believe in being an entrepreneur?","updatedTime":1472443395000,"responderId":"xiaobingo","responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","snoops":1}]

@@ -259,7 +259,7 @@ public class QuandaDBUtil {
   private static String buildSql4Answers(
       final Map<String, List<String>> params) {
 
-    String lastSeenCreatedTime = "'0'";
+    long lastSeenCreatedTime = 0;
     long lastSeenId = 0;
     int limit = SnoopServerConf.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
     final String select = "SELECT Q.id, Q.question, Q.status, Q.rate,"
@@ -277,7 +277,7 @@ public class QuandaDBUtil {
       } else if ("responder".equals(key)) {
         list.add(String.format("Q.responder=%s", params.get(key).get(0)));
       } else if ("lastSeenCreatedTime".equals(key)) {
-        lastSeenCreatedTime = params.get(key).get(0);
+        lastSeenCreatedTime = Long.parseLong(params.get(key).get(0));
       } else if ("lastSeenId".equals(key)) {
         lastSeenId = Long.parseLong(params.get(key).get(0));
       } else if ("limit".equals(key)) {
@@ -292,7 +292,7 @@ public class QuandaDBUtil {
         Joiner.on(" AND ").skipNulls().join(list);
 
     /* pagination where clause */
-    where += DBUtil.getPaginationClause(
+    where += DBUtil.getPaginationWhereClause(
         "Q.createdTime",
         lastSeenCreatedTime,
         "Q.id",
@@ -313,7 +313,7 @@ public class QuandaDBUtil {
   private static String buildSql4Questions(
       final Map<String, List<String>> params) {
 
-    String lastSeenUpdatedTime = "'0'";
+    long lastSeenUpdatedTime = 0;
     long lastSeenId = 0;
     int limit = SnoopServerConf.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
     final String select = "SELECT Q.id, Q.question, Q.status, Q.rate,"
@@ -333,7 +333,7 @@ public class QuandaDBUtil {
       } else if ("lastSeenId".equals(key)) {
         lastSeenId = Long.parseLong(params.get(key).get(0));
       } else if ("lastSeenUpdatedTime".equals(key)) {
-        lastSeenUpdatedTime = params.get(key).get(0);
+        lastSeenUpdatedTime = Long.parseLong(params.get(key).get(0));
       } else if ("limit".equals(key)) {
         limit = Integer.parseInt(params.get(key).get(0));
       }
@@ -346,7 +346,7 @@ public class QuandaDBUtil {
         Joiner.on(" AND ").skipNulls().join(list);
 
     /* pagination where clause */
-    where += DBUtil.getPaginationClause(
+    where += DBUtil.getPaginationWhereClause(
         "Q.updatedTime",
         lastSeenUpdatedTime,
         "Q.id",
@@ -361,7 +361,7 @@ public class QuandaDBUtil {
   private static String buildSql4Newsfeed(
       final Map<String, List<String>> params) {
 
-    String lastSeenUpdatedTime = "'0'";
+    long lastSeenUpdatedTime = 0;
     long lastSeenId = 0;
     int limit = SnoopServerConf.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
     final String select =
@@ -380,7 +380,7 @@ public class QuandaDBUtil {
       } else if ("lastSeenId".equals(key)) {
         lastSeenId = Long.parseLong(params.get(key).get(0));
       } else if ("lastSeenUpdatedTime".equals(key)) {
-        lastSeenUpdatedTime = params.get(key).get(0);
+        lastSeenUpdatedTime = Long.parseLong(params.get(key).get(0));
       } else if ("limit".equals(key)) {
         limit = Integer.parseInt(params.get(key).get(0));
       }
@@ -394,7 +394,7 @@ public class QuandaDBUtil {
     where = String.format(where, uid, uid, uid);
 
     /* pagination where clause */
-    where += DBUtil.getPaginationClause(
+    where += DBUtil.getPaginationWhereClause(
         "Q.updatedTime",
         lastSeenUpdatedTime,
         "Q.id",

@@ -119,7 +119,7 @@ public class ProfileDBUtil {
   private static String buildSql4Profiles(
       final Map<String, List<String>> params) {
 
-    String lastSeenUpdatedTime = "'0'";
+    long lastSeenUpdatedTime = 0;
     String lastSeenId = "'0'";
     int limit = SnoopServerConf.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
     final String select = "SELECT P.uid, P.rate, P.avatarUrl, P.fullName,"
@@ -136,7 +136,7 @@ public class ProfileDBUtil {
       } else if ("lastSeenId".equals(key)) {
         lastSeenId = params.get(key).get(0);
       } else if ("lastSeenUpdatedTime".equals(key)) {
-        lastSeenUpdatedTime = params.get(key).get(0);
+        lastSeenUpdatedTime = Long.parseLong(params.get(key).get(0));
       } else if ("limit".equals(key)) {
         limit = Integer.parseInt(params.get(key).get(0));
       }
@@ -149,7 +149,7 @@ public class ProfileDBUtil {
         Joiner.on(" AND ").skipNulls().join(list);
 
     /* pagination where clause */
-    where += DBUtil.getPaginationClause(
+    where += DBUtil.getPaginationWhereClause(
         "P.updatedTime",
         lastSeenUpdatedTime,
         "P.uid",
