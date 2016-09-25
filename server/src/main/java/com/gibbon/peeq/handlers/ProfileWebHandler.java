@@ -35,16 +35,58 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    return forward();
-  }
-
-  private FullHttpResponse forward() {
-    PeeqWebHandler pwh = new ProfileFilterWebHandler(
+    final PeeqWebHandler pwh = new ProfileFilterWebHandler(
         getPathParser(),
         getRespBuf(),
         getHandlerContext(),
         getRequest());
-    return pwh.handle();
+
+    if (pwh.willFilter()) {
+      return pwh.handle();
+    } else {
+      return onGet();
+    }
+  }
+
+  private FullHttpResponse onGet() {
+    /* get id */
+    final String uid = getPathParser().getPathStream().nextToken();
+
+    /* no uid */
+    if (StringUtils.isBlank(uid)) {
+      appendln("Missing parameter: uid");
+      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    }
+
+    Session session = null;
+    Transaction txn = null;
+    try {
+      session = getSession();
+      txn = session.beginTransaction();
+      final Profile retInstance = (Profile) session.get(Profile.class, uid);
+      txn.commit();
+
+      /* load from object store */
+      loadAvatarFromObjectStore(retInstance);
+
+      /* buffer result */
+      return newResponseForInstance(uid, retInstance);
+    } catch (Exception e) {
+      txn.rollback();
+      return newServerErrorResponse(e, LOG);
+    }
+  }
+
+  private void loadAvatarFromObjectStore(final Profile profile)
+      throws Exception {
+    if (profile == null) {
+      return;
+    }
+
+    final byte[] readContent = readAvatarImage(profile);
+    if (readContent != null) {
+      profile.setAvatarImage(readContent);
+    }
   }
 
   @Override

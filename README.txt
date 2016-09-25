@@ -75,8 +75,9 @@ curl -i -X PUT "http://127.0.0.1:8080/users/kuan" -d '{"pwd":"456"}'
 
 RESTFUL APIs OF PROFILES:
 1. get profile by uid, e.g.
+curl -i -X GET "http://127.0.0.1:8080/profiles/edmund"
 curl -i -G -X GET http://127.0.0.1:8080/profiles --data-urlencode "uid='edmund'", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/profiles?uid='edmund'"
+curl -i -X GET "http://127.0.0.1:8080/profiles/edmund"
 
 2. get profile by name. It's always doing SQL LIKE style query.
 For example, fullName LIKE 'edmund burke':
@@ -94,10 +95,7 @@ curl -i -X PUT "http://127.0.0.1:8080/profiles/edmund" -d '{"rate":200,"title":"
 Both lastSeenUpdatedTime and lastSeenId must be specified since updatedTime can have duplicate values.
 Limit defaults as 10 if it's not specified.
 
-Query all, e.g.
-curl -i -G -X GET http://127.0.0.1:8080/profiles, equivalent to
-curl -i -X GET "http://127.0.0.1:8080/profiles?limit=10"
-
+Query all, limit must be specified, e.g.
 curl -i -G -X GET http://127.0.0.1:8080/profiles -d "limit=20", equivalent to
 curl -i -X GET "http://127.0.0.1:8080/profiles?limit=20"
 
