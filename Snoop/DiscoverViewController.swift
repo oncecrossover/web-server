@@ -15,6 +15,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
   var profiles: [DiscoverModel] = []
   var filteredProfiles: [DiscoverModel] = []
+  var tmpProfiles: [DiscoverModel] = []
 
   var refreshControl: UIRefreshControl = UIRefreshControl()
 
@@ -39,14 +40,14 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   override func viewDidAppear(animated: Bool) {
     super.viewDidAppear(animated)
     if (profiles.count == 0) {
-      loadImages()
+      loadProfiles()
     }
     else {
       if (NSUserDefaults.standardUserDefaults().objectForKey("shouldLoadDiscover") == nil ||
         NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadDiscover") == true) {
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadDiscover")
         NSUserDefaults.standardUserDefaults().synchronize()
-        loadImages()
+        loadProfiles()
       }
     }
   }
@@ -60,21 +61,26 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   }
 
   func refresh(sender:AnyObject) {
-    loadImages()
+    loadProfiles()
   }
 
-  func loadImages() {
+  func loadProfiles() {
     discoverTableView.userInteractionEnabled = false
-    var tmpProfiles: [DiscoverModel] = []
+    tmpProfiles = []
+    let url = "limit=10"
+    loadProfiles(url)
+  }
+
+  func loadProfiles(url: String!) {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    activityIndicator.startAnimating()
-    userModule.getDiscover(uid, filterString: "*") { jsonArray in
+    userModule.getDiscover(url) { jsonArray in
       for profileInfo in jsonArray as! [[String:AnyObject]] {
         let profileUid = profileInfo["uid"] as! String
         if (profileUid == uid) {
           continue
         }
         let profileName = profileInfo["fullName"] as! String
+        let updatedTime = profileInfo["updatedTime"] as! Double!
         var profileTitle = ""
         var profileAbout = ""
         var rate = 0.0
@@ -96,19 +102,21 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
           avatarImage = NSData(base64EncodedString: profileInfo["avatarImage"] as! String, options: NSDataBase64DecodingOptions(rawValue: 0))!
         }
 
-        tmpProfiles.append(DiscoverModel(_name: profileName, _title: profileTitle, _avatarImage: avatarImage, _uid: profileUid, _about: profileAbout, _rate: rate))
+        self.tmpProfiles.append(DiscoverModel(_name: profileName, _title: profileTitle, _avatarImage: avatarImage, _uid: profileUid, _about: profileAbout, _rate: rate, _updatedTime: updatedTime))
       }
-      self.profiles = tmpProfiles
+      self.profiles = self.tmpProfiles
 
       self.activityIndicator.stopAnimating()
 
       dispatch_async(dispatch_get_main_queue()) {
-        self.discoverTableView.reloadData()
+        if (jsonArray.count > 0) {
+          self.discoverTableView.reloadData()
+        }
         self.discoverTableView.userInteractionEnabled = true
         self.refreshControl.endRefreshing()
       }
-
     }
+
   }
 
   override func didReceiveMemoryWarning() {
@@ -165,6 +173,14 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     myCell.title.text = profile.title
     myCell.about.text = profile.about
 
+    if (!searchController.active && searchController.searchBar.text == "") {
+      if (indexPath.row == profiles.count - 1) {
+        let updatedTime = Int64(profile.updatedTime)
+        let lastSeenId = profile.uid
+        let url = "limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId='" + lastSeenId + "'"
+        loadProfiles(url)
+      }
+    }
     return myCell
 
   }

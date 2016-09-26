@@ -88,7 +88,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let responderId = feedInfo["responderId"] as! String
         let numberOfSnoops = feedInfo["snoops"] as! Int
         let name = feedInfo["responderName"] as! String
-        let updatedTime = feedInfo["updatedTime"] as! CLong!
+        let updatedTime = feedInfo["updatedTime"] as! Double!
 
         var title = ""
         if (feedInfo["responderTitle"] != nil) {
@@ -193,7 +193,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     if (indexPath.row == feeds.count - 1) {
       let lastSeenId = feeds[indexPath.row].id
-      let updatedTime = feeds[indexPath.row].updatedTime
+      let updatedTime = Int64(feeds[indexPath.row].updatedTime)
       let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
       let url = "uid='" + uid + "'&lastSeenUpdatedTime=\(updatedTime)&lastSeenId=\(lastSeenId)&limit=5"
       loadData(url)
@@ -266,7 +266,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       let about = profileInfo["about"] as! String
       let avatarImage = profileInfo["avatarImage"] as! NSData
       let rate = profileInfo["rate"] as! Double
-      dvc.profileInfo = DiscoverModel(_name: name, _title: title, _avatarImage: avatarImage, _uid: uid, _about: about, _rate: rate)
+      dvc.profileInfo = DiscoverModel(_name: name, _title: title, _avatarImage: avatarImage, _uid: uid, _about: about, _rate: rate, _updatedTime: 0)
     }
   }
 

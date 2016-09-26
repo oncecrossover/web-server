@@ -94,8 +94,8 @@ class User
     }
   }
 
-  func getDiscover(uid: String, filterString: String, completion: (NSArray) -> ()) {
-    let url = NSURL(string: generics.HTTPHOST + "profiles?filter=" + filterString)
+  func getDiscover(filterString: String, completion: (NSArray) -> ()) {
+    let url = NSURL(string: generics.HTTPHOST + "profiles?" + filterString)
     generics.getFilteredObjects(url!) { result in
       completion(result)
     }
