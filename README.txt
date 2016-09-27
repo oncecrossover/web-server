@@ -67,11 +67,6 @@ curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"edmund","fullName":"Ed
 
 curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"kuan","fullName":"Kuan Chung","pwd":"123"}'
 
-3. update user by uid, e.g.
-curl -i -X PUT "http://127.0.0.1:8080/users/edmund" -d '{"pwd":"456"}'
-
-curl -i -X PUT "http://127.0.0.1:8080/users/kuan" -d '{"pwd":"456"}'
-
 
 RESTFUL APIs OF PROFILES:
 1. get profile by uid, e.g.

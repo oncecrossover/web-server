@@ -46,11 +46,6 @@ public class UserWebHandler extends AbastractPeeqWebHandler
     return onCreate();
   }
 
-  @Override
-  protected FullHttpResponse handleUpdate() {
-    return onUpdate();
-  }
-
   private FullHttpResponse onCreate() {
     final User fromJson;
     try {
@@ -136,64 +131,6 @@ public class UserWebHandler extends AbastractPeeqWebHandler
     } else {
       appendln(String.format("Nonexistent resource with URI: /users/%s", uid));
       return newResponse(HttpResponseStatus.NOT_FOUND);
-    }
-  }
-
-  private FullHttpResponse onUpdate() {
-    /* get user id */
-    final String uid = getPathParser().getPathStream().nextToken();
-
-    /* no uid */
-    if (StringUtils.isBlank(uid)) {
-      appendln("Missing parameter: uid");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
-    }
-
-    /* deserialize json */
-    final User fromJson;
-    try {
-      fromJson = newUserFromRequest();
-      if (fromJson == null) {
-        appendln("No user or incorrect format specified.");
-        return newResponse(HttpResponseStatus.BAD_REQUEST);
-      }
-    } catch (Exception e) {
-      return newServerErrorResponse(e, LOG);
-    }
-    /* use uid from url, ignore that from json */
-    fromJson.setUid(uid);
-
-    Transaction txn = null;
-    Session session = null;
-    /* query DB copy */
-    User fromDB = null;
-    try {
-      session = getSession();
-      txn = session.beginTransaction();
-      fromDB = (User) getSession().get(User.class, uid);
-      txn.commit();
-      if (fromDB == null) {
-        appendln(String.format("Nonexistent user ('%s') in the DB", uid));
-        return newResponse(HttpResponseStatus.BAD_REQUEST);
-      }
-    } catch (Exception e) {
-      txn.rollback();
-      return newServerErrorResponse(e, LOG);
-    }
-
-    /* set value by ignoring null to avoid updating columns to NULL */
-    fromDB.setAsIgnoreNull(fromJson);
-
-    try {
-      session = getSession();
-      txn = session.beginTransaction();
-      /* update */
-      session.update(fromDB);
-      txn.commit();
-      return newResponse(HttpResponseStatus.NO_CONTENT);
-    } catch (Exception e) {
-      txn.rollback();
-      return newServerErrorResponse(e, LOG);
     }
   }
 
