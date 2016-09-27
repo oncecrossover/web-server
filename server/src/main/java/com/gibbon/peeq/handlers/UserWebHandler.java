@@ -37,11 +37,6 @@ public class UserWebHandler extends AbastractPeeqWebHandler
   }
 
   @Override
-  protected FullHttpResponse handleRetrieval() {
-    return onGet();
-  }
-
-  @Override
   protected FullHttpResponse handleCreation() {
     return onCreate();
   }
@@ -94,43 +89,6 @@ public class UserWebHandler extends AbastractPeeqWebHandler
       return newServerErrorResponse(e, LOG);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
-    }
-  }
-
-  private FullHttpResponse onGet() {
-    /* get user id */
-    final String uid = getPathParser().getPathStream().nextToken();
-
-    /* no uid */
-    if (StringUtils.isBlank(uid)) {
-      appendln("Missing parameter: uid");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
-    }
-
-    Session session = null;
-    Transaction txn = null;
-    try {
-      session = getSession();
-      txn = session.beginTransaction();
-      final User retInstance = (User) session.get(User.class, uid);
-      txn.commit();
-
-      /* buffer result */
-      return newResponseForInstance(uid, retInstance);
-    } catch (Exception e) {
-      txn.rollback();
-      return newServerErrorResponse(e, LOG);
-    }
-  }
-
-  private FullHttpResponse newResponseForInstance(final String uid,
-      final User instance) throws JsonProcessingException {
-    if (instance != null) {
-      appendByteArray(instance.toJsonByteArray());
-      return newResponse(HttpResponseStatus.OK);
-    } else {
-      appendln(String.format("Nonexistent resource with URI: /users/%s", uid));
-      return newResponse(HttpResponseStatus.NOT_FOUND);
     }
   }
 

@@ -59,10 +59,7 @@ pk_test_wyZIIuEmr4TQLHVnZHUxlTtm
 
 WHAT RESTFUL APIs AVAILABLE?
 RESTFUL APIs OF USERS:
-1. get user by uid, e.g.
-curl -i -X GET "http://127.0.0.1:8080/users/edmund"
-
-2. create new user, e.g.
+1. create new user, e.g.
 curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"edmund","fullName":"Edmund Burke","pwd":"123"}'
 
 curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"kuan","fullName":"Kuan Chung","pwd":"123"}'
