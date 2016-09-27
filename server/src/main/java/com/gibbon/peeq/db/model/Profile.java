@@ -11,6 +11,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Profile {
   private String uid;
+  /*
+   * If Profile.rate filed is initialized to 0 or whatever value, every profile
+   * update request will update user's rate to that value even if it's not
+   * explicitly specified by client request, which is not expected and will
+   * cause data inconsistency.
+   */
   private Double rate;
   private String avatarUrl;
   private byte[] avatarImage;
