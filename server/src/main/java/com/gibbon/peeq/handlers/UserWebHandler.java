@@ -9,8 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.User;
+import com.gibbon.peeq.db.util.UserDBUtil;
 import com.gibbon.peeq.util.ResourcePathParser;
 import com.gibbon.peeq.util.StripeUtil;
 import com.google.common.io.ByteArrayDataOutput;
@@ -33,6 +35,11 @@ public class UserWebHandler extends AbastractPeeqWebHandler
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
     super(pathParser, respBuf, ctx, request);
+  }
+
+  @Override
+  protected FullHttpResponse handleRetrieval() {
+    return onGet();
   }
 
   @Override
@@ -118,6 +125,43 @@ public class UserWebHandler extends AbastractPeeqWebHandler
       return newServerErrorResponse(e, LOG);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
+    }
+  }
+
+  private FullHttpResponse onGet() {
+    /* get user id */
+    final String uid = getPathParser().getPathStream().nextToken();
+
+    /* no uid */
+    if (StringUtils.isBlank(uid)) {
+      appendln("Missing parameter: uid");
+      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    }
+
+    Session session = null;
+    Transaction txn = null;
+    try {
+      session = getSession();
+      txn = session.beginTransaction();
+      final User retInstance = UserDBUtil.getUser(session, uid, false);
+      txn.commit();
+
+      /* buffer result */
+      return newResponseForInstance(uid, retInstance);
+    } catch (Exception e) {
+      txn.rollback();
+      return newServerErrorResponse(e, LOG);
+    }
+  }
+
+  private FullHttpResponse newResponseForInstance(final String uid,
+      final User instance) throws JsonProcessingException {
+    if (instance != null) {
+      appendByteArray(instance.toJsonByteArray());
+      return newResponse(HttpResponseStatus.OK);
+    } else {
+      appendln(String.format("Nonexistent resource with URI: /users/%s", uid));
+      return newResponse(HttpResponseStatus.NOT_FOUND);
     }
   }
 
