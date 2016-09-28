@@ -49,6 +49,7 @@ import com.gibbon.peeq.handlers.NullResouceWebHandler;
 import com.gibbon.peeq.handlers.PcEntryWebHandler;
 import com.gibbon.peeq.handlers.ProfileWebHandler;
 import com.gibbon.peeq.handlers.ResetPwdWebHandler;
+import com.gibbon.peeq.handlers.SigninWebHandler;
 import com.gibbon.peeq.handlers.QaTransactionWebHandler;
 import com.gibbon.peeq.handlers.QuandaWebHandler;
 import com.gibbon.peeq.handlers.QuestionWebHandler;
@@ -100,6 +101,12 @@ public class HttpSnoopServerHandler
 
     if ("users".equalsIgnoreCase(resourceName)) {
       return new UserWebHandler(
+          pathParser,
+          respBuf,
+          ctx,
+          request).handle();
+    } else if ("signin".equalsIgnoreCase(resourceName)) {
+      return new SigninWebHandler(
           pathParser,
           respBuf,
           ctx,

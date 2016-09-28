@@ -1,6 +1,7 @@
 package com.gibbon.peeq.handlers;
 
 import java.io.IOException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -11,11 +12,9 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.User;
+import com.gibbon.peeq.db.util.UserDBUtil;
 import com.gibbon.peeq.util.ResourcePathParser;
-import com.gibbon.peeq.util.StripeUtil;
 import com.google.common.io.ByteArrayDataOutput;
-import com.stripe.exception.StripeException;
-import com.stripe.model.Customer;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
@@ -24,13 +23,16 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
-public class UserWebHandler extends AbastractPeeqWebHandler
+public class SigninWebHandler extends AbastractPeeqWebHandler
     implements PeeqWebHandler {
-  protected static final Logger LOG = LoggerFactory
-      .getLogger(UserWebHandler.class);
 
-  public UserWebHandler(ResourcePathParser pathParser,
-      ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
+  private static final Logger LOG = LoggerFactory
+      .getLogger(SigninWebHandler.class);
+
+  public SigninWebHandler(
+      ResourcePathParser pathParser,
+      ByteArrayDataOutput respBuf,
+      ChannelHandlerContext ctx,
       FullHttpRequest request) {
     super(pathParser, respBuf, ctx, request);
   }
@@ -39,7 +41,6 @@ public class UserWebHandler extends AbastractPeeqWebHandler
   protected FullHttpResponse handleCreation() {
     return onCreate();
   }
-
 
   static FullHttpResponse verifyUser(final User user,
       final ByteArrayDataOutput respBuf) {
@@ -50,7 +51,7 @@ public class UserWebHandler extends AbastractPeeqWebHandler
     }
 
     if (StringUtils.isBlank(user.getUid())) {
-      appendln("No uid specified.", respBuf);
+      appendln("No user id specified.", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
@@ -59,19 +60,14 @@ public class UserWebHandler extends AbastractPeeqWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    if (StringUtils.isBlank(user.getFullName())) {
-      appendln("No full name specified.", respBuf);
-      return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
-    }
-
     return null;
   }
 
-
   private FullHttpResponse onCreate() {
+    /* from json */
     final User fromJson;
     try {
-      fromJson = newUserFromRequest();
+      fromJson = newIntanceFromRequest();
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
@@ -82,46 +78,32 @@ public class UserWebHandler extends AbastractPeeqWebHandler
       return resp;
     }
 
-    /* set fullName to profile, user table doesn't store fullName */
-    fromJson.getProfile().setFullName(fromJson.getFullName());
-
-    Transaction txn = null;
-    Customer customer = null;
     Session session = null;
+    Transaction txn = null;
     try {
-      /* create Stripe customer */
-      customer = StripeUtil.createCustomerForUser(fromJson.getUid());
-      if (customer == null) {
-        appendln(String.format("Creating Customer for user '%s' failed.",
-            fromJson.getUid()));
-        return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
-      }
-
-      /* save customer id */
-      fromJson.getPcAccount().setChargeFrom(customer.getId());
-
       session = getSession();
       txn = session.beginTransaction();
-      session.save(fromJson);
-      txn.commit();
-      appendln(toIdJson("uid", fromJson.getUid()));
-      return newResponse(HttpResponseStatus.CREATED);
-    } catch (StripeException e) {
-      return newServerErrorResponse(e, LOG);
+      final boolean matched = UserDBUtil.pwdMatched(
+          session,
+          fromJson.getUid(),
+          fromJson.getPwd(),
+          false);
+      if (matched) {
+        appendln(toIdJson("uid", fromJson.getUid()));
+        return newResponse(HttpResponseStatus.CREATED);
+      } else {
+        appendln("User id and password do not match.");
+        return newResponse(HttpResponseStatus.BAD_REQUEST);
+      }
     } catch (HibernateException e) {
       txn.rollback();
-      try {
-        StripeUtil.deleteCustomer(customer);
-      } catch (StripeException se) {
-        stashServerError(se, LOG);
-      }
       return newServerErrorResponse(e, LOG);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
   }
 
-  private User newUserFromRequest()
+  private User newIntanceFromRequest()
       throws JsonParseException, JsonMappingException, IOException {
     final ByteBuf content = getRequest().content();
     if (content.isReadable()) {

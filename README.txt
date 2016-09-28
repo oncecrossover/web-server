@@ -65,6 +65,11 @@ curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"edmund","fullName":"Ed
 curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"kuan","fullName":"Kuan Chung","pwd":"123"}'
 
 
+RESTFUL APIs OF SIGNIN:
+1. sign-in by user id and password, e.g.
+curl -i -X POST "http://127.0.0.1:8080/signin" -d '{"uid":"kuan","pwd":"123"}'
+
+
 RESTFUL APIs OF PROFILES:
 1. get profile by uid, e.g.
 curl -i -X GET "http://127.0.0.1:8080/profiles/edmund"
