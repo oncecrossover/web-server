@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.User;
 import com.gibbon.peeq.util.ResourcePathParser;
@@ -41,16 +40,45 @@ public class UserWebHandler extends AbastractPeeqWebHandler
     return onCreate();
   }
 
+
+  static FullHttpResponse verifyUser(final User user,
+      final ByteArrayDataOutput respBuf) {
+
+    if (user == null) {
+      appendln("No user or incorrect format specified.", respBuf);
+      return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
+    }
+
+    if (StringUtils.isBlank(user.getUid())) {
+      appendln("No uid specified.", respBuf);
+      return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
+    }
+
+    if (StringUtils.isBlank(user.getPwd())) {
+      appendln("No password specified.", respBuf);
+      return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
+    }
+
+    if (StringUtils.isBlank(user.getFullName())) {
+      appendln("No full name specified.", respBuf);
+      return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
+    }
+
+    return null;
+  }
+
+
   private FullHttpResponse onCreate() {
     final User fromJson;
     try {
       fromJson = newUserFromRequest();
-      if (fromJson == null) {
-        appendln("No user or incorrect format specified.");
-        return newResponse(HttpResponseStatus.BAD_REQUEST);
-      }
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
+    }
+
+    final FullHttpResponse resp = verifyUser(fromJson, getRespBuf());
+    if ( resp != null) {
+      return resp;
     }
 
     /* set fullName to profile, user table doesn't store fullName */
