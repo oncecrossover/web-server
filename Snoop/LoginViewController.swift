@@ -48,7 +48,7 @@ class LoginViewController: UIViewController {
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Signing In...")
 
     let userModule = User()
-    userModule.getUser(userEmail, password: userPassword) { displayMessage in
+    userModule.signinUser(userEmail, password: userPassword) { displayMessage in
       if (displayMessage.isEmpty) {
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isUserLoggedIn")
         NSUserDefaults.standardUserDefaults().setObject(userEmail, forKey: "email")
