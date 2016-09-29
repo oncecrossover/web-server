@@ -15,6 +15,7 @@ import com.gibbon.peeq.db.model.User;
 import com.gibbon.peeq.db.util.UserDBUtil;
 import com.gibbon.peeq.util.ResourcePathParser;
 import com.gibbon.peeq.util.StripeUtil;
+import com.gibbon.peeq.util.UserUtil;
 import com.google.common.io.ByteArrayDataOutput;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
@@ -109,7 +110,14 @@ public class UserWebHandler extends AbastractPeeqWebHandler
 
       session = getSession();
       txn = session.beginTransaction();
+
+      /* encrypt */
+      UserUtil.encryptPwd(fromJson);
+
+      /* save */
       session.save(fromJson);
+
+      /* commit transaction */
       txn.commit();
       appendln(toIdJson("uid", fromJson.getUid()));
       return newResponse(HttpResponseStatus.CREATED);

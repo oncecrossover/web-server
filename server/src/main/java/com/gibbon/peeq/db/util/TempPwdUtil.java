@@ -61,7 +61,7 @@ public class TempPwdUtil {
       if (txn != null) {
         txn.commit();
       }
-      return result.longValue() != 0;
+      return result.longValue() == 1;
     } catch (HibernateException e) {
       if (txn != null) {
         txn.rollback();

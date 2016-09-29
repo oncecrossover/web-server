@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gibbon.peeq.db.model.User;
 import com.gibbon.peeq.db.util.UserDBUtil;
 import com.gibbon.peeq.util.ResourcePathParser;
+import com.gibbon.peeq.util.UserUtil;
 import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.buffer.ByteBuf;
@@ -72,9 +73,9 @@ public class SigninWebHandler extends AbastractPeeqWebHandler
       return newServerErrorResponse(e, LOG);
     }
 
-    /* verify */
+    /* verify user */
     final FullHttpResponse resp = verifyUser(fromJson, getRespBuf());
-    if ( resp != null) {
+    if (resp != null) {
       return resp;
     }
 
@@ -83,12 +84,19 @@ public class SigninWebHandler extends AbastractPeeqWebHandler
     try {
       session = getSession();
       txn = session.beginTransaction();
-      final boolean matched = UserDBUtil.pwdMatched(
-          session,
-          fromJson.getUid(),
-          fromJson.getPwd(),
+
+      /* query encoded pwd */
+      final String encodedPwd = UserDBUtil.getPwd(session, fromJson.getUid(),
           false);
-      if (matched) {
+
+      /* commit transaction */
+      txn.commit();
+
+      /* return */
+      if (encodedPwd == null) {
+        appendln(String.format("Nonexistent user '%s'", fromJson.getUid()));
+        return newResponse(HttpResponseStatus.BAD_REQUEST);
+      } else if (UserUtil.checkPassword(fromJson.getPwd(), encodedPwd)) {
         appendln(toIdJson("uid", fromJson.getUid()));
         return newResponse(HttpResponseStatus.CREATED);
       } else {

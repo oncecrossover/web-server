@@ -15,6 +15,7 @@ import com.gibbon.peeq.db.model.User;
 import com.gibbon.peeq.db.util.TempPwdUtil;
 import com.gibbon.peeq.model.PwdEntry;
 import com.gibbon.peeq.util.ResourcePathParser;
+import com.gibbon.peeq.util.UserUtil;
 import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.buffer.ByteBuf;
@@ -105,6 +106,8 @@ public class ResetPwdWebHandler extends AbastractPeeqWebHandler
 
       /* update */
       session.update(fromDB);
+
+      /* commit */
       txn.commit();
       appendln(toIdJson("uid", fromJson.getUid()));
       return newResponse(HttpResponseStatus.CREATED);
@@ -123,6 +126,7 @@ public class ResetPwdWebHandler extends AbastractPeeqWebHandler
   private void assignNewPwd(final PwdEntry fromJson, final User fromDB) {
     if (fromJson.getNewPwd() != null) {
       fromDB.setPwd(fromJson.getNewPwd());
+      UserUtil.encryptPwd(fromDB);
     }
   }
 
