@@ -18,6 +18,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
   @IBOutlet weak var explanation: UILabel!
   @IBOutlet weak var reminder: UILabel!
   @IBOutlet weak var confirmButton: UIButton!
+  @IBOutlet weak var redoButton: UIButton!
 
   var soundRecorder: AVAudioRecorder!
   var soundPlayer: AVAudioPlayer!
@@ -45,6 +46,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     setSessionPlayAndRecord()
     setupRecorder()
     initView()
+    answerTableView.reloadData()
 
     // Do any additional setup after loading the view.
   }
@@ -79,6 +81,8 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     confirmButton.hidden = true
     recordbutton.setImage(UIImage(named: "speak"), forState: .Normal)
     playButton.setImage(UIImage(named: "listen"), forState: .Normal)
+    redoButton.setImage(UIImage(named: "redo"), forState: .Normal)
+    redoButton.hidden = true
 
     if (question.status == "PENDING") {
       explanation.text = "Touch button to start recording up to 60 sec"
@@ -91,7 +95,6 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
       playButton.hidden = false
       isSaved = true
     }
-    self.answerTableView.reloadData()
   }
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -149,15 +152,37 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
   @IBAction func record(sender: UIButton) {
     if (isRecording == false) {
-      soundRecorder.record()
-      isRecording = true
-      sender.setImage(UIImage(named: "stopButton"), forState: .Normal)
-      playButton.enabled = false
-      reminder.hidden = false
-      explanation.text = "Recording... Touch the button again to stop"
+      if (redoButton.hidden == true && confirmButton.hidden == true) {
+        soundRecorder.record()
+        isRecording = true
+        sender.setImage(UIImage(named: "stopButton"), forState: .Normal)
+        playButton.enabled = false
+        reminder.hidden = false
+        explanation.text = "Recording... Touch Button To Stop"
 
-      //Setup timer to remind the user
-      timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(AnswerViewController.update), userInfo: nil, repeats: true)
+        //Setup timer to remind the user
+        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(AnswerViewController.update), userInfo: nil, repeats: true)
+      }
+      else {
+        if (isPlaying == false) {
+          isPlaying = true
+          self.preparePlayer(NSData(contentsOfURL: getFileUrl())!)
+          self.soundPlayer.play()
+          self.recordbutton.setImage(UIImage(named: "stopButton"), forState: .Normal)
+          self.redoButton.enabled = false
+          self.confirmButton.enabled = false
+          self.explanation.text = "Playing... Click Button to Stop"
+        }
+        else {
+          isPlaying = false
+          soundPlayer.stop()
+          self.recordbutton.setImage(UIImage(named: "play"), forState: .Normal)
+          self.redoButton.enabled = true
+          self.confirmButton.enabled = true
+          self.explanation.text = "Recording Done. Click Button To Play"
+        }
+      }
+
     }
     else {
       stopRecording(sender)
@@ -167,13 +192,12 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
   func stopRecording(sender: UIButton) {
     soundRecorder.stop()
     isRecording = false
-    sender.setImage(UIImage(named: "speak"), forState: .Normal)
-    playButton.hidden = false
-    playButton.enabled = true
+    sender.setImage(UIImage(named: "play"), forState: .Normal)
     reminder.hidden = true
     reminder.text = String(60)
     confirmButton.hidden = false
-    explanation.text = "Click mic to re-answer"
+    explanation.text = "Recording Done. Click Button To Play"
+    redoButton.hidden = false
 
     timer.invalidate()
     count = 60
@@ -184,22 +208,14 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
       isPlaying = true
       sender.setImage(UIImage(named: "stop"), forState: .Normal)
       recordbutton.enabled = false
-
-      // If the answer is saved, we need to retrieve it from the server
-      if (isSaved == true) {
-        questionModule.getQuestionAudio(question.id) { audioString in
-          if (!audioString.isEmpty) {
-            let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
-              dispatch_async(dispatch_get_main_queue()) {
-                  self.preparePlayer(data)
-                  self.soundPlayer.play()
-              }
+      questionModule.getQuestionAudio(question.id) { audioString in
+        if (!audioString.isEmpty) {
+          let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
+          dispatch_async(dispatch_get_main_queue()) {
+            self.preparePlayer(data)
+            self.soundPlayer.play()
           }
         }
-      }
-      else {
-        self.preparePlayer(NSData(contentsOfURL: getFileUrl())!)
-        self.soundPlayer.play()
       }
     }
     else {
@@ -209,7 +225,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
       if (!isSaved) {
         self.recordbutton.enabled = true
-        explanation.text = "Click mic to re-answer"
+        explanation.text = "Recording Done. Click Button To Play"
       }
     }
   }
@@ -219,11 +235,13 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     questionModule.updateQuestion(question.id, answerAudio: NSData(contentsOfURL: getFileUrl())) { result in
         dispatch_async(dispatch_get_main_queue()){
           self.playButton.enabled = true
+          self.playButton.hidden = false
           self.isSaved = true
           self.confirmButton.hidden = true
+          self.redoButton.hidden = true
 
           // After the answer is submitted, the user can no longer re-record his answer
-          self.recordbutton.enabled = false
+          self.recordbutton.hidden = true
           self.explanation.hidden = true
           activityIndicator.hideAnimated(true)
 
@@ -232,6 +250,10 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
           self.answerTableView.reloadData()
         }
     }
+  }
+
+  @IBAction func redoButtonTapped(sender: AnyObject) {
+    initView()
   }
 
   func preparePlayer(data: NSData!) {
@@ -247,6 +269,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
 
   func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
+    self.redoButton.hidden = false
     self.confirmButton.hidden = false
   }
 
@@ -258,7 +281,10 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     // If the answer is not submitted, we need to enable re-recording
     if (!isSaved) {
       self.recordbutton.enabled = true
-      explanation.text = "Click mic to re-answer"
+      self.redoButton.enabled = true
+      self.confirmButton.enabled = true
+      self.recordbutton.setImage(UIImage(named: "play"), forState: .Normal)
+      self.explanation.text = "Recording Done. Click Button To Play"
     }
   }
 }
