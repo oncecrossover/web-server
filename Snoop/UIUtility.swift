@@ -64,6 +64,6 @@ class UIUtility {
     UIGraphicsEndImageContext()
 
     //Pass the image back up to the caller
-    return newImage
+    return newImage!
   }
 }
