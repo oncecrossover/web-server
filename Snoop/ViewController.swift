@@ -70,6 +70,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
   func loadData(){
     tmpFeeds = []
+    feeds = []
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     let url = "uid='" + uid + "'"
     loadData(url)
