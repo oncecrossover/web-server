@@ -61,6 +61,10 @@ class ProfileViewController: UIViewController{
         self.titleLabel.font = self.titleLabel.font.fontWithSize(13)
 
         self.rateLabel.text = String(rate) + " to answer a question"
+        if (rate == 0.0) {
+          self.rateLabel.text = "Free to answer a question"
+        }
+
         self.rateLabel.font = self.rateLabel.font.fontWithSize(15)
         self.rate = rate
 

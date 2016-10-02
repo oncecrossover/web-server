@@ -365,6 +365,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         if (cellInfo.hoursToExpire == 1) {
           expireText = "Expires In 1 Hour"
         }
+        myCell.listenImage.layoutIfNeeded()
         let x = myCell.listenImage.frame.size.width * 0.3
         let y = myCell.listenImage.frame.size.height * 0.3
         let textColor = UIColor(red: 21/255, green: 196/255, blue: 70/255, alpha: 1.0)

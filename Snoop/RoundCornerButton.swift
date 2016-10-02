@@ -12,6 +12,7 @@ class RoundCornerButton: UIButton {
 
   override func awakeFromNib() {
     super.awakeFromNib()
+    self.layoutIfNeeded()
     self.layer.cornerRadius = 4
   }
 

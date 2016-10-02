@@ -19,6 +19,7 @@ class AskViewController: UIViewController, UITextViewDelegate {
   @IBOutlet weak var aboutLabel: UILabel!
   @IBOutlet weak var questionView: UITextView!
   @IBOutlet weak var nameLabel: UILabel!
+
   @IBOutlet weak var askButton: UIButton!
 
   var contentOffset: CGPoint = CGPointZero
@@ -60,7 +61,11 @@ class AskViewController: UIViewController, UITextViewDelegate {
     let textColor = UIColor.whiteColor()
     let textFont = UIFont.systemFontOfSize(18)
     let textPoint = CGPointMake(x, y)
-    let text = "$\(profileInfo.rate) to ask"
+    var text = "$\(profileInfo.rate) to ask"
+    if (profileInfo.rate == 0.0) {
+      text = "Free to ask"
+    }
+
     self.askButton.setImage(utility.addTextToImage(text, inImage: originalImage!, atPoint: textPoint,
                                                       textColor: textColor, textFont: textFont), forState: .Normal)
 
