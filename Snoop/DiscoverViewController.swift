@@ -11,7 +11,6 @@ import UIKit
 class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate {
 
   @IBOutlet weak var discoverTableView: UITableView!
-  @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
   var profiles: [DiscoverModel] = []
   var filteredProfiles: [DiscoverModel] = []
@@ -72,6 +71,13 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   }
 
   func loadProfiles(url: String!) {
+    let indicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 40, 40))
+    indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+    indicator.center = self.view.center
+    self.view.addSubview(indicator)
+
+    indicator.startAnimating()
+    indicator.backgroundColor = UIColor.whiteColor()
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     userModule.getDiscover(url) { jsonArray in
       for profileInfo in jsonArray as! [[String:AnyObject]] {
@@ -106,12 +112,12 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
       }
       self.profiles = self.tmpProfiles
 
-      self.activityIndicator.stopAnimating()
-
       dispatch_async(dispatch_get_main_queue()) {
         if (jsonArray.count > 0) {
           self.discoverTableView.reloadData()
         }
+        indicator.stopAnimating()
+        indicator.hidesWhenStopped = true
         self.discoverTableView.userInteractionEnabled = true
         self.refreshControl.endRefreshing()
       }
