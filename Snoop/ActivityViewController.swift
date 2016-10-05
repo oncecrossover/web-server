@@ -98,6 +98,15 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     if (filterString.containsString("responder")) {
       isQuestion = false
     }
+
+    let indicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 40, 40))
+    indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+    indicator.center = self.view.center
+    self.view.addSubview(indicator)
+
+    indicator.startAnimating()
+    indicator.backgroundColor = UIColor.whiteColor()
+    activityTableView.backgroundView = nil
     questionModule.getQuestions(filterString, isQuestion: isQuestion) { jsonArray in
       for questionInfo in jsonArray as! [[String:AnyObject]] {
         let questionId = questionInfo["id"] as! Int
@@ -141,6 +150,8 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
           self.answers = tmpAnswers
         }
         self.activityTableView.reloadData()
+        indicator.stopAnimating()
+        indicator.hidesWhenStopped = true
         self.activityTableView.userInteractionEnabled = true
         self.refreshControl.endRefreshing()
       }
@@ -150,6 +161,14 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   func loadSnoops(uid: String) {
     var tmpSnoops:[SnoopModel] = []
+    let indicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 40, 40))
+    indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+    indicator.center = self.view.center
+    self.view.addSubview(indicator)
+
+    indicator.startAnimating()
+    indicator.backgroundColor = UIColor.whiteColor()
+    activityTableView.backgroundView = nil
     questionModule.getSnoops(uid) { jsonArray in
       for snoop in jsonArray as! [[String:AnyObject]] {
         let questionId = snoop["quandaId"] as! Int
@@ -173,6 +192,8 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       dispatch_async(dispatch_get_main_queue()) {
         self.snoops = tmpSnoops
         self.activityTableView.reloadData()
+        indicator.stopAnimating()
+        indicator.hidesWhenStopped = true
         self.activityTableView.userInteractionEnabled = true
         self.refreshControl.endRefreshing()
       }
