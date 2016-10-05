@@ -137,7 +137,10 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
           }
 
           let name = questionInfo["askerName"] as! String
-          let title = questionInfo["askerTitle"] as! String
+          var title = ""
+          if ((questionInfo["askerTitle"] as? String) != nil) {
+            title = questionInfo["askerTitle"] as! String
+          }
           tmpAnswers.append(AnswerModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: status, _hoursToExpire: hoursToExpire, _rate: rate))
         }
       }
