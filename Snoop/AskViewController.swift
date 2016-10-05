@@ -47,6 +47,9 @@ class AskViewController: UIViewController, UITextViewDelegate {
     if (profileInfo.avatarImage.length > 0) {
       self.profilePhoto.image = UIImage(data: profileInfo.avatarImage)
     }
+    else {
+      self.profilePhoto.image = UIImage(named: "default")
+    }
 
     self.questionView.layer.borderWidth = 1
     self.questionView.layer.borderColor = UIColor.lightGrayColor().CGColor
