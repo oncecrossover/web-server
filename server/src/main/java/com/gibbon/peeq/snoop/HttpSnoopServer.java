@@ -15,6 +15,8 @@
  */
 package com.gibbon.peeq.snoop;
 
+import javax.net.ssl.SSLException;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
@@ -37,13 +39,7 @@ public final class HttpSnoopServer {
 
     public static void main(String[] args) throws Exception {
         // Configure SSL.
-        final SslContext sslCtx;
-        if (SSL) {
-            SelfSignedCertificate ssc = new SelfSignedCertificate();
-            sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey()).build();
-        } else {
-            sslCtx = null;
-        }
+        final SslContext sslCtx = setupSSL(SSL);
 
         // Configure the server.
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
@@ -65,5 +61,20 @@ public final class HttpSnoopServer {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
+    }
+
+    private static SslContext setupSSL(final boolean sslEnabled)
+        throws SSLException {
+      final SslContext sslCtx;
+      if (sslEnabled) {
+        sslCtx = SslContextBuilder
+            .forServer(SecureSnoopSslContextFactory.getServerKeyManagerFactory())
+            .trustManager(
+                SecureSnoopSslContextFactory.getServerTrustManagerFactory())
+            .build();
+      } else {
+        sslCtx = null;
+       }
+      return sslCtx;
     }
 }

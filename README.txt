@@ -14,6 +14,7 @@ Peeq:    IOS frontend
 
 HOW TO COMIPLE?
 mvn clean package
+mvn clean package -DskipTests
 
 
 
@@ -38,14 +39,15 @@ HOW TO RUN SERVER?
 ./run-jar.sh, you will see
   Usage: run-jar.sh [-D<name>[=<value>] ...] <server-name>
 Example: run-jar.sh -Dport=8443 -Dssl peeq-snoop-server
-         run-jar.sh -Dhost=127.0.0.1 -Dport=8009 peeq-snoop-server
-         run-jar.sh -DlogLevel=debug -Dhost=127.0.0.1 -Dport=8009 peeq-snoop-server
+         run-jar.sh -Dhost=127.0.0.1 -Dport=8080 peeq-snoop-server
+         run-jar.sh -DlogLevel=debug -Dhost=127.0.0.1 -Dport=8080 peeq-snoop-server
+         run-jar.sh -Dhost=127.0.0.1 -Dport=8443 -Dssl -Dresource.uri=users/edmund peeq-snoop-client
 
 Available servers:
 
-  http-snoop-client       peeq-snoop-server
+  peeq-snoop-client       peeq-snoop-server
 
-Specially, "./run-jar.sh peeq-snoop-server" to start snoop server, and
+Specifically, "./run-jar.sh peeq-snoop-server" to start snoop server, and
 "nohup ./run-jar.sh peeq-snoop-server &" will run snoop server as long running independent daemon.
 
 ./run-jar.sh will also compile/package any changes you made to the code base.
@@ -245,6 +247,33 @@ HTTP STATUS CODE OF REST API:
 400(BAD_REQUEST):            "No user or incorrect format specified." or various other information
 204(NO_CONTENT):             <updated or not updated depending on whether the uid is correct or the DB record exists>
 500(INTERNAL_SERVER_ERROR):  <various server error/exception>
+
+
+
+PLAY WITH SECURITY TEST
+1. bash run-jar.sh -Dssl  peeq-snoop-server
+2. bash run-jar.sh -Dssl -Dresource.uri=users/edmund peeq-snoop-client
+
+Programmatically, http should be replaced with https for security, the port should be changed too.
+Without proper certificates, curl command is not supported, please switch to insecure conf for curl for test purpose.
+
+To log detailed security related logs, please refer to http://stackoverflow.com/questions/23659564/limiting-java-ssl-debug-logging
+
+
+
+HOW TO FIND DB SECURITY CONFS?
+server/src/main/resources/com/snoop/server/security/
+
+a8d59c0e0933fe7c.crt:        CA signed certificates for snoop
+gd_bundle-g2-g1.crt:         CA signed root certificates
+snoop-cert-ca.zip:           zip that contains the two files above
+snoop-cert.csr:              certificates signing request file
+snoop-client-keystore.jks:   client-side keystore
+snoop-client-truststore.jks: server-side truststore
+snoop-client.crt:            client-side public key certificate
+snoop-server-keystore.jks:   server-side keystore
+snoop-server-truststore.jks: client-side truststore
+snoop-server.crt:            server-side public key certificate
 
 
 

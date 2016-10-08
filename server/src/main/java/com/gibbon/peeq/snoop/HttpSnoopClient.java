@@ -45,20 +45,22 @@ import javax.net.ssl.SSLException;
  */
 public final class HttpSnoopClient {
 
-  static final String URL = System.getProperty("url", "http://127.0.0.1:8080/");
+  static final boolean SSL = System.getProperty("ssl") != null;
+  static final String HOST = System.getProperty("host", "127.0.0.1");
+  static final int PORT = Integer
+      .parseInt(System.getProperty("port", SSL ? "8443" : "8080"));
+  static final String RES_URI = System.getProperty("resource.uri");
 
   public static void main(String[] args) throws Exception {
-    URI uri = new URI(URL);
-    String scheme = uri.getScheme() == null ? "http" : uri.getScheme();
-    String host = uri.getHost() == null ? "127.0.0.1" : uri.getHost();
-    int port = uri.getPort();
-    if (port == -1) {
-      if ("http".equalsIgnoreCase(scheme)) {
-        port = 80;
-      } else if ("https".equalsIgnoreCase(scheme)) {
-        port = 443;
-      }
-    }
+    final String scheme = SSL ? "https" : "http";
+    /* e.g. http|https://127.0.0.1:8000:8443/users/edmund */
+    final String url = String.format(
+        "%s://%s:%d/%s",
+        scheme,
+        HOST,
+        PORT,
+        RES_URI);
+    final URI uri = URI.create(url);
 
     if (!"http".equalsIgnoreCase(scheme) && !"https".equalsIgnoreCase(scheme)) {
       System.err.println("Only HTTP(S) is supported.");
@@ -76,10 +78,10 @@ public final class HttpSnoopClient {
           .handler(new HttpSnoopClientInitializer(sslCtx));
 
       // Make the connection attempt.
-      Channel ch = b.connect(host, port).sync().channel();
+      Channel ch = b.connect(HOST, PORT).sync().channel();
 
       // Send the HTTP request.
-      ch.writeAndFlush(buildRequest(uri, host));
+      ch.writeAndFlush(buildRequest(uri, HOST));
 
       // Wait for the server to close the connection.
       ch.closeFuture().sync();
@@ -94,7 +96,10 @@ public final class HttpSnoopClient {
     final SslContext sslCtx;
     if (ssl) {
       sslCtx = SslContextBuilder.forClient()
-          .trustManager(InsecureTrustManagerFactory.INSTANCE).build();
+          .keyManager(SecureSnoopSslContextFactory.getClientKeyManagerFactory())
+          .trustManager(
+              SecureSnoopSslContextFactory.getClientTrustManagerFactory())
+          .build();
     } else {
       sslCtx = null;
     }

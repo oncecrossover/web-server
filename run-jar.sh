@@ -1,6 +1,6 @@
 #!/bin/bash -e
 EXAMPLE_MAP=(
-  'http-snoop-client:com.gibbon.peeq.snoop.HttpSnoopClient'
+  'peeq-snoop-client:com.gibbon.peeq.snoop.HttpSnoopClient'
   'peeq-snoop-server:com.gibbon.peeq.snoop.HttpSnoopServer'
 )
 
@@ -37,8 +37,9 @@ done
 if [[ -z "$EXAMPLE" ]] || [[ -z "$EXAMPLE_CLASS" ]] || [[ $# -ne 0 ]]; then
   echo "  Usage: $0 [-D<name>[=<value>] ...] <server-name>" >&2
   echo "Example: $0 -Dport=8443 -Dssl peeq-snoop-server" >&2
-  echo "         $0 -Dhost=127.0.0.1 -Dport=8009 peeq-snoop-server" >&2
-  echo "         $0 -DlogLevel=debug -Dhost=127.0.0.1 -Dport=8009 peeq-snoop-server" >&2
+  echo "         $0 -Dhost=127.0.0.1 -Dport=8080 peeq-snoop-server" >&2
+  echo "         $0 -DlogLevel=debug -Dhost=127.0.0.1 -Dport=8080 peeq-snoop-server" >&2
+  echo "         $0 -Dhost=127.0.0.1 -Dport=8443 -Dssl -Dresource.uri=users/edmund peeq-snoop-client" >&2
   echo >&2
   echo "Available servers:" >&2
   echo >&2
