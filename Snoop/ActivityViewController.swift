@@ -316,12 +316,31 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     self.activityTableView.reloadData()
 
     let questionId = questionInfo.id
-    questionModule.getQuestionAudio(questionId) { audioString in
-      if (!audioString.isEmpty) {
-        let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        dispatch_async(dispatch_get_main_queue()) {
-          self.preparePlayer(data)
-          self.soundPlayer.play()
+    if (utility.isInCache(questionId)) {
+      let pathUrl = self.utility.getFileUrl("audio\(questionId)" + ".m4a")
+
+      self.preparePlayer(NSData(contentsOfURL: pathUrl)!)
+      self.soundPlayer.play()
+    }
+    else {
+      questionModule.getQuestionAudio(questionId) { audioString in
+        if (!audioString.isEmpty) {
+          let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
+          dispatch_async(dispatch_get_main_queue()) {
+            self.preparePlayer(data)
+            self.soundPlayer.play()
+          }
+          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+            let pathUrl = self.utility.getFileUrl("audio\(questionId)" + ".m4a")
+            do {
+              try data.writeToURL(pathUrl, options: .DataWritingAtomic)
+              NSUserDefaults.standardUserDefaults().setBool(true, forKey: String(questionId))
+              NSUserDefaults.standardUserDefaults().synchronize()
+            }
+            catch let error as NSError {
+              print(error.localizedDescription)
+            }
+          }
         }
       }
     }
@@ -477,7 +496,6 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       print(error.localizedDescription)
     }
   }
-
 
   func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
     if (self.activeCell.0!){

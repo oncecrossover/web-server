@@ -38,7 +38,7 @@
 		4ABB89F81D7DEE2C0022DEF2 /* FeedsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB89F71D7DEE2C0022DEF2 /* FeedsModel.swift */; };
 		4ABD20311D407ECC00C3B74E /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD20301D407ECC00C3B74E /* AddCardViewController.swift */; };
 		4ABD20371D4409F900C3B74E /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD20361D4409F900C3B74E /* Payment.swift */; };
-		4ABD203D1D443E1A00C3B74E /* UiUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD203C1D443E1A00C3B74E /* UiUtility.swift */; };
+		4ABD203D1D443E1A00C3B74E /* UIUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD203C1D443E1A00C3B74E /* UIUtility.swift */; };
 		4ABE1CC01D25BBF100320529 /* AskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABE1CBF1D25BBF100320529 /* AskViewController.swift */; };
 		4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC283661CE2F58100A08D35 /* AppDelegate.swift */; };
 		4AC283691CE2F58100A08D35 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC283681CE2F58100A08D35 /* ViewController.swift */; };
@@ -106,7 +106,7 @@
 		4ABB89F71D7DEE2C0022DEF2 /* FeedsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedsModel.swift; sourceTree = "<group>"; };
 		4ABD20301D407ECC00C3B74E /* AddCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardViewController.swift; sourceTree = "<group>"; };
 		4ABD20361D4409F900C3B74E /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
-		4ABD203C1D443E1A00C3B74E /* UiUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UiUtility.swift; sourceTree = "<group>"; };
+		4ABD203C1D443E1A00C3B74E /* UIUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIUtility.swift; sourceTree = "<group>"; };
 		4ABE1CBF1D25BBF100320529 /* AskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AskViewController.swift; sourceTree = "<group>"; };
 		4AC283631CE2F58100A08D35 /* Snoop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Snoop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AC283661CE2F58100A08D35 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -195,7 +195,7 @@
 		4ABD203B1D443E0300C3B74E /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				4ABD203C1D443E1A00C3B74E /* UiUtility.swift */,
+				4ABD203C1D443E1A00C3B74E /* UIUtility.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -411,7 +411,7 @@
 				4ABE1CC01D25BBF100320529 /* AskViewController.swift in Sources */,
 				4AC283691CE2F58100A08D35 /* ViewController.swift in Sources */,
 				4AC2836F1CE2F58100A08D35 /* Peep.xcdatamodeld in Sources */,
-				4ABD203D1D443E1A00C3B74E /* UiUtility.swift in Sources */,
+				4ABD203D1D443E1A00C3B74E /* UIUtility.swift in Sources */,
 				4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */,
 				4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */,
 				4AF322761D2DBCB50043FCE5 /* AnswerViewController.swift in Sources */,

@@ -66,4 +66,30 @@ class UIUtility {
     //Pass the image back up to the caller
     return newImage!
   }
+
+  func getCacheDirectory() -> String {
+    let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+
+    return paths[0]
+  }
+
+  func getFileUrl(fileName: String!) -> NSURL {
+    let prefix = getCacheDirectory() as NSString
+    let path = prefix.stringByAppendingPathComponent(fileName)
+    return NSURL(fileURLWithPath: path)
+  }
+
+  func isInCache(quandaId: Int!) -> Bool {
+    let key = String(quandaId)
+    if (NSUserDefaults.standardUserDefaults().boolForKey(key) == true) {
+      return true
+    }
+    return false
+  }
+
+  func getAudioFromCache(quandaId: Int!) -> String! {
+    let key = String(quandaId)
+    let path = NSUserDefaults.standardUserDefaults().stringForKey(key)!
+    return path
+  }
 }
