@@ -35,11 +35,11 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ -z "$EXAMPLE" ]] || [[ -z "$EXAMPLE_CLASS" ]] || [[ $# -ne 0 ]]; then
-  echo "  Usage: $0 [-D<name>[=<value>] ...] <server-name>" >&2
-  echo "Example: $0 -Dport=8443 -Dssl peeq-snoop-server" >&2
-  echo "         $0 -Dhost=127.0.0.1 -Dport=8080 peeq-snoop-server" >&2
-  echo "         $0 -DlogLevel=debug -Dhost=127.0.0.1 -Dport=8080 peeq-snoop-server" >&2
-  echo "         $0 -Dhost=127.0.0.1 -Dport=8443 -Dssl -Dresource.uri=users/edmund peeq-snoop-client" >&2
+  echo "  Usage: $0 [-D<name>[=<value>] ...] <component-name>" >&2
+  echo "Example: $0  peeq-snoop-server" >&2
+  echo "         $0 -Dhttp.snoop.server.port=8080 peeq-snoop-server" >&2
+  echo "         $0 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl peeq-snoop-server" >&2
+  echo "         $0 -Dhttp.snoop.server.host=127.0.0.1 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl -Dresource.uri=users/edmund peeq-snoop-client" >&2
   echo >&2
   echo "Available servers:" >&2
   echo >&2

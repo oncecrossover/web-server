@@ -29,52 +29,57 @@ import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.SelfSignedCertificate;
 
 /**
- * An HTTP server that sends back the content of the received HTTP request
- * in a pretty plaintext form.
+ * An HTTP server that sends back the content of the received HTTP request in a
+ * plain text or encrypted form.
  */
 public final class HttpSnoopServer {
 
-    static final boolean SSL = System.getProperty("ssl") != null;
-    static final int PORT = Integer.parseInt(System.getProperty("port", SSL? "8443" : "8080"));
+  static final boolean SSL =
+      System.getProperty("http.snoop.ssl") != null;
+  static final int PORT = Integer.parseInt(
+      System.getProperty("http.snoop.server.port", SSL ? "8443" : "8080"));
 
-    public static void main(String[] args) throws Exception {
-        // Configure SSL.
-        final SslContext sslCtx = setupSSL(SSL);
+  public static void main(String[] args) throws Exception {
+    start();
+  }
 
-        // Configure the server.
-        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
-        try {
-            ServerBootstrap b = new ServerBootstrap();
-            b.group(bossGroup, workerGroup)
-             .channel(NioServerSocketChannel.class)
-             .handler(new LoggingHandler(LogLevel.INFO))
-             .childHandler(new HttpSnoopServerInitializer(sslCtx));
-
-            Channel ch = b.bind(PORT).sync().channel();
-
-            System.err.println("Open your web browser and navigate to " +
-                    (SSL? "https" : "http") + "://127.0.0.1:" + PORT + '/');
-
-            ch.closeFuture().sync();
-        } finally {
-            bossGroup.shutdownGracefully();
-            workerGroup.shutdownGracefully();
-        }
+  private static SslContext setupSSL(final boolean sslEnabled)
+      throws SSLException {
+    final SslContext sslCtx;
+    if (sslEnabled) {
+      sslCtx = SslContextBuilder
+          .forServer(SecureSnoopSslContextFactory.getServerKeyManagerFactory())
+          .trustManager(
+              SecureSnoopSslContextFactory.getServerTrustManagerFactory())
+          .build();
+    } else {
+      sslCtx = null;
     }
+    return sslCtx;
+  }
 
-    private static SslContext setupSSL(final boolean sslEnabled)
-        throws SSLException {
-      final SslContext sslCtx;
-      if (sslEnabled) {
-        sslCtx = SslContextBuilder
-            .forServer(SecureSnoopSslContextFactory.getServerKeyManagerFactory())
-            .trustManager(
-                SecureSnoopSslContextFactory.getServerTrustManagerFactory())
-            .build();
-      } else {
-        sslCtx = null;
-       }
-      return sslCtx;
+  static void start() throws SSLException, InterruptedException {
+    // Configure SSL.
+    final SslContext sslCtx = setupSSL(SSL);
+
+    // Configure the server.
+    EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+    EventLoopGroup workerGroup = new NioEventLoopGroup();
+    try {
+      ServerBootstrap b = new ServerBootstrap();
+      b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
+          .handler(new LoggingHandler(LogLevel.INFO))
+          .childHandler(new HttpSnoopServerInitializer(sslCtx));
+
+      Channel ch = b.bind(PORT).sync().channel();
+
+      System.err.println("Open your web browser and navigate to "
+          + (SSL ? "https" : "http") + "://127.0.0.1:" + PORT + '/');
+
+      ch.closeFuture().sync();
+    } finally {
+      bossGroup.shutdownGracefully();
+      workerGroup.shutdownGracefully();
     }
+  }
 }

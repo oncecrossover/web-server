@@ -37,11 +37,11 @@ go to com.gibbon.peeq.scripts/hibernate.cfg.xml, change <hibernate.connection.ur
 
 HOW TO RUN SERVER?
 ./run-jar.sh, you will see
-  Usage: run-jar.sh [-D<name>[=<value>] ...] <server-name>
-Example: run-jar.sh -Dport=8443 -Dssl peeq-snoop-server
-         run-jar.sh -Dhost=127.0.0.1 -Dport=8080 peeq-snoop-server
-         run-jar.sh -DlogLevel=debug -Dhost=127.0.0.1 -Dport=8080 peeq-snoop-server
-         run-jar.sh -Dhost=127.0.0.1 -Dport=8443 -Dssl -Dresource.uri=users/edmund peeq-snoop-client
+  Usage: run-jar.sh [-D<name>[=<value>] ...] <component-name>
+Example: run-jar.sh  peeq-snoop-server
+         run-jar.sh -Dhttp.snoop.server.port=8080 peeq-snoop-server
+         run-jar.sh -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl peeq-snoop-server
+         run-jar.sh -Dhttp.snoop.server.host=127.0.0.1 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl -Dresource.uri=users/edmund peeq-snoop-client
 
 Available servers:
 
@@ -251,8 +251,8 @@ HTTP STATUS CODE OF REST API:
 
 
 PLAY WITH SECURITY TEST
-1. bash run-jar.sh -Dssl  peeq-snoop-server
-2. bash run-jar.sh -Dssl -Dresource.uri=users/edmund peeq-snoop-client
+1. bash run-jar.sh -Dhttp.snoop.ssl  peeq-snoop-server
+2. bash run-jar.sh -Dhttp.snoop.ssl -Dresource.uri=users/edmund peeq-snoop-client
 
 Programmatically, http should be replaced with https for security, the port should be changed too.
 Without proper certificates, curl command is not supported, please switch to insecure conf for curl for test purpose.

@@ -45,10 +45,12 @@ import javax.net.ssl.SSLException;
  */
 public final class HttpSnoopClient {
 
-  static final boolean SSL = System.getProperty("ssl") != null;
-  static final String HOST = System.getProperty("host", "127.0.0.1");
-  static final int PORT = Integer
-      .parseInt(System.getProperty("port", SSL ? "8443" : "8080"));
+  static final boolean SSL =
+      System.getProperty("http.snoop.ssl") != null;
+  static final String HOST =
+      System.getProperty("http.snoop.server.host", "127.0.0.1");
+  static final int PORT = Integer.parseInt(
+      System.getProperty("http.snoop.server.port", SSL ? "8443" : "8080"));
   static final String RES_URI = System.getProperty("resource.uri");
 
   public static void main(String[] args) throws Exception {
