@@ -7,9 +7,51 @@
 //
 
 import Foundation
-class Generics {
-  var HTTPHOST = "http://localhost:8080/"
-  init() {
+class Generics: NSObject, NSURLSessionDelegate {
+  var HTTPHOST = "https://localhost:8443/"
+  override init() {
+  }
+
+  func getURLSession() -> NSURLSession {
+    let configuration =
+      NSURLSessionConfiguration.defaultSessionConfiguration()
+    let session = NSURLSession(configuration: configuration,
+                               delegate: self,
+                               delegateQueue: NSOperationQueue.mainQueue())
+    return session
+  }
+
+  func URLSession(session: NSURLSession,  didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
+    let serverTrust = challenge.protectionSpace.serverTrust
+    let certificate = SecTrustGetCertificateAtIndex(serverTrust!, 0)
+
+    // Set SSL policies for domain name check
+    let policies = NSMutableArray();
+    policies.addObject(SecPolicyCreateSSL(true, (challenge.protectionSpace.host)))
+    SecTrustSetPolicies(serverTrust!, policies);
+
+    // Evaluate server certificate
+    /*var result = SecTrustResultType.Invalid
+    SecTrustEvaluate(serverTrust!, &result)
+    let isServerTrusted:Bool = (result == SecTrustResultType.Unspecified || result == SecTrustResultType.Proceed)
+    if (result == SecTrustResultType.RecoverableTrustFailure) {
+      let exception = SecTrustCopyExceptions(serverTrust!)
+      SecTrustSetPolicies(serverTrust!, exception)
+      SecTrustEvaluate(serverTrust!, &result)
+    }
+    print("result is \(result)")**/
+
+    // Get local and remote cert data
+    let remoteCertificateData:NSData = SecCertificateCopyData(certificate!)
+    let pathToCert = NSBundle.mainBundle().pathForResource("snoop-server", ofType: "der")
+    let localCertificate:NSData = NSData(contentsOfFile: pathToCert!)!
+
+    if (remoteCertificateData.isEqualToData(localCertificate)) {
+        let credential:NSURLCredential = NSURLCredential(forTrust: serverTrust!)
+        completionHandler(.UseCredential, credential)
+    } else {
+        completionHandler(.CancelAuthenticationChallenge, nil)
+    }
   }
 
   func createObject(URI: String, jsonData: [String:AnyObject], completion: (String) -> ()) {
@@ -24,7 +66,8 @@ class Generics {
       print("error=\(error)")
       completion("an error occurs when creating object: \(error)")
     }
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+    let session = self.getURLSession()
+    let task = session.dataTaskWithRequest(request) {
       data, response, error in
       if (error != nil)
       {
@@ -56,7 +99,8 @@ class Generics {
       print("error=\(error)")
       completion("an error occurs when updating object: \(error)")
     }
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+    let session = self.getURLSession()
+    let task = session.dataTaskWithRequest(request) {
       data, response, error in
       if (error != nil)
       {
@@ -80,7 +124,8 @@ class Generics {
   func getFilteredObjects(myUrl: NSURL, completion: (NSArray) -> ()) {
     let request = NSMutableURLRequest(URL: myUrl)
     request.HTTPMethod = "GET"
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request){
+    let session = self.getURLSession()
+    let task = session.dataTaskWithRequest(request){
       data, response, error in
       if error != nil {
         print ("error: \(error)")
@@ -101,7 +146,8 @@ class Generics {
   func getObjectById(myUrl: NSURL, completion: (NSDictionary) -> ()) {
     let request = NSMutableURLRequest(URL: myUrl)
     request.HTTPMethod = "GET"
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+    let session = self.getURLSession()
+    let task = session.dataTaskWithRequest(request) {
       data, response, error in
       if error != nil {
         print ("error: \(error)")

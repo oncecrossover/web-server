@@ -34,8 +34,8 @@ class User
       print("error=\(error)")
       completion("an error occurs when creating object: \(error)")
     }
-
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+    let session = generics.getURLSession()
+    let task = session.dataTaskWithRequest(request) {
       data, response, error in
       if error != nil {
         print ("error: \(error)")

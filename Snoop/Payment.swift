@@ -37,8 +37,8 @@ class Payment {
     let url = NSURL(string: PAYMENTURI + "/" + "\(id)")
     let request = NSMutableURLRequest(URL: url!)
     request.HTTPMethod = "DELETE"
-
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+    let session = generics.getURLSession()
+    let task = session.dataTaskWithRequest(request) {
       data, response, error in
       if (error != nil)
       {

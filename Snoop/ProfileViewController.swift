@@ -50,7 +50,7 @@ class ProfileViewController: UIViewController{
     activityIndicator.startAnimating()
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     userModule.getProfile(uid) { fullName, title, aboutMe, avatarImage, rate in
-      dispatch_sync(dispatch_get_main_queue(), {
+      dispatch_async(dispatch_get_main_queue()) {
         self.aboutLabel.text = aboutMe
         self.aboutLabel.font = self.aboutLabel.font.fontWithSize(14)
 
@@ -76,7 +76,7 @@ class ProfileViewController: UIViewController{
         }
 
         self.activityIndicator.stopAnimating()
-      })
+      }
     }
   }
 
