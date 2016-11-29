@@ -26,6 +26,9 @@
     <property name="aboutMe" type="java.lang.String">
       <column name="aboutMe"/>
     </property>
+    <property name="takeQuestion" type="java.lang.String">
+      <column name="takeQuestion" />
+    </property>
     <property name="createdTime" type="timestamp">
       <column name="createdTime" />
     </property>

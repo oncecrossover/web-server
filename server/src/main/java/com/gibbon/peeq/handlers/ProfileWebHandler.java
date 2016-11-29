@@ -123,8 +123,8 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
 
     Transaction txn = null;
     Session session = null;
-    /*
-     * query to get DB copy to avoid updating fields (not explicitly set by
+    /**
+     * query to get DB copy to avoid updating fields (e.g. not explicitly set by
      * Json) to NULL
      */
     Profile fromDB = null;
@@ -182,7 +182,7 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
     final ByteBuf content = getRequest().content();
     if (content.isReadable()) {
       final byte[] json = ByteBufUtil.getBytes(content);
-      return Profile.newProfile(json);
+      return Profile.newInstance(json);
     }
     return null;
   }

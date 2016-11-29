@@ -143,7 +143,7 @@ public class ProfileDBUtil {
     }
 
     /* query where clause */
-    String where = " WHERE ";
+    String where = " WHERE P.takeQuestion = 'TRUE' AND ";
     where += list.size() == 0 ?
         "1 = 1" : /* simulate no columns specified */
         Joiner.on(" AND ").skipNulls().join(list);

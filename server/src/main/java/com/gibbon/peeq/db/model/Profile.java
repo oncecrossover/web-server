@@ -10,6 +10,27 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Profile {
+  public enum TakeQuestionStatus {
+    FALSE(0, "FALSE"),
+    TRUE(1, "TRUE");
+
+    private final int code;
+    private final String value;
+
+    TakeQuestionStatus(final int code, final String value) {
+      this.code = code;
+      this.value = value;
+    }
+
+    public int code() {
+      return code;
+    }
+
+    public String value() {
+      return value;
+    }
+  }
+
   private String uid;
   /*
    * If Profile.rate filed is initialized to 0 or whatever value, every profile
@@ -23,6 +44,7 @@ public class Profile {
   private String fullName;
   private String title;
   private String aboutMe;
+  private String takeQuestion;
   private Date createdTime;
   private Date updatedTime;
   @JsonIgnore
@@ -92,6 +114,15 @@ public class Profile {
     return this;
   }
 
+  public String getTakeQuestion() {
+    return takeQuestion;
+  }
+
+  public Profile setTakeQuestion(final String takeQuestion) {
+    this.takeQuestion = takeQuestion;
+    return this;
+  }
+
   public Date getCreatedTime() {
     return createdTime;
   }
@@ -136,7 +167,8 @@ public class Profile {
           && isEqual(this.getAvatarUrl(), that.getAvatarUrl())
           && isEqual(this.getFullName(), that.getFullName())
           && isEqual(this.getTitle(), that.getTitle())
-          && isEqual(this.getAboutMe(), that.getAboutMe())) {
+          && isEqual(this.getAboutMe(), that.getAboutMe())
+          && isEqual(this.getTakeQuestion(), that.getTakeQuestion())) {
         return true;
       }
     }
@@ -174,6 +206,9 @@ public class Profile {
     if (that.getAboutMe() != null) {
       this.setAboutMe(that.getAboutMe());
     }
+    if (that.getTakeQuestion() != null) {
+      this.setTakeQuestion(that.getTakeQuestion());
+    }
     return this;
   }
 
@@ -196,7 +231,7 @@ public class Profile {
     return mapper.writeValueAsString(this);
   }
 
-  public static Profile newProfile(final byte[] json)
+  public static Profile newInstance(final byte[] json)
       throws JsonParseException, JsonMappingException, IOException {
     ObjectMapper mapper = new ObjectMapper();
     Profile profile = mapper.readValue(json, Profile.class);

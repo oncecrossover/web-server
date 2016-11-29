@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gibbon.peeq.db.model.Profile.TakeQuestionStatus;
 import com.gibbon.peeq.db.util.HibernateTestUtil;
 
 import static org.junit.Assert.assertEquals;
@@ -31,6 +32,7 @@ public class TestUser {
            .setFullName(UUID.randomUUID().toString())
            .setTitle(UUID.randomUUID().toString())
            .setAboutMe(UUID.randomUUID().toString())
+           .setTakeQuestion(TakeQuestionStatus.TRUE.value())
            .setUser(user);
 
     final PcAccount pcAccount = new PcAccount();
@@ -57,6 +59,7 @@ public class TestUser {
            .setAboutMe(
             "I was an Irish political philosopher, Whig politician and statesman who"
                 + " is often regarded as the father of modern conservatism.")
+           .setTakeQuestion(TakeQuestionStatus.TRUE.value())
            .setUser(user);
 
     final PcAccount pcAccount = new PcAccount();
@@ -83,6 +86,7 @@ public class TestUser {
            .setAboutMe(
             "I was was a chancellor and reformer of the State of Qi during the"
                 + " Spring and Autumn Period of Chinese history.")
+           .setTakeQuestion(TakeQuestionStatus.TRUE.value())
            .setUser(user);
 
     final PcAccount pcAccount = new PcAccount();

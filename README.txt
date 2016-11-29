@@ -225,6 +225,11 @@ RESTFUL APIs OF EXPIRING QUANDAs:
 curl -i -X POST "http://127.0.0.1:8080/quandas/expire"
 
 
+RESTFUL APIs OF APPLY FOR TAKING QUESTIONs:
+1. to apply for taking questions, e.g.
+curl -i -X POST "http://127.0.0.1:8080/takeq" -d '{"uid":"kuan","takeQuestion":"TRUE"}'
+
+
 
 HTTP STATUS CODE OF REST API:
 1. get user (i.e. HTTP GET):
