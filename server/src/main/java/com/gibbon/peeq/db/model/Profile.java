@@ -11,8 +11,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Profile {
   public enum TakeQuestionStatus {
-    FALSE(0, "FALSE"),
-    TRUE(1, "TRUE");
+    NA(0, "NA"),
+    APPLIED(1, "APPLIED"),
+    GRANTED(2, "GRANTED"),
+    DENIED(3, "DENIED");
 
     private final int code;
     private final String value;

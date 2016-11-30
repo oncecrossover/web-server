@@ -225,9 +225,15 @@ RESTFUL APIs OF EXPIRING QUANDAs:
 curl -i -X POST "http://127.0.0.1:8080/quandas/expire"
 
 
-RESTFUL APIs OF APPLY FOR TAKING QUESTIONs:
+RESTFUL APIs TO APPLY FOR/APROVE/DENY TAKING QUESTIONs:
 1. to apply for taking questions, e.g.
-curl -i -X POST "http://127.0.0.1:8080/takeq" -d '{"uid":"kuan","takeQuestion":"TRUE"}'
+curl -i -X POST "http://127.0.0.1:8080/takeq" -d '{"uid":"kuan","takeQuestion":"APPLIED"}'
+
+2. to approve taking questions, e.g.
+curl -i -X POST "http://127.0.0.1:8080/takeq" -d '{"uid":"kuan","takeQuestion":"APPROVED"}'
+
+3. to deny taking questions, e.g.
+curl -i -X POST "http://127.0.0.1:8080/takeq" -d '{"uid":"kuan","takeQuestion":"DENIED"}'
 
 
 

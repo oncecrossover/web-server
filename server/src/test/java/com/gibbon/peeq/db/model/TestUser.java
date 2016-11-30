@@ -32,7 +32,7 @@ public class TestUser {
            .setFullName(UUID.randomUUID().toString())
            .setTitle(UUID.randomUUID().toString())
            .setAboutMe(UUID.randomUUID().toString())
-           .setTakeQuestion(TakeQuestionStatus.TRUE.value())
+           .setTakeQuestion(TakeQuestionStatus.APPLIED.value())
            .setUser(user);
 
     final PcAccount pcAccount = new PcAccount();
@@ -59,7 +59,7 @@ public class TestUser {
            .setAboutMe(
             "I was an Irish political philosopher, Whig politician and statesman who"
                 + " is often regarded as the father of modern conservatism.")
-           .setTakeQuestion(TakeQuestionStatus.TRUE.value())
+           .setTakeQuestion(TakeQuestionStatus.APPLIED.value())
            .setUser(user);
 
     final PcAccount pcAccount = new PcAccount();
@@ -86,7 +86,7 @@ public class TestUser {
            .setAboutMe(
             "I was was a chancellor and reformer of the State of Qi during the"
                 + " Spring and Autumn Period of Chinese history.")
-           .setTakeQuestion(TakeQuestionStatus.TRUE.value())
+           .setTakeQuestion(TakeQuestionStatus.APPLIED.value())
            .setUser(user);
 
     final PcAccount pcAccount = new PcAccount();
