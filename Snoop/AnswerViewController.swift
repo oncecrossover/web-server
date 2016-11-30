@@ -8,8 +8,10 @@
 
 import UIKit
 import AVFoundation
+import AVKit
+import MobileCoreServices
 
-class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDelegate, UITableViewDelegate, UITableViewDataSource {
+class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate, UITableViewDelegate, UITableViewDataSource {
 
   @IBOutlet weak var answerTableView: UITableView!
 
@@ -20,9 +22,12 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
   @IBOutlet weak var confirmButton: UIButton!
   @IBOutlet weak var redoButton: UIButton!
 
+  let imagePicker: UIImagePickerController! = UIImagePickerController()
+  var utility = UIUtility()
+
   var soundRecorder: AVAudioRecorder!
   var soundPlayer: AVAudioPlayer!
-  var fileName = "audioFile.m4a"
+  var fileName = "videoFile.m4a"
 
   var questionModule = Question()
 
@@ -43,38 +48,11 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     super.viewDidLoad()
     answerTableView.rowHeight = UITableViewAutomaticDimension
     answerTableView.estimatedRowHeight = 120
-    setSessionPlayAndRecord()
-    setupRecorder()
     initView()
     answerTableView.reloadData()
 
     // Do any additional setup after loading the view.
   }
-
-
-  func setupRecorder() {
-    let recordSettings = [AVFormatIDKey : Int(kAudioFormatMPEG4AAC_HE), AVEncoderAudioQualityKey: AVAudioQuality.Max.rawValue, AVEncoderBitRateKey: 48000, AVNumberOfChannelsKey : 2, AVSampleRateKey : 44100.0 ] as [String: AnyObject]
-
-    do {
-      soundRecorder = try AVAudioRecorder(URL: getFileUrl(), settings: recordSettings)
-      soundRecorder.delegate = self
-      soundRecorder.meteringEnabled = true
-      soundRecorder.prepareToRecord() // creates/overwrites the file at soundFileURL
-    } catch let error as NSError {
-      print(error.localizedDescription)
-    }
-  }
-
-  func setSessionPlayAndRecord() {
-    let session:AVAudioSession = AVAudioSession.sharedInstance()
-    do {
-      try session.setCategory("AVAudioSessionCategoryPlayAndRecord", withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
-    }
-    catch let error as NSError {
-      print(error.description)
-    }
-  }
-
 
   func initView() {
     reminder.hidden = true
@@ -151,41 +129,35 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
 
   @IBAction func record(sender: UIButton) {
-    if (isRecording == false) {
-      if (redoButton.hidden == true && confirmButton.hidden == true) {
-        soundRecorder.record()
-        isRecording = true
-        sender.setImage(UIImage(named: "stopButton"), forState: .Normal)
-        playButton.enabled = false
-        reminder.hidden = false
-        explanation.text = "Recording... Touch Button To Stop"
-
-        //Setup timer to remind the user
-        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(AnswerViewController.update), userInfo: nil, repeats: true)
-      }
-      else {
-        if (isPlaying == false) {
-          isPlaying = true
-          self.preparePlayer(NSData(contentsOfURL: getFileUrl())!)
-          self.soundPlayer.play()
-          self.recordbutton.setImage(UIImage(named: "stopButton"), forState: .Normal)
-          self.redoButton.enabled = false
-          self.confirmButton.enabled = false
-          self.explanation.text = "Playing... Click Button to Stop"
-        }
-        else {
-          isPlaying = false
-          soundPlayer.stop()
-          self.recordbutton.setImage(UIImage(named: "play"), forState: .Normal)
-          self.redoButton.enabled = true
-          self.confirmButton.enabled = true
-          self.explanation.text = "Recording Done. Click Button To Play"
-        }
-      }
-
+    if (UIImagePickerController.isSourceTypeAvailable(.Camera)) {
+      imagePicker.delegate = self
+      imagePicker.sourceType = .Camera
+      imagePicker.allowsEditing = false
+      imagePicker.mediaTypes = [kUTTypeMovie as String]
+      imagePicker.showsCameraControls = true
+      self.presentViewController(imagePicker, animated: true, completion: nil)
     }
     else {
-      stopRecording(sender)
+      utility.displayAlertMessage("Camera is not available on your device", title: "Alert", sender: self)
+    }
+  }
+
+  //Finished recording video
+  func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    if let pickedVideo:NSURL = (info[UIImagePickerControllerMediaURL] as? NSURL) {
+
+      // Save the video to the app directory so we can play it later
+      let videoData = NSData(contentsOfURL: pickedVideo)
+      let dataPath = getFileUrl()
+      videoData?.writeToURL(dataPath, atomically: false)
+
+      self.dismissViewControllerAnimated(true, completion: nil)
+      recordbutton.setImage(UIImage(named: "play"), forState: .Normal)
+      reminder.hidden = true
+      reminder.text = String(60)
+      confirmButton.hidden = false
+      explanation.text = "Recording Done. Click Button To Play"
+      redoButton.hidden = false
     }
   }
 
@@ -204,28 +176,23 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
   }
 
   @IBAction func play(sender: UIButton) {
-    if (isPlaying == false) {
-      isPlaying = true
-      sender.setImage(UIImage(named: "stop"), forState: .Normal)
-      recordbutton.enabled = false
-      questionModule.getQuestionAudio(question.id) { audioString in
-        if (!audioString.isEmpty) {
-          let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
-          dispatch_async(dispatch_get_main_queue()) {
-            self.preparePlayer(data)
-            self.soundPlayer.play()
+    questionModule.getQuestionAudio(question.id) { audioString in
+      if (!audioString.isEmpty) {
+        let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
+        dispatch_async(dispatch_get_main_queue()) {
+          let dataPath = self.getFileUrl()
+          data.writeToURL(dataPath, atomically: false)
+          let videoAsset = AVAsset(URL: dataPath)
+          let playerItem = AVPlayerItem(asset: videoAsset)
+
+          //Play the video
+          let player = AVPlayer(playerItem: playerItem)
+          let playerViewController = AVPlayerViewController()
+          playerViewController.player = player
+          self.presentViewController(playerViewController, animated: true) {
+            playerViewController.player?.play()
           }
         }
-      }
-    }
-    else {
-      sender.setImage(UIImage(named: "listen"), forState: .Normal)
-      isPlaying = false
-      soundPlayer.stop()
-
-      if (!isSaved) {
-        self.recordbutton.enabled = true
-        explanation.text = "Recording Done. Click Button To Play"
       }
     }
   }
@@ -267,7 +234,7 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     }
   }
 
-
+/*
   func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
     self.redoButton.hidden = false
     self.confirmButton.hidden = false
@@ -287,4 +254,5 @@ class AnswerViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
       self.explanation.text = "Recording Done. Click Button To Play"
     }
   }
+ */
 }

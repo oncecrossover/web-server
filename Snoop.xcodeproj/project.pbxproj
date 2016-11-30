@@ -15,6 +15,7 @@
 		4A11C0621D35BA6900AEF95D /* TextFitLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */; };
 		4A152F621D59106700FA48E7 /* Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A152F611D59106700FA48E7 /* Generics.swift */; };
 		4A368E8C1D5CFA8000176C54 /* ChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */; };
+		4A3D5D791DE8C41A006FE077 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */; };
 		4A4BB82A1D769BE70085160F /* AbstractModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB8291D769BE70085160F /* AbstractModel.swift */; };
 		4A4BB82B1D769BE70085160F /* AbstractModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB8291D769BE70085160F /* AbstractModel.swift */; };
 		4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
@@ -84,6 +85,7 @@
 		4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFitLabel.swift; sourceTree = "<group>"; };
 		4A152F611D59106700FA48E7 /* Generics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generics.swift; sourceTree = "<group>"; };
 		4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargeViewController.swift; sourceTree = "<group>"; };
+		4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4A4BB8291D769BE70085160F /* AbstractModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbstractModel.swift; sourceTree = "<group>"; };
 		4A4BB82C1D769CF40085160F /* DiscoverModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverModel.swift; sourceTree = "<group>"; };
 		4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A3D5D791DE8C41A006FE077 /* MobileCoreServices.framework in Frameworks */,
 				4AD8A6A21D63E8AF00757D9D /* Stripe.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,6 +165,14 @@
 				4AF910731D449F1800546F95 /* InteractiveUITextField.swift */,
 			);
 			name = UIView;
+			sourceTree = "<group>";
+		};
+		4A3D5D771DE8C41A006FE077 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		4A4BB8281D769B8E0085160F /* ObjectModel */ = {
@@ -242,6 +253,7 @@
 				4AC283651CE2F58100A08D35 /* Snoop */,
 				4A5B257B1D65247700691696 /* SnoopUITests */,
 				4AC283641CE2F58100A08D35 /* Products */,
+				4A3D5D771DE8C41A006FE077 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
