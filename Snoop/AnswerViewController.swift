@@ -11,7 +11,7 @@ import AVFoundation
 import AVKit
 import MobileCoreServices
 
-class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate, UITableViewDelegate, UITableViewDataSource {
+class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate, UITableViewDelegate, UITableViewDataSource, CustomOverlayDelegate {
 
   @IBOutlet weak var answerTableView: UITableView!
 
@@ -22,7 +22,7 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
   @IBOutlet weak var confirmButton: UIButton!
   @IBOutlet weak var redoButton: UIButton!
 
-  let imagePicker: UIImagePickerController! = UIImagePickerController()
+  var currentImagePicker: UIImagePickerController?
   var utility = UIUtility()
 
   var soundRecorder: AVAudioRecorder!
@@ -43,6 +43,10 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
   var timer = NSTimer()
 
   var utilityModule = UIUtility()
+
+  deinit {
+    NSNotificationCenter.defaultCenter().removeObserver(self) // app might crash without removing observer
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -127,20 +131,36 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
   }
 
-
   @IBAction func record(sender: UIButton) {
     if (UIImagePickerController.isSourceTypeAvailable(.Camera)) {
+      let imagePicker = UIImagePickerController()
+      currentImagePicker = imagePicker
       imagePicker.delegate = self
       imagePicker.sourceType = .Camera
       imagePicker.allowsEditing = false
       imagePicker.mediaTypes = [kUTTypeMovie as String]
-      imagePicker.showsCameraControls = true
-      self.presentViewController(imagePicker, animated: true, completion: nil)
+      imagePicker.showsCameraControls = false
+      imagePicker.cameraDevice = .Front
+      imagePicker.cameraCaptureMode = .Video
+
+      //customView stuff
+      let customViewController = CustomOverlayViewController(
+        nibName:"CustomOverlayViewController",
+        bundle: nil
+      )
+      let customView:CustomOverlayView = customViewController.view as! CustomOverlayView
+      customView.frame = imagePicker.view.frame
+      customView.delegate = self
+      imagePicker.cameraOverlayView = customView
+      self.presentViewController(imagePicker, animated: true, completion: {
+        
+      })
     }
     else {
       utility.displayAlertMessage("Camera is not available on your device", title: "Alert", sender: self)
     }
   }
+
 
   //Finished recording video
   func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
@@ -150,29 +170,84 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
       let videoData = NSData(contentsOfURL: pickedVideo)
       let dataPath = getFileUrl()
       videoData?.writeToURL(dataPath, atomically: false)
-
-      self.dismissViewControllerAnimated(true, completion: nil)
-      recordbutton.setImage(UIImage(named: "play"), forState: .Normal)
-      reminder.hidden = true
-      reminder.text = String(60)
-      confirmButton.hidden = false
-      explanation.text = "Recording Done. Click Button To Play"
-      redoButton.hidden = false
     }
   }
 
-  func stopRecording(sender: UIButton) {
-    soundRecorder.stop()
-    isRecording = false
-    sender.setImage(UIImage(named: "play"), forState: .Normal)
-    reminder.hidden = true
-    reminder.text = String(60)
-    confirmButton.hidden = false
-    explanation.text = "Recording Done. Click Button To Play"
-    redoButton.hidden = false
 
-    timer.invalidate()
-    count = 60
+  func didCancel(overlayView:CustomOverlayView) {
+    if (overlayView.cancelButton.currentTitle == "cancel") {
+      currentImagePicker?.dismissViewControllerAnimated(true,
+                                                        completion: nil)
+    }
+    else {
+      overlayView.isRecording = true
+      currentImagePicker?.startVideoCapture()
+      overlayView.shootButton.setImage(UIImage(named: "recording"), forState: .Normal)
+      overlayView.cancelButton.hidden = true
+    }
+  }
+
+  func didBack(overlayView: CustomOverlayView) {
+    let myAlert = UIAlertController(title: "Warning", message: "recorded video will be discarded", preferredStyle: UIAlertControllerStyle.Alert)
+
+    let okAction = UIAlertAction(title: "Back", style: UIAlertActionStyle.Destructive) { action in
+      self.currentImagePicker?.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+
+    myAlert.addAction(cancelAction)
+    myAlert.addAction(okAction)
+
+    self.currentImagePicker?.presentViewController(myAlert, animated: true, completion: nil)
+  }
+
+  func didNext(overlayView: CustomOverlayView) {
+    let dvc = storyboard?.instantiateViewControllerWithIdentifier("CoverFrameViewController") as! CoverFrameViewController
+    dvc.quandaId = self.question.id
+    //currentImagePicker?.dismissViewControllerAnimated(true, completion: nil)
+    currentImagePicker?.pushViewController(dvc, animated: true)
+    //self.navigationController?.pushViewController(dvc, animated: true)
+  }
+
+  func didShoot(overlayView:CustomOverlayView) {
+    if (overlayView.isRecording == false) {
+      if ((overlayView.shootButton.currentImage?.isEqual(UIImage(named: "record")))! == true) {
+        //start recording answer
+        overlayView.isRecording = true
+        currentImagePicker?.startVideoCapture()
+        overlayView.shootButton.setImage(UIImage(named: "recording"), forState: .Normal)
+        overlayView.cancelButton.hidden = true
+      }
+      else {
+        let dataPath = getFileUrl()
+        let videoAsset = AVAsset(URL: dataPath)
+        let playerItem = AVPlayerItem(asset: videoAsset)
+
+        //Play the video
+        let player = AVPlayer(playerItem: playerItem)
+        player.actionAtItemEnd = AVPlayerActionAtItemEnd.None
+        let videoLayer = AVPlayerLayer(player: player)
+        videoLayer.frame = self.view.bounds;
+        videoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        currentImagePicker?.cameraOverlayView?.layer.addSublayer(videoLayer)
+        player.play()
+        NSNotificationCenter.defaultCenter().addObserverForName(AVPlayerItemDidPlayToEndTimeNotification, object: nil, queue: nil) { notification in
+          // block base observer has retain cycle issue, remember to unregister observer in deinit
+          videoLayer.removeFromSuperlayer()
+        }
+      }
+    }
+    else {
+      //stop recording
+      overlayView.isRecording = false
+      currentImagePicker?.stopVideoCapture()
+      overlayView.cancelButton.hidden = false
+      overlayView.cancelButton.setTitle("retake", forState: .Normal)
+      overlayView.shootButton.setImage(UIImage(named: "triangle"), forState: .Normal)
+      overlayView.backButton.hidden = false
+      overlayView.nextButton.hidden = false
+    }
   }
 
   @IBAction func play(sender: UIButton) {
@@ -196,6 +271,21 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
       }
     }
   }
+
+  func stopRecording(sender: UIButton) {
+    soundRecorder.stop()
+    isRecording = false
+    sender.setImage(UIImage(named: "play"), forState: .Normal)
+    reminder.hidden = true
+    reminder.text = String(60)
+    confirmButton.hidden = false
+    explanation.text = "Recording Done. Click Button To Play"
+    redoButton.hidden = false
+
+    timer.invalidate()
+    count = 60
+  }
+
 
   @IBAction func confirmButtonTapped(sender: AnyObject) {
     let activityIndicator = utilityModule.createCustomActivityIndicator(self.view, text: "Submitting Answer...")

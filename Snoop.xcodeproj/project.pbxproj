@@ -14,8 +14,13 @@
 		4A11C05C1D344DF500AEF95D /* RoundCornerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */; };
 		4A11C0621D35BA6900AEF95D /* TextFitLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */; };
 		4A152F621D59106700FA48E7 /* Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A152F611D59106700FA48E7 /* Generics.swift */; };
+		4A15D1781E037CD70013EDC1 /* CoverFrameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15D1771E037CD70013EDC1 /* CoverFrameViewController.swift */; };
+		4A15D17B1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15D17A1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift */; };
 		4A368E8C1D5CFA8000176C54 /* ChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */; };
 		4A3D5D791DE8C41A006FE077 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */; };
+		4A3D5D7C1DF0D47E006FE077 /* CustomOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D5D7A1DF0D47E006FE077 /* CustomOverlayViewController.swift */; };
+		4A3D5D7D1DF0D47E006FE077 /* CustomOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A3D5D7B1DF0D47E006FE077 /* CustomOverlayViewController.xib */; };
+		4A3D5D7F1DF0D4BB006FE077 /* CustomOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D5D7E1DF0D4BB006FE077 /* CustomOverlayView.swift */; };
 		4A4BB82A1D769BE70085160F /* AbstractModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB8291D769BE70085160F /* AbstractModel.swift */; };
 		4A4BB82B1D769BE70085160F /* AbstractModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB8291D769BE70085160F /* AbstractModel.swift */; };
 		4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
@@ -84,8 +89,13 @@
 		4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundCornerButton.swift; sourceTree = "<group>"; };
 		4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFitLabel.swift; sourceTree = "<group>"; };
 		4A152F611D59106700FA48E7 /* Generics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generics.swift; sourceTree = "<group>"; };
+		4A15D1771E037CD70013EDC1 /* CoverFrameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoverFrameViewController.swift; sourceTree = "<group>"; };
+		4A15D17A1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoverFrameCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargeViewController.swift; sourceTree = "<group>"; };
 		4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		4A3D5D7A1DF0D47E006FE077 /* CustomOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomOverlayViewController.swift; sourceTree = "<group>"; };
+		4A3D5D7B1DF0D47E006FE077 /* CustomOverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomOverlayViewController.xib; sourceTree = "<group>"; };
+		4A3D5D7E1DF0D4BB006FE077 /* CustomOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomOverlayView.swift; sourceTree = "<group>"; };
 		4A4BB8291D769BE70085160F /* AbstractModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbstractModel.swift; sourceTree = "<group>"; };
 		4A4BB82C1D769CF40085160F /* DiscoverModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverModel.swift; sourceTree = "<group>"; };
 		4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
@@ -167,6 +177,14 @@
 			name = UIView;
 			sourceTree = "<group>";
 		};
+		4A15D1791E0380EB0013EDC1 /* CollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				4A15D17A1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift */,
+			);
+			name = CollectionViewCell;
+			sourceTree = "<group>";
+		};
 		4A3D5D771DE8C41A006FE077 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -232,6 +250,10 @@
 				4A745CBD1D73A5D500797AFC /* ConfirmationViewController.swift */,
 				4A0EB0EA1D8276DC00390D06 /* TutorialViewController.swift */,
 				4A0EB0EC1D8277C700390D06 /* ContentViewController.swift */,
+				4A3D5D7E1DF0D4BB006FE077 /* CustomOverlayView.swift */,
+				4A3D5D7A1DF0D47E006FE077 /* CustomOverlayViewController.swift */,
+				4A3D5D7B1DF0D47E006FE077 /* CustomOverlayViewController.xib */,
+				4A15D1771E037CD70013EDC1 /* CoverFrameViewController.swift */,
 			);
 			name = ControllerGroup;
 			sourceTree = "<group>";
@@ -269,6 +291,7 @@
 		4AC283651CE2F58100A08D35 /* Snoop */ = {
 			isa = PBXGroup;
 			children = (
+				4A15D1791E0380EB0013EDC1 /* CollectionViewCell */,
 				4A9C17CE1DBD5A1900F91893 /* snoop-server.der */,
 				4A4BB8281D769B8E0085160F /* ObjectModel */,
 				4A0CE3661D6ECDB10023EC2D /* MBProgressHUD.h */,
@@ -357,7 +380,7 @@
 					};
 					4AC283621CE2F58100A08D35 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = 5RFZ63C7NL;
+						DevelopmentTeam = 7LKHJZRS28;
 						LastSwiftMigration = 0800;
 					};
 				};
@@ -397,6 +420,7 @@
 				4AC283711CE2F58100A08D35 /* Assets.xcassets in Resources */,
 				4AD8A6A41D63E8C600757D9D /* Stripe.bundle in Resources */,
 				4AC2836C1CE2F58100A08D35 /* Main.storyboard in Resources */,
+				4A3D5D7D1DF0D47E006FE077 /* CustomOverlayViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,6 +448,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A15D1781E037CD70013EDC1 /* CoverFrameViewController.swift in Sources */,
 				4ABE1CC01D25BBF100320529 /* AskViewController.swift in Sources */,
 				4AC283691CE2F58100A08D35 /* ViewController.swift in Sources */,
 				4AC2836F1CE2F58100A08D35 /* Peep.xcdatamodeld in Sources */,
@@ -434,10 +459,12 @@
 				4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */,
 				4A0EB0EB1D8276DC00390D06 /* TutorialViewController.swift in Sources */,
 				4A0CE3681D6ECDB10023EC2D /* MBProgressHUD.m in Sources */,
+				4A3D5D7F1DF0D4BB006FE077 /* CustomOverlayView.swift in Sources */,
 				4AC2837E1CED0E4500A08D35 /* LoginViewController.swift in Sources */,
 				4AE8660F1D3C3CF400316DBA /* PaymentViewController.swift in Sources */,
 				4ABD20311D407ECC00C3B74E /* AddCardViewController.swift in Sources */,
 				4AC2837C1CECEE3800A08D35 /* SignupPageViewController.swift in Sources */,
+				4A15D17B1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift in Sources */,
 				4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */,
 				4AC9231F1D360A0800C83177 /* FeedTableViewCell.swift in Sources */,
 				4A0EB0ED1D8277C700390D06 /* ContentViewController.swift in Sources */,
@@ -448,6 +475,7 @@
 				4AF3226C1D29DE120043FCE5 /* ActivityViewController.swift in Sources */,
 				4A698D451D7BA12D004786B8 /* QuandaModel.swift in Sources */,
 				4AF3226A1D29A1E10043FCE5 /* Question.swift in Sources */,
+				4A3D5D7C1DF0D47E006FE077 /* CustomOverlayViewController.swift in Sources */,
 				4A152F621D59106700FA48E7 /* Generics.swift in Sources */,
 				4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */,
 				4A698D471D7BA334004786B8 /* SnoopModel.swift in Sources */,
@@ -611,6 +639,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = 7LKHJZRS28;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Snoop",
@@ -633,6 +662,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = 7LKHJZRS28;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Snoop",
