@@ -24,6 +24,9 @@
     <property name="answerUrl" type="java.lang.String">
       <column name="answerUrl" />
     </property>
+    <property name="answerCoverUrl" type="java.lang.String">
+      <column name="answerCoverUrl" />
+    </property>
     <property name="status" type="java.lang.String">
       <column name="status" />
     </property>

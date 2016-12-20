@@ -12,6 +12,8 @@ public class Answer {
   private Double rate;
   private String status;
   private Date createdTime;
+  private String answerCoverUrl;
+  private byte[]  answerCover;
   private String askerName;
   private String askerTitle;
   private String askerAvatarUrl;
@@ -59,6 +61,24 @@ public class Answer {
 
   public Answer setCreatedTime(final Date createdTime) {
     this.createdTime = createdTime;
+    return this;
+  }
+
+  public String getAnswerCoverUrl() {
+    return answerCoverUrl;
+  }
+
+  public Answer setAnswerCoverUrl(final String answerCoverUrl) {
+    this.answerCoverUrl = answerCoverUrl;
+    return this;
+  }
+
+  public byte[] getAnswerCover() {
+    return answerCover;
+  }
+
+  public Answer setAnswerCover(final byte[] answerCover) {
+    this.answerCover = answerCover;
     return this;
   }
 

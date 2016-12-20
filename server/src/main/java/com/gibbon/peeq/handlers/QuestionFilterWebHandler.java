@@ -67,11 +67,11 @@ public class QuestionFilterWebHandler extends AbastractPeeqWebHandler
         params,
         false);
 
-    loadAvatarsFromObjectStore(list);
+    loadAvatarsAndCoversFromObjectStore(list);
     return listToJsonString(list);
   }
 
-  private void loadAvatarsFromObjectStore(List<Question> questions)
+  private void loadAvatarsAndCoversFromObjectStore(List<Question> questions)
       throws Exception {
     for (Question entity : questions) {
       if (StringUtils.isBlank(entity.getResponderAvatarUrl())) {
@@ -79,10 +79,14 @@ public class QuestionFilterWebHandler extends AbastractPeeqWebHandler
       }
 
       final ObjectStoreClient osc = new ObjectStoreClient();
-      final byte[] readContent = osc
-          .readAvatarImage(entity.getResponderAvatarUrl());
+      byte[] readContent = null;
+      readContent = osc.readAvatarImage(entity.getResponderAvatarUrl());
       if (readContent != null) {
         entity.setResponderAvatarImage(readContent);
+      }
+      readContent = osc.readAnswerCover(entity.getAnswerCoverUrl());
+      if (readContent != null) {
+        entity.setAnswerCover(readContent);
       }
     }
   }

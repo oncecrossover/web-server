@@ -9,6 +9,8 @@ public class Newsfeed {
   private Long id;
   private String question;
   private Date updatedTime;
+  private String answerCoverUrl;
+  private byte[]  answerCover;
   private String responderId;
   private String responderName;
   private String responderTitle;
@@ -40,6 +42,24 @@ public class Newsfeed {
 
   public Newsfeed setUpdatedTime(final Date updatedTime) {
     this.updatedTime = updatedTime;
+    return this;
+  }
+
+  public String getAnswerCoverUrl() {
+    return answerCoverUrl;
+  }
+
+  public Newsfeed setAnswerCoverUrl(final String answerCoverUrl) {
+    this.answerCoverUrl = answerCoverUrl;
+    return this;
+  }
+
+  public byte[] getAnswerCover() {
+    return answerCover;
+  }
+
+  public Newsfeed setAnswerCover(final byte[] answerCover) {
+    this.answerCover = answerCover;
     return this;
   }
 

@@ -146,6 +146,7 @@ public class QuandaDBUtil {
            .addScalar("status", new StringType())
            .addScalar("rate", new DoubleType())
            .addScalar("createdTime", new TimestampType())
+           .addScalar("answerCoverUrl", new StringType())
            .addScalar("askerName", new StringType())
            .addScalar("askerTitle", new StringType())
            .addScalar("askerAvatarUrl", new StringType());
@@ -189,6 +190,7 @@ public class QuandaDBUtil {
            .addScalar("rate", new DoubleType())
            .addScalar("createdTime", new TimestampType())
            .addScalar("updatedTime", new TimestampType())
+           .addScalar("answerCoverUrl", new StringType())
            .addScalar("responderName", new StringType())
            .addScalar("responderTitle", new StringType())
            .addScalar("responderAvatarUrl", new StringType());
@@ -229,6 +231,7 @@ public class QuandaDBUtil {
       query.addScalar("id", new LongType())
            .addScalar("question", new StringType())
            .addScalar("updatedTime", new TimestampType())
+           .addScalar("answerCoverUrl", new StringType())
            .addScalar("responderId", new StringType())
            .addScalar("responderName", new StringType())
            .addScalar("responderTitle", new StringType())
@@ -263,7 +266,7 @@ public class QuandaDBUtil {
     long lastSeenId = 0;
     int limit = SnoopServerConf.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
     final String select = "SELECT Q.id, Q.question, Q.status, Q.rate,"
-        + " Q.createdTime, P.fullName AS askerName,"
+        + " Q.createdTime, Q.answerCoverUrl, P.fullName AS askerName,"
         + " P.title AS askerTitle, P.avatarUrl AS askerAvatarUrl"
         + " FROM Quanda AS Q"
         + " INNER JOIN Profile AS P ON Q.asker = P.uid";
@@ -316,8 +319,9 @@ public class QuandaDBUtil {
     long lastSeenUpdatedTime = 0;
     long lastSeenId = 0;
     int limit = SnoopServerConf.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
-    final String select = "SELECT Q.id, Q.question, Q.status, Q.rate,"
-        + " Q.createdTime, Q.updatedTime, P.fullName AS responderName,"
+    final String select =
+        "SELECT Q.id, Q.question, Q.status, Q.rate, Q.createdTime,"
+        + " Q.updatedTime, Q.answerCoverUrl, P.fullName AS responderName,"
         + " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl"
         + " FROM Quanda AS Q"
         + " INNER JOIN Profile AS P ON Q.responder = P.uid";
@@ -365,7 +369,7 @@ public class QuandaDBUtil {
     long lastSeenId = 0;
     int limit = SnoopServerConf.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
     final String select =
-        "SELECT Q.id, Q.question, Q.updatedTime," +
+        "SELECT Q.id, Q.question, Q.updatedTime, Q.answerCoverUrl," +
         " P.uid AS responderId, P.fullName AS responderName," +
         " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl," +
         " count(S.id) AS snoops FROM" +

@@ -43,7 +43,9 @@ public class Quanda {
   private String responder;
   private Double rate;
   private String answerUrl;
+  private String answerCoverUrl;
   private byte[] answerAudio;
+  private byte[] answerCover;
   private String status;
   private String active;
   private Date createdTime;
@@ -105,6 +107,15 @@ public class Quanda {
     return this;
   }
 
+  public String getAnswerCoverUrl() {
+    return this.answerCoverUrl;
+  }
+
+  public Quanda setAnswerCoverUrl(final String answerCoverUrl) {
+    this.answerCoverUrl = answerCoverUrl;
+    return this;
+  }
+
   public byte[] getAnswerAudio() {
     return answerAudio;
   }
@@ -112,6 +123,15 @@ public class Quanda {
   public Quanda setAnswerAudio(final byte[] answerAudio) {
     this.answerAudio = answerAudio;
     return this;
+  }
+
+  public Quanda setAnswerCover(final byte[] answerCover) {
+    this.answerCover = answerCover;
+    return this;
+  }
+
+  public byte[] getAnswerCover() {
+    return answerCover;
   }
 
   public String getStatus() {
@@ -210,6 +230,7 @@ public class Quanda {
           && isEqual(this.getResponder(), that.getResponder())
           && isEqual(this.getRate(), that.getRate())
           && isEqual(this.getAnswerUrl(), that.getAnswerUrl())
+          && isEqual(this.getAnswerCoverUrl(), that.getAnswerCoverUrl())
           && isEqual(this.getStatus(), that.getStatus())
           && isEqual(this.getActive(), that.getActive())) {
         return true;
@@ -252,6 +273,12 @@ public class Quanda {
     }
     if (quanda.getAnswerAudio() != null) {
       this.setAnswerAudio(quanda.getAnswerAudio());
+    }
+    if (quanda.getAnswerCoverUrl() != null) {
+      this.setAnswerCoverUrl(quanda.getAnswerCoverUrl());
+    }
+    if (quanda.getAnswerCover() != null) {
+      this.setAnswerCover(quanda.getAnswerCover());
     }
     if (quanda.getStatus() != null) {
       this.setStatus(quanda.getStatus());

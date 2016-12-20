@@ -14,6 +14,8 @@ public class Question {
   private String status;
   private Date createdTime;
   private Date updatedTime;
+  private String answerCoverUrl;
+  private byte[]  answerCover;
   private Long hoursToExpire;
   private String responderName;
   private String responderTitle;
@@ -71,6 +73,24 @@ public class Question {
 
   public Question setUpdatedTime(final Date updatedTime) {
     this.updatedTime = updatedTime;
+    return this;
+  }
+
+  public String getAnswerCoverUrl() {
+    return answerCoverUrl;
+  }
+
+  public Question setAnswerCoverUrl(final String answerCoverUrl) {
+    this.answerCoverUrl = answerCoverUrl;
+    return this;
+  }
+
+  public byte[] getAnswerCover() {
+    return answerCover;
+  }
+
+  public Question setAnswerCover(final byte[] answerCover) {
+    this.answerCover = answerCover;
     return this;
   }
 

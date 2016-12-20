@@ -70,11 +70,11 @@ public class SnoopFilterWebHandler extends AbastractPeeqWebHandler
         params,
         false);
 
-    loadAvatarsFromObjectStore(list);
+    loadAvatarsAndCoversFromObjectStore(list);
     return listToJsonString(list);
   }
 
-  private void loadAvatarsFromObjectStore(List<Snoop> snoops)
+  private void loadAvatarsAndCoversFromObjectStore(List<Snoop> snoops)
       throws Exception {
     for (Snoop entity : snoops) {
       if (StringUtils.isBlank(entity.getResponderAvatarUrl())) {
@@ -82,10 +82,14 @@ public class SnoopFilterWebHandler extends AbastractPeeqWebHandler
       }
 
       final ObjectStoreClient osc = new ObjectStoreClient();
-      final byte[] readContent = osc
-          .readAvatarImage(entity.getResponderAvatarUrl());
+      byte[] readContent = null;
+      readContent = osc.readAvatarImage(entity.getResponderAvatarUrl());
       if (readContent != null) {
         entity.setResponderAvatarImage(readContent);
+      }
+      readContent = osc.readAnswerCover(entity.getAnswerCoverUrl());
+      if (readContent != null) {
+        entity.setAnswerCover(readContent);
       }
     }
   }

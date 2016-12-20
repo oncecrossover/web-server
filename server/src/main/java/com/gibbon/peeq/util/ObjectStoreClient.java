@@ -22,11 +22,23 @@ public class ObjectStoreClient {
     conf.set("fs.defaultFS", DEFAULT_FS);
   }
 
+  
+  public byte[] readAnswerCover(final String answerCoverUrl) throws Exception {
+    return readByUrl(answerCoverUrl);
+  }
+
   public byte[] readAnswerAudio(final String answerUrl) throws Exception {
-    if (StringUtils.isBlank(answerUrl)) {
-      return null;
+    return readByUrl(answerUrl);
+  }
+
+  public String saveAnswerCover(final Quanda quanda) throws Exception {
+    if (quanda.getId() > 0 && quanda.getAnswerCover() != null
+        && quanda.getAnswerCover().length > 0) {
+      final String filePath = getAnswerCoverUrl(quanda);
+      saveToStore(filePath, quanda.getAnswerCover());
+      return filePath;
     }
-    return readFromStore(answerUrl);
+    return null;
   }
 
   public String saveAnswerAudio(final Quanda quanda) throws Exception {
@@ -41,10 +53,14 @@ public class ObjectStoreClient {
 
 
   public byte[] readAvatarImage(final String avatarUrl) throws Exception {
-    if (StringUtils.isBlank(avatarUrl)) {
+    return readByUrl(avatarUrl);
+  }
+
+  private byte[] readByUrl(final String url) throws Exception {
+    if (StringUtils.isBlank(url)) {
       return null;
     }
-    return readFromStore(avatarUrl);
+    return readFromStore(url);
   }
 
   public String saveAvatarImage(final Profile profile) throws Exception {
@@ -65,6 +81,10 @@ public class ObjectStoreClient {
 
   private String getAnswerUrl(final Quanda quanda) {
     return String.format("%s/%d", ANSWER_ROOT, quanda.getId());
+  }
+
+  private String getAnswerCoverUrl(final Quanda quanda) {
+    return String.format("%s/%d.cover", ANSWER_ROOT, quanda.getId());
   }
 
   public byte[] readFromStore(final String filePath) throws Exception {

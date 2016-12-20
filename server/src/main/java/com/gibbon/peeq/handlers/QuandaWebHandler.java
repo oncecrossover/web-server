@@ -90,8 +90,8 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
           Long.parseLong(id));
       txn.commit();
 
-      /* load from object store */
-      setAnswerAudio(retInstance);
+      loadAnswerAudio(retInstance);
+      loadAnswerCover(retInstance);
 
       /* buffer result */
       return newResponseForInstance(id, retInstance);
@@ -103,7 +103,18 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  private void setAnswerAudio(final Quanda quanda) {
+  private void loadAnswerCover(final Quanda quanda) {
+    if (quanda == null) {
+      return;
+    }
+
+    final byte[] readContent = readAnswerCover(quanda);
+    if (readContent != null) {
+      quanda.setAnswerCover(readContent);
+    } 
+  }
+
+  private void loadAnswerAudio(final Quanda quanda) {
     if (quanda == null) {
       return;
     }
@@ -112,6 +123,16 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
     if (readContent != null) {
       quanda.setAnswerAudio(readContent);
     }
+  }
+
+  private byte[] readAnswerCover(final Quanda quanda) {
+    ObjectStoreClient osc = new ObjectStoreClient();
+    try {
+      return osc.readAnswerCover(quanda.getAnswerCoverUrl());
+    } catch (Exception e) {
+      LOG.warn(super.stackTraceToString(e));
+    }
+    return null;
   }
 
   private byte[] readAnswerAudio(final Quanda quanda) {
@@ -136,8 +157,9 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
   }
 
   /*
-   * Quanda.status and Quanda.answerUrl (as a result of Quanda.answerAudio) are
-   * the only DB columns that can be updated by client.
+   * Quanda.status, Quanda.active, Quanda.answerUrl (as a result of
+   * Quanda.answerAudio) and Quanda.answerCoverUrl (as a result of
+   * Quanda.answerCover) are the only DB columns that can be updated by client.
    */
   private void checkColumnsToBeUpdated(final Quanda fromJson)
       throws SnoopException {
@@ -148,16 +170,25 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
         fromJson.getResponder() != null ||
         fromJson.getRate() != null ||
         fromJson.getAnswerUrl() != null ||
+        fromJson.getAnswerCoverUrl() != null ||
         fromJson.getCreatedTime() != null ||
         fromJson.getUpdatedTime() != null ||
         fromJson.getSnoops() != null) {
       throw new SnoopException(
-          "The fields except answerAudio and status can't be updated");
+          "The fields except answerAudio, answerCover,"
+              + " status and active can't be updated");
     }
 
-    /* check ANSWERED only */
+    /* allow to update Quanda.status to ANSWERED only */
     if (fromJson.getStatus() != null
         && !fromJson.getStatus().equals(Quanda.QnaStatus.ANSWERED.toString())) {
+      throw new SnoopException(
+          "The status can be changed to ANSWERED only in this API");
+    }
+
+    /* allow to update Quanda.active to FALSE only */
+    if (fromJson.getActive() != null
+        && !fromJson.getActive().equals(Quanda.LiveStatus.FALSE.toString())) {
       throw new SnoopException(
           "The status can be changed to ANSWERED only in this API");
     }
@@ -223,6 +254,9 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
 
       /* save audio */
       saveAudioToObjectStore(fromJson, fromDB);
+
+      /* save answer cover */
+      saveCoverToObjectStore(fromJson, fromDB);
 
       /* update */
       UpdateStatusActive(session, fromJson, fromDB);
@@ -344,6 +378,29 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
     ObjectStoreClient osc = new ObjectStoreClient();
     try {
       return osc.saveAnswerAudio(fromDB);
+    } catch (Exception e) {
+      LOG.warn(super.stackTraceToString(e));
+    }
+    return null;
+  }
+
+  private void saveCoverToObjectStore(
+      final Quanda fromJson,
+      final Quanda fromDB) {
+    if (fromJson.getAnswerCover() != null) {
+      fromDB.setAnswerCover(fromJson.getAnswerCover());
+
+      final String url = saveAnswerCover(fromDB);
+      if (url != null) {
+        fromDB.setAnswerCoverUrl(url);
+      }
+    }
+  }
+
+  private String saveAnswerCover(final Quanda fromDB) {
+    final ObjectStoreClient osc = new ObjectStoreClient();
+    try {
+      return osc.saveAnswerCover(fromDB);
     } catch (Exception e) {
       LOG.warn(super.stackTraceToString(e));
     }
