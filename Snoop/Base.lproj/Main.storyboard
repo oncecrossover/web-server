@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MT6-4y-LwK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MT6-4y-LwK">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -285,7 +284,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="610"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <activityIndicatorView key="tableFooterView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" id="YSd-Dt-Nsc">
-                                    <rect key="frame" x="0.0" y="222" width="375" height="20"/>
+                                    <rect key="frame" x="0.0" y="158" width="375" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </activityIndicatorView>
                                 <prototypes>
@@ -991,10 +990,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3YD-rZ-LzA">
-                                <rect key="frame" x="0.0" y="602" width="375" height="45"/>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3YD-rZ-LzA">
+                                <rect key="frame" x="0.0" y="627" width="375" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="WL3-sk-N9x"/>
+                                    <constraint firstAttribute="height" constant="40" id="WL3-sk-N9x"/>
                                 </constraints>
                                 <state key="normal" image="submit"/>
                                 <connections>
@@ -1002,16 +1001,13 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="t3W-Vw-Xc1">
-                                <rect key="frame" x="0.0" y="54" width="375" height="450"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="450" id="cT6-xJ-1wl"/>
-                                </constraints>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="539"/>
                             </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="d7G-ct-oBp">
-                                <rect key="frame" x="0.0" y="502" width="375" height="100"/>
+                                <rect key="frame" x="0.0" y="537" width="375" height="90"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="bS8-s4-ZLJ"/>
+                                    <constraint firstAttribute="height" constant="90" id="bS8-s4-ZLJ"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="0.0" id="6nP-Up-iDT">
                                     <size key="itemSize" width="50" height="100"/>
@@ -1021,7 +1017,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="coverFrameCell" id="CKd-do-jo6" customClass="CoverFrameCollectionViewCell" customModule="Snoop" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="100"/>
+                                        <rect key="frame" x="0.0" y="-5" width="50" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="100"/>
@@ -1052,17 +1048,6 @@
                                     <outlet property="delegate" destination="OGe-uO-fVD" id="hGO-CE-hAS"/>
                                 </connections>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ydd-3y-vIY">
-                                <rect key="frame" x="16" y="22" width="55" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="d2p-cL-MBk"/>
-                                    <constraint firstAttribute="width" constant="55" id="ffK-Dd-KbS"/>
-                                </constraints>
-                                <state key="normal" title="Back"/>
-                                <connections>
-                                    <action selector="backButtonTapped:" destination="OGe-uO-fVD" eventType="touchUpInside" id="vAP-IS-8Jc"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1074,9 +1059,8 @@
                             <constraint firstItem="d7G-ct-oBp" firstAttribute="trailing" secondItem="3YD-rZ-LzA" secondAttribute="trailing" id="HaP-G0-q3g"/>
                             <constraint firstAttribute="trailingMargin" secondItem="3YD-rZ-LzA" secondAttribute="trailing" constant="-16" id="NAj-PG-PzF"/>
                             <constraint firstItem="3YD-rZ-LzA" firstAttribute="top" secondItem="d7G-ct-oBp" secondAttribute="bottom" id="QTT-nH-fnq"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="ydd-3y-vIY" secondAttribute="leading" id="YdE-ve-oe0"/>
-                            <constraint firstItem="Jvp-NY-J1R" firstAttribute="top" secondItem="3YD-rZ-LzA" secondAttribute="bottom" constant="20" id="fM0-Sm-ucQ"/>
-                            <constraint firstItem="ydd-3y-vIY" firstAttribute="top" secondItem="SVL-Kc-vdw" secondAttribute="bottom" constant="2" id="skA-Zg-PZg"/>
+                            <constraint firstItem="Jvp-NY-J1R" firstAttribute="top" secondItem="3YD-rZ-LzA" secondAttribute="bottom" id="fM0-Sm-ucQ"/>
+                            <constraint firstItem="t3W-Vw-Xc1" firstAttribute="top" secondItem="SVL-Kc-vdw" secondAttribute="bottom" constant="-20" id="iro-Zf-A0i"/>
                         </constraints>
                     </view>
                     <connections>
@@ -2673,7 +2657,7 @@
         <image name="send" width="40" height="40"/>
         <image name="sendEmailDisabled" width="280" height="55"/>
         <image name="speak" width="77" height="77"/>
-        <image name="submit" width="288" height="40"/>
+        <image name="submit" width="375" height="40"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="KRu-3m-3Wk"/>
