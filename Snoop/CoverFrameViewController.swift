@@ -36,15 +36,15 @@ extension CoverFrameViewController {
     super.viewDidLoad()
 
     // Creating left bar
-    let navbar = UINavigationBar(frame: CGRectMake(0, 20,
-      UIScreen.mainScreen().bounds.size.width,40));
+    let navbar = UINavigationBar(frame: CGRectMake(0, 0,
+      UIScreen.mainScreen().bounds.size.width, 60));
     navbar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
     navbar.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
     navbar.titleTextAttributes = [ NSForegroundColorAttributeName:UIColor.whiteColor()]
     self.view.addSubview(navbar)
 
     let navItem = UINavigationItem(title: "Pick a Cover")
-    let navBarbutton = UIBarButtonItem(title: "<Back", style: UIBarButtonItemStyle.Done, target: self, action: #selector(CoverFrameViewController.back(_:)))
+    let navBarbutton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Done, target: self, action: #selector(CoverFrameViewController.back(_:)))
     navBarbutton.tintColor = UIColor.whiteColor()
     navItem.leftBarButtonItem = navBarbutton
 
@@ -80,7 +80,18 @@ extension CoverFrameViewController {
 extension CoverFrameViewController {
 
   func back(sender: AnyObject) {
-    self.dismissViewControllerAnimated(true, completion: nil)
+    let myAlert = UIAlertController(title: "Warning", message: "recorded video will be discarded", preferredStyle: UIAlertControllerStyle.Alert)
+
+    let okAction = UIAlertAction(title: "Back", style: UIAlertActionStyle.Destructive) { action in
+      self.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+
+    myAlert.addAction(cancelAction)
+    myAlert.addAction(okAction)
+
+    self.presentViewController(myAlert, animated: true, completion: nil)
   }
 
   @IBAction func submitButtonTapped(sender: AnyObject) {
@@ -115,8 +126,8 @@ extension CoverFrameViewController {
 private extension CoverFrameViewController {
 
   func highlight(cell: UICollectionViewCell) {
-    cell.layer.borderColor = UIColor.blueColor().CGColor
-    cell.layer.borderWidth = 1
+    cell.layer.borderColor = UIColor(red: 74/255, green: 144/255, blue: 226/255, alpha: 1.0).CGColor
+    cell.layer.borderWidth = 2
   }
 
   func dehighlight(cell: UICollectionViewCell) {

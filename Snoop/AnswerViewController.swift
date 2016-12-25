@@ -121,16 +121,6 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
     return NSURL(fileURLWithPath: path)
   }
 
-  func update() {
-    if(count > 0) {
-      count-=1
-      reminder.text = String(count)
-    }
-    else {
-      stopRecording(recordbutton)
-    }
-  }
-
   @IBAction func record(sender: UIButton) {
     if (UIImagePickerController.isSourceTypeAvailable(.Camera)) {
       let imagePicker = UIImagePickerController()
@@ -173,6 +163,11 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
   }
 
+  func stopRecording(overlayView: CustomOverlayView) {
+    currentImagePicker?.stopVideoCapture()
+    overlayView.reset()
+  }
+
 
   func didCancel(overlayView:CustomOverlayView) {
     if (overlayView.cancelButton.currentTitle == "cancel") {
@@ -180,10 +175,7 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
                                                         completion: nil)
     }
     else {
-      overlayView.isRecording = true
-      currentImagePicker?.startVideoCapture()
-      overlayView.shootButton.setImage(UIImage(named: "recording"), forState: .Normal)
-      overlayView.cancelButton.hidden = true
+      overlayView.prepareToRecord()
     }
   }
 
@@ -203,11 +195,23 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
   }
 
   func didNext(overlayView: CustomOverlayView) {
-    let dvc = storyboard?.instantiateViewControllerWithIdentifier("CoverFrameViewController") as! CoverFrameViewController
-    dvc.quandaId = self.question.id
-    //currentImagePicker?.dismissViewControllerAnimated(true, completion: nil)
-    currentImagePicker?.pushViewController(dvc, animated: true)
-    //self.navigationController?.pushViewController(dvc, animated: true)
+    let fileUrl = getFileUrl()
+    let asset = AVURLAsset(URL: fileUrl, options: nil)
+    let duration = asset.duration.value / 1000
+    if (duration <= 5) {
+      let myAlert = UIAlertController(title: "Video Too Short", message: "Answer needs to be at least 5 seconds long", preferredStyle: UIAlertControllerStyle.Alert)
+
+      let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive, handler: nil)
+
+      myAlert.addAction(okAction)
+
+      currentImagePicker?.presentViewController(myAlert, animated: true, completion: nil)
+    }
+    else {
+      let dvc = storyboard?.instantiateViewControllerWithIdentifier("CoverFrameViewController") as! CoverFrameViewController
+      dvc.quandaId = self.question.id
+      currentImagePicker?.pushViewController(dvc, animated: true)
+    }
   }
 
   func didShoot(overlayView:CustomOverlayView) {
@@ -216,6 +220,7 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
         //start recording answer
         overlayView.isRecording = true
         currentImagePicker?.startVideoCapture()
+        overlayView.startTimer()
         overlayView.shootButton.setImage(UIImage(named: "recording"), forState: .Normal)
         overlayView.cancelButton.hidden = true
       }
@@ -240,13 +245,8 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     else {
       //stop recording
-      overlayView.isRecording = false
       currentImagePicker?.stopVideoCapture()
-      overlayView.cancelButton.hidden = false
-      overlayView.cancelButton.setTitle("retake", forState: .Normal)
-      overlayView.shootButton.setImage(UIImage(named: "triangle"), forState: .Normal)
-      overlayView.backButton.hidden = false
-      overlayView.nextButton.hidden = false
+      overlayView.reset()
     }
   }
 
@@ -271,21 +271,6 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
       }
     }
   }
-
-  func stopRecording(sender: UIButton) {
-    soundRecorder.stop()
-    isRecording = false
-    sender.setImage(UIImage(named: "play"), forState: .Normal)
-    reminder.hidden = true
-    reminder.text = String(60)
-    confirmButton.hidden = false
-    explanation.text = "Recording Done. Click Button To Play"
-    redoButton.hidden = false
-
-    timer.invalidate()
-    count = 60
-  }
-
 
   @IBAction func confirmButtonTapped(sender: AnyObject) {
     let activityIndicator = utilityModule.createCustomActivityIndicator(self.view, text: "Submitting Answer...")
@@ -323,26 +308,4 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
       print(error.localizedDescription)
     }
   }
-
-/*
-  func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
-    self.redoButton.hidden = false
-    self.confirmButton.hidden = false
-  }
-
-
-  func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
-    isPlaying = false
-    playButton.setImage(UIImage(named: "listen"), forState: .Normal)
-
-    // If the answer is not submitted, we need to enable re-recording
-    if (!isSaved) {
-      self.recordbutton.enabled = true
-      self.redoButton.enabled = true
-      self.confirmButton.enabled = true
-      self.recordbutton.setImage(UIImage(named: "play"), forState: .Normal)
-      self.explanation.text = "Recording Done. Click Button To Play"
-    }
-  }
- */
 }
