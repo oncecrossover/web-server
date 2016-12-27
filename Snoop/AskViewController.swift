@@ -34,6 +34,25 @@ class AskViewController: UIViewController, UITextViewDelegate {
     initView()
   }
 
+  override func viewDidAppear(animated: Bool) {
+    super.viewDidAppear(animated)
+
+    let originalImage = UIImage(named: "ask")
+    self.askButton.layoutIfNeeded()
+    let x = self.askButton.frame.size.width * 0.3
+    let y = self.askButton.frame.size.height * 0.3
+    let textColor = UIColor.whiteColor()
+    let textFont = UIFont.systemFontOfSize(18)
+    let textPoint = CGPointMake(x, y)
+    var text = "$\(profileInfo.rate) to ask"
+    if (profileInfo.rate == 0.0) {
+      text = "Free to ask"
+    }
+
+    self.askButton.setImage(utility.addTextToImage(text, inImage: originalImage!, atPoint: textPoint,
+      textColor: textColor, textFont: textFont), forState: .Normal)
+  }
+
   func initView() {
     self.aboutLabel.text = profileInfo.about
     self.aboutLabel.font = self.aboutLabel.font.fontWithSize(12)
@@ -57,20 +76,6 @@ class AskViewController: UIViewController, UITextViewDelegate {
     // Mimic a palceholder for text view
     self.questionView.text = placeholder
     self.questionView.textColor = UIColor.lightGrayColor()
-
-    let originalImage = UIImage(named: "ask")
-    let x = self.askButton.frame.size.width * 0.3
-    let y = self.askButton.frame.size.height * 0.3
-    let textColor = UIColor.whiteColor()
-    let textFont = UIFont.systemFontOfSize(18)
-    let textPoint = CGPointMake(x, y)
-    var text = "$\(profileInfo.rate) to ask"
-    if (profileInfo.rate == 0.0) {
-      text = "Free to ask"
-    }
-
-    self.askButton.setImage(utility.addTextToImage(text, inImage: originalImage!, atPoint: textPoint,
-                                                      textColor: textColor, textFont: textFont), forState: .Normal)
 
     self.scrollView.addGestureRecognizer(UITapGestureRecognizer(target: self,action: #selector(AskViewController.dismissKeyboard(_:))))
   }
