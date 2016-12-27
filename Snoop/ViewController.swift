@@ -8,12 +8,14 @@
 
 import UIKit
 import AVFoundation
+import AVKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, AVAudioPlayerDelegate {
+class ViewController: UIViewController {
 
   var questionModule = Question()
   var userModule = User()
   var generics = Generics()
+  var utilityModule = UIUtility()
 
   var refreshControl: UIRefreshControl = UIRefreshControl()
 
@@ -28,6 +30,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
   var feeds:[FeedsModel] = []
   var tmpFeeds:[FeedsModel] = []
+
+  var fileName = "videoFile.m4a"
+}
+
+// Override functions
+extension ViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -63,6 +71,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       }
     }
   }
+}
+
+// Private function
+extension ViewController {
 
   func refresh(sender:AnyObject) {
     loadData()
@@ -101,7 +113,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
           avatarImage = NSData(base64EncodedString: (feedInfo["responderAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
         }
 
-        self.tmpFeeds.append(FeedsModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime))
+        var coverImage = NSData()
+        if ((feedInfo["answerCover"] as? String) != nil) {
+          coverImage = NSData(base64EncodedString: (feedInfo["answerCover"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+        }
+
+        self.tmpFeeds.append(FeedsModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime, _coverImage: coverImage))
       }
 
       self.feeds = self.tmpFeeds
@@ -115,6 +132,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       }
     }
   }
+
+  func getCacheDirectory() -> String {
+    let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+    return paths[0]
+  }
+
+  func getFileUrl() -> NSURL {
+    let prefix = getCacheDirectory() as NSString
+    let path = prefix.stringByAppendingPathComponent(fileName)
+    return NSURL(fileURLWithPath: path)
+  }
+
+}
+
+// Delegate methods
+extension ViewController : UITableViewDataSource, UITableViewDelegate {
 
   func numberOfSectionsInTableView(tableView: UITableView) -> Int {
     let noDataLabel: UILabel = UILabel(frame: CGRectMake(0, 0, self.feedTable.bounds.size.width,
@@ -145,6 +178,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let myCell = tableView.dequeueReusableCellWithIdentifier("feedCell", forIndexPath: indexPath) as! FeedTableViewCell
     let feedInfo = feeds[indexPath.row]
+    myCell.nameLabel.text = feedInfo.name
 
     if (feedInfo.avatarImage.length > 0) {
       myCell.profileImage.image = UIImage(data: feedInfo.avatarImage)
@@ -168,27 +202,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 
     if (feedInfo.status == "PENDING") {
-      myCell.snoopImage.userInteractionEnabled = false
-      myCell.snoopImage.image = UIImage(named: "pending")
+      myCell.coverImage.userInteractionEnabled = false
+      myCell.coverImage.image = UIImage()
     }
     else {
+      myCell.coverImage.image = UIImage(data: feedInfo.coverImage)
       if (self.paidSnoops.contains(feedInfo.id)) {
-        if (feedInfo.isPlaying == true) {
-          myCell.snoopImage.image = UIImage(named: "stop")
-        }
-        else {
-          myCell.snoopImage.image = UIImage(named: "listen")
-        }
-
-        myCell.snoopImage.userInteractionEnabled = true
-        let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToListen(_:)))
-        myCell.snoopImage.addGestureRecognizer(tappedOnImage)
+        myCell.coverImage.userInteractionEnabled = true
+        let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToWatch(_:)))
+        myCell.coverImage.addGestureRecognizer(tappedOnImage)
       }
       else {
-        myCell.snoopImage.image = UIImage(named: "snoop")
-        myCell.snoopImage.userInteractionEnabled = true
+        myCell.coverImage.userInteractionEnabled = true
         let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnImage(_:)))
-        myCell.snoopImage.addGestureRecognizer(tappedOnImage)
+        myCell.coverImage.addGestureRecognizer(tappedOnImage)
       }
     }
 
@@ -202,6 +229,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     return myCell
   }
+}
+
+// Segue action
+extension ViewController {
 
   func tappedOnProfile(sender:UIGestureRecognizer) {
     let tapLocation = sender.locationInView(self.feedTable)
@@ -216,29 +247,33 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
   }
 
-  func tappedToListen(sender:UIGestureRecognizer) {
+  func tappedToWatch(sender:UIGestureRecognizer) {
     let tapLocation = sender.locationInView(self.feedTable)
 
     //using the tapLocation, we retrieve the corresponding indexPath
     let indexPath = self.feedTable.indexPathForRowAtPoint(tapLocation)!
     let questionInfo = feeds[indexPath.row]
     let questionId = questionInfo.id
-    if (questionInfo.isPlaying == true) {
-      self.soundPlayer.stop()
-      questionInfo.isPlaying = false
-      self.feedTable.reloadData()
-      return
-    }
 
     activeCellIndex = indexPath.row
+    let activityIndicator = utilityModule.createCustomActivityIndicator(self.view, text: "Loading Answer...")
     questionModule.getQuestionAudio(questionId) { audioString in
       if (!audioString.isEmpty) {
         let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
         dispatch_async(dispatch_get_main_queue()) {
-          self.preparePlayer(data)
-          questionInfo.isPlaying = true
-          self.feedTable.reloadData()
-          self.soundPlayer.play()
+          let dataPath = self.getFileUrl()
+          data.writeToURL(dataPath, atomically: false)
+          activityIndicator.hideAnimated(true)
+          let videoAsset = AVAsset(URL: dataPath)
+          let playerItem = AVPlayerItem(asset: videoAsset)
+
+          //Play the video
+          let player = AVPlayer(playerItem: playerItem)
+          let playerViewController = AVPlayerViewController()
+          playerViewController.player = player
+          self.presentViewController(playerViewController, animated: true) {
+            playerViewController.player?.play()
+          }
         }
       }
     }
@@ -271,24 +306,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
   }
 
-
-  func preparePlayer(data: NSData!) {
-    do {
-      soundPlayer = try AVAudioPlayer(data: data)
-      soundPlayer.delegate = self
-      soundPlayer.prepareToPlay()
-      soundPlayer.volume = 1.0
-    } catch let error as NSError {
-      print(error.localizedDescription)
-    }
-  }
-
-  func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
-    feeds[activeCellIndex].isPlaying = false
-    feedTable.reloadData()
-  }
-
   @IBAction func unwindSegueToHome(segue: UIStoryboardSegue) {
   }
 }
+
 

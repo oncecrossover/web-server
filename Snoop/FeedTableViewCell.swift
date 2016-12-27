@@ -15,7 +15,10 @@ class FeedTableViewCell: UITableViewCell {
 
   @IBOutlet weak var titleLabel: UILabel!
 
-  @IBOutlet weak var snoopImage: UIImageView!
+  @IBOutlet weak var coverImage: UIImageView!
+  @IBOutlet weak var nameLabel: UILabel!
+  @IBOutlet weak var playImage: UIImageView!
+  @IBOutlet weak var durationLabel: UILabel!
   @IBOutlet weak var profileImage: UIImageView!
 
   @IBOutlet weak var numOfSnoops: UILabel!
@@ -34,11 +37,20 @@ class FeedTableViewCell: UITableViewCell {
 
 
   func initConfig(){
+    coverImage.layoutIfNeeded()
+    coverImage.layer.cornerRadius = 4
+    coverImage.clipsToBounds = true
 
-    questionLabel.font = questionLabel.font.fontWithSize(16.5)
+    questionLabel.font = questionLabel.font.fontWithSize(13)
 
-    titleLabel.font = titleLabel.font.fontWithSize(14.5)
+    titleLabel.font = titleLabel.font.fontWithSize(10)
     titleLabel.textColor = UIColor.grayColor()
+    titleLabel.numberOfLines = 0
+    playImage.image = UIImage(named: "play")
+    durationLabel.hidden = true
+
+    nameLabel.font = nameLabel.font.fontWithSize(14)
+    numOfSnoops.font = numOfSnoops.font.fontWithSize(11)
   }
 
 }
