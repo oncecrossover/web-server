@@ -21,6 +21,9 @@ public class Question {
   private String responderTitle;
   private String responderAvatarUrl;
   private byte[] responderAvatarImage;
+  private String askerName;
+  private String askerAvatarUrl;
+  private byte[] askerAvatarImage;
 
   public Long getId() {
     return id;
@@ -137,6 +140,30 @@ public class Question {
   public Question setResponderAvatarImage(final byte[] responderAvatarImage) {
     this.responderAvatarImage = responderAvatarImage;
     return this;
+  }
+
+  public String getAskerName() {
+    return askerName;
+  }
+
+  public void setAskerName(String askerName) {
+    this.askerName = askerName;
+  }
+
+  public String getAskerAvatarUrl() {
+    return askerAvatarUrl;
+  }
+
+  public void setAskerAvatarUrl(String askerAvatarUrl) {
+    this.askerAvatarUrl = askerAvatarUrl;
+  }
+
+  public byte[] getAskerAvatarImage() {
+    return askerAvatarImage;
+  }
+
+  public void setAskerAvatarImage(byte[] askerAvatarImage) {
+    this.askerAvatarImage = askerAvatarImage;
   }
 
   @Override

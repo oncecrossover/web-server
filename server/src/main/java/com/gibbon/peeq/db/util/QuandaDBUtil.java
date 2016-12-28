@@ -193,7 +193,9 @@ public class QuandaDBUtil {
            .addScalar("answerCoverUrl", new StringType())
            .addScalar("responderName", new StringType())
            .addScalar("responderTitle", new StringType())
-           .addScalar("responderAvatarUrl", new StringType());
+           .addScalar("responderAvatarUrl", new StringType())
+           .addScalar("askerName", new StringType())
+           .addScalar("askerAvatarUrl", new StringType());
       list = query.list();
 
       if (txn != null) {
@@ -322,9 +324,11 @@ public class QuandaDBUtil {
     final String select =
         "SELECT Q.id, Q.question, Q.status, Q.rate, Q.createdTime,"
         + " Q.updatedTime, Q.answerCoverUrl, P.fullName AS responderName,"
-        + " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl"
+        + " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl,"
+        + " P2.fullName AS askerName, P2.avatarUrl AS askerAvatarUrl"
         + " FROM Quanda AS Q"
-        + " INNER JOIN Profile AS P ON Q.responder = P.uid";
+        + " INNER JOIN Profile AS P ON Q.responder = P.uid"
+        + " INNER JOIN Profile AS P2 ON Q.asker = P2.uid ";
 
     List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
