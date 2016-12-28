@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import AVKit
 
 class ActivityViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, AVAudioPlayerDelegate {
 
@@ -22,7 +23,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   var soundPlayer: AVAudioPlayer!
   var activeCell: (Bool!, Int!)!
 
-  var questions:[QuestionModel] = []
+  var questions:[ActivityModel] = []
 
   var answers:[AnswerModel] = []
 
@@ -34,7 +35,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     super.viewDidLoad()
 
     activityTableView.rowHeight = UITableViewAutomaticDimension
-    activityTableView.estimatedRowHeight = 130
+    activityTableView.estimatedRowHeight = 230
 
     refreshControl.addTarget(self, action: #selector(ActivityViewController.refresh(_:)), forControlEvents: .ValueChanged)
     activityTableView.addSubview(refreshControl)
@@ -47,27 +48,9 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   override func viewWillDisappear(animated: Bool) {
     super.viewWillDisappear(animated)
-    stopPlayer()
-  }
-
-  func stopPlayer() {
-    if (self.soundPlayer != nil) {
-      if (self.soundPlayer.playing) {
-        self.soundPlayer.stop()
-        if (self.activeCell != nil) {
-          if (self.activeCell.0!) {
-            snoops[self.activeCell.1].isPlaying = false
-          }
-          else {
-            questions[self.activeCell.1].isPlaying = false
-          }
-        }
-      }
-    }
   }
 
   @IBAction func segmentedControlClicked(sender: AnyObject) {
-    stopPlayer()
     loadData()
   }
 
@@ -92,7 +75,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   func loadDataWithFilter(filterString: String) {
     var isQuestion = true
-    var tmpQuestions:[QuestionModel] = []
+    var tmpQuestions:[ActivityModel] = []
     var tmpAnswers:[AnswerModel] = []
 
     if (filterString.containsString("responder")) {
@@ -120,14 +103,26 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
         let hoursToExpire = questionInfo["hoursToExpire"] as! Int
 
         if (self.segmentedControl.selectedSegmentIndex == 0) {
-          var avatarImage = NSData()
+          var responderImage = NSData()
           if ((questionInfo["responderAvatarImage"] as? String) != nil) {
-            avatarImage = NSData(base64EncodedString: (questionInfo["responderAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+            responderImage = NSData(base64EncodedString: (questionInfo["responderAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
           }
 
-          let name = questionInfo["responderName"] as! String
-          let title = questionInfo["responderTitle"] as! String
-          tmpQuestions.append(QuestionModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: status, _isPlaying: false, _rate: rate, _hoursToExpire: hoursToExpire))
+          let responderName = questionInfo["responderName"] as! String
+          let responderTitle = questionInfo["responderTitle"] as! String
+
+          var askerImage = NSData()
+          if ((questionInfo["askerAvatarImage"] as? String) != nil) {
+            askerImage = NSData(base64EncodedString: (questionInfo["askerAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+          }
+
+          var coverImage = NSData()
+          if ((questionInfo["answerCover"] as? String) != nil) {
+            coverImage = NSData(base64EncodedString: (questionInfo["answerCover"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+          }
+
+          let askerName = questionInfo["askerName"] as! String
+          tmpQuestions.append(ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _answerCover: coverImage, _askerName: askerName, _askerImage: askerImage, _responderName: responderName, _responderTitle: responderTitle, _responderImage: responderImage))
 
         }
         else if (self.segmentedControl.selectedSegmentIndex == 1) {
@@ -287,63 +282,62 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
     //using the tapLocation, we retrieve the corresponding indexPath
     let indexPath = self.activityTableView.indexPathForRowAtPoint(tapLocation)!
-    var questionInfo:QuandaModel
+    var questionInfo:ActivityModel
 
-    var isSnoop = false
-    if (segmentedControl.selectedSegmentIndex == 0) {
-      questionInfo = questions[indexPath.row]
-    }
-    else {
-      questionInfo = snoops[indexPath.row]
-      isSnoop = true
-    }
+    questionInfo = questions[indexPath.row]
 
-    self.activeCell = (isSnoop, indexPath.row)
-
-    if (questionInfo.isPlaying!) {
-      stopPlayer()
-      self.activityTableView.reloadData()
-      return
-    }
-
-    if (isSnoop) {
-      snoops[self.activeCell.1].isPlaying = true
-    }
-    else {
-      questions[self.activeCell.1].isPlaying = true
-    }
-
-    self.activityTableView.reloadData()
 
     let questionId = questionInfo.id
-    if (utility.isInCache(questionId)) {
-      let pathUrl = self.utility.getFileUrl("audio\(questionId)" + ".m4a")
+    let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Loading Answer...")
+    questionModule.getQuestionAudio(questionId) { audioString in
+      if (!audioString.isEmpty) {
+        let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
+        dispatch_async(dispatch_get_main_queue()) {
+          let dataPath = self.utility.getFileUrl("videoFile.m4a")
+          data.writeToURL(dataPath, atomically: false)
+          activityIndicator.hideAnimated(true)
+          let videoAsset = AVAsset(URL: dataPath)
+          let playerItem = AVPlayerItem(asset: videoAsset)
 
-      self.preparePlayer(NSData(contentsOfURL: pathUrl)!)
-      self.soundPlayer.play()
-    }
-    else {
-      questionModule.getQuestionAudio(questionId) { audioString in
-        if (!audioString.isEmpty) {
-          let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
-          dispatch_async(dispatch_get_main_queue()) {
-            self.preparePlayer(data)
-            self.soundPlayer.play()
-          }
-          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-            let pathUrl = self.utility.getFileUrl("audio\(questionId)" + ".m4a")
-            do {
-              try data.writeToURL(pathUrl, options: .DataWritingAtomic)
-              NSUserDefaults.standardUserDefaults().setBool(true, forKey: String(questionId))
-              NSUserDefaults.standardUserDefaults().synchronize()
-            }
-            catch let error as NSError {
-              print(error.localizedDescription)
-            }
+          //Play the video
+          let player = AVPlayer(playerItem: playerItem)
+          let playerViewController = AVPlayerViewController()
+          playerViewController.player = player
+          self.presentViewController(playerViewController, animated: true) {
+            playerViewController.player?.play()
           }
         }
       }
     }
+
+//    if (utility.isInCache(questionId)) {
+//      let pathUrl = self.utility.getFileUrl("audio\(questionId)" + ".m4a")
+//
+//      self.preparePlayer(NSData(contentsOfURL: pathUrl)!)
+//      self.soundPlayer.play()
+//    }
+//    else {
+//      questionModule.getQuestionAudio(questionId) { audioString in
+//        if (!audioString.isEmpty) {
+//          let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
+//          dispatch_async(dispatch_get_main_queue()) {
+//            self.preparePlayer(data)
+//            self.soundPlayer.play()
+//          }
+//          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+//            let pathUrl = self.utility.getFileUrl("audio\(questionId)" + ".m4a")
+//            do {
+//              try data.writeToURL(pathUrl, options: .DataWritingAtomic)
+//              NSUserDefaults.standardUserDefaults().setBool(true, forKey: String(questionId))
+//              NSUserDefaults.standardUserDefaults().synchronize()
+//            }
+//            catch let error as NSError {
+//              print(error.localizedDescription)
+//            }
+//          }
+//        }
+//      }
+//    }
   }
 
   func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -373,67 +367,46 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     if (segmentedControl.selectedSegmentIndex == 0 || segmentedControl.selectedSegmentIndex == 2) {
-      let myCell = tableView.dequeueReusableCellWithIdentifier("questionCell", forIndexPath: indexPath)
-        as! QuestionTableViewCell
+      let myCell = tableView.dequeueReusableCellWithIdentifier("activityCell", forIndexPath: indexPath)
+        as! ActivityTableViewCell
 
-      var cellInfo: QuandaModel
-      if (segmentedControl.selectedSegmentIndex == 2) {
-        cellInfo = snoops[indexPath.row]
-        myCell.rateLabel.hidden = true
+      let cellInfo = questions[indexPath.row]
+      myCell.rateLabel.text = "$ \(cellInfo.rate)"
+
+      myCell.question.text = cellInfo.question
+
+      myCell.responderName.text = cellInfo.responderName
+
+      if (!cellInfo.responderTitle.isEmpty) {
+        myCell.responderTitle.text = cellInfo.responderTitle
+      }
+
+      if (cellInfo.responderImage.length > 0) {
+        myCell.responderImage.image = UIImage(data: cellInfo.responderImage)
       }
       else {
-        cellInfo = questions[indexPath.row]
-        myCell.rateLabel.text = "$\(cellInfo.rate)"
-        myCell.rateLabel.hidden = false
-      }
-
-      myCell.questionText.text = cellInfo.question
-
-      if (cellInfo.title.isEmpty) {
-        myCell.titleLabel.text = cellInfo.name
-      }
-      else {
-        myCell.titleLabel.text = "\(cellInfo.name)" + " | "  + "\(cellInfo.title)"
-      }
-
-      if (cellInfo.avatarImage.length > 0) {
-        myCell.profileImage.image = UIImage(data: cellInfo.avatarImage)
-      }
-      else {
-        myCell.profileImage.image = UIImage(named: "default")
+        myCell.responderImage.image = UIImage(named: "default")
       }
 
       if (cellInfo.status == "PENDING") {
-        var expireText = "Expires In \(cellInfo.hoursToExpire) Hours"
-        if (cellInfo.hoursToExpire == 1) {
-          expireText = "Expires In 1 Hour"
-        }
-        myCell.listenImage.layoutIfNeeded()
-        let x = myCell.listenImage.frame.size.width * 0.3
-        let y = myCell.listenImage.frame.size.height * 0.3
-        let textColor = UIColor(red: 21/255, green: 196/255, blue: 70/255, alpha: 1.0)
-        let textFont = UIFont.systemFontOfSize(16)
-        let textPoint = CGPointMake(x, y)
-        let originalImage = UIImage(named: "pending")
-        myCell.listenImage.image = utility.addTextToImage(expireText, inImage: originalImage!, atPoint: textPoint,
-                                                          textColor: textColor, textFont: textFont)
-        myCell.listenImage.userInteractionEnabled = false
+        myCell.coverImage.image = UIImage()
+        myCell.coverImage.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1.0)
       }
-      else if (cellInfo.status == "EXPIRED") {
-        myCell.listenImage.image = UIImage(named: "expired")
-        myCell.listenImage.userInteractionEnabled = false
+      else if (cellInfo.status == "ANSWERED") {
+        myCell.coverImage.image = UIImage(data: cellInfo.answerCover)
+
+        myCell.coverImage.userInteractionEnabled = true
+        let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnImage(_:)))
+        myCell.coverImage.addGestureRecognizer(tappedOnImage)
+      }
+
+      myCell.askerName.text = cellInfo.askerName + ":"
+
+      if (cellInfo.askerImage.length > 0) {
+        myCell.askerImage.image = UIImage(data: cellInfo.askerImage)
       }
       else {
-        if (cellInfo.isPlaying!) {
-          myCell.listenImage.image = UIImage(named: "stop")
-        }
-        else {
-          myCell.listenImage.image = UIImage(named: "listen")
-        }
-
-        myCell.listenImage.userInteractionEnabled = true
-        let tappedOnButton = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnImage(_:)))
-        myCell.listenImage.addGestureRecognizer(tappedOnButton)
+        myCell.askerImage.image = UIImage(named: "default")
       }
 
       return myCell
@@ -486,25 +459,4 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     
   }
 
-  func preparePlayer(data: NSData!) {
-    do {
-      soundPlayer = try AVAudioPlayer(data: data)
-      soundPlayer.delegate = self
-      soundPlayer.prepareToPlay()
-      soundPlayer.volume = 1.0
-    } catch let error as NSError {
-      print(error.localizedDescription)
-    }
-  }
-
-  func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
-    if (self.activeCell.0!){
-      snoops[self.activeCell.1].isPlaying = false
-    }
-    else {
-      questions[self.activeCell.1].isPlaying = false
-    }
-
-    self.activityTableView.reloadData()
-  }
 }

@@ -34,7 +34,6 @@
 		4A698D451D7BA12D004786B8 /* QuandaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D441D7BA12D004786B8 /* QuandaModel.swift */; };
 		4A698D471D7BA334004786B8 /* SnoopModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D461D7BA334004786B8 /* SnoopModel.swift */; };
 		4A698D491D7CCDFB004786B8 /* AnswerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D481D7CCDFB004786B8 /* AnswerModel.swift */; };
-		4A698D4B1D7CE568004786B8 /* QuestionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D4A1D7CE568004786B8 /* QuestionModel.swift */; };
 		4A745CBE1D73A5D500797AFC /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A745CBD1D73A5D500797AFC /* ConfirmationViewController.swift */; };
 		4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */; };
 		4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */; };
@@ -55,6 +54,8 @@
 		4AC2837C1CECEE3800A08D35 /* SignupPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC2837B1CECEE3800A08D35 /* SignupPageViewController.swift */; };
 		4AC2837E1CED0E4500A08D35 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC2837D1CED0E4500A08D35 /* LoginViewController.swift */; };
 		4AC9231F1D360A0800C83177 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9231E1D360A0800C83177 /* FeedTableViewCell.swift */; };
+		4ACADE131E1345E000831929 /* ActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACADE121E1345E000831929 /* ActivityTableViewCell.swift */; };
+		4ACADE151E13586C00831929 /* ActivityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACADE141E13586C00831929 /* ActivityModel.swift */; };
 		4AD721A41D8335B600B9E64E /* TutorialViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD721A31D8335B600B9E64E /* TutorialViewControllerUITests.swift */; };
 		4AD8A6A21D63E8AF00757D9D /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD8A6A11D63E8AF00757D9D /* Stripe.framework */; };
 		4AD8A6A41D63E8C600757D9D /* Stripe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4AD8A6A31D63E8C600757D9D /* Stripe.bundle */; };
@@ -109,7 +110,6 @@
 		4A698D441D7BA12D004786B8 /* QuandaModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuandaModel.swift; sourceTree = "<group>"; };
 		4A698D461D7BA334004786B8 /* SnoopModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnoopModel.swift; sourceTree = "<group>"; };
 		4A698D481D7CCDFB004786B8 /* AnswerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerModel.swift; sourceTree = "<group>"; };
-		4A698D4A1D7CE568004786B8 /* QuestionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionModel.swift; sourceTree = "<group>"; };
 		4A745CBD1D73A5D500797AFC /* ConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
 		4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewCell.swift; sourceTree = "<group>"; };
 		4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
@@ -132,6 +132,8 @@
 		4AC2837B1CECEE3800A08D35 /* SignupPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupPageViewController.swift; sourceTree = "<group>"; };
 		4AC2837D1CED0E4500A08D35 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4AC9231E1D360A0800C83177 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
+		4ACADE121E1345E000831929 /* ActivityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityTableViewCell.swift; sourceTree = "<group>"; };
+		4ACADE141E13586C00831929 /* ActivityModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityModel.swift; sourceTree = "<group>"; };
 		4AD721A31D8335B600B9E64E /* TutorialViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewControllerUITests.swift; sourceTree = "<group>"; };
 		4AD8A6A11D63E8AF00757D9D /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Stripe.framework; sourceTree = "<group>"; };
 		4AD8A6A31D63E8C600757D9D /* Stripe.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Stripe.bundle; path = Stripe.framework/Stripe.bundle; sourceTree = "<group>"; };
@@ -201,8 +203,8 @@
 				4A698D441D7BA12D004786B8 /* QuandaModel.swift */,
 				4A698D461D7BA334004786B8 /* SnoopModel.swift */,
 				4A698D481D7CCDFB004786B8 /* AnswerModel.swift */,
-				4A698D4A1D7CE568004786B8 /* QuestionModel.swift */,
 				4ABB89F71D7DEE2C0022DEF2 /* FeedsModel.swift */,
+				4ACADE141E13586C00831929 /* ActivityModel.swift */,
 			);
 			name = ObjectModel;
 			sourceTree = "<group>";
@@ -320,6 +322,7 @@
 				4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */,
 				4AF322731D2C83260043FCE5 /* AnswerTableViewCell.swift */,
 				4AC9231E1D360A0800C83177 /* FeedTableViewCell.swift */,
+				4ACADE121E1345E000831929 /* ActivityTableViewCell.swift */,
 			);
 			name = TableViewCell;
 			sourceTree = "<group>";
@@ -456,6 +459,7 @@
 				4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */,
 				4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */,
 				4AF322761D2DBCB50043FCE5 /* AnswerViewController.swift in Sources */,
+				4ACADE151E13586C00831929 /* ActivityModel.swift in Sources */,
 				4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */,
 				4A0EB0EB1D8276DC00390D06 /* TutorialViewController.swift in Sources */,
 				4A0CE3681D6ECDB10023EC2D /* MBProgressHUD.m in Sources */,
@@ -468,12 +472,12 @@
 				4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */,
 				4AC9231F1D360A0800C83177 /* FeedTableViewCell.swift in Sources */,
 				4A0EB0ED1D8277C700390D06 /* ContentViewController.swift in Sources */,
-				4A698D4B1D7CE568004786B8 /* QuestionModel.swift in Sources */,
 				4A11C05C1D344DF500AEF95D /* RoundCornerButton.swift in Sources */,
 				4A4BB82A1D769BE70085160F /* AbstractModel.swift in Sources */,
 				4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */,
 				4AF3226C1D29DE120043FCE5 /* ActivityViewController.swift in Sources */,
 				4A698D451D7BA12D004786B8 /* QuandaModel.swift in Sources */,
+				4ACADE131E1345E000831929 /* ActivityTableViewCell.swift in Sources */,
 				4AF3226A1D29A1E10043FCE5 /* Question.swift in Sources */,
 				4A3D5D7C1DF0D47E006FE077 /* CustomOverlayViewController.swift in Sources */,
 				4A152F621D59106700FA48E7 /* Generics.swift in Sources */,
