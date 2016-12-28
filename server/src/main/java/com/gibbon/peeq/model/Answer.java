@@ -14,8 +14,11 @@ public class Answer {
   private Date createdTime;
   private String answerCoverUrl;
   private byte[]  answerCover;
+  private String responderName;
+  private String responderTitle;
+  private String responderAvatarUrl;
+  private byte[] responderAvatarImage;
   private String askerName;
-  private String askerTitle;
   private String askerAvatarUrl;
   private byte[] askerAvatarImage;
 
@@ -85,41 +88,64 @@ public class Answer {
   public Long getHoursToExpire() {
     return QuandaUtil.getHoursToExpire(createdTime);
   }
+  public String getResponderName() {
+    return responderName;
+  }
+
+  public Answer setResponderName(final String responderName) {
+    this.responderName = responderName;
+    return this;
+  }
+
+  public String getResponderTitle() {
+    return responderTitle;
+  }
+
+  public Answer setResponderTitle(final String responderTitle) {
+    this.responderTitle = responderTitle;
+    return this;
+  }
+
+  public String getResponderAvatarUrl() {
+    return responderAvatarUrl;
+  }
+
+  public Answer setResponderAvatarUrl(final String responderAvatarUrl) {
+    this.responderAvatarUrl = responderAvatarUrl;
+    return this;
+  }
+
+  public byte[] getResponderAvatarImage() {
+    return responderAvatarImage;
+  }
+
+  public Answer setResponderAvatarImage(final byte[] responderAvatarImage) {
+    this.responderAvatarImage = responderAvatarImage;
+    return this;
+  }
 
   public String getAskerName() {
     return askerName;
   }
 
-  public Answer setAskerName(final String askerName) {
+  public void setAskerName(String askerName) {
     this.askerName = askerName;
-    return this;
-  }
-
-  public String getAskerTitle() {
-    return askerTitle;
-  }
-
-  public Answer setAskerTitle(final String askerTitle) {
-    this.askerTitle = askerTitle;
-    return this;
   }
 
   public String getAskerAvatarUrl() {
     return askerAvatarUrl;
   }
 
-  public Answer setAskerAvatarUrl(final String askerAvatarUrl) {
+  public void setAskerAvatarUrl(String askerAvatarUrl) {
     this.askerAvatarUrl = askerAvatarUrl;
-    return this;
   }
 
   public byte[] getAskerAvatarImage() {
     return askerAvatarImage;
   }
 
-  public Answer setAskerAvatarImage(final byte[] askerAvatarImage) {
+  public void setAskerAvatarImage(byte[] askerAvatarImage) {
     this.askerAvatarImage = askerAvatarImage;
-    return this;
   }
 
   @Override

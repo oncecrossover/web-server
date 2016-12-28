@@ -73,19 +73,27 @@ public class AnswerFilterWebHandler extends AbastractPeeqWebHandler
   private void loadAvatarsAndCoversFromObjectStore(List<Answer> answers)
       throws Exception {
     for (Answer entity : answers) {
-      if (StringUtils.isBlank(entity.getAskerAvatarUrl())) {
-        continue;
-      }
-
       final ObjectStoreClient osc = new ObjectStoreClient();
       byte[] readContent = null;
-      readContent = osc.readAvatarImage(entity.getAskerAvatarUrl());
-      if (readContent != null) {
-        entity.setAskerAvatarImage(readContent);
+      if (!StringUtils.isBlank(entity.getAskerAvatarUrl())) {
+        readContent = osc.readAvatarImage(entity.getAskerAvatarUrl());
+        if (readContent != null) {
+          entity.setAskerAvatarImage(readContent);
+        }
       }
-      readContent = osc.readAnswerCover(entity.getAnswerCoverUrl());
-      if (readContent != null) {
-        entity.setAnswerCover(readContent);
+
+      if (!StringUtils.isBlank(entity.getAnswerCoverUrl())) {
+        readContent = osc.readAnswerCover(entity.getAnswerCoverUrl());
+        if (readContent != null) {
+          entity.setAnswerCover(readContent);
+        }
+      }
+
+      if (!StringUtils.isBlank(entity.getResponderAvatarUrl())) {
+        readContent = osc.readAvatarImage(entity.getResponderAvatarUrl());
+        if (readContent != null) {
+          entity.setResponderAvatarImage(readContent);
+        }
       }
     }
   }

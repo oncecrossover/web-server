@@ -147,8 +147,10 @@ public class QuandaDBUtil {
            .addScalar("rate", new DoubleType())
            .addScalar("createdTime", new TimestampType())
            .addScalar("answerCoverUrl", new StringType())
+           .addScalar("responderName", new StringType())
+           .addScalar("responderTitle", new StringType())
+           .addScalar("responderAvatarUrl", new StringType())
            .addScalar("askerName", new StringType())
-           .addScalar("askerTitle", new StringType())
            .addScalar("askerAvatarUrl", new StringType());
       list = query.list();
 
@@ -269,9 +271,10 @@ public class QuandaDBUtil {
     int limit = SnoopServerConf.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
     final String select = "SELECT Q.id, Q.question, Q.status, Q.rate,"
         + " Q.createdTime, Q.answerCoverUrl, P.fullName AS askerName,"
-        + " P.title AS askerTitle, P.avatarUrl AS askerAvatarUrl"
+        + " P.avatarUrl AS askerAvatarUrl, P2.fullName AS responderName,"
+        + " P2.title AS responderTitle, P2.avatarUrl AS responderAvatarUrl"
         + " FROM Quanda AS Q"
-        + " INNER JOIN Profile AS P ON Q.asker = P.uid";
+        + " INNER JOIN Profile AS P ON Q.asker = P.uid INNER JOIN Profile AS P2 ON Q.responder = P2.uid";
 
     List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {

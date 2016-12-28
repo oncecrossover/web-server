@@ -130,7 +130,7 @@ curl -i -G -X GET http://127.0.0.1:8080/questions -d "asker='kuan'" --data-urlen
 curl -i -X GET "http://127.0.0.1:8080/questions?asker='kuan'&lastSeenUpdatedTime=1474522304000&lastSeenId=3&limit=20"
 
 Example response:
-[{"id":6,"question":"How do you believe in being an entrepreneur?","rate":100.0,"status":"ANSWERED","updatedTime":1472443395000,"responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="}]
+[{"id":6,"question":"How do you believe in being an entrepreneur?","rate":100.0,"status":"ANSWERED","updatedTime":1472443395000, "answerCover": "SDFGSDF2456254GWFQRTG!", "responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==", "askerName":"Jason", "askerAvatarImage": "2G%23FAS="}]
 
 
 RESTFUL APIs OF ANSWERS:
@@ -145,7 +145,7 @@ curl -i -G -X GET http://127.0.0.1:8080/answers/ -d "responder='edmund'" --data-
 curl -i -X GET "http://127.0.0.1:8080/answers?responder='edmund'&lastSeenCreatedTime=1473224175000&lastSeenId=3&limit=20"
 
 Example response:
-[{"id":4,"question":"Are you nervous being an entrepreneur?","rate":300.0,"status":"EXPIRED","createdTime":1472169993000,"askerName":"Xiaobing Zhou","askerTitle":"Software Engineer","askerAvatarUrl":"/users/xiaobingo/avatar","askerAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","hoursToExpire":0}]
+[{"id":4,"question":"Are you nervous being an entrepreneur?","rate":300.0,"status":"EXPIRED","createdTime":1472169993000, "answerCover": "FADY@%$^GAQRGQGT%Q%TY%$T#%G$=", askerName":"Xiaobing Zhou", "askerAvatarUrl":"/users/xiaobingo/avatar","askerAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==", "responderName": "Ben", "responderTitle": "engineer", "responderAvatarUrl": "/users/ben/avatar", "responderAvatarImage": "AGSD3546AGFADFGTQ$%Y@$%Y==",  "hoursToExpire":0}]
 
 
 RESTFUL APIs OF SNOOPS:
@@ -208,7 +208,7 @@ curl -i -G -X GET http://127.0.0.1:8080/newsfeeds/ -d "uid='bowen'" --data-urlen
 curl -i -X GET "http://127.0.0.1:8080/newsfeeds?uid='bowen'&lastSeenUpdatedTime=1474522304000&lastSeenId=3&limit=10"
 
 Example response:
-[{"id":6,"question":"How do you believe in being an entrepreneur?","updatedTime":1472443395000,"responderId":"xiaobingo","responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","snoops":1}]
+[{"id":6,"question":"How do you believe in being an entrepreneur?","updatedTime":1472443395000,"responderId":"xiaobingo","responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","answerCover": "AFD$#QTGAER==","snoops":1}]
 
 
 RESTFUL APIs OF TEMP PASSWORD:
