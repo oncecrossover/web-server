@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import AVKit
 
-class ActivityViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, AVAudioPlayerDelegate {
+class ActivityViewController: UIViewController {
 
   @IBOutlet weak var activityTableView: UITableView!
   @IBOutlet weak var segmentedControl: UISegmentedControl!
@@ -20,17 +20,17 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   var utility = UIUtility()
   var generics = Generics()
 
-  var soundPlayer: AVAudioPlayer!
-  var activeCell: (Bool!, Int!)!
-
   var questions:[ActivityModel] = []
 
   var answers:[ActivityModel] = []
 
-  var snoops:[SnoopModel] = []
+  var snoops:[ActivityModel] = []
 
   var refreshControl: UIRefreshControl = UIRefreshControl()
+}
 
+// override function
+extension ActivityViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -49,10 +49,18 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   override func viewWillDisappear(animated: Bool) {
     super.viewWillDisappear(animated)
   }
+}
+
+//IB actions
+extension ActivityViewController {
 
   @IBAction func segmentedControlClicked(sender: AnyObject) {
     loadData()
   }
+}
+
+// Private function
+extension ActivityViewController {
 
   func refresh(sender: AnyObject) {
     loadData()
@@ -71,6 +79,44 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       loadSnoops(uid)
     }
 
+  }
+
+  func createActitivyModel(questionInfo: [String:AnyObject], isSnoop: Bool) -> ActivityModel{
+    var questionId = questionInfo["id"] as! Int
+    if (isSnoop) {
+      questionId = questionInfo["quandaId"] as! Int
+    }
+
+    let question = questionInfo["question"] as! String
+    let status = questionInfo["status"] as! String
+    var rate = 0.0
+    if (questionInfo["rate"] != nil) {
+      rate = questionInfo["rate"] as! Double
+    }
+
+    //        let hoursToExpire = questionInfo["hoursToExpire"] as! Int
+
+    var responderImage = NSData()
+    if ((questionInfo["responderAvatarImage"] as? String) != nil) {
+      responderImage = NSData(base64EncodedString: (questionInfo["responderAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+    }
+
+    let responderName = questionInfo["responderName"] as! String
+    let responderTitle = questionInfo["responderTitle"] as! String
+
+    var askerImage = NSData()
+    if ((questionInfo["askerAvatarImage"] as? String) != nil) {
+      askerImage = NSData(base64EncodedString: (questionInfo["askerAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+    }
+
+    var coverImage = NSData()
+    if ((questionInfo["answerCover"] as? String) != nil) {
+      coverImage = NSData(base64EncodedString: (questionInfo["answerCover"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+    }
+
+    let askerName = questionInfo["askerName"] as! String
+
+    return ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _answerCover: coverImage, _askerName: askerName, _askerImage: askerImage, _responderName: responderName, _responderTitle: responderTitle, _responderImage: responderImage)
   }
 
   func loadDataWithFilter(filterString: String) {
@@ -92,41 +138,12 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     activityTableView.backgroundView = nil
     questionModule.getQuestions(filterString, isQuestion: isQuestion) { jsonArray in
       for questionInfo in jsonArray as! [[String:AnyObject]] {
-        let questionId = questionInfo["id"] as! Int
-        let question = questionInfo["question"] as! String
-        let status = questionInfo["status"] as! String
-        var rate = 0.0
-        if (questionInfo["rate"] != nil) {
-          rate = questionInfo["rate"] as! Double
-        }
-
-//        let hoursToExpire = questionInfo["hoursToExpire"] as! Int
-
-        var responderImage = NSData()
-        if ((questionInfo["responderAvatarImage"] as? String) != nil) {
-          responderImage = NSData(base64EncodedString: (questionInfo["responderAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        }
-
-        let responderName = questionInfo["responderName"] as! String
-        let responderTitle = questionInfo["responderTitle"] as! String
-
-        var askerImage = NSData()
-        if ((questionInfo["askerAvatarImage"] as? String) != nil) {
-          askerImage = NSData(base64EncodedString: (questionInfo["askerAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        }
-
-        var coverImage = NSData()
-        if ((questionInfo["answerCover"] as? String) != nil) {
-          coverImage = NSData(base64EncodedString: (questionInfo["answerCover"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        }
-
-        let askerName = questionInfo["askerName"] as! String
-
+        let activity = self.createActitivyModel(questionInfo, isSnoop: false)
         if (self.segmentedControl.selectedSegmentIndex == 0) {
-          tmpQuestions.append(ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _answerCover: coverImage, _askerName: askerName, _askerImage: askerImage, _responderName: responderName, _responderTitle: responderTitle, _responderImage: responderImage))
+          tmpQuestions.append(activity)
         }
         else {
-          tmpAnswers.append(ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _answerCover: coverImage, _askerName: askerName, _askerImage: askerImage, _responderName: responderName, _responderTitle: responderTitle, _responderImage: responderImage))
+          tmpAnswers.append(activity)
         }
       }
 
@@ -148,7 +165,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   }
 
   func loadSnoops(uid: String) {
-    var tmpSnoops:[SnoopModel] = []
+    var tmpSnoops:[ActivityModel] = []
     let indicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 40, 40))
     indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
     indicator.center = self.view.center
@@ -158,23 +175,9 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     indicator.backgroundColor = UIColor.whiteColor()
     activityTableView.backgroundView = nil
     questionModule.getSnoops(uid) { jsonArray in
-      for snoop in jsonArray as! [[String:AnyObject]] {
-        let questionId = snoop["quandaId"] as! Int
-        let question = snoop["question"] as! String
-
-        var avatarImage = NSData()
-        if ((snoop["responderAvatarImage"] as? String) != nil) {
-          avatarImage = NSData(base64EncodedString: (snoop["responderAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        }
-
-        let name = snoop["responderName"] as! String
-        var title = ""
-        if ((snoop["responderTitle"] as? String) != nil) {
-          title = snoop["responderTitle"] as! String
-        }
-
-        let snoopModel = SnoopModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: "ANSWERED", _isPlaying: false)
-        tmpSnoops.append(snoopModel)
+      for questionInfo in jsonArray as! [[String:AnyObject]] {
+        let activity = self.createActitivyModel(questionInfo, isSnoop: true)
+        tmpSnoops.append(activity)
       }
 
       dispatch_async(dispatch_get_main_queue()) {
@@ -187,6 +190,11 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       }
     }
   }
+
+}
+
+// delegate
+extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if (segmentedControl.selectedSegmentIndex == 0) {
@@ -259,6 +267,101 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
     return 0
   }
 
+  func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    if (segmentedControl.selectedSegmentIndex == 0 && questions[indexPath.row].status == "EXPIRED") {
+      return true
+    }
+    return false
+  }
+
+  func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    if (segmentedControl.selectedSegmentIndex == 0) {
+      if (editingStyle == .Delete) {
+        let quandaId = questions[indexPath.row].id
+        questions.removeAtIndex(indexPath.row)
+        let jsonData = ["active" : "FALSE"]
+        let url = NSURL(string: "http://localhost:8080/quandas/" + "\(quandaId)")!
+        generics.updateObject(url, jsonData: jsonData) { result in
+          if (result.isEmpty) {
+            dispatch_async(dispatch_get_main_queue()) {
+              self.activityTableView.reloadData()
+            }
+          }
+        }
+      }
+    }
+  }
+
+  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    let myCell = tableView.dequeueReusableCellWithIdentifier("activityCell", forIndexPath: indexPath)
+      as! ActivityTableViewCell
+
+    let cellInfo: ActivityModel
+    if (segmentedControl.selectedSegmentIndex == 0) {
+      cellInfo = questions[indexPath.row]
+    }
+    else if (segmentedControl.selectedSegmentIndex == 1){
+      cellInfo = answers[indexPath.row]
+    }
+    else {
+      cellInfo = snoops[indexPath.row]
+    }
+
+    myCell.rateLabel.text = "$ \(cellInfo.rate)"
+
+    myCell.question.text = cellInfo.question
+
+    myCell.responderName.text = cellInfo.responderName
+
+    if (!cellInfo.responderTitle.isEmpty) {
+      myCell.responderTitle.text = cellInfo.responderTitle
+    }
+
+    if (cellInfo.responderImage.length > 0) {
+      myCell.responderImage.image = UIImage(data: cellInfo.responderImage)
+    }
+    else {
+      myCell.responderImage.image = UIImage(named: "default")
+    }
+
+    if (cellInfo.status == "PENDING") {
+      myCell.coverImage.image = UIImage()
+      myCell.coverImage.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1.0)
+    }
+    else if (cellInfo.status == "ANSWERED") {
+      myCell.coverImage.image = UIImage(data: cellInfo.answerCover)
+
+      myCell.coverImage.userInteractionEnabled = true
+      let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnImage(_:)))
+      myCell.coverImage.addGestureRecognizer(tappedOnImage)
+    }
+
+    myCell.askerName.text = cellInfo.askerName + ":"
+
+    if (cellInfo.askerImage.length > 0) {
+      myCell.askerImage.image = UIImage(data: cellInfo.askerImage)
+    }
+    else {
+      myCell.askerImage.image = UIImage(named: "default")
+    }
+
+    return myCell
+  }
+
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    if (segmentedControl.selectedSegmentIndex == 1) {
+      let cell = answers[indexPath.row]
+      if (cell.status == "PENDING") {
+        self.performSegueWithIdentifier("segueFromActivityToAnswer", sender: indexPath)
+      }
+    }
+  }
+
+}
+
+// UI triggered actions
+extension ActivityViewController {
+
   func tappedOnHomeButton(sender: UIGestureRecognizer) {
     self.tabBarController?.selectedIndex = 0
   }
@@ -272,10 +375,17 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
     //using the tapLocation, we retrieve the corresponding indexPath
     let indexPath = self.activityTableView.indexPathForRowAtPoint(tapLocation)!
-    var questionInfo:ActivityModel
+    let questionInfo:ActivityModel
 
-    questionInfo = questions[indexPath.row]
-
+    if (segmentedControl.selectedSegmentIndex == 0) {
+      questionInfo = questions[indexPath.row]
+    }
+    else if (segmentedControl.selectedSegmentIndex == 1) {
+      questionInfo = answers[indexPath.row]
+    }
+    else {
+      questionInfo = snoops[indexPath.row]
+    }
 
     let questionId = questionInfo.id
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Loading Answer...")
@@ -330,93 +440,6 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 //    }
   }
 
-  func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-    if (segmentedControl.selectedSegmentIndex == 0 && questions[indexPath.row].status == "EXPIRED") {
-      return true
-    }
-    return false
-  }
-
-  func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-    if (segmentedControl.selectedSegmentIndex == 0) {
-      if (editingStyle == .Delete) {
-        let quandaId = questions[indexPath.row].id
-        questions.removeAtIndex(indexPath.row)
-        let jsonData = ["active" : "FALSE"]
-        let url = NSURL(string: "http://localhost:8080/quandas/" + "\(quandaId)")!
-        generics.updateObject(url, jsonData: jsonData) { result in
-          if (result.isEmpty) {
-            dispatch_async(dispatch_get_main_queue()) {
-              self.activityTableView.reloadData()
-            }
-          }
-        }
-      }
-    }
-  }
-
-  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let myCell = tableView.dequeueReusableCellWithIdentifier("activityCell", forIndexPath: indexPath)
-      as! ActivityTableViewCell
-
-    let cellInfo: ActivityModel
-    if (segmentedControl.selectedSegmentIndex == 0) {
-      cellInfo = questions[indexPath.row]
-    }
-    else {
-      cellInfo = answers[indexPath.row]
-    }
-
-    myCell.rateLabel.text = "$ \(cellInfo.rate)"
-
-    myCell.question.text = cellInfo.question
-
-    myCell.responderName.text = cellInfo.responderName
-
-    if (!cellInfo.responderTitle.isEmpty) {
-      myCell.responderTitle.text = cellInfo.responderTitle
-    }
-
-    if (cellInfo.responderImage.length > 0) {
-      myCell.responderImage.image = UIImage(data: cellInfo.responderImage)
-    }
-    else {
-      myCell.responderImage.image = UIImage(named: "default")
-    }
-
-    if (cellInfo.status == "PENDING") {
-      myCell.coverImage.image = UIImage()
-      myCell.coverImage.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1.0)
-    }
-    else if (cellInfo.status == "ANSWERED") {
-      myCell.coverImage.image = UIImage(data: cellInfo.answerCover)
-
-      myCell.coverImage.userInteractionEnabled = true
-      let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnImage(_:)))
-      myCell.coverImage.addGestureRecognizer(tappedOnImage)
-    }
-
-    myCell.askerName.text = cellInfo.askerName + ":"
-
-    if (cellInfo.askerImage.length > 0) {
-      myCell.askerImage.image = UIImage(data: cellInfo.askerImage)
-    }
-    else {
-      myCell.askerImage.image = UIImage(named: "default")
-    }
-
-    return myCell
-  }
-
-  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    if (segmentedControl.selectedSegmentIndex == 1) {
-      let cell = answers[indexPath.row]
-      if (cell.status == "PENDING") {
-        self.performSegueWithIdentifier("segueFromActivityToAnswer", sender: indexPath)
-      }
-    }
-  }
-
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if (segue.identifier == "segueFromActivityToAnswer") {
       let indexPath = sender as! NSIndexPath
@@ -424,7 +447,5 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       let questionInfo = answers[indexPath.row]
       dvc.cellInfo = questionInfo
     }
-    
   }
-
 }
