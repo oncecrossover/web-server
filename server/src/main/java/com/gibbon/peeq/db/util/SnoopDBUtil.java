@@ -61,7 +61,9 @@ public class SnoopDBUtil {
            .addScalar("responderName", new StringType())
            .addScalar("responderTitle", new StringType())
            .addScalar("responderAvatarUrl", new StringType())
-           .addScalar("createdTime", new TimestampType());
+           .addScalar("createdTime", new TimestampType())
+           .addScalar("askerName", new StringType())
+           .addScalar("askerAvatarUrl", new StringType());
       list = query.list();
 
       if (txn != null) {
@@ -87,10 +89,10 @@ public class SnoopDBUtil {
     String select = "SELECT S.id, S.createdTime,"
         + " Q.id AS quandaId, Q.question, Q.status, Q.rate, Q.answerCoverUrl,"
         + " P.fullName AS responderName, P.title AS responderTitle,"
-        + " P.avatarUrl AS responderAvatarUrl"
+        + " P.avatarUrl AS responderAvatarUrl, P2.fullName AS askerName, P2.avatarUrl AS askerAvatarUrl"
         + " FROM Snoop AS S INNER JOIN"
         + " Quanda AS Q ON S.quandaId = Q.id INNER JOIN Profile AS P"
-        + " ON Q.responder = P.uid";
+        + " ON Q.responder = P.uid INNER JOIN Profile AS P2 on Q.asker = P2.uid";
 
     List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {

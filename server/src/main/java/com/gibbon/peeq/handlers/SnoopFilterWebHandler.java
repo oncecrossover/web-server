@@ -77,20 +77,27 @@ public class SnoopFilterWebHandler extends AbastractPeeqWebHandler
   private void loadAvatarsAndCoversFromObjectStore(List<Snoop> snoops)
       throws Exception {
     for (Snoop entity : snoops) {
-      if (StringUtils.isBlank(entity.getResponderAvatarUrl())) {
-        continue;
-      }
-
       final ObjectStoreClient osc = new ObjectStoreClient();
       byte[] readContent = null;
-      readContent = osc.readAvatarImage(entity.getResponderAvatarUrl());
-      if (readContent != null) {
-        entity.setResponderAvatarImage(readContent);
+      if (!StringUtils.isBlank(entity.getResponderAvatarUrl())) {
+        readContent = osc.readAvatarImage(entity.getResponderAvatarUrl());
+        if (readContent != null) {
+          entity.setResponderAvatarImage(readContent);
+        }
       }
-      readContent = osc.readAnswerCover(entity.getAnswerCoverUrl());
-      if (readContent != null) {
-        entity.setAnswerCover(readContent);
+      if (!StringUtils.isBlank(entity.getAnswerCoverUrl())) {
+        readContent = osc.readAnswerCover(entity.getAnswerCoverUrl());
+        if (readContent != null) {
+          entity.setAnswerCover(readContent);
+        }
       }
+      if (!StringUtils.isBlank(entity.getAskerAvatarUrl())) {
+        readContent = osc.readAvatarImage(entity.getAskerAvatarUrl());
+        if (readContent != null) {
+          entity.setAskerAvatarImage(readContent);
+        }
+      }
+
     }
   }
 }

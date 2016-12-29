@@ -17,11 +17,14 @@ public class Snoop {
   private String status;
   private Double rate;
   private String answerCoverUrl;
-  private byte[]  answerCover;
+  private byte[] answerCover;
   private String responderName;
   private String responderTitle;
   private String responderAvatarUrl;
   private byte[] responderAvatarImage;
+  private String askerName;
+  private String askerAvatarUrl;
+  private byte[] askerAvatarImage;
 
   public Long getId() {
     return id;
@@ -138,6 +141,29 @@ public class Snoop {
   public Snoop setResponderAvatarImage(final byte[] responderAvatarImage) {
     this.responderAvatarImage = responderAvatarImage;
     return this;
+  }
+  public String getAskerName() {
+    return askerName;
+  }
+
+  public void setAskerName(String askerName) {
+    this.askerName = askerName;
+  }
+
+  public String getAskerAvatarUrl() {
+    return askerAvatarUrl;
+  }
+
+  public void setAskerAvatarUrl(String askerAvatarUrl) {
+    this.askerAvatarUrl = askerAvatarUrl;
+  }
+
+  public byte[] getAskerAvatarImage() {
+    return askerAvatarImage;
+  }
+
+  public void setAskerAvatarImage(byte[] askerAvatarImage) {
+    this.askerAvatarImage = askerAvatarImage;
   }
 
   public static Snoop newSnoop(final byte[] json)
