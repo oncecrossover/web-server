@@ -291,6 +291,11 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       needUpdate = true;
     }
 
+    if (fromJson.getDuration() > 0) {
+      fromDB.setDuration(fromJson.getDuration());
+      needUpdate = true;
+    }
+
     if (needUpdate) {
       session.update(fromDB);
     }

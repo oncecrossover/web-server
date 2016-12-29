@@ -16,6 +16,7 @@ public class Question {
   private Date updatedTime;
   private String answerCoverUrl;
   private byte[]  answerCover;
+  private int duration;
   private Long hoursToExpire;
   private String responderName;
   private String responderTitle;
@@ -96,6 +97,15 @@ public class Question {
     this.answerCover = answerCover;
     return this;
   }
+
+  public int getDuration() {
+    return duration;
+  }
+
+  public void setDuration(int duration) {
+    this.duration = duration;
+  }
+
 
   public Long getHoursToExpire() {
     return QuandaUtil.getHoursToExpire(createdTime);

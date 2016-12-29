@@ -46,6 +46,7 @@ public class Quanda {
   private String answerCoverUrl;
   private byte[] answerAudio;
   private byte[] answerCover;
+  private int duration;
   private String status;
   private String active;
   private Date createdTime;
@@ -132,6 +133,14 @@ public class Quanda {
 
   public byte[] getAnswerCover() {
     return answerCover;
+  }
+
+  public int getDuration() {
+    return duration;
+  }
+
+  public void setDuration(int duration) {
+    this.duration = duration;
   }
 
   public String getStatus() {
@@ -231,6 +240,7 @@ public class Quanda {
           && isEqual(this.getRate(), that.getRate())
           && isEqual(this.getAnswerUrl(), that.getAnswerUrl())
           && isEqual(this.getAnswerCoverUrl(), that.getAnswerCoverUrl())
+          && (this.getDuration() == that.getDuration())
           && isEqual(this.getStatus(), that.getStatus())
           && isEqual(this.getActive(), that.getActive())) {
         return true;
@@ -279,6 +289,9 @@ public class Quanda {
     }
     if (quanda.getAnswerCover() != null) {
       this.setAnswerCover(quanda.getAnswerCover());
+    }
+    if (quanda.getDuration() != 0) {
+      this.setDuration(quanda.getDuration());
     }
     if (quanda.getStatus() != null) {
       this.setStatus(quanda.getStatus());

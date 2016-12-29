@@ -14,6 +14,7 @@ public class Answer {
   private Date createdTime;
   private String answerCoverUrl;
   private byte[]  answerCover;
+  private int duration;
   private String responderName;
   private String responderTitle;
   private String responderAvatarUrl;
@@ -83,6 +84,14 @@ public class Answer {
   public Answer setAnswerCover(final byte[] answerCover) {
     this.answerCover = answerCover;
     return this;
+  }
+
+  public int getDuration() {
+    return duration;
+  }
+
+  public void setDuration(int duration) {
+    this.duration = duration;
   }
 
   public Long getHoursToExpire() {
