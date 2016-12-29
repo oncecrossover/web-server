@@ -25,7 +25,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
 
   var questions:[ActivityModel] = []
 
-  var answers:[AnswerModel] = []
+  var answers:[ActivityModel] = []
 
   var snoops:[SnoopModel] = []
 
@@ -76,7 +76,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   func loadDataWithFilter(filterString: String) {
     var isQuestion = true
     var tmpQuestions:[ActivityModel] = []
-    var tmpAnswers:[AnswerModel] = []
+    var tmpAnswers:[ActivityModel] = []
 
     if (filterString.containsString("responder")) {
       isQuestion = false
@@ -100,43 +100,33 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
           rate = questionInfo["rate"] as! Double
         }
 
-        let hoursToExpire = questionInfo["hoursToExpire"] as! Int
+//        let hoursToExpire = questionInfo["hoursToExpire"] as! Int
+
+        var responderImage = NSData()
+        if ((questionInfo["responderAvatarImage"] as? String) != nil) {
+          responderImage = NSData(base64EncodedString: (questionInfo["responderAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+        }
+
+        let responderName = questionInfo["responderName"] as! String
+        let responderTitle = questionInfo["responderTitle"] as! String
+
+        var askerImage = NSData()
+        if ((questionInfo["askerAvatarImage"] as? String) != nil) {
+          askerImage = NSData(base64EncodedString: (questionInfo["askerAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+        }
+
+        var coverImage = NSData()
+        if ((questionInfo["answerCover"] as? String) != nil) {
+          coverImage = NSData(base64EncodedString: (questionInfo["answerCover"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+        }
+
+        let askerName = questionInfo["askerName"] as! String
 
         if (self.segmentedControl.selectedSegmentIndex == 0) {
-          var responderImage = NSData()
-          if ((questionInfo["responderAvatarImage"] as? String) != nil) {
-            responderImage = NSData(base64EncodedString: (questionInfo["responderAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-          }
-
-          let responderName = questionInfo["responderName"] as! String
-          let responderTitle = questionInfo["responderTitle"] as! String
-
-          var askerImage = NSData()
-          if ((questionInfo["askerAvatarImage"] as? String) != nil) {
-            askerImage = NSData(base64EncodedString: (questionInfo["askerAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-          }
-
-          var coverImage = NSData()
-          if ((questionInfo["answerCover"] as? String) != nil) {
-            coverImage = NSData(base64EncodedString: (questionInfo["answerCover"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-          }
-
-          let askerName = questionInfo["askerName"] as! String
           tmpQuestions.append(ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _answerCover: coverImage, _askerName: askerName, _askerImage: askerImage, _responderName: responderName, _responderTitle: responderTitle, _responderImage: responderImage))
-
         }
-        else if (self.segmentedControl.selectedSegmentIndex == 1) {
-          var avatarImage = NSData()
-          if ((questionInfo["askerAvatarImage"] as? String) != nil) {
-            avatarImage = NSData(base64EncodedString: (questionInfo["askerAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-          }
-
-          let name = questionInfo["askerName"] as! String
-          var title = ""
-          if ((questionInfo["askerTitle"] as? String) != nil) {
-            title = questionInfo["askerTitle"] as! String
-          }
-          tmpAnswers.append(AnswerModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: status, _hoursToExpire: hoursToExpire, _rate: rate))
+        else {
+          tmpAnswers.append(ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _answerCover: coverImage, _askerName: askerName, _askerImage: askerImage, _responderName: responderName, _responderTitle: responderTitle, _responderImage: responderImage))
         }
       }
 
@@ -366,84 +356,64 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
   }
 
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    if (segmentedControl.selectedSegmentIndex == 0 || segmentedControl.selectedSegmentIndex == 2) {
-      let myCell = tableView.dequeueReusableCellWithIdentifier("activityCell", forIndexPath: indexPath)
-        as! ActivityTableViewCell
+    let myCell = tableView.dequeueReusableCellWithIdentifier("activityCell", forIndexPath: indexPath)
+      as! ActivityTableViewCell
 
-      let cellInfo = questions[indexPath.row]
-      myCell.rateLabel.text = "$ \(cellInfo.rate)"
-
-      myCell.question.text = cellInfo.question
-
-      myCell.responderName.text = cellInfo.responderName
-
-      if (!cellInfo.responderTitle.isEmpty) {
-        myCell.responderTitle.text = cellInfo.responderTitle
-      }
-
-      if (cellInfo.responderImage.length > 0) {
-        myCell.responderImage.image = UIImage(data: cellInfo.responderImage)
-      }
-      else {
-        myCell.responderImage.image = UIImage(named: "default")
-      }
-
-      if (cellInfo.status == "PENDING") {
-        myCell.coverImage.image = UIImage()
-        myCell.coverImage.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1.0)
-      }
-      else if (cellInfo.status == "ANSWERED") {
-        myCell.coverImage.image = UIImage(data: cellInfo.answerCover)
-
-        myCell.coverImage.userInteractionEnabled = true
-        let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnImage(_:)))
-        myCell.coverImage.addGestureRecognizer(tappedOnImage)
-      }
-
-      myCell.askerName.text = cellInfo.askerName + ":"
-
-      if (cellInfo.askerImage.length > 0) {
-        myCell.askerImage.image = UIImage(data: cellInfo.askerImage)
-      }
-      else {
-        myCell.askerImage.image = UIImage(named: "default")
-      }
-
-      return myCell
+    let cellInfo: ActivityModel
+    if (segmentedControl.selectedSegmentIndex == 0) {
+      cellInfo = questions[indexPath.row]
     }
-    else if (segmentedControl.selectedSegmentIndex == 1) {
-      let myCell = tableView.dequeueReusableCellWithIdentifier("answerCell", forIndexPath: indexPath) as! AnswerTableViewCell
-      let answer = answers[indexPath.row]
-      myCell.askerName.text = answer.name
-      myCell.rateLabel.text = "$\(answer.rate)"
-      if (answer.avatarImage.length > 0) {
-        myCell.profileImage.image = UIImage(data: answer.avatarImage)
-      }
-      else {
-        myCell.profileImage.image = UIImage(named: "default")
-      }
-
-      myCell.status.text = answer.status
-
-      if (answer.status == "PENDING") {
-        myCell.status.textColor = UIColor.orangeColor()
-        myCell.expiration.text = "expires in \(answer.hoursToExpire) hrs"
-        myCell.expiration.hidden = false
-      }
-      else if (answer.status == "ANSWERED") {
-        myCell.status.textColor = UIColor(red: 0.125, green: 0.55, blue: 0.17, alpha: 1.0)
-        myCell.expiration.hidden = true
-      }
-      myCell.question.text = answer.question
-
-      return myCell
+    else {
+      cellInfo = answers[indexPath.row]
     }
-    return tableView.dequeueReusableCellWithIdentifier("questionCell", forIndexPath: indexPath) as! QuestionTableViewCell
+
+    myCell.rateLabel.text = "$ \(cellInfo.rate)"
+
+    myCell.question.text = cellInfo.question
+
+    myCell.responderName.text = cellInfo.responderName
+
+    if (!cellInfo.responderTitle.isEmpty) {
+      myCell.responderTitle.text = cellInfo.responderTitle
+    }
+
+    if (cellInfo.responderImage.length > 0) {
+      myCell.responderImage.image = UIImage(data: cellInfo.responderImage)
+    }
+    else {
+      myCell.responderImage.image = UIImage(named: "default")
+    }
+
+    if (cellInfo.status == "PENDING") {
+      myCell.coverImage.image = UIImage()
+      myCell.coverImage.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1.0)
+    }
+    else if (cellInfo.status == "ANSWERED") {
+      myCell.coverImage.image = UIImage(data: cellInfo.answerCover)
+
+      myCell.coverImage.userInteractionEnabled = true
+      let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnImage(_:)))
+      myCell.coverImage.addGestureRecognizer(tappedOnImage)
+    }
+
+    myCell.askerName.text = cellInfo.askerName + ":"
+
+    if (cellInfo.askerImage.length > 0) {
+      myCell.askerImage.image = UIImage(data: cellInfo.askerImage)
+    }
+    else {
+      myCell.askerImage.image = UIImage(named: "default")
+    }
+
+    return myCell
   }
 
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    if segmentedControl.selectedSegmentIndex == 1 {
-      self.performSegueWithIdentifier("segueFromActivityToAnswer", sender: indexPath)
+    if (segmentedControl.selectedSegmentIndex == 1) {
+      let cell = answers[indexPath.row]
+      if (cell.status == "PENDING") {
+        self.performSegueWithIdentifier("segueFromActivityToAnswer", sender: indexPath)
+      }
     }
   }
 
@@ -452,9 +422,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UITableVi
       let indexPath = sender as! NSIndexPath
       let dvc = segue.destinationViewController as! AnswerViewController;
       let questionInfo = answers[indexPath.row]
-      dvc.question = (id: questionInfo.id, avatarImage: questionInfo.avatarImage, askerName: questionInfo.name,
-        status: questionInfo.status,
-        content: questionInfo.question, rate: questionInfo.rate, hoursToExpire : questionInfo.hoursToExpire)
+      dvc.cellInfo = questionInfo
     }
     
   }

@@ -11,19 +11,14 @@ import AVFoundation
 import AVKit
 import MobileCoreServices
 
-class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate, UITableViewDelegate, UITableViewDataSource, CustomOverlayDelegate {
+class AnswerViewController: UIViewController {
 
   @IBOutlet weak var answerTableView: UITableView!
 
-  @IBOutlet weak var recordbutton: UIButton!
-  @IBOutlet weak var playButton: UIButton!
-  @IBOutlet weak var explanation: UILabel!
-  @IBOutlet weak var reminder: UILabel!
-  @IBOutlet weak var confirmButton: UIButton!
-  @IBOutlet weak var redoButton: UIButton!
+  @IBOutlet weak var instructionLabel: UILabel!
+  @IBOutlet weak var cameraImage: UIImageView!
 
   var currentImagePicker: UIImagePickerController?
-  var utility = UIUtility()
 
   var soundRecorder: AVAudioRecorder!
   var soundPlayer: AVAudioPlayer!
@@ -31,85 +26,87 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
 
   var questionModule = Question()
 
-  var question:(id: Int!, avatarImage: NSData!, askerName: String!, status: String!,
-  content: String!, rate: Double!, hoursToExpire: Int!)
-
-  var isRecording = false
-  var isPlaying = false
-  var isSaved = false
-
-  var count = 60
-
-  var timer = NSTimer()
+  var cellInfo:ActivityModel!
 
   var utilityModule = UIUtility()
 
   deinit {
     NSNotificationCenter.defaultCenter().removeObserver(self) // app might crash without removing observer
   }
+}
+
+// Override functions
+extension AnswerViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
     answerTableView.rowHeight = UITableViewAutomaticDimension
     answerTableView.estimatedRowHeight = 120
-    initView()
+    //initView()
     answerTableView.reloadData()
-
-    // Do any additional setup after loading the view.
-  }
-
-  func initView() {
-    reminder.hidden = true
-    confirmButton.hidden = true
-    recordbutton.setImage(UIImage(named: "speak"), forState: .Normal)
-    playButton.setImage(UIImage(named: "listen"), forState: .Normal)
-    redoButton.setImage(UIImage(named: "redo"), forState: .Normal)
-    redoButton.hidden = true
-
-    if (question.status == "PENDING") {
-      explanation.text = "Touch button to start recording up to 60 sec"
-      playButton.hidden = true
-      isSaved = false
+    if (cellInfo.status == "PENDING") {
+      cameraImage.userInteractionEnabled = true
+      let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(AnswerViewController.tappedOnImage(_:)))
+      cameraImage.addGestureRecognizer(tappedOnImage)
     }
     else {
-      explanation.hidden = true
-      recordbutton.enabled = false
-      playButton.hidden = false
-      isSaved = true
+      cameraImage.hidden = true
+      instructionLabel.hidden = true
     }
   }
+}
+
+extension AnswerViewController: UITableViewDataSource, UITableViewDelegate {
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return 1
   }
 
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let myCell = tableView.dequeueReusableCellWithIdentifier("answerCell", forIndexPath: indexPath) as! AnswerTableViewCell
-    myCell.askerName.text = question.askerName
-    myCell.status.text = question.status
+    let myCell = tableView.dequeueReusableCellWithIdentifier("activityCell", forIndexPath: indexPath) as! ActivityTableViewCell
+    myCell.rateLabel.text = "$ \(cellInfo.rate)"
 
-    if (question.status == "ANSWERED") {
-      myCell.status.textColor = UIColor(red: 0.125, green: 0.55, blue: 0.17, alpha: 1.0)
+    myCell.question.text = cellInfo.question
+
+    myCell.responderName.text = cellInfo.responderName
+
+    if (!cellInfo.responderTitle.isEmpty) {
+      myCell.responderTitle.text = cellInfo.responderTitle
+    }
+
+    if (cellInfo.responderImage.length > 0) {
+      myCell.responderImage.image = UIImage(data: cellInfo.responderImage)
     }
     else {
-      myCell.status.textColor = UIColor.orangeColor()
+      myCell.responderImage.image = UIImage(named: "default")
     }
 
-    myCell.question.text = question.content
-    myCell.rateLabel.text = "$\(question.rate)"
-
-    myCell.expiration.text = "expires in \(question.hoursToExpire) hrs"
-    if (question.hoursToExpire == 1) {
-      myCell.expiration.text = "expires in 1 hr"
+    if (cellInfo.status == "PENDING") {
+      myCell.coverImage.image = UIImage()
+      myCell.coverImage.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1.0)
+    }
+    else if (cellInfo.status == "ANSWERED") {
+      myCell.coverImage.image = UIImage(data: cellInfo.answerCover)
+      myCell.coverImage.userInteractionEnabled = true
+      let tappedToWatch = UITapGestureRecognizer(target: self, action: #selector(AnswerViewController.tappedToWatch(_:)))
+      cameraImage.addGestureRecognizer(tappedToWatch)
     }
 
-    if (question.avatarImage.length > 0) {
-      myCell.profileImage.image = UIImage(data: question.avatarImage)
+    myCell.askerName.text = cellInfo.askerName + ":"
+
+    if (cellInfo.askerImage.length > 0) {
+      myCell.askerImage.image = UIImage(data: cellInfo.askerImage)
+    }
+    else {
+      myCell.askerImage.image = UIImage(named: "default")
     }
 
     return myCell
   }
+}
 
+// Private methods
+extension AnswerViewController {
   func getCacheDirectory() -> String {
     let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true) 
     return paths[0]
@@ -121,7 +118,41 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
     return NSURL(fileURLWithPath: path)
   }
 
-  @IBAction func record(sender: UIButton) {
+  func stopRecording(overlayView: CustomOverlayView) {
+    currentImagePicker?.stopVideoCapture()
+    overlayView.reset()
+  }
+}
+
+// IB Action
+extension AnswerViewController {
+
+  func tappedToWatch(sender: UIGestureRecognizer) {
+    let questionId = cellInfo.id
+    let activityIndicator = utilityModule.createCustomActivityIndicator(self.view, text: "Loading Answer...")
+    questionModule.getQuestionAudio(questionId) { audioString in
+      if (!audioString.isEmpty) {
+        let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
+        dispatch_async(dispatch_get_main_queue()) {
+          let dataPath = self.utilityModule.getFileUrl("videoFile.m4a")
+          data.writeToURL(dataPath, atomically: false)
+          activityIndicator.hideAnimated(true)
+          let videoAsset = AVAsset(URL: dataPath)
+          let playerItem = AVPlayerItem(asset: videoAsset)
+
+          //Play the video
+          let player = AVPlayer(playerItem: playerItem)
+          let playerViewController = AVPlayerViewController()
+          playerViewController.player = player
+          self.presentViewController(playerViewController, animated: true) {
+            playerViewController.player?.play()
+          }
+        }
+      }
+    }
+  }
+
+  func tappedOnImage(sender:UIGestureRecognizer) {
     if (UIImagePickerController.isSourceTypeAvailable(.Camera)) {
       let imagePicker = UIImagePickerController()
       currentImagePicker = imagePicker
@@ -147,9 +178,13 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
       })
     }
     else {
-      utility.displayAlertMessage("Camera is not available on your device", title: "Alert", sender: self)
+      utilityModule.displayAlertMessage("Camera is not available on your device", title: "Alert", sender: self)
     }
   }
+}
+
+// UIImageviewController delegate
+extension AnswerViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
 
   //Finished recording video
@@ -162,12 +197,10 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
       videoData?.writeToURL(dataPath, atomically: false)
     }
   }
+}
 
-  func stopRecording(overlayView: CustomOverlayView) {
-    currentImagePicker?.stopVideoCapture()
-    overlayView.reset()
-  }
-
+// CustomViewDelegate
+extension AnswerViewController: CustomOverlayDelegate {
 
   func didCancel(overlayView:CustomOverlayView) {
     if (overlayView.cancelButton.currentTitle == "cancel") {
@@ -209,7 +242,7 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     else {
       let dvc = storyboard?.instantiateViewControllerWithIdentifier("CoverFrameViewController") as! CoverFrameViewController
-      dvc.quandaId = self.question.id
+      dvc.quandaId = self.cellInfo.id
       currentImagePicker?.pushViewController(dvc, animated: true)
     }
   }
@@ -247,65 +280,6 @@ class AnswerViewController: UIViewController, UIImagePickerControllerDelegate, U
       //stop recording
       currentImagePicker?.stopVideoCapture()
       overlayView.reset()
-    }
-  }
-
-  @IBAction func play(sender: UIButton) {
-    questionModule.getQuestionAudio(question.id) { audioString in
-      if (!audioString.isEmpty) {
-        let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        dispatch_async(dispatch_get_main_queue()) {
-          let dataPath = self.getFileUrl()
-          data.writeToURL(dataPath, atomically: false)
-          let videoAsset = AVAsset(URL: dataPath)
-          let playerItem = AVPlayerItem(asset: videoAsset)
-
-          //Play the video
-          let player = AVPlayer(playerItem: playerItem)
-          let playerViewController = AVPlayerViewController()
-          playerViewController.player = player
-          self.presentViewController(playerViewController, animated: true) {
-            playerViewController.player?.play()
-          }
-        }
-      }
-    }
-  }
-
-  @IBAction func confirmButtonTapped(sender: AnyObject) {
-    let activityIndicator = utilityModule.createCustomActivityIndicator(self.view, text: "Submitting Answer...")
-    questionModule.updateQuestion(question.id, answerAudio: NSData(contentsOfURL: getFileUrl())) { result in
-        dispatch_async(dispatch_get_main_queue()){
-          self.playButton.enabled = true
-          self.playButton.hidden = false
-          self.isSaved = true
-          self.confirmButton.hidden = true
-          self.redoButton.hidden = true
-
-          // After the answer is submitted, the user can no longer re-record his answer
-          self.recordbutton.hidden = true
-          self.explanation.hidden = true
-          activityIndicator.hideAnimated(true)
-
-          // Refresh the status of the question to "ANSWERED"
-          self.question.status = "ANSWERED"
-          self.answerTableView.reloadData()
-        }
-    }
-  }
-
-  @IBAction func redoButtonTapped(sender: AnyObject) {
-    initView()
-  }
-
-  func preparePlayer(data: NSData!) {
-    do {
-      soundPlayer = try AVAudioPlayer(data: data)
-      soundPlayer.delegate = self
-      soundPlayer.prepareToPlay()
-      soundPlayer.volume = 1.0
-    } catch let error as NSError {
-      print(error.localizedDescription)
     }
   }
 }
