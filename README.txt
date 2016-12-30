@@ -208,7 +208,7 @@ curl -i -G -X GET http://127.0.0.1:8080/newsfeeds/ -d "uid='bowen'" --data-urlen
 curl -i -X GET "http://127.0.0.1:8080/newsfeeds?uid='bowen'&lastSeenUpdatedTime=1474522304000&lastSeenId=3&limit=10"
 
 Example response:
-[{"id":6,"question":"How do you believe in being an entrepreneur?","updatedTime":1472443395000,"responderId":"xiaobingo","responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","answerCover": "AFD$#QTGAER==","askerName": "Kansen", "askerAvatarImage" a "GTRWGQ#$TGAFDG", "duration": 56, "snoops":1}]
+[{"id":6,"question":"How do you believe in being an entrepreneur?","updatedTime":1472443395000,"responderId":"xiaobingo","responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","answerCover": "AFD$#QTGAER==","askerName": "Kansen", "askerAvatarImage": "GTRWGQ#$TGAFDG", "duration": 56, "snoops":1}]
 
 
 RESTFUL APIs OF TEMP PASSWORD:

@@ -115,8 +115,9 @@ extension ActivityViewController {
     }
 
     let askerName = questionInfo["askerName"] as! String
+    let duration = questionInfo["duration"] as! Int
 
-    return ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _answerCover: coverImage, _askerName: askerName, _askerImage: askerImage, _responderName: responderName, _responderTitle: responderTitle, _responderImage: responderImage)
+    return ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _answerCover: coverImage, _duration: duration, _askerName: askerName, _askerImage: askerImage, _responderName: responderName, _responderTitle: responderTitle, _responderImage: responderImage)
   }
 
   func loadDataWithFilter(filterString: String) {
@@ -334,6 +335,9 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
       myCell.coverImage.userInteractionEnabled = true
       let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnImage(_:)))
       myCell.coverImage.addGestureRecognizer(tappedOnImage)
+
+      myCell.durationLabel.text = "00:\(cellInfo.duration)"
+      myCell.durationLabel.hidden = false
     }
 
     myCell.askerName.text = cellInfo.askerName + ":"

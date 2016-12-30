@@ -118,7 +118,8 @@ extension ViewController {
           coverImage = NSData(base64EncodedString: (feedInfo["answerCover"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
         }
 
-        self.tmpFeeds.append(FeedsModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime, _coverImage: coverImage))
+        let duration = feedInfo["duration"] as! Int
+        self.tmpFeeds.append(FeedsModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime, _coverImage: coverImage, _duration: duration))
       }
 
       self.feeds = self.tmpFeeds
@@ -207,10 +208,13 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     }
     else {
       myCell.coverImage.image = UIImage(data: feedInfo.coverImage)
+      myCell.durationLabel.text = "00:\(feedInfo.duration)"
+      myCell.durationLabel.hidden = false
+
       if (self.paidSnoops.contains(feedInfo.id)) {
         myCell.coverImage.userInteractionEnabled = true
-        let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToWatch(_:)))
-        myCell.coverImage.addGestureRecognizer(tappedOnImage)
+        let tappedToWatch = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToWatch(_:)))
+        myCell.coverImage.addGestureRecognizer(tappedToWatch)
       }
       else {
         myCell.coverImage.userInteractionEnabled = true

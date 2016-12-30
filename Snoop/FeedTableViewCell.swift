@@ -26,6 +26,7 @@ class FeedTableViewCell: UITableViewCell {
 
   override func awakeFromNib() {
     super.awakeFromNib()
+    self.layoutIfNeeded()
     initConfig()
   }
 
@@ -47,7 +48,7 @@ class FeedTableViewCell: UITableViewCell {
     titleLabel.textColor = UIColor.grayColor()
     titleLabel.numberOfLines = 0
     playImage.image = UIImage(named: "play")
-    durationLabel.hidden = true
+    durationLabel.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
 
     nameLabel.font = nameLabel.font.fontWithSize(14)
     numOfSnoops.font = numOfSnoops.font.fontWithSize(11)

@@ -27,6 +27,7 @@ class CoverFrameViewController: UIViewController {
   var selectedRow: Int = 0
   var questionModule = Question()
   var utilityModule = UIUtility()
+  var duration = 0
 }
 
 // MARK: - Overriding
@@ -55,8 +56,8 @@ extension CoverFrameViewController {
       let asset = AVURLAsset(URL: fileUrl, options: nil)
       let imgGenerator = AVAssetImageGenerator(asset: asset)
       imgGenerator.appliesPreferredTrackTransform = true
-      let durationInSeconds = asset.duration.value / 1000
-      let duration = Int(durationInSeconds)
+      let durationFromAsset = CMTimeGetSeconds(asset.duration)
+      duration = Int(durationFromAsset)
       for i in 0.stride(to: duration, by: 5) {
         let image = try imgGenerator.copyCGImageAtTime(CMTimeMake(Int64(i), 1), actualTime: nil)
         coverFrames.append(UIImage(CGImage: image))
@@ -113,7 +114,7 @@ extension CoverFrameViewController {
 
     let photoData = UIImageJPEGRepresentation(coverImage.image!, CGFloat(compressionRatio))
     let activityIndicator = utilityModule.createCustomActivityIndicator(self.view, text: "Submitting Answer...")
-    questionModule.submitAnswer(quandaId, answerVideo: videoData, coverPhoto: photoData) { result in
+    questionModule.submitAnswer(quandaId, answerVideo: videoData, coverPhoto: photoData, duration: self.duration) { result in
       activityIndicator.hideAnimated(true)
       self.dismissViewControllerAnimated(true, completion: nil)
     }

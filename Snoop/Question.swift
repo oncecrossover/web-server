@@ -39,11 +39,11 @@ class Question {
       }
   }
 
-  func submitAnswer(id: Int!, answerVideo: NSData!, coverPhoto: NSData!, completion: (String)->()) {
+  func submitAnswer(id: Int!, answerVideo: NSData!, coverPhoto: NSData!, duration: Int!, completion: (String)->()) {
     let myUrl = NSURL(string: QUANDAURI + "/" + "\(id)")
     let videoString = answerVideo?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
     let photoString = coverPhoto?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
-    let jsonData: [String: AnyObject] = ["answerAudio" : videoString!, "answerCover" : photoString!, "status" : "ANSWERED"]
+    let jsonData: [String: AnyObject] = ["answerAudio" : videoString!, "answerCover" : photoString!, "status" : "ANSWERED", "duration" : duration]
     generics.updateObject(myUrl!, jsonData: jsonData) { result in
       completion(result)
     }
