@@ -25,6 +25,8 @@ class ViewController: UIViewController {
 
   var activeCellIndex: Int!
 
+  var activePlayerView: VideoPLayerView?
+
   @IBOutlet weak var feedTable: UITableView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
@@ -70,6 +72,11 @@ extension ViewController {
         }
       }
     }
+  }
+
+  override func viewDidDisappear(animated: Bool) {
+    super.viewDidDisappear(animated)
+    activePlayerView?.closeView()
   }
 }
 
@@ -256,28 +263,41 @@ extension ViewController {
 
     //using the tapLocation, we retrieve the corresponding indexPath
     let indexPath = self.feedTable.indexPathForRowAtPoint(tapLocation)!
+    let cell = self.feedTable.cellForRowAtIndexPath(indexPath) as! FeedTableViewCell
+    let videoPlayerView = VideoPLayerView(frame: cell.coverImage.frame)
+    videoPlayerView.frame = cell.coverImage.frame
+    cell.addSubview(videoPlayerView)
+    activePlayerView = videoPlayerView
+    UIView.animateWithDuration(0.5) {
+      videoPlayerView.frame = cell.frame
+      videoPlayerView.setupLoadingControls()
+    }
     let questionInfo = feeds[indexPath.row]
     let questionId = questionInfo.id
 
     activeCellIndex = indexPath.row
-    let activityIndicator = utilityModule.createCustomActivityIndicator(self.view, text: "Loading Answer...")
     questionModule.getQuestionAudio(questionId) { audioString in
       if (!audioString.isEmpty) {
         let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
         dispatch_async(dispatch_get_main_queue()) {
           let dataPath = self.getFileUrl()
           data.writeToURL(dataPath, atomically: false)
-          activityIndicator.hideAnimated(true)
+          let player = AVPlayer(URL: dataPath)
+          videoPlayerView.player = player
+          let playerLayer = AVPlayerLayer(player: player)
+          videoPlayerView.layer.addSublayer(playerLayer)
+          playerLayer.frame = videoPlayerView.frame
           let videoAsset = AVAsset(URL: dataPath)
-          let playerItem = AVPlayerItem(asset: videoAsset)
 
-          //Play the video
-          let player = AVPlayer(playerItem: playerItem)
-          let playerViewController = AVPlayerViewController()
-          playerViewController.player = player
-          self.presentViewController(playerViewController, animated: true) {
-            playerViewController.player?.play()
-          }
+          videoPlayerView.setupPlayingControls()
+          let duration = videoAsset.duration
+          let seconds = CMTimeGetSeconds(duration)
+          let secondsText = String(format: "%02d", Int(seconds) % 60)
+          let minutesText = String(format: "%02d", Int(seconds) / 60)
+          videoPlayerView.lengthLabel.text = "\(minutesText):\(secondsText)"
+          videoPlayerView.setupProgressControls()
+
+          player.play()
         }
       }
     }

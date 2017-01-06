@@ -27,6 +27,8 @@ class ActivityViewController: UIViewController {
   var snoops:[ActivityModel] = []
 
   var refreshControl: UIRefreshControl = UIRefreshControl()
+
+  var activePlayerView : VideoPLayerView?
 }
 
 // override function
@@ -48,6 +50,7 @@ extension ActivityViewController {
 
   override func viewWillDisappear(animated: Bool) {
     super.viewWillDisappear(animated)
+    activePlayerView?.closeView()
   }
 }
 
@@ -55,6 +58,7 @@ extension ActivityViewController {
 extension ActivityViewController {
 
   @IBAction func segmentedControlClicked(sender: AnyObject) {
+    activePlayerView?.closeView()
     loadData()
   }
 }
@@ -63,6 +67,7 @@ extension ActivityViewController {
 extension ActivityViewController {
 
   func refresh(sender: AnyObject) {
+    activePlayerView?.closeView()
     loadData()
   }
 
@@ -379,6 +384,15 @@ extension ActivityViewController {
 
     //using the tapLocation, we retrieve the corresponding indexPath
     let indexPath = self.activityTableView.indexPathForRowAtPoint(tapLocation)!
+    let cell = self.activityTableView.cellForRowAtIndexPath(indexPath) as! ActivityTableViewCell
+    let videoPlayerView = VideoPLayerView(frame: cell.coverImage.frame)
+    videoPlayerView.frame = cell.coverImage.frame
+    cell.addSubview(videoPlayerView)
+    activePlayerView = videoPlayerView
+    UIView.animateWithDuration(0.5) {
+      videoPlayerView.frame = cell.frame
+      videoPlayerView.setupLoadingControls()
+    }
     let questionInfo:ActivityModel
 
     if (segmentedControl.selectedSegmentIndex == 0) {
@@ -392,24 +406,29 @@ extension ActivityViewController {
     }
 
     let questionId = questionInfo.id
-    let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Loading Answer...")
+//    let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Loading Answer...")
     questionModule.getQuestionAudio(questionId) { audioString in
       if (!audioString.isEmpty) {
         let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
         dispatch_async(dispatch_get_main_queue()) {
           let dataPath = self.utility.getFileUrl("videoFile.m4a")
           data.writeToURL(dataPath, atomically: false)
-          activityIndicator.hideAnimated(true)
-          let videoAsset = AVAsset(URL: dataPath)
-          let playerItem = AVPlayerItem(asset: videoAsset)
+          let player = AVPlayer(URL: dataPath)
+          videoPlayerView.player = player
+          let playerLayer = AVPlayerLayer(player: player)
+          videoPlayerView.layer.addSublayer(playerLayer)
+          playerLayer.frame = videoPlayerView.frame
 
-          //Play the video
-          let player = AVPlayer(playerItem: playerItem)
-          let playerViewController = AVPlayerViewController()
-          playerViewController.player = player
-          self.presentViewController(playerViewController, animated: true) {
-            playerViewController.player?.play()
-          }
+          videoPlayerView.setupPlayingControls()
+          let AVAsset = AVURLAsset(URL: dataPath)
+          let duration = AVAsset.duration
+          let seconds = CMTimeGetSeconds(duration)
+          let secondsText = String(format: "%02d", Int(seconds) % 60)
+          let minutesText = String(format: "%02d", Int(seconds) / 60)
+          videoPlayerView.lengthLabel.text = "\(minutesText):\(secondsText)"
+          videoPlayerView.setupProgressControls()
+
+          player.play()
         }
       }
     }

@@ -16,6 +16,7 @@
 		4A152F621D59106700FA48E7 /* Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A152F611D59106700FA48E7 /* Generics.swift */; };
 		4A15D1781E037CD70013EDC1 /* CoverFrameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15D1771E037CD70013EDC1 /* CoverFrameViewController.swift */; };
 		4A15D17B1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15D17A1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift */; };
+		4A214F351E204E3F0000B29D /* VideoPLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A214F341E204E3F0000B29D /* VideoPLayerView.swift */; };
 		4A368E8C1D5CFA8000176C54 /* ChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */; };
 		4A3D5D791DE8C41A006FE077 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */; };
 		4A3D5D7C1DF0D47E006FE077 /* CustomOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D5D7A1DF0D47E006FE077 /* CustomOverlayViewController.swift */; };
@@ -92,6 +93,7 @@
 		4A152F611D59106700FA48E7 /* Generics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generics.swift; sourceTree = "<group>"; };
 		4A15D1771E037CD70013EDC1 /* CoverFrameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoverFrameViewController.swift; sourceTree = "<group>"; };
 		4A15D17A1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoverFrameCollectionViewCell.swift; sourceTree = "<group>"; };
+		4A214F341E204E3F0000B29D /* VideoPLayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPLayerView.swift; sourceTree = "<group>"; };
 		4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargeViewController.swift; sourceTree = "<group>"; };
 		4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4A3D5D7A1DF0D47E006FE077 /* CustomOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomOverlayViewController.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */,
 				4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */,
 				4AF910731D449F1800546F95 /* InteractiveUITextField.swift */,
+				4A214F341E204E3F0000B29D /* VideoPLayerView.swift */,
 			);
 			name = UIView;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 				4A0EB0ED1D8277C700390D06 /* ContentViewController.swift in Sources */,
 				4A11C05C1D344DF500AEF95D /* RoundCornerButton.swift in Sources */,
 				4A4BB82A1D769BE70085160F /* AbstractModel.swift in Sources */,
+				4A214F351E204E3F0000B29D /* VideoPLayerView.swift in Sources */,
 				4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */,
 				4AF3226C1D29DE120043FCE5 /* ActivityViewController.swift in Sources */,
 				4A698D451D7BA12D004786B8 /* QuandaModel.swift in Sources */,
