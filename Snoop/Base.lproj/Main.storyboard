@@ -1039,7 +1039,7 @@
                                 </connections>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Sfp-pO-hDk">
-                                <rect key="frame" x="150" y="225" width="20" height="20"/>
+                                <rect key="frame" x="177" y="226" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
                         </subviews>
@@ -2509,9 +2509,9 @@
         <image name="submit" width="375" height="40"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="KRu-3m-3Wk"/>
-        <segue reference="Kjo-bx-Bbf"/>
         <segue reference="me6-Y0-ggX"/>
+        <segue reference="Kjo-bx-Bbf"/>
+        <segue reference="KRu-3m-3Wk"/>
         <segue reference="Wdp-Ew-5fA"/>
     </inferredMetricsTieBreakers>
 </document>

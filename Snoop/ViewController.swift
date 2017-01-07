@@ -268,8 +268,9 @@ extension ViewController {
     videoPlayerView.frame = cell.coverImage.frame
     cell.addSubview(videoPlayerView)
     activePlayerView = videoPlayerView
+    let newFrame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
     UIView.animateWithDuration(0.5) {
-      videoPlayerView.frame = cell.frame
+      videoPlayerView.frame = newFrame
       videoPlayerView.setupLoadingControls()
     }
     let questionInfo = feeds[indexPath.row]

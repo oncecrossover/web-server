@@ -387,10 +387,11 @@ extension ActivityViewController {
     let cell = self.activityTableView.cellForRowAtIndexPath(indexPath) as! ActivityTableViewCell
     let videoPlayerView = VideoPLayerView(frame: cell.coverImage.frame)
     videoPlayerView.frame = cell.coverImage.frame
+    let newFrame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
     cell.addSubview(videoPlayerView)
     activePlayerView = videoPlayerView
     UIView.animateWithDuration(0.5) {
-      videoPlayerView.frame = cell.frame
+      videoPlayerView.frame = newFrame
       videoPlayerView.setupLoadingControls()
     }
     let questionInfo:ActivityModel
