@@ -113,7 +113,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
       self.profiles = self.tmpProfiles
 
       dispatch_async(dispatch_get_main_queue()) {
-        if (jsonArray.count > 0) {
+        if (jsonArray.count > 0 || !String(url).containsString("lastSeenId")) {
           self.discoverTableView.reloadData()
         }
         indicator.stopAnimating()

@@ -132,7 +132,8 @@ extension ViewController {
       self.feeds = self.tmpFeeds
       dispatch_async(dispatch_get_main_queue()) {
         self.activityIndicator.stopAnimating()
-        if (jsonArray.count > 0) {
+        // reload table only if there is additonal data or when we are loading the first batch
+        if (jsonArray.count > 0 || !String(myUrl).containsString("lastSeenId")) {
           self.feedTable.reloadData()
         }
         self.feedTable.userInteractionEnabled = true
