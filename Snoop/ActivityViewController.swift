@@ -333,6 +333,7 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
     if (cellInfo.status == "PENDING") {
       myCell.coverImage.image = UIImage()
       myCell.coverImage.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1.0)
+      myCell.durationLabel.hidden = true
     }
     else if (cellInfo.status == "ANSWERED") {
       myCell.coverImage.image = UIImage(data: cellInfo.answerCover)
