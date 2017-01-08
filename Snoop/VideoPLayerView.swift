@@ -127,26 +127,26 @@ class VideoPLayerView: UIView {
     playButton.hidden = true
 
     container.addSubview(closeButton)
-    closeButton.rightAnchor.constraintEqualToAnchor(rightAnchor, constant : 8).active = true
-    closeButton.topAnchor.constraintEqualToAnchor(topAnchor, constant: -8).active = true
-    closeButton.widthAnchor.constraintEqualToConstant(48).active = true
-    closeButton.heightAnchor.constraintEqualToConstant(48).active = true
+    closeButton.rightAnchor.constraintEqualToAnchor(rightAnchor, constant : -8).active = true
+    closeButton.topAnchor.constraintEqualToAnchor(topAnchor, constant: 24).active = true
+    closeButton.widthAnchor.constraintEqualToConstant(30).active = true
+    closeButton.heightAnchor.constraintEqualToConstant(30).active = true
 
     container.addSubview(lengthLabel)
     lengthLabel.rightAnchor.constraintEqualToAnchor(rightAnchor, constant: -8).active = true
-    lengthLabel.bottomAnchor.constraintEqualToAnchor(bottomAnchor).active = true
+    lengthLabel.bottomAnchor.constraintEqualToAnchor(bottomAnchor, constant: -16).active = true
     lengthLabel.widthAnchor.constraintEqualToConstant(50).active = true
     lengthLabel.heightAnchor.constraintEqualToConstant(30).active = true
 
     container.addSubview(progressLabel)
     progressLabel.leftAnchor.constraintEqualToAnchor(leftAnchor, constant: 8).active = true
-    progressLabel.bottomAnchor.constraintEqualToAnchor(bottomAnchor).active = true
+    progressLabel.bottomAnchor.constraintEqualToAnchor(lengthLabel.bottomAnchor).active = true
     progressLabel.widthAnchor.constraintEqualToConstant(50).active = true
     progressLabel.heightAnchor.constraintEqualToConstant(30).active = true
 
     container.addSubview(slider)
     slider.rightAnchor.constraintEqualToAnchor(lengthLabel.leftAnchor).active = true
-    slider.bottomAnchor.constraintEqualToAnchor(bottomAnchor).active = true
+    slider.bottomAnchor.constraintEqualToAnchor(lengthLabel.bottomAnchor).active = true
     slider.leftAnchor.constraintEqualToAnchor(progressLabel.rightAnchor).active = true
     slider.heightAnchor.constraintEqualToConstant(30).active = true
   }
@@ -165,5 +165,15 @@ class VideoPLayerView: UIView {
         self.slider.value = Float(seconds/durationInseconds)
       }
     }
+  }
+
+  func reset() {
+    isPlaying  = false
+    playButton.hidden = false
+    slider.value = 0
+    progressLabel.text = "00:00"
+    let seekTime = CMTime(value: 0, timescale: 1)
+    player?.seekToTime(seekTime)
+    player?.pause()
   }
 }

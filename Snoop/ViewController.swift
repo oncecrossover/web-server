@@ -34,6 +34,10 @@ class ViewController: UIViewController {
   var tmpFeeds:[FeedsModel] = []
 
   var fileName = "videoFile.m4a"
+
+  deinit {
+    NSNotificationCenter.defaultCenter().removeObserver(self) // app might crash without removing observer
+  }
 }
 
 // Override functions
@@ -264,16 +268,20 @@ extension ViewController {
 
     //using the tapLocation, we retrieve the corresponding indexPath
     let indexPath = self.feedTable.indexPathForRowAtPoint(tapLocation)!
-    let cell = self.feedTable.cellForRowAtIndexPath(indexPath) as! FeedTableViewCell
-    let videoPlayerView = VideoPLayerView(frame: cell.coverImage.frame)
-    videoPlayerView.frame = cell.coverImage.frame
-    cell.addSubview(videoPlayerView)
+
+    let videoPlayerView = VideoPLayerView()
+    let bounds = UIScreen.mainScreen().bounds
+
+    let oldFrame = CGRect(x: 0, y: bounds.size.height, width: bounds.size.width, height: 0)
+    videoPlayerView.frame = oldFrame
+    let newFrame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
+    self.tabBarController?.view.addSubview(videoPlayerView)
     activePlayerView = videoPlayerView
-    let newFrame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
-    UIView.animateWithDuration(0.5) {
+    UIView.animateWithDuration(0.5){
       videoPlayerView.frame = newFrame
       videoPlayerView.setupLoadingControls()
     }
+
     let questionInfo = feeds[indexPath.row]
     let questionId = questionInfo.id
 
@@ -300,6 +308,11 @@ extension ViewController {
           videoPlayerView.setupProgressControls()
 
           player.play()
+
+          NSNotificationCenter.defaultCenter().addObserverForName(AVPlayerItemDidPlayToEndTimeNotification, object: nil, queue: nil) { notification in
+            // block base observer has retain cycle issue, remember to unregister observer in deinit
+            videoPlayerView.reset()
+          }
         }
       }
     }

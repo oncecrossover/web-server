@@ -29,6 +29,10 @@ class ActivityViewController: UIViewController {
   var refreshControl: UIRefreshControl = UIRefreshControl()
 
   var activePlayerView : VideoPLayerView?
+
+  deinit {
+    NSNotificationCenter.defaultCenter().removeObserver(self) // app might crash without removing observer
+  }
 }
 
 // override function
@@ -385,16 +389,19 @@ extension ActivityViewController {
 
     //using the tapLocation, we retrieve the corresponding indexPath
     let indexPath = self.activityTableView.indexPathForRowAtPoint(tapLocation)!
-    let cell = self.activityTableView.cellForRowAtIndexPath(indexPath) as! ActivityTableViewCell
-    let videoPlayerView = VideoPLayerView(frame: cell.coverImage.frame)
-    videoPlayerView.frame = cell.coverImage.frame
-    let newFrame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
-    cell.addSubview(videoPlayerView)
+    let videoPlayerView = VideoPLayerView()
+    let bounds = UIScreen.mainScreen().bounds
+
+    let oldFrame = CGRect(x: 0, y: bounds.size.height, width: bounds.size.width, height: 0)
+    videoPlayerView.frame = oldFrame
+    let newFrame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
+    self.tabBarController?.view.addSubview(videoPlayerView)
     activePlayerView = videoPlayerView
-    UIView.animateWithDuration(0.5) {
+    UIView.animateWithDuration(0.5){
       videoPlayerView.frame = newFrame
       videoPlayerView.setupLoadingControls()
     }
+
     let questionInfo:ActivityModel
 
     if (segmentedControl.selectedSegmentIndex == 0) {
@@ -431,6 +438,10 @@ extension ActivityViewController {
           videoPlayerView.setupProgressControls()
 
           player.play()
+          NSNotificationCenter.defaultCenter().addObserverForName(AVPlayerItemDidPlayToEndTimeNotification, object: nil, queue: nil) { notification in
+            // block base observer has retain cycle issue, remember to unregister observer in deinit
+            videoPlayerView.reset()
+          }
         }
       }
     }
