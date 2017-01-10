@@ -13,7 +13,7 @@ public class Profile {
   public enum TakeQuestionStatus {
     NA(0, "NA"),
     APPLIED(1, "APPLIED"),
-    GRANTED(2, "GRANTED"),
+    GRANTED(2, "APPROVED"),
     DENIED(3, "DENIED");
 
     private final int code;

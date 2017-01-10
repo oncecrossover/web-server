@@ -100,11 +100,11 @@ curl -i -G -X GET http://127.0.0.1:8080/profiles -d "limit=20", equivalent to
 curl -i -X GET "http://127.0.0.1:8080/profiles?limit=20"
 
 Query based on the last seen, e.g.
-curl -i -G -X GET http://127.0.0.1:8080/profiles --data-urlencode "fullName='%zh%'" --data-urlencode "lastSeenUpdatedTime=1474607620000" -d "lastSeenId='xiaobingo'" -d "limit=20", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/questions?fullName='%zh%'&lastSeenUpdatedTime=1474607620000&lastSeenId='xiaobingo'&limit=20"
+curl -i -G -X GET http://127.0.0.1:8080/profiles --data-urlencode "takeQuestion='APPROVED'" --data-urlencode "fullName='%zh%'" --data-urlencode "lastSeenUpdatedTime=1474607620000" -d "lastSeenId='xiaobingo'" -d "limit=20", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/questions?takeQuestion='APPROVED'&fullName='%zh%'&lastSeenUpdatedTime=1474607620000&lastSeenId='xiaobingo'&limit=20"
 
 Example response:
-{"uid":"edmund","rate":200.0,"avatarUrl":"/users/edmund/avatar","avatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","fullName":"Edmund Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.","updatedTime":1474607587000}
+{"uid":"edmund","rate":200.0,"avatarUrl":"/users/edmund/avatar","avatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","fullName":"Edmund Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.","takeQuestion":"APPROVED","createdTime":null,"updatedTime":1484030623000}
 
 
 RESTFUL APIs OF QUANDAS:

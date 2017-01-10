@@ -99,7 +99,8 @@ public class ProfileDBUtil {
            .addScalar("fullName", new StringType())
            .addScalar("title", new StringType())
            .addScalar("aboutMe", new StringType())
-           .addScalar("updatedTime", new TimestampType());
+           .addScalar("updatedTime", new TimestampType())
+           .addScalar("takeQuestion", new StringType());
       list = query.list();
 
       if (txn != null) {
@@ -123,7 +124,7 @@ public class ProfileDBUtil {
     String lastSeenId = "'0'";
     int limit = SnoopServerConf.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
     final String select = "SELECT P.uid, P.rate, P.avatarUrl, P.fullName,"
-        + " P.title, P.aboutMe, P.updatedTime FROM Profile AS P";
+        + " P.title, P.aboutMe, P.updatedTime, P.takeQuestion FROM Profile AS P";
 
     List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
@@ -139,6 +140,10 @@ public class ProfileDBUtil {
         lastSeenUpdatedTime = Long.parseLong(params.get(key).get(0));
       } else if ("limit".equals(key)) {
         limit = Integer.parseInt(params.get(key).get(0));
+      } else if ("takeQuestion".equals(key)) {
+        list.add(String.format(
+            "P.takeQuestion=%s",
+            params.get(key).get(0)));
       }
     }
 
