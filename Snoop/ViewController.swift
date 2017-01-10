@@ -254,7 +254,7 @@ extension ViewController {
     let tapLocation = sender.locationInView(self.feedTable)
     let indexPath = self.feedTable.indexPathForRowAtPoint(tapLocation)!
     let responderId = self.feeds[indexPath.row].responderId
-    self.userModule.getProfile(responderId) {name, title, about, avatarImage, rate in
+    self.userModule.getProfile(responderId) {name, title, about, avatarImage, rate, _ in
       let profileInfo:[String:AnyObject] = ["uid": responderId, "name" : name, "title" : title, "about" : about,
         "avatarImage" : avatarImage, "rate" : rate]
       dispatch_async(dispatch_get_main_queue()) {

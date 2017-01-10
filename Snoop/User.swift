@@ -6,12 +6,14 @@ class User
   private var USERURI: String
   private var PROFILEURI: String
   private var SIGNINURI: String
+  private var APPLYURI: String
   private var generics = Generics()
   
   init(){
     USERURI = generics.HTTPHOST + "users/"
     PROFILEURI = generics.HTTPHOST + "profiles/"
     SIGNINURI = generics.HTTPHOST + "signin"
+    APPLYURI = generics.HTTPHOST + "takeq"
   }
   
   func createUser(userEmail: String, userPassword: String, fullName: String!, completion: (String) -> ()) {
@@ -83,7 +85,14 @@ class User
     }
   }
 
-  func getProfile(uid: String, completion: (String, String, String, NSData, Double) -> ()){
+  func applyToTakeQuestion(uid: String, completion: (String) ->()) {
+    let data = ["uid": uid, "takeQuestion": "APPLIED"]
+    generics.createObject(APPLYURI, jsonData: data){ result in
+      completion(result)
+    }
+  }
+
+  func getProfile(uid: String, completion: (String, String, String, NSData, Double, String) -> ()){
     let myUrl = NSURL(string: PROFILEURI + uid);
     generics.getObjectById(myUrl!) { convertedJsonIntoDict in
       var fullName = ""
@@ -91,6 +100,7 @@ class User
       var aboutMe = ""
       var avatarImage: NSData = NSData()
       var rate = 0.0
+      var status = "NA"
 
       // Get value by key
       if ((convertedJsonIntoDict["fullName"] as? String) != nil) {
@@ -113,7 +123,11 @@ class User
         rate = (convertedJsonIntoDict["rate"] as? Double)!
       }
 
-      completion(fullName, title, aboutMe, avatarImage, rate)
+      if ((convertedJsonIntoDict["takeQuestion"] as? String) != nil) {
+        status = (convertedJsonIntoDict["takeQuestion"] as? String)!
+      }
+
+      completion(fullName, title, aboutMe, avatarImage, rate, status)
     }
   }
 

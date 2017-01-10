@@ -30,6 +30,10 @@
 		4A5A9A311D80D38F00140AA9 /* AskViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9A301D80D38F00140AA9 /* AskViewControllerUITests.swift */; };
 		4A5B257D1D65247700691696 /* SnoopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B257C1D65247700691696 /* SnoopUITests.swift */; };
 		4A5B25851D6524EB00691696 /* ViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B25841D6524EB00691696 /* ViewControllerUITests.swift */; };
+		4A6730BB1E23301A00C512B1 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6730BA1E23301A00C512B1 /* SettingsTableViewCell.swift */; };
+		4A6730BD1E23412100C512B1 /* privacy.html in Resources */ = {isa = PBXBuildFile; fileRef = 4A6730BC1E23412100C512B1 /* privacy.html */; };
+		4A6730BF1E23420A00C512B1 /* tos.html in Resources */ = {isa = PBXBuildFile; fileRef = 4A6730BE1E23420A00C512B1 /* tos.html */; };
+		4A6730C11E23426A00C512B1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6730C01E23426A00C512B1 /* SettingsViewController.swift */; };
 		4A698D411D7B7BCE004786B8 /* DiscoverViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D401D7B7BCE004786B8 /* DiscoverViewControllerUITests.swift */; };
 		4A698D431D7B8D0E004786B8 /* ProfileViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D421D7B8D0E004786B8 /* ProfileViewControllerUITests.swift */; };
 		4A698D451D7BA12D004786B8 /* QuandaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D441D7BA12D004786B8 /* QuandaModel.swift */; };
@@ -107,6 +111,10 @@
 		4A5B257C1D65247700691696 /* SnoopUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoopUITests.swift; sourceTree = "<group>"; };
 		4A5B257E1D65247700691696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4A5B25841D6524EB00691696 /* ViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerUITests.swift; sourceTree = "<group>"; };
+		4A6730BA1E23301A00C512B1 /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
+		4A6730BC1E23412100C512B1 /* privacy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = privacy.html; sourceTree = "<group>"; };
+		4A6730BE1E23420A00C512B1 /* tos.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = tos.html; sourceTree = "<group>"; };
+		4A6730C01E23426A00C512B1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4A698D401D7B7BCE004786B8 /* DiscoverViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewControllerUITests.swift; sourceTree = "<group>"; };
 		4A698D421D7B8D0E004786B8 /* ProfileViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewControllerUITests.swift; sourceTree = "<group>"; };
 		4A698D441D7BA12D004786B8 /* QuandaModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuandaModel.swift; sourceTree = "<group>"; };
@@ -259,6 +267,7 @@
 				4A3D5D7A1DF0D47E006FE077 /* CustomOverlayViewController.swift */,
 				4A3D5D7B1DF0D47E006FE077 /* CustomOverlayViewController.xib */,
 				4A15D1771E037CD70013EDC1 /* CoverFrameViewController.swift */,
+				4A6730C01E23426A00C512B1 /* SettingsViewController.swift */,
 			);
 			name = ControllerGroup;
 			sourceTree = "<group>";
@@ -314,6 +323,8 @@
 				4AF322701D29DF220043FCE5 /* TableViewCell */,
 				4A11C05A1D344D1700AEF95D /* UIView */,
 				4A0CE3651D6ECDAF0023EC2D /* Snoop-Bridging-Header.h */,
+				4A6730BC1E23412100C512B1 /* privacy.html */,
+				4A6730BE1E23420A00C512B1 /* tos.html */,
 			);
 			path = Snoop;
 			sourceTree = "<group>";
@@ -326,6 +337,7 @@
 				4AF322731D2C83260043FCE5 /* AnswerTableViewCell.swift */,
 				4AC9231E1D360A0800C83177 /* FeedTableViewCell.swift */,
 				4ACADE121E1345E000831929 /* ActivityTableViewCell.swift */,
+				4A6730BA1E23301A00C512B1 /* SettingsTableViewCell.swift */,
 			);
 			name = TableViewCell;
 			sourceTree = "<group>";
@@ -423,6 +435,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A9C17CF1DBD5A1900F91893 /* snoop-server.der in Resources */,
+				4A6730BF1E23420A00C512B1 /* tos.html in Resources */,
+				4A6730BD1E23412100C512B1 /* privacy.html in Resources */,
 				4AC283711CE2F58100A08D35 /* Assets.xcassets in Resources */,
 				4AD8A6A41D63E8C600757D9D /* Stripe.bundle in Resources */,
 				4AC2836C1CE2F58100A08D35 /* Main.storyboard in Resources */,
@@ -474,11 +488,13 @@
 				4A15D17B1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift in Sources */,
 				4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */,
 				4AC9231F1D360A0800C83177 /* FeedTableViewCell.swift in Sources */,
+				4A6730BB1E23301A00C512B1 /* SettingsTableViewCell.swift in Sources */,
 				4A0EB0ED1D8277C700390D06 /* ContentViewController.swift in Sources */,
 				4A11C05C1D344DF500AEF95D /* RoundCornerButton.swift in Sources */,
 				4A4BB82A1D769BE70085160F /* AbstractModel.swift in Sources */,
 				4A214F351E204E3F0000B29D /* VideoPLayerView.swift in Sources */,
 				4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */,
+				4A6730C11E23426A00C512B1 /* SettingsViewController.swift in Sources */,
 				4AF3226C1D29DE120043FCE5 /* ActivityViewController.swift in Sources */,
 				4A698D451D7BA12D004786B8 /* QuandaModel.swift in Sources */,
 				4ACADE131E1345E000831929 /* ActivityTableViewCell.swift in Sources */,

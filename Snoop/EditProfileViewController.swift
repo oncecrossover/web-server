@@ -20,6 +20,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   @IBOutlet weak var uploadButton: UIButton!
   @IBOutlet weak var rateField: UITextField!
 
+  @IBOutlet weak var submitButton: UIButton!
   var textColor = UIColor(red: 51/255, green: 181/255, blue: 159/255, alpha: 1.0)
 
   var profileValues: (name: String!, title: String!, about: String!, avatarImage:  UIImage!, rate: Double!)
@@ -32,6 +33,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   var activeText: UIView?
 
   var isProfileUpdated = false
+  var isEditingProfile = false
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -48,6 +50,13 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
 
     if (profileValues.avatarImage != nil) {
       profilePhoto.image = profileValues.avatarImage
+    }
+
+    if (isEditingProfile) {
+      submitButton.setImage(UIImage(named: "save"), forState: .Normal)
+    }
+    else {
+      submitButton.setImage(UIImage(named: "apply"), forState: .Normal)
     }
 
     self.contentOffset = self.scrollView.contentOffset
@@ -123,7 +132,11 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
 
   @IBAction func saveButtonTapped(sender: AnyObject) {
     //First start the activity indicator
-    let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Updating Profile...")
+    var text = "Updating Profile..."
+    if (isEditingProfile == false) {
+      text = "Thank you for your appplication..."
+    }
+    let activityIndicator = utility.createCustomActivityIndicator(self.view, text: text)
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
     dismissKeyboard()
     var newRate = 0.0
@@ -148,12 +161,33 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
       }
       else {
-        // We use the delay so users can always see the activity indicator showing profile is being updated
-        let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
-        dispatch_after(time, dispatch_get_main_queue()) {
-          self.isProfileUpdated = true
-          activityIndicator.hideAnimated(true)
-          self.navigationController?.popViewControllerAnimated(true)
+        if (self.isEditingProfile == false) {
+          self.userModule.applyToTakeQuestion(uid!) { result in
+            if (!result.isEmpty) {
+              dispatch_async(dispatch_get_main_queue()) {
+                activityIndicator.hideAnimated(true)
+                self.utility.displayAlertMessage("An error occurs. Please apply later", title: "Alert", sender: self)
+              }
+            }
+            else {
+              // application successfully submitted
+              let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
+              dispatch_after(time, dispatch_get_main_queue()) {
+                self.isProfileUpdated = true
+                activityIndicator.hideAnimated(true)
+                self.navigationController?.popViewControllerAnimated(true)
+              }
+            }
+          }
+        }
+        else {
+          // We use the delay so users can always see the activity indicator showing profile is being updated
+          let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
+          dispatch_after(time, dispatch_get_main_queue()) {
+            self.isProfileUpdated = true
+            activityIndicator.hideAnimated(true)
+            self.navigationController?.popViewControllerAnimated(true)
+          }
         }
       }
     }

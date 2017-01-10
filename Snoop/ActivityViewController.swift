@@ -234,9 +234,7 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
         noDataLabel.text = "You haven't asked any questions yet. Let's discover someone interesting"
 
         button.setImage(UIImage(named: "discoverButton"), forState: .Normal)
-        button.userInteractionEnabled = true
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnDiscoverButton(_:)))
-        button.addGestureRecognizer(gestureRecognizer)
+        button.addTarget(self, action: #selector(ActivityViewController.tappedOnDiscoverButton(_:)), forControlEvents: .TouchUpInside)
       }
       else {
         return 1
@@ -244,7 +242,9 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
     }
     else if (segmentedControl.selectedSegmentIndex == 1) {
       if (answers.count == 0) {
-        noDataLabel.text = "You have no answer requests so far"
+        noDataLabel.text = "Apply to take questions, check your application status, or change your rate"
+        button.setImage(UIImage(named: "profile"), forState: .Normal)
+        button.addTarget(self, action: #selector(ActivityViewController.tappedOnProfileButton(_:)), forControlEvents: .TouchUpInside)
       }
       else {
         return 1
@@ -253,10 +253,8 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
     else if (segmentedControl.selectedSegmentIndex == 2) {
       if (snoops.count == 0) {
         noDataLabel.text = "You haven't listened to any questions so far. Let's see what's trending"
-        button.setImage(UIImage(named: "trendingButton"), forState: .Normal)
-        button.userInteractionEnabled = true
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnHomeButton(_:)))
-        button.addGestureRecognizer(gestureRecognizer)
+        button.setImage(UIImage(named: "trending"), forState: .Normal)
+        button.addTarget(self, action: #selector(ActivityViewController.tappedOnHomeButton(_:)), forControlEvents: .TouchUpInside)
       }
       else {
         return 1
@@ -376,12 +374,16 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
 // UI triggered actions
 extension ActivityViewController {
 
-  func tappedOnHomeButton(sender: UIGestureRecognizer) {
+  func tappedOnHomeButton(sender: AnyObject) {
     self.tabBarController?.selectedIndex = 0
   }
 
-  func tappedOnDiscoverButton(sender: UIGestureRecognizer) {
+  func tappedOnDiscoverButton(sender: AnyObject) {
     self.tabBarController?.selectedIndex = 1
+  }
+
+  func tappedOnProfileButton(sender: AnyObject) {
+    self.tabBarController?.selectedIndex = 3
   }
 
   func tappedOnImage(sender:UIGestureRecognizer) {
