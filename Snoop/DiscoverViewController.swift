@@ -26,6 +26,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
     discoverTableView.rowHeight = UITableViewAutomaticDimension
     discoverTableView.estimatedRowHeight = 80
+    discoverTableView.tableFooterView = UIView()
 
     searchController.searchResultsUpdater = self
     searchController.dimsBackgroundDuringPresentation = false
@@ -66,7 +67,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   func loadProfiles() {
     discoverTableView.userInteractionEnabled = false
     tmpProfiles = []
-    let url = "limit=10"
+    let url = "takeQuestion='APPROVED'&limit=10"
     loadProfiles(url)
   }
 
@@ -183,7 +184,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
       if (indexPath.row == profiles.count - 1) {
         let updatedTime = Int64(profile.updatedTime)
         let lastSeenId = profile.uid
-        let url = "limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId='" + lastSeenId + "'"
+        let url = "takeQuestion='APPROVED'&limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId='" + lastSeenId + "'"
         loadProfiles(url)
       }
     }

@@ -24,6 +24,7 @@ class ProfileViewController: UIViewController {
 
   @IBOutlet weak var applyButton: UIButton!
   @IBOutlet weak var settingsTable: UITableView!
+  var approvedLabel = UILabel()
   var userModule = User()
   var segueDouble:(String, String)?
   var isEditButtonClicked = true
@@ -92,6 +93,8 @@ extension ProfileViewController {
           self.profilePhoto.image = UIImage(named: "default")
         }
 
+        self.applyButton.hidden = false
+        self.approvedLabel.hidden = true
         self.handleApplyButtonView(status)
 
         self.activityIndicator.stopAnimating()
@@ -108,14 +111,15 @@ extension ProfileViewController {
     }
     else {
       let frame = applyButton.frame
-      let label = UILabel(frame: frame)
+      approvedLabel.frame = frame
       applyButton.hidden = true
-      self.view.addSubview(label)
-      label.text = "Congratulations, you can start taking questions."
-      label.textAlignment = .Center
-      label.textColor = UIColor(red: 51/255, green: 181/255, blue: 159/255, alpha: 1.0)
-      label.numberOfLines = 0
-      label.font = UIFont.systemFontOfSize(14)
+      approvedLabel.hidden = false
+      self.view.addSubview(approvedLabel)
+      approvedLabel.text = "Congratulations, you can start taking questions."
+      approvedLabel.textAlignment = .Center
+      approvedLabel.textColor = UIColor(red: 51/255, green: 181/255, blue: 159/255, alpha: 1.0)
+      approvedLabel.numberOfLines = 0
+      approvedLabel.font = UIFont.systemFontOfSize(14)
     }
   }
 }
