@@ -26,6 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     pageController.pageIndicatorTintColor = UIColor.lightGrayColor()
     pageController.currentPageIndicatorTintColor = UIColor.blackColor()
     pageController.backgroundColor = UIColor.whiteColor()
+
+    UITabBar.appearance().tintColor = UIColor(red: 51/255, green: 181/255, blue: 159/255, alpha: 1.0)
     return true
   }
   
