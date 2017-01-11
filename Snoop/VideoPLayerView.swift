@@ -104,8 +104,12 @@ class VideoPLayerView: UIView {
 
   func closeView() {
     player?.pause()
-    container.removeFromSuperview()
-    self.removeFromSuperview()
+    UIView.animateWithDuration(1.0, animations: {
+      self.alpha = 0
+      }, completion: { (result) in
+        self.container.removeFromSuperview()
+        self.removeFromSuperview()
+    })
   }
 
   func setupLoadingControls() {

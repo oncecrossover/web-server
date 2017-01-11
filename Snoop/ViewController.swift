@@ -277,10 +277,10 @@ extension ViewController {
     let newFrame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
     self.tabBarController?.view.addSubview(videoPlayerView)
     activePlayerView = videoPlayerView
-    UIView.animateWithDuration(0.5){
+    UIView.animateWithDuration(1.0, delay: 0.0, options: .CurveEaseOut, animations: {
       videoPlayerView.frame = newFrame
       videoPlayerView.setupLoadingControls()
-    }
+      }, completion: nil)
 
     let questionInfo = feeds[indexPath.row]
     let questionId = questionInfo.id
