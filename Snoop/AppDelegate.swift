@@ -19,7 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     // Override point for customization after application launch.
     let nav = UINavigationBar.appearance()
-    nav.titleTextAttributes = [ NSForegroundColorAttributeName:UIColor.orangeColor()]
+    nav.tintColor = UIColor.blackColor()
+    nav.titleTextAttributes = [ NSForegroundColorAttributeName:UIColor.blackColor()]
     STPPaymentConfiguration.sharedConfiguration().publishableKey = "pk_test_Mn99c0kYcKvT4yDyYNORk4cX"
 
     let pageController = UIPageControl.appearance()
