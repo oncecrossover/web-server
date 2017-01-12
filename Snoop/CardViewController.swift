@@ -9,7 +9,7 @@
 import UIKit
 import Stripe
 
-class PaymentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class CardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
   var cards:[(id: Int!, lastFour: String!, brand: String!, isDefault: Bool!)] = []
   var paymentModule = Payment()

@@ -1192,10 +1192,10 @@
             </objects>
             <point key="canvasLocation" x="3520.8000000000002" y="1118.5907046476761"/>
         </scene>
-        <!--Payment Cards-->
+        <!--Cards-->
         <scene sceneID="Ur7-Er-c9H">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="AKp-Uf-jpw" customClass="PaymentViewController" customModule="Snoop" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="AKp-Uf-jpw" customClass="CardViewController" customModule="Snoop" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="j04-qH-iKg"/>
                         <viewControllerLayoutGuide type="bottom" id="1yL-ah-V6G"/>
@@ -1258,7 +1258,7 @@
                             <constraint firstItem="He7-zK-XT1" firstAttribute="centerY" secondItem="dpx-rL-oRd" secondAttribute="centerY" id="tZz-jf-beL"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Payment Cards" id="LSo-0G-uav">
+                    <navigationItem key="navigationItem" title="Cards" id="LSo-0G-uav">
                         <barButtonItem key="backBarButtonItem" title="Back" id="ptK-me-adK"/>
                     </navigationItem>
                     <connections>
@@ -2584,9 +2584,9 @@
         <image name="payment" width="122" height="122"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Kjo-bx-Bbf"/>
-        <segue reference="bHf-mE-1Xg"/>
+        <segue reference="KRu-3m-3Wk"/>
         <segue reference="Dj5-e0-VQE"/>
         <segue reference="Wdp-Ew-5fA"/>
+        <segue reference="QxE-Av-LH0"/>
     </inferredMetricsTieBreakers>
 </document>
