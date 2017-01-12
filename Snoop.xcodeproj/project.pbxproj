@@ -20,6 +20,7 @@
 		4A368E8C1D5CFA8000176C54 /* ChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */; };
 		4A3A56631E26D8D600FC0F3B /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3A56621E26D8D600FC0F3B /* extension.swift */; };
 		4A3A56651E26DECB00FC0F3B /* customButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3A56641E26DECB00FC0F3B /* customButton.swift */; };
+		4A3A56671E27168C00FC0F3B /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3A56661E27168C00FC0F3B /* PaymentViewController.swift */; };
 		4A3D5D791DE8C41A006FE077 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */; };
 		4A3D5D7C1DF0D47E006FE077 /* CustomOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D5D7A1DF0D47E006FE077 /* CustomOverlayViewController.swift */; };
 		4A3D5D7D1DF0D47E006FE077 /* CustomOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A3D5D7B1DF0D47E006FE077 /* CustomOverlayViewController.xib */; };
@@ -29,6 +30,7 @@
 		4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
 		4A4BB82E1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
 		4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */; };
+		4A55E8FB1E282DB600B033F4 /* BalanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A55E8FA1E282DB600B033F4 /* BalanceViewController.swift */; };
 		4A5A9A311D80D38F00140AA9 /* AskViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9A301D80D38F00140AA9 /* AskViewControllerUITests.swift */; };
 		4A5B257D1D65247700691696 /* SnoopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B257C1D65247700691696 /* SnoopUITests.swift */; };
 		4A5B25851D6524EB00691696 /* ViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B25841D6524EB00691696 /* ViewControllerUITests.swift */; };
@@ -66,7 +68,7 @@
 		4AD721A41D8335B600B9E64E /* TutorialViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD721A31D8335B600B9E64E /* TutorialViewControllerUITests.swift */; };
 		4AD8A6A21D63E8AF00757D9D /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD8A6A11D63E8AF00757D9D /* Stripe.framework */; };
 		4AD8A6A41D63E8C600757D9D /* Stripe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4AD8A6A31D63E8C600757D9D /* Stripe.bundle */; };
-		4AE8660F1D3C3CF400316DBA /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE8660E1D3C3CF400316DBA /* CardViewController.swift */; };
+		4AE8660F1D3C3CF400316DBA /* CardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE8660E1D3C3CF400316DBA /* CardsViewController.swift */; };
 		4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF2A1B1D14BABA002E3CFE /* User.swift */; };
 		4AF3226A1D29A1E10043FCE5 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF322691D29A1E10043FCE5 /* Question.swift */; };
 		4AF3226C1D29DE120043FCE5 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF3226B1D29DE120043FCE5 /* ActivityViewController.swift */; };
@@ -103,6 +105,7 @@
 		4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargeViewController.swift; sourceTree = "<group>"; };
 		4A3A56621E26D8D600FC0F3B /* extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
 		4A3A56641E26DECB00FC0F3B /* customButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = customButton.swift; sourceTree = "<group>"; };
+		4A3A56661E27168C00FC0F3B /* PaymentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
 		4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4A3D5D7A1DF0D47E006FE077 /* CustomOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomOverlayViewController.swift; sourceTree = "<group>"; };
 		4A3D5D7B1DF0D47E006FE077 /* CustomOverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomOverlayViewController.xib; sourceTree = "<group>"; };
@@ -110,6 +113,7 @@
 		4A4BB8291D769BE70085160F /* AbstractModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbstractModel.swift; sourceTree = "<group>"; };
 		4A4BB82C1D769CF40085160F /* DiscoverModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverModel.swift; sourceTree = "<group>"; };
 		4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
+		4A55E8FA1E282DB600B033F4 /* BalanceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BalanceViewController.swift; sourceTree = "<group>"; };
 		4A5A9A301D80D38F00140AA9 /* AskViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AskViewControllerUITests.swift; sourceTree = "<group>"; };
 		4A5B257A1D65247700691696 /* SnoopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnoopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A5B257C1D65247700691696 /* SnoopUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoopUITests.swift; sourceTree = "<group>"; };
@@ -151,7 +155,7 @@
 		4AD721A31D8335B600B9E64E /* TutorialViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewControllerUITests.swift; sourceTree = "<group>"; };
 		4AD8A6A11D63E8AF00757D9D /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Stripe.framework; sourceTree = "<group>"; };
 		4AD8A6A31D63E8C600757D9D /* Stripe.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Stripe.bundle; path = Stripe.framework/Stripe.bundle; sourceTree = "<group>"; };
-		4AE8660E1D3C3CF400316DBA /* CardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
+		4AE8660E1D3C3CF400316DBA /* CardsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardsViewController.swift; sourceTree = "<group>"; };
 		4AEF2A1B1D14BABA002E3CFE /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4AF322691D29A1E10043FCE5 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		4AF3226B1D29DE120043FCE5 /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
@@ -261,7 +265,7 @@
 				4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */,
 				4AF3226B1D29DE120043FCE5 /* ActivityViewController.swift */,
 				4AF322751D2DBCB50043FCE5 /* AnswerViewController.swift */,
-				4AE8660E1D3C3CF400316DBA /* CardViewController.swift */,
+				4AE8660E1D3C3CF400316DBA /* CardsViewController.swift */,
 				4ABD20301D407ECC00C3B74E /* AddCardViewController.swift */,
 				4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */,
 				4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */,
@@ -273,6 +277,8 @@
 				4A3D5D7B1DF0D47E006FE077 /* CustomOverlayViewController.xib */,
 				4A15D1771E037CD70013EDC1 /* CoverFrameViewController.swift */,
 				4A6730C01E23426A00C512B1 /* SettingsViewController.swift */,
+				4A3A56661E27168C00FC0F3B /* PaymentViewController.swift */,
+				4A55E8FA1E282DB600B033F4 /* BalanceViewController.swift */,
 			);
 			name = ControllerGroup;
 			sourceTree = "<group>";
@@ -480,6 +486,7 @@
 				4AC2836F1CE2F58100A08D35 /* Peep.xcdatamodeld in Sources */,
 				4ABD203D1D443E1A00C3B74E /* UIUtility.swift in Sources */,
 				4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */,
+				4A55E8FB1E282DB600B033F4 /* BalanceViewController.swift in Sources */,
 				4A3A56651E26DECB00FC0F3B /* customButton.swift in Sources */,
 				4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */,
 				4AF322761D2DBCB50043FCE5 /* AnswerViewController.swift in Sources */,
@@ -489,8 +496,9 @@
 				4A0CE3681D6ECDB10023EC2D /* MBProgressHUD.m in Sources */,
 				4A3D5D7F1DF0D4BB006FE077 /* CustomOverlayView.swift in Sources */,
 				4AC2837E1CED0E4500A08D35 /* LoginViewController.swift in Sources */,
-				4AE8660F1D3C3CF400316DBA /* CardViewController.swift in Sources */,
+				4AE8660F1D3C3CF400316DBA /* CardsViewController.swift in Sources */,
 				4ABD20311D407ECC00C3B74E /* AddCardViewController.swift in Sources */,
+				4A3A56671E27168C00FC0F3B /* PaymentViewController.swift in Sources */,
 				4AC2837C1CECEE3800A08D35 /* SignupPageViewController.swift in Sources */,
 				4A15D17B1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift in Sources */,
 				4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */,

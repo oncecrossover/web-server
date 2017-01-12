@@ -12,6 +12,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
 
   @IBOutlet weak var chargeLabel: UILabel!
   @IBOutlet weak var balanceLabel: UILabel!
+  @IBOutlet weak var addCardButton: UIButton!
 
   @IBOutlet weak var payButton: UIButton!
   var generics = Generics()
@@ -96,6 +97,13 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
     }
   }
 
+  @IBAction func addCardButtonTapped(sender: AnyObject) {
+    let backItem = UIBarButtonItem()
+    backItem.title = "Back"
+    navigationItem.backBarButtonItem = backItem
+    let dvc = AddCardViewController()
+    self.navigationController?.pushViewController(dvc, animated: true)
+  }
   func submitPaymentForSnoop() {
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Submitting Your Payment...")
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")

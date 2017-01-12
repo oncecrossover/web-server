@@ -197,7 +197,11 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
     else {
       if (indexPath.row == 0) {
-        self.performSegueWithIdentifier("profileToPaymentSegue", sender: self)
+        let backItem = UIBarButtonItem()
+        backItem.title = "Back"
+        navigationItem.backBarButtonItem = backItem
+        let dvc = PaymentViewController()
+        self.navigationController?.pushViewController(dvc, animated: true)
       }
       else if (indexPath.row == 1) {
       }

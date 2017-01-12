@@ -11,10 +11,12 @@ import Foundation
 class Payment {
 
   private var PAYMENTURI: String
+  private var BALANCEURI: String
   private var generics = Generics()
 
   init(){
     PAYMENTURI = generics.HTTPHOST + "pcentries"
+    BALANCEURI = generics.HTTPHOST + "balances/"
   }
 
   func createPayment(token: String!, completion: (String) ->()) {
@@ -29,6 +31,13 @@ class Payment {
   func getPayments(filterString: String!, completion: (NSArray) -> ()) {
     let url = NSURL(string: PAYMENTURI + "?filter=" + filterString)
     generics.getFilteredObjects(url!) { result in
+      completion(result)
+    }
+  }
+
+  func getBalance(uid: String!, completion: (NSDictionary) -> ()) {
+    let url = NSURL(string: BALANCEURI + uid)!
+    generics.getObjectById(url) { result in
       completion(result)
     }
   }

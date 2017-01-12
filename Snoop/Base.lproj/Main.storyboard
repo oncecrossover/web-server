@@ -207,7 +207,7 @@
                                     <color key="titleColor" red="0.21227260449999999" green="0.72222222219999999" blue="0.098522010379999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="6Pt-rF-4DL" kind="show" identifier="chargeToAddCard" id="KPI-O4-rSf"/>
+                                    <action selector="addCardButtonTapped:" destination="wox-rn-42m" eventType="touchUpInside" id="7nw-S9-F45"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HSF-PC-VuV">
@@ -261,6 +261,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="addCardButton" destination="VsL-W5-Xcc" id="5OI-p7-qwo"/>
                         <outlet property="balanceLabel" destination="GG5-GQ-ON6" id="kOy-0W-RMt"/>
                         <outlet property="chargeLabel" destination="1gS-Xd-FVx" id="Ugh-Qx-3Ml"/>
                         <outlet property="payButton" destination="2Vg-OY-1Rs" id="Eff-ZA-fN5"/>
@@ -296,7 +297,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="184"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0jz-Fb-nvV" id="7uX-w0-SyT">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="183"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="183.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="question" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zM4-xp-xB4" customClass="TextFitLabel" customModule="Snoop" customModuleProvider="target">
@@ -467,7 +468,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="226"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jAL-xt-qtK" id="RPN-em-CsP">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="225"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="225.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fWb-4p-6Qz">
@@ -643,7 +644,7 @@
                                         <rect key="frame" x="0.0" y="28" width="355" height="223"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ann-DZ-ooB" id="eji-TO-bgk">
-                                            <rect key="frame" x="0.0" y="0.0" width="355" height="222"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="355" height="222.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="V9W-nH-Xd7">
@@ -1043,7 +1044,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="35"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="p3i-wp-P3l" id="b9c-dH-WYF">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="34"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="34.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XKj-LM-EVX">
@@ -1080,7 +1081,7 @@
                                         <rect key="frame" x="0.0" y="63" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mKw-Tt-ALs" id="zhF-Qn-KJe">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1183,7 +1184,6 @@
                         <outlet property="settingsTable" destination="Boh-hA-GCB" id="qlI-mi-9gk"/>
                         <outlet property="titleLabel" destination="ji3-uv-Rem" id="Sx5-uD-v6w"/>
                         <segue destination="vry-Hq-iLC" kind="presentation" identifier="loginView" id="Dj5-e0-VQE"/>
-                        <segue destination="AKp-Uf-jpw" kind="show" identifier="profileToPaymentSegue" id="vdK-3k-YtQ"/>
                         <segue destination="5C6-d8-zZS" kind="show" identifier="profileToSettingsSegue" id="ebU-0S-0Qd"/>
                         <segue destination="LoA-NY-dJ5" kind="show" identifier="segueToProfileEdit" id="lPc-e6-zat"/>
                     </connections>
@@ -1191,85 +1191,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fhi-L7-UpJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3520.8000000000002" y="1118.5907046476761"/>
-        </scene>
-        <!--Cards-->
-        <scene sceneID="Ur7-Er-c9H">
-            <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="AKp-Uf-jpw" customClass="CardViewController" customModule="Snoop" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="j04-qH-iKg"/>
-                        <viewControllerLayoutGuide type="bottom" id="1yL-ah-V6G"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="dpx-rL-oRd">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="54" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="WdK-wR-8yl">
-                                <rect key="frame" x="16" y="64" width="343" height="200"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <activityIndicatorView key="tableFooterView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" id="0QO-jz-TpF">
-                                    <rect key="frame" x="0.0" y="55" width="343" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </activityIndicatorView>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cardCell" textLabel="1Lb-rc-db0" rowHeight="54" style="IBUITableViewCellStyleDefault" id="OWI-pC-n7T">
-                                        <rect key="frame" x="0.0" y="1" width="343" height="54"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OWI-pC-n7T" id="0Iv-oN-Qzu">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="53"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1Lb-rc-db0">
-                                                    <rect key="frame" x="15" y="0.0" width="313" height="53"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="AKp-Uf-jpw" id="FI7-01-R9Q"/>
-                                    <outlet property="delegate" destination="AKp-Uf-jpw" id="VFV-yD-QhY"/>
-                                </connections>
-                            </tableView>
-                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="He7-zK-XT1" customClass="customButton" customModule="Snoop" customModuleProvider="target">
-                                <rect key="frame" x="16" y="313.5" width="343" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="y0f-On-nAn"/>
-                                </constraints>
-                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Add Card"/>
-                                <connections>
-                                    <segue destination="6Pt-rF-4DL" kind="show" id="Wdp-Ew-5fA"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="He7-zK-XT1" firstAttribute="leading" secondItem="dpx-rL-oRd" secondAttribute="leadingMargin" id="PhR-VR-pTq"/>
-                            <constraint firstItem="WdK-wR-8yl" firstAttribute="height" secondItem="dpx-rL-oRd" secondAttribute="height" multiplier="0.3" id="Rfp-DP-8rj"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="WdK-wR-8yl" secondAttribute="leading" id="Xb0-gk-EgN"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="WdK-wR-8yl" secondAttribute="trailing" id="lFT-zc-NNR"/>
-                            <constraint firstItem="He7-zK-XT1" firstAttribute="centerX" secondItem="dpx-rL-oRd" secondAttribute="centerX" id="liC-BK-Axz"/>
-                            <constraint firstItem="WdK-wR-8yl" firstAttribute="top" secondItem="j04-qH-iKg" secondAttribute="bottom" id="rtG-it-9Yo"/>
-                            <constraint firstItem="He7-zK-XT1" firstAttribute="centerY" secondItem="dpx-rL-oRd" secondAttribute="centerY" id="tZz-jf-beL"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Cards" id="LSo-0G-uav">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="ptK-me-adK"/>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="activityIndicator" destination="0QO-jz-TpF" id="qqo-mH-9TT"/>
-                        <outlet property="addCardButton" destination="He7-zK-XT1" id="8sz-kV-78Z"/>
-                        <outlet property="cardTableView" destination="WdK-wR-8yl" id="Moy-8U-erU"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Nfp-6V-PtV" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4314" y="1119"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="owE-n9-ab0">
@@ -1595,50 +1516,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="88m-2m-uis" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3517.5999999999999" y="1854.4227886056974"/>
-        </scene>
-        <!--Add A Card-->
-        <scene sceneID="MPh-Lf-c4Y">
-            <objects>
-                <viewController id="6Pt-rF-4DL" customClass="AddCardViewController" customModule="Snoop" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="b5F-cZ-1qx"/>
-                        <viewControllerLayoutGuide type="bottom" id="UxR-iF-x3s"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="rjB-2h-bxb">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fdU-MJ-VsS">
-                                <rect key="frame" x="137" y="146" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGi-Kz-HqG" customClass="customButton" customModule="Snoop" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="583" width="375" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="5bN-eM-CKk"/>
-                                </constraints>
-                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Save"/>
-                                <connections>
-                                    <action selector="saveButtonTapped:" destination="6Pt-rF-4DL" eventType="touchUpInside" id="JtS-FJ-9tF"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="UxR-iF-x3s" firstAttribute="top" secondItem="qGi-Kz-HqG" secondAttribute="bottom" id="7mC-D7-40c"/>
-                            <constraint firstItem="qGi-Kz-HqG" firstAttribute="centerX" secondItem="rjB-2h-bxb" secondAttribute="centerX" id="L1e-lB-p7p"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="qGi-Kz-HqG" secondAttribute="leading" constant="16" id="tZD-WE-ero"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Add A Card" id="YWw-28-AbX"/>
-                    <connections>
-                        <outlet property="saveButton" destination="qGi-Kz-HqG" id="o2R-Nt-fhV"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jwt-QC-VjG" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5175" y="1119"/>
         </scene>
         <!--Signup Page View Controller-->
         <scene sceneID="xLL-8N-ufF">
@@ -2257,7 +2134,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="69"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="brl-nl-8pR" id="V1k-z6-f1u">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="68"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="68.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="v8d-f1-jaE" customClass="CircleImageView" customModule="Snoop" customModuleProvider="target">
@@ -2584,9 +2461,8 @@
         <image name="payment" width="122" height="122"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="QxE-Av-LH0"/>
         <segue reference="KRu-3m-3Wk"/>
         <segue reference="Dj5-e0-VQE"/>
-        <segue reference="Wdp-Ew-5fA"/>
-        <segue reference="QxE-Av-LH0"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -16,24 +16,38 @@ class AddCardViewController: UIViewController, STPPaymentCardTextFieldDelegate {
   var paymentModule = Payment()
   var utility = UIUtility()
 
-  @IBOutlet weak var saveButton: UIButton!
+  lazy var saveButton: customButton = {
+    let button = customButton()
+    button.enabled = false
+    button.setTitle("Save", forState: .Normal)
+    button.setTitle("Save", forState: .Disabled)
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.addTarget(self, action: #selector(AddCardViewController.saveButtonTapped(_:)), forControlEvents: .TouchUpInside)
+    return button
+  }()
+
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    view.backgroundColor = UIColor.whiteColor()
 
     stripeView = STPPaymentCardTextField(frame: CGRectMake((self.view.frame.width - 300)/2, 100, 300, 60))
     stripeView.delegate = self
     view.addSubview(stripeView)
-    saveButton.enabled = false
+    view.addSubview(saveButton)
+
+    // button constraints
+    let height = self.tabBarController?.tabBar.frame.height
+    saveButton.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
+    saveButton.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
+    saveButton.heightAnchor.constraintEqualToConstant(40).active = true
+    saveButton.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -height!).active = true
+
     self.navigationItem.rightBarButtonItem = nil
 
   }
 
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
-  }
-
-  @IBAction func saveButtonTapped(sender: AnyObject) {
+  func saveButtonTapped(sender: AnyObject) {
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Adding New Card...")
 
     let client = STPAPIClient.init(publishableKey: "pk_test_wyZIIuEmr4TQLHVnZHUxlTtm")
