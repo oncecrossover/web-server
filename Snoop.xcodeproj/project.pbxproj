@@ -18,6 +18,8 @@
 		4A15D17B1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15D17A1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift */; };
 		4A214F351E204E3F0000B29D /* VideoPLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A214F341E204E3F0000B29D /* VideoPLayerView.swift */; };
 		4A368E8C1D5CFA8000176C54 /* ChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */; };
+		4A3A56631E26D8D600FC0F3B /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3A56621E26D8D600FC0F3B /* extension.swift */; };
+		4A3A56651E26DECB00FC0F3B /* customButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3A56641E26DECB00FC0F3B /* customButton.swift */; };
 		4A3D5D791DE8C41A006FE077 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */; };
 		4A3D5D7C1DF0D47E006FE077 /* CustomOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D5D7A1DF0D47E006FE077 /* CustomOverlayViewController.swift */; };
 		4A3D5D7D1DF0D47E006FE077 /* CustomOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A3D5D7B1DF0D47E006FE077 /* CustomOverlayViewController.xib */; };
@@ -99,6 +101,8 @@
 		4A15D17A1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoverFrameCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A214F341E204E3F0000B29D /* VideoPLayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPLayerView.swift; sourceTree = "<group>"; };
 		4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargeViewController.swift; sourceTree = "<group>"; };
+		4A3A56621E26D8D600FC0F3B /* extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
+		4A3A56641E26DECB00FC0F3B /* customButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = customButton.swift; sourceTree = "<group>"; };
 		4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4A3D5D7A1DF0D47E006FE077 /* CustomOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomOverlayViewController.swift; sourceTree = "<group>"; };
 		4A3D5D7B1DF0D47E006FE077 /* CustomOverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomOverlayViewController.xib; sourceTree = "<group>"; };
@@ -186,6 +190,7 @@
 				4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */,
 				4AF910731D449F1800546F95 /* InteractiveUITextField.swift */,
 				4A214F341E204E3F0000B29D /* VideoPLayerView.swift */,
+				4A3A56641E26DECB00FC0F3B /* customButton.swift */,
 			);
 			name = UIView;
 			sourceTree = "<group>";
@@ -325,6 +330,7 @@
 				4A0CE3651D6ECDAF0023EC2D /* Snoop-Bridging-Header.h */,
 				4A6730BC1E23412100C512B1 /* privacy.html */,
 				4A6730BE1E23420A00C512B1 /* tos.html */,
+				4A3A56621E26D8D600FC0F3B /* extension.swift */,
 			);
 			path = Snoop;
 			sourceTree = "<group>";
@@ -474,6 +480,7 @@
 				4AC2836F1CE2F58100A08D35 /* Peep.xcdatamodeld in Sources */,
 				4ABD203D1D443E1A00C3B74E /* UIUtility.swift in Sources */,
 				4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */,
+				4A3A56651E26DECB00FC0F3B /* customButton.swift in Sources */,
 				4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */,
 				4AF322761D2DBCB50043FCE5 /* AnswerViewController.swift in Sources */,
 				4ACADE151E13586C00831929 /* ActivityModel.swift in Sources */,
@@ -507,6 +514,7 @@
 				4AF3226E1D29DEEB0043FCE5 /* QuestionTableViewCell.swift in Sources */,
 				4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */,
 				4A745CBE1D73A5D500797AFC /* ConfirmationViewController.swift in Sources */,
+				4A3A56631E26D8D600FC0F3B /* extension.swift in Sources */,
 				4ABB89F81D7DEE2C0022DEF2 /* FeedsModel.swift in Sources */,
 				4AF322741D2C83260043FCE5 /* AnswerTableViewCell.swift in Sources */,
 				4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */,

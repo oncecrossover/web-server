@@ -36,8 +36,6 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
       chargeAmount = submittedQuestion.amount
     }
 
-    payButton.setImage(UIImage(named: "disabledPay"), forState: .Disabled)
-    payButton.setImage(UIImage(named: "enabledPay"), forState: .Normal)
     payButton.enabled = false
 
     navigationController?.delegate = self

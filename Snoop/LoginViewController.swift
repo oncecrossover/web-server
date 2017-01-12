@@ -14,14 +14,14 @@ class LoginViewController: UIViewController {
   @IBOutlet weak var userPasswordTextField: UITextField!
   @IBOutlet weak var loginButton: UIButton!
 
+  @IBOutlet weak var signupButton: UIButton!
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    loginButton.setImage(UIImage(named: "disabledLogin"), forState: .Disabled)
-    loginButton.setImage(UIImage(named: "enabledLogin"), forState: .Normal)
     loginButton.enabled = false
     userEmailTextField.addTarget(self, action: #selector(LoginViewController.checkFields(_:)), forControlEvents: .EditingChanged)
     userPasswordTextField.addTarget(self, action: #selector(LoginViewController.checkFields(_:)), forControlEvents: .EditingChanged)
+    signupButton.enabled = true
   }
   var utility = UIUtility()
 

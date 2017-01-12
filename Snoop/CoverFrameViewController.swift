@@ -21,6 +21,7 @@ class CoverFrameViewController: UIViewController {
       }
     }
   }
+  @IBOutlet weak var submitButton: UIButton!
   var fileName = "videoFile.m4a"
   var coverFrames:[UIImage] = []
   var quandaId:Int?
@@ -35,6 +36,8 @@ class CoverFrameViewController: UIViewController {
 extension CoverFrameViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    submitButton.backgroundColor = UIColor.defaultColor()
 
     // Creating left bar
     let navbar = UINavigationBar(frame: CGRectMake(0, 0,

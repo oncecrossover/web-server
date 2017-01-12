@@ -26,13 +26,9 @@ class PasswordResetViewController: UIViewController{
   override func viewDidLoad() {
     super.viewDidLoad()
     togglePasswordView(true)
-    sendButton.setImage(UIImage(named: "sendEmailDisabled"), forState: .Disabled)
-    sendButton.setImage(UIImage(named: "sendEmailEnabled"), forState: .Normal)
     sendButton.enabled = false
     email.addTarget(self, action: #selector(PasswordResetViewController.checkEmail(_:)), forControlEvents: .EditingChanged)
 
-    saveButton.setImage(UIImage(named: "enabledReset"), forState: .Normal)
-    saveButton.setImage(UIImage(named: "disabledReset"), forState: .Disabled)
     saveButton.enabled = false
     tmpPassword.addTarget(self, action: #selector(PasswordResetViewController.checkPassword(_:)), forControlEvents: .EditingChanged)
     newPassword.addTarget(self, action: #selector(PasswordResetViewController.checkPassword(_:)), forControlEvents: .EditingChanged)

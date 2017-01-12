@@ -53,11 +53,13 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
 
     if (isEditingProfile) {
-      submitButton.setImage(UIImage(named: "save"), forState: .Normal)
+      submitButton.setTitle("Save", forState: .Normal)
     }
     else {
-      submitButton.setImage(UIImage(named: "apply"), forState: .Normal)
+      submitButton.setTitle("Apply", forState: .Normal)
     }
+
+    submitButton.enabled = true
 
     self.contentOffset = self.scrollView.contentOffset
     self.scrollView.addGestureRecognizer(UITapGestureRecognizer(target: self,action: #selector(EditProfileViewController.dismissKeyboard(_:))))

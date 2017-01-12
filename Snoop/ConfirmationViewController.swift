@@ -10,10 +10,10 @@ import UIKit
 
 class ConfirmationViewController: UIViewController {
 
+  @IBOutlet weak var confirmationButton: UIButton!
   override func viewDidLoad() {
     super.viewDidLoad()
-
-    // Do any additional setup after loading the view.
+    confirmationButton.enabled = true
   }
 
   override func didReceiveMemoryWarning() {

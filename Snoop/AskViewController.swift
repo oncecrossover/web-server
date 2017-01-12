@@ -34,26 +34,13 @@ class AskViewController: UIViewController, UITextViewDelegate {
     initView()
   }
 
-  override func viewDidAppear(animated: Bool) {
-    super.viewDidAppear(animated)
-
-    let originalImage = UIImage(named: "ask")
-    self.askButton.layoutIfNeeded()
-    let x = self.askButton.frame.size.width * 0.3
-    let y = self.askButton.frame.size.height * 0.3
-    let textColor = UIColor.whiteColor()
-    let textFont = UIFont.systemFontOfSize(18)
-    let textPoint = CGPointMake(x, y)
+  func initView() {
+    self.askButton.backgroundColor = UIColor.defaultColor()
     var text = "$\(profileInfo.rate) to ask"
     if (profileInfo.rate == 0.0) {
       text = "Free to ask"
     }
-
-    self.askButton.setImage(utility.addTextToImage(text, inImage: originalImage!, atPoint: textPoint,
-      textColor: textColor, textFont: textFont), forState: .Normal)
-  }
-
-  func initView() {
+    self.askButton.setTitle(text, forState: .Normal)
     self.aboutLabel.text = profileInfo.about
     self.aboutLabel.font = self.aboutLabel.font.fontWithSize(12)
 

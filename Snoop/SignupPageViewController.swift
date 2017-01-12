@@ -22,8 +22,6 @@ class SignupPageViewController: UIViewController {
     super.viewDidLoad()
 
     signupButton.enabled = false
-    signupButton.setImage(UIImage(named: "disabledSignup"), forState: .Disabled)
-    signupButton.setImage(UIImage(named: "enabledSignup"), forState: .Normal)
 
     userNameTextField.addTarget(self, action: #selector(SignupPageViewController.checkFields(_:)), forControlEvents: .EditingChanged)
     userEmailTextField.addTarget(self, action: #selector(SignupPageViewController.checkFields(_:)), forControlEvents: .EditingChanged)

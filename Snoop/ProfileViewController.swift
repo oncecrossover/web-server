@@ -35,8 +35,9 @@ extension ProfileViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     settingsTable.tableFooterView = UIView()
-    applyButton.setImage(UIImage(named: "apply"), forState: .Normal)
-    applyButton.setImage(UIImage(named: "awaiting"), forState: .Disabled)
+    applyButton.setTitle("Apply to Take Questions", forState: .Normal)
+    applyButton.setTitle("Awaiting Approval", forState: .Disabled)
+    applyButton.layer.cornerRadius = 4
   }
 
   override func viewDidAppear(animated: Bool) {

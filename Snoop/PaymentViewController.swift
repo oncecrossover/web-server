@@ -16,9 +16,11 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
 
   @IBOutlet weak var cardTableView: UITableView!
 
+  @IBOutlet weak var addCardButton: UIButton!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   override func viewDidLoad() {
     super.viewDidLoad()
+    addCardButton.enabled = true
   }
 
   override func viewWillAppear(animated: Bool) {
