@@ -31,6 +31,7 @@
 		4A4BB82E1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
 		4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */; };
 		4A55E8FB1E282DB600B033F4 /* BalanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A55E8FA1E282DB600B033F4 /* BalanceViewController.swift */; };
+		4A55E8FD1E2877D000B033F4 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A55E8FC1E2877D000B033F4 /* CustomSegmentedControl.swift */; };
 		4A5A9A311D80D38F00140AA9 /* AskViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9A301D80D38F00140AA9 /* AskViewControllerUITests.swift */; };
 		4A5B257D1D65247700691696 /* SnoopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B257C1D65247700691696 /* SnoopUITests.swift */; };
 		4A5B25851D6524EB00691696 /* ViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B25841D6524EB00691696 /* ViewControllerUITests.swift */; };
@@ -114,6 +115,7 @@
 		4A4BB82C1D769CF40085160F /* DiscoverModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverModel.swift; sourceTree = "<group>"; };
 		4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
 		4A55E8FA1E282DB600B033F4 /* BalanceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BalanceViewController.swift; sourceTree = "<group>"; };
+		4A55E8FC1E2877D000B033F4 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 		4A5A9A301D80D38F00140AA9 /* AskViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AskViewControllerUITests.swift; sourceTree = "<group>"; };
 		4A5B257A1D65247700691696 /* SnoopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnoopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A5B257C1D65247700691696 /* SnoopUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoopUITests.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				4AF910731D449F1800546F95 /* InteractiveUITextField.swift */,
 				4A214F341E204E3F0000B29D /* VideoPLayerView.swift */,
 				4A3A56641E26DECB00FC0F3B /* customButton.swift */,
+				4A55E8FC1E2877D000B033F4 /* CustomSegmentedControl.swift */,
 			);
 			name = UIView;
 			sourceTree = "<group>";
@@ -527,6 +530,7 @@
 				4AF322741D2C83260043FCE5 /* AnswerTableViewCell.swift in Sources */,
 				4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */,
 				4A698D491D7CCDFB004786B8 /* AnswerModel.swift in Sources */,
+				4A55E8FD1E2877D000B033F4 /* CustomSegmentedControl.swift in Sources */,
 				4ABD20371D4409F900C3B74E /* Payment.swift in Sources */,
 				4AF910741D449F1800546F95 /* InteractiveUITextField.swift in Sources */,
 				4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */,

@@ -13,8 +13,8 @@ import AVKit
 class ActivityViewController: UIViewController {
 
   @IBOutlet weak var activityTableView: UITableView!
-  @IBOutlet weak var segmentedControl: UISegmentedControl!
 
+  @IBOutlet weak var segmentedControl: UIView!
   var userModule = User()
   var questionModule = Question()
   var utility = UIUtility()
@@ -30,6 +30,15 @@ class ActivityViewController: UIViewController {
 
   var activePlayerView : VideoPLayerView?
 
+  var selectedIndex = 0
+
+  lazy var controlBar: CustomSegmentedControl = {
+    let frame = self.segmentedControl.frame
+    let control = CustomSegmentedControl(frame: frame)
+    control.translatesAutoresizingMaskIntoConstraints = false
+    return control
+  }()
+
   deinit {
     NSNotificationCenter.defaultCenter().removeObserver(self) // app might crash without removing observer
   }
@@ -42,9 +51,14 @@ extension ActivityViewController {
 
     activityTableView.rowHeight = UITableViewAutomaticDimension
     activityTableView.estimatedRowHeight = 230
+    activityTableView.tableHeaderView = UIView()
+    activityTableView.tableFooterView = UIView()
 
     refreshControl.addTarget(self, action: #selector(ActivityViewController.refresh(_:)), forControlEvents: .ValueChanged)
     activityTableView.addSubview(refreshControl)
+    controlBar.delegate = self
+
+    setupSegmentedControl()
   }
 
   override func viewDidAppear(animated: Bool) {
@@ -58,11 +72,10 @@ extension ActivityViewController {
   }
 }
 
-//IB actions
-extension ActivityViewController {
-
-  @IBAction func segmentedControlClicked(sender: AnyObject) {
-    activePlayerView?.closeView()
+//segmentedControlDelegate
+extension ActivityViewController: SegmentedControlDelegate {
+  func loadIndex(index: Int) {
+    selectedIndex = index
     loadData()
   }
 }
@@ -75,16 +88,30 @@ extension ActivityViewController {
     loadData()
   }
 
+  func setupSegmentedControl() {
+    self.segmentedControl.hidden = true
+    view.addSubview(controlBar)
+
+    // set up constraint
+    let navigationBarHeight = self.navigationController?.navigationBar.frame.height
+    let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
+    let topMargin = navigationBarHeight! + statusBarHeight
+    controlBar.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
+    controlBar.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
+    controlBar.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: topMargin).active = true
+    controlBar.bottomAnchor.constraintEqualToAnchor(activityTableView.topAnchor, constant: -8).active = true
+  }
+
   func loadData() {
     activityTableView.userInteractionEnabled = false
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    if (segmentedControl.selectedSegmentIndex == 0) {
+    if (selectedIndex == 0) {
       loadDataWithFilter("asker='" + uid + "'")
     }
-    else if (segmentedControl.selectedSegmentIndex == 1) {
+    else if (selectedIndex == 1) {
       loadDataWithFilter("responder='" + uid + "'")
     }
-    else if (segmentedControl.selectedSegmentIndex == 2) {
+    else if (selectedIndex == 2) {
       loadSnoops(uid)
     }
 
@@ -149,7 +176,7 @@ extension ActivityViewController {
     questionModule.getQuestions(filterString, isQuestion: isQuestion) { jsonArray in
       for questionInfo in jsonArray as! [[String:AnyObject]] {
         let activity = self.createActitivyModel(questionInfo, isSnoop: false)
-        if (self.segmentedControl.selectedSegmentIndex == 0) {
+        if (self.selectedIndex == 0) {
           tmpQuestions.append(activity)
         }
         else {
@@ -207,13 +234,13 @@ extension ActivityViewController {
 extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if (segmentedControl.selectedSegmentIndex == 0) {
+    if (selectedIndex == 0) {
       return self.questions.count
     }
-    else if (segmentedControl.selectedSegmentIndex == 1) {
+    else if (selectedIndex == 1) {
       return self.answers.count
     }
-    else if (segmentedControl.selectedSegmentIndex == 2) {
+    else if (selectedIndex == 2) {
       return self.snoops.count
     }
     return 0
@@ -229,7 +256,7 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
     self.activityTableView.backgroundView = nil
     self.activityTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
 
-    if (segmentedControl.selectedSegmentIndex == 0) {
+    if (selectedIndex == 0) {
       if (questions.count == 0) {
         noDataLabel.text = "You haven't asked any questions yet. Let's discover someone interesting"
 
@@ -240,7 +267,7 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
         return 1
       }
     }
-    else if (segmentedControl.selectedSegmentIndex == 1) {
+    else if (selectedIndex == 1) {
       if (answers.count == 0) {
         noDataLabel.text = "Apply to take questions, check your application status, or change your rate"
         button.setImage(UIImage(named: "profile"), forState: .Normal)
@@ -250,7 +277,7 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
         return 1
       }
     }
-    else if (segmentedControl.selectedSegmentIndex == 2) {
+    else if (selectedIndex == 2) {
       if (snoops.count == 0) {
         noDataLabel.text = "You haven't listened to any questions so far. Let's see what's trending"
         button.setImage(UIImage(named: "trending"), forState: .Normal)
@@ -276,14 +303,14 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
   }
 
   func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-    if (segmentedControl.selectedSegmentIndex == 0 && questions[indexPath.row].status == "EXPIRED") {
+    if (selectedIndex == 0 && questions[indexPath.row].status == "EXPIRED") {
       return true
     }
     return false
   }
 
   func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-    if (segmentedControl.selectedSegmentIndex == 0) {
+    if (selectedIndex == 0) {
       if (editingStyle == .Delete) {
         let quandaId = questions[indexPath.row].id
         questions.removeAtIndex(indexPath.row)
@@ -305,10 +332,10 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
       as! ActivityTableViewCell
 
     let cellInfo: ActivityModel
-    if (segmentedControl.selectedSegmentIndex == 0) {
+    if (selectedIndex == 0) {
       cellInfo = questions[indexPath.row]
     }
-    else if (segmentedControl.selectedSegmentIndex == 1){
+    else if (selectedIndex == 1){
       cellInfo = answers[indexPath.row]
     }
     else {
@@ -361,7 +388,7 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
   }
 
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    if (segmentedControl.selectedSegmentIndex == 1) {
+    if (selectedIndex == 1) {
       let cell = answers[indexPath.row]
       if (cell.status == "PENDING") {
         self.performSegueWithIdentifier("segueFromActivityToAnswer", sender: indexPath)
@@ -407,10 +434,10 @@ extension ActivityViewController {
 
     let questionInfo:ActivityModel
 
-    if (segmentedControl.selectedSegmentIndex == 0) {
+    if (selectedIndex == 0) {
       questionInfo = questions[indexPath.row]
     }
-    else if (segmentedControl.selectedSegmentIndex == 1) {
+    else if (selectedIndex == 1) {
       questionInfo = answers[indexPath.row]
     }
     else {

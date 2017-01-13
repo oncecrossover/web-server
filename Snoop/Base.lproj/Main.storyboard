@@ -439,7 +439,7 @@
         <!--Activity-->
         <scene sceneID="LzY-lX-N66">
             <objects>
-                <viewController id="TMC-3d-tBR" customClass="ActivityViewController" customModule="Snoop" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="TMC-3d-tBR" customClass="ActivityViewController" customModule="Snoop" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JxN-yV-beT"/>
                         <viewControllerLayoutGuide type="bottom" id="s75-wW-UvD"/>
@@ -448,27 +448,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gDY-Pl-4UJ">
-                                <rect key="frame" x="16" y="72" width="347" height="29"/>
-                                <segments>
-                                    <segment title="Questions"/>
-                                    <segment title="Answers"/>
-                                    <segment title="Snoops"/>
-                                </segments>
-                                <connections>
-                                    <action selector="segmentedControlClicked:" destination="TMC-3d-tBR" eventType="valueChanged" id="Me1-Ec-gNH"/>
-                                </connections>
-                            </segmentedControl>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SnP-Ks-iAO">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="SnP-Ks-iAO">
                                 <rect key="frame" x="0.0" y="108" width="375" height="510"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="activityCell" rowHeight="226" id="jAL-xt-qtK" customClass="ActivityTableViewCell" customModule="Snoop" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="226"/>
+                                        <rect key="frame" x="0.0" y="1" width="375" height="226"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jAL-xt-qtK" id="RPN-em-CsP">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="225.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="225"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fWb-4p-6Qz">
@@ -598,22 +587,29 @@
                                     <outlet property="delegate" destination="TMC-3d-tBR" id="Tma-SV-fiu"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MR4-PI-sqK">
+                                <rect key="frame" x="0.0" y="64" width="375" height="36"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="0Oe-N7-XTQ"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="s75-wW-UvD" firstAttribute="top" secondItem="SnP-Ks-iAO" secondAttribute="bottom" id="9Ta-zj-L8z"/>
-                            <constraint firstItem="gDY-Pl-4UJ" firstAttribute="leading" secondItem="w36-Jq-lZ1" secondAttribute="leadingMargin" id="IXL-AJ-ydD"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="gDY-Pl-4UJ" secondAttribute="trailing" constant="-4" id="U2m-9p-7aU"/>
+                            <constraint firstItem="MR4-PI-sqK" firstAttribute="top" secondItem="JxN-yV-beT" secondAttribute="bottom" id="F5v-yh-ak1"/>
+                            <constraint firstItem="MR4-PI-sqK" firstAttribute="leading" secondItem="w36-Jq-lZ1" secondAttribute="leadingMargin" constant="-16" id="QCB-ln-nqr"/>
+                            <constraint firstItem="SnP-Ks-iAO" firstAttribute="centerX" secondItem="w36-Jq-lZ1" secondAttribute="centerX" id="VpS-WO-W7O"/>
+                            <constraint firstItem="SnP-Ks-iAO" firstAttribute="top" secondItem="MR4-PI-sqK" secondAttribute="bottom" constant="8" id="cB7-Hh-49P"/>
                             <constraint firstItem="SnP-Ks-iAO" firstAttribute="leading" secondItem="w36-Jq-lZ1" secondAttribute="leadingMargin" constant="-16" id="deP-HU-E1p"/>
-                            <constraint firstItem="gDY-Pl-4UJ" firstAttribute="top" secondItem="JxN-yV-beT" secondAttribute="bottom" constant="8" symbolic="YES" id="hCi-yS-vQQ"/>
-                            <constraint firstItem="SnP-Ks-iAO" firstAttribute="centerX" secondItem="gDY-Pl-4UJ" secondAttribute="centerX" constant="-2" id="y3R-sV-HES"/>
-                            <constraint firstItem="SnP-Ks-iAO" firstAttribute="top" secondItem="gDY-Pl-4UJ" secondAttribute="bottom" constant="8" symbolic="YES" id="ynN-oI-80S"/>
+                            <constraint firstItem="MR4-PI-sqK" firstAttribute="centerX" secondItem="w36-Jq-lZ1" secondAttribute="centerX" id="rNj-yL-DeZ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Activity" id="8Qb-mT-QAq"/>
                     <connections>
                         <outlet property="activityTableView" destination="SnP-Ks-iAO" id="9oc-M2-JiJ"/>
-                        <outlet property="segmentedControl" destination="gDY-Pl-4UJ" id="jXt-Fp-iSy"/>
+                        <outlet property="segmentedControl" destination="MR4-PI-sqK" id="i5n-jI-zKb"/>
                         <segue destination="cGi-Da-Os1" kind="show" identifier="segueFromActivityToAnswer" id="dsR-31-a2Q"/>
                     </connections>
                 </viewController>
@@ -2461,8 +2457,8 @@
         <image name="payment" width="122" height="122"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="QxE-Av-LH0"/>
         <segue reference="KRu-3m-3Wk"/>
-        <segue reference="Dj5-e0-VQE"/>
+        <segue reference="Kjo-bx-Bbf"/>
+        <segue reference="me6-Y0-ggX"/>
     </inferredMetricsTieBreakers>
 </document>
