@@ -17,7 +17,7 @@ class DiscoverTableViewCell: UITableViewCell {
 
   override func awakeFromNib() {
     about.font = about.font.fontWithSize(14)
-    name.font = name.font.fontWithSize(14.5)
+    name.font = UIFont.boldSystemFontOfSize(15)
     title.font = title.font.fontWithSize(13)
   }
 

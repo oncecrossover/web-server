@@ -34,6 +34,8 @@ class ActivityTableViewCell: UITableViewCell {
 
     durationLabel.hidden = true
     durationLabel.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+
+    question.font = UIFont.boldSystemFontOfSize(14)
   }
 
 }

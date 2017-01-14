@@ -52,6 +52,8 @@ class FeedTableViewCell: UITableViewCell {
 
     nameLabel.font = nameLabel.font.fontWithSize(14)
     numOfSnoops.font = numOfSnoops.font.fontWithSize(11)
+
+    questionLabel.font = UIFont.boldSystemFontOfSize(14)
   }
 
 }
