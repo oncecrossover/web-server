@@ -99,6 +99,14 @@ class AskViewController: UIViewController, UITextViewDelegate {
     }
     return true
   }
+  @IBAction func askButtonTapped(sender: AnyObject) {
+    if (questionView.text! == placeholder) {
+      utility.displayAlertMessage("questions cannot be empty", title: "Alert", sender: self)
+    }
+    else {
+      self.performSegueWithIdentifier("askToPayment", sender: self)
+    }
+  }
 
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if (segue.identifier == "askToPayment") {

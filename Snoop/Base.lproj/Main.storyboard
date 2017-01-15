@@ -2303,7 +2303,7 @@
                                         </constraints>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
-                                            <segue destination="wox-rn-42m" kind="show" identifier="askToPayment" id="bHf-mE-1Xg"/>
+                                            <action selector="askButtonTapped:" destination="PqM-Ta-C7q" eventType="touchUpInside" id="S8k-2u-Ha0"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -2362,6 +2362,7 @@
                         <outlet property="questionView" destination="eqn-lH-3kz" id="jU5-i0-naO"/>
                         <outlet property="scrollView" destination="Uze-pQ-iZK" id="Aqa-Pw-dce"/>
                         <outlet property="titleLabel" destination="3ju-CD-eCq" id="3JR-w2-qGf"/>
+                        <segue destination="wox-rn-42m" kind="show" identifier="askToPayment" id="tAI-Ax-doZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DGF-kR-BNS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2458,8 +2459,8 @@
         <image name="payment" width="122" height="122"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="KRu-3m-3Wk"/>
         <segue reference="Kjo-bx-Bbf"/>
         <segue reference="me6-Y0-ggX"/>
+        <segue reference="tAI-Ax-doZ"/>
     </inferredMetricsTieBreakers>
 </document>
