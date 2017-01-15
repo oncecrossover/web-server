@@ -119,7 +119,12 @@ extension CoverFrameViewController {
     let activityIndicator = utilityModule.createCustomActivityIndicator(self.view, text: "Submitting Answer...")
     questionModule.submitAnswer(quandaId, answerVideo: videoData, coverPhoto: photoData, duration: self.duration) { result in
       activityIndicator.hideAnimated(true)
-      self.dismissViewControllerAnimated(true, completion: nil)
+      let presentingViewController = self.presentingViewController as? UITabBarController
+      self.dismissViewControllerAnimated(true) {
+        let navigationController = presentingViewController?.viewControllers?[2] as? UINavigationController
+        navigationController?.popViewControllerAnimated(true)
+      }
+
     }
   }
 
