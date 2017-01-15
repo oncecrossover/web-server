@@ -80,6 +80,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     indicator.startAnimating()
     indicator.backgroundColor = UIColor.whiteColor()
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    var didLoadNewProfiles = false
     userModule.getDiscover(url) { jsonArray in
       for profileInfo in jsonArray as! [[String:AnyObject]] {
         let profileUid = profileInfo["uid"] as! String
@@ -110,11 +111,12 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
         }
 
         self.tmpProfiles.append(DiscoverModel(_name: profileName, _title: profileTitle, _avatarImage: avatarImage, _uid: profileUid, _about: profileAbout, _rate: rate, _updatedTime: updatedTime))
+        didLoadNewProfiles = true
       }
       self.profiles = self.tmpProfiles
 
       dispatch_async(dispatch_get_main_queue()) {
-        if (jsonArray.count > 0 || !String(url).containsString("lastSeenId")) {
+        if (didLoadNewProfiles || !String(url).containsString("lastSeenId")) {
           self.discoverTableView.reloadData()
         }
         indicator.stopAnimating()
