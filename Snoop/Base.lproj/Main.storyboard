@@ -643,7 +643,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="355" height="222.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="V9W-nH-Xd7">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="V9W-nH-Xd7" customClass="CircleImageView" customModule="Snoop" customModuleProvider="target">
                                                     <rect key="frame" x="8" y="8" width="31" height="31"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="V9W-nH-Xd7" secondAttribute="height" multiplier="1:1" id="qRQ-lw-Bwz"/>
@@ -667,7 +667,7 @@
                                                         <constraint firstAttribute="width" secondItem="RFt-mD-TsP" secondAttribute="height" multiplier="1:1" id="b9r-wj-BgA"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cRT-tg-gSV">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cRT-tg-gSV" customClass="CircleImageView" customModule="Snoop" customModuleProvider="target">
                                                     <rect key="frame" x="146.5" y="75" width="43" height="43"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="cRT-tg-gSV" secondAttribute="height" multiplier="1:1" id="LPn-fs-MTs"/>
