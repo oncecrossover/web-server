@@ -132,9 +132,9 @@ class VideoPLayerView: UIView {
 
     container.addSubview(closeButton)
     closeButton.rightAnchor.constraintEqualToAnchor(rightAnchor, constant : -8).active = true
-    closeButton.topAnchor.constraintEqualToAnchor(topAnchor, constant: 24).active = true
-    closeButton.widthAnchor.constraintEqualToConstant(30).active = true
-    closeButton.heightAnchor.constraintEqualToConstant(30).active = true
+    closeButton.topAnchor.constraintEqualToAnchor(topAnchor, constant: 32).active = true
+    closeButton.widthAnchor.constraintEqualToConstant(20).active = true
+    closeButton.heightAnchor.constraintEqualToConstant(20).active = true
 
     container.addSubview(lengthLabel)
     lengthLabel.rightAnchor.constraintEqualToAnchor(rightAnchor, constant: -8).active = true
