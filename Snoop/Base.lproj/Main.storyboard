@@ -1294,7 +1294,7 @@
                                             <outlet property="delegate" destination="LoA-NY-dJ5" id="g5N-GS-zCr"/>
                                         </connections>
                                     </textView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="U4Z-cH-Bdo" customClass="CircleImageView" customModule="Snoop" customModuleProvider="target">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="U4Z-cH-Bdo" customClass="CircleImageView" customModule="Snoop" customModuleProvider="target">
                                         <rect key="frame" x="140.5" y="8" width="70" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="T0L-sj-O3G"/>
@@ -1337,11 +1337,11 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rate $" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oae-HP-n0c">
-                                        <rect key="frame" x="8" y="294" width="60" height="20.5"/>
+                                        <rect key="frame" x="8" y="295.5" width="60" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="60" id="GVm-le-C2y"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -1357,9 +1357,9 @@
                                             <outlet property="delegate" destination="LoA-NY-dJ5" id="MNz-Pq-zBs"/>
                                         </connections>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="to answer a question" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s4O-a8-O7w">
-                                        <rect key="frame" x="118" y="294" width="176" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="to answer a question" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s4O-a8-O7w">
+                                        <rect key="frame" x="118" y="295.5" width="233" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -1383,7 +1383,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZB-nu-dQN" customClass="customButton" customModule="Snoop" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="401" width="359" height="40"/>
+                                        <rect key="frame" x="0.0" y="400.5" width="359" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="NQ3-4K-MEr"/>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="k9n-Ev-nx4"/>
@@ -1415,13 +1415,13 @@
                                     <constraint firstItem="hZB-nu-dQN" firstAttribute="top" secondItem="mbm-dH-jtb" secondAttribute="bottom" constant="4" id="7qd-44-RSo"/>
                                     <constraint firstItem="Oj4-6x-BwD" firstAttribute="leading" secondItem="oae-HP-n0c" secondAttribute="trailing" id="869-B2-0AD"/>
                                     <constraint firstItem="cXl-vZ-j1B" firstAttribute="leading" secondItem="AZX-So-yaS" secondAttribute="trailing" constant="8" id="8NI-Ki-Esb"/>
-                                    <constraint firstAttribute="trailing" secondItem="s4O-a8-O7w" secondAttribute="trailing" constant="12" id="92Q-vD-cuC"/>
                                     <constraint firstItem="9E2-vB-LtY" firstAttribute="leading" secondItem="U4Z-cH-Bdo" secondAttribute="trailing" constant="5.5" id="Cfh-XY-Fmi"/>
                                     <constraint firstItem="ZFA-9v-7RK" firstAttribute="top" secondItem="mbm-dH-jtb" secondAttribute="bottom" id="DFi-zl-77v"/>
                                     <constraint firstItem="9E2-vB-LtY" firstAttribute="centerX" secondItem="En3-Qv-ckB" secondAttribute="centerX" id="EN0-qg-mRv"/>
                                     <constraint firstItem="hZB-nu-dQN" firstAttribute="top" secondItem="s4O-a8-O7w" secondAttribute="bottom" constant="86.5" id="ENx-bN-pvl"/>
                                     <constraint firstItem="s4O-a8-O7w" firstAttribute="centerY" secondItem="Oj4-6x-BwD" secondAttribute="centerY" id="Emw-hZ-Vyj"/>
                                     <constraint firstItem="9E2-vB-LtY" firstAttribute="centerY" secondItem="U4Z-cH-Bdo" secondAttribute="centerY" id="F1R-bp-olU"/>
+                                    <constraint firstItem="s4O-a8-O7w" firstAttribute="trailing" secondItem="mbm-dH-jtb" secondAttribute="trailing" id="Gg4-IF-0dj"/>
                                     <constraint firstItem="CF0-Cq-DkB" firstAttribute="centerY" secondItem="au2-AR-laB" secondAttribute="centerY" id="Hy5-Yo-Gbc"/>
                                     <constraint firstItem="AZX-So-yaS" firstAttribute="leading" secondItem="En3-Qv-ckB" secondAttribute="leading" constant="8" id="JQq-r7-bHA"/>
                                     <constraint firstItem="oae-HP-n0c" firstAttribute="leading" secondItem="En3-Qv-ckB" secondAttribute="leading" constant="8" id="JpU-Ur-vJI"/>
@@ -2459,6 +2459,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="KRu-3m-3Wk"/>
         <segue reference="Kjo-bx-Bbf"/>
-        <segue reference="me6-Y0-ggX"/>
+        <segue reference="Dj5-e0-VQE"/>
     </inferredMetricsTieBreakers>
 </document>
