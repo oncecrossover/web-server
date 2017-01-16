@@ -61,7 +61,9 @@ public class PcEntryFilterWebHandler extends AbastractPeeqWebHandler
       resultList = filterAsList(session, sbUid);
       txn.commit();
     } catch (Exception e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     }
 
@@ -88,7 +90,9 @@ public class PcEntryFilterWebHandler extends AbastractPeeqWebHandler
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (HibernateException e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);

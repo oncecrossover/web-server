@@ -54,7 +54,9 @@ public class QuestionFilterWebHandler extends AbastractPeeqWebHandler
       appendln(result);
       return newResponse(HttpResponseStatus.OK);
     } catch (Exception e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     }
   }

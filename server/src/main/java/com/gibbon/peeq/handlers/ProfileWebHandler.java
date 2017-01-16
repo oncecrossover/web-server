@@ -72,7 +72,9 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
       /* buffer result */
       return newResponseForInstance(uid, retInstance);
     } catch (Exception e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     }
   }
@@ -138,7 +140,9 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (Exception e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     }
 
@@ -160,7 +164,9 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
       txn.commit();
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     }
   }

@@ -80,7 +80,9 @@ public class TempPwdWebHandler extends AbastractPeeqWebHandler
       appendln(toIdJson("id", fromJson.getId()));
       return newResponse(HttpResponseStatus.CREATED);
     } catch (Exception e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     }
   }

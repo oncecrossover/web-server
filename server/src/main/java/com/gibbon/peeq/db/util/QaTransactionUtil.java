@@ -67,7 +67,7 @@ public class QaTransactionUtil {
         txn.commit();
       }
     } catch (HibernateException e) {
-      if (txn != null) {
+      if (txn != null && txn.isActive()) {
         txn.rollback();
       }
       throw e;

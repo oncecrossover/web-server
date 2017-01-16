@@ -71,7 +71,9 @@ public class TakeQuestionWebHandler extends AbastractPeeqWebHandler
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (Exception e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     }
 
@@ -88,7 +90,9 @@ public class TakeQuestionWebHandler extends AbastractPeeqWebHandler
       appendln(toIdJson("uid", fromJson.getUid()));
       return newResponse(HttpResponseStatus.CREATED);
     } catch (HibernateException e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);

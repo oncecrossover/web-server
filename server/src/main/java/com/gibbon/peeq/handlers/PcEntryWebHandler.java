@@ -106,7 +106,9 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (HibernateException e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
@@ -164,7 +166,9 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
       appendln(toIdJson("id", fromJson.getId()));
       return newResponse(HttpResponseStatus.CREATED);
     } catch (HibernateException e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       try {
         /* delete card */
         StripeUtil.deleteCard(card);
@@ -209,7 +213,9 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
       /* buffer result */
       return newResponseForInstance(id, retInstance);
     } catch (HibernateException e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
@@ -254,7 +260,9 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
         return newResponse(HttpResponseStatus.NO_CONTENT);
       }
     } catch (HibernateException e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
@@ -275,7 +283,9 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (HibernateException e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
@@ -310,10 +320,14 @@ public class PcEntryWebHandler extends AbastractPeeqWebHandler
           pcEntry.getId()));
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (HibernateException e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     } catch (StripeException e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);

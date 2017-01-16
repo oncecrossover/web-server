@@ -104,7 +104,9 @@ public class SigninWebHandler extends AbastractPeeqWebHandler
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (HibernateException e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);

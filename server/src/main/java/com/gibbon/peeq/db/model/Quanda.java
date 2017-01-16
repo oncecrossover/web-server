@@ -44,7 +44,7 @@ public class Quanda {
   private Double rate;
   private String answerUrl;
   private String answerCoverUrl;
-  private byte[] answerAudio;
+  private byte[] answerMedia;
   private byte[] answerCover;
   private int duration;
   private String status;
@@ -117,12 +117,12 @@ public class Quanda {
     return this;
   }
 
-  public byte[] getAnswerAudio() {
-    return answerAudio;
+  public byte[] getAnswerMedia() {
+    return answerMedia;
   }
 
-  public Quanda setAnswerAudio(final byte[] answerAudio) {
-    this.answerAudio = answerAudio;
+  public Quanda setAnswerMedia(final byte[] answerMedia) {
+    this.answerMedia = answerMedia;
     return this;
   }
 
@@ -281,8 +281,8 @@ public class Quanda {
     if (quanda.getAnswerUrl() != null) {
       this.setAnswerUrl(quanda.getAnswerUrl());
     }
-    if (quanda.getAnswerAudio() != null) {
-      this.setAnswerAudio(quanda.getAnswerAudio());
+    if (quanda.getAnswerMedia() != null) {
+      this.setAnswerMedia(quanda.getAnswerMedia());
     }
     if (quanda.getAnswerCoverUrl() != null) {
       this.setAnswerCoverUrl(quanda.getAnswerCoverUrl());

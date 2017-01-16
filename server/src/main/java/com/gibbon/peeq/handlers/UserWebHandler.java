@@ -124,7 +124,9 @@ public class UserWebHandler extends AbastractPeeqWebHandler
     } catch (StripeException e) {
       return newServerErrorResponse(e, LOG);
     } catch (HibernateException e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       try {
         StripeUtil.deleteCustomer(customer);
       } catch (StripeException se) {
@@ -157,7 +159,9 @@ public class UserWebHandler extends AbastractPeeqWebHandler
       /* buffer result */
       return newResponseForInstance(uid, retInstance);
     } catch (Exception e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     }
   }

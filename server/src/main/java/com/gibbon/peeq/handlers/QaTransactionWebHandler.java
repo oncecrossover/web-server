@@ -76,7 +76,9 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
       /* buffer result */
       return newResponseForInstance(id, retInstance);
     } catch (HibernateException e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
@@ -230,7 +232,9 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
         appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
       } catch (Exception e) {
-        txn.rollback();
+        if (txn != null && txn.isActive()) {
+          txn.rollback();
+        }
         return newServerErrorResponse(e, LOG);
       }
     }
@@ -355,7 +359,9 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
         appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
       } catch (Exception e) {
-        txn.rollback();
+        if (txn != null && txn.isActive()) {
+          txn.rollback();
+        }
         return newServerErrorResponse(e, LOG);
       }
     } else { /* pay to ask */
@@ -379,7 +385,9 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
         appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
       } catch (Exception e) {
-        txn.rollback();
+        if (txn != null && txn.isActive()) {
+          txn.rollback();
+        }
         return newServerErrorResponse(e, LOG);
       }
     }

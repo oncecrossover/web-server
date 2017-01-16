@@ -85,7 +85,7 @@ public class JournalUtil {
         txn.commit();
       }
     } catch (HibernateException e) {
-      if (txn != null) {
+      if (txn != null && txn.isActive()) {
         txn.rollback();
       }
       throw e;
@@ -147,7 +147,7 @@ public class JournalUtil {
         txn.commit();
       }
     } catch (HibernateException e) {
-      if (txn != null) {
+      if (txn != null && txn.isActive()) {
         txn.rollback();
       }
       throw e;
@@ -220,7 +220,7 @@ public class JournalUtil {
         txn.commit();
       }
     } catch (HibernateException e) {
-      if (txn != null) {
+      if (txn != null && txn.isActive()) {
         txn.rollback();
       }
       throw e;
@@ -269,7 +269,7 @@ public class JournalUtil {
       }
       return clearanceJournal;
     } catch (HibernateException e) {
-      if (txn != null) {
+      if (txn != null && txn.isActive()) {
         txn.rollback();
       }
       throw e;
@@ -312,7 +312,7 @@ public class JournalUtil {
       }
       return responderJournal;
     } catch (HibernateException e) {
-      if (txn != null) {
+      if (txn != null && txn.isActive()) {
         txn.rollback();
       }
       throw e;
@@ -355,7 +355,7 @@ public class JournalUtil {
       }
       return refundJournal;
     } catch (HibernateException e) {
-      if (txn != null) {
+      if (txn != null && txn.isActive()) {
         txn.rollback();
       }
       throw e;

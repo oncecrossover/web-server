@@ -90,13 +90,15 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
           Long.parseLong(id));
       txn.commit();
 
-      loadAnswerAudio(retInstance);
+      loadAnswerMedia(retInstance);
       loadAnswerCover(retInstance);
 
       /* buffer result */
       return newResponseForInstance(id, retInstance);
     } catch (HibernateException e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
@@ -114,14 +116,14 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
     } 
   }
 
-  private void loadAnswerAudio(final Quanda quanda) {
+  private void loadAnswerMedia(final Quanda quanda) {
     if (quanda == null) {
       return;
     }
 
-    final byte[] readContent = readAnswerAudio(quanda);
+    final byte[] readContent = readAnswerMedia(quanda);
     if (readContent != null) {
-      quanda.setAnswerAudio(readContent);
+      quanda.setAnswerMedia(readContent);
     }
   }
 
@@ -135,10 +137,10 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
     return null;
   }
 
-  private byte[] readAnswerAudio(final Quanda quanda) {
+  private byte[] readAnswerMedia(final Quanda quanda) {
     ObjectStoreClient osc = new ObjectStoreClient();
     try {
-      return osc.readAnswerAudio(quanda.getAnswerUrl());
+      return osc.readAnswerMedia(quanda.getAnswerUrl());
     } catch (Exception e) {
       LOG.warn(super.stackTraceToString(e));
     }
@@ -158,7 +160,7 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
 
   /*
    * Quanda.status, Quanda.active, Quanda.answerUrl (as a result of
-   * Quanda.answerAudio) and Quanda.answerCoverUrl (as a result of
+   * Quanda.answerMedia) and Quanda.answerCoverUrl (as a result of
    * Quanda.answerCover) are the only DB columns that can be updated by client.
    */
   private void checkColumnsToBeUpdated(final Quanda fromJson)
@@ -175,7 +177,7 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
         fromJson.getUpdatedTime() != null ||
         fromJson.getSnoops() != null) {
       throw new SnoopException(
-          "The fields except answerAudio, answerCover,"
+          "The fields except answerMedia, answerCover,"
               + " status and active can't be updated");
     }
 
@@ -239,7 +241,9 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (HibernateException e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
@@ -252,8 +256,8 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       /* process journals and capture charge */
       processJournals4Answer(session, fromJson, fromDB);
 
-      /* save audio */
-      saveAudioToObjectStore(fromJson, fromDB);
+      /* save media */
+      saveMediaToObjectStore(fromJson, fromDB);
 
       /* save answer cover */
       saveCoverToObjectStore(fromJson, fromDB);
@@ -265,8 +269,10 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       txn.commit();
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {
-      txn.rollback();
-      /* TODO: delete answer audio from object store */
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
+      /* TODO: delete answer media from object store */
       return newServerErrorResponse(e, LOG);
     }
   }
@@ -366,23 +372,23 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  private void saveAudioToObjectStore(
+  private void saveMediaToObjectStore(
       final Quanda fromJson,
       final Quanda fromDB) {
-    if (fromJson.getAnswerAudio() != null) {
-      fromDB.setAnswerAudio(fromJson.getAnswerAudio());
+    if (fromJson.getAnswerMedia() != null) {
+      fromDB.setAnswerMedia(fromJson.getAnswerMedia());
 
-      final String url = saveAnswerAudio(fromDB);
+      final String url = saveAnswerMedia(fromDB);
       if (url != null) {
         fromDB.setAnswerUrl(url);
       }
     }
   }
 
-  private String saveAnswerAudio(final Quanda fromDB) {
+  private String saveAnswerMedia(final Quanda fromDB) {
     ObjectStoreClient osc = new ObjectStoreClient();
     try {
-      return osc.saveAnswerAudio(fromDB);
+      return osc.saveAnswerMedia(fromDB);
     } catch (Exception e) {
       LOG.warn(super.stackTraceToString(e));
     }

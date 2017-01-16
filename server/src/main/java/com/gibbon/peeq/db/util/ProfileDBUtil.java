@@ -59,7 +59,7 @@ public class ProfileDBUtil {
         txn.commit();
       }
     } catch (HibernateException e) {
-      if (txn != null) {
+      if (txn != null && txn.isActive()) {
         txn.rollback();
       }
       throw e;
@@ -107,7 +107,7 @@ public class ProfileDBUtil {
         txn.commit();
       }
     } catch (HibernateException e) {
-      if (txn != null) {
+      if (txn != null && txn.isActive()) {
         txn.rollback();
       }
       throw e;

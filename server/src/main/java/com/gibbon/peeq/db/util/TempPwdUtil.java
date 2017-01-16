@@ -63,7 +63,7 @@ public class TempPwdUtil {
       }
       return result.longValue() == 1;
     } catch (HibernateException e) {
-      if (txn != null) {
+      if (txn != null && txn.isActive()) {
         txn.rollback();
       }
       throw e;
@@ -88,7 +88,7 @@ public class TempPwdUtil {
       }
       return result;
     } catch (HibernateException e) {
-      if (txn != null) {
+      if (txn != null && txn.isActive()) {
         txn.rollback();
       }
       throw e;

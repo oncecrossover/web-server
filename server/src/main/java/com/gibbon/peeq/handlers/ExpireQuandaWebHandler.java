@@ -128,7 +128,9 @@ public class ExpireQuandaWebHandler extends AbastractPeeqWebHandler
       toDoList = QuandaDBUtil.getExpiredQuandas(session);
       txn.commit();
     } catch (Exception e) {
-      txn.rollback();
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
       return newServerErrorResponse(e, LOG);
     }
 
@@ -152,7 +154,9 @@ public class ExpireQuandaWebHandler extends AbastractPeeqWebHandler
             quanda.getStatus(),
             quanda.getCreatedTime()));
       } catch (Exception e) {
-        txn.rollback();
+        if (txn != null && txn.isActive()) {
+          txn.rollback();
+        }
         failedList.add(new QaTuple(
             quanda.getId(),
             quanda.getStatus(),

@@ -5,164 +5,88 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.UUID;
 
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.amazonaws.AmazonServiceException;
 import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.db.model.Quanda;
 
 public class TestObjectStoreClient {
 
-  private static final Logger LOG = LoggerFactory
-      .getLogger(TestObjectStoreClient.class);
+  private static final String PREFIX = "https://s3-us-west-1.amazonaws.com/com.snoop.server.test";
 
   @Test(timeout = 60000)
-  public void testReadFromStore() throws IOException {
+  public void testReadFromStore() throws Exception {
     final String localPath = "src/main/resources/com/gibbon/peeq/images/matt.jpg";
     final File file = new File(localPath);
     final ObjectStoreClient osc = new ObjectStoreClient();
-    final String url = "/users/matt@gmail.com/celebrity.jpeg";
+    final String url = String.format("%s/%s", PREFIX,
+        "users/matt@gmail.com/celebrity.jpeg");
     final byte[] fileContent = Files.readAllBytes(file.toPath());
-    try {
-      osc.saveToStore(url, fileContent);
-    } catch (Exception e) {
-      assertTrue("IOException shoudn't happen when HDFS is properly set.",
-          e instanceof IOException);
-    }
+    assertNotNull(fileContent);
 
-    try {
-      final byte[] readContent = osc.readFromStore(url);
-      if (fileContent != null && readContent != null
-          && readContent.length > 0) {
-        assertEquals(fileContent.length, readContent.length);
-      }
-    } catch (Exception e) {
-      assertTrue("IOException shoudn't happen when HDFS is properly set.",
-          e instanceof IOException);
-    } finally {
-      try {
-        osc.deleteFromStore(url);
-      } catch (Exception e) {
-        System.out.println(e.toString());
-        assertTrue("IOException shoudn't happen when HDFS is properly set.",
-            e instanceof IOException);
-      }
-    }
+    osc.writeToStore(url, fileContent);
+
+    final byte[] readContent = osc.readFromStore(url);
+    assertNotNull(readContent);
+    assertEquals(fileContent.length, readContent.length);
   }
 
   @Test(timeout = 60000)
-  public void testSaveToStore() throws IOException {
+  public void testSaveToStore() throws Exception {
     final String localPath = "src/main/resources/com/gibbon/peeq/images/arnold.jpg";
     final File file = new File(localPath);
     final ObjectStoreClient osc = new ObjectStoreClient();
-    final String url = "/users/arnold@gmail.com/celebrity.jpeg";
+    final String url = String.format("%s/%s", PREFIX,
+        "users/arnold@gmail.com/celebrity.jpeg");
     final byte[] fileContent = Files.readAllBytes(file.toPath());
-    try {
-      osc.saveToStore(url, fileContent);
-    } catch (Exception e) {
-      assertTrue("IOException shoudn't happen when HDFS is properly set.",
-          e instanceof IOException);
-    } finally {
-      try {
-        osc.deleteFromStore(url);
-      } catch (Exception e) {
-        assertTrue("IOException shoudn't happen when HDFS is properly set.",
-            e instanceof IOException);
-      }
-    }
+    assertNotNull(fileContent);
+
+    osc.writeToStore(url, fileContent);
+
+    final byte[] readContent = osc.readFromStore(url);
+    assertNotNull(readContent);
+    assertEquals(fileContent.length, readContent.length);
   }
 
-  @Test(timeout = 60000)
-  public void testSaveProfileAvatar() throws IOException {
+  public void testLoadSaveProfileAvatar() throws Exception {
     final String localPath = "src/main/resources/com/gibbon/peeq/images/kobe.jpg";
     final File file = new File(localPath);
     final byte[] fileContent = Files.readAllBytes(file.toPath());
+    assertNotNull(fileContent);
+
     final ObjectStoreClient osc = new ObjectStoreClient();
-    final String uid = "kobe@gmail.com";
+    final String uid = UUID.randomUUID() + "@test.com";
     final Profile profile = new Profile();
     profile.setUid(uid).setAvatarImage(fileContent);
-    final String url = "/users/kobe@gmail.com/avatar";
 
-    String avatarUrl = null;
-    try {
-      avatarUrl = osc.saveAvatarImage(profile);
-      assertEquals(url, avatarUrl);
-    } catch (Exception e) {
-      assertTrue("IOException shoudn't happen when HDFS is properly set.",
-          e instanceof IOException);
-    } finally {
-      try {
-        osc.deleteFromStore(url);
-      } catch (Exception e) {
-        assertTrue("IOException shoudn't happen when HDFS is properly set.",
-            e instanceof IOException);
-      }
-    }
+    final String avatarUrl = osc.saveAvatarImage(profile);
+    assertNotNull(avatarUrl);
+
+    final byte[] readContent = osc.readFromStore(avatarUrl);
+    assertNotNull(readContent);
+    assertEquals(fileContent.length, readContent.length);
   }
 
-  @Test(timeout = 60000)
-  public void testSaveAnswerAudio() throws IOException {
+  public void testLoadSaveAnswerMedia() throws Exception {
     final String localPath = "src/main/resources/com/gibbon/peeq/images/chow.jpg";
     final File file = new File(localPath);
     final byte[] fileContent = Files.readAllBytes(file.toPath());
+    assertNotNull(fileContent);
+
     final ObjectStoreClient osc = new ObjectStoreClient();
     final Quanda quanda = new Quanda();
-    quanda.setId(1010L).setAnswerAudio(fileContent);
-    final String url = "/answers/1010";
+    quanda.setId(1010L).setAnswerMedia(fileContent);
 
-    String answerUrl = null;
-    try {
-      answerUrl = osc.saveAnswerAudio(quanda);
-      assertEquals(url, answerUrl);
-    } catch (Exception e) {
-      assertTrue("IOException shoudn't happen when HDFS is properly set.",
-          e instanceof IOException);
-    } finally {
-      try {
-        osc.deleteFromStore(url);
-      } catch (Exception e) {
-        assertTrue("IOException shoudn't happen when HDFS is properly set.",
-            e instanceof IOException);
-      }
-    }
-  }
+    final String answerUrl = osc.saveAnswerMedia(quanda);
+    assertNotNull(answerUrl);
 
-  @Test(timeout = 60000)
-  public void testReadAnswerAudio() throws IOException {
-    final String localPath = "src/main/resources/com/gibbon/peeq/images/mike.jpg";
-    final File file = new File(localPath);
-    final byte[] fileContent = Files.readAllBytes(file.toPath());
-    final ObjectStoreClient osc = new ObjectStoreClient();
-    final Quanda quanda = new Quanda();
-    quanda.setId(1011L).setAnswerAudio(fileContent);
-    final String url = "/answers/1011";
-
-    String answerUrl = null;
-    try {
-      answerUrl = osc.saveAnswerAudio(quanda);
-      assertEquals(url, answerUrl);
-    } catch (Exception e) {
-      assertTrue("IOException shoudn't happen when HDFS is properly set.",
-          e instanceof IOException);
-    }
-
-    try {
-      final byte[] readContent = osc.readFromStore(answerUrl);
-      if (fileContent != null && readContent != null) {
-        assertEquals(fileContent.length, readContent.length);
-      }
-    } catch (Exception e) {
-      assertTrue("IOException shoudn't happen when HDFS is properly set.",
-          e instanceof IOException);
-    } finally {
-      try {
-        osc.deleteFromStore(url);
-      } catch (Exception e) {
-        assertTrue("IOException shoudn't happen when HDFS is properly set.",
-            e instanceof IOException);
-      }
-    }
+    final byte[] readContent = osc.readFromStore(answerUrl);
+    assertNotNull(readContent);
+    assertEquals(fileContent.length, readContent.length);
   }
 }
