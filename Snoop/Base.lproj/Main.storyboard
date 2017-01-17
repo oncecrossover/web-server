@@ -218,9 +218,9 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Vg-OY-1Rs" customClass="customButton" customModule="Snoop" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="563" width="375" height="55"/>
+                                <rect key="frame" x="0.0" y="578" width="375" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="55" id="jIs-cp-21e"/>
+                                    <constraint firstAttribute="height" constant="40" id="jIs-cp-21e"/>
                                 </constraints>
                                 <state key="normal" title="Pay Now"/>
                                 <connections>
@@ -1045,14 +1045,15 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XKj-LM-EVX">
-                                                    <rect key="frame" x="24" y="6" width="22.5" height="22.5"/>
+                                                    <rect key="frame" x="24" y="7.5" width="20" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="XKj-LM-EVX" secondAttribute="height" multiplier="1:1" id="7w3-fi-AwY"/>
+                                                        <constraint firstAttribute="width" constant="20" id="J10-zb-uad"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rsa-1J-WyW">
-                                                    <rect key="frame" x="60.5" y="6" width="264.5" height="22.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="58" y="7.5" width="267" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -1063,7 +1064,6 @@
                                                 <constraint firstItem="rsa-1J-WyW" firstAttribute="leading" secondItem="XKj-LM-EVX" secondAttribute="trailing" constant="14" id="JU4-WV-0Ph"/>
                                                 <constraint firstItem="rsa-1J-WyW" firstAttribute="centerY" secondItem="XKj-LM-EVX" secondAttribute="centerY" id="VfZ-Zz-KTi"/>
                                                 <constraint firstItem="XKj-LM-EVX" firstAttribute="centerY" secondItem="b9c-dH-WYF" secondAttribute="centerY" id="dOc-I5-Fp8"/>
-                                                <constraint firstItem="XKj-LM-EVX" firstAttribute="top" secondItem="b9c-dH-WYF" secondAttribute="topMargin" constant="-2" id="o32-GI-jac"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <constraints>
@@ -2460,7 +2460,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Kjo-bx-Bbf"/>
-        <segue reference="me6-Y0-ggX"/>
         <segue reference="tAI-Ax-doZ"/>
+        <segue reference="Dj5-e0-VQE"/>
     </inferredMetricsTieBreakers>
 </document>
