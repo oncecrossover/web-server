@@ -446,7 +446,7 @@ extension ActivityViewController {
 
     let questionId = questionInfo.id
 //    let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Loading Answer...")
-    questionModule.getQuestionAudio(questionId) { audioString in
+    questionModule.getQuestionMedia(questionId) { audioString in
       if (!audioString.isEmpty) {
         let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
         dispatch_async(dispatch_get_main_queue()) {

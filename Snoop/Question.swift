@@ -43,7 +43,7 @@ class Question {
     let myUrl = NSURL(string: QUANDAURI + "/" + "\(id)")
     let videoString = answerVideo?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
     let photoString = coverPhoto?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
-    let jsonData: [String: AnyObject] = ["answerAudio" : videoString!, "answerCover" : photoString!, "status" : "ANSWERED", "duration" : duration]
+    let jsonData: [String: AnyObject] = ["answerMedia" : videoString!, "answerCover" : photoString!, "status" : "ANSWERED", "duration" : duration]
     generics.updateObject(myUrl!, jsonData: jsonData) { result in
       completion(result)
     }
@@ -59,10 +59,10 @@ class Question {
 
   }
 
-  func getQuestionAudio(id: Int, completion: (String) -> ()){
+  func getQuestionMedia(id: Int, completion: (String) -> ()){
     let myUrl = NSURL(string: QUANDAURI + "/" + "\(id)")
     generics.getObjectById(myUrl!) { convertedJsonIntoDict in
-      if let storedAudio = convertedJsonIntoDict["answerAudio"] as? String {
+      if let storedAudio = convertedJsonIntoDict["answerMedia"] as? String {
         completion(storedAudio)
       }
       else {
