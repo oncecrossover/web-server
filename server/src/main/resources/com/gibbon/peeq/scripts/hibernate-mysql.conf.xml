@@ -9,8 +9,6 @@
     <property name="hibernate.connection.url">jdbc:mysql://localhost/peeqdb</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">sqlme</property>
-    <!-- Connection Pool Size -->
-    <property name="hibernate.connection.pool_size">1</property>
 
     <!-- org.hibernate.HibernateException: No CurrentSessionContext configured! -->
     <property name="hibernate.current_session_context_class">thread</property>
@@ -23,6 +21,15 @@
     <!-- Dialect is required to let Hibernate know the Database Type, MySQL, Oracle 
       etc Hibernate 4 automatically figure out Dialect from Database Connection Metadata -->
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+    <!-- connection pool setting -->
+    <property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+    <property name="hibernate.c3p0.min_size">5</property>
+    <property name="hibernate.c3p0.max_size">20</property>
+    <property name="hibernate.c3p0.timeout">1800</property>
+    <property name="hibernate.c3p0.max_statements">50</property>
+    <property name="hibernate.c3p0.idle_test_period">10</property>
+    <property name="hibernate.c3p0.acquire_increment">5</property>
 
     <!-- mapping file, we can use Bean annotations too -->
     <mapping resource="com/gibbon/peeq/scripts/user.hbm.xml" />
