@@ -137,6 +137,10 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     var text = "Updating Profile..."
     if (isEditingProfile == false) {
       text = "Thank you for your appplication..."
+      if (titleField.text!.isEmpty || aboutField.text!.isEmpty) {
+        utility.displayAlertMessage("please include your title and a short description of yourself", title: "Missing Info", sender: self)
+        return
+      }
     }
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: text)
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
