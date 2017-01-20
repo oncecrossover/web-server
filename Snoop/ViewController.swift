@@ -94,12 +94,12 @@ extension ViewController {
   func loadData(){
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     let url = "uid='" + uid + "'"
+    tmpFeeds = []
     loadData(url)
   }
 
   func loadData(url: String!) {
     feedTable.userInteractionEnabled = false
-    tmpFeeds = []
     self.paidSnoops = []
     activityIndicator.startAnimating()
     let encodedUrl = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
