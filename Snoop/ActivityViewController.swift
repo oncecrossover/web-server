@@ -28,7 +28,7 @@ class ActivityViewController: UIViewController {
 
   var refreshControl: UIRefreshControl = UIRefreshControl()
 
-  var activePlayerView : VideoPLayerView?
+  var activePlayerView : VideoPlayerView?
 
   var selectedIndex = 0
 
@@ -418,7 +418,7 @@ extension ActivityViewController {
 
     //using the tapLocation, we retrieve the corresponding indexPath
     let indexPath = self.activityTableView.indexPathForRowAtPoint(tapLocation)!
-    let videoPlayerView = VideoPLayerView()
+    let videoPlayerView = VideoPlayerView()
     let bounds = UIScreen.mainScreen().bounds
 
     let oldFrame = CGRect(x: 0, y: bounds.size.height, width: bounds.size.width, height: 0)

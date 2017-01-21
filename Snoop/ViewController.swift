@@ -25,7 +25,7 @@ class ViewController: UIViewController {
 
   var activeCellIndex: Int!
 
-  var activePlayerView: VideoPLayerView?
+  var activePlayerView: VideoPlayerView?
 
   @IBOutlet weak var feedTable: UITableView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -268,7 +268,7 @@ extension ViewController {
     //using the tapLocation, we retrieve the corresponding indexPath
     let indexPath = self.feedTable.indexPathForRowAtPoint(tapLocation)!
 
-    let videoPlayerView = VideoPLayerView()
+    let videoPlayerView = VideoPlayerView()
     let bounds = UIScreen.mainScreen().bounds
 
     let oldFrame = CGRect(x: 0, y: bounds.size.height, width: bounds.size.width, height: 0)

@@ -9,7 +9,7 @@
 import UIKit
 import AVKit
 import AVFoundation
-class VideoPLayerView: UIView {
+class VideoPlayerView: UIView {
   var player: AVPlayer?
   var isPlaying = false
 
