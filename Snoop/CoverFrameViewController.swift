@@ -38,6 +38,7 @@ extension CoverFrameViewController {
     super.viewDidLoad()
 
     submitButton.backgroundColor = UIColor.defaultColor()
+    coverFrameCollection.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
 
     // Creating left bar
     let navbar = UINavigationBar(frame: CGRectMake(0, 0,
@@ -84,18 +85,7 @@ extension CoverFrameViewController {
 extension CoverFrameViewController {
 
   func back(sender: AnyObject) {
-    let myAlert = UIAlertController(title: "Warning", message: "recorded video will be discarded", preferredStyle: UIAlertControllerStyle.Alert)
-
-    let okAction = UIAlertAction(title: "Back", style: UIAlertActionStyle.Destructive) { action in
-      self.dismissViewControllerAnimated(true, completion: nil)
-    }
-
-    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
-
-    myAlert.addAction(cancelAction)
-    myAlert.addAction(okAction)
-
-    self.presentViewController(myAlert, animated: true, completion: nil)
+    self.navigationController?.popViewControllerAnimated(true)
   }
 
   @IBAction func submitButtonTapped(sender: AnyObject) {

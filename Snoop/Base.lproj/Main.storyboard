@@ -645,19 +645,20 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="V9W-nH-Xd7" customClass="CircleImageView" customModule="Snoop" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="8" width="31" height="31"/>
+                                                    <rect key="frame" x="8" y="8" width="33" height="33"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="width" constant="33" id="ip2-Ld-sdP"/>
                                                         <constraint firstAttribute="width" secondItem="V9W-nH-Xd7" secondAttribute="height" multiplier="1:1" id="qRQ-lw-Bwz"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ZR-iW-qog">
-                                                    <rect key="frame" x="45" y="8" width="302" height="31"/>
+                                                    <rect key="frame" x="47" y="8" width="300" height="33"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What is your biggest advice for young people?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8yF-Ys-u6B">
-                                                    <rect key="frame" x="8" y="47" width="339" height="20"/>
+                                                    <rect key="frame" x="8" y="49" width="339" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -669,19 +670,20 @@
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cRT-tg-gSV" customClass="CircleImageView" customModule="Snoop" customModuleProvider="target">
-                                                    <rect key="frame" x="146.5" y="75" width="43" height="43"/>
+                                                    <rect key="frame" x="146.5" y="75" width="46" height="46"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="width" constant="46" id="Cm9-a5-Za8"/>
                                                         <constraint firstAttribute="width" secondItem="cRT-tg-gSV" secondAttribute="height" multiplier="1:1" id="LPn-fs-MTs"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9HG-jF-muX">
-                                                    <rect key="frame" x="195.5" y="75" width="151.5" height="43"/>
+                                                    <rect key="frame" x="198.5" y="75" width="148.5" height="46"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="internet entrepreneur" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j2g-6M-AUB">
-                                                    <rect key="frame" x="147" y="124" width="200" height="30"/>
+                                                    <rect key="frame" x="147" y="127" width="200" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="Hte-9E-5iz"/>
                                                     </constraints>
@@ -724,13 +726,11 @@
                                                 <constraint firstItem="j2g-6M-AUB" firstAttribute="leading" secondItem="cRT-tg-gSV" secondAttribute="leading" id="B3B-um-kjH"/>
                                                 <constraint firstItem="9Pt-Ax-rBT" firstAttribute="centerY" secondItem="RFt-mD-TsP" secondAttribute="centerY" id="Gkx-Qh-udi"/>
                                                 <constraint firstItem="RFt-mD-TsP" firstAttribute="leading" secondItem="mG0-tM-tCZ" secondAttribute="trailing" constant="-45" id="IbB-m6-XzW"/>
-                                                <constraint firstItem="V9W-nH-Xd7" firstAttribute="width" secondItem="eji-TO-bgk" secondAttribute="width" multiplier="0.0868056" id="Ja9-FQ-jIZ"/>
                                                 <constraint firstItem="ZYt-83-d7H" firstAttribute="leading" secondItem="RFt-mD-TsP" secondAttribute="trailing" constant="-42" id="NLe-95-jQp"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="RFt-mD-TsP" secondAttribute="bottom" constant="10" id="Nmc-yZ-XvN"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="9HG-jF-muX" secondAttribute="trailing" id="Odn-eL-g7E"/>
                                                 <constraint firstItem="j2g-6M-AUB" firstAttribute="top" secondItem="cRT-tg-gSV" secondAttribute="bottom" constant="6" id="Qk7-jO-1mY"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="9ZR-iW-qog" secondAttribute="trailing" id="Rwu-qV-Ayp"/>
-                                                <constraint firstItem="cRT-tg-gSV" firstAttribute="width" secondItem="eji-TO-bgk" secondAttribute="width" multiplier="0.121528" id="Tfc-aG-dk3"/>
                                                 <constraint firstItem="9HG-jF-muX" firstAttribute="height" secondItem="cRT-tg-gSV" secondAttribute="height" id="V5W-iK-LWS"/>
                                                 <constraint firstItem="9HG-jF-muX" firstAttribute="trailing" secondItem="j2g-6M-AUB" secondAttribute="trailing" id="WHe-T3-aO0"/>
                                                 <constraint firstItem="8yF-Ys-u6B" firstAttribute="top" secondItem="V9W-nH-Xd7" secondAttribute="bottom" constant="8" id="Xv6-id-qWn"/>

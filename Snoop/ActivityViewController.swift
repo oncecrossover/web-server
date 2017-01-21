@@ -445,7 +445,6 @@ extension ActivityViewController {
     }
 
     let questionId = questionInfo.id
-//    let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Loading Answer...")
     questionModule.getQuestionMedia(questionId) { audioString in
       if (!audioString.isEmpty) {
         let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
@@ -455,6 +454,7 @@ extension ActivityViewController {
           let player = AVPlayer(URL: dataPath)
           videoPlayerView.player = player
           let playerLayer = AVPlayerLayer(player: player)
+          playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
           videoPlayerView.layer.addSublayer(playerLayer)
           playerLayer.frame = videoPlayerView.frame
 
