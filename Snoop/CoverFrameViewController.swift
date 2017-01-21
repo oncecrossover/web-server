@@ -85,7 +85,7 @@ extension CoverFrameViewController {
 extension CoverFrameViewController {
 
   func back(sender: AnyObject) {
-    self.navigationController?.popViewControllerAnimated(true)
+    self.navigationController?.popViewControllerAnimated(false)
   }
 
   @IBAction func submitButtonTapped(sender: AnyObject) {

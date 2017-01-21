@@ -22,9 +22,6 @@
 		4A3A56651E26DECB00FC0F3B /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3A56641E26DECB00FC0F3B /* CustomButton.swift */; };
 		4A3A56671E27168C00FC0F3B /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3A56661E27168C00FC0F3B /* PaymentViewController.swift */; };
 		4A3D5D791DE8C41A006FE077 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */; };
-		4A3D5D7C1DF0D47E006FE077 /* CustomOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D5D7A1DF0D47E006FE077 /* CustomOverlayViewController.swift */; };
-		4A3D5D7D1DF0D47E006FE077 /* CustomOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A3D5D7B1DF0D47E006FE077 /* CustomOverlayViewController.xib */; };
-		4A3D5D7F1DF0D4BB006FE077 /* CustomOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D5D7E1DF0D4BB006FE077 /* CustomOverlayView.swift */; };
 		4A4BB82A1D769BE70085160F /* AbstractModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB8291D769BE70085160F /* AbstractModel.swift */; };
 		4A4BB82B1D769BE70085160F /* AbstractModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB8291D769BE70085160F /* AbstractModel.swift */; };
 		4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
@@ -33,6 +30,7 @@
 		4A55E8FB1E282DB600B033F4 /* BalanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A55E8FA1E282DB600B033F4 /* BalanceViewController.swift */; };
 		4A55E8FD1E2877D000B033F4 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A55E8FC1E2877D000B033F4 /* CustomSegmentedControl.swift */; };
 		4A55E8FF1E28AD3700B033F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A55E8FE1E28AD3700B033F4 /* LaunchScreen.storyboard */; };
+		4A55E9011E332E8E00B033F4 /* CustomCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A55E9001E332E8E00B033F4 /* CustomCameraView.swift */; };
 		4A5A9A311D80D38F00140AA9 /* AskViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9A301D80D38F00140AA9 /* AskViewControllerUITests.swift */; };
 		4A5B257D1D65247700691696 /* SnoopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B257C1D65247700691696 /* SnoopUITests.swift */; };
 		4A5B25851D6524EB00691696 /* ViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B25841D6524EB00691696 /* ViewControllerUITests.swift */; };
@@ -109,15 +107,13 @@
 		4A3A56641E26DECB00FC0F3B /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		4A3A56661E27168C00FC0F3B /* PaymentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
 		4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		4A3D5D7A1DF0D47E006FE077 /* CustomOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomOverlayViewController.swift; sourceTree = "<group>"; };
-		4A3D5D7B1DF0D47E006FE077 /* CustomOverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomOverlayViewController.xib; sourceTree = "<group>"; };
-		4A3D5D7E1DF0D4BB006FE077 /* CustomOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomOverlayView.swift; sourceTree = "<group>"; };
 		4A4BB8291D769BE70085160F /* AbstractModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbstractModel.swift; sourceTree = "<group>"; };
 		4A4BB82C1D769CF40085160F /* DiscoverModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverModel.swift; sourceTree = "<group>"; };
 		4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
 		4A55E8FA1E282DB600B033F4 /* BalanceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BalanceViewController.swift; sourceTree = "<group>"; };
 		4A55E8FC1E2877D000B033F4 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 		4A55E8FE1E28AD3700B033F4 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4A55E9001E332E8E00B033F4 /* CustomCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCameraView.swift; sourceTree = "<group>"; };
 		4A5A9A301D80D38F00140AA9 /* AskViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AskViewControllerUITests.swift; sourceTree = "<group>"; };
 		4A5B257A1D65247700691696 /* SnoopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnoopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A5B257C1D65247700691696 /* SnoopUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoopUITests.swift; sourceTree = "<group>"; };
@@ -200,6 +196,7 @@
 				4A214F341E204E3F0000B29D /* VideoPlayerView.swift */,
 				4A3A56641E26DECB00FC0F3B /* CustomButton.swift */,
 				4A55E8FC1E2877D000B033F4 /* CustomSegmentedControl.swift */,
+				4A55E9001E332E8E00B033F4 /* CustomCameraView.swift */,
 			);
 			name = UIView;
 			sourceTree = "<group>";
@@ -277,9 +274,6 @@
 				4A745CBD1D73A5D500797AFC /* ConfirmationViewController.swift */,
 				4A0EB0EA1D8276DC00390D06 /* TutorialViewController.swift */,
 				4A0EB0EC1D8277C700390D06 /* ContentViewController.swift */,
-				4A3D5D7E1DF0D4BB006FE077 /* CustomOverlayView.swift */,
-				4A3D5D7A1DF0D47E006FE077 /* CustomOverlayViewController.swift */,
-				4A3D5D7B1DF0D47E006FE077 /* CustomOverlayViewController.xib */,
 				4A15D1771E037CD70013EDC1 /* CoverFrameViewController.swift */,
 				4A6730C01E23426A00C512B1 /* SettingsViewController.swift */,
 				4A3A56661E27168C00FC0F3B /* PaymentViewController.swift */,
@@ -459,7 +453,6 @@
 				4AC283711CE2F58100A08D35 /* Assets.xcassets in Resources */,
 				4AD8A6A41D63E8C600757D9D /* Stripe.bundle in Resources */,
 				4AC2836C1CE2F58100A08D35 /* Main.storyboard in Resources */,
-				4A3D5D7D1DF0D47E006FE077 /* CustomOverlayViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -501,7 +494,6 @@
 				4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */,
 				4A0EB0EB1D8276DC00390D06 /* TutorialViewController.swift in Sources */,
 				4A0CE3681D6ECDB10023EC2D /* MBProgressHUD.m in Sources */,
-				4A3D5D7F1DF0D4BB006FE077 /* CustomOverlayView.swift in Sources */,
 				4AC2837E1CED0E4500A08D35 /* LoginViewController.swift in Sources */,
 				4AE8660F1D3C3CF400316DBA /* CardsViewController.swift in Sources */,
 				4ABD20311D407ECC00C3B74E /* AddCardViewController.swift in Sources */,
@@ -521,7 +513,7 @@
 				4A698D451D7BA12D004786B8 /* QuandaModel.swift in Sources */,
 				4ACADE131E1345E000831929 /* ActivityTableViewCell.swift in Sources */,
 				4AF3226A1D29A1E10043FCE5 /* Question.swift in Sources */,
-				4A3D5D7C1DF0D47E006FE077 /* CustomOverlayViewController.swift in Sources */,
+				4A55E9011E332E8E00B033F4 /* CustomCameraView.swift in Sources */,
 				4A152F621D59106700FA48E7 /* Generics.swift in Sources */,
 				4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */,
 				4A698D471D7BA334004786B8 /* SnoopModel.swift in Sources */,

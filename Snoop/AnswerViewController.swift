@@ -42,7 +42,6 @@ extension AnswerViewController {
     super.viewDidLoad()
     answerTableView.rowHeight = UITableViewAutomaticDimension
     answerTableView.estimatedRowHeight = 120
-    //initView()
     answerTableView.reloadData()
     if (cellInfo.status == "PENDING") {
       cameraImage.userInteractionEnabled = true
@@ -117,11 +116,6 @@ extension AnswerViewController {
     let path = prefix.stringByAppendingPathComponent(fileName)
     return NSURL(fileURLWithPath: path)
   }
-
-  func stopRecording(overlayView: CustomOverlayView) {
-    currentImagePicker?.stopVideoCapture()
-    overlayView.reset()
-  }
 }
 
 // IB Action
@@ -164,15 +158,10 @@ extension AnswerViewController {
       imagePicker.cameraDevice = .Front
       imagePicker.cameraCaptureMode = .Video
 
-      //customView stuff
-      let customViewController = CustomOverlayViewController(
-        nibName:"CustomOverlayViewController",
-        bundle: nil
-      )
-      let customView:CustomOverlayView = customViewController.view as! CustomOverlayView
-      customView.frame = imagePicker.view.frame
-      customView.delegate = self
-      imagePicker.cameraOverlayView = customView
+      // Initiate custom camera view
+      let customCameraView = CustomCameraView(frame: imagePicker.view.frame)
+      imagePicker.cameraOverlayView = customCameraView
+      customCameraView.delegate = self
       self.presentViewController(imagePicker, animated: true, completion: {
         
       })
@@ -199,10 +188,9 @@ extension AnswerViewController: UIImagePickerControllerDelegate, UINavigationCon
   }
 }
 
-// CustomViewDelegate
-extension AnswerViewController: CustomOverlayDelegate {
-
-  func didCancel(overlayView:CustomOverlayView) {
+// CustomCameraViewDelegate
+extension AnswerViewController: CustomCameraViewDelegate {
+  func didCancel(overlayView:CustomCameraView) {
     if (overlayView.cancelButton.currentTitle == "cancel") {
       currentImagePicker?.dismissViewControllerAnimated(true,
                                                         completion: nil)
@@ -212,7 +200,7 @@ extension AnswerViewController: CustomOverlayDelegate {
     }
   }
 
-  func didBack(overlayView: CustomOverlayView) {
+  func didBack(overlayView: CustomCameraView) {
     let myAlert = UIAlertController(title: "Warning", message: "recorded video will be discarded", preferredStyle: UIAlertControllerStyle.Alert)
 
     let okAction = UIAlertAction(title: "Back", style: UIAlertActionStyle.Destructive) { action in
@@ -227,7 +215,7 @@ extension AnswerViewController: CustomOverlayDelegate {
     self.currentImagePicker?.presentViewController(myAlert, animated: true, completion: nil)
   }
 
-  func didNext(overlayView: CustomOverlayView) {
+  func didNext(overlayView: CustomCameraView) {
     let fileUrl = getFileUrl()
     let asset = AVURLAsset(URL: fileUrl, options: nil)
     let duration = asset.duration.value / 1000
@@ -247,14 +235,14 @@ extension AnswerViewController: CustomOverlayDelegate {
     }
   }
 
-  func didShoot(overlayView:CustomOverlayView) {
+  func didShoot(overlayView:CustomCameraView) {
     if (overlayView.isRecording == false) {
-      if ((overlayView.shootButton.currentImage?.isEqual(UIImage(named: "record")))! == true) {
+      if ((overlayView.recordButton.currentImage?.isEqual(UIImage(named: "record")))! == true) {
         //start recording answer
         overlayView.isRecording = true
         currentImagePicker?.startVideoCapture()
         overlayView.startTimer()
-        overlayView.shootButton.setImage(UIImage(named: "recording"), forState: .Normal)
+        overlayView.recordButton.setImage(UIImage(named: "recording"), forState: .Normal)
         overlayView.cancelButton.hidden = true
       }
       else {
@@ -281,5 +269,10 @@ extension AnswerViewController: CustomOverlayDelegate {
       currentImagePicker?.stopVideoCapture()
       overlayView.reset()
     }
+  }
+
+  func stopRecording(overlayView: CustomCameraView) {
+    currentImagePicker?.stopVideoCapture()
+    overlayView.reset()
   }
 }
