@@ -106,7 +106,11 @@ extension CardsViewController {
 extension CardsViewController : UITableViewDataSource, UITableViewDelegate {
 
   func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-    return true
+    if (indexPath.section == 0) {
+      return true
+    }
+
+    return false
   }
 
   func numberOfSectionsInTableView(tableView: UITableView) -> Int {
