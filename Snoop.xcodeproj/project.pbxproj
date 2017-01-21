@@ -19,7 +19,7 @@
 		4A214F351E204E3F0000B29D /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A214F341E204E3F0000B29D /* VideoPlayerView.swift */; };
 		4A368E8C1D5CFA8000176C54 /* ChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */; };
 		4A3A56631E26D8D600FC0F3B /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3A56621E26D8D600FC0F3B /* extension.swift */; };
-		4A3A56651E26DECB00FC0F3B /* customButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3A56641E26DECB00FC0F3B /* customButton.swift */; };
+		4A3A56651E26DECB00FC0F3B /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3A56641E26DECB00FC0F3B /* CustomButton.swift */; };
 		4A3A56671E27168C00FC0F3B /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3A56661E27168C00FC0F3B /* PaymentViewController.swift */; };
 		4A3D5D791DE8C41A006FE077 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */; };
 		4A3D5D7C1DF0D47E006FE077 /* CustomOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D5D7A1DF0D47E006FE077 /* CustomOverlayViewController.swift */; };
@@ -106,7 +106,7 @@
 		4A214F341E204E3F0000B29D /* VideoPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		4A368E8B1D5CFA8000176C54 /* ChargeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargeViewController.swift; sourceTree = "<group>"; };
 		4A3A56621E26D8D600FC0F3B /* extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
-		4A3A56641E26DECB00FC0F3B /* customButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = customButton.swift; sourceTree = "<group>"; };
+		4A3A56641E26DECB00FC0F3B /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		4A3A56661E27168C00FC0F3B /* PaymentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
 		4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4A3D5D7A1DF0D47E006FE077 /* CustomOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomOverlayViewController.swift; sourceTree = "<group>"; };
@@ -198,7 +198,7 @@
 				4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */,
 				4AF910731D449F1800546F95 /* InteractiveUITextField.swift */,
 				4A214F341E204E3F0000B29D /* VideoPlayerView.swift */,
-				4A3A56641E26DECB00FC0F3B /* customButton.swift */,
+				4A3A56641E26DECB00FC0F3B /* CustomButton.swift */,
 				4A55E8FC1E2877D000B033F4 /* CustomSegmentedControl.swift */,
 			);
 			name = UIView;
@@ -494,7 +494,7 @@
 				4ABD203D1D443E1A00C3B74E /* UIUtility.swift in Sources */,
 				4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */,
 				4A55E8FB1E282DB600B033F4 /* BalanceViewController.swift in Sources */,
-				4A3A56651E26DECB00FC0F3B /* customButton.swift in Sources */,
+				4A3A56651E26DECB00FC0F3B /* CustomButton.swift in Sources */,
 				4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */,
 				4AF322761D2DBCB50043FCE5 /* AnswerViewController.swift in Sources */,
 				4ACADE151E13586C00831929 /* ActivityModel.swift in Sources */,

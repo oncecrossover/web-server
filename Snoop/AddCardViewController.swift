@@ -16,8 +16,8 @@ class AddCardViewController: UIViewController, STPPaymentCardTextFieldDelegate {
   var paymentModule = Payment()
   var utility = UIUtility()
 
-  lazy var saveButton: customButton = {
-    let button = customButton()
+  lazy var saveButton: CustomButton = {
+    let button = CustomButton()
     button.enabled = false
     button.setTitle("Save", forState: .Normal)
     button.setTitle("Save", forState: .Disabled)

@@ -42,8 +42,8 @@ class BalanceViewController: UIViewController {
     return label
   }()
 
-  let cashoutButton : customButton = {
-    let button = customButton()
+  let cashoutButton : CustomButton = {
+    let button = CustomButton()
     button.setTitle("Cash Out", forState: .Normal)
     button.setTitle("Cash Out", forState: .Disabled)
     button.translatesAutoresizingMaskIntoConstraints = false
