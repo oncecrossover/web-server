@@ -24,13 +24,19 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.db.model.Quanda;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.ByteStreams;
 
 public class ObjectStoreClient {
   private static final String USER_ROOT = "com.snoop.server.users";
   private static final String ANSWER_ROOT = "com.snoop.server.answers";
-  private static final String PREFIX = "https://s3-us-west-1.amazonaws.com";
+  private static String uriPrefix = "https://s3-us-west-1.amazonaws.com";
   private static AmazonS3 s3 = null;
+
+  @VisibleForTesting
+  static void setPrefix(final String prefix) {
+    uriPrefix = prefix;
+  }
 
   static {
     try {
@@ -45,14 +51,6 @@ public class ObjectStoreClient {
               + "location (~/.aws/credentials), and is in valid format.",
           e);
     }
-  }
-
-  public byte[] readAnswerCover(final String answerCoverUrl) throws Exception {
-    return readByUrl(answerCoverUrl);
-  }
-
-  public byte[] readAnswerMedia(final String answerUrl) throws Exception {
-    return readByUrl(answerUrl);
   }
 
   public String saveAnswerCover(final Quanda quanda) throws Exception {
@@ -75,18 +73,6 @@ public class ObjectStoreClient {
     return null;
   }
 
-
-  public byte[] readAvatarImage(final String avatarUrl) throws Exception {
-    return readByUrl(avatarUrl);
-  }
-
-  private byte[] readByUrl(final String url) throws Exception {
-    if (StringUtils.isBlank(url)) {
-      return null;
-    }
-    return readFromStore(url);
-  }
-
   public String saveAvatarImage(final Profile profile) throws Exception {
     if (!StringUtils.isBlank(profile.getUid())
         && profile.getAvatarImage() != null
@@ -100,21 +86,28 @@ public class ObjectStoreClient {
   }
 
   private String getAvatarUrl(final Profile profile) {
-    return String.format("%s/%s/%s/%s", PREFIX, USER_ROOT, profile.getUid(),
+    return String.format("%s/%s/%s/%s", uriPrefix, USER_ROOT, profile.getUid(),
         "avatar");
   }
 
   private String getAnswerUrl(final Quanda quanda) {
-    return String.format("%s/%s/%d", PREFIX, ANSWER_ROOT, quanda.getId());
+    return String.format("%s/%s/%d", uriPrefix, ANSWER_ROOT, quanda.getId());
   }
 
   private String getAnswerCoverUrl(final Quanda quanda) {
-    return String.format("%s/%s/%d.cover", PREFIX, ANSWER_ROOT, quanda.getId());
+    return String.format("%s/%s/%d.cover", uriPrefix, ANSWER_ROOT, quanda.getId());
   }
 
   String getObjectName(final String filePath) {
     final Path p = Paths.get(filePath);
     return filePath.substring(filePath.indexOf(p.getRoot().toString() + 1));
+  }
+
+  public byte[] readAvatarImage(final String avatarUrl) throws Exception {
+    if (StringUtils.isBlank(avatarUrl)) {
+      return null;
+    }
+    return readFromStore(avatarUrl);
   }
 
   public byte[] readFromStore(final String filePath)

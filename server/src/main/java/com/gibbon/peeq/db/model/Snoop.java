@@ -16,6 +16,7 @@ public class Snoop {
   private String question;
   private String status;
   private Double rate;
+  private String answerUrl;
   private String answerCoverUrl;
   private byte[] answerCover;
   private int duration;
@@ -87,6 +88,15 @@ public class Snoop {
 
   public Snoop setRate(final Double rate) {
     this.rate = rate;
+    return this;
+  }
+
+  public String getAnswerUrl() {
+    return answerUrl;
+  }
+
+  public Snoop setAnswerUrl(final String answerUrl) {
+    this.answerUrl = answerUrl;
     return this;
   }
 

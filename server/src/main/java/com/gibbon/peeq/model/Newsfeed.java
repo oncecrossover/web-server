@@ -9,6 +9,7 @@ public class Newsfeed {
   private Long id;
   private String question;
   private Date updatedTime;
+  private String answerUrl;
   private String answerCoverUrl;
   private byte[]  answerCover;
   private int duration;
@@ -43,6 +44,15 @@ public class Newsfeed {
 
   public Newsfeed setUpdatedTime(final Date updatedTime) {
     this.updatedTime = updatedTime;
+    return this;
+  }
+
+  public String getAnswerUrl() {
+    return answerUrl;
+  }
+
+  public Newsfeed setAnswerUrl(final String answerUrl) {
+    this.answerUrl = answerUrl;
     return this;
   }
 

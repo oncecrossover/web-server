@@ -103,13 +103,28 @@ Query based on the last seen, e.g.
 curl -i -G -X GET http://127.0.0.1:8080/profiles --data-urlencode "takeQuestion='APPROVED'" --data-urlencode "fullName='%zh%'" --data-urlencode "lastSeenUpdatedTime=1474607620000" -d "lastSeenId='xiaobingo'" -d "limit=20", equivalent to
 curl -i -X GET "http://127.0.0.1:8080/questions?takeQuestion='APPROVED'&fullName='%zh%'&lastSeenUpdatedTime=1474607620000&lastSeenId='xiaobingo'&limit=20"
 
-Example response:
-{"uid":"edmund","rate":200.0,"avatarUrl":"/users/edmund/avatar","avatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","fullName":"Edmund Burke","title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.","takeQuestion":"APPROVED","createdTime":null,"updatedTime":1484030623000}
-
-
 RESTFUL APIs OF QUANDAS:
 1. get quanda by id, e.g.
 curl -i -X GET "http://127.0.0.1:8080/quandas/1"
+Example response:
+{
+  "id": 8,
+  "asker": "xiaobingo",
+  "question": "How do you predict house market in US?",
+  "responder": "bowen",
+  "rate": 1,
+  "answerUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8",
+  "answerCoverUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8.cover",
+  "answerMedia": null,
+  "answerCover": null,
+  "duration": 0,
+  "status": "ANSWERED",
+  "active": "TRUE",
+  "createdTime": 1484635427000,
+  "updatedTime": 1484635427000,
+  "snoops": null,
+  "hoursToExpire": 0
+}
 
 2. answer question by id, e.g.
 curl -i -X PUT "http://127.0.0.1:8080/quandas/1" -d '{"answerMedia":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","answerCover":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","status":"ANSWERED"}'
@@ -130,7 +145,28 @@ curl -i -G -X GET http://127.0.0.1:8080/questions -d "asker='kuan'" --data-urlen
 curl -i -X GET "http://127.0.0.1:8080/questions?asker='kuan'&lastSeenUpdatedTime=1474522304000&lastSeenId=3&limit=20"
 
 Example response:
-[{"id":6,"question":"How do you believe in being an entrepreneur?","rate":100.0,"status":"ANSWERED","updatedTime":1472443395000, "answerCover": "SDFGSDF2456254GWFQRTG!", "responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==", "askerName":"Jason", "askerAvatarImage": "2G%23FAS=", "duration":45}]
+[
+  {
+    "id": 8,
+    "question": "How do you predict house market in US?",
+    "rate": 1,
+    "status": "ANSWERED",
+    "createdTime": 1484635427000,
+    "updatedTime": 1484635427000,
+    "answerUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8",
+    "answerCoverUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8.cover",
+    "answerCover": null,
+    "duration": 0,
+    "hoursToExpire": 0,
+    "responderName": "Bowen Zhang",
+    "responderTitle": null,
+    "responderAvatarUrl": null,
+    "responderAvatarImage": null,
+    "askerName": "Xiaobing Zhou",
+    "askerAvatarUrl": null,
+    "askerAvatarImage": null
+  }
+]
 
 
 RESTFUL APIs OF ANSWERS:
@@ -145,7 +181,27 @@ curl -i -G -X GET http://127.0.0.1:8080/answers/ -d "responder='edmund'" --data-
 curl -i -X GET "http://127.0.0.1:8080/answers?responder='edmund'&lastSeenCreatedTime=1473224175000&lastSeenId=3&limit=20"
 
 Example response:
-[{"id":4,"question":"Are you nervous being an entrepreneur?","rate":300.0,"status":"EXPIRED","createdTime":1472169993000, "answerCover": "FADY@%$^GAQRGQGT%Q%TY%$T#%G$=", askerName":"Xiaobing Zhou", "askerAvatarUrl":"/users/xiaobingo/avatar","askerAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==", "responderName": "Ben", "responderTitle": "engineer", "responderAvatarUrl": "/users/ben/avatar", "responderAvatarImage": "AGSD3546AGFADFGTQ$%Y@$%Y==",  "hoursToExpire":0}]
+[
+  {
+    "id": 8,
+    "question": "How do you predict house market in US?",
+    "rate": 1,
+    "status": "ANSWERED",
+    "createdTime": 1484635427000,
+    "answerUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8",
+    "answerCoverUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8.cover",
+    "answerCover": null,
+    "duration": 0,
+    "responderName": "Bowen Zhang",
+    "responderTitle": null,
+    "responderAvatarUrl": null,
+    "responderAvatarImage": null,
+    "askerName": "Xiaobing Zhou",
+    "askerAvatarUrl": null,
+    "askerAvatarImage": null,
+    "hoursToExpire": 0
+  }
+]
 
 
 RESTFUL APIs OF SNOOPS:
@@ -160,7 +216,28 @@ curl -i -G -X GET http://127.0.0.1:8080/snoops -d "uid='kuan'" --data-urlencode 
 curl -i -X GET "http://127.0.0.1:8080/snoops?uid='kuan'&lastSeenCreatedTime=1473225675000&lastSeenId=10&limit=20"
 
 Example response:
-[{"id":2,"uid":null,"quandaId":6,"createdTime":1472443947000,"question":"How do you believe in being an entrepreneur?","status":"ANSWERED","rate":100.0,"responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==", "askerName":"Kansen", "askerAvatarImage":"F$GWTU&^fds", "duration":45}]
+[
+  {
+    "id": 4,
+    "uid": null,
+    "quandaId": 8,
+    "createdTime": 1484636530000,
+    "question": "How do you predict house market in US?",
+    "status": "ANSWERED",
+    "rate": 1,
+    "answerUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8",
+    "answerCoverUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8.cover",
+    "answerCover": null,
+    "duration": 0,
+    "responderName": "Bowen Zhang",
+    "responderTitle": null,
+    "responderAvatarUrl": null,
+    "responderAvatarImage": null,
+    "askerName": "Xiaobing Zhou",
+    "askerAvatarUrl": null,
+    "askerAvatarImage": null
+  }
+]
 
 
 RESTFUL APIs OF PCENTRY (i.e. credit/debit card or bank account):
@@ -208,7 +285,23 @@ curl -i -G -X GET http://127.0.0.1:8080/newsfeeds/ -d "uid='bowen'" --data-urlen
 curl -i -X GET "http://127.0.0.1:8080/newsfeeds?uid='bowen'&lastSeenUpdatedTime=1474522304000&lastSeenId=3&limit=10"
 
 Example response:
-[{"id":6,"question":"How do you believe in being an entrepreneur?","updatedTime":1472443395000,"responderId":"xiaobingo","responderName":"Xiaobing Zhou","responderTitle":"Software Engineer","responderAvatarUrl":"/users/xiaobingo/avatar","responderAvatarImage":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","answerCover": "AFD$#QTGAER==","askerName": "Kansen", "askerAvatarImage": "GTRWGQ#$TGAFDG", "duration": 56, "snoops":1}]
+[
+  {
+    "id": 8,
+    "question": "How do you predict house market in US?",
+    "updatedTime": 1484635427000,
+    "answerUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8",
+    "answerCoverUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8.cover",
+    "answerCover": null,
+    "duration": 0,
+    "responderId": "bowen",
+    "responderName": "Bowen Zhang",
+    "responderTitle": null,
+    "responderAvatarUrl": null,
+    "responderAvatarImage": null,
+    "snoops": 1
+  }
+]
 
 
 RESTFUL APIs OF TEMP PASSWORD:
@@ -234,6 +327,18 @@ curl -i -X POST "http://127.0.0.1:8080/takeq" -d '{"uid":"kuan","takeQuestion":"
 
 3. to deny taking questions, e.g.
 curl -i -X POST "http://127.0.0.1:8080/takeq" -d '{"uid":"kuan","takeQuestion":"DENIED"}'
+
+
+RESTFUL APIs OF BULKDATA:
+1. get bulk data by uri(s)
+curl -i -X GET "http://127.0.0.1:8080/bulkdata/https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8"
+curl -i -G -X GET http://127.0.0.1:8080/bulkdata --data-urlencode "uri=https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8"  --data-urlencode "uri=https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/7.cover"
+, which are equivalent to
+curl -i -G -X GET "http://127.0.0.1:8080/bulkdata?/bulkdata?uri=https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8&uri=https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/7.cover"
+
+Example response:
+{"https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="}
+{"https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/7.cover":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="}
 
 
 

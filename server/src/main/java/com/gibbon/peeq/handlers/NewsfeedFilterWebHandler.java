@@ -67,27 +67,6 @@ implements PeeqWebHandler {
         params,
         false);
 
-    loadAvatarsAndCoversFromObjectStore(list);
     return listToJsonString(list);
-  }
-
-  private void loadAvatarsAndCoversFromObjectStore(List<Newsfeed> list)
-      throws Exception {
-    for (Newsfeed entity : list) {
-      if (StringUtils.isBlank(entity.getResponderAvatarUrl())) {
-        continue;
-      }
-
-      final ObjectStoreClient osc = new ObjectStoreClient();
-      byte[] readContent = null;
-      readContent = osc.readAvatarImage(entity.getResponderAvatarUrl());
-      if (readContent != null) {
-        entity.setResponderAvatarImage(readContent);
-      }
-      readContent = osc.readAnswerCover(entity.getAnswerCoverUrl());
-      if (readContent != null) {
-        entity.setAnswerCover(readContent);
-      }
-    }
   }
 }

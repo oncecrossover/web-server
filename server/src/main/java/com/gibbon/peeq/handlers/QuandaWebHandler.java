@@ -90,9 +90,6 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
           Long.parseLong(id));
       txn.commit();
 
-      loadAnswerMedia(retInstance);
-      loadAnswerCover(retInstance);
-
       /* buffer result */
       return newResponseForInstance(id, retInstance);
     } catch (HibernateException e) {
@@ -103,48 +100,6 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
-  }
-
-  private void loadAnswerCover(final Quanda quanda) {
-    if (quanda == null) {
-      return;
-    }
-
-    final byte[] readContent = readAnswerCover(quanda);
-    if (readContent != null) {
-      quanda.setAnswerCover(readContent);
-    } 
-  }
-
-  private void loadAnswerMedia(final Quanda quanda) {
-    if (quanda == null) {
-      return;
-    }
-
-    final byte[] readContent = readAnswerMedia(quanda);
-    if (readContent != null) {
-      quanda.setAnswerMedia(readContent);
-    }
-  }
-
-  private byte[] readAnswerCover(final Quanda quanda) {
-    ObjectStoreClient osc = new ObjectStoreClient();
-    try {
-      return osc.readAnswerCover(quanda.getAnswerCoverUrl());
-    } catch (Exception e) {
-      LOG.warn(super.stackTraceToString(e));
-    }
-    return null;
-  }
-
-  private byte[] readAnswerMedia(final Quanda quanda) {
-    ObjectStoreClient osc = new ObjectStoreClient();
-    try {
-      return osc.readAnswerMedia(quanda.getAnswerUrl());
-    } catch (Exception e) {
-      LOG.warn(super.stackTraceToString(e));
-    }
-    return null;
   }
 
   private FullHttpResponse newResponseForInstance(final String id,

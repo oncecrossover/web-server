@@ -14,6 +14,7 @@ public class Question {
   private String status;
   private Date createdTime;
   private Date updatedTime;
+  private String answerUrl;
   private String answerCoverUrl;
   private byte[]  answerCover;
   private int duration;
@@ -77,6 +78,15 @@ public class Question {
 
   public Question setUpdatedTime(final Date updatedTime) {
     this.updatedTime = updatedTime;
+    return this;
+  }
+
+  public String getAnswerUrl() {
+    return answerUrl;
+  }
+
+  public Question setAnswerUrl(final String answerUrl) {
+    this.answerUrl = answerUrl;
     return this;
   }
 

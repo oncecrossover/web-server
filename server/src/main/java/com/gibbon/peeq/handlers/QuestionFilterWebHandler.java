@@ -69,36 +69,6 @@ public class QuestionFilterWebHandler extends AbastractPeeqWebHandler
         params,
         false);
 
-    loadAvatarsAndCoversFromObjectStore(list);
     return listToJsonString(list);
-  }
-
-  private void loadAvatarsAndCoversFromObjectStore(List<Question> questions)
-      throws Exception {
-    for (Question entity : questions) {
-      final ObjectStoreClient osc = new ObjectStoreClient();
-      byte[] readContent = null;
-
-      if (!StringUtils.isBlank(entity.getResponderAvatarUrl())) {
-        readContent = osc.readAvatarImage(entity.getResponderAvatarUrl());
-        if (readContent != null) {
-          entity.setResponderAvatarImage(readContent);
-        }
-      }
-
-      if (!StringUtils.isBlank(entity.getAnswerCoverUrl())) {
-        readContent = osc.readAnswerCover(entity.getAnswerCoverUrl());
-        if (readContent != null) {
-          entity.setAnswerCover(readContent);
-        }
-      }
-
-      if (!StringUtils.isBlank(entity.getAskerAvatarUrl())) {
-        readContent = osc.readAvatarImage(entity.getAskerAvatarUrl());
-        if (readContent != null) {
-          entity.setAskerAvatarImage(readContent);
-        }
-      }
-    }
   }
 }

@@ -58,6 +58,7 @@ public class SnoopDBUtil {
            .addScalar("question", new StringType())
            .addScalar("status", new StringType())
            .addScalar("rate", new DoubleType())
+           .addScalar("answerUrl", new StringType())
            .addScalar("answerCoverUrl", new StringType())
            .addScalar("duration", new IntegerType())
            .addScalar("responderName", new StringType())
@@ -89,7 +90,7 @@ public class SnoopDBUtil {
     long lastSeenId = 0;
     int limit = SnoopServerConf.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
     String select = "SELECT S.id, S.createdTime,"
-        + " Q.id AS quandaId, Q.question, Q.status, Q.rate, Q.answerCoverUrl, Q.duration,"
+        + " Q.id AS quandaId, Q.question, Q.status, Q.rate, Q.answerUrl, Q.answerCoverUrl, Q.duration,"
         + " P.fullName AS responderName, P.title AS responderTitle,"
         + " P.avatarUrl AS responderAvatarUrl, P2.fullName AS askerName, P2.avatarUrl AS askerAvatarUrl"
         + " FROM Snoop AS S INNER JOIN"

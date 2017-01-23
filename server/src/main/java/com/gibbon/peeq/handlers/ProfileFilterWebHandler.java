@@ -46,21 +46,6 @@ public class ProfileFilterWebHandler extends AbastractPeeqWebHandler
     return onQuery();
   }
 
-  private void loadAvatarsFromObjectStore(final List<Profile> profiles)
-      throws Exception {
-    for (Profile entity : profiles) {
-      if (StringUtils.isBlank(entity.getAvatarUrl())) {
-        continue;
-      }
-
-      final ObjectStoreClient osc = new ObjectStoreClient();
-      final byte[] readContent = osc.readAvatarImage(entity.getAvatarUrl());
-      if (readContent != null) {
-        entity.setAvatarImage(readContent);
-      }
-    }
-  }
-
   private FullHttpResponse onQuery() {
     Transaction txn = null;
     try {
@@ -91,7 +76,6 @@ public class ProfileFilterWebHandler extends AbastractPeeqWebHandler
         params,
         false);
 
-    loadAvatarsFromObjectStore(list);
     return listToJsonString(list);
   }
 }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.UUID;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,11 @@ import com.gibbon.peeq.db.model.Quanda;
 public class TestObjectStoreClient {
 
   private static final String PREFIX = "https://s3-us-west-1.amazonaws.com/com.snoop.server.test";
+ 
+  @BeforeClass
+  public static void setupClass() {
+    ObjectStoreClient.setPrefix(PREFIX);
+  }
 
   @Test(timeout = 60000)
   public void testReadFromStore() throws Exception {
@@ -53,6 +59,7 @@ public class TestObjectStoreClient {
     assertEquals(fileContent.length, readContent.length);
   }
 
+  @Test(timeout = 60000)
   public void testLoadSaveProfileAvatar() throws Exception {
     final String localPath = "src/main/resources/com/gibbon/peeq/images/kobe.jpg";
     final File file = new File(localPath);
@@ -72,6 +79,7 @@ public class TestObjectStoreClient {
     assertEquals(fileContent.length, readContent.length);
   }
 
+  @Test(timeout = 60000)
   public void testLoadSaveAnswerMedia() throws Exception {
     final String localPath = "src/main/resources/com/gibbon/peeq/images/chow.jpg";
     final File file = new File(localPath);

@@ -227,6 +227,11 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
     return writer.toString();
   }
 
+  void logServerError(final Exception e, final Logger LOG) {
+    final String st = stackTraceToString(e);
+    LOG.warn(st);
+  }
+
   void stashServerError(final Exception e, final Logger LOG) {
     final String st = stackTraceToString(e);
     LOG.warn(st);

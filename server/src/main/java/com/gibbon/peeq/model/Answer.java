@@ -12,6 +12,7 @@ public class Answer {
   private Double rate;
   private String status;
   private Date createdTime;
+  private String answerUrl;
   private String answerCoverUrl;
   private byte[]  answerCover;
   private int duration;
@@ -65,6 +66,15 @@ public class Answer {
 
   public Answer setCreatedTime(final Date createdTime) {
     this.createdTime = createdTime;
+    return this;
+  }
+
+  public String getAnswerUrl() {
+    return answerUrl;
+  }
+
+  public Answer setAnswerUrl(final String answerUrl) {
+    this.answerUrl = answerUrl;
     return this;
   }
 
