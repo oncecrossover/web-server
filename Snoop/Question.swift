@@ -13,12 +13,14 @@ class Question {
   private var SNOOPURI : String
   private var QUANDAURI: String
   private var ANSWERURI: String
+  private var BULKDATAURI: String
   private var generics = Generics()
   init () {
     SNOOPURI = generics.HTTPHOST + "snoops"
     QUESTIONURI = generics.HTTPHOST + "questions"
     QUANDAURI = generics.HTTPHOST + "quandas"
     ANSWERURI = generics.HTTPHOST + "answers"
+    BULKDATAURI = generics.HTTPHOST + "bulkdata"
   }
 
   func createQuestion(asker: String, question: String, responder: String,
@@ -73,6 +75,13 @@ class Question {
 
   func getQuestionById(id: Int, completion: (NSDictionary) -> ()){
     let myUrl = NSURL(string: QUESTIONURI + "/" + "\(id)")
+    generics.getObjectById(myUrl!) { convertedJsonIntoDict in
+      completion(convertedJsonIntoDict)
+    }
+  }
+
+  func getQuestionDatas(url: String, completion: (NSDictionary) -> ()) {
+    let myUrl = NSURL(string: BULKDATAURI + "?" + url)
     generics.getObjectById(myUrl!) { convertedJsonIntoDict in
       completion(convertedJsonIntoDict)
     }

@@ -50,8 +50,8 @@ class AskViewController: UIViewController, UITextViewDelegate {
     self.titleLabel.text = profileInfo.title
     self.titleLabel.font = self.titleLabel.font.fontWithSize(12)
 
-    if (profileInfo.avatarImage.length > 0) {
-      self.profilePhoto.image = UIImage(data: profileInfo.avatarImage)
+    if (profileInfo.avatarImage!.length > 0) {
+      self.profilePhoto.image = UIImage(data: profileInfo.avatarImage!)
     }
     else {
       self.profilePhoto.image = UIImage(named: "default")

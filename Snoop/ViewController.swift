@@ -118,18 +118,12 @@ extension ViewController {
           title = feedInfo["responderTitle"] as! String
         }
 
-        var avatarImage = NSData()
-        if ((feedInfo["responderAvatarImage"] as? String) != nil) {
-          avatarImage = NSData(base64EncodedString: (feedInfo["responderAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        }
-
-        var coverImage = NSData()
-        if ((feedInfo["answerCover"] as? String) != nil) {
-          coverImage = NSData(base64EncodedString: (feedInfo["answerCover"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        }
+        let avatarImageUrl = feedInfo["responderAvatarUrl"] as? String
+        let coverUrl = feedInfo["answerCoverUrl"] as? String
+        let answerUrl = feedInfo["answerUrl"] as? String
 
         let duration = feedInfo["duration"] as! Int
-        self.tmpFeeds.append(FeedsModel(_name: name, _title: title, _avatarImage: avatarImage, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime, _coverImage: coverImage, _duration: duration))
+        self.tmpFeeds.append(FeedsModel(_name: name, _title: title, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime,  _duration: duration, _avatarImageUrl: avatarImageUrl, _coverUrl: coverUrl, _answerUrl: answerUrl))
       }
 
       self.feeds = self.tmpFeeds
@@ -143,6 +137,75 @@ extension ViewController {
         self.refreshControl.endRefreshing()
       }
     }
+  }
+
+  func loadImagesAsync(cellInfo: FeedsModel, completion: (FeedsModel) -> ()) {
+    var url = ""
+    if let responderAvatarUrl = cellInfo.avatarImageUrl {
+      url += "uri=" + responderAvatarUrl + "&"
+    }
+
+    if let answerCoverUrl = cellInfo.coverUrl {
+      url += "uri=" + answerCoverUrl + "&"
+    }
+
+    if (url.isEmpty) {
+      cellInfo.avatarImage = NSData()
+      cellInfo.coverImage = NSData()
+      completion(cellInfo)
+    }
+    else {
+      url = String(url.characters.dropLast())
+      questionModule.getQuestionDatas(url) { result in
+        if let responderAvatarUrl = cellInfo.avatarImageUrl {
+          cellInfo.avatarImage = NSData(base64EncodedString: (result[responderAvatarUrl] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+        }
+        else {
+          cellInfo.avatarImage = NSData()
+        }
+
+        if let answerCoverUrl = cellInfo.coverUrl {
+          cellInfo.coverImage = NSData(base64EncodedString: (result[answerCoverUrl] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+        }
+        else {
+          cellInfo.coverImage = NSData()
+        }
+        completion(cellInfo)
+      }
+    }
+  }
+
+  func setImages(myCell: FeedTableViewCell, feedInfo: FeedsModel) {
+    if (feedInfo.avatarImage!.length > 0) {
+      myCell.profileImage.image = UIImage(data: feedInfo.avatarImage!)
+    }
+    else {
+      myCell.profileImage.image = UIImage(named: "default")
+    }
+    if (feedInfo.status == "PENDING") {
+      myCell.coverImage.userInteractionEnabled = false
+      myCell.coverImage.image = UIImage()
+    }
+    else {
+      myCell.coverImage.image = UIImage(data: feedInfo.coverImage!)
+      myCell.durationLabel.text = "00:\(feedInfo.duration)"
+      myCell.durationLabel.hidden = false
+
+      if (self.paidSnoops.contains(feedInfo.id)) {
+        myCell.coverImage.userInteractionEnabled = true
+        let tappedToWatch = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToWatch(_:)))
+        myCell.coverImage.addGestureRecognizer(tappedToWatch)
+      }
+      else {
+        myCell.coverImage.userInteractionEnabled = true
+        let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnImage(_:)))
+        myCell.coverImage.addGestureRecognizer(tappedOnImage)
+      }
+    }
+
+    myCell.profileImage.userInteractionEnabled = true
+    let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnProfile(_:)))
+    myCell.profileImage.addGestureRecognizer(tappedOnImage)
   }
 
   func getCacheDirectory() -> String {
@@ -192,45 +255,27 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     let feedInfo = feeds[indexPath.row]
     myCell.nameLabel.text = feedInfo.name
 
-    if (feedInfo.avatarImage.length > 0) {
-      myCell.profileImage.image = UIImage(data: feedInfo.avatarImage)
-    }
-    else {
-      myCell.profileImage.image = UIImage(named: "default")
-    }
-
-    myCell.profileImage.userInteractionEnabled = true
-    let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnProfile(_:)))
-    myCell.profileImage.addGestureRecognizer(tappedOnImage)
 
     myCell.questionLabel.text = feedInfo.question
     myCell.numOfSnoops.text = String(feedInfo.snoops)
 
     if (feedInfo.title.isEmpty) {
-      myCell.titleLabel.text = feedInfo.name
+      myCell.titleLabel.text = ""
     }
     else {
-      myCell.titleLabel.text = feedInfo.name + " | " + feedInfo.title
+      myCell.titleLabel.text = feedInfo.title
     }
 
-    if (feedInfo.status == "PENDING") {
-      myCell.coverImage.userInteractionEnabled = false
-      myCell.coverImage.image = UIImage()
+    if (feedInfo.avatarImage != nil) {
+      // All the async loading is done
+      setImages(myCell, feedInfo: feedInfo)
     }
     else {
-      myCell.coverImage.image = UIImage(data: feedInfo.coverImage)
-      myCell.durationLabel.text = "00:\(feedInfo.duration)"
-      myCell.durationLabel.hidden = false
-
-      if (self.paidSnoops.contains(feedInfo.id)) {
-        myCell.coverImage.userInteractionEnabled = true
-        let tappedToWatch = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToWatch(_:)))
-        myCell.coverImage.addGestureRecognizer(tappedToWatch)
-      }
-      else {
-        myCell.coverImage.userInteractionEnabled = true
-        let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnImage(_:)))
-        myCell.coverImage.addGestureRecognizer(tappedOnImage)
+      //start async loading
+      loadImagesAsync(feedInfo) { result in
+        dispatch_async(dispatch_get_main_queue()) {
+          self.setImages(myCell, feedInfo: feedInfo)
+        }
       }
     }
 
@@ -252,8 +297,9 @@ extension ViewController {
   func tappedOnProfile(sender:UIGestureRecognizer) {
     let tapLocation = sender.locationInView(self.feedTable)
     let indexPath = self.feedTable.indexPathForRowAtPoint(tapLocation)!
+    let avatarImage = self.feeds[indexPath.row].avatarImage!
     let responderId = self.feeds[indexPath.row].responderId
-    self.userModule.getProfile(responderId) {name, title, about, avatarImage, rate, _ in
+    self.userModule.getProfile(responderId) {name, title, about, _, rate, _ in
       let profileInfo:[String:AnyObject] = ["uid": responderId, "name" : name, "title" : title, "about" : about,
         "avatarImage" : avatarImage, "rate" : rate]
       dispatch_async(dispatch_get_main_queue()) {
@@ -282,12 +328,13 @@ extension ViewController {
       }, completion: nil)
 
     let questionInfo = feeds[indexPath.row]
-    let questionId = questionInfo.id
+    let answerUrl = questionInfo.answerUrl!
+    let url = "uri=" + answerUrl
 
     activeCellIndex = indexPath.row
-    questionModule.getQuestionMedia(questionId) { audioString in
-      if (!audioString.isEmpty) {
-        let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
+    questionModule.getQuestionDatas(url) { convertedDictIntoJson in
+      if let videoString = convertedDictIntoJson[answerUrl] as? String {
+        let data = NSData(base64EncodedString: videoString, options: NSDataBase64DecodingOptions(rawValue: 0))!
         dispatch_async(dispatch_get_main_queue()) {
           let dataPath = self.getFileUrl()
           data.writeToURL(dataPath, atomically: false)
@@ -340,7 +387,7 @@ extension ViewController {
       let about = profileInfo["about"] as! String
       let avatarImage = profileInfo["avatarImage"] as! NSData
       let rate = profileInfo["rate"] as! Double
-      dvc.profileInfo = DiscoverModel(_name: name, _title: title, _avatarImage: avatarImage, _uid: uid, _about: about, _rate: rate, _updatedTime: 0)
+      dvc.profileInfo = DiscoverModel(_name: name, _title: title, _avatarImage: avatarImage, _uid: uid, _about: about, _rate: rate, _updatedTime: 0, _avatarUrl: nil)
     }
   }
 

@@ -7,18 +7,35 @@
 //
 
 import Foundation
-class FeedsModel: QuandaModel {
+class FeedsModel {
+  var name: String!
+  var title: String!
+  var avatarImage: NSData?
+  var id: Int!
+  var question: String!
+  var status: String!
   var snoops: Int!
   var responderId: String!
   var updatedTime: Double!
-  var coverImage: NSData!
+  var coverImage: NSData?
   var duration: Int!
-  init(_name: String!, _title: String!, _avatarImage: NSData!, _id: Int!, _question: String!, _status: String!, _responderId: String!, _snoops: Int!, _updatedTime: Double!, _coverImage: NSData!, _duration: Int!) {
-    super.init(_name: _name, _title: _title, _avatarImage: _avatarImage, _id: _id, _question: _question, _status: _status)
+  var avatarImageUrl: String?
+  var coverUrl: String?
+  var answerUrl: String!
+  init(_name: String!, _title: String!, _id: Int!, _question: String!, _status: String!, _responderId: String!, _snoops: Int!, _updatedTime: Double!,  _duration: Int!, _avatarImageUrl: String?, _coverUrl: String?, _answerUrl: String!) {
+    name = _name
+    title = _title
+    avatarImage = nil
+    id = _id
+    question = _question
+    status = _status
     responderId = _responderId
     snoops = _snoops
     updatedTime = _updatedTime
-    coverImage = _coverImage
+    coverImage = nil
     duration = _duration
+    avatarImageUrl = _avatarImageUrl
+    coverUrl = _coverUrl
+    answerUrl = _answerUrl
   }
 }

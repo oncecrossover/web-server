@@ -132,28 +132,99 @@ extension ActivityViewController {
 
     //        let hoursToExpire = questionInfo["hoursToExpire"] as! Int
 
-    var responderImage = NSData()
-    if ((questionInfo["responderAvatarImage"] as? String) != nil) {
-      responderImage = NSData(base64EncodedString: (questionInfo["responderAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-    }
+    let responderAvatarUrl = questionInfo["responderAvatarUrl"] as? String
 
     let responderName = questionInfo["responderName"] as! String
     let responderTitle = questionInfo["responderTitle"] as! String
 
-    var askerImage = NSData()
-    if ((questionInfo["askerAvatarImage"] as? String) != nil) {
-      askerImage = NSData(base64EncodedString: (questionInfo["askerAvatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-    }
-
-    var coverImage = NSData()
-    if ((questionInfo["answerCover"] as? String) != nil) {
-      coverImage = NSData(base64EncodedString: (questionInfo["answerCover"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-    }
+    let askerAvatarUrl = questionInfo["askerAvatarUrl"] as? String
+    let answerCoverUrl = questionInfo["answerCoverUrl"] as? String
+    let answerUrl = questionInfo["answerUrl"] as? String
 
     let askerName = questionInfo["askerName"] as! String
     let duration = questionInfo["duration"] as! Int
 
-    return ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _answerCover: coverImage, _duration: duration, _askerName: askerName, _askerImage: askerImage, _responderName: responderName, _responderTitle: responderTitle, _responderImage: responderImage)
+    return ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _duration: duration, _askerName: askerName, _responderName: responderName, _responderTitle: responderTitle, _answerCoverUrl: answerCoverUrl, _askerAvatarUrl: askerAvatarUrl, _responderAvatarUrl: responderAvatarUrl, _answerURl: answerUrl)
+  }
+
+  func loadImagesAsync(cellInfo: ActivityModel, completion: (ActivityModel) -> ()) {
+    var url = ""
+    if let askerAvatarUrl = cellInfo.askerAvatarUrl {
+      url += "uri=" + askerAvatarUrl + "&"
+    }
+    if let responderAvatarUrl = cellInfo.responderAvatarUrl {
+      url += "uri=" + responderAvatarUrl + "&"
+    }
+    if let answerCoverUrl = cellInfo.answerCoverUrl {
+      url += "uri=" + answerCoverUrl + "&"
+    }
+
+    if (url.isEmpty) {
+      cellInfo.askerImage = NSData()
+      cellInfo.responderImage = NSData()
+      cellInfo.answerCover = NSData()
+      completion(cellInfo)
+    }
+    else {
+      url = String(url.characters.dropLast())
+      questionModule.getQuestionDatas(url) { result in
+        if let askerAvatarUrl = cellInfo.askerAvatarUrl {
+          cellInfo.askerImage = NSData(base64EncodedString: (result[askerAvatarUrl] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+        }
+        else {
+          cellInfo.askerImage = NSData()
+        }
+
+        if let responderAvatarUrl = cellInfo.responderAvatarUrl {
+          cellInfo.responderImage = NSData(base64EncodedString: (result[responderAvatarUrl] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+        }
+        else {
+          cellInfo.responderImage = NSData()
+        }
+
+        if let answerCoverUrl = cellInfo.answerCoverUrl {
+          cellInfo.answerCover = NSData(base64EncodedString: (result[answerCoverUrl] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+        }
+        else {
+          cellInfo.answerCover = NSData()
+        }
+        completion(cellInfo)
+      }
+    }
+  }
+
+  func setImages(myCell: ActivityTableViewCell, info: ActivityModel) {
+    if (info.askerImage!.length > 0) {
+      myCell.askerImage.image = UIImage(data: info.askerImage!)
+    }
+    else {
+      myCell.askerImage.image = UIImage(named: "default")
+    }
+
+    if (info.responderImage!.length > 0) {
+      myCell.responderImage.image = UIImage(data: info.responderImage!)
+    }
+    else {
+      myCell.responderImage.image = UIImage(named: "default")
+    }
+
+    if (info.status == "PENDING") {
+      myCell.coverImage.image = UIImage()
+      myCell.coverImage.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1.0)
+      myCell.durationLabel.hidden = true
+    }
+    else if (info.status == "ANSWERED") {
+      if (info.answerCover != nil) {
+        myCell.coverImage.image = UIImage(data: info.answerCover!)
+
+        myCell.coverImage.userInteractionEnabled = true
+        let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnImage(_:)))
+        myCell.coverImage.addGestureRecognizer(tappedOnImage)
+
+        myCell.durationLabel.text = "00:\(info.duration)"
+        myCell.durationLabel.hidden = false
+      }
+    }
   }
 
   func loadDataWithFilter(filterString: String) {
@@ -352,37 +423,20 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
       myCell.responderTitle.text = cellInfo.responderTitle
     }
 
-    if (cellInfo.responderImage.length > 0) {
-      myCell.responderImage.image = UIImage(data: cellInfo.responderImage)
+    if (cellInfo.askerImage != nil) {
+      // All the async loading is done
+      setImages(myCell, info: cellInfo)
     }
     else {
-      myCell.responderImage.image = UIImage(named: "default")
-    }
-
-    if (cellInfo.status == "PENDING") {
-      myCell.coverImage.image = UIImage()
-      myCell.coverImage.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1.0)
-      myCell.durationLabel.hidden = true
-    }
-    else if (cellInfo.status == "ANSWERED") {
-      myCell.coverImage.image = UIImage(data: cellInfo.answerCover)
-
-      myCell.coverImage.userInteractionEnabled = true
-      let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnImage(_:)))
-      myCell.coverImage.addGestureRecognizer(tappedOnImage)
-
-      myCell.durationLabel.text = "00:\(cellInfo.duration)"
-      myCell.durationLabel.hidden = false
+      // start async loading
+      loadImagesAsync(cellInfo) { result in
+        dispatch_async(dispatch_get_main_queue()) {
+          self.setImages(myCell, info: cellInfo)
+        }
+      }
     }
 
     myCell.askerName.text = cellInfo.askerName + ":"
-
-    if (cellInfo.askerImage.length > 0) {
-      myCell.askerImage.image = UIImage(data: cellInfo.askerImage)
-    }
-    else {
-      myCell.askerImage.image = UIImage(named: "default")
-    }
 
     return myCell
   }
@@ -444,10 +498,11 @@ extension ActivityViewController {
       questionInfo = snoops[indexPath.row]
     }
 
-    let questionId = questionInfo.id
-    questionModule.getQuestionMedia(questionId) { audioString in
-      if (!audioString.isEmpty) {
-        let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
+    let answerUrl = questionInfo.answerUrl!
+    let url = "uri=" + answerUrl
+    questionModule.getQuestionDatas(url) { convertedDictIntoJson in
+      if let videoString = convertedDictIntoJson[answerUrl] as? String {
+        let data = NSData(base64EncodedString: videoString, options: NSDataBase64DecodingOptions(rawValue: 0))!
         dispatch_async(dispatch_get_main_queue()) {
           let dataPath = self.utility.getFileUrl("videoFile.m4a")
           data.writeToURL(dataPath, atomically: false)

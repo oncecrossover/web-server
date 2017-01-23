@@ -21,6 +21,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   let searchController = UISearchController(searchResultsController: nil)
 
   var userModule = User()
+  var questionModule = Question()
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -92,7 +93,6 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
         var profileTitle = ""
         var profileAbout = ""
         var rate = 0.0
-        var avatarImage = NSData()
 
         if profileInfo["title"] as? String != nil {
           profileTitle = profileInfo["title"] as! String
@@ -106,11 +106,9 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
           rate = profileInfo["rate"] as! Double
         }
 
-        if profileInfo["avatarImage"] as? String != nil {
-          avatarImage = NSData(base64EncodedString: profileInfo["avatarImage"] as! String, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        }
+        let avatarUrl = profileInfo["avatarUrl"] as? String
 
-        self.tmpProfiles.append(DiscoverModel(_name: profileName, _title: profileTitle, _avatarImage: avatarImage, _uid: profileUid, _about: profileAbout, _rate: rate, _updatedTime: updatedTime))
+        self.tmpProfiles.append(DiscoverModel(_name: profileName, _title: profileTitle, _avatarImage: nil, _uid: profileUid, _about: profileAbout, _rate: rate, _updatedTime: updatedTime, _avatarUrl: avatarUrl))
         didLoadNewProfiles = true
       }
       self.profiles = self.tmpProfiles
@@ -128,11 +126,38 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
   }
 
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+  func loadImageAsync(cellInfo: DiscoverModel, completion: (DiscoverModel) -> ()) {
+    var url = ""
+    if let avatarUrl = cellInfo.avatarUrl {
+      url += "uri=" + avatarUrl + "&"
+    }
+
+    if (url.isEmpty) {
+      cellInfo.avatarImage = NSData()
+      completion(cellInfo)
+    }
+    else {
+      url = String(url.characters.dropLast())
+      questionModule.getQuestionDatas(url) { result in
+        if let avatarUrl = cellInfo.avatarUrl {
+          cellInfo.avatarImage = NSData(base64EncodedString: (result[avatarUrl] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+        }
+        else {
+          cellInfo.avatarImage = NSData()
+        }
+        completion(cellInfo)
+      }
+    }
   }
 
+  func setImage(myCell: DiscoverTableViewCell, cellInfo: DiscoverModel) {
+    if (cellInfo.avatarImage!.length > 0) {
+      myCell.discoverImageView.image = UIImage(data: cellInfo.avatarImage!)
+    }
+    else {
+      myCell.discoverImageView.image = UIImage(named: "default")
+    }
+  }
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if (searchController.active && searchController.searchBar.text != "") {
@@ -163,29 +188,35 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let myCell = tableView.dequeueReusableCellWithIdentifier("discoverCell",
                                                              forIndexPath: indexPath) as! DiscoverTableViewCell
-    let profile: DiscoverModel
+    let cellInfo: DiscoverModel
     if (searchController.active && searchController.searchBar.text != "") {
-      profile = self.filteredProfiles[indexPath.row]
+      cellInfo = self.filteredProfiles[indexPath.row]
     }
     else {
-      profile = self.profiles[indexPath.row]
+      cellInfo = self.profiles[indexPath.row]
     }
 
-    if (profile.avatarImage.length > 0) {
-      myCell.discoverImageView.image = UIImage(data: profile.avatarImage)
+    if (cellInfo.avatarImage != nil) {
+      //async loading is done
+      setImage(myCell, cellInfo: cellInfo)
     }
     else {
-      myCell.discoverImageView.image = UIImage(named: "default")
+      // start async loading for image
+      loadImageAsync(cellInfo) { result in
+        dispatch_async(dispatch_get_main_queue()) {
+          self.setImage(myCell, cellInfo: result)
+        }
+      }
     }
 
-    myCell.name.text = profile.name
-    myCell.title.text = profile.title
-    myCell.about.text = profile.about
+    myCell.name.text = cellInfo.name
+    myCell.title.text = cellInfo.title
+    myCell.about.text = cellInfo.about
 
     if (!searchController.active && searchController.searchBar.text == "") {
       if (indexPath.row == profiles.count - 1) {
-        let updatedTime = Int64(profile.updatedTime)
-        let lastSeenId = profile.uid
+        let updatedTime = Int64(cellInfo.updatedTime)
+        let lastSeenId = cellInfo.uid
         let url = "takeQuestion='APPROVED'&limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId='" + lastSeenId + "'"
         loadProfiles(url)
       }
