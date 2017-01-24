@@ -22,6 +22,7 @@ class ProfileViewController: UIViewController {
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   var rate:Double = 0.0
 
+  @IBOutlet weak var answerLabel: UILabel!
   @IBOutlet weak var applyButton: UIButton!
   @IBOutlet weak var settingsTable: UITableView!
   var approvedLabel = UILabel()
@@ -38,6 +39,9 @@ extension ProfileViewController {
     applyButton.setTitle("Apply to Take Questions", forState: .Normal)
     applyButton.setTitle("Awaiting Approval", forState: .Disabled)
     applyButton.layer.cornerRadius = 4
+    self.answerLabel.text = "to answer a question"
+    self.answerLabel.textColor = UIColor.disabledColor()
+    self.answerLabel.textAlignment = .Left
   }
 
   override func viewDidAppear(animated: Bool) {
@@ -71,20 +75,21 @@ extension ProfileViewController {
         self.aboutLabel.textColor = UIColor.blackColor()
 
         self.nameLabel.text = fullName
-        self.nameLabel.font = self.nameLabel.font.fontWithSize(13)
+        self.nameLabel.font = self.nameLabel.font.fontWithSize(14)
         self.nameLabel.textColor = UIColor.blackColor()
 
         self.titleLabel.text = title
         self.titleLabel.font = self.titleLabel.font.fontWithSize(12)
         self.titleLabel.textColor = UIColor(red: 140/255, green: 157/255, blue: 170/255, alpha: 1.0)
 
-        self.rateLabel.text = String(rate) + " to answer a question"
+        self.rateLabel.text = "$ " + String(rate)
         if (rate == 0.0) {
-          self.rateLabel.text = "Free to answer a question"
+          self.rateLabel.text = "$ 0.0"
         }
 
         self.rateLabel.font = self.rateLabel.font.fontWithSize(13)
-        self.rateLabel.textColor = UIColor(red: 155/255, green: 155/255, blue: 155/255, alpha: 1.0)
+        self.rateLabel.textColor = UIColor.redColor()
+        self.rateLabel.textAlignment = .Right
         self.rate = rate
 
         if (avatarImage.length > 0) {
@@ -158,6 +163,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     if (indexPath.section == 0) {
       let cell = tableView.dequeueReusableCellWithIdentifier("settingsCell") as! SettingsTableViewCell
+      cell.icon.contentMode = .ScaleAspectFit
       if (indexPath.row == 0) {
         cell.category.text = "Payment"
         cell.icon.image = UIImage(named: "paymentIcon")
