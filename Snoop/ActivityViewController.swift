@@ -302,7 +302,11 @@ extension ActivityViewController {
 }
 
 // delegate
-extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
+extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, CustomTableBackgroundViewDelegate {
+
+  func didTapButton(index: Int) {
+    self.tabBarController?.selectedIndex = index
+  }
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if (selectedIndex == 0) {
@@ -318,21 +322,15 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
   }
 
   func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    let noDataLabel: UILabel = UILabel(frame: CGRectMake(0, 0, self.activityTableView.bounds.size.width,
-      self.activityTableView.bounds.size.height))
-    let x = (self.activityTableView.bounds.size.width - 280) / 2
-    let y = self.activityTableView.bounds.size.height * 3 / 4 - 30
-    let button = RoundCornerButton(frame: CGRect(x: x, y: y, width: 280, height: 55))
-    button.layer.cornerRadius = 4
+    let frame = CGRectMake(0, 0, activityTableView.frame.width, activityTableView.frame.height)
+    let backgroundView = CustomTableBackgroundView(frame: frame)
     self.activityTableView.backgroundView = nil
     self.activityTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
 
     if (selectedIndex == 0) {
       if (questions.count == 0) {
-        noDataLabel.text = "You haven't asked any questions yet. Let's discover someone interesting"
-
-        button.setImage(UIImage(named: "discoverButton"), forState: .Normal)
-        button.addTarget(self, action: #selector(ActivityViewController.tappedOnDiscoverButton(_:)), forControlEvents: .TouchUpInside)
+        backgroundView.setLabelText("You haven't asked any questions yet.\n Let's discover someone interesting")
+        backgroundView.setButtonImage(UIImage(named: "discoverButton")!)
       }
       else {
         return 1
@@ -340,9 +338,8 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
     }
     else if (selectedIndex == 1) {
       if (answers.count == 0) {
-        noDataLabel.text = "Apply to take questions, check your application status, or change your rate"
-        button.setImage(UIImage(named: "profile"), forState: .Normal)
-        button.addTarget(self, action: #selector(ActivityViewController.tappedOnProfileButton(_:)), forControlEvents: .TouchUpInside)
+        backgroundView.setLabelText("Apply to take questions, check your application status,\n or change your rate")
+        backgroundView.setButtonImage(UIImage(named: "profile")!)
       }
       else {
         return 1
@@ -350,25 +347,18 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
     }
     else if (selectedIndex == 2) {
       if (snoops.count == 0) {
-        noDataLabel.text = "You haven't listened to any questions so far. Let's see what's trending"
-        button.setImage(UIImage(named: "trending"), forState: .Normal)
-        button.addTarget(self, action: #selector(ActivityViewController.tappedOnHomeButton(_:)), forControlEvents: .TouchUpInside)
+        backgroundView.setLabelText("You haven't listened to any questions so far.\n Let's see what's trending")
+        backgroundView.setButtonImage(UIImage(named: "trending")!)
       }
       else {
         return 1
       }
     }
 
-    noDataLabel.textColor = UIColor.lightGrayColor()
-    noDataLabel.textAlignment = NSTextAlignment.Center
-    noDataLabel.numberOfLines = 0
-    self.activityTableView.separatorStyle = UITableViewCellSeparatorStyle.None
+    activityTableView.separatorStyle = UITableViewCellSeparatorStyle.None
+    backgroundView.delegate = self
 
-    let customView = UIView(frame: CGRectMake(0, 0, self.activityTableView.bounds.size.width,
-      self.activityTableView.bounds.size.height))
-    customView.addSubview(noDataLabel)
-    customView.addSubview(button)
-    self.activityTableView.backgroundView = customView
+    activityTableView.backgroundView = backgroundView
 
     return 0
   }
@@ -454,19 +444,6 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource {
 
 // UI triggered actions
 extension ActivityViewController {
-
-  func tappedOnHomeButton(sender: AnyObject) {
-    self.tabBarController?.selectedIndex = 0
-  }
-
-  func tappedOnDiscoverButton(sender: AnyObject) {
-    self.tabBarController?.selectedIndex = 1
-  }
-
-  func tappedOnProfileButton(sender: AnyObject) {
-    self.tabBarController?.selectedIndex = 3
-  }
-
   func tappedOnImage(sender:UIGestureRecognizer) {
     let tapLocation = sender.locationInView(self.activityTableView)
 

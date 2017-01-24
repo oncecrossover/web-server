@@ -72,6 +72,7 @@
 		4AF322761D2DBCB50043FCE5 /* AnswerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF322751D2DBCB50043FCE5 /* AnswerViewController.swift */; };
 		4AF910741D449F1800546F95 /* InteractiveUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF910731D449F1800546F95 /* InteractiveUITextField.swift */; };
 		4AFB985D1D6A1B6C0067EF33 /* SignupViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFB985C1D6A1B6C0067EF33 /* SignupViewControllerUITests.swift */; };
+		4AFDD2511E37FCCB00CC7A06 /* CustomTableBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFDD2501E37FCCB00CC7A06 /* CustomTableBackgroundView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,6 +156,7 @@
 		4AF322751D2DBCB50043FCE5 /* AnswerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerViewController.swift; sourceTree = "<group>"; };
 		4AF910731D449F1800546F95 /* InteractiveUITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveUITextField.swift; sourceTree = "<group>"; };
 		4AFB985C1D6A1B6C0067EF33 /* SignupViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewControllerUITests.swift; sourceTree = "<group>"; };
+		4AFDD2501E37FCCB00CC7A06 /* CustomTableBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableBackgroundView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 				4A3A56641E26DECB00FC0F3B /* CustomButton.swift */,
 				4A55E8FC1E2877D000B033F4 /* CustomSegmentedControl.swift */,
 				4A55E9001E332E8E00B033F4 /* CustomCameraView.swift */,
+				4AFDD2501E37FCCB00CC7A06 /* CustomTableBackgroundView.swift */,
 			);
 			name = UIView;
 			sourceTree = "<group>";
@@ -506,6 +509,7 @@
 				4A745CBE1D73A5D500797AFC /* ConfirmationViewController.swift in Sources */,
 				4A3A56631E26D8D600FC0F3B /* extension.swift in Sources */,
 				4ABB89F81D7DEE2C0022DEF2 /* FeedsModel.swift in Sources */,
+				4AFDD2511E37FCCB00CC7A06 /* CustomTableBackgroundView.swift in Sources */,
 				4AF322741D2C83260043FCE5 /* AnswerTableViewCell.swift in Sources */,
 				4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */,
 				4A55E8FD1E2877D000B033F4 /* CustomSegmentedControl.swift in Sources */,
