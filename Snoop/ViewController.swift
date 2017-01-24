@@ -52,7 +52,7 @@ extension ViewController {
     feedTable.addSubview(refreshControl)
 
     let logo = UIImage(named: "logo")
-    let logoView = UIImageView(frame: CGRect(x: 0, y: 0, width: 130, height: 40))
+    let logoView = UIImageView(frame: CGRect(x: 0, y: 0, width: 97.5, height: 30))
     logoView.contentMode = .ScaleAspectFit
     logoView.image = logo
     self.navigationItem.titleView = logoView

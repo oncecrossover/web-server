@@ -42,18 +42,20 @@ class FeedTableViewCell: UITableViewCell {
     coverImage.layer.cornerRadius = 4
     coverImage.clipsToBounds = true
 
-    questionLabel.font = questionLabel.font.fontWithSize(13)
+    questionLabel.font = UIFont.systemFontOfSize(13)
 
-    titleLabel.font = titleLabel.font.fontWithSize(10)
-    titleLabel.textColor = UIColor.grayColor()
+    titleLabel.font = UIFont.systemFontOfSize(11)
+    titleLabel.textColor = UIColor(red: 140/255, green: 157/255, blue: 170/255, alpha: 1.0)
     titleLabel.numberOfLines = 0
     playImage.image = UIImage(named: "play")
+
     durationLabel.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+    durationLabel.layer.cornerRadius = 2
+    durationLabel.clipsToBounds = true
 
-    nameLabel.font = nameLabel.font.fontWithSize(14)
+    nameLabel.font = UIFont.systemFontOfSize(13)
     numOfSnoops.font = numOfSnoops.font.fontWithSize(11)
-
-    questionLabel.font = UIFont.boldSystemFontOfSize(14)
+    numOfSnoops.textColor = UIColor.defaultColor()
   }
 
 }

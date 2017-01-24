@@ -29,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     pageController.backgroundColor = UIColor.whiteColor()
 
     UITabBar.appearance().tintColor = UIColor.defaultColor()
+    UITabBar.appearance().barTintColor = UIColor.whiteColor()
     return true
   }
   
