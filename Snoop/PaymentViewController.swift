@@ -112,8 +112,9 @@ extension PaymentViewController: UITableViewDataSource, UITableViewDelegate {
 
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! paymentTableViewCell
+    cell.iconImage.contentMode = .ScaleAspectFit
     if (indexPath.row == 0) {
-      cell.iconImage.image = UIImage(named: "cards")
+      cell.iconImage.image = UIImage(named: "paymentIcon")
       cell.title.text = "Manage Cards"
       cell.value.text = "xxxx \(last4)"
     }
@@ -176,10 +177,10 @@ class paymentTableViewCell: UITableViewCell {
     iconImage.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
     iconImage.widthAnchor.constraintEqualToConstant(18).active = true
     iconImage.heightAnchor.constraintEqualToConstant(14).active = true
-    iconImage.leadingAnchor.constraintEqualToAnchor(leadingAnchor, constant: 8).active = true
+    iconImage.leadingAnchor.constraintEqualToAnchor(leadingAnchor, constant: 20).active = true
 
     title.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-    title.leadingAnchor.constraintEqualToAnchor(iconImage.leadingAnchor, constant: 48).active = true
+    title.leadingAnchor.constraintEqualToAnchor(iconImage.leadingAnchor, constant: 38).active = true
     title.topAnchor.constraintEqualToAnchor(topAnchor, constant: 12).active = true
     title.trailingAnchor.constraintEqualToAnchor(value.leadingAnchor, constant: 48).active = true
 
