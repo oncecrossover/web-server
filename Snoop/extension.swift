@@ -17,4 +17,8 @@ extension UIColor {
   public class func disabledColor() -> UIColor {
     return UIColor(red: 136/255, green: 153/255, blue: 166/255, alpha: 1.0)
   }
+
+  public class func secondaryTextColor() -> UIColor {
+    return UIColor(red: 140/255, green: 157/255, blue: 170/255, alpha: 1.0)
+  }
 }

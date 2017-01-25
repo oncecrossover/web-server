@@ -1479,9 +1479,9 @@
                                         <exclude reference="35I-dY-cE6"/>
                                         <exclude reference="UF0-rb-dAz"/>
                                         <exclude reference="vuM-Nc-MtH"/>
+                                        <exclude reference="n2f-zY-XHN"/>
                                         <exclude reference="1o9-w4-uJk"/>
                                         <exclude reference="WKB-J9-YY5"/>
-                                        <exclude reference="n2f-zY-XHN"/>
                                         <exclude reference="L7H-BQ-YuI"/>
                                         <exclude reference="EN0-qg-mRv"/>
                                         <exclude reference="r8a-pw-ei5"/>
@@ -2146,7 +2146,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="v8d-f1-jaE" customClass="CircleImageView" customModule="Snoop" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="12" width="50" height="50"/>
+                                                    <rect key="frame" x="10" y="12" width="50" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="48" id="cmk-1p-16V"/>
                                                         <constraint firstAttribute="width" constant="50" id="jgW-Be-jdX"/>
@@ -2159,13 +2159,13 @@
                                                     </variation>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I am a news reporter for the biggest cannadian news outlet. " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="drd-Pe-Wlq">
-                                                    <rect key="frame" x="66" y="32" width="309" height="31.5"/>
+                                                    <rect key="frame" x="68" y="24" width="307" height="31.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="iJe-PZ-aMe">
-                                                    <rect key="frame" x="186" y="12" width="189" height="20"/>
+                                                    <rect key="frame" x="188" y="12" width="187" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="yzW-uC-B3A"/>
                                                     </constraints>
@@ -2174,7 +2174,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="seetharam venkatesh" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="TKK-mm-kaV" customClass="TextFitLabel" customModule="Snoop" customModuleProvider="target">
-                                                    <rect key="frame" x="66" y="12" width="120" height="20"/>
+                                                    <rect key="frame" x="68" y="12" width="120" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="120" id="1dt-3q-xdY"/>
                                                         <constraint firstAttribute="height" constant="20" id="iHA-hr-nWC"/>
@@ -2187,10 +2187,9 @@
                                             <constraints>
                                                 <constraint firstItem="v8d-f1-jaE" firstAttribute="top" secondItem="V1k-z6-f1u" secondAttribute="topMargin" constant="4" id="1mJ-Aa-9ZU"/>
                                                 <constraint firstAttribute="trailing" secondItem="drd-Pe-Wlq" secondAttribute="trailing" id="7SM-L1-mqN"/>
-                                                <constraint firstAttribute="leadingMargin" secondItem="v8d-f1-jaE" secondAttribute="leading" id="Fxd-tF-M3u"/>
-                                                <constraint firstItem="drd-Pe-Wlq" firstAttribute="top" secondItem="TKK-mm-kaV" secondAttribute="bottom" id="GvH-Bb-hLs"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="v8d-f1-jaE" secondAttribute="leading" constant="-2" id="Fxd-tF-M3u"/>
+                                                <constraint firstItem="drd-Pe-Wlq" firstAttribute="top" secondItem="TKK-mm-kaV" secondAttribute="bottom" constant="-8" id="GvH-Bb-hLs"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="drd-Pe-Wlq" secondAttribute="bottom" constant="-8" id="MhW-0Y-xB0"/>
-                                                <constraint firstItem="drd-Pe-Wlq" firstAttribute="top" secondItem="iJe-PZ-aMe" secondAttribute="bottom" id="Nsf-mU-5BX"/>
                                                 <constraint firstItem="TKK-mm-kaV" firstAttribute="leading" secondItem="v8d-f1-jaE" secondAttribute="trailing" constant="8" id="RW6-zG-3lJ"/>
                                                 <constraint firstItem="iJe-PZ-aMe" firstAttribute="baseline" secondItem="TKK-mm-kaV" secondAttribute="baseline" id="cJz-e5-UbN"/>
                                                 <constraint firstItem="TKK-mm-kaV" firstAttribute="top" secondItem="V1k-z6-f1u" secondAttribute="topMargin" constant="4" id="mFv-O9-wo6"/>
@@ -2478,8 +2477,8 @@
         <image name="payment" width="122" height="122"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Kjo-bx-Bbf"/>
         <segue reference="KRu-3m-3Wk"/>
+        <segue reference="QxE-Av-LH0"/>
         <segue reference="Dj5-e0-VQE"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -80,7 +80,7 @@ extension ProfileViewController {
 
         self.titleLabel.text = title
         self.titleLabel.font = self.titleLabel.font.fontWithSize(12)
-        self.titleLabel.textColor = UIColor(red: 140/255, green: 157/255, blue: 170/255, alpha: 1.0)
+        self.titleLabel.textColor = UIColor.secondaryTextColor()
 
         self.rateLabel.text = "$ " + String(rate)
         if (rate == 0.0) {

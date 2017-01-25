@@ -45,7 +45,7 @@ class FeedTableViewCell: UITableViewCell {
     questionLabel.font = UIFont.systemFontOfSize(13)
 
     titleLabel.font = UIFont.systemFontOfSize(12)
-    titleLabel.textColor = UIColor(red: 140/255, green: 157/255, blue: 170/255, alpha: 1.0)
+    titleLabel.textColor = UIColor.secondaryTextColor()
     titleLabel.numberOfLines = 0
     playImage.image = UIImage(named: "play")
 
