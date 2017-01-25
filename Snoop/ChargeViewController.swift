@@ -14,6 +14,8 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
   @IBOutlet weak var balanceLabel: UILabel!
   @IBOutlet weak var addCardButton: UIButton!
 
+  @IBOutlet weak var paymentLabel: UILabel!
+  @IBOutlet weak var header: UILabel!
   @IBOutlet weak var payButton: UIButton!
   var generics = Generics()
   var paymentModule = Payment()
@@ -38,6 +40,13 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
     }
 
     payButton.enabled = false
+    addCardButton.setTitleColor(UIColor.defaultColor(), forState: .Normal)
+    addCardButton.titleLabel!.font = UIFont.systemFontOfSize(13)
+
+    header.textColor = UIColor.secondaryTextColor()
+    paymentLabel.textColor = UIColor.secondaryTextColor()
+
+    balanceLabel.font = UIFont.systemFontOfSize(13)
 
     navigationController?.delegate = self
 
@@ -57,6 +66,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
       if (balance > self.chargeAmount) {
         dispatch_async(dispatch_get_main_queue()) {
           self.balanceLabel.text = "Balance(" + String(balance) + ")"
+          self.addCardButton.enabled = false
           self.payButton.enabled = true
         }
       }
@@ -70,6 +80,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
               let last4 = paymentInfo["last4"] as! String
               dispatch_async(dispatch_get_main_queue()) {
                 self.balanceLabel.text = brand + " " + last4
+                self.addCardButton.enabled = false
                 self.payButton.enabled = true
               }
               return
@@ -80,6 +91,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
             dispatch_async(dispatch_get_main_queue()) {
               self.balanceLabel.text = "Balance(" + String(balance) + ")"
               self.payButton.enabled = false
+              self.addCardButton.enabled = true
             }
           }
         }
