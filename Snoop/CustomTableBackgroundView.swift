@@ -65,8 +65,8 @@ class CustomTableBackgroundView: UIView {
     addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[v0]|", options: [], metrics: nil, views: ["v0" : button]))
     label.heightAnchor.constraintEqualToConstant(40).active = true
     button.heightAnchor.constraintEqualToConstant(40).active = true
-    label.bottomAnchor.constraintEqualToAnchor(button.topAnchor).active = true
-    label.centerYAnchor.constraintEqualToAnchor(centerYAnchor, constant: -20).active = true
+    label.bottomAnchor.constraintEqualToAnchor(button.topAnchor, constant: -10).active = true
+    label.centerYAnchor.constraintEqualToAnchor(centerYAnchor, constant: -25).active = true
   }
 
   required init?(coder aDecoder: NSCoder) {
