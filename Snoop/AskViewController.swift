@@ -42,13 +42,14 @@ class AskViewController: UIViewController, UITextViewDelegate {
     }
     self.askButton.setTitle(text, forState: .Normal)
     self.aboutLabel.text = profileInfo.about
-    self.aboutLabel.font = self.aboutLabel.font.fontWithSize(12)
+    self.aboutLabel.font = UIFont.systemFontOfSize(12)
 
     self.nameLabel.text = profileInfo.name
-    self.nameLabel.font = self.nameLabel.font.fontWithSize(15)
+    self.nameLabel.font = UIFont.systemFontOfSize(14)
 
     self.titleLabel.text = profileInfo.title
-    self.titleLabel.font = self.titleLabel.font.fontWithSize(12)
+    self.titleLabel.font = UIFont.systemFontOfSize(12)
+    self.titleLabel.textColor = UIColor.secondaryTextColor()
 
     if (profileInfo.avatarImage!.length > 0) {
       self.profilePhoto.image = UIImage(data: profileInfo.avatarImage!)
@@ -59,10 +60,13 @@ class AskViewController: UIViewController, UITextViewDelegate {
 
     self.questionView.layer.borderWidth = 1
     self.questionView.layer.borderColor = UIColor.lightGrayColor().CGColor
+    self.questionView.layer.cornerRadius = 4
+    self.questionView.clipsToBounds = true
 
     // Mimic a palceholder for text view
     self.questionView.text = placeholder
-    self.questionView.textColor = UIColor.lightGrayColor()
+    self.questionView.textColor = UIColor.secondaryTextColor()
+    self.questionView.font = UIFont.systemFontOfSize(13)
 
     self.scrollView.addGestureRecognizer(UITapGestureRecognizer(target: self,action: #selector(AskViewController.dismissKeyboard(_:))))
   }
@@ -73,7 +77,7 @@ class AskViewController: UIViewController, UITextViewDelegate {
   }
 
   func textViewDidBeginEditing(textView: UITextView) {
-    if (self.questionView.textColor == UIColor.lightGrayColor()) {
+    if (self.questionView.textColor == UIColor.secondaryTextColor()) {
       self.questionView.text = ""
       self.questionView.textColor = UIColor.blackColor()
     }
