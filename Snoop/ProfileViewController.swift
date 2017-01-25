@@ -36,6 +36,7 @@ extension ProfileViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     settingsTable.tableFooterView = UIView()
+    settingsTable.separatorInset = UIEdgeInsetsZero
     applyButton.setTitle("Apply to Take Questions", forState: .Normal)
     applyButton.setTitle("Awaiting Approval", forState: .Disabled)
     applyButton.layer.cornerRadius = 4

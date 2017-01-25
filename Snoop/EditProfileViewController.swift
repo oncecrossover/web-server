@@ -20,8 +20,19 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   @IBOutlet weak var uploadButton: UIButton!
   @IBOutlet weak var rateField: UITextField!
 
+  @IBOutlet weak var firstUnderline: UIView!
+  @IBOutlet weak var secondUnderline: UIView!
+  @IBOutlet weak var thirdUnderline: UIView!
+  @IBOutlet weak var fourthUnderline: UIView!
   @IBOutlet weak var submitButton: UIButton!
-  var textColor = UIColor(red: 51/255, green: 181/255, blue: 159/255, alpha: 1.0)
+
+  @IBOutlet weak var nameLabel: UILabel!
+  @IBOutlet weak var titleLabel: UILabel!
+  @IBOutlet weak var rateLabel: UILabel!
+  @IBOutlet weak var answerQuestionLabel: UILabel!
+
+  var textColor = UIColor.blackColor()
+  var labelColor = UIColor(red: 199/255, green: 199/255, blue: 205/255, alpha: 1.0)
 
   var profileValues: (name: String!, title: String!, about: String!, avatarImage:  UIImage!, rate: Double!)
 
@@ -34,6 +45,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
 
   var isProfileUpdated = false
   var isEditingProfile = false
+
+  let placeHolder = "Add a short description of your expertise and your interests"
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -43,10 +56,27 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     titleField.textColor = textColor
     nameField.text = profileValues.name
     nameField.textColor = textColor
-    aboutField.text = profileValues.about
-    aboutField.textColor = textColor
+    if (profileValues.about.isEmpty) {
+      aboutField.text = placeHolder
+      aboutField.textColor = labelColor
+    }
+    else {
+      aboutField.text = profileValues.about
+      aboutField.textColor = textColor
+    }
+
     rateField.text = String(profileValues.rate)
     rateField.textColor = textColor
+
+    nameLabel.textColor = labelColor
+    titleLabel.textColor = labelColor
+    rateLabel.textColor = labelColor
+    answerQuestionLabel.textColor = labelColor
+
+    firstUnderline.backgroundColor = labelColor
+    secondUnderline.backgroundColor = labelColor
+    thirdUnderline.backgroundColor = labelColor
+    fourthUnderline.backgroundColor = labelColor
 
     if (profileValues.avatarImage != nil) {
       profilePhoto.image = profileValues.avatarImage
@@ -71,13 +101,25 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   }
 
 
-  func textViewShouldBeginEditing(textView: UITextView) -> Bool {
-    activeText = aboutField
-    return true
+  func textViewDidBeginEditing(textView: UITextView) {
+    if (self.aboutField.textColor == labelColor) {
+      self.aboutField.text = ""
+      self.aboutField.textColor = UIColor.blackColor()
+    }
   }
 
   func textViewDidEndEditing(textView: UITextView) {
+    if (self.aboutField.text.isEmpty) {
+      self.aboutField.text = placeHolder
+      self.aboutField.textColor = labelColor
+    }
+
     activeText = nil
+  }
+
+  func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+    activeText = aboutField
+    return true
   }
 
   func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
@@ -137,11 +179,16 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     var text = "Updating Profile..."
     if (isEditingProfile == false) {
       text = "Thank you for your appplication..."
-      if (titleField.text!.isEmpty || aboutField.text!.isEmpty) {
+      if (titleField.text!.isEmpty || aboutField.text!.isEmpty || aboutField.text! == placeHolder) {
         utility.displayAlertMessage("please include your title and a short description of yourself", title: "Missing Info", sender: self)
         return
       }
     }
+
+    if (aboutField.text! == placeHolder) {
+      aboutField.text = ""
+    }
+
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: text)
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
     dismissKeyboard()
