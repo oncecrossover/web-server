@@ -42,6 +42,9 @@ extension AnswerViewController {
     super.viewDidLoad()
     answerTableView.rowHeight = UITableViewAutomaticDimension
     answerTableView.estimatedRowHeight = 120
+    answerTableView.separatorInset = UIEdgeInsetsZero
+    answerTableView.tableFooterView = UIView()
+
     answerTableView.reloadData()
     if (cellInfo.status == "PENDING") {
       cameraImage.userInteractionEnabled = true
