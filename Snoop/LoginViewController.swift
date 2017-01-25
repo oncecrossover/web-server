@@ -16,12 +16,19 @@ class LoginViewController: UIViewController {
 
   @IBOutlet weak var signupButton: UIButton!
 
+  @IBOutlet weak var reminderLabel: UILabel!
   override func viewDidLoad() {
     super.viewDidLoad()
     loginButton.enabled = false
+    loginButton.layer.cornerRadius = 4
+    loginButton.clipsToBounds = true
     userEmailTextField.addTarget(self, action: #selector(LoginViewController.checkFields(_:)), forControlEvents: .EditingChanged)
     userPasswordTextField.addTarget(self, action: #selector(LoginViewController.checkFields(_:)), forControlEvents: .EditingChanged)
     signupButton.enabled = true
+    signupButton.layer.cornerRadius = 4
+    signupButton.clipsToBounds = true
+
+    reminderLabel.textColor = UIColor(red: 199/255, green: 199/255, blue: 205/255, alpha: 1.0)
   }
   var utility = UIUtility()
 

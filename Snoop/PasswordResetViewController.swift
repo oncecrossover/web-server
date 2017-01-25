@@ -27,9 +27,13 @@ class PasswordResetViewController: UIViewController{
     super.viewDidLoad()
     togglePasswordView(true)
     sendButton.enabled = false
+    sendButton.layer.cornerRadius = 4
+    sendButton.clipsToBounds = true
     email.addTarget(self, action: #selector(PasswordResetViewController.checkEmail(_:)), forControlEvents: .EditingChanged)
 
     saveButton.enabled = false
+    saveButton.layer.cornerRadius = 4
+    saveButton.clipsToBounds = true
     tmpPassword.addTarget(self, action: #selector(PasswordResetViewController.checkPassword(_:)), forControlEvents: .EditingChanged)
     newPassword.addTarget(self, action: #selector(PasswordResetViewController.checkPassword(_:)), forControlEvents: .EditingChanged)
 

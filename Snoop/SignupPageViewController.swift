@@ -22,6 +22,8 @@ class SignupPageViewController: UIViewController {
     super.viewDidLoad()
 
     signupButton.enabled = false
+    signupButton.layer.cornerRadius = 4
+    signupButton.clipsToBounds = true
 
     userNameTextField.addTarget(self, action: #selector(SignupPageViewController.checkFields(_:)), forControlEvents: .EditingChanged)
     userEmailTextField.addTarget(self, action: #selector(SignupPageViewController.checkFields(_:)), forControlEvents: .EditingChanged)
