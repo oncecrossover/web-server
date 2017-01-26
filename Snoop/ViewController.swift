@@ -95,12 +95,12 @@ extension ViewController {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     let url = "uid='" + uid + "'"
     tmpFeeds = []
+    self.paidSnoops = []
     loadData(url)
   }
 
   func loadData(url: String!) {
     feedTable.userInteractionEnabled = false
-    self.paidSnoops = []
     activityIndicator.startAnimating()
     let encodedUrl = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
     let myUrl = NSURL(string: generics.HTTPHOST + "newsfeeds?" + encodedUrl!)
@@ -123,7 +123,8 @@ extension ViewController {
         let answerUrl = feedInfo["answerUrl"] as? String
 
         let duration = feedInfo["duration"] as! Int
-        self.tmpFeeds.append(FeedsModel(_name: name, _title: title, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime,  _duration: duration, _avatarImageUrl: avatarImageUrl, _coverUrl: coverUrl, _answerUrl: answerUrl))
+        let rate = feedInfo["rate"] as! Double
+        self.tmpFeeds.append(FeedsModel(_name: name, _title: title, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime,  _duration: duration, _avatarImageUrl: avatarImageUrl, _coverUrl: coverUrl, _answerUrl: answerUrl, _rate: rate))
       }
 
       self.feeds = self.tmpFeeds
@@ -266,6 +267,22 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
       myCell.titleLabel.text = feedInfo.title
     }
 
+    // setup rate label
+    if (self.paidSnoops.contains(feedInfo.id)) {
+      myCell.rateLabel.text = nil
+      myCell.rateLabel.backgroundColor = UIColor(patternImage: UIImage(named: "unlocked")!)
+    }
+    else {
+      if (feedInfo.rate > 0.0) {
+        myCell.rateLabel.backgroundColor = UIColor(red: 255/255, green: 183/255, blue: 78/255, alpha: 0.8)
+        myCell.rateLabel.text = "$ \(feedInfo.rate)"
+      }
+      else {
+        myCell.rateLabel.backgroundColor = UIColor.defaultColor()
+        myCell.rateLabel.text = "Free"
+      }
+    }
+
     if (feedInfo.avatarImage != nil) {
       // All the async loading is done
       setImages(myCell, feedInfo: feedInfo)
@@ -375,7 +392,7 @@ extension ViewController {
       let indexPath = sender as! NSIndexPath
       let dvc = segue.destinationViewController as! ChargeViewController
       let feed = feeds[indexPath.row]
-      dvc.chargeInfo = (amount: 1.50, type: "SNOOPED", quandaId: feed.id)
+      dvc.chargeInfo = (amount: feed.rate, type: "SNOOPED", quandaId: feed.id)
       dvc.isSnooped = true
     }
     else if (segue.identifier == "homeToAsk") {

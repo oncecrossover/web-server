@@ -23,6 +23,7 @@ class FeedTableViewCell: UITableViewCell {
 
   @IBOutlet weak var numOfSnoops: UILabel!
 
+  @IBOutlet weak var rateLabel: UILabel!
 
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -56,6 +57,13 @@ class FeedTableViewCell: UITableViewCell {
     nameLabel.font = UIFont.systemFontOfSize(13)
     numOfSnoops.font = numOfSnoops.font.fontWithSize(11)
     numOfSnoops.textColor = UIColor.defaultColor()
+
+    rateLabel.textColor = UIColor.whiteColor()
+    rateLabel.textAlignment = .Center
+    rateLabel.font = UIFont.systemFontOfSize(10)
+    rateLabel.layer.cornerRadius = 2
+    rateLabel.clipsToBounds = true
+
   }
 
 }
