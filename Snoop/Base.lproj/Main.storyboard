@@ -23,30 +23,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thanks For Your Payment! A confirmation email will be sent to you soon..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjg-32-mMy">
-                                <rect key="frame" x="16" y="300" width="343" height="45"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thanks for your payment! A confirmation email will be sent to you soon..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjg-32-mMy">
+                                <rect key="frame" x="16" y="260" width="343" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="j5f-8y-kD3"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="payment" translatesAutoresizingMaskIntoConstraints="NO" id="9w0-Qi-4kA" customClass="CircleImageView" customModule="Snoop" customModuleProvider="target">
-                                <rect key="frame" x="127.5" y="70" width="120" height="120"/>
+                                <rect key="frame" x="158" y="90" width="60" height="60"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="Aes-zp-MHw"/>
+                                    <constraint firstAttribute="height" constant="60" id="Aes-zp-MHw"/>
                                     <constraint firstAttribute="width" secondItem="9w0-Qi-4kA" secondAttribute="height" multiplier="1:1" id="xfv-9i-arl"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Payment Successful!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Se0-ny-RlY">
-                                <rect key="frame" x="20" y="240" width="335" height="40"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Payment Complete!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Se0-ny-RlY">
+                                <rect key="frame" x="20" y="200" width="335" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="ixh-MS-KjF"/>
                                     <constraint firstAttribute="height" constant="32" id="wgP-KQ-RgS"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -55,7 +55,7 @@
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ke5-7a-pZs" customClass="CustomButton" customModule="Snoop" customModuleProvider="target">
-                                <rect key="frame" x="16" y="465" width="343" height="40"/>
+                                <rect key="frame" x="0.0" y="627" width="375" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="7St-x4-gcP"/>
                                     <constraint firstAttribute="width" secondItem="Ke5-7a-pZs" secondAttribute="height" multiplier="375:55" id="YYD-sn-Dkd"/>
@@ -80,15 +80,15 @@
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="cjg-32-mMy" secondAttribute="trailing" id="3Ry-75-0jT"/>
                             <constraint firstItem="Se0-ny-RlY" firstAttribute="centerX" secondItem="9w0-Qi-4kA" secondAttribute="centerX" id="5V4-sM-GXX"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="Ke5-7a-pZs" secondAttribute="leading" id="9kL-Te-818"/>
+                            <constraint firstItem="tdi-sJ-jvd" firstAttribute="top" secondItem="Ke5-7a-pZs" secondAttribute="bottom" id="6gg-PE-B8R"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="Ke5-7a-pZs" secondAttribute="leading" constant="16" id="9kL-Te-818"/>
                             <constraint firstItem="Ke5-7a-pZs" firstAttribute="leading" secondItem="Hfh-eK-e96" secondAttribute="leadingMargin" constant="4" id="G0x-Uf-nbV"/>
                             <constraint firstAttribute="leadingMargin" secondItem="cjg-32-mMy" secondAttribute="leading" id="Kla-mr-FzN"/>
                             <constraint firstItem="cjg-32-mMy" firstAttribute="centerX" secondItem="Se0-ny-RlY" secondAttribute="centerX" id="UgE-ig-IWV"/>
-                            <constraint firstItem="9w0-Qi-4kA" firstAttribute="top" secondItem="ych-Cr-iVH" secondAttribute="bottom" constant="50" id="Wpm-MS-9wA"/>
+                            <constraint firstItem="9w0-Qi-4kA" firstAttribute="top" secondItem="ych-Cr-iVH" secondAttribute="bottom" constant="70" id="Wpm-MS-9wA"/>
                             <constraint firstItem="Ke5-7a-pZs" firstAttribute="centerY" secondItem="Hfh-eK-e96" secondAttribute="centerY" id="cwh-k8-5Ex"/>
                             <constraint firstItem="Se0-ny-RlY" firstAttribute="leading" secondItem="Hfh-eK-e96" secondAttribute="leadingMargin" constant="4" id="gEc-qS-PGz"/>
                             <constraint firstItem="Ke5-7a-pZs" firstAttribute="centerX" secondItem="cjg-32-mMy" secondAttribute="centerX" id="gSg-K4-Qj1"/>
-                            <constraint firstItem="Ke5-7a-pZs" firstAttribute="top" secondItem="cjg-32-mMy" secondAttribute="bottom" constant="120" id="iyp-jd-MR1"/>
                             <constraint firstItem="cjg-32-mMy" firstAttribute="top" secondItem="ych-Cr-iVH" secondAttribute="bottom" constant="45" id="iz8-xq-2af"/>
                             <constraint firstItem="cjg-32-mMy" firstAttribute="top" secondItem="Se0-ny-RlY" secondAttribute="bottom" constant="20" id="pwI-jt-Y65"/>
                             <constraint firstItem="9w0-Qi-4kA" firstAttribute="centerX" secondItem="Hfh-eK-e96" secondAttribute="centerX" id="s8o-SS-JeT"/>
@@ -104,6 +104,7 @@
                     </view>
                     <connections>
                         <outlet property="confirmationButton" destination="Ke5-7a-pZs" id="uN6-CR-d1v"/>
+                        <outlet property="message" destination="cjg-32-mMy" id="FS4-bH-pTw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iAk-dR-WeP" userLabel="First Responder" sceneMemberID="firstResponder"/>
