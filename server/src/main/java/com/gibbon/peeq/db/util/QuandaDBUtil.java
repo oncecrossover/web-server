@@ -239,6 +239,7 @@ public class QuandaDBUtil {
       /* add column mapping */
       query.addScalar("id", new LongType())
            .addScalar("question", new StringType())
+           .addScalar("rate", new DoubleType())
            .addScalar("updatedTime", new TimestampType())
            .addScalar("answerUrl", new StringType())
            .addScalar("answerCoverUrl", new StringType())
@@ -384,12 +385,13 @@ public class QuandaDBUtil {
     long lastSeenId = 0;
     int limit = SnoopServerConf.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
     final String select =
-        "SELECT Q.id, Q.question, Q.updatedTime, Q.answerUrl, Q.answerCoverUrl, Q.duration," +
-        " P.uid AS responderId, P.fullName AS responderName," +
-        " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl," +
-        " count(S.id) AS snoops FROM" +
-        " Quanda AS Q INNER JOIN Profile AS P ON Q.responder = P.uid" +
-        " LEFT JOIN Snoop AS S ON Q.id = S.quandaId";
+        "SELECT Q.id, Q.question, Q.rate, Q.updatedTime, Q.answerUrl, " +
+        "Q.answerCoverUrl, Q.duration, "+
+        "P.uid AS responderId, P.fullName AS responderName, " +
+        "P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl, " +
+        "count(S.id) AS snoops FROM " +
+        "Quanda AS Q INNER JOIN Profile AS P ON Q.responder = P.uid " +
+        "LEFT JOIN Snoop AS S ON Q.id = S.quandaId";
 
     String uid = "NULL";
     List<String> list = Lists.newArrayList();

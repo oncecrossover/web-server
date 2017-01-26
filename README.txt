@@ -289,6 +289,7 @@ Example response:
   {
     "id": 8,
     "question": "How do you predict house market in US?",
+    "rate": 0,
     "updatedTime": 1484635427000,
     "answerUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8",
     "answerCoverUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8.cover",
