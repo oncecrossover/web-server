@@ -31,7 +31,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
     super.viewDidLoad()
 
     if (chargeInfo.amount != nil) {
-      chargeLabel.text = "$1.50"
+      chargeLabel.text = "$" + String(chargeInfo.amount)
       chargeAmount = chargeInfo.amount
     }
     else {
@@ -41,6 +41,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
 
     payButton.enabled = false
     addCardButton.setTitleColor(UIColor.defaultColor(), forState: .Normal)
+    addCardButton.setTitleColor(UIColor.disabledColor(), forState: .Disabled)
     addCardButton.titleLabel!.font = UIFont.systemFontOfSize(13)
 
     header.textColor = UIColor.secondaryTextColor()
@@ -63,11 +64,17 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
     let myUrl = NSURL(string: generics.HTTPHOST + "balances/" + uid!)
     self.generics.getObjectById(myUrl!) { dict in
       let balance = dict["balance"] as! Double
-      if (balance > self.chargeAmount) {
+      if (balance >= self.chargeAmount) {
         dispatch_async(dispatch_get_main_queue()) {
           self.balanceLabel.text = "Balance(" + String(balance) + ")"
           self.addCardButton.enabled = false
           self.payButton.enabled = true
+          if (self.chargeAmount == 0.0) {
+            self.payButton.setTitle("Get It For Free", forState: .Normal)
+          }
+          else {
+            self.payButton.setTitle("Pay Now", forState: .Normal)
+          }
         }
       }
       else {

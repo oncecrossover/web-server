@@ -135,11 +135,13 @@ class CustomCameraView: UIView {
   func prepareToRecord() {
     time.text = "00:00"
     time.hidden = false
+    isRecording = false
     recordButton.setImage(UIImage(named: "record"), forState: .Normal)
     cancelButton.setTitle("cancel", forState: .Normal)
     backButton.hidden = true
     nextButton.hidden = true
     reminder.hidden = true
+    count = 0
   }
 
   func startTimer() {
