@@ -25,6 +25,8 @@ class VideoPlayerView: UIView {
     let view = UIButton()
     view.translatesAutoresizingMaskIntoConstraints = false
     view.setImage(UIImage(named: "play"), forState: .Normal)
+    view.contentVerticalAlignment = .Fill
+    view.contentHorizontalAlignment = .Fill
     view.addTarget(self, action: #selector(handlePause), forControlEvents: .TouchUpInside)
     return view
   }()
@@ -126,8 +128,8 @@ class VideoPlayerView: UIView {
     container.addSubview(playButton)
     playButton.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true
     playButton.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-    playButton.widthAnchor.constraintEqualToConstant(30).active = true
-    playButton.heightAnchor.constraintEqualToConstant(30).active = true
+    playButton.widthAnchor.constraintEqualToConstant(40).active = true
+    playButton.heightAnchor.constraintEqualToConstant(40).active = true
     playButton.hidden = true
 
     container.addSubview(closeButton)
