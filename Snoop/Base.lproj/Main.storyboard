@@ -689,7 +689,7 @@
                                                         <constraint firstAttribute="height" constant="40" id="v7Y-rD-n2L"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$ 25.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZYt-83-d7H">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$ 25.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZYt-83-d7H">
                                                     <rect key="frame" x="88" y="217.5" width="38" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="16" id="dzb-OG-8EZ"/>
@@ -763,7 +763,7 @@
                                 <rect key="frame" x="16" y="334" width="343" height="276"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Touch Button to start recording answer up to 60 seconds" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="isE-do-UpQ">
-                                        <rect key="frame" x="8" y="20" width="327" height="36"/>
+                                        <rect key="frame" x="8" y="10" width="327" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="ELf-cd-bhn"/>
                                         </constraints>
@@ -772,16 +772,16 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera" translatesAutoresizingMaskIntoConstraints="NO" id="rqG-DX-Ezo">
-                                        <rect key="frame" x="127" y="92" width="89" height="89.5"/>
+                                        <rect key="frame" x="136" y="82" width="71" height="72"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="rqG-DX-Ezo" secondAttribute="height" multiplier="1:1" id="AgP-Bj-jej"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="isE-do-UpQ" firstAttribute="top" secondItem="81n-Lh-F0b" secondAttribute="top" constant="20" id="0PC-bw-A9x"/>
+                                    <constraint firstItem="isE-do-UpQ" firstAttribute="top" secondItem="81n-Lh-F0b" secondAttribute="top" constant="10" id="0PC-bw-A9x"/>
                                     <constraint firstAttribute="bottom" secondItem="rqG-DX-Ezo" secondAttribute="bottom" constant="96" id="2xm-Dy-tbO"/>
-                                    <constraint firstItem="rqG-DX-Ezo" firstAttribute="width" secondItem="81n-Lh-F0b" secondAttribute="width" multiplier="75:288" id="6mv-HL-qJo"/>
+                                    <constraint firstItem="rqG-DX-Ezo" firstAttribute="width" secondItem="81n-Lh-F0b" secondAttribute="width" multiplier="60:288" id="6mv-HL-qJo"/>
                                     <constraint firstAttribute="trailing" secondItem="isE-do-UpQ" secondAttribute="trailing" constant="8" id="Fbj-zO-Z4b"/>
                                     <constraint firstItem="rqG-DX-Ezo" firstAttribute="top" secondItem="isE-do-UpQ" secondAttribute="bottom" constant="36" id="XbP-RX-hfr"/>
                                     <constraint firstItem="rqG-DX-Ezo" firstAttribute="centerX" secondItem="81n-Lh-F0b" secondAttribute="centerX" id="b0p-ws-fvd"/>

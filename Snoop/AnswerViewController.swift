@@ -20,8 +20,6 @@ class AnswerViewController: UIViewController {
 
   var currentImagePicker: UIImagePickerController?
 
-  var soundRecorder: AVAudioRecorder!
-  var soundPlayer: AVAudioPlayer!
   var fileName = "videoFile.m4a"
 
   var questionModule = Question()
@@ -44,6 +42,8 @@ extension AnswerViewController {
     answerTableView.estimatedRowHeight = 120
     answerTableView.separatorInset = UIEdgeInsetsZero
     answerTableView.tableFooterView = UIView()
+
+    instructionLabel.textColor = UIColor.secondaryTextColor()
 
     answerTableView.reloadData()
     if (cellInfo.status == "PENDING") {

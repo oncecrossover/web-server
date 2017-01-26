@@ -188,7 +188,7 @@ extension CoverFrameViewController: UICollectionViewDataSource {
   }
 
   func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
-    let cell = collectionView.dequeueReusableCellWithReuseIdentifier("coverFrameCell", forIndexPath: indexPath) as! CoverFrameCollectionViewCell
+    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellId, forIndexPath: indexPath) as! CoverFrameCollectionViewCell
     cell.coverImage.image = coverFrames[indexPath.row]
 
     return cell
