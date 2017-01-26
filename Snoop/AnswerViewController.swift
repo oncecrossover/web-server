@@ -232,7 +232,8 @@ extension AnswerViewController: CustomCameraViewDelegate {
       currentImagePicker?.presentViewController(myAlert, animated: true, completion: nil)
     }
     else {
-      let dvc = storyboard?.instantiateViewControllerWithIdentifier("CoverFrameViewController") as! CoverFrameViewController
+//      let dvc = storyboard?.instantiateViewControllerWithIdentifier("CoverFrameViewController") as! CoverFrameViewController
+      let dvc = CoverFrameViewController()
       dvc.quandaId = self.cellInfo.id
       currentImagePicker?.pushViewController(dvc, animated: true)
     }
