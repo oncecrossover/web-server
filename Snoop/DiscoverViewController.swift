@@ -188,6 +188,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let myCell = tableView.dequeueReusableCellWithIdentifier("discoverCell",
                                                              forIndexPath: indexPath) as! DiscoverTableViewCell
+    myCell.userInteractionEnabled = false
     let cellInfo: DiscoverModel
     if (searchController.active && searchController.searchBar.text != "") {
       cellInfo = self.filteredProfiles[indexPath.row]
@@ -196,22 +197,26 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
       cellInfo = self.profiles[indexPath.row]
     }
 
+
+    myCell.name.text = cellInfo.name
+    myCell.title.text = cellInfo.title
+    myCell.about.text = cellInfo.about
+
     if (cellInfo.avatarImage != nil) {
       //async loading is done
       setImage(myCell, cellInfo: cellInfo)
+      myCell.userInteractionEnabled = true
     }
     else {
       // start async loading for image
       loadImageAsync(cellInfo) { result in
         dispatch_async(dispatch_get_main_queue()) {
           self.setImage(myCell, cellInfo: result)
+          myCell.userInteractionEnabled = true
         }
       }
     }
 
-    myCell.name.text = cellInfo.name
-    myCell.title.text = cellInfo.title
-    myCell.about.text = cellInfo.about
 
     if (!searchController.active && searchController.searchBar.text == "") {
       if (indexPath.row == profiles.count - 1) {

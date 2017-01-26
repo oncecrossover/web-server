@@ -211,6 +211,7 @@ extension ActivityViewController {
     if (info.status == "PENDING") {
       myCell.coverImage.image = UIImage()
       myCell.coverImage.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1.0)
+      myCell.coverImage.userInteractionEnabled = false
       myCell.durationLabel.hidden = true
     }
     else if (info.status == "ANSWERED") {
@@ -225,6 +226,13 @@ extension ActivityViewController {
         myCell.durationLabel.hidden = false
       }
     }
+  }
+
+  func setPlaceholderImages(cell: ActivityTableViewCell) {
+    cell.coverImage.userInteractionEnabled = false
+    cell.coverImage.image = UIImage()
+    cell.askerImage.image = UIImage()
+    cell.responderImage.image = UIImage()
   }
 
   func loadDataWithFilter(filterString: String) {
@@ -392,6 +400,8 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
     let myCell = tableView.dequeueReusableCellWithIdentifier("activityCell", forIndexPath: indexPath)
       as! ActivityTableViewCell
 
+    myCell.userInteractionEnabled = false
+
     let cellInfo: ActivityModel
     if (selectedIndex == 0) {
       cellInfo = questions[indexPath.row]
@@ -413,20 +423,23 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
       myCell.responderTitle.text = cellInfo.responderTitle
     }
 
+    myCell.askerName.text = cellInfo.askerName + ":"
+
+    setPlaceholderImages(myCell)
     if (cellInfo.askerImage != nil) {
       // All the async loading is done
       setImages(myCell, info: cellInfo)
+      myCell.userInteractionEnabled = true
     }
     else {
       // start async loading
       loadImagesAsync(cellInfo) { result in
         dispatch_async(dispatch_get_main_queue()) {
           self.setImages(myCell, info: cellInfo)
+          myCell.userInteractionEnabled = true
         }
       }
     }
-
-    myCell.askerName.text = cellInfo.askerName + ":"
 
     return myCell
   }

@@ -176,6 +176,13 @@ extension ViewController {
     }
   }
 
+  func setPlaceholderImages(myCell: FeedTableViewCell) {
+    myCell.profileImage.userInteractionEnabled = false
+    myCell.coverImage.userInteractionEnabled = false
+    myCell.profileImage.image = UIImage()
+    myCell.coverImage.image = UIImage()
+  }
+
   func setImages(myCell: FeedTableViewCell, feedInfo: FeedsModel) {
     if (feedInfo.avatarImage!.length > 0) {
       myCell.profileImage.image = UIImage(data: feedInfo.avatarImage!)
@@ -253,6 +260,8 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
 
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let myCell = tableView.dequeueReusableCellWithIdentifier("feedCell", forIndexPath: indexPath) as! FeedTableViewCell
+    myCell.userInteractionEnabled = false
+
     let feedInfo = feeds[indexPath.row]
     myCell.nameLabel.text = feedInfo.name
 
@@ -283,15 +292,18 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
       }
     }
 
+    setPlaceholderImages(myCell)
     if (feedInfo.avatarImage != nil) {
       // All the async loading is done
       setImages(myCell, feedInfo: feedInfo)
+      myCell.userInteractionEnabled = true
     }
     else {
       //start async loading
       loadImagesAsync(feedInfo) { result in
         dispatch_async(dispatch_get_main_queue()) {
           self.setImages(myCell, feedInfo: feedInfo)
+          myCell.userInteractionEnabled = true
         }
       }
     }
