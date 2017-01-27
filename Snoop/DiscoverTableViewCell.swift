@@ -20,6 +20,10 @@ class DiscoverTableViewCell: UITableViewCell {
     name.font = UIFont.systemFontOfSize(14)
     title.font = UIFont.systemFontOfSize(12)
     title.textColor = UIColor.secondaryTextColor()
+
+    name.numberOfLines = 1
+    title.numberOfLines = 1
+    about.numberOfLines = 2
   }
 
 }
