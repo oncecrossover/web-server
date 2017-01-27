@@ -31,6 +31,10 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   @IBOutlet weak var rateLabel: UILabel!
   @IBOutlet weak var answerQuestionLabel: UILabel!
 
+  @IBOutlet weak var aboutCount: UILabel!
+  @IBOutlet weak var nameCount: UILabel!
+  @IBOutlet weak var titleCount: UILabel!
+
   var textColor = UIColor.blackColor()
   var labelColor = UIColor(red: 199/255, green: 199/255, blue: 205/255, alpha: 1.0)
 
@@ -47,36 +51,17 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
   var isEditingProfile = false
 
   let placeHolder = "Add a short description of your expertise and your interests"
+
+  var nameExceeded = false
+  var titleExceeded = false
+  var aboutExceeded = false
   
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    // fill in values for all the editable fields
-    titleField.text = profileValues.title
-    titleField.textColor = textColor
-    nameField.text = profileValues.name
-    nameField.textColor = textColor
-    if (profileValues.about.isEmpty) {
-      aboutField.text = placeHolder
-      aboutField.textColor = labelColor
-    }
-    else {
-      aboutField.text = profileValues.about
-      aboutField.textColor = textColor
-    }
+    initView()
 
-    rateField.text = String(profileValues.rate)
-    rateField.textColor = textColor
-
-    nameLabel.textColor = labelColor
-    titleLabel.textColor = labelColor
-    rateLabel.textColor = labelColor
-    answerQuestionLabel.textColor = labelColor
-
-    firstUnderline.backgroundColor = labelColor
-    secondUnderline.backgroundColor = labelColor
-    thirdUnderline.backgroundColor = labelColor
-    fourthUnderline.backgroundColor = labelColor
+    setupInputLimits()
 
     if (profileValues.avatarImage != nil) {
       profilePhoto.image = profileValues.avatarImage
@@ -100,6 +85,72 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     navigationController?.delegate = self
   }
 
+  func setupInputLimits() {
+    nameField.addTarget(self, action: #selector(handleNameLimit(_:)), forControlEvents: .EditingChanged)
+    titleField.addTarget(self, action: #selector(handleTitleLimit(_:)), forControlEvents: .EditingChanged)
+  }
+
+  func initView() {
+    // fill in values for all the editable fields
+    titleField.text = profileValues.title
+    titleField.textColor = textColor
+    titleCount.hidden = true
+
+    nameField.text = profileValues.name
+    nameField.textColor = textColor
+    nameCount.hidden = true
+
+    if (profileValues.about.isEmpty) {
+      aboutField.text = placeHolder
+      aboutField.textColor = labelColor
+    }
+    else {
+      aboutField.text = profileValues.about
+      aboutField.textColor = textColor
+    }
+
+    aboutCount.hidden = true
+
+    rateField.text = String(profileValues.rate)
+    rateField.textColor = textColor
+
+    nameLabel.textColor = labelColor
+    titleLabel.textColor = labelColor
+    rateLabel.textColor = labelColor
+    answerQuestionLabel.textColor = labelColor
+
+    firstUnderline.backgroundColor = labelColor
+    secondUnderline.backgroundColor = labelColor
+    thirdUnderline.backgroundColor = labelColor
+    fourthUnderline.backgroundColor = labelColor
+  }
+
+  func textViewDidChange(textView: UITextView) {
+    aboutCount.hidden = false
+    let remainder = 80 - textView.text!.characters.count
+    aboutCount.text = remainder < 0 ? "-" : "\(remainder)"
+    aboutCount.textColor = remainder < 0 ? UIColor.redColor() : UIColor.defaultColor()
+    aboutExceeded = remainder < 0
+    submitButton.enabled = !nameExceeded && !titleExceeded && !aboutExceeded
+  }
+
+  func handleNameLimit(sender: UITextField) {
+    nameCount.hidden = false
+    let remainder = 20 - sender.text!.characters.count
+    nameCount.text = remainder < 0 ? "-" : "\(remainder)"
+    nameCount.textColor = remainder < 0 ? UIColor.redColor() : UIColor.defaultColor()
+    nameExceeded = remainder < 0
+    submitButton.enabled = !nameExceeded && !titleExceeded && !aboutExceeded
+  }
+
+  func handleTitleLimit(sender: UITextField) {
+    titleCount.hidden = false
+    let remainder = 30 - sender.text!.characters.count
+    titleCount.text = remainder < 0 ? "-" : "\(remainder)"
+    titleCount.textColor = remainder < 0 ? UIColor.redColor() : UIColor.defaultColor()
+    titleExceeded = remainder < 0
+    submitButton.enabled = !nameExceeded && !titleExceeded && !aboutExceeded
+  }
 
   func textViewDidBeginEditing(textView: UITextView) {
     if (self.aboutField.textColor == labelColor) {
@@ -115,20 +166,12 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
 
     activeText = nil
+    aboutCount.hidden = true
   }
 
   func textViewShouldBeginEditing(textView: UITextView) -> Bool {
     activeText = aboutField
     return true
-  }
-
-  func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-    activeText = rateField
-    return true
-  }
-
-  func textFieldDidEndEditing(textField: UITextField) {
-    activeText = nil
   }
 
   func keyboardWillShow(notification: NSNotification)
@@ -158,6 +201,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
 
   func keyboardWillHide(notification: NSNotification)
   {
+    nameCount.hidden = true
+    titleCount.hidden = true
     self.view.endEditing(true)
     self.scrollView.setContentOffset(CGPointMake(0, self.contentOffset.y), animated: true)
   }
