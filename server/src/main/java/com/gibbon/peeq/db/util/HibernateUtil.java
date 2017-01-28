@@ -10,6 +10,9 @@ public class HibernateUtil {
   // XML based configuration
   private static SessionFactory sessionFactory;
 
+  private HibernateUtil() {
+  }
+
   static {
     init();
   }

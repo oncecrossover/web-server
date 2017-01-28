@@ -31,6 +31,8 @@
     <property name="hibernate.c3p0.idle_test_period">10</property>
     <property name="hibernate.c3p0.acquire_increment">5</property>
 
+    <property name="hibernate.current_session_context_class">thread</property>
+
     <!-- mapping file, we can use Bean annotations too -->
     <mapping resource="com/gibbon/peeq/scripts/user.hbm.xml" />
     <mapping resource="com/gibbon/peeq/scripts/profile.hbm.xml" />
