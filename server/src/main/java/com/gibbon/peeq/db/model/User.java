@@ -90,6 +90,8 @@ public class User {
       throws JsonParseException, JsonMappingException, IOException {
     final ObjectMapper mapper = new ObjectMapper();
     final User user = mapper.readValue(json, User.class);
+    /* always make uid case insensitive */
+    user.uid = user.uid != null ? user.uid.toLowerCase() : user.uid;
 
     if (user.getProfile() == null) {
       user.setProfile(new Profile());
