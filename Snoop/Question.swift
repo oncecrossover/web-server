@@ -50,15 +50,22 @@ class Question {
       completion(result)
     }
   }
-  func getQuestions(filterString: String, isQuestion: Bool!, completion: (NSArray) -> ()) {
-    var myUrl = NSURL(string: QUESTIONURI + "?" + filterString)
-    if (!isQuestion) {
-      myUrl = NSURL(string: ANSWERURI + "?" + filterString)
+
+  func getActivities(filterString: String, selectedIndex: Int!, completion: (NSArray) -> ()) {
+    var myUrl = NSURL()
+    if (selectedIndex == 0) {
+      myUrl = NSURL(string: QUESTIONURI + "?" + filterString)!
     }
-    generics.getFilteredObjects(myUrl!) { result in
-      completion(result)
+    else if (selectedIndex == 1) {
+      myUrl = NSURL(string: ANSWERURI + "?" + filterString)!
+    }
+    else {
+      myUrl = NSURL(string:  SNOOPURI + "?" + filterString)!
     }
 
+    generics.getFilteredObjects(myUrl) { result in
+      completion(result)
+    }
   }
 
   func getQuestionMedia(id: Int, completion: (String) -> ()){
@@ -91,13 +98,6 @@ class Question {
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     let jsonData:[String:AnyObject] = ["uid": uid, "quandaId": id]
     generics.createObject(SNOOPURI, jsonData: jsonData) { result in
-      completion(result)
-    }
-  }
-
-  func getSnoops(uid: String, completion: (NSArray) -> ()) {
-    let myUrl = NSURL(string: SNOOPURI + "?uid='" + uid + "'")
-    generics.getFilteredObjects(myUrl!) { result in
       completion(result)
     }
   }

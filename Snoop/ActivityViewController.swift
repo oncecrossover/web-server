@@ -20,11 +20,13 @@ class ActivityViewController: UIViewController {
   var utility = UIUtility()
   var generics = Generics()
 
-  var questions:[ActivityModel] = []
+  var questions: [ActivityModel] = []
+  var answers: [ActivityModel] = []
+  var snoops: [ActivityModel] = []
 
-  var answers:[ActivityModel] = []
-
-  var snoops:[ActivityModel] = []
+  var tmpQuestions: [ActivityModel] = []
+  var tmpAnswers: [ActivityModel] = []
+  var tmpSnoops: [ActivityModel] = []
 
   var refreshControl: UIRefreshControl = UIRefreshControl()
 
@@ -103,6 +105,9 @@ extension ActivityViewController {
   }
 
   func loadData() {
+    tmpQuestions = []
+    tmpAnswers = []
+    tmpSnoops = []
     activityTableView.userInteractionEnabled = false
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     if (selectedIndex == 0) {
@@ -112,7 +117,7 @@ extension ActivityViewController {
       loadDataWithFilter("responder='" + uid + "'")
     }
     else if (selectedIndex == 2) {
-      loadSnoops(uid)
+      loadDataWithFilter("uid='" + uid + "'")
     }
 
   }
@@ -133,18 +138,16 @@ extension ActivityViewController {
     //        let hoursToExpire = questionInfo["hoursToExpire"] as! Int
 
     let responderAvatarUrl = questionInfo["responderAvatarUrl"] as? String
-
     let responderName = questionInfo["responderName"] as! String
     let responderTitle = questionInfo["responderTitle"] as! String
-
     let askerAvatarUrl = questionInfo["askerAvatarUrl"] as? String
     let answerCoverUrl = questionInfo["answerCoverUrl"] as? String
     let answerUrl = questionInfo["answerUrl"] as? String
-
     let askerName = questionInfo["askerName"] as! String
     let duration = questionInfo["duration"] as! Int
+    let createdTime = questionInfo["createdTime"] as! Double
 
-    return ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _duration: duration, _askerName: askerName, _responderName: responderName, _responderTitle: responderTitle, _answerCoverUrl: answerCoverUrl, _askerAvatarUrl: askerAvatarUrl, _responderAvatarUrl: responderAvatarUrl, _answerURl: answerUrl)
+    return ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _duration: duration, _askerName: askerName, _responderName: responderName, _responderTitle: responderTitle, _answerCoverUrl: answerCoverUrl, _askerAvatarUrl: askerAvatarUrl, _responderAvatarUrl: responderAvatarUrl, _answerURl: answerUrl, _lastSeenTime: createdTime)
   }
 
   func loadImagesAsync(cellInfo: ActivityModel, completion: (ActivityModel) -> ()) {
@@ -236,14 +239,6 @@ extension ActivityViewController {
   }
 
   func loadDataWithFilter(filterString: String) {
-    var isQuestion = true
-    var tmpQuestions:[ActivityModel] = []
-    var tmpAnswers:[ActivityModel] = []
-
-    if (filterString.containsString("responder")) {
-      isQuestion = false
-    }
-
     let indicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 40, 40))
     indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
     indicator.center = self.view.center
@@ -252,25 +247,35 @@ extension ActivityViewController {
     indicator.startAnimating()
     indicator.backgroundColor = UIColor.whiteColor()
     activityTableView.backgroundView = nil
-    questionModule.getQuestions(filterString, isQuestion: isQuestion) { jsonArray in
-      for questionInfo in jsonArray as! [[String:AnyObject]] {
-        let activity = self.createActitivyModel(questionInfo, isSnoop: false)
+    questionModule.getActivities(filterString, selectedIndex: selectedIndex) { jsonArray in
+      for activityInfo in jsonArray as! [[String:AnyObject]] {
+        let activity = self.createActitivyModel(activityInfo, isSnoop: false)
         if (self.selectedIndex == 0) {
-          tmpQuestions.append(activity)
+          self.tmpQuestions.append(activity)
+        }
+        else if (self.selectedIndex == 1){
+          self.tmpAnswers.append(activity)
         }
         else {
-          tmpAnswers.append(activity)
+          self.tmpSnoops.append(activity)
         }
       }
 
       dispatch_async(dispatch_get_main_queue()) {
-        if (isQuestion) {
-          self.questions = tmpQuestions
+        if (self.selectedIndex == 0) {
+          self.questions = self.tmpQuestions
+        }
+        else if (self.selectedIndex == 1){
+          self.answers = self.tmpAnswers
         }
         else {
-          self.answers = tmpAnswers
+          self.snoops = self.tmpSnoops
         }
-        self.activityTableView.reloadData()
+
+        if (jsonArray.count > 0 || !filterString.containsString("lastSeenId")) {
+          self.activityTableView.reloadData()
+        }
+
         indicator.stopAnimating()
         indicator.hidesWhenStopped = true
         self.activityTableView.userInteractionEnabled = true
@@ -279,34 +284,6 @@ extension ActivityViewController {
     }
 
   }
-
-  func loadSnoops(uid: String) {
-    var tmpSnoops:[ActivityModel] = []
-    let indicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 40, 40))
-    indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-    indicator.center = self.view.center
-    self.view.addSubview(indicator)
-
-    indicator.startAnimating()
-    indicator.backgroundColor = UIColor.whiteColor()
-    activityTableView.backgroundView = nil
-    questionModule.getSnoops(uid) { jsonArray in
-      for questionInfo in jsonArray as! [[String:AnyObject]] {
-        let activity = self.createActitivyModel(questionInfo, isSnoop: true)
-        tmpSnoops.append(activity)
-      }
-
-      dispatch_async(dispatch_get_main_queue()) {
-        self.snoops = tmpSnoops
-        self.activityTableView.reloadData()
-        indicator.stopAnimating()
-        indicator.hidesWhenStopped = true
-        self.activityTableView.userInteractionEnabled = true
-        self.refreshControl.endRefreshing()
-      }
-    }
-  }
-
 }
 
 // delegate
@@ -365,35 +342,8 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
 
     activityTableView.separatorStyle = UITableViewCellSeparatorStyle.None
     backgroundView.delegate = self
-
     activityTableView.backgroundView = backgroundView
-
     return 0
-  }
-
-  func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-    if (selectedIndex == 0 && questions[indexPath.row].status == "EXPIRED") {
-      return true
-    }
-    return false
-  }
-
-  func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-    if (selectedIndex == 0) {
-      if (editingStyle == .Delete) {
-        let quandaId = questions[indexPath.row].id
-        questions.removeAtIndex(indexPath.row)
-        let jsonData = ["active" : "FALSE"]
-        let url = NSURL(string: "http://localhost:8080/quandas/" + "\(quandaId)")!
-        generics.updateObject(url, jsonData: jsonData) { result in
-          if (result.isEmpty) {
-            dispatch_async(dispatch_get_main_queue()) {
-              self.activityTableView.reloadData()
-            }
-          }
-        }
-      }
-    }
   }
 
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -401,29 +351,34 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
       as! ActivityTableViewCell
 
     myCell.userInteractionEnabled = false
-
+    var arrayCount = 0
+    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    var filterString = "&limit=10"
     let cellInfo: ActivityModel
     if (selectedIndex == 0) {
       cellInfo = questions[indexPath.row]
+      arrayCount = questions.count
+      filterString = "asker='\(uid)'&lastSeenUpdatedTime=\(Int64(cellInfo.lastSeenTime))&lastSeenId=\(cellInfo.id)" + filterString
     }
     else if (selectedIndex == 1){
       cellInfo = answers[indexPath.row]
+      arrayCount = answers.count
+      filterString = "responder='\(uid)'&lastSeenCreatedTime=\(Int64(cellInfo.lastSeenTime))&lastSeenId=\(cellInfo.id)" + filterString
     }
     else {
       cellInfo = snoops[indexPath.row]
+      arrayCount = snoops.count
+      filterString = "uid='\(uid)'&lastSeenCreatedTime=\(Int64(cellInfo.lastSeenTime))&lastSeenId=\(cellInfo.id)" + filterString
     }
 
     myCell.rateLabel.text = "$ \(cellInfo.rate)"
-
     myCell.question.text = cellInfo.question
-
     myCell.responderName.text = cellInfo.responderName
+    myCell.askerName.text = cellInfo.askerName + ":"
 
     if (!cellInfo.responderTitle.isEmpty) {
       myCell.responderTitle.text = cellInfo.responderTitle
     }
-
-    myCell.askerName.text = cellInfo.askerName + ":"
 
     setPlaceholderImages(myCell)
     if (cellInfo.askerImage != nil) {
@@ -439,6 +394,10 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
           myCell.userInteractionEnabled = true
         }
       }
+    }
+
+    if (indexPath.row == arrayCount - 1) {
+      loadDataWithFilter(filterString)
     }
 
     return myCell

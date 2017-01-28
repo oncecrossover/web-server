@@ -23,8 +23,9 @@ class ActivityModel {
   var askerAvatarUrl: String?
   var responderAvatarUrl: String?
   var answerUrl: String?
+  var lastSeenTime: Double!
 
-  init(_id: Int!, _question: String!, _status: String!, _rate: Double!, _duration: Int!, _askerName: String!, _responderName: String!, _responderTitle: String!, _answerCoverUrl: String?, _askerAvatarUrl: String?, _responderAvatarUrl: String?, _answerURl : String?) {
+  init(_id: Int!, _question: String!, _status: String!, _rate: Double!, _duration: Int!, _askerName: String!, _responderName: String!, _responderTitle: String!, _answerCoverUrl: String?, _askerAvatarUrl: String?, _responderAvatarUrl: String?, _answerURl : String?, _lastSeenTime: Double!) {
     id = _id
     question = _question
     status = _status
@@ -40,6 +41,7 @@ class ActivityModel {
     askerAvatarUrl = _askerAvatarUrl
     responderAvatarUrl = _responderAvatarUrl
     answerUrl = _answerURl
+    lastSeenTime = _lastSeenTime
   }
 
 }
