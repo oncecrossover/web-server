@@ -73,10 +73,11 @@ public class TempPwdWebHandler extends AbastractPeeqWebHandler
       /* insert new temp one */
       session.save(fromJson);
 
-      /* send temp pwd to use by email */
+      txn.commit();
+
+      /* send temp pwd to user by email */
       sendTempPwdToUser(fromJson);
 
-      txn.commit();
       appendln(toIdJson("id", fromJson.getId()));
       return newResponse(HttpResponseStatus.CREATED);
     } catch (Exception e) {
@@ -87,8 +88,7 @@ public class TempPwdWebHandler extends AbastractPeeqWebHandler
     }
   }
 
-  private void sendTempPwdToUser(final TempPwd tempPwd)
-      throws UnsupportedEncodingException, MessagingException {
+  private void sendTempPwdToUser(final TempPwd tempPwd) {
     EmailUtil.sendTempPwd(tempPwd.getUid(), tempPwd.getPwd());
   }
 

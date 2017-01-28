@@ -24,6 +24,7 @@ import com.gibbon.peeq.db.util.JournalUtil;
 import com.gibbon.peeq.db.util.PcAccountUtil;
 import com.gibbon.peeq.db.util.ProfileDBUtil;
 import com.gibbon.peeq.db.util.QuandaDBUtil;
+import com.gibbon.peeq.util.EmailUtil;
 import com.gibbon.peeq.util.ResourcePathParser;
 import com.gibbon.peeq.util.StripeUtil;
 import com.google.common.io.ByteArrayDataOutput;
@@ -228,7 +229,15 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
         } else {
           chargeSnooperFromCard(session, qaTransaction, quandaFromDB, SNOOP_RATE);
         }
+
         txn.commit();
+
+        /* send payment confirmation */
+        EmailUtil.sendPaymentConfirmation(
+            qaTransaction.getUid(),
+            quandaFromDB.getQuestion(),
+            SNOOP_RATE);
+
         appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
       } catch (Exception e) {
@@ -381,7 +390,15 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
         } else {
           chargeAskerFromCard(session, qaTransaction, quanda, answerRate);
         }
+
         txn.commit();
+
+        /* send payment confirmation */
+        EmailUtil.sendPaymentConfirmation(
+            qaTransaction.getUid(),
+            qaTransaction.getquanda().getQuestion(),
+            answerRate);
+
         appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
       } catch (Exception e) {

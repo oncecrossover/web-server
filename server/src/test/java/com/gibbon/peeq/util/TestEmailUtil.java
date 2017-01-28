@@ -16,16 +16,7 @@ public class TestEmailUtil {
 
   @Test(timeout = 60000)
   public void testSendTempPwd() {
-    try {
-      EmailUtil.sendTempPwd("osmedev@gmail.com", EmailUtil.getRandomPwd());
-
-    } catch (AddressException e) {
-      LOG.info("address error while sending email", e);
-    } catch (MessagingException e) {
-      LOG.info("message error while sending email", e);
-    } catch (UnsupportedEncodingException e) {
-      LOG.info("address error while sending email", e);
-    }
+    EmailUtil.sendTempPwd("osmedev@gmail.com", EmailUtil.getRandomPwd());
   }
 
   @Test(timeout = 60000)
