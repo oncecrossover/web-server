@@ -90,7 +90,7 @@ class AskViewController: UIViewController, UITextViewDelegate {
   func textViewDidEndEditing(textView: UITextView) {
     if (self.questionView.text.isEmpty) {
       self.questionView.text = placeholder
-      self.questionView.textColor = UIColor.lightGrayColor()
+      self.questionView.textColor = UIColor.secondaryTextColor()
     }
     
     self.scrollView.setContentOffset(self.contentOffset, animated: true)
