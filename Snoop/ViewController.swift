@@ -284,7 +284,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     else {
       if (feedInfo.rate > 0.0) {
         myCell.rateLabel.backgroundColor = UIColor(red: 255/255, green: 183/255, blue: 78/255, alpha: 0.8)
-        myCell.rateLabel.text = "$ \(feedInfo.rate)"
+        myCell.rateLabel.text = "$1.5"
       }
       else {
         myCell.rateLabel.backgroundColor = UIColor.defaultColor()
@@ -404,7 +404,7 @@ extension ViewController {
       let indexPath = sender as! NSIndexPath
       let dvc = segue.destinationViewController as! ChargeViewController
       let feed = feeds[indexPath.row]
-      dvc.chargeInfo = (amount: feed.rate, type: "SNOOPED", quandaId: feed.id)
+      dvc.chargeInfo = (amount: feed.rate > 0.0 ? 1.5 : 0, type: "SNOOPED", quandaId: feed.id)
       dvc.isSnooped = true
     }
     else if (segue.identifier == "homeToAsk") {
