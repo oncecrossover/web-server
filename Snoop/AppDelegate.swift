@@ -21,7 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let nav = UINavigationBar.appearance()
     nav.tintColor = UIColor.blackColor()
     nav.titleTextAttributes = [ NSForegroundColorAttributeName:UIColor.blackColor()]
-    STPPaymentConfiguration.sharedConfiguration().publishableKey = "pk_test_Mn99c0kYcKvT4yDyYNORk4cX"
+    let api_key = NSBundle.mainBundle().objectForInfoDictionaryKey("STRIPE_API_KEY") as! String
+    STPPaymentConfiguration.sharedConfiguration().publishableKey = api_key
 
     let pageController = UIPageControl.appearance()
     pageController.pageIndicatorTintColor = UIColor.lightGrayColor()

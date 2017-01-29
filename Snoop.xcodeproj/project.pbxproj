@@ -612,6 +612,8 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRIPE_API_KEY = "";
+				"STRIPE_API_KEY[arch=*]" = pk_test_Mn99c0kYcKvT4yDyYNORk4cX;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -654,6 +656,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				STRIPE_API_KEY = "";
+				"STRIPE_API_KEY[arch=*]" = pk_live_UoEfKwwq7HDql8mqr4K9eTbI;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
