@@ -61,8 +61,8 @@ class CustomTableBackgroundView: UIView {
     backgroundColor = UIColor.whiteColor()
     addSubview(label)
     addSubview(button)
-    addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[v0]|", options: [], metrics: nil, views: ["v0" : label]))
-    addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[v0]|", options: [], metrics: nil, views: ["v0" : button]))
+    addConstraintsWithFormat("H:|[v0]|", views: label)
+    addConstraintsWithFormat("H:|[v0]|", views: button)
     label.heightAnchor.constraintEqualToConstant(40).active = true
     button.heightAnchor.constraintEqualToConstant(40).active = true
     label.bottomAnchor.constraintEqualToAnchor(button.topAnchor, constant: -10).active = true

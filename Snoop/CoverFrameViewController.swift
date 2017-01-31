@@ -96,12 +96,12 @@ private extension CoverFrameViewController {
     self.view.addSubview(coverFrameCollection)
     self.view.addSubview(submitButton)
     //set all horizontal constraints
-    self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[v0]|", options: [], metrics: nil, views: ["v0" : coverImage]))
-    self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[v0]|", options: [], metrics: nil, views: ["v0" : coverFrameCollection]))
-    self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[v0]|", options: [], metrics: nil, views: ["v0" : submitButton]))
+    view.addConstraintsWithFormat("H:|[v0]|", views: coverImage)
+    view.addConstraintsWithFormat("H:|[v0]|", views: coverFrameCollection)
+    view.addConstraintsWithFormat("H:|[v0]|", views: submitButton)
 
     //set vertical constraints
-    self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[v0]-0-[v1(100)]-0-[v2(40)]|", options: [], metrics: nil, views: ["v0" : coverImage, "v1" : coverFrameCollection, "v2" : submitButton]))
+    view.addConstraintsWithFormat("V:|[v0]-0-[v1(100)]-0-[v2(40)]|", views: coverImage, coverFrameCollection, submitButton)
   }
   func setupNavbar() {
     // Creating left bar

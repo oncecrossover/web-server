@@ -162,30 +162,32 @@ class CustomCameraView: UIView {
     addSubview(nextButton)
 
     // setup constraints for top bar
-    addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[v0]|", options: [], metrics: nil, views: ["v0": navBar]))
-    addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[v0(40)]", options: [], metrics: nil, views: ["v0" : navBar]))
+    addConstraintsWithFormat("H:|[v0]|", views: navBar)
+    addConstraintsWithFormat("V:|[v0(40)]", views: navBar)
 
     // Add constraints for cancel button and time label
-    addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-8-[v0(55)]", options: [], metrics: nil, views: ["v0" : backButton]))
-    addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-5-[v0(30)]", options: [], metrics: nil, views: ["v0": backButton]))
+    addConstraintsWithFormat("H:|-8-[v0(55)]", views: backButton)
+    addConstraintsWithFormat("V:|-5-[v0(30)]", views: backButton)
     time.centerXAnchor.constraintEqualToAnchor(navBar.centerXAnchor).active = true
     time.centerYAnchor.constraintEqualToAnchor(navBar.centerYAnchor).active = true
     time.widthAnchor.constraintEqualToConstant(60).active = true
     time.heightAnchor.constraintEqualToConstant(20).active = true
 
     // Add constraints for bottom bar
-    addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[v0]|", options: [], metrics: nil, views: ["v0": bottomBar]))
-    addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[v0(80)]|", options: [], metrics: nil, views: ["v0" : bottomBar]))
+    addConstraintsWithFormat("H:|[v0]|", views: bottomBar)
+    addConstraintsWithFormat("V:[v0(80)]|", views: bottomBar)
 
     // Setup bottom buttons
-    addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-8-[v0(55)]", options: [], metrics: nil, views: ["v0" : cancelButton]))
-    addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[v0(30)]-25-|", options: [], metrics: nil, views: ["v0" : cancelButton]))
+    addConstraintsWithFormat("H:|-8-[v0(55)]", views: cancelButton)
+    addConstraintsWithFormat("V:[v0(30)]-25-|", views: cancelButton)
+
     recordButton.centerXAnchor.constraintEqualToAnchor(bottomBar.centerXAnchor).active = true
     recordButton.centerYAnchor.constraintEqualToAnchor(bottomBar.centerYAnchor).active = true
     recordButton.widthAnchor.constraintEqualToConstant(55).active =  true
     recordButton.heightAnchor.constraintEqualToConstant(55).active = true
-    addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[v0(55)]-8-|", options: [], metrics: nil, views: ["v0" : nextButton]))
-    addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[v0(30)]-25-|", options: [], metrics: nil, views: ["v0" : nextButton]))
+
+    addConstraintsWithFormat("H:[v0(55)]-8-|", views: nextButton)
+    addConstraintsWithFormat("V:[v0(30)]-25-|", views: nextButton)
 
     // Add constraints for countdown label
     reminder.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true

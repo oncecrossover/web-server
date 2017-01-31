@@ -22,3 +22,16 @@ extension UIColor {
     return UIColor(red: 140/255, green: 157/255, blue: 170/255, alpha: 1.0)
   }
 }
+
+extension UIView {
+  public func addConstraintsWithFormat(format: String, views: UIView...) {
+    var viewDictionary = [String: UIView]()
+    for (index, view) in views.enumerate() {
+      let key = "v\(index)"
+      view.translatesAutoresizingMaskIntoConstraints = false
+      viewDictionary[key] = view
+    }
+
+    addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(format, options: [], metrics: nil, views: viewDictionary))
+  }
+}
