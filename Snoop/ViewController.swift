@@ -370,6 +370,7 @@ extension ViewController {
           let player = AVPlayer(URL: dataPath)
           videoPlayerView.player = player
           let playerLayer = AVPlayerLayer(player: player)
+          playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
           videoPlayerView.layer.addSublayer(playerLayer)
           playerLayer.frame = videoPlayerView.frame
           let videoAsset = AVAsset(URL: dataPath)
