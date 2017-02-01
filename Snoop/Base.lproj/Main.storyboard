@@ -306,7 +306,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ve2-xK-cgl">
-                                                    <rect key="frame" x="17" y="198.5" width="38" height="16"/>
+                                                    <rect key="frame" x="14" y="198.5" width="38" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="38" id="5Pp-8V-u4e"/>
                                                         <constraint firstAttribute="height" constant="16" id="JU4-KI-zeJ"/>
@@ -378,7 +378,7 @@
                                                 <constraint firstItem="SbK-Kx-VGC" firstAttribute="leading" secondItem="Mhs-fJ-tpp" secondAttribute="trailing" constant="8" id="IiY-fh-KzR"/>
                                                 <constraint firstItem="EeO-id-WYE" firstAttribute="leading" secondItem="SbK-Kx-VGC" secondAttribute="leading" id="Jfx-dA-MVE"/>
                                                 <constraint firstItem="Mhs-fJ-tpp" firstAttribute="top" secondItem="zM4-xp-xB4" secondAttribute="bottom" constant="12" id="PgP-CL-PT6"/>
-                                                <constraint firstItem="Mhs-fJ-tpp" firstAttribute="leading" secondItem="ve2-xK-cgl" secondAttribute="trailing" constant="-45" id="QyK-uS-ZMj"/>
+                                                <constraint firstItem="Mhs-fJ-tpp" firstAttribute="leading" secondItem="ve2-xK-cgl" secondAttribute="trailing" constant="-42" id="QyK-uS-ZMj"/>
                                                 <constraint firstItem="Mhs-fJ-tpp" firstAttribute="leading" secondItem="zM4-xp-xB4" secondAttribute="leading" id="TWv-1Z-oc7"/>
                                                 <constraint firstItem="SbK-Kx-VGC" firstAttribute="top" secondItem="Mhs-fJ-tpp" secondAttribute="top" id="V4g-bf-oSP"/>
                                                 <constraint firstItem="DUd-Sp-h8c" firstAttribute="trailing" secondItem="EeO-id-WYE" secondAttribute="trailing" id="VRl-Vz-Dkn"/>
