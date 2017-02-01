@@ -25,6 +25,7 @@
 		4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
 		4A4BB82E1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
 		4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */; };
+		4A5495581E4295E20072C45B /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 4A5495571E4295E20072C45B /* about.html */; };
 		4A55E8FB1E282DB600B033F4 /* BalanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A55E8FA1E282DB600B033F4 /* BalanceViewController.swift */; };
 		4A55E8FD1E2877D000B033F4 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A55E8FC1E2877D000B033F4 /* CustomSegmentedControl.swift */; };
 		4A55E8FF1E28AD3700B033F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A55E8FE1E28AD3700B033F4 /* LaunchScreen.storyboard */; };
@@ -105,6 +106,7 @@
 		4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4A4BB82C1D769CF40085160F /* DiscoverModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverModel.swift; sourceTree = "<group>"; };
 		4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
+		4A5495571E4295E20072C45B /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		4A55E8FA1E282DB600B033F4 /* BalanceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BalanceViewController.swift; sourceTree = "<group>"; };
 		4A55E8FC1E2877D000B033F4 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 		4A55E8FE1E28AD3700B033F4 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -327,6 +329,7 @@
 				4A6730BE1E23420A00C512B1 /* tos.html */,
 				4A3A56621E26D8D600FC0F3B /* extension.swift */,
 				4A55E8FE1E28AD3700B033F4 /* LaunchScreen.storyboard */,
+				4A5495571E4295E20072C45B /* about.html */,
 			);
 			path = Snoop;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A5495581E4295E20072C45B /* about.html in Resources */,
 				4A9C17CF1DBD5A1900F91893 /* snoop-server.der in Resources */,
 				4A55E8FF1E28AD3700B033F4 /* LaunchScreen.storyboard in Resources */,
 				4A6730BF1E23420A00C512B1 /* tos.html in Resources */,

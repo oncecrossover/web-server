@@ -203,22 +203,30 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
       self.performSegueWithIdentifier("loginView", sender: self)
     }
     else {
+      let backItem = UIBarButtonItem()
+      backItem.title = "Back"
+      navigationItem.backBarButtonItem = backItem
+
       if (indexPath.row == 0) {
-        let backItem = UIBarButtonItem()
-        backItem.title = "Back"
-        navigationItem.backBarButtonItem = backItem
+
         let dvc = PaymentViewController()
         self.navigationController?.pushViewController(dvc, animated: true)
       }
-      else if (indexPath.row == 1) {
-      }
-      else if (indexPath.row == 2) {
-        segueDouble = ("Terms of Service", "tos")
-        self.performSegueWithIdentifier("profileToSettingsSegue", sender: self)
-      }
       else {
-        segueDouble = ("Privacy Policy", "privacy")
-        self.performSegueWithIdentifier("profileToSettingsSegue", sender: self)
+        let dvc = SettingsViewController()
+        if (indexPath.row == 1) {
+          dvc.fileName = "about"
+          dvc.title = "About Snoop"
+        }
+        else if (indexPath.row == 2) {
+          dvc.fileName = "tos"
+          dvc.title = "Terms of Service"
+        }
+        else {
+          dvc.fileName = "privacy"
+          dvc.title = "Privacy Policy"
+        }
+        self.navigationController?.pushViewController(dvc, animated: true)
       }
     }
   }
@@ -236,11 +244,6 @@ extension ProfileViewController {
         avatarImage : image, rate: self.rate)
       dvc.isEditingProfile = isEditButtonClicked
       
-    }
-    else if (segue.identifier == "profileToSettingsSegue") {
-      let dvc = segue.destinationViewController as! SettingsViewController
-      dvc.navigationTitle = segueDouble?.0
-      dvc.fileName = segueDouble?.1
     }
   }
 }

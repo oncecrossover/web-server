@@ -1101,46 +1101,12 @@
                         <outlet property="settingsTable" destination="Boh-hA-GCB" id="qlI-mi-9gk"/>
                         <outlet property="titleLabel" destination="ji3-uv-Rem" id="Sx5-uD-v6w"/>
                         <segue destination="vry-Hq-iLC" kind="presentation" identifier="loginView" id="Dj5-e0-VQE"/>
-                        <segue destination="5C6-d8-zZS" kind="show" identifier="profileToSettingsSegue" id="ebU-0S-0Qd"/>
                         <segue destination="LoA-NY-dJ5" kind="show" identifier="segueToProfileEdit" id="lPc-e6-zat"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fhi-L7-UpJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3520.8000000000002" y="1118.5907046476761"/>
-        </scene>
-        <!--Settings View Controller-->
-        <scene sceneID="owE-n9-ab0">
-            <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="5C6-d8-zZS" customClass="SettingsViewController" customModule="Snoop" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="W0F-tK-BG5"/>
-                        <viewControllerLayoutGuide type="bottom" id="9Mx-Hz-ndY"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="fUN-hT-VXB">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="czK-zP-Mq6">
-                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
-                                <color key="backgroundColor" red="0.36078431372549019" green="0.38823529411764707" blue="0.40392156862745099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </webView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="czK-zP-Mq6" firstAttribute="leading" secondItem="fUN-hT-VXB" secondAttribute="leading" id="ANc-A6-mpF"/>
-                            <constraint firstAttribute="trailing" secondItem="czK-zP-Mq6" secondAttribute="trailing" id="Cmw-SA-xHT"/>
-                            <constraint firstItem="czK-zP-Mq6" firstAttribute="bottom" secondItem="9Mx-Hz-ndY" secondAttribute="top" id="Hrh-jF-Wmn"/>
-                            <constraint firstItem="czK-zP-Mq6" firstAttribute="top" secondItem="W0F-tK-BG5" secondAttribute="bottom" id="Jvv-a2-Iuj"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="webView" destination="czK-zP-Mq6" id="7Fd-cj-Lec"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SM4-pd-fCy" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4312.8000000000002" y="1853.5232383808097"/>
         </scene>
         <!--Edit Profile View Controller-->
         <scene sceneID="u93-hV-yey">
