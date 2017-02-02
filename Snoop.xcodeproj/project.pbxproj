@@ -107,6 +107,7 @@
 		4A4BB82C1D769CF40085160F /* DiscoverModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverModel.swift; sourceTree = "<group>"; };
 		4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
 		4A5495571E4295E20072C45B /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
+		4A5495591E4310450072C45B /* Snoop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Snoop.entitlements; sourceTree = "<group>"; };
 		4A55E8FA1E282DB600B033F4 /* BalanceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BalanceViewController.swift; sourceTree = "<group>"; };
 		4A55E8FC1E2877D000B033F4 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 		4A55E8FE1E28AD3700B033F4 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -307,6 +308,7 @@
 		4AC283651CE2F58100A08D35 /* Snoop */ = {
 			isa = PBXGroup;
 			children = (
+				4A5495591E4310450072C45B /* Snoop.entitlements */,
 				4A15D1791E0380EB0013EDC1 /* CollectionViewCell */,
 				4A9C17CE1DBD5A1900F91893 /* snoop-server.der */,
 				4A4BB8281D769B8E0085160F /* ObjectModel */,
@@ -405,6 +407,11 @@
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = 7LKHJZRS28;
 						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -673,6 +680,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Snoop/Snoop.entitlements;
 				DEVELOPMENT_TEAM = 7LKHJZRS28;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -697,6 +705,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Snoop/Snoop.entitlements;
 				DEVELOPMENT_TEAM = 7LKHJZRS28;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

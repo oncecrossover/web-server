@@ -17,12 +17,77 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+
+    let api_key = NSBundle.mainBundle().objectForInfoDictionaryKey("STRIPE_API_KEY") as! String
+    STPPaymentConfiguration.sharedConfiguration().publishableKey = api_key
+
+    setupCustomUI()
+
+    registerForPushNotifications(application)
+//    if let notification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [String: AnyObject] {
+      // 2
+//      let aps = notification["aps"] as! [String: AnyObject]
+      // Do some stuff
+//    }
+    return true
+  }
+
+  func registerForPushNotifications(application: UIApplication) {
+    let viewAction = UIMutableUserNotificationAction()
+    viewAction.identifier = "VIEW_IDENTIFIER"
+    viewAction.title = "View"
+    viewAction.activationMode = .Foreground
+
+    let newsCategory = UIMutableUserNotificationCategory()
+    newsCategory.identifier = "NEWS_CATEGORY"
+    newsCategory.setActions([viewAction], forContext: .Default)
+
+    let notificationSettings = UIUserNotificationSettings(
+      forTypes: [.Badge, .Sound, .Alert], categories: [newsCategory])
+    application.registerUserNotificationSettings(notificationSettings)
+  }
+
+  func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+
+//    let aps = userInfo["aps"] as! [String: AnyObject]
+
+    if (identifier == "VIEW_IDENTIFIER") {
+      //do sth
+    }
+    completionHandler()
+  }
+
+  func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+    // Do some stuff
+//    let aps = userInfo["aps"] as! [String: AnyObject]
+  }
+
+  func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+    if notificationSettings.types != .None {
+      application.registerForRemoteNotifications()
+    }
+  }
+
+  func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+    let tokenChars = UnsafePointer<CChar>(deviceToken.bytes)
+    var tokenString = ""
+
+    for i in 0..<deviceToken.length {
+      tokenString += String(format: "%02.2hhx", arguments: [tokenChars[i]])
+    }
+
+    print("Device Token:", tokenString)
+  }
+
+  func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+    print("Failed to register:", error)
+  }
+
+  func setupCustomUI() {
     // Override point for customization after application launch.
     let nav = UINavigationBar.appearance()
     nav.tintColor = UIColor.blackColor()
     nav.titleTextAttributes = [ NSForegroundColorAttributeName:UIColor.blackColor()]
-    let api_key = NSBundle.mainBundle().objectForInfoDictionaryKey("STRIPE_API_KEY") as! String
-    STPPaymentConfiguration.sharedConfiguration().publishableKey = api_key
 
     let pageController = UIPageControl.appearance()
     pageController.pageIndicatorTintColor = UIColor.lightGrayColor()
@@ -31,9 +96,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     UITabBar.appearance().tintColor = UIColor.defaultColor()
     UITabBar.appearance().barTintColor = UIColor.whiteColor()
-    return true
   }
-  
   func applicationWillResignActive(application: UIApplication) {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
