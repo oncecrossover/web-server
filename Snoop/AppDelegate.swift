@@ -24,11 +24,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     setupCustomUI()
 
     registerForPushNotifications(application)
-//    if let notification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [String: AnyObject] {
-      // 2
-//      let aps = notification["aps"] as! [String: AnyObject]
-      // Do some stuff
-//    }
+    if let notification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [String: AnyObject] {
+      let aps = notification["aps"] as! [String: AnyObject]
+      let alert = aps["alert"] as! [String : String]
+      let title = alert["title"]!
+      if (title.containsString("Request")) {
+        loadActivityPage(1)
+      }
+      else {
+        loadActivityPage(0)
+      }
+    }
     return true
   }
 
@@ -49,17 +55,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
 
-//    let aps = userInfo["aps"] as! [String: AnyObject]
+    let aps = userInfo["aps"] as! [String: AnyObject]
+    print("inside action with aps \(aps)")
 
     if (identifier == "VIEW_IDENTIFIER") {
-      //do sth
+      if let alert = aps["alert"] as? [String: String] {
+        let title = alert["title"]!
+        if (title.containsString("Request")) {
+          loadActivityPage(1)
+        }
+        else {
+          loadActivityPage(0)
+        }
+      }
     }
     completionHandler()
   }
 
   func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-    // Do some stuff
-//    let aps = userInfo["aps"] as! [String: AnyObject]
+    // Do some stuff since notification will not be shown
+    let aps = userInfo["aps"] as! [String: AnyObject]
+    print("inside remote with aps \(aps)")
   }
 
   func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
@@ -87,6 +103,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     print("Failed to register:", error)
   }
 
+  func loadActivityPage(index: Int) {
+//    let tabbarController = window?.rootViewController as! UITabBarController
+//    let navigationController = tabbarController.viewControllers![2] as! UINavigationController
+//    let activityController = navigationController.viewControllers[0] as! ActivityViewController
+//    tabbarController.selectedIndex = 2
+//    activityController.loadIndex(index)
+    let tabBarController = window?.rootViewController as! UITabBarController
+    if let badgeValue = tabBarController.tabBar.items?[2].badgeValue,
+      nextValue = Int(badgeValue)?.successor() {
+      tabBarController.tabBar.items?[2].badgeValue = String(nextValue)
+    } else {
+      tabBarController.tabBar.items?[2].badgeValue = "1"
+    }
+  }
+
   func setupCustomUI() {
     // Override point for customization after application launch.
     let nav = UINavigationBar.appearance()
@@ -101,6 +132,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     UITabBar.appearance().tintColor = UIColor.defaultColor()
     UITabBar.appearance().barTintColor = UIColor.whiteColor()
   }
+
   func applicationWillResignActive(application: UIApplication) {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

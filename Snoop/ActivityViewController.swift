@@ -61,10 +61,6 @@ extension ActivityViewController {
     controlBar.delegate = self
 
     setupSegmentedControl()
-  }
-
-  override func viewDidAppear(animated: Bool) {
-    super.viewDidAppear(animated)
     loadData()
   }
 
@@ -78,7 +74,12 @@ extension ActivityViewController {
 extension ActivityViewController: SegmentedControlDelegate {
   func loadIndex(index: Int) {
     selectedIndex = index
-    loadData()
+    if ((index == 0 && questions.count == 0) || (index == 1 && answers.count == 0) || (index == 2 && snoops.count == 0)) {
+      loadData()
+    }
+    else {
+      self.activityTableView.reloadData()
+    }
   }
 }
 
@@ -280,6 +281,7 @@ extension ActivityViewController {
         indicator.hidesWhenStopped = true
         self.activityTableView.userInteractionEnabled = true
         self.refreshControl.endRefreshing()
+        self.tabBarController?.tabBar.items?[2].badgeValue = nil
       }
     }
 
