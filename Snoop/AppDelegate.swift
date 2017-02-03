@@ -76,7 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       tokenString += String(format: "%02.2hhx", arguments: [tokenChars[i]])
     }
 
-    print("Device Token:", tokenString)
     let user = User()
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
 

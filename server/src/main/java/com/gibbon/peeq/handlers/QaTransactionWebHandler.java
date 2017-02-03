@@ -25,6 +25,7 @@ import com.gibbon.peeq.db.util.PcAccountUtil;
 import com.gibbon.peeq.db.util.ProfileDBUtil;
 import com.gibbon.peeq.db.util.QuandaDBUtil;
 import com.gibbon.peeq.util.EmailUtil;
+import com.gibbon.peeq.util.NotificationUtil;
 import com.gibbon.peeq.util.ResourcePathParser;
 import com.gibbon.peeq.util.StripeUtil;
 import com.google.common.io.ByteArrayDataOutput;
@@ -382,7 +383,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
 
         /* insert quanda and qaTransaction */
         insertQuandaAndQaTransaction(session, quanda, qaTransaction,
-            answerRate);
+          answerRate);
 
         /* insert journals and charge */
         if (balance >= answerRate) {
@@ -395,11 +396,20 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
 
         /* send payment confirmation */
         EmailUtil.sendPaymentConfirmation(
-            qaTransaction.getUid(),
-            qaTransaction.getquanda().getQuestion(),
-            answerRate);
+          qaTransaction.getUid(),
+          qaTransaction.getquanda().getQuestion(),
+          answerRate);
 
         appendln(toIdJson("id", qaTransaction.getId()));
+
+        // Send notification to mobile device
+        String deviceToken = ProfileDBUtil.getDeviceToken(quanda.getResponder());
+        if (deviceToken != null && !deviceToken.isEmpty()) {
+          String message = transUserId + " just asked you a question";
+          String title = "New Request!";
+          NotificationUtil.sendNotification(message, title, deviceToken);
+        }
+
         return newResponse(HttpResponseStatus.CREATED);
       } catch (Exception e) {
         if (txn != null && txn.isActive()) {

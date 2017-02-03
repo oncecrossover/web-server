@@ -16,8 +16,10 @@ import com.gibbon.peeq.db.model.Journal;
 import com.gibbon.peeq.db.model.QaTransaction;
 import com.gibbon.peeq.db.model.Quanda;
 import com.gibbon.peeq.db.util.JournalUtil;
+import com.gibbon.peeq.db.util.ProfileDBUtil;
 import com.gibbon.peeq.db.util.QaTransactionUtil;
 import com.gibbon.peeq.exceptions.SnoopException;
+import com.gibbon.peeq.util.NotificationUtil;
 import com.gibbon.peeq.util.ObjectStoreClient;
 import com.gibbon.peeq.util.ResourcePathParser;
 import com.gibbon.peeq.util.StripeUtil;
@@ -208,6 +210,9 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       session = getSession();
       txn = session.beginTransaction();
 
+      String asker = fromDB.getAsker();
+      String responder = fromDB.getResponder();
+
       /* process journals and capture charge */
       processJournals4Answer(session, fromJson, fromDB);
 
@@ -220,8 +225,19 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
       /* update */
       UpdateStatusActive(session, fromJson, fromDB);
 
+      /* Get token device to send to question asker */
+      String deviceToken = ProfileDBUtil.getDeviceToken(session, asker);
+
       /* commit all transactions */
       txn.commit();
+
+      /* Send notification to mobile device */
+      if (deviceToken != null && !deviceToken.isEmpty()) {
+        String message = responder + " just answered your question";
+        String title = "New Answer!";
+        NotificationUtil.sendNotification(message, title, deviceToken);
+      }
+
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {
       if (txn != null && txn.isActive()) {
