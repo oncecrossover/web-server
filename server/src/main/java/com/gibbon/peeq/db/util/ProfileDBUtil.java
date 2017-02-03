@@ -27,6 +27,41 @@ import com.google.common.collect.Lists;
 
 public class ProfileDBUtil {
 
+  public static String getDeviceToken(final String uid) throws Exception {
+    final Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    return getDeviceToken(session, uid, true);
+  }
+
+  public static String getDeviceToken(final Session session, final String uid)
+    throws Exception {
+    return getDeviceToken(session, uid, false);
+  }
+
+  static String getDeviceToken(final Session session, final String uid, final boolean newTransaction)
+    throws Exception {
+    final String sql = String.format("SELECT deviceToken from Profile WHERE uid='%s'", uid);
+
+    String result = null;
+    Transaction txn = null;
+    try {
+      if (newTransaction) {
+        txn = session.beginTransaction();
+      }
+      result = (String) session.createSQLQuery(sql).uniqueResult();
+      if (txn != null) {
+        txn.commit();
+      }
+    } catch (HibernateException e) {
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
+      throw e;
+    } catch (Exception e) {
+      throw e;
+    }
+
+    return result;
+  }
   /*
    * query from a session that will open new transaction.
    */

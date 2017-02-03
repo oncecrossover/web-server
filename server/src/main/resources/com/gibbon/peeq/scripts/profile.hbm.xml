@@ -29,6 +29,9 @@
     <property name="takeQuestion" type="java.lang.String">
       <column name="takeQuestion" />
     </property>
+    <property name="deviceToken" type="java.lang.String">
+      <column name="deviceToken" />
+    </property>
     <property name="createdTime" type="timestamp">
       <column name="createdTime" />
     </property>

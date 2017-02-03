@@ -47,6 +47,7 @@ public class Profile {
   private String title;
   private String aboutMe;
   private String takeQuestion;
+  private String deviceToken;
   private Date createdTime;
   private Date updatedTime;
   @JsonIgnore
@@ -123,6 +124,14 @@ public class Profile {
   public Profile setTakeQuestion(final String takeQuestion) {
     this.takeQuestion = takeQuestion;
     return this;
+  }
+
+  public String getDeviceToken() {
+    return deviceToken;
+  }
+
+  public void setDeviceToken(String deviceToken) {
+    this.deviceToken = deviceToken;
   }
 
   public Date getCreatedTime() {
@@ -210,6 +219,9 @@ public class Profile {
     }
     if (that.getTakeQuestion() != null) {
       this.setTakeQuestion(that.getTakeQuestion());
+    }
+    if (that.getDeviceToken() != null) {
+      this.setDeviceToken(that.getDeviceToken());
     }
     return this;
   }
