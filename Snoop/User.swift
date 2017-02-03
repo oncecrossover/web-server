@@ -63,14 +63,14 @@ class User
   }
 
   func getUser(email: String, completion: (NSDictionary) -> ()) {
-    let myUrl = NSURL(string: USERURI + email);
+    let myUrl = NSURL(string: USERURI + email)
     generics.getObjectById(myUrl!) {
       completion($0)
     }
   }
 
   func updateProfile(uid: String, name: String, title: String, about: String, rate: Double, completion: (String) -> ()) {
-    let myUrl = NSURL(string: PROFILEURI + uid);
+    let myUrl = NSURL(string: PROFILEURI + uid)
     let jsonData = ["fullName": name, "title" : title, "aboutMe": about, "rate" : rate]
     generics.updateObject(myUrl!, jsonData: jsonData as! [String : AnyObject]) { result in
       completion(result)
@@ -78,8 +78,16 @@ class User
   }
 
   func updateProfilePhoto(uid: String, imageData: NSData!, completion: (String) -> ()) {
-    let myUrl = NSURL(string: PROFILEURI + uid);
+    let myUrl = NSURL(string: PROFILEURI + uid)
     let jsonData = ["avatarImage" : imageData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))]
+    generics.updateObject(myUrl!, jsonData: jsonData) { result in
+      completion(result)
+    }
+  }
+
+  func updateDeviceToken(uid: String, token: String, completion: (String) -> ()) {
+    let myUrl = NSURL(string: PROFILEURI + uid)
+    let jsonData = ["deviceToken" : token]
     generics.updateObject(myUrl!, jsonData: jsonData) { result in
       completion(result)
     }

@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     setupCustomUI()
 
-//    registerForPushNotifications(application)
+    registerForPushNotifications(application)
 //    if let notification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [String: AnyObject] {
       // 2
 //      let aps = notification["aps"] as! [String: AnyObject]
@@ -77,6 +77,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     print("Device Token:", tokenString)
+    let user = User()
+    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+
+    user.updateDeviceToken(uid, token: tokenString) { result in
+    }
   }
 
   func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
