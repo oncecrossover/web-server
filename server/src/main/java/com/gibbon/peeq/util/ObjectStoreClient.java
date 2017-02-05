@@ -30,7 +30,7 @@ import com.google.common.io.ByteStreams;
 public class ObjectStoreClient {
   private static final String USER_ROOT = "com.snoop.server.users";
   private static final String ANSWER_ROOT = "com.snoop.server.answers";
-  private static String uriPrefix = "https://s3-us-west-1.amazonaws.com";
+  private static String uriPrefix = "https://s3-us-west-2.amazonaws.com";
   private static AmazonS3 s3 = null;
 
   @VisibleForTesting

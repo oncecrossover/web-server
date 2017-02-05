@@ -18,7 +18,7 @@ import com.gibbon.peeq.db.model.Quanda;
 
 public class TestObjectStoreClient {
 
-  private static final String PREFIX = "https://s3-us-west-1.amazonaws.com/com.snoop.server.test";
+  private static final String PREFIX = "https://s3-us-west-2.amazonaws.com/com.snoop.server.test";
  
   @BeforeClass
   public static void setupClass() {
