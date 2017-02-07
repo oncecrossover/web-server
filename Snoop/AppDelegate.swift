@@ -92,11 +92,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       tokenString += String(format: "%02.2hhx", arguments: [tokenChars[i]])
     }
 
-    let user = User()
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-
-    user.updateDeviceToken(uid, token: tokenString) { result in
-    }
+    NSUserDefaults.standardUserDefaults().setObject(tokenString, forKey: "deviceToken")
+    NSUserDefaults.standardUserDefaults().synchronize()
   }
 
   func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
@@ -116,6 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     } else {
       tabBarController.tabBar.items?[2].badgeValue = "1"
     }
+
   }
 
   func setupCustomUI() {

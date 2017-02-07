@@ -61,7 +61,11 @@ extension ActivityViewController {
     controlBar.delegate = self
 
     setupSegmentedControl()
-    loadData()
+  }
+
+  override func viewDidAppear(animated: Bool) {
+    super.viewDidAppear(animated)
+    loadIndex(selectedIndex)
   }
 
   override func viewWillDisappear(animated: Bool) {
@@ -74,11 +78,38 @@ extension ActivityViewController {
 extension ActivityViewController: SegmentedControlDelegate {
   func loadIndex(index: Int) {
     selectedIndex = index
-    if ((index == 0 && questions.count == 0) || (index == 1 && answers.count == 0) || (index == 2 && snoops.count == 0)) {
-      loadData()
+    if (index == 0) {
+      if (NSUserDefaults.standardUserDefaults().objectForKey("shouldLoadQuestions") == nil
+        || NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadQuestions") == true) {
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadQuestions")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        loadData()
+      }
+      else {
+        activityTableView.reloadData()
+      }
+    }
+    else if (index == 1) {
+      if (NSUserDefaults.standardUserDefaults().objectForKey("shouldLoadAnswers") == nil
+        || NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadAnswers") == true) {
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadAnswers")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        loadData()
+      }
+      else {
+        activityTableView.reloadData()
+      }
     }
     else {
-      self.activityTableView.reloadData()
+      if (NSUserDefaults.standardUserDefaults().objectForKey("shouldLoadSnoops") == nil
+        || NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadSnoops") == true) {
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadSnoops")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        loadData()
+      }
+      else {
+        activityTableView.reloadData()
+      }
     }
   }
 }
@@ -106,18 +137,18 @@ extension ActivityViewController {
   }
 
   func loadData() {
-    tmpQuestions = []
-    tmpAnswers = []
-    tmpSnoops = []
     activityTableView.userInteractionEnabled = false
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     if (selectedIndex == 0) {
+      tmpQuestions = []
       loadDataWithFilter("asker='" + uid + "'")
     }
     else if (selectedIndex == 1) {
+      tmpAnswers = []
       loadDataWithFilter("responder='" + uid + "'")
     }
     else if (selectedIndex == 2) {
+      tmpSnoops = []
       loadDataWithFilter("uid='" + uid + "'")
     }
 

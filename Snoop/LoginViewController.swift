@@ -60,9 +60,19 @@ class LoginViewController: UIViewController {
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isUserLoggedIn")
         NSUserDefaults.standardUserDefaults().setObject(userEmail, forKey: "email")
         NSUserDefaults.standardUserDefaults().synchronize()
-        dispatch_async(dispatch_get_main_queue()) {
-          activityIndicator.hideAnimated(true)
-          self.performSegueWithIdentifier("unwindSegueToHome", sender: self)
+        if let deviceToken = NSUserDefaults.standardUserDefaults().stringForKey("deviceToken") {
+          userModule.updateDeviceToken(userEmail, token: deviceToken) { result in
+            dispatch_async(dispatch_get_main_queue()) {
+              activityIndicator.hideAnimated(true)
+              self.performSegueWithIdentifier("unwindSegueToHome", sender: self)
+            }
+          }
+        }
+        else {
+          dispatch_async(dispatch_get_main_queue()) {
+            activityIndicator.hideAnimated(true)
+            self.performSegueWithIdentifier("unwindSegueToHome", sender: self)
+          }
         }
       }
       else {

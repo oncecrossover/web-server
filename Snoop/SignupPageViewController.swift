@@ -124,6 +124,15 @@ class SignupPageViewController: UIViewController {
     NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isUserLoggedIn")
     NSUserDefaults.standardUserDefaults().setObject(userEmailTextField.text!, forKey: "email")
     NSUserDefaults.standardUserDefaults().synchronize()
-    self.performSegueWithIdentifier("unwindSegueToHome", sender: self)
+    if let deviceToken = NSUserDefaults.standardUserDefaults().stringForKey("deviceToken") {
+      userModule.updateDeviceToken(userEmailTextField.text!, token: deviceToken) { result in
+        dispatch_async(dispatch_get_main_queue()) {
+          self.performSegueWithIdentifier("unwindSegueToHome", sender: self)
+        }
+      }
+    }
+    else {
+      self.performSegueWithIdentifier("unwindSegueToHome", sender: self)
+    }
   }
 }

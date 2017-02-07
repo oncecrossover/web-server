@@ -194,13 +194,21 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     if (indexPath.section == 1) {
+      let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
       NSUserDefaults.standardUserDefaults().setBool(false, forKey: "isUserLoggedIn")
       NSUserDefaults.standardUserDefaults().removeObjectForKey("email")
       NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadHome")
       NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadDiscover")
       NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadProfile")
+      NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadQuestions")
+      NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadAnswers")
+      NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadSnoops")
       NSUserDefaults.standardUserDefaults().synchronize()
-      self.performSegueWithIdentifier("loginView", sender: self)
+      userModule.updateDeviceToken(uid, token: "") { result in
+        dispatch_async(dispatch_get_main_queue()) {
+          self.performSegueWithIdentifier("loginView", sender: self)
+        }
+      }
     }
     else {
       let backItem = UIBarButtonItem()
