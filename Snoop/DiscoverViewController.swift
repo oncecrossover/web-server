@@ -127,27 +127,13 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   }
 
   func loadImageAsync(cellInfo: DiscoverModel, completion: (DiscoverModel) -> ()) {
-    var url = ""
     if let avatarUrl = cellInfo.avatarUrl {
-      url += "uri=" + avatarUrl + "&"
-    }
-
-    if (url.isEmpty) {
-      cellInfo.avatarImage = NSData()
-      completion(cellInfo)
+      cellInfo.avatarImage = NSData(contentsOfURL: NSURL(string: avatarUrl)!)
     }
     else {
-      url = String(url.characters.dropLast())
-      questionModule.getQuestionDatas(url) { result in
-        if let avatarUrl = cellInfo.avatarUrl {
-          cellInfo.avatarImage = NSData(base64EncodedString: (result[avatarUrl] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        }
-        else {
-          cellInfo.avatarImage = NSData()
-        }
-        completion(cellInfo)
-      }
+      cellInfo.avatarImage = NSData()
     }
+    completion(cellInfo)
   }
 
   func setImage(myCell: DiscoverTableViewCell, cellInfo: DiscoverModel) {
