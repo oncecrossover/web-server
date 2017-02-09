@@ -1,12 +1,8 @@
 package com.gibbon.peeq.util;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.apache.commons.lang3.StringUtils;
-import org.mortbay.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +14,11 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3URI;
+import com.amazonaws.services.s3.model.AccessControlList;
 import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.GroupGrantee;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.Permission;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.gibbon.peeq.db.model.Profile;
@@ -27,15 +26,30 @@ import com.gibbon.peeq.db.model.Quanda;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.ByteStreams;
 
+/**
+ * There are two kinds of URLs, S3 and Cloudfront. Backends writes data to S3
+ * based on S3 URLs, but frontends stream data from Cloudfront based on
+ * Cloudfront URLs. DB will also stores Cloudfront URLs being returned to
+ * frontends as a result of query.
+ */
 public class ObjectStoreClient {
-  private static final String USER_ROOT = "com.snoop.server.users";
-  private static final String ANSWER_ROOT = "com.snoop.server.answers";
-  private static String uriPrefix = "https://s3-us-west-2.amazonaws.com";
+  protected static final Logger LOG = LoggerFactory
+      .getLogger(ObjectStoreClient.class);
+
+  private static final String QUANDA_BUCKET = "com.snoop.quanda";
+  private static final String QUANDA_ANSWERS_VIDEOS_PREFIX = "answers/videos";
+  private static final String QUANDA_ANSWERS_THUMBNAILS_PREFIX = "answers/thumbnails";
+
+  private static final String HOME_BUCKET = "com.snoop.home";
+  private static final String HOME_USERS_PREFIX = "users";
+
+  private static String s3UriPrefix = "https://s3-us-west-2.amazonaws.com";
+  private static String cloudfrontUriPrefix = "https://ddk9xa5p5b3lb.cloudfront.net";
   private static AmazonS3 s3 = null;
 
   @VisibleForTesting
-  static void setPrefix(final String prefix) {
-    uriPrefix = prefix;
+  static void setS3UriPrefix(final String prefix) {
+    s3UriPrefix = prefix;
   }
 
   static {
@@ -56,9 +70,9 @@ public class ObjectStoreClient {
   public String saveAnswerCover(final Quanda quanda) throws Exception {
     if (quanda.getId() > 0 && quanda.getAnswerCover() != null
         && quanda.getAnswerCover().length > 0) {
-      final String filePath = getAnswerCoverUrl(quanda);
+      final String filePath = getAnswerThumbnailS3Url(quanda);
       writeToStore(filePath, quanda.getAnswerCover());
-      return filePath;
+      return getAnswerThumbnailCloudfrontUrl(quanda);
     }
     return null;
   }
@@ -66,9 +80,9 @@ public class ObjectStoreClient {
   public String saveAnswerMedia(final Quanda quanda) throws Exception {
     if (quanda.getId() > 0 && quanda.getAnswerMedia() != null
         && quanda.getAnswerMedia().length > 0) {
-      final String filePath = getAnswerUrl(quanda);
+      final String filePath = getAnswerVideoS3Url(quanda);
       writeToStore(filePath, quanda.getAnswerMedia());
-      return filePath;
+      return getAnswerVideoCloudfrontUrl(quanda);
     }
     return null;
   }
@@ -77,37 +91,69 @@ public class ObjectStoreClient {
     if (!StringUtils.isBlank(profile.getUid())
         && profile.getAvatarImage() != null
         && profile.getAvatarImage().length > 0) {
-      final String filePath = getAvatarUrl(profile);
-      writeToStore(filePath, profile.getAvatarImage());
-      return filePath;
+      final String s3url = getAvatarS3Url(profile);
+      writeToStore(s3url, profile.getAvatarImage());
+      return getAvatarCloudfrontUrl(profile);
     }
 
     return null;
   }
 
-  private String getAvatarUrl(final Profile profile) {
-    return String.format("%s/%s/%s/%s", uriPrefix, USER_ROOT, profile.getUid(),
-        "avatar");
+  @VisibleForTesting
+  String getAvatarS3Url(final Profile profile) {
+    /*
+     * e.g.
+     * https://s3-us-west-2.amazonaws.com/com.snoop.home/users/xxx@gmail.com/1/
+     * avatar.jpg
+     */
+    return String.format("%s/%s/%s/%s/%s", s3UriPrefix, HOME_BUCKET,
+        HOME_USERS_PREFIX, profile.getUid(), "avatar.jpg");
   }
 
-  private String getAnswerUrl(final Quanda quanda) {
-    return String.format("%s/%s/%d", uriPrefix, ANSWER_ROOT, quanda.getId());
+  private String getAvatarCloudfrontUrl(final Profile profile) {
+    /*
+     * e.g.
+     * https://ddk9xa5p5b3lb.cloudfront.net/users/xxx@gmail.com/1/avatar.jpg
+     */
+    return String.format("%s/%s/%s/%s", cloudfrontUriPrefix, HOME_USERS_PREFIX,
+        profile.getUid(), "avatar.jpg");
   }
 
-  private String getAnswerCoverUrl(final Quanda quanda) {
-    return String.format("%s/%s/%d.cover", uriPrefix, ANSWER_ROOT, quanda.getId());
+  private String getAnswerThumbnailS3Url(final Quanda quanda) {
+    /*
+     * e.g.
+     * https://s3-us-west-2.amazonaws.com/com.snoop.quanda/answers/thumbnails/1/
+     * 1.png
+     */
+    return String.format("%s/%s/%s/%d/%d.png", s3UriPrefix, QUANDA_BUCKET,
+        QUANDA_ANSWERS_THUMBNAILS_PREFIX, quanda.getId(), quanda.getId());
   }
 
-  String getObjectName(final String filePath) {
-    final Path p = Paths.get(filePath);
-    return filePath.substring(filePath.indexOf(p.getRoot().toString() + 1));
+  private String getAnswerThumbnailCloudfrontUrl(final Quanda quanda) {
+    /*
+     * e.g. https://ddk9xa5p5b3lb.cloudfront.net/answers/thumbnails/1/1.png
+     */
+    return String.format("%s/%s/%d/%d.png", cloudfrontUriPrefix,
+        QUANDA_ANSWERS_THUMBNAILS_PREFIX, quanda.getId(), quanda.getId());
   }
 
-  public byte[] readAvatarImage(final String avatarUrl) throws Exception {
-    if (StringUtils.isBlank(avatarUrl)) {
-      return null;
-    }
-    return readFromStore(avatarUrl);
+  @VisibleForTesting
+  String getAnswerVideoS3Url(final Quanda quanda) {
+    /*
+     * e.g.
+     * https://s3-us-west-2.amazonaws.com/com.snoop.quanda/answers/videos/1/1.
+     * mp4
+     */
+    return String.format("%s/%s/%s/%d/%d.mp4", s3UriPrefix, QUANDA_BUCKET,
+        QUANDA_ANSWERS_VIDEOS_PREFIX, quanda.getId(), quanda.getId());
+  }
+
+  private String getAnswerVideoCloudfrontUrl(final Quanda quanda) {
+    /*
+     * e.g. https://ddk9xa5p5b3lb.cloudfront.net/answers/videos/1/1.mp4
+     */
+    return String.format("%s/%s/%d/%d.mp4", cloudfrontUriPrefix,
+        QUANDA_ANSWERS_VIDEOS_PREFIX, quanda.getId(), quanda.getId());
   }
 
   public byte[] readFromStore(final String filePath)
@@ -138,7 +184,11 @@ public class ObjectStoreClient {
     final ObjectMetadata metadata = new ObjectMetadata();
     metadata.setContentLength(image.length);
 
+    /* grant all users (Everyone) read access, i.e. open/download */
+    AccessControlList acl = new AccessControlList();
+    acl.grantPermission(GroupGrantee.AllUsers, Permission.Read);
+
     s3.putObject(new PutObjectRequest(bucketName, objectName,
-        new ByteArrayInputStream(image), metadata));
+        new ByteArrayInputStream(image), metadata).withAccessControlList(acl));
   }
 }

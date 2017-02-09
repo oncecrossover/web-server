@@ -66,9 +66,6 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
       final Profile retInstance = (Profile) session.get(Profile.class, uid);
       txn.commit();
 
-      /* load from object store */
-      loadAvatarFromObjectStore(retInstance);
-
       /* buffer result */
       return newResponseForInstance(uid, retInstance);
     } catch (Exception e) {
@@ -79,26 +76,9 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
     }
   }
 
-  private void loadAvatarFromObjectStore(final Profile profile)
-      throws Exception {
-    if (profile == null) {
-      return;
-    }
-
-    final byte[] readContent = readAvatarImage(profile);
-    if (readContent != null) {
-      profile.setAvatarImage(readContent);
-    }
-  }
-
   @Override
   protected FullHttpResponse handleUpdate() {
     return onUpdate();
-  }
-
-  private byte[] readAvatarImage(final Profile profile) throws Exception {
-    final ObjectStoreClient osc = new ObjectStoreClient();
-    return osc.readAvatarImage(profile.getAvatarUrl());
   }
 
   private FullHttpResponse onUpdate() {
@@ -191,12 +171,6 @@ public class ProfileWebHandler extends AbastractPeeqWebHandler {
       return Profile.newInstance(json);
     }
     return null;
-  }
-
-  private void appendMethodNotAllowed(final String methodName) {
-    final String resourceName = getPathParser().getPathStream().getTouchedPath();
-    appendln(String.format("Method '%s' not allowed on resource '%s'",
-        methodName, resourceName));
   }
 
   private FullHttpResponse newResponseForInstance(final String id,

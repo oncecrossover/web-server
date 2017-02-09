@@ -3,16 +3,12 @@ package com.gibbon.peeq.util;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.util.UUID;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.amazonaws.AmazonServiceException;
 import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.db.model.Quanda;
 
@@ -22,7 +18,7 @@ public class TestObjectStoreClient {
  
   @BeforeClass
   public static void setupClass() {
-    ObjectStoreClient.setPrefix(PREFIX);
+    ObjectStoreClient.setS3UriPrefix(PREFIX);
   }
 
   @Test(timeout = 60000)
@@ -71,7 +67,8 @@ public class TestObjectStoreClient {
     final Profile profile = new Profile();
     profile.setUid(uid).setAvatarImage(fileContent);
 
-    final String avatarUrl = osc.saveAvatarImage(profile);
+    osc.saveAvatarImage(profile);
+    final String avatarUrl = osc.getAvatarS3Url(profile);
     assertNotNull(avatarUrl);
 
     final byte[] readContent = osc.readFromStore(avatarUrl);
@@ -90,7 +87,8 @@ public class TestObjectStoreClient {
     final Quanda quanda = new Quanda();
     quanda.setId(1010L).setAnswerMedia(fileContent);
 
-    final String answerUrl = osc.saveAnswerMedia(quanda);
+    osc.saveAnswerMedia(quanda);
+    final String answerUrl = osc.getAnswerVideoS3Url(quanda);
     assertNotNull(answerUrl);
 
     final byte[] readContent = osc.readFromStore(answerUrl);
