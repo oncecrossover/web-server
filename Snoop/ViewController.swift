@@ -141,39 +141,21 @@ extension ViewController {
   }
 
   func loadImagesAsync(cellInfo: FeedsModel, completion: (FeedsModel) -> ()) {
-    var url = ""
     if let responderAvatarUrl = cellInfo.avatarImageUrl {
-      url += "uri=" + responderAvatarUrl + "&"
+      cellInfo.avatarImage = NSData(contentsOfURL: NSURL(string: responderAvatarUrl)!)
+    }
+    else {
+      cellInfo.avatarImage = NSData()
     }
 
     if let answerCoverUrl = cellInfo.coverUrl {
-      url += "uri=" + answerCoverUrl + "&"
-    }
-
-    if (url.isEmpty) {
-      cellInfo.avatarImage = NSData()
-      cellInfo.coverImage = NSData()
-      completion(cellInfo)
+      cellInfo.coverImage = NSData(contentsOfURL: NSURL(string: answerCoverUrl)!)
     }
     else {
-      url = String(url.characters.dropLast())
-      questionModule.getQuestionDatas(url) { result in
-        if let responderAvatarUrl = cellInfo.avatarImageUrl {
-          cellInfo.avatarImage = NSData(base64EncodedString: (result[responderAvatarUrl] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        }
-        else {
-          cellInfo.avatarImage = NSData()
-        }
-
-        if let answerCoverUrl = cellInfo.coverUrl {
-          cellInfo.coverImage = NSData(base64EncodedString: (result[answerCoverUrl] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        }
-        else {
-          cellInfo.coverImage = NSData()
-        }
-        completion(cellInfo)
-      }
+      cellInfo.coverImage = NSData()
     }
+
+    completion(cellInfo)
   }
 
   func setPlaceholderImages(myCell: FeedTableViewCell) {
