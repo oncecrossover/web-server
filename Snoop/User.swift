@@ -100,13 +100,13 @@ class User
     }
   }
 
-  func getProfile(uid: String, completion: (String, String, String, NSData, Double, String) -> ()){
+  func getProfile(uid: String, completion: (String, String, String, String?, Double, String) -> ()){
     let myUrl = NSURL(string: PROFILEURI + uid);
     generics.getObjectById(myUrl!) { convertedJsonIntoDict in
       var fullName = ""
       var title = ""
       var aboutMe = ""
-      var avatarImage: NSData = NSData()
+      var avatarUrl: String?
       var rate = 0.0
       var status = "NA"
 
@@ -123,8 +123,8 @@ class User
         aboutMe = (convertedJsonIntoDict["aboutMe"] as? String)!
       }
 
-      if ((convertedJsonIntoDict["avatarImage"] as? String) != nil) {
-        avatarImage = NSData(base64EncodedString: (convertedJsonIntoDict["avatarImage"] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
+      if ((convertedJsonIntoDict["avatarUrl"] as? String) != nil) {
+        avatarUrl = (convertedJsonIntoDict["avatarUrl"] as? String)!
       }
 
       if ((convertedJsonIntoDict["rate"] as? Double) != nil) {
@@ -135,7 +135,7 @@ class User
         status = (convertedJsonIntoDict["takeQuestion"] as? String)!
       }
 
-      completion(fullName, title, aboutMe, avatarImage, rate, status)
+      completion(fullName, title, aboutMe, avatarUrl, rate, status)
     }
   }
 

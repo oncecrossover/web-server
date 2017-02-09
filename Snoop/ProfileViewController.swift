@@ -37,12 +37,27 @@ extension ProfileViewController {
     super.viewDidLoad()
     settingsTable.tableFooterView = UIView()
     settingsTable.separatorInset = UIEdgeInsetsZero
+
     applyButton.setTitle("Apply to Take Questions", forState: .Normal)
     applyButton.setTitle("Awaiting Approval", forState: .Disabled)
     applyButton.layer.cornerRadius = 4
-    self.answerLabel.text = "to answer a question"
-    self.answerLabel.textColor = UIColor.disabledColor()
-    self.answerLabel.textAlignment = .Left
+
+    answerLabel.text = "to answer a question"
+    answerLabel.textColor = UIColor.disabledColor()
+    answerLabel.textAlignment = .Left
+
+    aboutLabel.font = self.aboutLabel.font.fontWithSize(12)
+    aboutLabel.textColor = UIColor.blackColor()
+
+    nameLabel.font = self.nameLabel.font.fontWithSize(14)
+    nameLabel.textColor = UIColor.blackColor()
+
+    titleLabel.font = self.titleLabel.font.fontWithSize(12)
+    titleLabel.textColor = UIColor.secondaryTextColor()
+
+    rateLabel.font = self.rateLabel.font.fontWithSize(13)
+    rateLabel.textColor = UIColor.redColor()
+    rateLabel.textAlignment = .Right
   }
 
   override func viewDidAppear(animated: Bool) {
@@ -69,32 +84,21 @@ extension ProfileViewController {
     rateLabel.text = ""
     activityIndicator.startAnimating()
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    userModule.getProfile(uid) { fullName, title, aboutMe, avatarImage, rate, status in
+    userModule.getProfile(uid) { fullName, title, aboutMe, avatarUrl, rate, status in
       dispatch_async(dispatch_get_main_queue()) {
         self.aboutLabel.text = aboutMe
-        self.aboutLabel.font = self.aboutLabel.font.fontWithSize(12)
-        self.aboutLabel.textColor = UIColor.blackColor()
-
         self.nameLabel.text = fullName
-        self.nameLabel.font = self.nameLabel.font.fontWithSize(14)
-        self.nameLabel.textColor = UIColor.blackColor()
-
         self.titleLabel.text = title
-        self.titleLabel.font = self.titleLabel.font.fontWithSize(12)
-        self.titleLabel.textColor = UIColor.secondaryTextColor()
 
         self.rateLabel.text = "$ " + String(rate)
         if (rate == 0.0) {
           self.rateLabel.text = "$ 0.0"
         }
 
-        self.rateLabel.font = self.rateLabel.font.fontWithSize(13)
-        self.rateLabel.textColor = UIColor.redColor()
-        self.rateLabel.textAlignment = .Right
         self.rate = rate
 
-        if (avatarImage.length > 0) {
-          self.profilePhoto.image = UIImage(data: avatarImage)
+        if (avatarUrl != nil) {
+          self.profilePhoto.image = UIImage(data: NSData(contentsOfURL: NSURL(string: avatarUrl!)!)!)
         }
         else {
           self.profilePhoto.image = UIImage(named: "default")
@@ -103,7 +107,6 @@ extension ProfileViewController {
         self.applyButton.hidden = false
         self.approvedLabel.hidden = true
         self.handleApplyButtonView(status)
-
         self.activityIndicator.stopAnimating()
       }
     }
