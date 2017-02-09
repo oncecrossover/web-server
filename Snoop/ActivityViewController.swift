@@ -183,49 +183,26 @@ extension ActivityViewController {
   }
 
   func loadImagesAsync(cellInfo: ActivityModel, completion: (ActivityModel) -> ()) {
-    var url = ""
     if let askerAvatarUrl = cellInfo.askerAvatarUrl {
-      url += "uri=" + askerAvatarUrl + "&"
-    }
-    if let responderAvatarUrl = cellInfo.responderAvatarUrl {
-      url += "uri=" + responderAvatarUrl + "&"
-    }
-    if let answerCoverUrl = cellInfo.answerCoverUrl {
-      url += "uri=" + answerCoverUrl + "&"
-    }
-
-    if (url.isEmpty) {
-      cellInfo.askerImage = NSData()
-      cellInfo.responderImage = NSData()
-      cellInfo.answerCover = NSData()
-      completion(cellInfo)
+      cellInfo.askerImage = NSData(contentsOfURL: NSURL(string: askerAvatarUrl)!)
     }
     else {
-      url = String(url.characters.dropLast())
-      questionModule.getQuestionDatas(url) { result in
-        if let askerAvatarUrl = cellInfo.askerAvatarUrl {
-          cellInfo.askerImage = NSData(base64EncodedString: (result[askerAvatarUrl] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        }
-        else {
-          cellInfo.askerImage = NSData()
-        }
-
-        if let responderAvatarUrl = cellInfo.responderAvatarUrl {
-          cellInfo.responderImage = NSData(base64EncodedString: (result[responderAvatarUrl] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        }
-        else {
-          cellInfo.responderImage = NSData()
-        }
-
-        if let answerCoverUrl = cellInfo.answerCoverUrl {
-          cellInfo.answerCover = NSData(base64EncodedString: (result[answerCoverUrl] as? String)!, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        }
-        else {
-          cellInfo.answerCover = NSData()
-        }
-        completion(cellInfo)
-      }
+      cellInfo.askerImage = NSData()
     }
+    if let responderAvatarUrl = cellInfo.responderAvatarUrl {
+      cellInfo.responderImage = NSData(contentsOfURL: NSURL(string: responderAvatarUrl)!)
+    }
+    else {
+      cellInfo.responderImage = NSData()
+    }
+    if let answerCoverUrl = cellInfo.answerCoverUrl {
+      cellInfo.answerCover = NSData(contentsOfURL: NSURL(string: answerCoverUrl)!)
+    }
+    else {
+      cellInfo.answerCover = NSData()
+    }
+
+    completion(cellInfo)
   }
 
   func setImages(myCell: ActivityTableViewCell, info: ActivityModel) {
