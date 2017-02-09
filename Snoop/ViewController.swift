@@ -340,39 +340,24 @@ extension ViewController {
 
     let questionInfo = feeds[indexPath.row]
     let answerUrl = questionInfo.answerUrl!
-    let url = "uri=" + answerUrl
 
-    activeCellIndex = indexPath.row
-    questionModule.getQuestionDatas(url) { convertedDictIntoJson in
-      if let videoString = convertedDictIntoJson[answerUrl] as? String {
-        let data = NSData(base64EncodedString: videoString, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        dispatch_async(dispatch_get_main_queue()) {
-          let dataPath = self.getFileUrl()
-          data.writeToURL(dataPath, atomically: false)
-          let player = AVPlayer(URL: dataPath)
-          videoPlayerView.player = player
-          let playerLayer = AVPlayerLayer(player: player)
-          playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-          videoPlayerView.layer.addSublayer(playerLayer)
-          playerLayer.frame = videoPlayerView.frame
-          let videoAsset = AVAsset(URL: dataPath)
+    let player = AVPlayer(URL: NSURL(string: answerUrl)!)
+    videoPlayerView.player = player
+    let playerLayer = AVPlayerLayer(player: player)
+    playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+    videoPlayerView.layer.addSublayer(playerLayer)
+    playerLayer.frame = videoPlayerView.frame
+    videoPlayerView.setupPlayingControls()
+    let duration = questionInfo.duration
+    let secondsText = String(format: "%02d", duration % 60)
+    let minutesText = String(format: "%02d", duration / 60)
+    videoPlayerView.lengthLabel.text = "\(minutesText):\(secondsText)"
+    videoPlayerView.setupProgressControls()
 
-          videoPlayerView.setupPlayingControls()
-          let duration = videoAsset.duration
-          let seconds = CMTimeGetSeconds(duration)
-          let secondsText = String(format: "%02d", Int(seconds) % 60)
-          let minutesText = String(format: "%02d", Int(seconds) / 60)
-          videoPlayerView.lengthLabel.text = "\(minutesText):\(secondsText)"
-          videoPlayerView.setupProgressControls()
-
-          player.play()
-
-          NSNotificationCenter.defaultCenter().addObserverForName(AVPlayerItemDidPlayToEndTimeNotification, object: nil, queue: nil) { notification in
-            // block base observer has retain cycle issue, remember to unregister observer in deinit
-            videoPlayerView.reset()
-          }
-        }
-      }
+    player.play()
+    NSNotificationCenter.defaultCenter().addObserverForName(AVPlayerItemDidPlayToEndTimeNotification, object: nil, queue: nil) { notification in
+      // block base observer has retain cycle issue, remember to unregister observer in deinit
+      videoPlayerView.reset()
     }
   }
 
