@@ -1,9 +1,9 @@
-CREATE DATABASE `peeqdb` DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+CREATE DATABASE `snoopdb` DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
 CREATE USER 'sa' IDENTIFIED BY 'sqlme';
 GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP
-ON peeqdb.* TO 'sa';
+ON snoopdb.* TO 'sa';
 
-use peeqdb;
+use snoopdb;
 
 CREATE TABLE `User` (
   `uid` NVARCHAR(200) NOT NULL,
