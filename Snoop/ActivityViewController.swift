@@ -112,6 +112,11 @@ extension ActivityViewController: SegmentedControlDelegate {
       }
     }
   }
+
+  func loadIndexWithRefresh(index: Int) {
+    selectedIndex = index
+    loadData()
+  }
 }
 
 // Private function

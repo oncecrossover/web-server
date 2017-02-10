@@ -9,6 +9,7 @@
 import UIKit
 protocol SegmentedControlDelegate {
   func loadIndex(index: Int)
+  func loadIndexWithRefresh(index: Int)
 }
 
 class CustomSegmentedControl: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -39,12 +40,31 @@ class CustomSegmentedControl: UIView, UICollectionViewDataSource, UICollectionVi
     controlBar.topAnchor.constraintEqualToAnchor(topAnchor).active = true
     controlBar.bottomAnchor.constraintEqualToAnchor(bottomAnchor).active = true
 
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(reloadQuestions), name: "reloadQuestions", object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(reloadAnswers), name: "reloadAnswers", object: nil)
+
     let selectedIndexPath = NSIndexPath(forItem: 0, inSection: 0)
     controlBar.selectItemAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .None)
   }
 
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+
+  func reloadQuestions() {
+    let indexPath = NSIndexPath(forItem: 0, inSection: 0)
+    controlBar.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+    delegate.loadIndexWithRefresh(0)
+  }
+
+  func reloadAnswers() {
+    let indexPath = NSIndexPath(forItem: 1, inSection: 0)
+    controlBar.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+    delegate.loadIndexWithRefresh(1)
+  }
+
+  deinit {
+    NSNotificationCenter.defaultCenter().removeObserver(self) // app might crash without removing observer
   }
 
   func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

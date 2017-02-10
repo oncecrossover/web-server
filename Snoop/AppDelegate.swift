@@ -56,7 +56,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
 
     let aps = userInfo["aps"] as! [String: AnyObject]
-    print("inside action with aps \(aps)")
 
     if (identifier == "VIEW_IDENTIFIER") {
       if let alert = aps["alert"] as? [String: String] {
@@ -76,6 +75,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Do some stuff since notification will not be shown
     let aps = userInfo["aps"] as! [String: AnyObject]
     print("inside remote with aps \(aps)")
+    let alert = aps["alert"] as! [String : String]
+    let title = alert["title"]!
+    if (title.containsString("Request")) {
+      loadActivityPage(1)
+    }
+    else {
+      loadActivityPage(0)
+    }
+
   }
 
   func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
@@ -101,19 +109,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
   func loadActivityPage(index: Int) {
-//    let tabbarController = window?.rootViewController as! UITabBarController
-//    let navigationController = tabbarController.viewControllers![2] as! UINavigationController
-//    let activityController = navigationController.viewControllers[0] as! ActivityViewController
-//    tabbarController.selectedIndex = 2
-//    activityController.loadIndex(index)
     let tabBarController = window?.rootViewController as! UITabBarController
-    if let badgeValue = tabBarController.tabBar.items?[2].badgeValue,
-      nextValue = Int(badgeValue)?.successor() {
-      tabBarController.tabBar.items?[2].badgeValue = String(nextValue)
-    } else {
-      tabBarController.tabBar.items?[2].badgeValue = "1"
+    tabBarController.selectedIndex = 2
+    var notificationName = "reloadQuestions"
+    if (index == 1) {
+      notificationName = "reloadAnswers"
     }
 
+    NSNotificationCenter.defaultCenter().postNotificationName(notificationName, object: nil)
   }
 
   func setupCustomUI() {
