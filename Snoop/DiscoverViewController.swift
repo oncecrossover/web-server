@@ -188,21 +188,12 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     myCell.title.text = cellInfo.title
     myCell.about.text = cellInfo.about
 
-    if (cellInfo.avatarImage != nil) {
-      //async loading is done
-      setImage(myCell, cellInfo: cellInfo)
-      myCell.userInteractionEnabled = true
+    if let avatarUrl = cellInfo.avatarUrl {
+      myCell.discoverImageView.sd_setImageWithURL(NSURL(string: avatarUrl))
     }
     else {
-      // start async loading for image
-      loadImageAsync(cellInfo) { result in
-        dispatch_async(dispatch_get_main_queue()) {
-          self.setImage(myCell, cellInfo: result)
-          myCell.userInteractionEnabled = true
-        }
-      }
+      myCell.discoverImageView.image = UIImage(named: "default")
     }
-
 
     if (!searchController.active && searchController.searchBar.text == "") {
       if (indexPath.row == profiles.count - 1) {

@@ -49,6 +49,7 @@ class ActivityViewController: UIViewController {
 // override function
 extension ActivityViewController {
   override func viewDidLoad() {
+    print("load is called")
     super.viewDidLoad()
 
     activityTableView.rowHeight = UITableViewAutomaticDimension
@@ -396,18 +397,39 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
     }
 
     setPlaceholderImages(myCell)
-    if (cellInfo.askerImage != nil) {
-      // All the async loading is done
-      setImages(myCell, info: cellInfo)
-      myCell.userInteractionEnabled = true
+
+    if let askerAvatarUrl = cellInfo.askerAvatarUrl {
+      myCell.askerImage.sd_setImageWithURL(NSURL(string: askerAvatarUrl))
     }
     else {
-      // start async loading
-      loadImagesAsync(cellInfo) { result in
-        dispatch_async(dispatch_get_main_queue()) {
-          self.setImages(myCell, info: cellInfo)
-          myCell.userInteractionEnabled = true
-        }
+      myCell.askerImage.image = UIImage(named: "default")
+    }
+
+    if let responderAvatarUrl = cellInfo.responderAvatarUrl {
+      myCell.responderImage.sd_setImageWithURL(NSURL(string: responderAvatarUrl))
+    }
+    else {
+      myCell.responderImage.image = UIImage(named: "default")
+    }
+
+    if (cellInfo.status == "PENDING") {
+      myCell.coverImage.image = UIImage()
+      myCell.coverImage.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1.0)
+      myCell.coverImage.userInteractionEnabled = false
+      myCell.durationLabel.hidden = true
+    }
+    else if (cellInfo.status == "ANSWERED") {
+      if let coverImageUrl = cellInfo.answerCoverUrl {
+        myCell.coverImage.sd_setImageWithURL(NSURL(string: coverImageUrl))
+        myCell.coverImage.userInteractionEnabled = true
+        let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnImage(_:)))
+        myCell.coverImage.addGestureRecognizer(tappedOnImage)
+
+        myCell.durationLabel.text = "00:\(cellInfo.duration)"
+        myCell.durationLabel.hidden = false
+      }
+      else {
+        myCell.coverImage.userInteractionEnabled = false
       }
     }
 

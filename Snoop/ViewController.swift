@@ -161,7 +161,7 @@ extension ViewController {
   func setPlaceholderImages(myCell: FeedTableViewCell) {
     myCell.profileImage.userInteractionEnabled = false
     myCell.coverImage.userInteractionEnabled = false
-    myCell.profileImage.image = UIImage()
+    myCell.profileImage.image = UIImage(named: "default")
     myCell.coverImage.image = UIImage()
   }
 
@@ -275,20 +275,36 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     }
 
     setPlaceholderImages(myCell)
-    if (feedInfo.avatarImage != nil) {
-      // All the async loading is done
-      setImages(myCell, feedInfo: feedInfo)
-      myCell.userInteractionEnabled = true
+    if (feedInfo.status == "PENDING") {
+      myCell.coverImage.userInteractionEnabled = false
+      myCell.coverImage.image = UIImage()
     }
     else {
-      //start async loading
-      loadImagesAsync(feedInfo) { result in
-        dispatch_async(dispatch_get_main_queue()) {
-          self.setImages(myCell, feedInfo: feedInfo)
-          myCell.userInteractionEnabled = true
-        }
+      if let coverUrl = feedInfo.coverUrl {
+        myCell.coverImage.sd_setImageWithURL(NSURL(string: coverUrl))
+      }
+      myCell.coverImage.userInteractionEnabled = true
+      myCell.durationLabel.text = "00:\(feedInfo.duration)"
+      myCell.durationLabel.hidden = false
+
+      if (self.paidSnoops.contains(feedInfo.id)) {
+        let tappedToWatch = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToWatch(_:)))
+        myCell.coverImage.addGestureRecognizer(tappedToWatch)
+      }
+      else {
+        let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnImage(_:)))
+        myCell.coverImage.addGestureRecognizer(tappedOnImage)
       }
     }
+
+    // set profile image
+    if let profileUrl = feedInfo.avatarImageUrl {
+      myCell.profileImage.sd_setImageWithURL(NSURL(string: profileUrl))
+    }
+
+    myCell.profileImage.userInteractionEnabled = true
+    let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnProfile(_:)))
+    myCell.profileImage.addGestureRecognizer(tappedOnImage)
 
     if (indexPath.row == feeds.count - 1) {
       let lastSeenId = feeds[indexPath.row].id
