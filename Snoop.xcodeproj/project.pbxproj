@@ -240,46 +240,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4A11C05A1D344D1700AEF95D /* UIView */ = {
-			isa = PBXGroup;
-			children = (
-				4A11C0571D3448F400AEF95D /* CircleImageView.swift */,
-				4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */,
-				4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */,
-				4AF910731D449F1800546F95 /* InteractiveUITextField.swift */,
-				4A214F341E204E3F0000B29D /* VideoPlayerView.swift */,
-				4A3A56641E26DECB00FC0F3B /* CustomButton.swift */,
-				4A55E8FC1E2877D000B033F4 /* CustomSegmentedControl.swift */,
-				4A55E9001E332E8E00B033F4 /* CustomCameraView.swift */,
-				4AFDD2501E37FCCB00CC7A06 /* CustomTableBackgroundView.swift */,
-			);
-			name = UIView;
-			sourceTree = "<group>";
-		};
-		4A15D1791E0380EB0013EDC1 /* CollectionViewCell */ = {
-			isa = PBXGroup;
-			children = (
-				4A15D17A1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift */,
-			);
-			name = CollectionViewCell;
-			sourceTree = "<group>";
-		};
 		4A3D5D771DE8C41A006FE077 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		4A4BB8281D769B8E0085160F /* ObjectModel */ = {
-			isa = PBXGroup;
-			children = (
-				4A4BB82C1D769CF40085160F /* DiscoverModel.swift */,
-				4ABB89F71D7DEE2C0022DEF2 /* FeedsModel.swift */,
-				4ACADE141E13586C00831929 /* ActivityModel.swift */,
-			);
-			name = ObjectModel;
 			sourceTree = "<group>";
 		};
 		4A5B257B1D65247700691696 /* SnoopUITests */ = {
@@ -298,15 +264,7 @@
 			path = SnoopUITests;
 			sourceTree = "<group>";
 		};
-		4ABD203B1D443E0300C3B74E /* Utility */ = {
-			isa = PBXGroup;
-			children = (
-				4ABD203C1D443E1A00C3B74E /* UIUtility.swift */,
-			);
-			name = Utility;
-			sourceTree = "<group>";
-		};
-		4ABE1CC11D25C7AA00320529 /* ControllerGroup */ = {
+		4AAF42F41E56951B00074C7F /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				4AC283681CE2F58100A08D35 /* ViewController.swift */,
@@ -330,10 +288,41 @@
 				4A3A56661E27168C00FC0F3B /* PaymentViewController.swift */,
 				4A55E8FA1E282DB600B033F4 /* BalanceViewController.swift */,
 			);
-			name = ControllerGroup;
+			path = Controller;
 			sourceTree = "<group>";
 		};
-		4ABE1CC21D25C7BD00320529 /* HTTPModel */ = {
+		4AAF42F51E56963700074C7F /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				4ABD203C1D443E1A00C3B74E /* UIUtility.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		4AAF42F61E56967D00074C7F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4A4BB82C1D769CF40085160F /* DiscoverModel.swift */,
+				4ABB89F71D7DEE2C0022DEF2 /* FeedsModel.swift */,
+				4ACADE141E13586C00831929 /* ActivityModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4AAF42F71E5696E400074C7F /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				4AF3226D1D29DEEB0043FCE5 /* QuestionTableViewCell.swift */,
+				4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */,
+				4AF322731D2C83260043FCE5 /* AnswerTableViewCell.swift */,
+				4AC9231E1D360A0800C83177 /* FeedTableViewCell.swift */,
+				4ACADE121E1345E000831929 /* ActivityTableViewCell.swift */,
+				4A6730BA1E23301A00C512B1 /* SettingsTableViewCell.swift */,
+			);
+			path = TableViewCell;
+			sourceTree = "<group>";
+		};
+		4AAF42F81E56975E00074C7F /* HTTP */ = {
 			isa = PBXGroup;
 			children = (
 				4AEF2A1B1D14BABA002E3CFE /* User.swift */,
@@ -341,7 +330,31 @@
 				4ABD20361D4409F900C3B74E /* Payment.swift */,
 				4A152F611D59106700FA48E7 /* Generics.swift */,
 			);
-			name = HTTPModel;
+			path = HTTP;
+			sourceTree = "<group>";
+		};
+		4AAF42F91E5697FB00074C7F /* UIView */ = {
+			isa = PBXGroup;
+			children = (
+				4A11C0571D3448F400AEF95D /* CircleImageView.swift */,
+				4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */,
+				4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */,
+				4AF910731D449F1800546F95 /* InteractiveUITextField.swift */,
+				4A214F341E204E3F0000B29D /* VideoPlayerView.swift */,
+				4A3A56641E26DECB00FC0F3B /* CustomButton.swift */,
+				4A55E8FC1E2877D000B033F4 /* CustomSegmentedControl.swift */,
+				4A55E9001E332E8E00B033F4 /* CustomCameraView.swift */,
+				4AFDD2501E37FCCB00CC7A06 /* CustomTableBackgroundView.swift */,
+			);
+			path = UIView;
+			sourceTree = "<group>";
+		};
+		4AAF42FA1E5698A800074C7F /* CollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				4A15D17A1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift */,
+			);
+			path = CollectionViewCell;
 			sourceTree = "<group>";
 		};
 		4AC2835A1CE2F58100A08D35 = {
@@ -366,25 +379,25 @@
 		4AC283651CE2F58100A08D35 /* Snoop */ = {
 			isa = PBXGroup;
 			children = (
+				4AAF42FA1E5698A800074C7F /* CollectionViewCell */,
+				4AAF42F41E56951B00074C7F /* Controller */,
+				4AAF42F81E56975E00074C7F /* HTTP */,
+				4AAF42F61E56967D00074C7F /* Model */,
+				4AAF42F71E5696E400074C7F /* TableViewCell */,
+				4AAF42F91E5697FB00074C7F /* UIView */,
+				4AAF42F51E56963700074C7F /* Util */,
 				4ADFD3621E56627A00CD3D92 /* SDWebImage */,
 				4A5495591E4310450072C45B /* Snoop.entitlements */,
-				4A15D1791E0380EB0013EDC1 /* CollectionViewCell */,
 				4A9C17CE1DBD5A1900F91893 /* snoop-server.der */,
-				4A4BB8281D769B8E0085160F /* ObjectModel */,
 				4A0CE3661D6ECDB10023EC2D /* MBProgressHUD.h */,
 				4A0CE3671D6ECDB10023EC2D /* MBProgressHUD.m */,
 				4AD8A6A31D63E8C600757D9D /* Stripe.bundle */,
 				4AD8A6A11D63E8AF00757D9D /* Stripe.framework */,
-				4ABD203B1D443E0300C3B74E /* Utility */,
 				4AC283661CE2F58100A08D35 /* AppDelegate.swift */,
-				4ABE1CC11D25C7AA00320529 /* ControllerGroup */,
 				4AC2836A1CE2F58100A08D35 /* Main.storyboard */,
 				4AC283701CE2F58100A08D35 /* Assets.xcassets */,
 				4AC283751CE2F58100A08D35 /* Info.plist */,
 				4AC2836D1CE2F58100A08D35 /* Peep.xcdatamodeld */,
-				4ABE1CC21D25C7BD00320529 /* HTTPModel */,
-				4AF322701D29DF220043FCE5 /* TableViewCell */,
-				4A11C05A1D344D1700AEF95D /* UIView */,
 				4A0CE3651D6ECDAF0023EC2D /* Snoop-Bridging-Header.h */,
 				4A6730BC1E23412100C512B1 /* privacy.html */,
 				4A6730BE1E23420A00C512B1 /* tos.html */,
@@ -439,19 +452,6 @@
 				4ADFD38C1E56628B00CD3D92 /* UIView+WebCacheOperation.m */,
 			);
 			path = SDWebImage;
-			sourceTree = "<group>";
-		};
-		4AF322701D29DF220043FCE5 /* TableViewCell */ = {
-			isa = PBXGroup;
-			children = (
-				4AF3226D1D29DEEB0043FCE5 /* QuestionTableViewCell.swift */,
-				4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */,
-				4AF322731D2C83260043FCE5 /* AnswerTableViewCell.swift */,
-				4AC9231E1D360A0800C83177 /* FeedTableViewCell.swift */,
-				4ACADE121E1345E000831929 /* ActivityTableViewCell.swift */,
-				4A6730BA1E23301A00C512B1 /* SettingsTableViewCell.swift */,
-			);
-			name = TableViewCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

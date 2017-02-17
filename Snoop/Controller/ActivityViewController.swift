@@ -49,7 +49,6 @@ class ActivityViewController: UIViewController {
 // override function
 extension ActivityViewController {
   override func viewDidLoad() {
-    print("load is called")
     super.viewDidLoad()
 
     activityTableView.rowHeight = UITableViewAutomaticDimension
