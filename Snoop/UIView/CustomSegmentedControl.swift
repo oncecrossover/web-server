@@ -42,9 +42,12 @@ class CustomSegmentedControl: UIView, UICollectionViewDataSource, UICollectionVi
 
     NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(reloadQuestions), name: "reloadQuestions", object: nil)
     NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(reloadAnswers), name: "reloadAnswers", object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(reloadSnoops), name: "reloadSnoops", object: nil)
 
     let selectedIndexPath = NSIndexPath(forItem: 0, inSection: 0)
     controlBar.selectItemAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .None)
+    let cell = controlBar.cellForItemAtIndexPath(selectedIndexPath)
+    cell?.selected = true
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -52,15 +55,15 @@ class CustomSegmentedControl: UIView, UICollectionViewDataSource, UICollectionVi
   }
 
   func reloadQuestions() {
-    let indexPath = NSIndexPath(forItem: 0, inSection: 0)
-    controlBar.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
     delegate.loadIndexWithRefresh(0)
   }
 
   func reloadAnswers() {
-    let indexPath = NSIndexPath(forItem: 1, inSection: 0)
-    controlBar.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
     delegate.loadIndexWithRefresh(1)
+  }
+
+  func reloadSnoops() {
+    delegate.loadIndexWithRefresh(2)
   }
 
   deinit {

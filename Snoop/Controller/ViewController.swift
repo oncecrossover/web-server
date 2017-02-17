@@ -306,6 +306,8 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnProfile(_:)))
     myCell.profileImage.addGestureRecognizer(tappedOnImage)
 
+    myCell.userInteractionEnabled = true
+
     if (indexPath.row == feeds.count - 1) {
       let lastSeenId = feeds[indexPath.row].id
       let updatedTime = Int64(feeds[indexPath.row].updatedTime)

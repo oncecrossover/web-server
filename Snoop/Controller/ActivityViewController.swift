@@ -83,10 +83,15 @@ extension ActivityViewController: SegmentedControlDelegate {
         || NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadQuestions") == true) {
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadQuestions")
         NSUserDefaults.standardUserDefaults().synchronize()
-        loadData()
+        loadIndexWithRefresh(index)
       }
       else {
-        activityTableView.reloadData()
+        if (tmpQuestions.count == 0) {
+          loadIndexWithRefresh(index)
+        }
+        else {
+          activityTableView.reloadData()
+        }
       }
     }
     else if (index == 1) {
@@ -94,10 +99,15 @@ extension ActivityViewController: SegmentedControlDelegate {
         || NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadAnswers") == true) {
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadAnswers")
         NSUserDefaults.standardUserDefaults().synchronize()
-        loadData()
+        loadIndexWithRefresh(index)
       }
       else {
-        activityTableView.reloadData()
+        if (tmpAnswers.count == 0) {
+          loadIndexWithRefresh(index)
+        }
+        else {
+          activityTableView.reloadData()
+        }
       }
     }
     else {
@@ -105,17 +115,34 @@ extension ActivityViewController: SegmentedControlDelegate {
         || NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadSnoops") == true) {
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadSnoops")
         NSUserDefaults.standardUserDefaults().synchronize()
-        loadData()
+        loadIndexWithRefresh(index)
       }
       else {
-        activityTableView.reloadData()
+        if (tmpSnoops.count == 0) {
+          loadIndexWithRefresh(2)
+        }
+        else {
+          activityTableView.reloadData()
+        }
       }
     }
   }
 
   func loadIndexWithRefresh(index: Int) {
-    selectedIndex = index
-    loadData()
+    activityTableView.userInteractionEnabled = false
+    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    if (index == 0) {
+      tmpQuestions = []
+      loadDataWithFilter("asker='" + uid + "'")
+    }
+    else if (index == 1) {
+      tmpAnswers = []
+      loadDataWithFilter("responder='" + uid + "'")
+    }
+    else if (index == 2) {
+      tmpSnoops = []
+      loadDataWithFilter("uid='" + uid + "'")
+    }
   }
 }
 
@@ -124,7 +151,7 @@ extension ActivityViewController {
 
   func refresh(sender: AnyObject) {
     activePlayerView?.closeView()
-    loadData()
+    loadIndexWithRefresh(selectedIndex)
   }
 
   func setupSegmentedControl() {
@@ -139,24 +166,6 @@ extension ActivityViewController {
     controlBar.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
     controlBar.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: topMargin).active = true
     controlBar.bottomAnchor.constraintEqualToAnchor(activityTableView.topAnchor, constant: -8).active = true
-  }
-
-  func loadData() {
-    activityTableView.userInteractionEnabled = false
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    if (selectedIndex == 0) {
-      tmpQuestions = []
-      loadDataWithFilter("asker='" + uid + "'")
-    }
-    else if (selectedIndex == 1) {
-      tmpAnswers = []
-      loadDataWithFilter("responder='" + uid + "'")
-    }
-    else if (selectedIndex == 2) {
-      tmpSnoops = []
-      loadDataWithFilter("uid='" + uid + "'")
-    }
-
   }
 
   func createActitivyModel(questionInfo: [String:AnyObject], isSnoop: Bool) -> ActivityModel{
@@ -431,6 +440,8 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
         myCell.coverImage.userInteractionEnabled = false
       }
     }
+
+    myCell.userInteractionEnabled = true
 
     if (indexPath.row == arrayCount - 1) {
       loadDataWithFilter(filterString)
