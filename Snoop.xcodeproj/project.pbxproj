@@ -10,6 +10,7 @@
 		4A0CE3681D6ECDB10023EC2D /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0CE3671D6ECDB10023EC2D /* MBProgressHUD.m */; };
 		4A0EB0EB1D8276DC00390D06 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0EB0EA1D8276DC00390D06 /* TutorialViewController.swift */; };
 		4A0EB0ED1D8277C700390D06 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0EB0EC1D8277C700390D06 /* ContentViewController.swift */; };
+		4A10DCC01E579CF9009E3996 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCBF1E579CF9009E3996 /* SettingsViewController.swift */; };
 		4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C0571D3448F400AEF95D /* CircleImageView.swift */; };
 		4A11C05C1D344DF500AEF95D /* RoundCornerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */; };
 		4A11C0621D35BA6900AEF95D /* TextFitLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */; };
@@ -36,7 +37,7 @@
 		4A6730BB1E23301A00C512B1 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6730BA1E23301A00C512B1 /* SettingsTableViewCell.swift */; };
 		4A6730BD1E23412100C512B1 /* privacy.html in Resources */ = {isa = PBXBuildFile; fileRef = 4A6730BC1E23412100C512B1 /* privacy.html */; };
 		4A6730BF1E23420A00C512B1 /* tos.html in Resources */ = {isa = PBXBuildFile; fileRef = 4A6730BE1E23420A00C512B1 /* tos.html */; };
-		4A6730C11E23426A00C512B1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6730C01E23426A00C512B1 /* SettingsViewController.swift */; };
+		4A6730C11E23426A00C512B1 /* DocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6730C01E23426A00C512B1 /* DocumentViewController.swift */; };
 		4A698D411D7B7BCE004786B8 /* DiscoverViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D401D7B7BCE004786B8 /* DiscoverViewControllerUITests.swift */; };
 		4A698D431D7B8D0E004786B8 /* ProfileViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A698D421D7B8D0E004786B8 /* ProfileViewControllerUITests.swift */; };
 		4A745CBE1D73A5D500797AFC /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A745CBD1D73A5D500797AFC /* ConfirmationViewController.swift */; };
@@ -111,6 +112,7 @@
 		4A0CE3671D6ECDB10023EC2D /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		4A0EB0EA1D8276DC00390D06 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		4A0EB0EC1D8277C700390D06 /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
+		4A10DCBF1E579CF9009E3996 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4A11C0571D3448F400AEF95D /* CircleImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
 		4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundCornerButton.swift; sourceTree = "<group>"; };
 		4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFitLabel.swift; sourceTree = "<group>"; };
@@ -139,7 +141,7 @@
 		4A6730BA1E23301A00C512B1 /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		4A6730BC1E23412100C512B1 /* privacy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = privacy.html; sourceTree = "<group>"; };
 		4A6730BE1E23420A00C512B1 /* tos.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = tos.html; sourceTree = "<group>"; };
-		4A6730C01E23426A00C512B1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		4A6730C01E23426A00C512B1 /* DocumentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentViewController.swift; sourceTree = "<group>"; };
 		4A698D401D7B7BCE004786B8 /* DiscoverViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewControllerUITests.swift; sourceTree = "<group>"; };
 		4A698D421D7B8D0E004786B8 /* ProfileViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewControllerUITests.swift; sourceTree = "<group>"; };
 		4A745CBD1D73A5D500797AFC /* ConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
@@ -284,9 +286,10 @@
 				4A0EB0EA1D8276DC00390D06 /* TutorialViewController.swift */,
 				4A0EB0EC1D8277C700390D06 /* ContentViewController.swift */,
 				4A15D1771E037CD70013EDC1 /* CoverFrameViewController.swift */,
-				4A6730C01E23426A00C512B1 /* SettingsViewController.swift */,
+				4A6730C01E23426A00C512B1 /* DocumentViewController.swift */,
 				4A3A56661E27168C00FC0F3B /* PaymentViewController.swift */,
 				4A55E8FA1E282DB600B033F4 /* BalanceViewController.swift */,
+				4A10DCBF1E579CF9009E3996 /* SettingsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -624,7 +627,7 @@
 				4ADFD3941E56628B00CD3D92 /* SDWebImageDecoder.m in Sources */,
 				4A214F351E204E3F0000B29D /* VideoPlayerView.swift in Sources */,
 				4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */,
-				4A6730C11E23426A00C512B1 /* SettingsViewController.swift in Sources */,
+				4A6730C11E23426A00C512B1 /* DocumentViewController.swift in Sources */,
 				4AF3226C1D29DE120043FCE5 /* ActivityViewController.swift in Sources */,
 				4ACADE131E1345E000831929 /* ActivityTableViewCell.swift in Sources */,
 				4ADFD39D1E56628B00CD3D92 /* UIImageView+HighlightedWebCache.m in Sources */,
@@ -651,6 +654,7 @@
 				4ADFD3971E56628B00CD3D92 /* SDWebImageManager.m in Sources */,
 				4ADFD3951E56628B00CD3D92 /* SDWebImageDownloader.m in Sources */,
 				4ABD20371D4409F900C3B74E /* Payment.swift in Sources */,
+				4A10DCC01E579CF9009E3996 /* SettingsViewController.swift in Sources */,
 				4ADFD3961E56628B00CD3D92 /* SDWebImageDownloaderOperation.m in Sources */,
 				4AF910741D449F1800546F95 /* InteractiveUITextField.swift in Sources */,
 				4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */,

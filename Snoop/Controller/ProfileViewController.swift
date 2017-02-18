@@ -38,6 +38,13 @@ extension ProfileViewController {
     settingsTable.tableFooterView = UIView()
     settingsTable.separatorInset = UIEdgeInsetsZero
 
+    let settingsButton = UIButton(type: .Custom)
+    settingsButton.setImage(UIImage(named: "settings"), forState: .Normal)
+    settingsButton.addTarget(self, action: #selector(settingsButtonTapped), forControlEvents: .TouchUpInside)
+    settingsButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+    let rightBarItem = UIBarButtonItem(customView: settingsButton)
+    navigationItem.rightBarButtonItem = rightBarItem
+
     applyButton.setTitle("Apply to Take Questions", forState: .Normal)
     applyButton.setTitle("Awaiting Approval", forState: .Disabled)
     applyButton.layer.cornerRadius = 4
@@ -46,16 +53,16 @@ extension ProfileViewController {
     answerLabel.textColor = UIColor.disabledColor()
     answerLabel.textAlignment = .Left
 
-    aboutLabel.font = self.aboutLabel.font.fontWithSize(12)
+    aboutLabel.font = UIFont.systemFontOfSize(14)
     aboutLabel.textColor = UIColor.blackColor()
 
-    nameLabel.font = self.nameLabel.font.fontWithSize(14)
+    nameLabel.font = UIFont.boldSystemFontOfSize(18)
     nameLabel.textColor = UIColor.blackColor()
 
-    titleLabel.font = self.titleLabel.font.fontWithSize(12)
+    titleLabel.font = UIFont.systemFontOfSize(14)
     titleLabel.textColor = UIColor.secondaryTextColor()
 
-    rateLabel.font = self.rateLabel.font.fontWithSize(13)
+    rateLabel.font = UIFont.systemFontOfSize(14)
     rateLabel.textColor = UIColor.redColor()
     rateLabel.textAlignment = .Right
   }
@@ -126,7 +133,7 @@ extension ProfileViewController {
       approvedLabel.hidden = false
       self.view.addSubview(approvedLabel)
       approvedLabel.text = "Congratulations, you can start taking questions."
-      approvedLabel.textAlignment = .Center
+      approvedLabel.textAlignment = .Left
       approvedLabel.textColor = UIColor(red: 51/255, green: 181/255, blue: 159/255, alpha: 1.0)
       approvedLabel.numberOfLines = 0
       approvedLabel.font = UIFont.systemFontOfSize(14)
@@ -146,6 +153,11 @@ extension ProfileViewController {
     isEditButtonClicked = false
     self.performSegueWithIdentifier("segueToProfileEdit", sender: self)
   }
+
+  func settingsButtonTapped() {
+    let dvc = SettingsViewController()
+    self.navigationController?.pushViewController(dvc, animated: true)
+  }
 }
 
 // UITableview delegate and datasource
@@ -153,13 +165,14 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
   func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     return 8.0
   }
+
   func numberOfSectionsInTableView(tableView: UITableView) -> Int {
     return 2
   }
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if (section == 0) {
-      return 4
+      return 2
     }
     return 1
   }
@@ -169,20 +182,12 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
       let cell = tableView.dequeueReusableCellWithIdentifier("settingsCell") as! SettingsTableViewCell
       cell.icon.contentMode = .ScaleAspectFit
       if (indexPath.row == 0) {
-        cell.category.text = "Payment"
-        cell.icon.image = UIImage(named: "paymentIcon")
+        cell.category.text = "My Wallet"
+        cell.icon.image = UIImage(named: "wallet")
       }
       else if (indexPath.row == 1) {
-        cell.category.text = "About"
-        cell.icon.image = UIImage(named: "aboutIcon")
-      }
-      else if (indexPath.row == 2) {
-        cell.category.text = "Terms of Service"
-        cell.icon.image = UIImage(named: "tosIcon")
-      }
-      else {
-        cell.category.text = "Privacy Policy"
-        cell.icon.image = UIImage(named: "privacyIcon")
+        cell.category.text = "My Interests"
+        cell.icon.image = UIImage(named: "interest")
       }
       return cell
     }
@@ -221,22 +226,6 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
       if (indexPath.row == 0) {
 
         let dvc = PaymentViewController()
-        self.navigationController?.pushViewController(dvc, animated: true)
-      }
-      else {
-        let dvc = SettingsViewController()
-        if (indexPath.row == 1) {
-          dvc.fileName = "about"
-          dvc.title = "About Snoop"
-        }
-        else if (indexPath.row == 2) {
-          dvc.fileName = "tos"
-          dvc.title = "Terms of Service"
-        }
-        else {
-          dvc.fileName = "privacy"
-          dvc.title = "Privacy Policy"
-        }
         self.navigationController?.pushViewController(dvc, animated: true)
       }
     }
