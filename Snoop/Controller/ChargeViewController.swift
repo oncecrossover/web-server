@@ -183,7 +183,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
     else if let controller = viewController as? AskViewController {
       if (isPaid) {
         controller.questionView.text = controller.placeholder
-        controller.questionView.textColor = UIColor.lightGrayColor()
+        controller.questionView.textColor = UIColor.secondaryTextColor()
       }
     }
   }
