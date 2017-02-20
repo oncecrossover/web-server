@@ -11,6 +11,8 @@
 		4A0EB0EB1D8276DC00390D06 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0EB0EA1D8276DC00390D06 /* TutorialViewController.swift */; };
 		4A0EB0ED1D8277C700390D06 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0EB0EC1D8277C700390D06 /* ContentViewController.swift */; };
 		4A10DCC01E579CF9009E3996 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCBF1E579CF9009E3996 /* SettingsViewController.swift */; };
+		4A10DCC21E5A7BA9009E3996 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCC11E5A7BA9009E3996 /* WelcomeViewController.swift */; };
+		4A10DCC41E5A8075009E3996 /* WelcomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCC31E5A8075009E3996 /* WelcomeCollectionViewCell.swift */; };
 		4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C0571D3448F400AEF95D /* CircleImageView.swift */; };
 		4A11C05C1D344DF500AEF95D /* RoundCornerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */; };
 		4A11C0621D35BA6900AEF95D /* TextFitLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */; };
@@ -113,6 +115,8 @@
 		4A0EB0EA1D8276DC00390D06 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		4A0EB0EC1D8277C700390D06 /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		4A10DCBF1E579CF9009E3996 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		4A10DCC11E5A7BA9009E3996 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		4A10DCC31E5A8075009E3996 /* WelcomeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A11C0571D3448F400AEF95D /* CircleImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
 		4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundCornerButton.swift; sourceTree = "<group>"; };
 		4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFitLabel.swift; sourceTree = "<group>"; };
@@ -290,6 +294,7 @@
 				4A3A56661E27168C00FC0F3B /* PaymentViewController.swift */,
 				4A55E8FA1E282DB600B033F4 /* BalanceViewController.swift */,
 				4A10DCBF1E579CF9009E3996 /* SettingsViewController.swift */,
+				4A10DCC11E5A7BA9009E3996 /* WelcomeViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -356,6 +361,7 @@
 			isa = PBXGroup;
 			children = (
 				4A15D17A1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift */,
+				4A10DCC31E5A8075009E3996 /* WelcomeCollectionViewCell.swift */,
 			);
 			path = CollectionViewCell;
 			sourceTree = "<group>";
@@ -604,6 +610,7 @@
 				4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */,
 				4AF322761D2DBCB50043FCE5 /* AnswerViewController.swift in Sources */,
 				4ACADE151E13586C00831929 /* ActivityModel.swift in Sources */,
+				4A10DCC41E5A8075009E3996 /* WelcomeCollectionViewCell.swift in Sources */,
 				4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */,
 				4A0EB0EB1D8276DC00390D06 /* TutorialViewController.swift in Sources */,
 				4A0CE3681D6ECDB10023EC2D /* MBProgressHUD.m in Sources */,
@@ -642,6 +649,7 @@
 				4ADFD39A1E56628B00CD3D92 /* UIImage+GIF.m in Sources */,
 				4ADFD3911E56628B00CD3D92 /* SDImageCache.m in Sources */,
 				4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */,
+				4A10DCC21E5A7BA9009E3996 /* WelcomeViewController.swift in Sources */,
 				4A745CBE1D73A5D500797AFC /* ConfirmationViewController.swift in Sources */,
 				4A3A56631E26D8D600FC0F3B /* extension.swift in Sources */,
 				4ABB89F81D7DEE2C0022DEF2 /* FeedsModel.swift in Sources */,

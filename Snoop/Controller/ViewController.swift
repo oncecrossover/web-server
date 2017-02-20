@@ -59,6 +59,12 @@ extension ViewController {
   }
   
   override func viewDidAppear(animated: Bool) {
+    let isUserSignedUp = NSUserDefaults.standardUserDefaults().boolForKey("isUserSignedUp")
+    if (!isUserSignedUp) {
+      let vc = WelcomeViewController()
+      self.presentViewController(vc, animated: true, completion: nil)
+    }
+
     let isUserLoggedIn = NSUserDefaults.standardUserDefaults().boolForKey("isUserLoggedIn")
     if (!isUserLoggedIn){
       self.performSegueWithIdentifier("loginView", sender: self)
