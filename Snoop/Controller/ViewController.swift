@@ -61,7 +61,7 @@ extension ViewController {
   override func viewDidAppear(animated: Bool) {
     let isUserSignedUp = NSUserDefaults.standardUserDefaults().boolForKey("isUserSignedUp")
     if (!isUserSignedUp) {
-      let vc = WelcomeViewController()
+      let vc = UINavigationController(rootViewController: WelcomeViewController())
       self.presentViewController(vc, animated: true, completion: nil)
     }
 

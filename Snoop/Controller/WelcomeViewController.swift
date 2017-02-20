@@ -71,6 +71,7 @@ class WelcomeViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    self.navigationController?.setNavigationBarHidden(true, animated: false)
     view.backgroundColor = UIColor(patternImage: UIImage(named: "gradient")!)
     view.addSubview(introduction)
     view.addSubview(pageControl)
@@ -115,7 +116,8 @@ extension WelcomeViewController {
   }
 
   func loginButtonTapped(){
-
+    let vc = NewLoginViewController()
+    self.navigationController?.pushViewController(vc, animated: true)
   }
 }
 

@@ -13,6 +13,9 @@
 		4A10DCC01E579CF9009E3996 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCBF1E579CF9009E3996 /* SettingsViewController.swift */; };
 		4A10DCC21E5A7BA9009E3996 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCC11E5A7BA9009E3996 /* WelcomeViewController.swift */; };
 		4A10DCC41E5A8075009E3996 /* WelcomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCC31E5A8075009E3996 /* WelcomeCollectionViewCell.swift */; };
+		4A10DCC61E5AC0B0009E3996 /* NewLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCC51E5AC0B0009E3996 /* NewLoginViewController.swift */; };
+		4A10DCC81E5AD440009E3996 /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCC71E5AD440009E3996 /* IconView.swift */; };
+		4A10DCCA1E5B663A009E3996 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCC91E5B663A009E3996 /* LoginView.swift */; };
 		4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C0571D3448F400AEF95D /* CircleImageView.swift */; };
 		4A11C05C1D344DF500AEF95D /* RoundCornerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */; };
 		4A11C0621D35BA6900AEF95D /* TextFitLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */; };
@@ -117,6 +120,9 @@
 		4A10DCBF1E579CF9009E3996 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4A10DCC11E5A7BA9009E3996 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		4A10DCC31E5A8075009E3996 /* WelcomeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeCollectionViewCell.swift; sourceTree = "<group>"; };
+		4A10DCC51E5AC0B0009E3996 /* NewLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewLoginViewController.swift; sourceTree = "<group>"; };
+		4A10DCC71E5AD440009E3996 /* IconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
+		4A10DCC91E5B663A009E3996 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		4A11C0571D3448F400AEF95D /* CircleImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
 		4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundCornerButton.swift; sourceTree = "<group>"; };
 		4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFitLabel.swift; sourceTree = "<group>"; };
@@ -295,6 +301,7 @@
 				4A55E8FA1E282DB600B033F4 /* BalanceViewController.swift */,
 				4A10DCBF1E579CF9009E3996 /* SettingsViewController.swift */,
 				4A10DCC11E5A7BA9009E3996 /* WelcomeViewController.swift */,
+				4A10DCC51E5AC0B0009E3996 /* NewLoginViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -353,6 +360,8 @@
 				4A55E8FC1E2877D000B033F4 /* CustomSegmentedControl.swift */,
 				4A55E9001E332E8E00B033F4 /* CustomCameraView.swift */,
 				4AFDD2501E37FCCB00CC7A06 /* CustomTableBackgroundView.swift */,
+				4A10DCC71E5AD440009E3996 /* IconView.swift */,
+				4A10DCC91E5B663A009E3996 /* LoginView.swift */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -610,6 +619,7 @@
 				4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */,
 				4AF322761D2DBCB50043FCE5 /* AnswerViewController.swift in Sources */,
 				4ACADE151E13586C00831929 /* ActivityModel.swift in Sources */,
+				4A10DCC81E5AD440009E3996 /* IconView.swift in Sources */,
 				4A10DCC41E5A8075009E3996 /* WelcomeCollectionViewCell.swift in Sources */,
 				4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */,
 				4A0EB0EB1D8276DC00390D06 /* TutorialViewController.swift in Sources */,
@@ -619,6 +629,7 @@
 				4ABD20311D407ECC00C3B74E /* AddCardViewController.swift in Sources */,
 				4ADFD3991E56628B00CD3D92 /* UIButton+WebCache.m in Sources */,
 				4A3A56671E27168C00FC0F3B /* PaymentViewController.swift in Sources */,
+				4A10DCC61E5AC0B0009E3996 /* NewLoginViewController.swift in Sources */,
 				4ADFD3901E56628B00CD3D92 /* NSImage+WebCache.m in Sources */,
 				4AC2837C1CECEE3800A08D35 /* SignupPageViewController.swift in Sources */,
 				4A15D17B1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift in Sources */,
@@ -653,6 +664,7 @@
 				4A745CBE1D73A5D500797AFC /* ConfirmationViewController.swift in Sources */,
 				4A3A56631E26D8D600FC0F3B /* extension.swift in Sources */,
 				4ABB89F81D7DEE2C0022DEF2 /* FeedsModel.swift in Sources */,
+				4A10DCCA1E5B663A009E3996 /* LoginView.swift in Sources */,
 				4AFDD2511E37FCCB00CC7A06 /* CustomTableBackgroundView.swift in Sources */,
 				4ADFD38F1E56628B00CD3D92 /* NSData+ImageContentType.m in Sources */,
 				4ADFD39B1E56628B00CD3D92 /* UIImage+MultiFormat.m in Sources */,
