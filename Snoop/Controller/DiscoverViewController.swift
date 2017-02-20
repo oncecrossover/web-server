@@ -195,6 +195,8 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
       myCell.discoverImageView.image = UIImage(named: "default")
     }
 
+    myCell.userInteractionEnabled = true
+
     if (!searchController.active && searchController.searchBar.text == "") {
       if (indexPath.row == profiles.count - 1) {
         let updatedTime = Int64(cellInfo.updatedTime)

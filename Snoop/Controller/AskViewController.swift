@@ -51,8 +51,8 @@ class AskViewController: UIViewController, UITextViewDelegate {
     self.titleLabel.font = UIFont.systemFontOfSize(12)
     self.titleLabel.textColor = UIColor.secondaryTextColor()
 
-    if (profileInfo.avatarImage!.length > 0) {
-      self.profilePhoto.image = UIImage(data: profileInfo.avatarImage!)
+    if let avatarUrl = profileInfo.avatarUrl {
+      self.profilePhoto.sd_setImageWithURL(NSURL(string: avatarUrl))
     }
     else {
       self.profilePhoto.image = UIImage(named: "default")
