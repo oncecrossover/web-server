@@ -18,7 +18,7 @@ class LoginView: UIView {
     email.placeholder = "Your Email"
     email.font = UIFont.systemFontOfSize(16)
     email.borderStyle = .None
-    email.clearButtonMode = .Always
+    email.clearButtonMode = .WhileEditing
     email.keyboardType = .EmailAddress
     return email
   }()
@@ -40,7 +40,7 @@ class LoginView: UIView {
     password.placeholder = "Password"
     password.secureTextEntry = true
     password.borderStyle = .None
-    password.clearButtonMode = .Always
+    password.clearButtonMode = .WhileEditing
     return password
   }()
 

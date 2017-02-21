@@ -112,7 +112,8 @@ extension WelcomeViewController {
   }
 
   func signupButtonTapped() {
-
+    let vc = SignupViewController()
+    self.navigationController?.pushViewController(vc, animated: true)
   }
 
   func loginButtonTapped(){

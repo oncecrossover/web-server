@@ -10,6 +10,8 @@ import UIKit
 
 class NewLoginViewController: UIViewController {
 
+  var signupViewController: SignupViewController?
+
   let iconView: IconView = {
     let iconView = IconView()
     iconView.translatesAutoresizingMaskIntoConstraints = false
@@ -73,6 +75,7 @@ class NewLoginViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    self.navigationController?.setNavigationBarHidden(true, animated: false)
     self.view.backgroundColor = UIColor.whiteColor()
 
     view.addSubview(iconView)
@@ -86,7 +89,7 @@ class NewLoginViewController: UIViewController {
     iconView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
     iconView.widthAnchor.constraintEqualToConstant(300).active = true
     iconView.heightAnchor.constraintEqualToConstant(120).active = true
-    iconView.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: 80).active = true
+    iconView.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: 50).active = true
 
     // Setup email and password fields
     loginView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor, constant: 30).active = true
@@ -162,6 +165,14 @@ class NewLoginViewController: UIViewController {
   }
 
   func signupLinkTapped() {
+    if (signupViewController != nil) {
+      self.navigationController?.popViewControllerAnimated(true)
+    }
+    else {
+      let vc = SignupViewController()
+      vc.loginViewController = self
+      self.navigationController?.pushViewController(vc, animated: true)
+    }
   }
 
   func forgetPasswordLinkTapped() {

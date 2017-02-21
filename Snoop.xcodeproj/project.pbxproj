@@ -16,6 +16,8 @@
 		4A10DCC61E5AC0B0009E3996 /* NewLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCC51E5AC0B0009E3996 /* NewLoginViewController.swift */; };
 		4A10DCC81E5AD440009E3996 /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCC71E5AD440009E3996 /* IconView.swift */; };
 		4A10DCCA1E5B663A009E3996 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCC91E5B663A009E3996 /* LoginView.swift */; };
+		4A10DCCC1E5BA81B009E3996 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCCB1E5BA81B009E3996 /* SignupViewController.swift */; };
+		4A10DCCE1E5BA8B3009E3996 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCCD1E5BA8B3009E3996 /* SignupView.swift */; };
 		4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C0571D3448F400AEF95D /* CircleImageView.swift */; };
 		4A11C05C1D344DF500AEF95D /* RoundCornerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */; };
 		4A11C0621D35BA6900AEF95D /* TextFitLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */; };
@@ -123,6 +125,8 @@
 		4A10DCC51E5AC0B0009E3996 /* NewLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewLoginViewController.swift; sourceTree = "<group>"; };
 		4A10DCC71E5AD440009E3996 /* IconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		4A10DCC91E5B663A009E3996 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		4A10DCCB1E5BA81B009E3996 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		4A10DCCD1E5BA8B3009E3996 /* SignupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		4A11C0571D3448F400AEF95D /* CircleImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
 		4A11C05B1D344DF500AEF95D /* RoundCornerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundCornerButton.swift; sourceTree = "<group>"; };
 		4A11C0611D35BA6900AEF95D /* TextFitLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFitLabel.swift; sourceTree = "<group>"; };
@@ -302,6 +306,7 @@
 				4A10DCBF1E579CF9009E3996 /* SettingsViewController.swift */,
 				4A10DCC11E5A7BA9009E3996 /* WelcomeViewController.swift */,
 				4A10DCC51E5AC0B0009E3996 /* NewLoginViewController.swift */,
+				4A10DCCB1E5BA81B009E3996 /* SignupViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -362,6 +367,7 @@
 				4AFDD2501E37FCCB00CC7A06 /* CustomTableBackgroundView.swift */,
 				4A10DCC71E5AD440009E3996 /* IconView.swift */,
 				4A10DCC91E5B663A009E3996 /* LoginView.swift */,
+				4A10DCCD1E5BA8B3009E3996 /* SignupView.swift */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -615,6 +621,7 @@
 				4ABD203D1D443E1A00C3B74E /* UIUtility.swift in Sources */,
 				4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */,
 				4A55E8FB1E282DB600B033F4 /* BalanceViewController.swift in Sources */,
+				4A10DCCE1E5BA8B3009E3996 /* SignupView.swift in Sources */,
 				4A3A56651E26DECB00FC0F3B /* CustomButton.swift in Sources */,
 				4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */,
 				4AF322761D2DBCB50043FCE5 /* AnswerViewController.swift in Sources */,
@@ -642,6 +649,7 @@
 				4A0EB0ED1D8277C700390D06 /* ContentViewController.swift in Sources */,
 				4A11C05C1D344DF500AEF95D /* RoundCornerButton.swift in Sources */,
 				4ADFD39F1E56628B00CD3D92 /* UIView+WebCache.m in Sources */,
+				4A10DCCC1E5BA81B009E3996 /* SignupViewController.swift in Sources */,
 				4ADFD3941E56628B00CD3D92 /* SDWebImageDecoder.m in Sources */,
 				4A214F351E204E3F0000B29D /* VideoPlayerView.swift in Sources */,
 				4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */,
