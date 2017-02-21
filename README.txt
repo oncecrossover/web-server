@@ -342,6 +342,27 @@ Example response:
 {"https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/7.cover":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg=="}
 
 
+RESTFUL APIs OF CATEGORY:
+1. get category by id, e.g.
+curl -i -X GET "http://127.0.0.1:8080/categories/1"
+Example response:
+{
+  "id": 1,
+  "name": "beauty",
+  "description": "category for makeup and cosmetic.",
+  "createdTime": 1487637009000,
+  "updatedTime": 1487637009000
+}
+
+2. create category, e.g.
+curl -i -X POST "http://127.0.0.1:8080/categories" -d '{"name":"beauty","description":"category for makeup and cosmetic."}'
+Example response:
+{"id":1}
+
+3. update category, e.g.
+curl -i -X PUT "http://127.0.0.1:8080/categories/1" -d '{"name":"beauty","description":"category for makeup and cosmetic."}'
+
+
 
 HTTP STATUS CODE OF REST API:
 1. get user (i.e. HTTP GET):

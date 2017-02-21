@@ -4,6 +4,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrBuilder;
 import org.hibernate.Session;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.gibbon.peeq.db.model.ModelBase;
 import com.gibbon.peeq.db.util.HibernateUtil;
 import com.gibbon.peeq.util.FilterParamParser;
 import com.gibbon.peeq.util.QueryParamsParser;
@@ -11,6 +15,8 @@ import com.gibbon.peeq.util.ResourcePathParser;
 import com.google.common.base.Joiner;
 import com.google.common.io.ByteArrayDataOutput;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
@@ -27,6 +33,7 @@ import static io.netty.handler.codec.http.HttpMethod.DELETE;
 import static io.netty.handler.codec.http.HttpMethod.PUT;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -281,4 +288,26 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
     }
   }
 
+  protected <T extends ModelBase> FullHttpResponse newResponseForInstance(
+      final String id,
+      final String prefix,
+      final T instance) throws JsonProcessingException {
+    if (instance != null) {
+      appendByteArray(instance.toJsonByteArray());
+      return newResponse(HttpResponseStatus.OK);
+    } else {
+      appendln(String.format("Nonexistent resource with URI: /%s/%s", prefix, id));
+      return newResponse(HttpResponseStatus.NOT_FOUND);
+    }
+  }
+
+  protected <T extends ModelBase> T newInstanceFromRequest(final Class<T> clazz)
+      throws JsonParseException, JsonMappingException, IOException {
+    final ByteBuf content = getRequest().content();
+    if (content.isReadable()) {
+      final byte[] json = ByteBufUtil.getBytes(content);
+      return ModelBase.newInstance(json, clazz);
+    }
+    return null;
+  }
 }
