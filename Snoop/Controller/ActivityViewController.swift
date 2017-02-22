@@ -196,64 +196,6 @@ extension ActivityViewController {
     return ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _duration: duration, _askerName: askerName, _responderName: responderName, _responderTitle: responderTitle, _answerCoverUrl: answerCoverUrl, _askerAvatarUrl: askerAvatarUrl, _responderAvatarUrl: responderAvatarUrl, _answerURl: answerUrl, _lastSeenTime: createdTime)
   }
 
-  func loadImagesAsync(cellInfo: ActivityModel, completion: (ActivityModel) -> ()) {
-    if let askerAvatarUrl = cellInfo.askerAvatarUrl {
-      cellInfo.askerImage = NSData(contentsOfURL: NSURL(string: askerAvatarUrl)!)
-    }
-    else {
-      cellInfo.askerImage = NSData()
-    }
-    if let responderAvatarUrl = cellInfo.responderAvatarUrl {
-      cellInfo.responderImage = NSData(contentsOfURL: NSURL(string: responderAvatarUrl)!)
-    }
-    else {
-      cellInfo.responderImage = NSData()
-    }
-    if let answerCoverUrl = cellInfo.answerCoverUrl {
-      cellInfo.answerCover = NSData(contentsOfURL: NSURL(string: answerCoverUrl)!)
-    }
-    else {
-      cellInfo.answerCover = NSData()
-    }
-
-    completion(cellInfo)
-  }
-
-  func setImages(myCell: ActivityTableViewCell, info: ActivityModel) {
-    if (info.askerImage!.length > 0) {
-      myCell.askerImage.image = UIImage(data: info.askerImage!)
-    }
-    else {
-      myCell.askerImage.image = UIImage(named: "default")
-    }
-
-    if (info.responderImage!.length > 0) {
-      myCell.responderImage.image = UIImage(data: info.responderImage!)
-    }
-    else {
-      myCell.responderImage.image = UIImage(named: "default")
-    }
-
-    if (info.status == "PENDING") {
-      myCell.coverImage.image = UIImage()
-      myCell.coverImage.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1.0)
-      myCell.coverImage.userInteractionEnabled = false
-      myCell.durationLabel.hidden = true
-    }
-    else if (info.status == "ANSWERED") {
-      if (info.answerCover != nil) {
-        myCell.coverImage.image = UIImage(data: info.answerCover!)
-
-        myCell.coverImage.userInteractionEnabled = true
-        let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnImage(_:)))
-        myCell.coverImage.addGestureRecognizer(tappedOnImage)
-
-        myCell.durationLabel.text = "00:\(info.duration)"
-        myCell.durationLabel.hidden = false
-      }
-    }
-  }
-
   func setPlaceholderImages(cell: ActivityTableViewCell) {
     cell.coverImage.userInteractionEnabled = false
     cell.coverImage.image = UIImage()

@@ -76,8 +76,15 @@ extension AnswerViewController: UITableViewDataSource, UITableViewDelegate {
       myCell.responderTitle.text = cellInfo.responderTitle
     }
 
-    if (cellInfo.responderImage!.length > 0) {
-      myCell.responderImage.image = UIImage(data: cellInfo.responderImage!)
+    if let askerAvatarUrl = cellInfo.askerAvatarUrl {
+      myCell.askerImage.sd_setImageWithURL(NSURL(string: askerAvatarUrl))
+    }
+    else {
+      myCell.askerImage.image = UIImage(named: "default")
+    }
+
+    if let responderAvatarUrl = cellInfo.responderAvatarUrl {
+      myCell.responderImage.sd_setImageWithURL(NSURL(string: responderAvatarUrl))
     }
     else {
       myCell.responderImage.image = UIImage(named: "default")
@@ -87,21 +94,8 @@ extension AnswerViewController: UITableViewDataSource, UITableViewDelegate {
       myCell.coverImage.image = UIImage()
       myCell.coverImage.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1.0)
     }
-    else if (cellInfo.status == "ANSWERED") {
-      myCell.coverImage.image = UIImage(data: cellInfo.answerCover!)
-      myCell.coverImage.userInteractionEnabled = true
-      let tappedToWatch = UITapGestureRecognizer(target: self, action: #selector(AnswerViewController.tappedToWatch(_:)))
-      cameraImage.addGestureRecognizer(tappedToWatch)
-    }
 
     myCell.askerName.text = cellInfo.askerName + ":"
-
-    if (cellInfo.askerImage!.length > 0) {
-      myCell.askerImage.image = UIImage(data: cellInfo.askerImage!)
-    }
-    else {
-      myCell.askerImage.image = UIImage(named: "default")
-    }
 
     return myCell
   }
