@@ -363,6 +363,66 @@ Example response:
 curl -i -X PUT "http://127.0.0.1:8080/categories/1" -d '{"name":"beauty","description":"category for makeup and cosmetic."}'
 
 
+RESTFUL APIs OF CATMAPPING:
+1. get catmapping by id
+curl -i -X GET "http://127.0.0.1:8080/catmappings/1"
+
+
+2. update catmapping for user
+curl -i -X PUT "http://127.0.0.1:8080/catmappings/bingo" -d '[{"catId":5,"isExpertise":"YES"}]'
+curl -i -X PUT "http://127.0.0.1:8080/catmappings/bingo" -d '[{"id":1,"catId":5,"isExpertise":"YES"}]'
+curl -i -X PUT "http://127.0.0.1:8080/catmappings/bingo" -d '[{"catId":5,"isExpertise":"YES"},{"catId":4,"isInterest":"YES"}]'
+curl -i -X PUT "http://127.0.0.1:8080/catmappings/bingo" -d '[{"id":1,"catId":5,"isExpertise":"YES"},{"id":2,"catId":4,"isInterest":"YES"}]'
+
+
+3. Query expertise for user:
+curl -i -X GET "http://127.0.0.1:8080/catmappings?uid='edmund'&isExpertise='YES'"
+Example response:
+[
+  {
+    "id": 3,
+    "catId": 2,
+    "uid": "edmund",
+    "isExpertise": "YES",
+    "isInterest": "NO",
+    "createdTime": 1487755969000,
+    "updatedTime": 1487755969000
+  },
+  {
+    "id": 5,
+    "catId": 5,
+    "uid": "edmund",
+    "isExpertise": "YES",
+    "isInterest": "NO",
+    "createdTime": 1487756001000,
+    "updatedTime": 1487756001000
+  }
+]
+
+4. Query interests for user:
+curl -i -X GET "http://127.0.0.1:8080/catmappings?uid='edmund'&isInterest='YES'"
+Example response:
+[
+  {
+    "id": 4,
+    "catId": 3,
+    "uid": "edmund",
+    "isExpertise": "NO",
+    "isInterest": "YES",
+    "createdTime": 1487755972000,
+    "updatedTime": 1487755972000
+  },
+  {
+    "id": 6,
+    "catId": 4,
+    "uid": "edmund",
+    "isExpertise": "NO",
+    "isInterest": "YES",
+    "createdTime": 1487756004000,
+    "updatedTime": 1487756004000
+  }
+]
+
 
 HTTP STATUS CODE OF REST API:
 1. get user (i.e. HTTP GET):

@@ -38,5 +38,6 @@
     <mapping resource="com/gibbon/peeq/scripts/journal.hbm.xml" />
     <mapping resource="com/gibbon/peeq/scripts/tempPwd.hbm.xml" />
     <mapping resource="com/gibbon/peeq/scripts/category.hbm.xml" />
+    <mapping resource="com/gibbon/peeq/scripts/catMapping.hbm.xml" />
   </session-factory>
 </hibernate-configuration>

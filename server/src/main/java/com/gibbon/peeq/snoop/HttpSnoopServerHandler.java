@@ -44,6 +44,7 @@ import org.slf4j.LoggerFactory;
 import com.gibbon.peeq.handlers.AnswerWebHandler;
 import com.gibbon.peeq.handlers.BalanceWebHandler;
 import com.gibbon.peeq.handlers.BulkDataWebHandler;
+import com.gibbon.peeq.handlers.CatMappingWebHandler;
 import com.gibbon.peeq.handlers.CategoryWebHandler;
 import com.gibbon.peeq.handlers.NewsfeedWebHandler;
 import com.gibbon.peeq.handlers.NotFoundResourceWebHandler;
@@ -194,6 +195,12 @@ public class HttpSnoopServerHandler
           request).handle();
     } else if ("categories".equalsIgnoreCase(resourceName)) {
       return new CategoryWebHandler(
+          pathParser,
+          respBuf,
+          ctx,
+          request).handle();
+    } else if ("catmappings".equalsIgnoreCase(resourceName)) {
+      return new CatMappingWebHandler(
           pathParser,
           respBuf,
           ctx,

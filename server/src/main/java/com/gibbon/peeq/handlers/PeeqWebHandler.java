@@ -301,12 +301,22 @@ abstract class AbastractPeeqWebHandler implements PeeqWebHandler {
     }
   }
 
-  protected <T extends ModelBase> T newInstanceFromRequest(final Class<T> clazz)
+  protected <T> T newInstanceFromRequest(final Class<T> clazz)
       throws JsonParseException, JsonMappingException, IOException {
     final ByteBuf content = getRequest().content();
     if (content.isReadable()) {
       final byte[] json = ByteBufUtil.getBytes(content);
       return ModelBase.newInstance(json, clazz);
+    }
+    return null;
+  }
+
+  protected <T> List<T> newInstanceAsListFromRequest(final Class<T> clazz)
+      throws JsonParseException, JsonMappingException, IOException {
+    final ByteBuf content = getRequest().content();
+    if (content.isReadable()) {
+      final byte[] json = ByteBufUtil.getBytes(content);
+      return ModelBase.newInstanceAsList(json, clazz);
     }
     return null;
   }
