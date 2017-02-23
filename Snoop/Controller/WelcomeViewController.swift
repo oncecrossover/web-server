@@ -26,6 +26,7 @@ class WelcomeViewController: UIViewController {
     introduction.translatesAutoresizingMaskIntoConstraints = false
     introduction.backgroundColor = UIColor.clearColor()
     introduction.registerClass(WelcomeCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
+    introduction.showsHorizontalScrollIndicator = false
     return introduction
   }()
 
@@ -85,7 +86,7 @@ class WelcomeViewController: UIViewController {
     introduction.heightAnchor.constraintEqualToConstant(215).active = true
 
     // Setup PageControl constraints
-    pageControl.widthAnchor.constraintEqualToConstant(60).active = true
+    pageControl.widthAnchor.constraintEqualToConstant(120).active = true
     pageControl.heightAnchor.constraintEqualToConstant(10).active = true
     pageControl.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
     pageControl.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -130).active = true
@@ -146,7 +147,11 @@ extension WelcomeViewController: UICollectionViewDataSource, UICollectionViewDel
 extension WelcomeViewController: UIScrollViewDelegate {
   func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
     let pageWidth = introduction.frame.size.width
-    pageControl.currentPage = Int(introduction.contentOffset.x / pageWidth)
+    let halfPageSize = pageWidth / 2
+    pageControl.currentPage = Int((introduction.contentOffset.x + halfPageSize) / pageWidth)
+    // Add scroll to position action
+    let indexPath = NSIndexPath(forRow: pageControl.currentPage, inSection: 0)
+    self.introduction.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated: true)
   }
 }
 
