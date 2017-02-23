@@ -165,7 +165,7 @@ extension ActivityViewController {
     controlBar.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
     controlBar.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
     controlBar.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: topMargin).active = true
-    controlBar.bottomAnchor.constraintEqualToAnchor(activityTableView.topAnchor, constant: -8).active = true
+    controlBar.bottomAnchor.constraintEqualToAnchor(activityTableView.topAnchor).active = true
   }
 
   func createActitivyModel(questionInfo: [String:AnyObject], isSnoop: Bool) -> ActivityModel{
