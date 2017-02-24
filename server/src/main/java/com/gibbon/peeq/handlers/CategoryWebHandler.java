@@ -32,7 +32,17 @@ public class CategoryWebHandler extends AbastractPeeqWebHandler
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    return onGet();
+    final PeeqWebHandler pwh = new CategoryFilterWebHandler(
+        getPathParser(),
+        getRespBuf(),
+        getHandlerContext(),
+        getRequest());
+
+    if (pwh.willFilter()) {
+      return pwh.handle();
+    } else {
+      return onGet();
+    }
   }
 
   @Override

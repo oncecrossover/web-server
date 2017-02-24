@@ -120,13 +120,13 @@ public class CatMappingDBUtil {
     final List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
       if ("id".equals(key)) {
-        list.add(String.format("CM.id=%d",
-            Long.parseLong(params.get(key).get(0))));
-      } else if ("uid".equals(key)) {
-        list.add(String.format("CM.uid=%s", params.get(key).get(0)));
+        list.add(
+            String.format("CM.id=%d", Long.parseLong(params.get(key).get(0))));
       } else if ("catId".equals(key)) {
         list.add(String.format("CM.catId=%d",
             Long.parseLong(params.get(key).get(0))));
+      } else if ("uid".equals(key)) {
+        list.add(String.format("CM.uid=%s", params.get(key).get(0)));
       } else if ("isExpertise".equals(key)) {
         list.add(String.format("CM.isExpertise=%s", params.get(key).get(0)));
       } else if ("isInterest".equals(key)) {

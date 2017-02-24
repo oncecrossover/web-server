@@ -362,6 +362,34 @@ Example response:
 3. update category, e.g.
 curl -i -X PUT "http://127.0.0.1:8080/categories/1" -d '{"name":"beauty","description":"category for makeup and cosmetic."}'
 
+4. query category, e.g.
+curl -i -G -X GET http://127.0.0.1:8080/categories --data-urlencode "name='%'", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/categories?name='%%'"
+
+curl -i -G -X GET http://127.0.0.1:8080/categories --data-urlencode "name='%music'", equivalent to
+curl -i -G -X GET http://127.0.0.1:8080/categories --data-urlencode "name='%%music'",
+
+curl -i -X GET "http://127.0.0.1:8080/categories?id=1"
+
+Example response:
+[
+  {
+    "id": 1,
+    "name": "beauty",
+    "description": "category for makeup and cosmetic.",
+    "createdTime": 1487637009000,
+    "updatedTime": 1487637009000
+  },
+  {
+    "id": 2,
+    "name": "music",
+    "description": "category for music education.",
+    "createdTime": 1487748652000,
+    "updatedTime": 1487748652000
+  }
+]
+
+
 
 RESTFUL APIs OF CATMAPPING:
 1. get catmapping by id
