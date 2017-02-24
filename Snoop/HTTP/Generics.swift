@@ -8,7 +8,7 @@
 
 import Foundation
 class Generics: NSObject, NSURLSessionDelegate {
-  var HTTPHOST = "https://www.snoopqa.com:8081/"
+  var HTTPHOST = "http://www.snoopqa.com:8081/"
   override init() {
   }
 
@@ -89,8 +89,8 @@ class Generics: NSObject, NSURLSessionDelegate {
   }
 
   func updateObject(myUrl: NSURL, jsonData: [String:AnyObject], completion: (String) -> ()) {
-    let request = NSMutableURLRequest(URL:myUrl);
-    request.HTTPMethod = "PUT";
+    let request = NSMutableURLRequest(URL:myUrl)
+    request.HTTPMethod = "PUT"
 
     do {
       request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
@@ -117,6 +117,38 @@ class Generics: NSObject, NSURLSessionDelegate {
         completion("")
       }
 
+    }
+    task.resume()
+  }
+
+  func updateObjects(myUrl: NSURL, jsonData: [[String: AnyObject]], completion: (String) -> ()) {
+    let request = NSMutableURLRequest(URL: myUrl)
+    request.HTTPMethod = "PUT"
+
+    do {
+      request.HTTPBody = try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
+    }
+    catch {
+      print("error=\(error)")
+      completion("an error occurs when updating objects: \(error)")
+    }
+
+    let session = self.getURLSession()
+    let task = session.dataTaskWithRequest(request) {
+      data, response, error in
+      if (error != nil) {
+        completion("\(error)")
+        return
+      }
+
+      let httpResponse = response as! NSHTTPURLResponse
+      if (httpResponse.statusCode == 400) {
+        let responseData = String(data: data!, encoding: NSUTF8StringEncoding)!
+        completion(responseData)
+      }
+      else {
+        completion("")
+      }
     }
     task.resume()
   }

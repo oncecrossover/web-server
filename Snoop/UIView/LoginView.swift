@@ -20,6 +20,7 @@ class LoginView: UIView {
     email.borderStyle = .None
     email.clearButtonMode = .WhileEditing
     email.keyboardType = .EmailAddress
+    email.autocapitalizationType = .None
     return email
   }()
 
@@ -41,6 +42,7 @@ class LoginView: UIView {
     password.secureTextEntry = true
     password.borderStyle = .None
     password.clearButtonMode = .WhileEditing
+    password.autocapitalizationType = .None
     return password
   }()
 

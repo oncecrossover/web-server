@@ -63,6 +63,7 @@ class SignupView: UIView {
     email.borderStyle = .None
     email.clearButtonMode = .WhileEditing
     email.keyboardType = .EmailAddress
+    email.autocapitalizationType = .None
     return email
   }()
 
@@ -77,6 +78,7 @@ class SignupView: UIView {
     password.secureTextEntry = true
     password.borderStyle = .None
     password.clearButtonMode = .WhileEditing
+    password.autocapitalizationType = .None
     return password
   }()
 

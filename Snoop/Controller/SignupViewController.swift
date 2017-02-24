@@ -86,10 +86,6 @@ class SignupViewController: UIViewController {
   }
 
   func signupButtonTapped() {
-
-  }
-
-  func signupButtonTappedHelper() {
     let utility = UIUtility()
     let userModule = User()
     let userEmail = signupView.email.text!
@@ -128,13 +124,20 @@ class SignupViewController: UIViewController {
       }
       else {
         var resultMessage = ""
+        let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Saving your Info...")
         userModule.createUser(userEmail, userPassword: userPassword, fullName: name) { resultString in
           if (resultString.isEmpty) {
-            resultMessage = "Registration is successful"
+            activityIndicator.hideAnimated(true)
+            dispatch_async(dispatch_get_main_queue()) {
+              let vc = InterestPickerViewController()
+              vc.email = userEmail
+              self.navigationController?.pushViewController(vc, animated: true)
+            }
 
           }
           else {
             resultMessage = resultString
+            activityIndicator.hideAnimated(true)
             // Display failure message
             let myAlert = UIAlertController(title: "Error", message: resultMessage, preferredStyle: UIAlertControllerStyle.Alert)
             let okAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
@@ -146,7 +149,6 @@ class SignupViewController: UIViewController {
         }
       }
     }
-
   }
 
   func loginLinkTapped() {
