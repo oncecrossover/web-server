@@ -136,7 +136,11 @@ extension InterestPickerViewController {
 
     category.updateInterests(email, interests: categoriesToUpdate) { result in
       if (result.isEmpty) {
-
+        dispatch_async(dispatch_get_main_queue()) {
+          let vc = TutorialViewController()
+          vc.email = self.email
+          self.navigationController?.pushViewController(vc, animated: true)
+        }
       }
       else {
         dispatch_async(dispatch_get_main_queue()) {

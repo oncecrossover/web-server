@@ -12,11 +12,21 @@ class ContentViewController: UIViewController {
 
   var pageIndex:Int!
   var imageName:String!
-  @IBOutlet weak var imageView: UIImageView!
+
+  lazy var imageView: UIImageView = {
+    let view = UIImageView()
+    view.contentMode = .ScaleAspectFit
+    view.image = UIImage(named: self.imageName)
+    return view
+  }()
+
   override func viewDidLoad() {
     super.viewDidLoad()
+    view.backgroundColor = UIColor.whiteColor()
 
-    imageView.image = UIImage(named: imageName)
+    view.addSubview(imageView)
+    view.addConstraintsWithFormat("H:|-4-[v0]-4-|", views: imageView)
+    view.addConstraintsWithFormat("V:|-4-[v0]-4-|", views: imageView)
   }
 
 }

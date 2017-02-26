@@ -127,7 +127,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let pageController = UIPageControl.appearance()
     pageController.pageIndicatorTintColor = UIColor.lightGrayColor()
-    pageController.currentPageIndicatorTintColor = UIColor.blackColor()
+    pageController.currentPageIndicatorTintColor = UIColor.defaultColor()
     pageController.backgroundColor = UIColor.whiteColor()
 
     UITabBar.appearance().tintColor = UIColor.defaultColor()

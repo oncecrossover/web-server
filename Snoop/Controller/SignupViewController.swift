@@ -129,6 +129,8 @@ class SignupViewController: UIViewController {
           if (resultString.isEmpty) {
             activityIndicator.hideAnimated(true)
             dispatch_async(dispatch_get_main_queue()) {
+              NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isUserSignedUp")
+              NSUserDefaults.standardUserDefaults().synchronize()
               let vc = InterestPickerViewController()
               vc.email = userEmail
               self.navigationController?.pushViewController(vc, animated: true)
