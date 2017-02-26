@@ -23,7 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     setupCustomUI()
 
-    registerForPushNotifications(application)
     if let notification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [String: AnyObject] {
       let aps = notification["aps"] as! [String: AnyObject]
       let alert = aps["alert"] as! [String : String]

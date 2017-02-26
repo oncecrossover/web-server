@@ -31,6 +31,12 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
     pageViewController.didMoveToParentViewController(self)
   }
 
+  override func viewDidAppear(animated: Bool) {
+    super.viewDidAppear(animated)
+    let application = UIApplication.sharedApplication()
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    appDelegate.registerForPushNotifications(application)
+  }
   func setupNavbar() {
     // Creating right bar button
     let navbar = UINavigationBar(frame: CGRectMake(0, 0,

@@ -67,7 +67,6 @@ extension ViewController {
 
     let isUserLoggedIn = NSUserDefaults.standardUserDefaults().boolForKey("isUserLoggedIn")
     if (!isUserLoggedIn){
-//      self.performSegueWithIdentifier("loginView", sender: self)
       let vc = UINavigationController(rootViewController: NewLoginViewController())
       self.presentViewController(vc, animated: true, completion: nil)
     }

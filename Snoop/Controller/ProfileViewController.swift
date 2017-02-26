@@ -167,67 +167,35 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
   }
 
   func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    return 2
-  }
-
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if (section == 0) {
-      return 2
-    }
     return 1
   }
 
+  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return 2
+  }
+
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    if (indexPath.section == 0) {
-      let cell = tableView.dequeueReusableCellWithIdentifier("settingsCell") as! SettingsTableViewCell
-      cell.icon.contentMode = .ScaleAspectFit
-      if (indexPath.row == 0) {
-        cell.category.text = "My Wallet"
-        cell.icon.image = UIImage(named: "wallet")
-      }
-      else if (indexPath.row == 1) {
-        cell.category.text = "My Interests"
-        cell.icon.image = UIImage(named: "interest")
-      }
-      return cell
+    let cell = tableView.dequeueReusableCellWithIdentifier("settingsCell") as! SettingsTableViewCell
+    cell.icon.contentMode = .ScaleAspectFit
+    if (indexPath.row == 0) {
+      cell.category.text = "My Wallet"
+      cell.icon.image = UIImage(named: "wallet")
     }
-    else {
-      let cell = tableView.dequeueReusableCellWithIdentifier("regularCell")! as UITableViewCell
-      cell.textLabel?.text = "Log Out"
-      cell.textLabel?.textColor = UIColor(red: 51/255, green: 181/255, blue: 159/255, alpha: 1.0)
-      cell.textLabel?.textAlignment = .Center
-      return cell
+    else if (indexPath.row == 1) {
+      cell.category.text = "My Interests"
+      cell.icon.image = UIImage(named: "interest")
     }
+    return cell
   }
 
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    if (indexPath.section == 1) {
-      let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-      NSUserDefaults.standardUserDefaults().setBool(false, forKey: "isUserLoggedIn")
-      NSUserDefaults.standardUserDefaults().removeObjectForKey("email")
-      NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadHome")
-      NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadDiscover")
-      NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadProfile")
-      NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadQuestions")
-      NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadAnswers")
-      NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadSnoops")
-      NSUserDefaults.standardUserDefaults().synchronize()
-      userModule.updateDeviceToken(uid, token: "") { result in
-        dispatch_async(dispatch_get_main_queue()) {
-          self.performSegueWithIdentifier("loginView", sender: self)
-        }
-      }
-    }
-    else {
-      let backItem = UIBarButtonItem()
-      backItem.title = "Back"
-      navigationItem.backBarButtonItem = backItem
+    let backItem = UIBarButtonItem()
+    backItem.title = "Back"
+    navigationItem.backBarButtonItem = backItem
 
-      if (indexPath.row == 0) {
-
-        let dvc = PaymentViewController()
-        self.navigationController?.pushViewController(dvc, animated: true)
-      }
+    if (indexPath.row == 0) {
+      let dvc = PaymentViewController()
+      self.navigationController?.pushViewController(dvc, animated: true)
     }
   }
 }
