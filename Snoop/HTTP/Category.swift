@@ -15,11 +15,11 @@ class Category {
 
   init() {
     CATEGORYURI = self.generics.HTTPHOST + "categories"
-    CATMAPPINGURI = self.generics.HTTPHOST + "catmappings/"
+    CATMAPPINGURI = self.generics.HTTPHOST + "catmappings"
   }
 
   func updateInterests(uid: String, interests: [[String: AnyObject]], completion: (String) -> ()) {
-    let url = NSURL(string: CATMAPPINGURI + uid)!
+    let url = NSURL(string: CATMAPPINGURI + "/" + uid)!
     generics.updateObjects(url, jsonData: interests) { result in
       completion(result)
     }
@@ -28,6 +28,14 @@ class Category {
   func getCategories(completion: (NSArray) -> ()) {
     let urlString = CATEGORYURI + "?name='%25%25'"
     let url = NSURL(string: urlString)!
+    generics.getFilteredObjects(url) { result in
+      completion(result)
+    }
+  }
+
+  func getExpertise(completion: (NSArray) -> ()) {
+    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    let url = NSURL(string: CATMAPPINGURI + "?uid='" + uid + "'&isExpertise='Yes'")!
     generics.getFilteredObjects(url) { result in
       completion(result)
     }

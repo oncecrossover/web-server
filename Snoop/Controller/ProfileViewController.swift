@@ -29,6 +29,7 @@ class ProfileViewController: UIViewController {
   var userModule = User()
   var segueDouble:(String, String)?
   var isEditButtonClicked = true
+  var isSnooper = false
 }
 
 // oevrride methods
@@ -105,7 +106,7 @@ extension ProfileViewController {
         self.rate = rate
 
         if (avatarUrl != nil) {
-          self.profilePhoto.image = UIImage(data: NSData(contentsOfURL: NSURL(string: avatarUrl!)!)!)
+          self.profilePhoto.sd_setImageWithURL(NSURL(string: avatarUrl!))
         }
         else {
           self.profilePhoto.image = UIImage(named: "default")
@@ -122,9 +123,11 @@ extension ProfileViewController {
   private func handleApplyButtonView(status: String) {
     if (status == "NA" || status.isEmpty) {
       applyButton.enabled = true
+      isSnooper = false
     }
     else if (status == "APPLIED") {
       applyButton.enabled = false
+      isSnooper = true
     }
     else {
       let frame = applyButton.frame
@@ -137,6 +140,7 @@ extension ProfileViewController {
       approvedLabel.textColor = UIColor(red: 51/255, green: 181/255, blue: 159/255, alpha: 1.0)
       approvedLabel.numberOfLines = 0
       approvedLabel.font = UIFont.systemFontOfSize(14)
+      isSnooper = true
     }
   }
 }
@@ -146,12 +150,30 @@ extension ProfileViewController {
 
   @IBAction func editButtonTapped(sender: AnyObject) {
     isEditButtonClicked = true
-    self.performSegueWithIdentifier("segueToProfileEdit", sender: self)
+    let dvc = EditProfileViewController()
+    var image = UIImage()
+    if (profilePhoto.image != nil) {
+      image = profilePhoto.image!
+    }
+    dvc.profileValues = (name: nameLabel.text, title: titleLabel.text, about: aboutLabel.text,
+                         avatarImage : image, rate: self.rate)
+    dvc.isEditingProfile = isEditButtonClicked
+    dvc.isSnooper = isSnooper
+    self.navigationController?.pushViewController(dvc, animated: true)
   }
 
   @IBAction func applyButtonTapped(sender: AnyObject) {
     isEditButtonClicked = false
-    self.performSegueWithIdentifier("segueToProfileEdit", sender: self)
+    let dvc = EditProfileViewController()
+    var image = UIImage()
+    if (profilePhoto.image != nil) {
+      image = profilePhoto.image!
+    }
+    dvc.profileValues = (name: nameLabel.text, title: titleLabel.text, about: aboutLabel.text,
+                         avatarImage : image, rate: self.rate)
+    dvc.isEditingProfile = isEditButtonClicked
+    dvc.isSnooper = isSnooper
+    self.navigationController?.pushViewController(dvc, animated: true)
   }
 
   func settingsButtonTapped() {

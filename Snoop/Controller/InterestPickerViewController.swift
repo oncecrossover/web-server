@@ -13,11 +13,9 @@ class InterestPickerViewController: UIViewController {
   let cellId = "interestCell"
   var email: String!
 
-  var allCategories: [(Int, String)] = []
-  var selectedCategories: [(Int, String)] = []
+  var allCategories: [CategoryModel] = []
+  var selectedCategories: Set<CategoryModel> = []
 
-  let maximumNumberOfInterests = 2
-  var selectedInterest: Set<String> = []
   let category = Category()
   lazy var utility = UIUtility()
 
@@ -112,7 +110,7 @@ class InterestPickerViewController: UIViewController {
       for category in jsonArray as! [[String: AnyObject]] {
         let id = category["id"] as! Int
         let name = category["name"] as! String
-        self.allCategories.append((id, name))
+        self.allCategories.append(CategoryModel(_id: id, _name: name))
       }
       dispatch_async(dispatch_get_main_queue()) {
         self.interests.reloadData()
@@ -129,7 +127,7 @@ extension InterestPickerViewController {
     var categoriesToUpdate:[[String: AnyObject]] = []
     for category in selectedCategories {
       var interest: [String: AnyObject] = [:]
-      interest["catId"] = category.0
+      interest["catId"] = category.id
       interest["isInterest"] = "Yes"
       categoriesToUpdate.append(interest)
     }
@@ -151,7 +149,7 @@ extension InterestPickerViewController {
   }
 
   func checkButton() {
-    if (selectedInterest.count > 0) {
+    if (selectedCategories.count > 0) {
       doneButton.enabled = true
     }
     else {
@@ -171,9 +169,9 @@ extension InterestPickerViewController: UICollectionViewDelegate, UICollectionVi
 
   func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
     let myCell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellId, forIndexPath: indexPath) as! InterestCollectionViewCell
-    let image = UIImage(named: allCategories[indexPath.row].1)
+    let image = UIImage(named: allCategories[indexPath.row].name)
     myCell.icon.image = image?.imageWithRenderingMode(.AlwaysTemplate)
-    if (selectedInterest.contains(allCategories[indexPath.row].1)) {
+    if (selectedCategories.contains(allCategories[indexPath.row])) {
       myCell.icon.tintColor = UIColor.defaultColor()
     }
     else {
@@ -185,17 +183,15 @@ extension InterestPickerViewController: UICollectionViewDelegate, UICollectionVi
 
   func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
     let interest = allCategories[indexPath.row]
-    selectedInterest.insert(interest.1)
-    selectedCategories.append(interest)
+    selectedCategories.insert(interest)
 
     checkButton()
   }
 
   func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
     let interest = allCategories[indexPath.row]
-    if (selectedInterest.contains(interest.1)) {
-      selectedInterest.remove(interest.1)
-      selectedCategories.append(interest)
+    if (selectedCategories.contains(interest)) {
+      selectedCategories.remove(interest)
     }
     checkButton()
   }
