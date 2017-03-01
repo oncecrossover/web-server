@@ -394,6 +394,18 @@ Example response:
 RESTFUL APIs OF CATMAPPING:
 1. get catmapping by id
 curl -i -X GET "http://127.0.0.1:8080/catmappings/1"
+Example response:
+{
+  "id": 1,
+  "catId": 5,
+  "catName": "tech",
+  "catDescription": "category for tech.",
+  "uid": "bingo",
+  "isExpertise": "YES",
+  "isInterest": "NO",
+  "createdTime": 1487754906000,
+  "updatedTime": 1487754906000
+}
 
 
 2. update catmapping for user
@@ -410,6 +422,8 @@ Example response:
   {
     "id": 3,
     "catId": 2,
+    "catName": "music",
+    "catDescription": "category for music education.",
     "uid": "edmund",
     "isExpertise": "YES",
     "isInterest": "NO",
@@ -419,6 +433,8 @@ Example response:
   {
     "id": 5,
     "catId": 5,
+    "catName": "tech",
+    "catDescription": "category for tech.",
     "uid": "edmund",
     "isExpertise": "YES",
     "isInterest": "NO",
@@ -426,7 +442,6 @@ Example response:
     "updatedTime": 1487756001000
   }
 ]
-
 4. Query interests for user:
 curl -i -X GET "http://127.0.0.1:8080/catmappings?uid='edmund'&isInterest='YES'"
 Example response:
@@ -434,6 +449,8 @@ Example response:
   {
     "id": 4,
     "catId": 3,
+    "catName": "fitness",
+    "catDescription": "category for fitness education.",
     "uid": "edmund",
     "isExpertise": "NO",
     "isInterest": "YES",
@@ -443,6 +460,8 @@ Example response:
   {
     "id": 6,
     "catId": 4,
+    "catName": "sports",
+    "catDescription": "category for sports.",
     "uid": "edmund",
     "isExpertise": "NO",
     "isInterest": "YES",

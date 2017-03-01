@@ -34,16 +34,7 @@ public class CatMappingDBUtil {
       }
 
       /* build query */
-      final SQLQuery query = session.createSQLQuery(sql);
-      query.setResultTransformer(Transformers.aliasToBean(CatMappingEntry.class));
-      /* add column mapping */
-      query.addScalar("id", new LongType())
-           .addScalar("catId", new LongType())
-           .addScalar("uid", new StringType())
-           .addScalar("isExpertise", new StringType())
-           .addScalar("isInterest", new StringType())
-           .addScalar("createdTime", new TimestampType())
-           .addScalar("updatedTime", new TimestampType());
+      final SQLQuery query = buildQuery(session, sql);
       list = query.list();
 
       if (txn != null) {
@@ -61,12 +52,30 @@ public class CatMappingDBUtil {
     return list.size() == 1 ? list.get(0) : null;
   }
 
+  private static SQLQuery buildQuery(final Session session, final String sql) {
+    final SQLQuery query = session.createSQLQuery(sql);
+    query.setResultTransformer(Transformers.aliasToBean(CatMappingEntry.class));
+    /* add column mapping */
+    query.addScalar("id", new LongType())
+         .addScalar("catId", new LongType())
+         .addScalar("catName", new StringType())
+         .addScalar("catDescription", new StringType())
+         .addScalar("uid", new StringType())
+         .addScalar("isExpertise", new StringType())
+         .addScalar("isInterest", new StringType())
+         .addScalar("createdTime", new TimestampType())
+         .addScalar("updatedTime", new TimestampType());
+    return query;
+  }
+
   private static String buildSql4CatMappingEntry(
       final Long catId,
       final String uid) {
-    final String select = "SELECT CM.id, CM.catId, CM.uid, CM.isExpertise,"
-        + " CM.isInterest, CM.createdTime, CM.updatedTime FROM CatMapping AS CM"
-        + " WHERE catId=%d AND uid='%s'";
+    final String select = "SELECT CM.id, CM.catId,"
+        + " C.name AS catName, C.description AS catDescription,"
+        + " CM.uid, CM.isExpertise, CM.isInterest, CM.createdTime, CM.updatedTime"
+        + " FROM CatMapping AS CM INNER JOIN Category AS C"
+        + " ON CM.catId = C.id AND CM.catId = %d WHERE uid = '%s'";
     return String.format(select, catId, uid);
   }
 
@@ -85,16 +94,7 @@ public class CatMappingDBUtil {
       }
 
       /* build query */
-      final SQLQuery query = session.createSQLQuery(sql);
-      query.setResultTransformer(Transformers.aliasToBean(CatMappingEntry.class));
-      /* add column mapping */
-      query.addScalar("id", new LongType())
-           .addScalar("catId", new LongType())
-           .addScalar("uid", new StringType())
-           .addScalar("isExpertise", new StringType())
-           .addScalar("isInterest", new StringType())
-           .addScalar("createdTime", new TimestampType())
-           .addScalar("updatedTime", new TimestampType());
+      final SQLQuery query = buildQuery(session, sql);
       list = query.list();
 
       if (txn != null) {
@@ -114,23 +114,26 @@ public class CatMappingDBUtil {
   private static String buildSql4CatMappingEntries(
       final Map<String, List<String>> params) {
 
-    final String select = "SELECT CM.id, CM.catId, CM.uid, CM.isExpertise,"
-        + " CM.isInterest, CM.createdTime, CM.updatedTime FROM CatMapping AS CM";
+    final String select = "SELECT CM.id, CM.catId,"
+        + " C.name AS catName, C.description AS catDescription,"
+        + " CM.uid, CM.isExpertise, CM.isInterest, CM.createdTime, CM.updatedTime"
+        + " FROM CatMapping AS CM INNER JOIN Category AS C"
+        + " ON CM.catId = C.id";
 
     final List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
       if ("id".equals(key)) {
         list.add(
-            String.format("CM.id=%d", Long.parseLong(params.get(key).get(0))));
+            String.format("CM.id = %d", Long.parseLong(params.get(key).get(0))));
       } else if ("catId".equals(key)) {
-        list.add(String.format("CM.catId=%d",
+        list.add(String.format("CM.catId = %d",
             Long.parseLong(params.get(key).get(0))));
       } else if ("uid".equals(key)) {
-        list.add(String.format("CM.uid=%s", params.get(key).get(0)));
+        list.add(String.format("CM.uid = %s", params.get(key).get(0)));
       } else if ("isExpertise".equals(key)) {
-        list.add(String.format("CM.isExpertise=%s", params.get(key).get(0)));
+        list.add(String.format("CM.isExpertise = %s", params.get(key).get(0)));
       } else if ("isInterest".equals(key)) {
-        list.add(String.format("CM.isInterest=%s", params.get(key).get(0)));
+        list.add(String.format("CM.isInterest= %s", params.get(key).get(0)));
       }
     }
 

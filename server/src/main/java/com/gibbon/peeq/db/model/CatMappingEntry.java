@@ -27,6 +27,8 @@ public class CatMappingEntry extends ModelBase implements Model {
 
   private Long id;
   private Long catId;
+  private String catName;
+  private String catDescription;
   private String uid;
   private String isExpertise;
   private String isInterest;
@@ -48,6 +50,24 @@ public class CatMappingEntry extends ModelBase implements Model {
 
   public CatMappingEntry setCatId(final Long catId) {
     this.catId = catId;
+    return this;
+  }
+
+  public String getCatName() {
+    return catName;
+  }
+
+  public CatMappingEntry setCatName(final String catName) {
+    this.catName = catName;
+    return this;
+  }
+
+  public String getCatDescription() {
+    return catDescription;
+  }
+
+  public CatMappingEntry stCatDescription(final String catDescription) {
+    this.catDescription = catDescription;
     return this;
   }
 
@@ -105,6 +125,8 @@ public class CatMappingEntry extends ModelBase implements Model {
       final CatMappingEntry that = (CatMappingEntry) obj;
       if (isEqual(this.getId(), that.getId())
           && isEqual(this.getCatId(), that.getCatId())
+          && isEqual(this.getCatName(), that.getCatName())
+          && isEqual(this.getCatDescription(), that.getCatDescription())
           && isEqual(this.getUid(), that.getUid())
           && isEqual(this.getIsExpertise(), that.getIsExpertise())
           && isEqual(this.getIsInterest(), that.getIsInterest())
@@ -122,6 +144,8 @@ public class CatMappingEntry extends ModelBase implements Model {
     int result = 0;
     result = PRIME * result + ((id == null) ? 0 : id.hashCode());
     result = PRIME * result + ((catId == null) ? 0 : catId.hashCode());
+    result = PRIME * result + ((catName == null) ? 0 : catName.hashCode());
+    result = PRIME * result + ((catDescription == null) ? 0 : catDescription.hashCode());
     result = PRIME * result + ((uid == null) ? 0 : uid.hashCode());
     result = PRIME * result
         + ((isExpertise == null) ? 0 : isExpertise.hashCode());

@@ -1,6 +1,7 @@
 package com.gibbon.peeq.handlers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
@@ -9,10 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gibbon.peeq.db.model.CatMappingEntry;
-import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.db.util.CatMappingDBUtil;
 import com.gibbon.peeq.util.ResourcePathParser;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataOutput;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -64,11 +65,22 @@ public class CatMappingWebHandler extends AbastractPeeqWebHandler
     try {
       session = getSession();
       txn = session.beginTransaction();
-      final CatMappingEntry retInstance = (CatMappingEntry) session
-          .get(CatMappingEntry.class, Long.parseLong(id));
+
+      /* buid params map */
+      Map<String, List<String>> params = Maps.newHashMap();
+      List<String> paramList = Lists.newArrayList();
+      paramList.add(id);
+      params.put("id", paramList);
+
+      /* query */
+      final List<CatMappingEntry> list = CatMappingDBUtil.getCatMappingEntries(
+          session,
+          params,
+          false);
       txn.commit();
 
       /* buffer result */
+      final CatMappingEntry retInstance = list.size() == 1 ? list.get(0) : null;
       return newResponseForInstance(id.toString(), "catmappings", retInstance);
     } catch (Exception e) {
       if (txn != null && txn.isActive()) {
