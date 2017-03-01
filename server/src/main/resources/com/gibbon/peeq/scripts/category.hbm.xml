@@ -4,7 +4,7 @@
 
 <hibernate-mapping>
   <class name="com.gibbon.peeq.db.model.Category" dynamic-update="true"
-  table="Category">
+  dynamic-insert="true" table="Category">
     <id name="id" type="long">
       <column name="id" />
       <generator class="increment" />

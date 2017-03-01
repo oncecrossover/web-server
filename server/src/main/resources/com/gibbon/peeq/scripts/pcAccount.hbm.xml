@@ -4,7 +4,7 @@
 
 <hibernate-mapping>
   <class name="com.gibbon.peeq.db.model.PcAccount" dynamic-update="true"
-  table="PcAccount">
+  dynamic-insert="true" table="PcAccount">
     <id name="uid" type="java.lang.String">
       <column name="uid" />
       <generator class="foreign">

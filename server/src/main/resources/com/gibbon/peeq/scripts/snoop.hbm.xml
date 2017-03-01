@@ -4,7 +4,7 @@
 
 <hibernate-mapping>
   <class name="com.gibbon.peeq.db.model.Snoop" dynamic-update="true"
-  table="Snoop">
+  dynamic-insert="true" table="Snoop">
     <id name="id" type="long">
       <column name="id" />
       <generator class="increment" />
