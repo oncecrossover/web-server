@@ -85,7 +85,6 @@ public class Category extends ModelBase implements Model {
     return result;
   }
 
-  @Override
   public <T extends ModelBase> T setAsIgnoreNull(final T obj) {
     if (obj instanceof Category) {
       final Category that = (Category)obj;

@@ -46,6 +46,7 @@ import com.gibbon.peeq.handlers.BalanceWebHandler;
 import com.gibbon.peeq.handlers.BulkDataWebHandler;
 import com.gibbon.peeq.handlers.CatMappingWebHandler;
 import com.gibbon.peeq.handlers.CategoryWebHandler;
+import com.gibbon.peeq.handlers.CoinWebHandler;
 import com.gibbon.peeq.handlers.NewsfeedWebHandler;
 import com.gibbon.peeq.handlers.NotFoundResourceWebHandler;
 import com.gibbon.peeq.handlers.NullResouceWebHandler;
@@ -201,6 +202,12 @@ public class HttpSnoopServerHandler
           request).handle();
     } else if ("catmappings".equalsIgnoreCase(resourceName)) {
       return new CatMappingWebHandler(
+          pathParser,
+          respBuf,
+          ctx,
+          request).handle();
+    } else if ("coins".equalsIgnoreCase(resourceName)) {
+      return new CoinWebHandler(
           pathParser,
           respBuf,
           ctx,

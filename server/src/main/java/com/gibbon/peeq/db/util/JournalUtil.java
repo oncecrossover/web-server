@@ -71,16 +71,17 @@ public class JournalUtil {
       final Session session,
       final String uid,
       final boolean newTransaction) throws Exception {
-    final String sql = String.format(
-        "SELECT SUM(amount) FROM Journal WHERE uid='%s' AND type='BALANCE'",
-        uid);
+    final String sql = String
+        .format("SELECT SUM(amount) AS total FROM Journal WHERE uid='%s'"
+            + "  AND type='BALANCE'", uid);
     Double result = null;
     Transaction txn = null;
     try {
       if (newTransaction) {
         txn = session.beginTransaction();
       }
-      result = (Double) session.createSQLQuery(sql).uniqueResult();
+      result = (Double) session.createSQLQuery(sql)
+          .addScalar("total", DoubleType.INSTANCE).uniqueResult();
       if (txn != null) {
         txn.commit();
       }

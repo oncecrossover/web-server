@@ -390,7 +390,6 @@ Example response:
 ]
 
 
-
 RESTFUL APIs OF CATMAPPING:
 1. get catmapping by id
 curl -i -X GET "http://127.0.0.1:8080/catmappings/1"
@@ -407,13 +406,11 @@ Example response:
   "updatedTime": 1487754906000
 }
 
-
 2. update catmapping for user
 curl -i -X PUT "http://127.0.0.1:8080/catmappings/bingo" -d '[{"catId":5,"isExpertise":"YES"}]'
 curl -i -X PUT "http://127.0.0.1:8080/catmappings/bingo" -d '[{"id":1,"catId":5,"isExpertise":"YES"}]'
 curl -i -X PUT "http://127.0.0.1:8080/catmappings/bingo" -d '[{"catId":5,"isExpertise":"YES"},{"catId":4,"isInterest":"YES"}]'
 curl -i -X PUT "http://127.0.0.1:8080/catmappings/bingo" -d '[{"id":1,"catId":5,"isExpertise":"YES"},{"id":2,"catId":4,"isInterest":"YES"}]'
-
 
 3. Query expertise for user:
 curl -i -X GET "http://127.0.0.1:8080/catmappings?uid='edmund'&isExpertise='YES'"
@@ -442,6 +439,7 @@ Example response:
     "updatedTime": 1487756001000
   }
 ]
+
 4. Query interests for user:
 curl -i -X GET "http://127.0.0.1:8080/catmappings?uid='edmund'&isInterest='YES'"
 Example response:
@@ -469,6 +467,24 @@ Example response:
     "updatedTime": 1487756004000
   }
 ]
+
+
+RESTFUL APIs OF COIN:
+1. get by user, e.g.
+curl -i -X GET "http://127.0.0.1:8080/coins/bingo"
+Example response:
+{
+  "id": null,
+  "uid": "bingo",
+  "amount": 10,
+  "createdTime": null
+}
+
+2. buy coins, e.g.
+curl -i -X POST "http://127.0.0.1:8080/coins" -d '{"uid":"bingo","amount":10}'
+Example response:
+{"id":1}
+
 
 
 HTTP STATUS CODE OF REST API:

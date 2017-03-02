@@ -158,7 +158,6 @@ public class CatMappingEntry extends ModelBase implements Model {
     return result;
   }
 
-  @Override
   public <T extends ModelBase> T setAsIgnoreNull(final T obj) {
     if (obj instanceof CatMappingEntry) {
       final CatMappingEntry that = (CatMappingEntry)obj;
