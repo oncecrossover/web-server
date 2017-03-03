@@ -159,7 +159,7 @@ class FieldGroup: UIView {
 
   let limit: UILabel = {
     let limit = UILabel()
-    limit.font = UIFont.systemFontOfSize(12)
+    limit.font = UIFont.systemFontOfSize(14)
     limit.textAlignment = .Center
     limit.textColor = UIColor.defaultColor()
     limit.hidden = true
@@ -178,7 +178,7 @@ class FieldGroup: UIView {
 
     // Setup constraints
     addConstraintsWithFormat("H:|[v0]|", views: title)
-    addConstraintsWithFormat("H:|[v0]-4-[v1(20)]|", views: value, limit)
+    addConstraintsWithFormat("H:|[v0]-4-[v1(30)]|", views: value, limit)
     addConstraintsWithFormat("H:|[v0]|", views: underline)
     addConstraintsWithFormat("V:|[v0(17)]-0-[v1(22)]-8-[v2(1)]", views: title, value, underline)
     addConstraintsWithFormat("V:|[v0(17)]-2-[v1(20)]", views: title, limit)
@@ -212,7 +212,7 @@ class ViewGroup: UIView {
 
   let limit: UILabel = {
     let limit = UILabel()
-    limit.font = UIFont.systemFontOfSize(12)
+    limit.font = UIFont.systemFontOfSize(14)
     limit.textAlignment = .Center
     limit.textColor = UIColor.defaultColor()
     limit.hidden = true
@@ -231,7 +231,7 @@ class ViewGroup: UIView {
 
     // Setup constraints
     addConstraintsWithFormat("H:|[v0]|", views: title)
-    addConstraintsWithFormat("H:|[v0]-4-[v1(20)]|", views: value, limit)
+    addConstraintsWithFormat("H:|[v0]-4-[v1(30)]|", views: value, limit)
     addConstraintsWithFormat("H:|[v0]|", views: underline)
     addConstraintsWithFormat("V:|[v0(17)]-0-[v1(120)]-8-[v2(1)]", views: title, value, underline)
     addConstraintsWithFormat("V:[v0(20)]-2-[v1(1)]|", views: limit, underline)

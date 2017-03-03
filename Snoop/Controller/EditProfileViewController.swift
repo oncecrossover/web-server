@@ -114,7 +114,7 @@ extension EditProfileViewController {
   func handleFirstNameLimit(sender: UITextField) {
     profileView.firstName.limit.hidden = false
     let remainder = 20 - sender.text!.characters.count
-    profileView.firstName.limit.text = remainder < 0 ? "-" : "\(remainder)"
+    profileView.firstName.limit.text = "\(remainder)"
     profileView.firstName.limit.textColor = remainder < 0 ? UIColor.redColor() : UIColor.defaultColor()
     nameExceeded = remainder < 0
     submitButton.enabled = !nameExceeded && !titleExceeded && !aboutExceeded
@@ -123,7 +123,7 @@ extension EditProfileViewController {
   func handleLastNameLimit(sender: UITextField) {
     profileView.lastName.limit.hidden = false
     let remainder = 20 - sender.text!.characters.count
-    profileView.lastName.limit.text = remainder < 0 ? "-" : "\(remainder)"
+    profileView.lastName.limit.text = "\(remainder)"
     profileView.lastName.limit.textColor = remainder < 0 ? UIColor.redColor() : UIColor.defaultColor()
     nameExceeded = remainder < 0
     submitButton.enabled = !nameExceeded && !titleExceeded && !aboutExceeded
@@ -132,7 +132,7 @@ extension EditProfileViewController {
   func handleTitleLimit(sender: UITextField) {
     profileView.title.limit.hidden = false
     let remainder = 30 - sender.text!.characters.count
-    profileView.title.limit.text = remainder < 0 ? "-" : "\(remainder)"
+    profileView.title.limit.text = "\(remainder)"
     profileView.title.limit.textColor = remainder < 0 ? UIColor.redColor() : UIColor.defaultColor()
     titleExceeded = remainder < 0
     submitButton.enabled = !nameExceeded && !titleExceeded && !aboutExceeded
@@ -187,7 +187,7 @@ extension EditProfileViewController: UITextViewDelegate {
   func textViewDidChange(textView: UITextView) {
     profileView.about.limit.hidden = false
     let remainder = 80 - textView.text!.characters.count
-    profileView.about.limit.text = remainder < 0 ? "-" : "\(remainder)"
+    profileView.about.limit.text = "\(remainder)"
     profileView.about.limit.textColor = remainder < 0 ? UIColor.redColor() : UIColor.defaultColor()
     aboutExceeded = remainder < 0
     submitButton.enabled = !nameExceeded && !titleExceeded && !aboutExceeded
