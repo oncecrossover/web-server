@@ -10,17 +10,19 @@ import Foundation
 class InterestModel: Hashable {
   var id: Int?
   var catId: Int
-  init(_id: Int?, _catId: Int) {
+  var name: String
+  init(_id: Int?, _catId: Int, _name: String) {
     id = _id
     catId = _catId
+    name = _name
   }
 
-  convenience init(_catId: Int) {
-    self.init(_id: nil, _catId: _catId)
+  convenience init(_catId: Int, _name: String) {
+    self.init(_id: nil, _catId: _catId, _name: _name)
   }
 
   var hashValue: Int {
-    return catId
+    return name.hashValue
   }
 }
 

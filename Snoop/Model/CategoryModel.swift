@@ -12,7 +12,7 @@ class CategoryModel: Hashable {
   var name: String
 
   var hashValue: Int {
-    return "\(id), \(name)".hashValue
+    return name.hashValue
   }
 
   init(_id: Int, _name: String) {

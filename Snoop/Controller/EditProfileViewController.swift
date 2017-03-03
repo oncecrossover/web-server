@@ -47,7 +47,8 @@ class EditProfileViewController: UIViewController {
   var nameExceeded = false
   var titleExceeded = false
   var aboutExceeded = false
-  
+
+  var selectedExpertise: [ExpertiseModel] = []
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = UIColor.whiteColor()
@@ -77,10 +78,10 @@ extension EditProfileViewController {
   func initView() {
     let frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height - 100)
     if (self.isEditingProfile && !isSnooper) {
-      profileView = EditProfileView(frame: frame, includeExpertise: false)
+      profileView = EditProfileView(frame: frame, includeExpertise: false, selectedExpertise: selectedExpertise)
     }
     else {
-      profileView = EditProfileView(frame: frame, includeExpertise: true)
+      profileView = EditProfileView(frame: frame, includeExpertise: true, selectedExpertise: selectedExpertise)
     }
 
     self.view.addSubview(profileView)
@@ -237,7 +238,7 @@ extension EditProfileViewController {
         return
       }
 
-      if (profileView.expertise.selectedCategories.count == 0) {
+      if (profileView.expertise.oldSelectedCategories.count == 0) {
         utility.displayAlertMessage("Please include at least one of your expertise", title: "Missing I nfo", sender: self)
         return
       }

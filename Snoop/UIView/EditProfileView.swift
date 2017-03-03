@@ -80,7 +80,7 @@ class EditProfileView: UIScrollView {
     self.endEditing(true)
   }
 
-  init(frame: CGRect, includeExpertise: Bool) {
+  init(frame: CGRect, includeExpertise: Bool, selectedExpertise: [ExpertiseModel]) {
     super.init(frame: frame)
 
     addSubview(profilePhoto)
@@ -113,17 +113,11 @@ class EditProfileView: UIScrollView {
           let name = category["name"] as! String
           self.expertise.allCategories.append(CategoryModel(_id: id, _name: name))
         }
-        category.getExpertise() { jsonArray in
-          for element in jsonArray as! [[String:AnyObject]] {
-            let mappingId = element["id"] as! Int
-            let catId = element["catId"] as! Int
-            self.expertise.selectedCategories.insert(ExpertiseModel(_id: mappingId, _catId: catId))
-          }
 
-          dispatch_async(dispatch_get_main_queue()) {
-            self.expertise.expertiseCollection.reloadData()
-            self.expertise.populateSelectedCells()
-          }
+        dispatch_async(dispatch_get_main_queue()) {
+          self.expertise.oldSelectedCategories = selectedExpertise
+          self.expertise.expertiseCollection.reloadData()
+          self.expertise.populateSelectedCells()
         }
 
       }
@@ -250,7 +244,9 @@ class ViewGroup: UIView {
 
 class CollectionGroup: UIView, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
   var allCategories: [CategoryModel] = []
-  var selectedCategories: Set<ExpertiseModel> = []
+  var oldSelectedCategories: [ExpertiseModel] = []
+  var newSelectedCategories: Set<ExpertiseModel> = []
+  var deselectedCategories: Set<ExpertiseModel> = []
 
   let title: UILabel = {
     let title = UILabel()
@@ -295,17 +291,30 @@ class CollectionGroup: UIView, UICollectionViewDelegate, UICollectionViewDelegat
 
   func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
     let category = allCategories[indexPath.row]
-    selectedCategories.insert(ExpertiseModel(_catId: category.id))
+    let expertise = ExpertiseModel(_catId: category.id, _name: category.name)
+    if (deselectedCategories.contains(expertise)) {
+      deselectedCategories.remove(expertise)
+    }
+    else {
+      newSelectedCategories.insert(expertise)
+    }
+
   }
 
   func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
     let category = allCategories[indexPath.row]
-    selectedCategories.remove(ExpertiseModel(_catId: category.id))
+    let expertise = ExpertiseModel(_catId: category.id, _name: category.name)
+    if (newSelectedCategories.contains(expertise)) {
+      newSelectedCategories.remove(expertise)
+    }
+    else {
+      deselectedCategories.insert(expertise)
+    }
   }
 
   func populateCategoriesToUpdate() -> [[String: AnyObject]] {
     var categoriesToUpdate:[[String: AnyObject]] = []
-    for category in selectedCategories {
+    for category in newSelectedCategories {
       var interest: [String: AnyObject] = [:]
       if let _ = category.id {
         interest["id"] = category.id
@@ -315,12 +324,24 @@ class CollectionGroup: UIView, UICollectionViewDelegate, UICollectionViewDelegat
       interest["isExpertise"] = "Yes"
       categoriesToUpdate.append(interest)
     }
+
+    for category in deselectedCategories {
+      var interest: [String: AnyObject] = [:]
+      if let _ = category.id {
+        interest["id"] = category.id
+      }
+
+      interest["catId"] = category.catId
+      interest["isExpertise"] = "No"
+      categoriesToUpdate.append(interest)
+    }
+
     return categoriesToUpdate
   }
 
   func populateSelectedCells() {
     for (index, item) in allCategories.enumerate() {
-      for expertise in selectedCategories {
+      for expertise in oldSelectedCategories {
         if (item.id == expertise.catId) {
           expertiseCollection.selectItemAtIndexPath(NSIndexPath(forRow: index, inSection: 0), animated: false, scrollPosition: .None)
         }

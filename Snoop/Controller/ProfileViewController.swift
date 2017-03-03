@@ -11,25 +11,26 @@ import UIKit
 class ProfileViewController: UIViewController {
 
   @IBOutlet weak var profilePhoto: UIImageView!
-  @IBOutlet weak var editButton: UIButton!
 
   @IBOutlet weak var nameLabel: UILabel!
 
   @IBOutlet weak var aboutLabel: UILabel!
   @IBOutlet weak var titleLabel: UILabel!
-  @IBOutlet weak var rateLabel: UILabel!
 
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   var rate:Double = 0.0
 
-  @IBOutlet weak var answerLabel: UILabel!
   @IBOutlet weak var applyButton: UIButton!
   @IBOutlet weak var settingsTable: UITableView!
   var approvedLabel = UILabel()
-  var userModule = User()
-  var segueDouble:(String, String)?
+  lazy var userModule = User()
+  lazy var category = Category()
   var isEditButtonClicked = true
   var isSnooper = false
+
+  let cellId = "expertiseCell"
+
+  var expertise:[ExpertiseModel] = []
 }
 
 // oevrride methods
@@ -43,16 +44,17 @@ extension ProfileViewController {
     settingsButton.setImage(UIImage(named: "settings"), forState: .Normal)
     settingsButton.addTarget(self, action: #selector(settingsButtonTapped), forControlEvents: .TouchUpInside)
     settingsButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
-    let rightBarItem = UIBarButtonItem(customView: settingsButton)
-    navigationItem.rightBarButtonItem = rightBarItem
+    navigationItem.leftBarButtonItem = UIBarButtonItem(customView: settingsButton)
+
+    let editButton = UIButton(type: .Custom)
+    editButton.setImage(UIImage(named: "edit"), forState: .Normal)
+    editButton.addTarget(self, action: #selector(editButtonTapped), forControlEvents: .TouchUpInside)
+    editButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
 
     applyButton.setTitle("Apply to Take Questions", forState: .Normal)
     applyButton.setTitle("Awaiting Approval", forState: .Disabled)
     applyButton.layer.cornerRadius = 4
-
-    answerLabel.text = "to answer a question"
-    answerLabel.textColor = UIColor.disabledColor()
-    answerLabel.textAlignment = .Left
 
     aboutLabel.font = UIFont.systemFontOfSize(14)
     aboutLabel.textColor = UIColor.blackColor()
@@ -62,10 +64,6 @@ extension ProfileViewController {
 
     titleLabel.font = UIFont.systemFontOfSize(14)
     titleLabel.textColor = UIColor.secondaryTextColor()
-
-    rateLabel.font = UIFont.systemFontOfSize(14)
-    rateLabel.textColor = UIColor.redColor()
-    rateLabel.textAlignment = .Right
   }
 
   override func viewDidAppear(animated: Bool) {
@@ -89,7 +87,6 @@ extension ProfileViewController {
     nameLabel.text = ""
     aboutLabel.text = ""
     titleLabel.text = ""
-    rateLabel.text = ""
     activityIndicator.startAnimating()
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
     userModule.getProfile(uid) { fullName, title, aboutMe, avatarUrl, rate, status in
@@ -97,11 +94,6 @@ extension ProfileViewController {
         self.aboutLabel.text = aboutMe
         self.nameLabel.text = fullName
         self.titleLabel.text = title
-
-        self.rateLabel.text = "$ " + String(rate)
-        if (rate == 0.0) {
-          self.rateLabel.text = "$ 0.0"
-        }
 
         self.rate = rate
 
@@ -131,16 +123,30 @@ extension ProfileViewController {
     }
     else {
       let frame = applyButton.frame
-      approvedLabel.frame = frame
+      let layout = UICollectionViewFlowLayout()
+      layout.minimumInteritemSpacing = 6
+      layout.minimumLineSpacing = 6
+      let expertiseCollection = UICollectionView(frame: frame, collectionViewLayout: layout)
+      expertiseCollection.registerClass(ExpertiseCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
+      expertiseCollection.delegate = self
+      expertiseCollection.dataSource = self
+      expertiseCollection.backgroundColor = UIColor.whiteColor()
       applyButton.hidden = true
-      approvedLabel.hidden = false
-      self.view.addSubview(approvedLabel)
-      approvedLabel.text = "Congratulations, you can start taking questions."
-      approvedLabel.textAlignment = .Left
-      approvedLabel.textColor = UIColor(red: 51/255, green: 181/255, blue: 159/255, alpha: 1.0)
-      approvedLabel.numberOfLines = 0
-      approvedLabel.font = UIFont.systemFontOfSize(14)
+      self.view.addSubview(expertiseCollection)
       isSnooper = true
+      self.expertise = []
+      category.getExpertise() { jsonArray in
+        for element in jsonArray as! [[String:AnyObject]] {
+          let mappingId = element["id"] as! Int
+          let catId = element["catId"] as! Int
+          let name = element["catName"] as! String
+          self.expertise.append(ExpertiseModel(_id: mappingId, _catId: catId, _name: name))
+        }
+
+        dispatch_async(dispatch_get_main_queue()) {
+          expertiseCollection.reloadData()
+        }
+      }
     }
   }
 }
@@ -148,7 +154,7 @@ extension ProfileViewController {
 //IB Action
 extension ProfileViewController {
 
-  @IBAction func editButtonTapped(sender: AnyObject) {
+  func editButtonTapped() {
     isEditButtonClicked = true
     let dvc = EditProfileViewController()
     var image = UIImage()
@@ -159,6 +165,7 @@ extension ProfileViewController {
                          avatarImage : image, rate: self.rate)
     dvc.isEditingProfile = isEditButtonClicked
     dvc.isSnooper = isSnooper
+    dvc.selectedExpertise = self.expertise
     self.navigationController?.pushViewController(dvc, animated: true)
   }
 
@@ -179,6 +186,40 @@ extension ProfileViewController {
   func settingsButtonTapped() {
     let dvc = SettingsViewController()
     self.navigationController?.pushViewController(dvc, animated: true)
+  }
+}
+// UICollection delegate, datasource, and flowlayout
+extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return self.expertise.count + 1
+  }
+
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    let myCell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellId, forIndexPath: indexPath) as! ExpertiseCollectionViewCell
+    myCell.icon.font = UIFont.systemFontOfSize(12)
+    if (indexPath.row == 0) {
+      myCell.icon.text = "Ask me about:"
+      myCell.icon.textColor = UIColor.secondaryTextColor()
+      myCell.icon.layer.borderWidth = 0
+      myCell.clipsToBounds = true
+    }
+    else {
+      myCell.icon.text = expertise[indexPath.row - 1].name
+      myCell.selected = true
+    }
+
+    return myCell
+  }
+
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    var name = "Ask me about:" as NSString
+    if (indexPath.row > 0) {
+      let category = expertise[indexPath.row - 1]
+      name = category.name as NSString
+    }
+
+    let estimatedSize = name.sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(12)])
+    return CGSizeMake(estimatedSize.width + 8, 18)
   }
 }
 
@@ -218,22 +259,6 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     if (indexPath.row == 0) {
       let dvc = PaymentViewController()
       self.navigationController?.pushViewController(dvc, animated: true)
-    }
-  }
-}
-// Action segue related methods
-extension ProfileViewController {
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    if (segue.identifier == "segueToProfileEdit") {
-      let dvc = segue.destinationViewController as! EditProfileViewController
-      var image = UIImage()
-      if (profilePhoto.image != nil) {
-        image = profilePhoto.image!
-      }
-      dvc.profileValues = (name: nameLabel.text, title: titleLabel.text, about: aboutLabel.text,
-        avatarImage : image, rate: self.rate)
-      dvc.isEditingProfile = isEditButtonClicked
-      
     }
   }
 }
