@@ -57,10 +57,10 @@ extension ProfileViewController {
     applyButton.layer.cornerRadius = 4
 
     aboutLabel.font = UIFont.systemFontOfSize(14)
-    aboutLabel.textColor = UIColor.blackColor()
+    aboutLabel.textColor = UIColor(white: 0, alpha: 0.8)
 
     nameLabel.font = UIFont.boldSystemFontOfSize(18)
-    nameLabel.textColor = UIColor.blackColor()
+    nameLabel.textColor = UIColor(white: 0, alpha: 0.7)
 
     titleLabel.font = UIFont.systemFontOfSize(14)
     titleLabel.textColor = UIColor.secondaryTextColor()

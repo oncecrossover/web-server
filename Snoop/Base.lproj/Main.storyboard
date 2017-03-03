@@ -847,7 +847,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="GSG-GZ-gfF" customClass="CircleImageView" customModule="Snoop" customModuleProvider="target">
-                                <rect key="frame" x="30" y="73" width="60" height="60"/>
+                                <rect key="frame" x="14" y="73" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="dRs-Ch-ePV"/>
                                     <constraint firstAttribute="height" constant="90" id="nzb-gY-66X"/>
@@ -860,7 +860,7 @@
                                 </variation>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJq-hu-4zi">
-                                <rect key="frame" x="30" y="135" width="315" height="21"/>
+                                <rect key="frame" x="14" y="135" width="347" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="pw9-yZ-zfQ"/>
                                 </constraints>
@@ -869,7 +869,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ji3-uv-Rem">
-                                <rect key="frame" x="30" y="156" width="315" height="17"/>
+                                <rect key="frame" x="14" y="156" width="347" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="17" id="9oi-Nc-b0T"/>
                                     <constraint firstAttribute="height" constant="31" id="Nvl-8f-ya0"/>
@@ -890,7 +890,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="I am a first time entrepreneur and building a  mobile QA app" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="HwQ-vQ-n9N">
-                                <rect key="frame" x="30" y="182" width="315" height="51"/>
+                                <rect key="frame" x="14" y="182" width="347" height="51"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="49i-dO-mP1"/>
                                     <constraint firstAttribute="height" constant="51" id="NTl-CY-wSu"/>
@@ -910,7 +910,7 @@
                                 <rect key="frame" x="177" y="324" width="20" height="20"/>
                             </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleAspectFit" verticalHuggingPriority="252" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="93X-Iz-ZQ8" customClass="CustomButton" customModule="Snoop" customModuleProvider="target">
-                                <rect key="frame" x="30" y="253" width="315" height="45"/>
+                                <rect key="frame" x="14" y="253" width="347" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="V8e-Ee-m2C"/>
                                 </constraints>
@@ -998,9 +998,9 @@
                             <constraint firstAttribute="bottom" secondItem="93X-Iz-ZQ8" secondAttribute="bottom" constant="257" id="Wsd-Mi-Lo2"/>
                             <constraint firstItem="Ivh-Na-oFr" firstAttribute="top" secondItem="Boh-hA-GCB" secondAttribute="bottom" id="Xrs-a5-K6d"/>
                             <constraint firstItem="ji3-uv-Rem" firstAttribute="trailing" secondItem="RJq-hu-4zi" secondAttribute="trailing" id="Zzi-x5-MsX"/>
-                            <constraint firstItem="GSG-GZ-gfF" firstAttribute="leading" secondItem="edG-5e-4sQ" secondAttribute="leadingMargin" constant="14" id="aTi-hA-IcJ"/>
                             <constraint firstAttribute="leadingMargin" secondItem="RJq-hu-4zi" secondAttribute="leading" constant="8" id="aqu-cS-5Ge"/>
                             <constraint firstItem="HwQ-vQ-n9N" firstAttribute="leading" secondItem="ji3-uv-Rem" secondAttribute="leading" id="ar9-Ox-TGV"/>
+                            <constraint firstItem="GSG-GZ-gfF" firstAttribute="leading" secondItem="edG-5e-4sQ" secondAttribute="leading" constant="14" id="bVW-3w-Fp7"/>
                             <constraint firstItem="93X-Iz-ZQ8" firstAttribute="centerX" secondItem="edG-5e-4sQ" secondAttribute="centerX" id="bY9-t2-dLe"/>
                             <constraint firstItem="HwQ-vQ-n9N" firstAttribute="top" secondItem="ji3-uv-Rem" secondAttribute="bottom" constant="8" symbolic="YES" id="ezR-UZ-yzQ"/>
                             <constraint firstItem="HwQ-vQ-n9N" firstAttribute="trailing" secondItem="ji3-uv-Rem" secondAttribute="trailing" id="f4z-T6-yqa"/>
