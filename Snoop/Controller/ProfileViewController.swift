@@ -131,6 +131,7 @@ extension ProfileViewController {
       expertiseCollection.delegate = self
       expertiseCollection.dataSource = self
       expertiseCollection.backgroundColor = UIColor.whiteColor()
+      expertiseCollection.allowsSelection = false
       applyButton.hidden = true
       self.view.addSubview(expertiseCollection)
       isSnooper = true
