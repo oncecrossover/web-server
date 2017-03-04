@@ -11,10 +11,15 @@ import UIKit
 class InterestPickerViewController: UIViewController {
 
   let cellId = "interestCell"
-  var email: String!
+  var email: String?
 
   var allCategories: [CategoryModel] = []
-  var selectedCategories: Set<CategoryModel> = []
+  var selectedCategories: Set<InterestModel> = []
+  var newSelectedCategories: Set<InterestModel> = []
+  var deselectedCategories: Set<InterestModel> = []
+
+  var isProfile = false
+  var isProfileUpdated = false
 
   let category = Category()
   lazy var utility = UIUtility()
@@ -94,7 +99,7 @@ class InterestPickerViewController: UIViewController {
     view.addConstraintsWithFormat("H:|-20-[v0]-20-|", views: message)
     view.addConstraintsWithFormat("H:|[v0]|", views: underline)
     view.addConstraintsWithFormat("H:|-20-[v0]-20-|", views: note)
-    view.addConstraintsWithFormat("V:|-80-[v0(20)]-20-[v1]-20-[v2(1)]-10-[v3(20)]-8-[v4(36)]-8-|", views: message, interests, underline, note, doneButton)
+    view.addConstraintsWithFormat("V:|-80-[v0(20)]-20-[v1]-20-[v2(1)]-10-[v3(20)]-8-[v4(36)]-58-|", views: message, interests, underline, note, doneButton)
     interests.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
     interests.widthAnchor.constraintEqualToConstant(286).active = true
 
@@ -112,32 +117,89 @@ class InterestPickerViewController: UIViewController {
         let name = category["name"] as! String
         self.allCategories.append(CategoryModel(_id: id, _name: name))
       }
-      dispatch_async(dispatch_get_main_queue()) {
-        self.interests.reloadData()
-        self.activityIndicator.stopAnimating()
+      if (self.isProfile) {
+        self.category.getInterest() { jsonArray in
+          for element in jsonArray as! [[String:AnyObject]] {
+            let mappingId = element["id"] as! Int
+            let catId = element["catId"] as! Int
+            let name = element["catName"] as! String
+            self.selectedCategories.insert(InterestModel(_id: mappingId, _catId: catId, _name: name))
+          }
+
+          dispatch_async(dispatch_get_main_queue()) {
+            self.interests.reloadData()
+            self.activityIndicator.stopAnimating()
+            self.populateSelectedCells()
+          }
+        }
+      }
+      else {
+        dispatch_async(dispatch_get_main_queue()) {
+          self.interests.reloadData()
+          self.activityIndicator.stopAnimating()
+        }
       }
     }
   }
 
+  func populateSelectedCells() {
+    for (index, item) in allCategories.enumerate() {
+      for interest in selectedCategories {
+        if (item.id == interest.catId) {
+          interests.selectItemAtIndexPath(NSIndexPath(forRow: index, inSection: 0), animated: false, scrollPosition: .None)
+        }
+      }
+    }
+  }
+
+  func populateCategoriesToUpdate() -> [[String: AnyObject]] {
+    var categoriesToUpdate:[[String: AnyObject]] = []
+    for category in newSelectedCategories {
+      var interest: [String: AnyObject] = [:]
+      if let _ = category.id {
+        interest["id"] = category.id
+      }
+
+      interest["catId"] = category.catId
+      interest["isInterest"] = "Yes"
+      categoriesToUpdate.append(interest)
+    }
+
+    for category in deselectedCategories {
+      var interest: [String: AnyObject] = [:]
+      if let _ = category.id {
+        interest["id"] = category.id
+      }
+
+      interest["catId"] = category.catId
+      interest["isInterest"] = "No"
+      categoriesToUpdate.append(interest)
+    }
+
+    return categoriesToUpdate
+  }
 }
 // IB related actions
 extension InterestPickerViewController {
 
   func doneButtonTapped() {
-    var categoriesToUpdate:[[String: AnyObject]] = []
-    for category in selectedCategories {
-      var interest: [String: AnyObject] = [:]
-      interest["catId"] = category.id
-      interest["isInterest"] = "Yes"
-      categoriesToUpdate.append(interest)
+    let categoriesToUpdate:[[String: AnyObject]] = populateCategoriesToUpdate()
+
+    if (email == nil) {
+      email = NSUserDefaults.standardUserDefaults().stringForKey("email")
     }
 
-    category.updateInterests(email, interests: categoriesToUpdate) { result in
+    category.updateInterests(email!, interests: categoriesToUpdate) { result in
       if (result.isEmpty) {
         dispatch_async(dispatch_get_main_queue()) {
-          let vc = TutorialViewController()
-          vc.email = self.email
-          self.navigationController?.pushViewController(vc, animated: true)
+          if (self.isProfile) {
+            self.navigationController?.popViewControllerAnimated(true)
+          }
+          else {
+            let vc = TutorialViewController()
+            vc.email = self.email
+            self.navigationController?.pushViewController(vc, animated: true)
+          }
         }
       }
       else {
@@ -149,7 +211,7 @@ extension InterestPickerViewController {
   }
 
   func checkButton() {
-    if (selectedCategories.count > 0) {
+    if (selectedCategories.count > 0 || newSelectedCategories.count > 0 || deselectedCategories.count > 0) {
       doneButton.enabled = true
     }
     else {
@@ -169,9 +231,11 @@ extension InterestPickerViewController: UICollectionViewDelegate, UICollectionVi
 
   func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
     let myCell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellId, forIndexPath: indexPath) as! InterestCollectionViewCell
-    let image = UIImage(named: allCategories[indexPath.row].name)
+    let category = allCategories[indexPath.row]
+    let image = UIImage(named: category.name)
     myCell.icon.image = image?.imageWithRenderingMode(.AlwaysTemplate)
-    if (selectedCategories.contains(allCategories[indexPath.row])) {
+    let interest = InterestModel(_catId: category.id, _name: category.name)
+    if (selectedCategories.contains(interest)) {
       myCell.icon.tintColor = UIColor.defaultColor()
     }
     else {
@@ -182,17 +246,27 @@ extension InterestPickerViewController: UICollectionViewDelegate, UICollectionVi
   }
 
   func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-    let interest = allCategories[indexPath.row]
-    selectedCategories.insert(interest)
-
+    let category = allCategories[indexPath.row]
+    let interest = InterestModel(_catId: category.id, _name: category.name)
+    if (deselectedCategories.contains(interest)) {
+      deselectedCategories.remove(interest)
+    }
+    else {
+      newSelectedCategories.insert(interest)
+    }
     checkButton()
   }
 
   func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
-    let interest = allCategories[indexPath.row]
-    if (selectedCategories.contains(interest)) {
-      selectedCategories.remove(interest)
+    let category = allCategories[indexPath.row]
+    let interest = InterestModel(_catId: category.id, _name: category.name)
+    if (newSelectedCategories.contains(interest)) {
+      newSelectedCategories.remove(interest)
+    }
+    else {
+      deselectedCategories.insert(interest)
     }
     checkButton()
   }
 }
+

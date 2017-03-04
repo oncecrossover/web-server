@@ -22,7 +22,19 @@ class ProfileViewController: UIViewController {
 
   @IBOutlet weak var applyButton: UIButton!
   @IBOutlet weak var settingsTable: UITableView!
-  var approvedLabel = UILabel()
+  lazy var expertiseCollection: UICollectionView = {
+    let layout = UICollectionViewFlowLayout()
+    layout.minimumInteritemSpacing = 6
+    layout.minimumLineSpacing = 6
+    let expertiseCollection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    expertiseCollection.registerClass(ExpertiseCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
+    expertiseCollection.delegate = self
+    expertiseCollection.dataSource = self
+    expertiseCollection.backgroundColor = UIColor.whiteColor()
+    expertiseCollection.allowsSelection = false
+    return expertiseCollection
+  }()
+
   lazy var userModule = User()
   lazy var category = Category()
   var isEditButtonClicked = true
@@ -105,7 +117,7 @@ extension ProfileViewController {
         }
 
         self.applyButton.hidden = false
-        self.approvedLabel.hidden = true
+        self.expertiseCollection.hidden = true
         self.handleApplyButtonView(status)
         self.activityIndicator.stopAnimating()
       }
@@ -123,16 +135,9 @@ extension ProfileViewController {
     }
     else {
       let frame = applyButton.frame
-      let layout = UICollectionViewFlowLayout()
-      layout.minimumInteritemSpacing = 6
-      layout.minimumLineSpacing = 6
-      let expertiseCollection = UICollectionView(frame: frame, collectionViewLayout: layout)
-      expertiseCollection.registerClass(ExpertiseCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
-      expertiseCollection.delegate = self
-      expertiseCollection.dataSource = self
-      expertiseCollection.backgroundColor = UIColor.whiteColor()
-      expertiseCollection.allowsSelection = false
+      self.expertiseCollection.frame = frame
       applyButton.hidden = true
+      expertiseCollection.hidden = false
       self.view.addSubview(expertiseCollection)
       isSnooper = true
       self.expertise = []
@@ -145,7 +150,7 @@ extension ProfileViewController {
         }
 
         dispatch_async(dispatch_get_main_queue()) {
-          expertiseCollection.reloadData()
+          self.expertiseCollection.reloadData()
         }
       }
     }
@@ -259,6 +264,11 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
     if (indexPath.row == 0) {
       let dvc = PaymentViewController()
+      self.navigationController?.pushViewController(dvc, animated: true)
+    }
+    else if (indexPath.row == 1) {
+      let dvc = InterestPickerViewController()
+      dvc.isProfile = true
       self.navigationController?.pushViewController(dvc, animated: true)
     }
   }

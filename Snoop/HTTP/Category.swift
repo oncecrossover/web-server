@@ -40,4 +40,12 @@ class Category {
       completion(result)
     }
   }
+
+  func getInterest(completion: (NSArray) -> ()) {
+    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    let url = NSURL(string: CATMAPPINGURI + "?uid='" + uid + "'&isInterest='Yes'")!
+    generics.getFilteredObjects(url) { result in
+      completion(result)
+    }
+  }
 }
