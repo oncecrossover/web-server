@@ -9,50 +9,145 @@
 import UIKit
 
 class PasswordResetViewController: UIViewController{
-
-  @IBOutlet weak var email: UITextField!
-  @IBOutlet weak var tmpPassword: UITextField!
-  @IBOutlet weak var newPassword: UITextField!
-
-  @IBOutlet weak var sendButton: RoundCornerButton!
-  @IBOutlet weak var saveButton: UIButton!
-  @IBOutlet weak var underline1: UIView!
-  @IBOutlet weak var underline2: UIView!
-
   var utility = UIUtility()
   var generics = Generics()
   var userModule = User()
 
+  lazy var backButton: UIButton = {
+    let button = UIButton()
+    button.setTitle("<", forState: .Normal)
+    button.setTitleColor(UIColor.blackColor(), forState: .Normal)
+    button.backgroundColor = UIColor.whiteColor()
+    button.addTarget(self, action: #selector(backButtonTapped), forControlEvents: .TouchUpInside)
+    return button
+  }()
+
+  let heading: UILabel = {
+    let title = UILabel()
+    title.text = "Forgot Password"
+    title.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 0.8)
+    title.textAlignment = .Center
+    title.font = UIFont.systemFontOfSize(18)
+    return title
+  }()
+
+  let note: UILabel = {
+    let note = UILabel()
+    note.numberOfLines = 3
+    note.text = "A temporary password will be sent to your email. Please log in with temporary password and update password."
+    note.font = UIFont.systemFontOfSize(14)
+    note.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 0.6)
+    return note
+  }()
+
+  lazy var email: UITextField = {
+    let email = InteractiveUITextField()
+    email.awakeFromNib()
+    email.borderStyle = .RoundedRect
+    email.clipsToBounds = true
+    email.placeholder = "Your Email"
+    email.autocapitalizationType = .None
+    email.keyboardType = .EmailAddress
+    email.addTarget(self, action: #selector(PasswordResetViewController.checkEmail), forControlEvents: .EditingChanged)
+    return email
+  }()
+
+  lazy var sendButton: UIButton = {
+    let button = CustomButton()
+    button.setTitle("Send", forState: .Normal)
+    button.layer.cornerRadius = 10
+    button.clipsToBounds = true
+    button.addTarget(self, action: #selector(sendEmailButtonTapped), forControlEvents: .TouchUpInside)
+    return button
+  }()
+
+  let sentHeading: UILabel = {
+    let label = UILabel()
+    label.text = "Email Sent!"
+    label.font = UIFont.systemFontOfSize(18)
+    label.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 0.8)
+    return label
+  }()
+
+  let sentNote: UILabel = {
+    let label = UILabel()
+    label.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 0.6)
+    label.font = UIFont.systemFontOfSize(14)
+    label.text = "Please use temporary password to log in"
+    return label
+  }()
+
+  lazy var passwordView: PasswordResetView = {
+    let password = PasswordResetView()
+    password.layer.borderWidth = 1
+    password.layer.cornerRadius = 8
+    password.clipsToBounds = true
+    password.layer.borderColor = UIColor(red: 207/255, green: 207/255, blue: 207/255, alpha: 1.0).CGColor
+    password.tmpPassword.addTarget(self, action: #selector(PasswordResetViewController.checkPassword), forControlEvents: .EditingChanged)
+    password.password.addTarget(self, action: #selector(PasswordResetViewController.checkPassword), forControlEvents: .EditingChanged)
+    return password
+  }()
+
+  lazy var saveButton: UIButton = {
+    let button = CustomButton()
+    button.setTitle("Save", forState: .Normal)
+    button.addTarget(self, action: #selector(saveButtonTapped), forControlEvents: .TouchUpInside)
+    button.layer.cornerRadius = 10
+    button.clipsToBounds = true
+    return button
+  }()
+
   override func viewDidLoad() {
     super.viewDidLoad()
-    togglePasswordView(true)
+    view.backgroundColor = UIColor.whiteColor()
+    view.addSubview(backButton)
+    view.addSubview(heading)
+    view.addSubview(note)
+    view.addSubview(email)
+    view.addSubview(sendButton)
+
+    // Setup constraints
+    view.addConstraintsWithFormat("V:|-27-[v0(39)]-38-[v1(51)]-52-[v2(45)]-19-[v3(45)]", views: heading, note, email, sendButton)
+    view.addConstraintsWithFormat("H:|-17-[v0(18)]", views: backButton)
+
+    heading.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
+    heading.widthAnchor.constraintEqualToConstant(226).active = true
+    backButton.centerYAnchor.constraintEqualToAnchor(heading.centerYAnchor).active = true
+    backButton.widthAnchor.constraintEqualToConstant(18).active = true
+    note.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
+    note.widthAnchor.constraintEqualToConstant(270).active = true
+    email.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
+    email.widthAnchor.constraintEqualToConstant(270).active = true
+    sendButton.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
+    sendButton.widthAnchor.constraintEqualToConstant(270).active = true
     sendButton.enabled = false
-    sendButton.layer.cornerRadius = 4
-    sendButton.clipsToBounds = true
-    email.addTarget(self, action: #selector(PasswordResetViewController.checkEmail(_:)), forControlEvents: .EditingChanged)
+  }
 
+  func showPasswordResetView() {
+    heading.hidden = true
+    note.hidden = true
+    email.hidden = true
+    sendButton.hidden = true
+
+    view.addSubview(sentHeading)
+    view.addSubview(sentNote)
+    view.addSubview(passwordView)
+    view.addSubview(saveButton)
+
+    // setup constraints
+    view.addConstraintsWithFormat("V:|-71-[v0(39)]-2-[v1(17)]-54-[v2(90)]-20-[v3(45)]", views: sentHeading, sentNote, passwordView, saveButton)
+    sentHeading.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
+    sentHeading.widthAnchor.constraintEqualToConstant(270).active = true
+    sentNote.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
+    sentNote.widthAnchor.constraintEqualToConstant(270).active = true
+    passwordView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
+    passwordView.widthAnchor.constraintEqualToConstant(270).active = true
+    saveButton.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
+    saveButton.widthAnchor.constraintEqualToConstant(270).active = true
     saveButton.enabled = false
-    saveButton.layer.cornerRadius = 4
-    saveButton.clipsToBounds = true
-    tmpPassword.addTarget(self, action: #selector(PasswordResetViewController.checkPassword(_:)), forControlEvents: .EditingChanged)
-    newPassword.addTarget(self, action: #selector(PasswordResetViewController.checkPassword(_:)), forControlEvents: .EditingChanged)
-
-    // Do any additional setup after loading the view.
   }
 
-  @IBAction func cancelButtonTapped(sender: AnyObject) {
-    self.dismissViewControllerAnimated(true, completion: nil)
-  }
-  func togglePasswordView(hidden: Bool) {
-    tmpPassword.hidden = hidden
-    newPassword.hidden = hidden
-    saveButton.hidden = hidden
-    saveButton.awakeFromNib()
-    underline1.hidden = hidden
-    underline2.hidden = hidden
-  }
-
-  func checkEmail(sender: UITextField) {
+  func checkEmail() {
     let emailText = email.text!
     if (emailText.isEmpty) {
       return
@@ -67,24 +162,29 @@ class PasswordResetViewController: UIViewController{
     sendButton.enabled = true
   }
 
-  func checkPassword(sender: UITextField) {
+  func checkPassword() {
     guard
-      let tmpPassword = tmpPassword.text where !tmpPassword.isEmpty,
-      let newPassword = newPassword.text where !newPassword.isEmpty
+      let tmpPassword = passwordView.tmpPassword.text where !tmpPassword.isEmpty,
+      let newPassword = passwordView.password.text where !newPassword.isEmpty
       else {
         return
     }
 
-    self.saveButton.enabled = true
+    saveButton.enabled = true
   }
 
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
     self.view.endEditing(true)
   }
-  @IBAction func saveButtonTapped(sender: AnyObject) {
+
+  func backButtonTapped() {
+    self.navigationController?.popViewControllerAnimated(true)
+  }
+
+  func saveButtonTapped() {
     dismissKeyboard()
-    let tmpPwd = tmpPassword.text!
-    let newPwd = newPassword.text!
+    let tmpPwd = passwordView.tmpPassword.text!
+    let newPwd = passwordView.password.text!
     if (newPwd.characters.count < 6) {
       utility.displayAlertMessage("Password must be at least 6 characters long", title: "Alert", sender: self)
       return
@@ -97,7 +197,7 @@ class PasswordResetViewController: UIViewController{
     generics.createObject(urlString, jsonData: jsonData) { result in
       let message = result
       if (result.isEmpty) {
-        dispatch_sync(dispatch_get_main_queue()){
+        dispatch_async(dispatch_get_main_queue()){
           activityIndicator.hideAnimated(true)
           self.dismissViewControllerAnimated(true, completion: nil)
         }
@@ -111,7 +211,7 @@ class PasswordResetViewController: UIViewController{
     }
   }
 
-  @IBAction func sendEmailButtonTapped(sender: AnyObject) {
+  func sendEmailButtonTapped() {
     dismissKeyboard()
     let activityIndicator = MBProgressHUD.showHUDAddedTo(self.view, animated: false)
     activityIndicator.label.text = "Sending..."
@@ -127,8 +227,7 @@ class PasswordResetViewController: UIViewController{
           if (result.isEmpty) {
             dispatch_async(dispatch_get_main_queue()) {
               activityIndicator.hideAnimated(true)
-              self.togglePasswordView(false)
-              self.utility.displayAlertMessage("Please check your email and follow instructions to reset password", title: "Recovery Email Sent", sender: self)
+              self.showPasswordResetView()
             }
           }
           else {
@@ -150,7 +249,7 @@ class PasswordResetViewController: UIViewController{
 
   func dismissKeyboard() {
     email.resignFirstResponder()
-    tmpPassword.resignFirstResponder()
-    newPassword.resignFirstResponder()
+    passwordView.tmpPassword.resignFirstResponder()
+    passwordView.password.resignFirstResponder()
   }
 }

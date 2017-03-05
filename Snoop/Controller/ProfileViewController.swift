@@ -207,13 +207,15 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDeleg
       myCell.icon.text = "Ask me about:"
       myCell.icon.textColor = UIColor.secondaryTextColor()
       myCell.icon.layer.borderWidth = 0
-      myCell.clipsToBounds = true
     }
     else {
       myCell.icon.text = expertise[indexPath.row - 1].name
+      myCell.icon.layer.cornerRadius = 8
+      myCell.icon.layer.borderWidth = 1
       myCell.selected = true
     }
 
+    myCell.clipsToBounds = true
     return myCell
   }
 

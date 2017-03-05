@@ -55,6 +55,7 @@
 		4A745CBE1D73A5D500797AFC /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A745CBD1D73A5D500797AFC /* ConfirmationViewController.swift */; };
 		4A7971D31E64A059003105FD /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7971D21E64A059003105FD /* CategoryModel.swift */; };
 		4A7971D51E64B89A003105FD /* InterestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7971D41E64B89A003105FD /* InterestModel.swift */; };
+		4A7971D71E6A955F003105FD /* PasswordResetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7971D61E6A955F003105FD /* PasswordResetView.swift */; };
 		4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */; };
 		4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */; };
 		4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26821D218FC60001989E /* ProfileViewController.swift */; };
@@ -173,6 +174,7 @@
 		4A745CBD1D73A5D500797AFC /* ConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
 		4A7971D21E64A059003105FD /* CategoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		4A7971D41E64B89A003105FD /* InterestModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterestModel.swift; sourceTree = "<group>"; };
+		4A7971D61E6A955F003105FD /* PasswordResetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordResetView.swift; sourceTree = "<group>"; };
 		4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewCell.swift; sourceTree = "<group>"; };
 		4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 		4A8F26821D218FC60001989E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 				4A10DCC91E5B663A009E3996 /* LoginView.swift */,
 				4A10DCCD1E5BA8B3009E3996 /* SignupView.swift */,
 				4A27FCC41E638DCA00D78294 /* EditProfileView.swift */,
+				4A7971D61E6A955F003105FD /* PasswordResetView.swift */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -671,6 +674,7 @@
 				4A6730BB1E23301A00C512B1 /* SettingsTableViewCell.swift in Sources */,
 				4ADFD38E1E56628B00CD3D92 /* MKAnnotationView+WebCache.m in Sources */,
 				4A27FCC31E60C96000D78294 /* Category.swift in Sources */,
+				4A7971D71E6A955F003105FD /* PasswordResetView.swift in Sources */,
 				4A0EB0ED1D8277C700390D06 /* ContentViewController.swift in Sources */,
 				4A10DCD21E5BBE9A009E3996 /* InterestCollectionViewCell.swift in Sources */,
 				4A11C05C1D344DF500AEF95D /* RoundCornerButton.swift in Sources */,

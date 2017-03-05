@@ -175,5 +175,6 @@ class NewLoginViewController: UIViewController {
   }
 
   func forgetPasswordLinkTapped() {
+    self.navigationController?.pushViewController(PasswordResetViewController(), animated: true)
   }
 }
