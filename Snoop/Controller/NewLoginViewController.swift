@@ -138,6 +138,7 @@ class NewLoginViewController: UIViewController {
       if (displayMessage.isEmpty) {
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isUserLoggedIn")
         NSUserDefaults.standardUserDefaults().setObject(userEmail, forKey: "email")
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey:"isUserSignedUp")
         NSUserDefaults.standardUserDefaults().synchronize()
         if let deviceToken = NSUserDefaults.standardUserDefaults().stringForKey("deviceToken") {
           userModule.updateDeviceToken(userEmail, token: deviceToken) { result in

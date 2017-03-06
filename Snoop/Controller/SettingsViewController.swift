@@ -54,6 +54,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
   }
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let myCell = tableView.dequeueReusableCellWithIdentifier(self.cellId)!
+    myCell.selectionStyle = .None
     if (indexPath.section == 0) {
       myCell.textLabel?.text = settings[indexPath.row]
       myCell.textLabel?.textColor = UIColor.blackColor()

@@ -52,10 +52,21 @@ extension ViewController {
     feedTable.addSubview(refreshControl)
 
     let logo = UIImage(named: "logo")
-    let logoView = UIImageView(frame: CGRect(x: 0, y: 0, width: 97.5, height: 30))
+    let logoView = UIImageView(frame: CGRect(x: 0, y: 0, width: 68, height: 20))
     logoView.contentMode = .ScaleAspectFit
     logoView.image = logo
     self.navigationItem.titleView = logoView
+
+    let coinView = CoinButtonView(frame: CGRect(origin: .zero, size: CGSize(width: 55, height: 20)))
+    coinView.setCount(999)
+    coinView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(coinButtonTapped)))
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: coinView)
+
+    // We add the left button only to center the logo view in the nav bar.
+    // We need a better solution later one
+    let leftButton = UIButton()
+    leftButton.frame = CGRect(origin: .zero, size: CGSize(width: 55, height: 20))
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
   }
   
   override func viewDidAppear(animated: Bool) {
@@ -329,6 +340,12 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
 
 // Segue action
 extension ViewController {
+
+  func coinButtonTapped() {
+    let vc = CoinsViewController()
+    vc.numOfCoins = 999
+    self.presentViewController(vc, animated: true, completion: nil)
+  }
 
   func tappedOnProfile(sender:UIGestureRecognizer) {
     let tapLocation = sender.locationInView(self.feedTable)
