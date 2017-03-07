@@ -22,7 +22,6 @@ class CoinButtonView: UIView {
     count.adjustsFontSizeToFitWidth = true
     count.minimumScaleFactor = 10 / count.font.pointSize
     count.textColor = UIColor(white: 0, alpha: 0.8)
-    count.textAlignment = .Center
     return count
   }()
 

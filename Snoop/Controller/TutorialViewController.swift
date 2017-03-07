@@ -37,6 +37,7 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     appDelegate.registerForPushNotifications(application)
   }
+
   func setupNavbar() {
     // Creating right bar button
     let navbar = UINavigationBar(frame: CGRectMake(0, 0,

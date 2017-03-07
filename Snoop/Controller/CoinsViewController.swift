@@ -16,6 +16,10 @@ class CoinsViewController: UIViewController {
   let headerCellId = "headerCell"
   var numOfCoins = 0
 
+  lazy var coinModule = Coin()
+  let notificationName = "coinsAdded"
+
+  var homeViewController: ViewController?
   lazy var navBar: UINavigationBar = {
     let navbar = UINavigationBar(frame: CGRectMake(0, 0,
       self.view.frame.width, 64));
@@ -46,9 +50,16 @@ class CoinsViewController: UIViewController {
     return table
   }()
 
-  var products:[SKProduct] = []
   let consumableProducts = ["com.snoop.Snoop.addcoins5", "com.snoop.Snoop.addcoins20", "com.snoop.Snoop.addcoins50", "com.snoop.Snoop.addcoins100"]
   var product = SKProduct()
+
+  deinit {
+    NSNotificationCenter.defaultCenter().removeObserver(self) // app might crash without removing observer
+  }
+}
+
+//override extension
+extension CoinsViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -59,96 +70,42 @@ class CoinsViewController: UIViewController {
     self.view.addConstraintsWithFormat("H:|[v0]|", views: coinsTable)
     self.view.addConstraintsWithFormat("V:|[v0]|", views: coinsTable)
 
-    if (SKPaymentQueue.canMakePayments()) {
-      print("in-app purchase is enabled")
-      var productIds = Set<String>()
-      for consumableProduct in consumableProducts {
-        productIds.insert(consumableProduct)
-      }
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.addCoins(_:)), name: self.notificationName, object: nil)
+  }
 
-      let request = SKProductsRequest(productIdentifiers: productIds)
-      request.delegate = self
-      request.start()
-    }
-
-    SKPaymentQueue.defaultQueue().addTransactionObserver(self)
+  override func viewDidAppear(animated: Bool) {
+    super.viewDidAppear(animated)
+    self.coinsTable.reloadData()
   }
 }
 
+//IB related actions
 extension CoinsViewController {
   func closeButtonTapped() {
-    self.dismissViewControllerAnimated(true, completion: nil)
+    let vc = self.homeViewController
+    self.dismissViewControllerAnimated(true) {
+      vc?.loadCoinCount(self.numOfCoins)
+    }
   }
 }
 
-extension CoinsViewController: SKProductsRequestDelegate, SKPaymentTransactionObserver {
-  func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
-    let myProducts = response.products
-    for product in myProducts {
-
-      print("new product")
-      print(product.localizedTitle)
-      print(product.productIdentifier)
-      print(product.localizedDescription)
-      print(product.price)
-      products.append(product)
-    }
-  }
-
-  func paymentQueue(queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-    for transaction in transactions {
-      switch (transaction.transactionState) {
-      case .Purchased:
-        let purchasedId = transaction.payment.productIdentifier
-        switch (purchasedId) {
-          case "com.snoop.Snoop.addcoins5":
-            print("com.snoop.Snoop.addcoins5 is purchased")
-            addCoinsForUser(125)
-          case "com.snoop.Snoop.addcoins20":
-            print("com.snoop.Snoop.addcoins20 is purchased")
-            addCoinsForUser(520)
-          case "com.snoop.Snoop.addcoins50":
-            print("com.snoop.Snoop.addcoins50 is purchased")
-            addCoinsForUser(1350)
-          case "com.snoop.Snoop.addcoins100":
-            print("com.snoop.Snoop.addcoins100 is purchased")
-            addCoinsForUser(2800)
-          default:
-            print("unknow product purchased " + purchasedId)
-            break
+// Private methods
+extension CoinsViewController {
+  func addCoins(notification: NSNotification) {
+    if let uid = notification.userInfo?["uid"] as? String {
+      let currentUid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+      // Check if these two are the same user if app relaunches or user signs out.
+      if (currentUid == uid) {
+        if let amount = notification.userInfo?["amount"] as? Int {
+          self.numOfCoins += amount
+          self.coinsTable.reloadData()
         }
-        break
-      case .Failed:
-        fail(transaction)
-        break
-      case .Restored:
-        restore(transaction)
-        break
-      case .Deferred:
-        break
-      case .Purchasing:
-        break
       }
     }
   }
-
-  func restore(transaction: SKPaymentTransaction) {
-    guard let productIdentifier = transaction.originalTransaction?.payment.productIdentifier else { return }
-
-    print("restore... \(productIdentifier)")
-    SKPaymentQueue.defaultQueue().finishTransaction(transaction)
-  }
-
-  func fail(transaction: SKPaymentTransaction) {
-    print("fail... \(transaction.error)")
-
-    SKPaymentQueue.defaultQueue().finishTransaction(transaction)
-  }
-
-  func addCoinsForUser(numOfCoins: Int) {
-
-  }
 }
+
+// UITableview delegate
 extension CoinsViewController: UITableViewDelegate, UITableViewDataSource {
   func numberOfSectionsInTableView(tableView: UITableView) -> Int {
     return 2
@@ -219,18 +176,21 @@ extension CoinsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     else {
       let myCell = tableView.dequeueReusableCellWithIdentifier(self.summaryCellId, forIndexPath: indexPath) as! CoinsTableViewCell
+      print("number of coins is \(numOfCoins)")
       myCell.coinCount.text = String(numOfCoins)
       return myCell
     }
   }
 
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    let productId = consumableProducts[indexPath.row]
-    print("initiating " + productId)
-    for product in products {
-      if (product.productIdentifier == productId) {
-        let payment = SKPayment(product: product)
-        SKPaymentQueue.defaultQueue().addPayment(payment)
+    if (indexPath.section == 1) {
+      let productId = consumableProducts[indexPath.row]
+      print("initiating " + productId)
+      for product in IAPManager.sharedInstance.products {
+        if (product.productIdentifier == productId) {
+          let payment = SKPayment(product: product)
+          SKPaymentQueue.defaultQueue().addPayment(payment)
+        }
       }
     }
   }

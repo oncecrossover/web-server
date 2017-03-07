@@ -36,6 +36,7 @@ class CoinsTableViewCell: UITableViewCell {
     addSubview(title)
     addSubview(coinView)
     addSubview(coinCount)
+    selectionStyle = .None
 
     // Setup constraints
     addConstraintsWithFormat("H:|-14-[v0(120)]", views: title)

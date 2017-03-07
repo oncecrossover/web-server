@@ -62,6 +62,8 @@
 		4A7971DF1E6CD70B003105FD /* CoinPriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7971DE1E6CD70B003105FD /* CoinPriceTableViewCell.swift */; };
 		4A7971E11E6CF51F003105FD /* CoinPriceTableHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7971E01E6CF51F003105FD /* CoinPriceTableHeaderViewCell.swift */; };
 		4A7971E31E6D0C70003105FD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A7971E21E6D0C70003105FD /* StoreKit.framework */; };
+		4A7971E51E6E2495003105FD /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7971E41E6E2494003105FD /* Coin.swift */; };
+		4A7971E71E6E4C2D003105FD /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7971E61E6E4C2D003105FD /* IAPManager.swift */; };
 		4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */; };
 		4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */; };
 		4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26821D218FC60001989E /* ProfileViewController.swift */; };
@@ -187,6 +189,8 @@
 		4A7971DE1E6CD70B003105FD /* CoinPriceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoinPriceTableViewCell.swift; sourceTree = "<group>"; };
 		4A7971E01E6CF51F003105FD /* CoinPriceTableHeaderViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoinPriceTableHeaderViewCell.swift; sourceTree = "<group>"; };
 		4A7971E21E6D0C70003105FD /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		4A7971E41E6E2494003105FD /* Coin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
+		4A7971E61E6E4C2D003105FD /* IAPManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
 		4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewCell.swift; sourceTree = "<group>"; };
 		4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 		4A8F26821D218FC60001989E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -347,6 +351,7 @@
 			isa = PBXGroup;
 			children = (
 				4ABD203C1D443E1A00C3B74E /* UIUtility.swift */,
+				4A7971E61E6E4C2D003105FD /* IAPManager.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -387,6 +392,7 @@
 				4ABD20361D4409F900C3B74E /* Payment.swift */,
 				4A152F611D59106700FA48E7 /* Generics.swift */,
 				4A27FCC21E60C96000D78294 /* Category.swift */,
+				4A7971E41E6E2494003105FD /* Coin.swift */,
 			);
 			path = HTTP;
 			sourceTree = "<group>";
@@ -694,6 +700,7 @@
 				4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */,
 				4ADFD3931E56628B00CD3D92 /* SDWebImageCompat.m in Sources */,
 				4AC9231F1D360A0800C83177 /* FeedTableViewCell.swift in Sources */,
+				4A7971E71E6E4C2D003105FD /* IAPManager.swift in Sources */,
 				4A6730BB1E23301A00C512B1 /* SettingsTableViewCell.swift in Sources */,
 				4ADFD38E1E56628B00CD3D92 /* MKAnnotationView+WebCache.m in Sources */,
 				4A27FCC31E60C96000D78294 /* Category.swift in Sources */,
@@ -710,6 +717,7 @@
 				4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */,
 				4A6730C11E23426A00C512B1 /* DocumentViewController.swift in Sources */,
 				4AF3226C1D29DE120043FCE5 /* ActivityViewController.swift in Sources */,
+				4A7971E51E6E2495003105FD /* Coin.swift in Sources */,
 				4ACADE131E1345E000831929 /* ActivityTableViewCell.swift in Sources */,
 				4ADFD39D1E56628B00CD3D92 /* UIImageView+HighlightedWebCache.m in Sources */,
 				4AF3226A1D29A1E10043FCE5 /* Question.swift in Sources */,

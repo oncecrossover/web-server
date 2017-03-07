@@ -15,17 +15,20 @@ class ViewController: UIViewController {
   var questionModule = Question()
   var userModule = User()
   var generics = Generics()
+  var coinModule = Coin()
   var utilityModule = UIUtility()
 
   var refreshControl: UIRefreshControl = UIRefreshControl()
 
-  var soundPlayer: AVAudioPlayer!
-
   var paidSnoops: Set<Int> = []
 
-  var activeCellIndex: Int!
-
   var activePlayerView: VideoPlayerView?
+
+  var coinCount = 0
+  lazy var coinView: CoinButtonView = {
+    let view = CoinButtonView(frame: CGRect(origin: .zero, size: CGSize(width: 55, height: 20)))
+    return view
+  }()
 
   @IBOutlet weak var feedTable: UITableView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -34,6 +37,7 @@ class ViewController: UIViewController {
   var tmpFeeds:[FeedsModel] = []
 
   var fileName = "videoFile.m4a"
+  let notificationName = "coinsAdded"
 
   deinit {
     NSNotificationCenter.defaultCenter().removeObserver(self) // app might crash without removing observer
@@ -57,8 +61,6 @@ extension ViewController {
     logoView.image = logo
     self.navigationItem.titleView = logoView
 
-    let coinView = CoinButtonView(frame: CGRect(origin: .zero, size: CGSize(width: 55, height: 20)))
-    coinView.setCount(999)
     coinView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(coinButtonTapped)))
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: coinView)
 
@@ -67,6 +69,8 @@ extension ViewController {
     let leftButton = UIButton()
     leftButton.frame = CGRect(origin: .zero, size: CGSize(width: 55, height: 20))
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
+
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.addCoins(_:)), name: self.notificationName, object: nil)
   }
   
   override func viewDidAppear(animated: Bool) {
@@ -84,6 +88,7 @@ extension ViewController {
     else {
       if (feeds.count == 0){
         loadData()
+        loadCoinCount()
       }
       else {
         if (NSUserDefaults.standardUserDefaults().objectForKey("shouldLoadHome") == nil ||
@@ -91,6 +96,7 @@ extension ViewController {
           NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadHome")
           NSUserDefaults.standardUserDefaults().synchronize()
           loadData()
+          loadCoinCount()
         }
       }
     }
@@ -104,6 +110,33 @@ extension ViewController {
 
 // Private function
 extension ViewController {
+
+  func loadCoinCount() {
+    coinModule.getCoinsCount() { result in
+      let coinCount = result["amount"] as! Int
+      self.coinCount = coinCount
+      dispatch_async(dispatch_get_main_queue()) {
+        self.loadCoinCount(coinCount)
+      }
+    }
+  }
+
+  func loadCoinCount(count: Int) {
+    self.coinView.setCount(count)
+  }
+
+  func addCoins(notification: NSNotification) {
+    if let uid = notification.userInfo?["uid"] as? String {
+      let currentUid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+      // Check if these two are the same user if app relaunches or user signs out.
+      if (currentUid == uid) {
+        if let amount = notification.userInfo?["amount"] as? Int {
+          self.coinCount += amount
+          loadCoinCount(coinCount)
+        }
+      }
+    }
+  }
 
   func refresh(sender:AnyObject) {
     loadData()
@@ -343,7 +376,8 @@ extension ViewController {
 
   func coinButtonTapped() {
     let vc = CoinsViewController()
-    vc.numOfCoins = 999
+    vc.numOfCoins = self.coinCount
+    vc.homeViewController = self
     self.presentViewController(vc, animated: true, completion: nil)
   }
 

@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import Stripe
+import StoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let api_key = NSBundle.mainBundle().objectForInfoDictionaryKey("STRIPE_API_KEY") as! String
     STPPaymentConfiguration.sharedConfiguration().publishableKey = api_key
 
+    SKPaymentQueue.defaultQueue().addTransactionObserver(IAPManager.sharedInstance)
     setupCustomUI()
 
     if let notification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [String: AnyObject] {
@@ -154,6 +156,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func applicationWillTerminate(application: UIApplication) {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
+    SKPaymentQueue.defaultQueue().removeTransactionObserver(IAPManager.sharedInstance)
     self.saveContext()
   }
   
