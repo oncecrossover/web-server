@@ -103,6 +103,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     NSUserDefaults.standardUserDefaults().setObject(tokenString, forKey: "deviceToken")
     NSUserDefaults.standardUserDefaults().synchronize()
+    if let uid = NSUserDefaults.standardUserDefaults().stringForKey("email") {
+      User().updateDeviceToken(uid, token: tokenString) { _ in
+      }
+    }
   }
 
   func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {

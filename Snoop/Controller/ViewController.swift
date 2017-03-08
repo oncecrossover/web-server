@@ -21,12 +21,29 @@ class ViewController: UIViewController {
   var refreshControl: UIRefreshControl = UIRefreshControl()
 
   var paidSnoops: Set<Int> = []
+  var activeIndexPath: NSIndexPath?
 
   var activePlayerView: VideoPlayerView?
 
   var coinCount = 0
   lazy var coinView: CoinButtonView = {
     let view = CoinButtonView(frame: CGRect(origin: .zero, size: CGSize(width: 55, height: 20)))
+    return view
+  }()
+
+  lazy var blackView: UIView = {
+    let view = UIView()
+    view.backgroundColor = UIColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.5)
+    return view
+  }()
+
+  lazy var payWithCoinsView: PayWithCoinsView = {
+    let view = PayWithCoinsView()
+    view.layer.cornerRadius = 6
+    view.clipsToBounds = true
+    view.cancelButton.addTarget(self, action: #selector(cancelButtonTapped), forControlEvents: .TouchUpInside)
+    view.confirmButton.addTarget(self, action: #selector(confirmButtonTapped), forControlEvents: .TouchUpInside)
+    view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }()
 
@@ -174,7 +191,7 @@ extension ViewController {
         let answerUrl = feedInfo["answerUrl"] as? String
 
         let duration = feedInfo["duration"] as! Int
-        let rate = feedInfo["rate"] as! Double
+        let rate = feedInfo["rate"] as! Int
         self.tmpFeeds.append(FeedsModel(_name: name, _title: title, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime,  _duration: duration, _avatarImageUrl: avatarImageUrl, _coverUrl: coverUrl, _answerUrl: answerUrl, _rate: rate))
       }
 
@@ -315,7 +332,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
       myCell.rateLabel.backgroundColor = UIColor(patternImage: UIImage(named: "unlocked")!)
     }
     else {
-      if (feedInfo.rate > 0.0) {
+      if (feedInfo.rate > 0) {
         myCell.rateLabel.backgroundColor = UIColor(red: 255/255, green: 183/255, blue: 78/255, alpha: 0.8)
         myCell.rateLabel.text = "$1.5"
       }
@@ -381,6 +398,33 @@ extension ViewController {
     self.presentViewController(vc, animated: true, completion: nil)
   }
 
+  func confirmButtonTapped() {
+    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    let quandaId = self.feeds[self.activeIndexPath!.row].id
+    let quandaData: [String:AnyObject] = ["id": quandaId]
+    let jsonData: [String:AnyObject] = ["uid": uid, "type": "SNOOPED", "quanda": quandaData]
+    generics.createObject(generics.HTTPHOST + "qatransactions", jsonData: jsonData) { result in
+      if (result.isEmpty) {
+        dispatch_async(dispatch_get_main_queue()) {
+          UIView.animateWithDuration(1.0, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
+            self.blackView.alpha = 0
+            self.payWithCoinsView.alpha = 0
+          }) { (result) in
+
+          self.paidSnoops.insert(quandaId)
+          self.feedTable.reloadRowsAtIndexPaths([self.activeIndexPath!], withRowAnimation: .Fade)
+          }
+        }
+      }
+    }
+  }
+  func cancelButtonTapped() {
+    UIView.animateWithDuration(1.0, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
+      self.blackView.alpha = 0
+      self.payWithCoinsView.alpha = 0
+      }, completion: nil)
+  }
+
   func tappedOnProfile(sender:UIGestureRecognizer) {
     let tapLocation = sender.locationInView(self.feedTable)
     let indexPath = self.feedTable.indexPathForRowAtPoint(tapLocation)!
@@ -409,7 +453,7 @@ extension ViewController {
     let newFrame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
     self.tabBarController?.view.addSubview(videoPlayerView)
     activePlayerView = videoPlayerView
-    UIView.animateWithDuration(1.0, delay: 0.0, options: .CurveEaseOut, animations: {
+    UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseOut, animations: {
       videoPlayerView.frame = newFrame
       videoPlayerView.setupLoadingControls()
       }, completion: nil)
@@ -440,18 +484,26 @@ extension ViewController {
   func tappedOnImage(sender: UIGestureRecognizer) {
     let tapLocation = sender.locationInView(self.feedTable)
     let indexPath = self.feedTable.indexPathForRowAtPoint(tapLocation)!
-    self.performSegueWithIdentifier("homeToPayment", sender: indexPath)
+    self.activeIndexPath = indexPath
+    if let window = UIApplication.sharedApplication().keyWindow {
+      window.addSubview(blackView)
+      blackView.frame = window.frame
+      window.addSubview(payWithCoinsView)
+      payWithCoinsView.centerXAnchor.constraintEqualToAnchor(window.centerXAnchor).active = true
+      payWithCoinsView.centerYAnchor.constraintEqualToAnchor(window.centerYAnchor).active = true
+      payWithCoinsView.widthAnchor.constraintEqualToConstant(260).active = true
+      payWithCoinsView.heightAnchor.constraintEqualToConstant(176).active = true
+      blackView.alpha = 0
+      payWithCoinsView.alpha = 0
+      UIView.animateWithDuration(0.5) {
+        self.blackView.alpha = 1
+        self.payWithCoinsView.alpha = 1
+      }
+    }
   }
 
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    if (segue.identifier == "homeToPayment") {
-      let indexPath = sender as! NSIndexPath
-      let dvc = segue.destinationViewController as! ChargeViewController
-      let feed = feeds[indexPath.row]
-      dvc.chargeInfo = (amount: feed.rate > 0.0 ? 1.5 : 0, type: "SNOOPED", quandaId: feed.id)
-      dvc.isSnooped = true
-    }
-    else if (segue.identifier == "homeToAsk") {
+    if (segue.identifier == "homeToAsk") {
       let dvc = segue.destinationViewController as! AskViewController
       let profileInfo = sender as! [String:AnyObject]
       let uid = profileInfo["uid"] as! String

@@ -151,7 +151,11 @@ class NewLoginViewController: UIViewController {
         else {
           dispatch_async(dispatch_get_main_queue()) {
             activityIndicator.hideAnimated(true)
-            self.dismissViewControllerAnimated(true, completion: nil)
+            let application = UIApplication.sharedApplication()
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            self.dismissViewControllerAnimated(true) {
+              appDelegate.registerForPushNotifications(application)
+            }
           }
         }
       }

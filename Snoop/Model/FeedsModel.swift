@@ -22,8 +22,8 @@ class FeedsModel {
   var avatarImageUrl: String?
   var coverUrl: String?
   var answerUrl: String!
-  var rate: Double!
-  init(_name: String!, _title: String!, _id: Int!, _question: String!, _status: String!, _responderId: String!, _snoops: Int!, _updatedTime: Double!,  _duration: Int!, _avatarImageUrl: String?, _coverUrl: String?, _answerUrl: String!, _rate: Double!) {
+  var rate: Int!
+  init(_name: String!, _title: String!, _id: Int!, _question: String!, _status: String!, _responderId: String!, _snoops: Int!, _updatedTime: Double!,  _duration: Int!, _avatarImageUrl: String?, _coverUrl: String?, _answerUrl: String!, _rate: Int!) {
     name = _name
     title = _title
     avatarImage = nil

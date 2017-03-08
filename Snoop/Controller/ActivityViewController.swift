@@ -418,7 +418,7 @@ extension ActivityViewController {
     let newFrame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
     self.tabBarController?.view.addSubview(videoPlayerView)
     activePlayerView = videoPlayerView
-    UIView.animateWithDuration(1.0, delay: 0.0, options: .CurveEaseOut, animations: {
+    UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseOut, animations: {
       videoPlayerView.frame = newFrame
       videoPlayerView.setupLoadingControls()
 
@@ -455,35 +455,6 @@ extension ActivityViewController {
       // block base observer has retain cycle issue, remember to unregister observer in deinit
       videoPlayerView.reset()
     }
-
-//    if (utility.isInCache(questionId)) {
-//      let pathUrl = self.utility.getFileUrl("audio\(questionId)" + ".m4a")
-//
-//      self.preparePlayer(NSData(contentsOfURL: pathUrl)!)
-//      self.soundPlayer.play()
-//    }
-//    else {
-//      questionModule.getQuestionAudio(questionId) { audioString in
-//        if (!audioString.isEmpty) {
-//          let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
-//          dispatch_async(dispatch_get_main_queue()) {
-//            self.preparePlayer(data)
-//            self.soundPlayer.play()
-//          }
-//          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-//            let pathUrl = self.utility.getFileUrl("audio\(questionId)" + ".m4a")
-//            do {
-//              try data.writeToURL(pathUrl, options: .DataWritingAtomic)
-//              NSUserDefaults.standardUserDefaults().setBool(true, forKey: String(questionId))
-//              NSUserDefaults.standardUserDefaults().synchronize()
-//            }
-//            catch let error as NSError {
-//              print(error.localizedDescription)
-//            }
-//          }
-//        }
-//      }
-//    }
   }
 
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
