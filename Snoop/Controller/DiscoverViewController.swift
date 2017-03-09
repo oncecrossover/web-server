@@ -92,7 +92,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
         let updatedTime = profileInfo["updatedTime"] as! Double!
         var profileTitle = ""
         var profileAbout = ""
-        var rate = 0.0
+        var rate = 0
 
         if profileInfo["title"] as? String != nil {
           profileTitle = profileInfo["title"] as! String
@@ -102,13 +102,13 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
           profileAbout = profileInfo["aboutMe"] as! String
         }
 
-        if profileInfo["rate"] as? Double != nil {
-          rate = profileInfo["rate"] as! Double
+        if profileInfo["rate"] as? Int != nil {
+          rate = profileInfo["rate"] as! Int
         }
 
         let avatarUrl = profileInfo["avatarUrl"] as? String
 
-        self.tmpProfiles.append(DiscoverModel(_name: profileName, _title: profileTitle, _avatarImage: nil, _uid: profileUid, _about: profileAbout, _rate: rate, _updatedTime: updatedTime, _avatarUrl: avatarUrl))
+        self.tmpProfiles.append(DiscoverModel(_name: profileName, _title: profileTitle, _uid: profileUid, _about: profileAbout, _rate: rate, _updatedTime: updatedTime, _avatarUrl: avatarUrl))
         didLoadNewProfiles = true
       }
       self.profiles = self.tmpProfiles
@@ -124,25 +124,6 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
       }
     }
 
-  }
-
-  func loadImageAsync(cellInfo: DiscoverModel, completion: (DiscoverModel) -> ()) {
-    if let avatarUrl = cellInfo.avatarUrl {
-      cellInfo.avatarImage = NSData(contentsOfURL: NSURL(string: avatarUrl)!)
-    }
-    else {
-      cellInfo.avatarImage = NSData()
-    }
-    completion(cellInfo)
-  }
-
-  func setImage(myCell: DiscoverTableViewCell, cellInfo: DiscoverModel) {
-    if (cellInfo.avatarImage!.length > 0) {
-      myCell.discoverImageView.image = UIImage(data: cellInfo.avatarImage!)
-    }
-    else {
-      myCell.discoverImageView.image = UIImage(named: "default")
-    }
   }
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

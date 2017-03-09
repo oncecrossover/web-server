@@ -18,7 +18,7 @@ class ProfileViewController: UIViewController {
   @IBOutlet weak var titleLabel: UILabel!
 
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-  var rate:Double = 0.0
+  var rate:Int = 0
 
   @IBOutlet weak var applyButton: UIButton!
   @IBOutlet weak var settingsTable: UITableView!

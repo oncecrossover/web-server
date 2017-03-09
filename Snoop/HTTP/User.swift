@@ -100,14 +100,14 @@ class User
     }
   }
 
-  func getProfile(uid: String, completion: (String, String, String, String?, Double, String) -> ()){
+  func getProfile(uid: String, completion: (String, String, String, String?, Int, String) -> ()){
     let myUrl = NSURL(string: PROFILEURI + uid);
     generics.getObjectById(myUrl!) { convertedJsonIntoDict in
       var fullName = ""
       var title = ""
       var aboutMe = ""
       var avatarUrl: String?
-      var rate = 0.0
+      var rate = 0
       var status = "NA"
 
       // Get value by key
@@ -127,8 +127,8 @@ class User
         avatarUrl = (convertedJsonIntoDict["avatarUrl"] as? String)!
       }
 
-      if ((convertedJsonIntoDict["rate"] as? Double) != nil) {
-        rate = (convertedJsonIntoDict["rate"] as? Double)!
+      if ((convertedJsonIntoDict["rate"] as? Int) != nil) {
+        rate = (convertedJsonIntoDict["rate"] as? Int)!
       }
 
       if ((convertedJsonIntoDict["takeQuestion"] as? String) != nil) {

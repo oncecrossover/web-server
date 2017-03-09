@@ -21,11 +21,11 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
   var paymentModule = Payment()
   var utility = UIUtility()
   var questionModule = Question()
-  var chargeInfo: (amount: Double!, type: String!, quandaId: Int!)
-  var submittedQuestion: (amount: Double!, type: String!, question: String!, askerId: String!, responderId: String!)
+  var chargeInfo: (amount: Int!, type: String!, quandaId: Int!)
+  var submittedQuestion: (amount: Int!, type: String!, question: String!, askerId: String!, responderId: String!)
   var isPaid = false
   var isSnooped = true
-  var chargeAmount = 0.0
+  var chargeAmount = 0
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -64,12 +64,12 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
     let myUrl = NSURL(string: generics.HTTPHOST + "balances/" + uid!)
     self.generics.getObjectById(myUrl!) { dict in
       let balance = dict["balance"] as! Double
-      if (balance >= self.chargeAmount) {
+      if (balance >= Double(self.chargeAmount)) {
         dispatch_async(dispatch_get_main_queue()) {
           self.balanceLabel.text = "Balance(" + String(balance) + ")"
           self.addCardButton.enabled = false
           self.payButton.enabled = true
-          if (self.chargeAmount == 0.0) {
+          if (self.chargeAmount == 0) {
             self.payButton.setTitle("Get It For Free", forState: .Normal)
           }
           else {

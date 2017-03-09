@@ -176,9 +176,9 @@ extension ActivityViewController {
 
     let question = questionInfo["question"] as! String
     let status = questionInfo["status"] as! String
-    var rate = 0.0
+    var rate = 0
     if (questionInfo["rate"] != nil) {
-      rate = questionInfo["rate"] as! Double
+      rate = questionInfo["rate"] as! Int
     }
 
     //        let hoursToExpire = questionInfo["hoursToExpire"] as! Int
@@ -193,7 +193,7 @@ extension ActivityViewController {
     let duration = questionInfo["duration"] as! Int
     let createdTime = questionInfo["createdTime"] as! Double
 
-    return ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _duration: duration, _askerName: askerName, _responderName: responderName, _responderTitle: responderTitle, _answerCoverUrl: answerCoverUrl, _askerAvatarUrl: askerAvatarUrl, _responderAvatarUrl: responderAvatarUrl, _answerURl: answerUrl, _lastSeenTime: createdTime)
+    return ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _duration: duration, _askerName: askerName, _responderName: responderName, _responderTitle: responderTitle, _answerCoverUrl: answerCoverUrl, _askerAvatarUrl: askerAvatarUrl, _responderAvatarUrl: responderAvatarUrl, _answerUrl: answerUrl, _lastSeenTime: createdTime)
   }
 
   func setPlaceholderImages(cell: ActivityTableViewCell) {

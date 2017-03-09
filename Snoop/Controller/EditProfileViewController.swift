@@ -28,7 +28,7 @@ class EditProfileViewController: UIViewController {
 
   var labelColor = UIColor(red: 199/255, green: 199/255, blue: 205/255, alpha: 1.0)
 
-  var profileValues: (name: String!, title: String!, about: String!, avatarImage:  UIImage!, rate: Double!)
+  var profileValues: (name: String!, title: String!, about: String!, avatarImage:  UIImage!, rate: Int!)
 
   lazy var userModule = User()
   lazy var utility = UIUtility()

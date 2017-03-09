@@ -72,7 +72,7 @@ class EditProfileView: UIScrollView {
     self.about.value.text = about
   }
 
-  func fillRate(rate: Double) {
+  func fillRate(rate: Int) {
     self.rate.value.text = String(rate)
   }
 

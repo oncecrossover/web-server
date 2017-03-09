@@ -37,7 +37,7 @@ class AskViewController: UIViewController, UITextViewDelegate {
   func initView() {
     self.askButton.backgroundColor = UIColor.defaultColor()
     var text = "$\(profileInfo.rate) to ask"
-    if (profileInfo.rate == 0.0) {
+    if (profileInfo.rate == 0) {
       text = "Free to ask"
     }
     self.askButton.setTitle(text, forState: .Normal)

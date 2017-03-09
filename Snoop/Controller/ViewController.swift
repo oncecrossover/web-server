@@ -208,62 +208,11 @@ extension ViewController {
     }
   }
 
-  func loadImagesAsync(cellInfo: FeedsModel, completion: (FeedsModel) -> ()) {
-    if let responderAvatarUrl = cellInfo.avatarImageUrl {
-      cellInfo.avatarImage = NSData(contentsOfURL: NSURL(string: responderAvatarUrl)!)
-    }
-    else {
-      cellInfo.avatarImage = NSData()
-    }
-
-    if let answerCoverUrl = cellInfo.coverUrl {
-      cellInfo.coverImage = NSData(contentsOfURL: NSURL(string: answerCoverUrl)!)
-    }
-    else {
-      cellInfo.coverImage = NSData()
-    }
-
-    completion(cellInfo)
-  }
-
   func setPlaceholderImages(myCell: FeedTableViewCell) {
     myCell.profileImage.userInteractionEnabled = false
     myCell.coverImage.userInteractionEnabled = false
     myCell.profileImage.image = UIImage(named: "default")
     myCell.coverImage.image = UIImage()
-  }
-
-  func setImages(myCell: FeedTableViewCell, feedInfo: FeedsModel) {
-    if (feedInfo.avatarImage!.length > 0) {
-      myCell.profileImage.image = UIImage(data: feedInfo.avatarImage!)
-    }
-    else {
-      myCell.profileImage.image = UIImage(named: "default")
-    }
-    if (feedInfo.status == "PENDING") {
-      myCell.coverImage.userInteractionEnabled = false
-      myCell.coverImage.image = UIImage()
-    }
-    else {
-      myCell.coverImage.image = UIImage(data: feedInfo.coverImage!)
-      myCell.durationLabel.text = "00:\(feedInfo.duration)"
-      myCell.durationLabel.hidden = false
-
-      if (self.paidSnoops.contains(feedInfo.id)) {
-        myCell.coverImage.userInteractionEnabled = true
-        let tappedToWatch = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToWatch(_:)))
-        myCell.coverImage.addGestureRecognizer(tappedToWatch)
-      }
-      else {
-        myCell.coverImage.userInteractionEnabled = true
-        let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnImage(_:)))
-        myCell.coverImage.addGestureRecognizer(tappedOnImage)
-      }
-    }
-
-    myCell.profileImage.userInteractionEnabled = true
-    let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnProfile(_:)))
-    myCell.profileImage.addGestureRecognizer(tappedOnImage)
   }
 
   func getCacheDirectory() -> String {
@@ -428,13 +377,11 @@ extension ViewController {
   func tappedOnProfile(sender:UIGestureRecognizer) {
     let tapLocation = sender.locationInView(self.feedTable)
     let indexPath = self.feedTable.indexPathForRowAtPoint(tapLocation)!
-    let avatarImage = self.feeds[indexPath.row].avatarImage!
     let responderId = self.feeds[indexPath.row].responderId
-    self.userModule.getProfile(responderId) {name, title, about, _, rate, _ in
-      let profileInfo:[String:AnyObject] = ["uid": responderId, "name" : name, "title" : title, "about" : about,
-        "avatarImage" : avatarImage, "rate" : rate]
+    self.userModule.getProfile(responderId) {name, title, about, avatarUrl, rate, _ in
+      let discoverModel = DiscoverModel(_name: name, _title: title, _uid: responderId, _about: about, _rate: rate, _updatedTime: 0, _avatarUrl: avatarUrl)
       dispatch_async(dispatch_get_main_queue()) {
-        self.performSegueWithIdentifier("homeToAsk", sender: profileInfo)
+        self.performSegueWithIdentifier("homeToAsk", sender: discoverModel)
       }
     }
   }
@@ -505,14 +452,8 @@ extension ViewController {
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if (segue.identifier == "homeToAsk") {
       let dvc = segue.destinationViewController as! AskViewController
-      let profileInfo = sender as! [String:AnyObject]
-      let uid = profileInfo["uid"] as! String
-      let name = profileInfo["name"] as! String
-      let title = profileInfo["title"] as! String
-      let about = profileInfo["about"] as! String
-      let avatarImage = profileInfo["avatarImage"] as! NSData
-      let rate = profileInfo["rate"] as! Double
-      dvc.profileInfo = DiscoverModel(_name: name, _title: title, _avatarImage: avatarImage, _uid: uid, _about: about, _rate: rate, _updatedTime: 0, _avatarUrl: nil)
+      let profileInfo = sender as! DiscoverModel
+      dvc.profileInfo = profileInfo
     }
   }
 
