@@ -14,6 +14,8 @@ public class Newsfeed {
   private String answerCoverUrl;
   private byte[]  answerCover;
   private int duration;
+  private String askerName;
+  private String askerAvatarUrl;
   private String responderId;
   private String responderName;
   private String responderTitle;
@@ -116,6 +118,24 @@ public class Newsfeed {
 
   public Newsfeed setResponderTitle(final String responderTitle) {
     this.responderTitle = responderTitle;
+    return this;
+  }
+
+  public String getAskerName() {
+    return askerName;
+  }
+
+  public Newsfeed setAskerName(final String askerName) {
+    this.askerName = askerName;
+    return this;
+  }
+
+  public String getAskerAvatarUrl() {
+    return askerAvatarUrl;
+  }
+
+  public Newsfeed setAskerAvatarUrl(final String askerAvatarUrl) {
+    this.askerAvatarUrl = askerAvatarUrl;
     return this;
   }
 

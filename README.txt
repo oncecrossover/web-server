@@ -288,19 +288,21 @@ Example response:
 [
   {
     "id": 8,
-    "question": "How do you predict house market in US?",
-    "rate": 0,
-    "updatedTime": 1484635427000,
-    "answerUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8",
-    "answerCoverUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8.cover",
+    "question": "How do you fight against the powerful competitors?",
+    "rate": 2,
+    "updatedTime": 1487553797000,
+    "answerUrl": "https://ddk9xa5p5b3lb.cloudfront.net/answers/videos/8/8.mp4",
+    "answerCoverUrl": "https://ddk9xa5p5b3lb.cloudfront.net/answers/thumbnails/8/8.png",
     "answerCover": null,
-    "duration": 0,
-    "responderId": "bowen",
+    "duration": 49,
+    "askerName": "Bingo Zhou",
+    "askerAvatarUrl": "https://ddk9xa5p5b3lb.cloudfront.net/users/xzhou40@gmail.com/avatar.jpg",
+    "responderId": "bzhang@test.com",
     "responderName": "Bowen Zhang",
-    "responderTitle": null,
-    "responderAvatarUrl": null,
+    "responderTitle": "First time entrepreneur.",
+    "responderAvatarUrl": "https://ddk9xa5p5b3lb.cloudfront.net/users/bzhang@test.com/avatar.jpg",
     "responderAvatarImage": null,
-    "snoops": 1
+    "snoops": 0
   }
 ]
 
