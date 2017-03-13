@@ -1,8 +1,9 @@
 package com.gibbon.peeq.db.model;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -12,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gibbon.peeq.util.QuandaUtil;
 
 public class Quanda {
+  private static final double PERCENTAGE_TO_RESPONDER = 0.7;
   public enum QnaStatus {
     PENDING, ANSWERED, EXPIRED
   }
@@ -41,7 +43,7 @@ public class Quanda {
   private String asker;
   private String question;
   private String responder;
-  private Double rate;
+  private Integer rate;
   private String answerUrl;
   private String answerCoverUrl;
   private byte[] answerMedia;
@@ -90,11 +92,11 @@ public class Quanda {
     return this;
   }
 
-  public Double getRate() {
+  public Integer getRate() {
     return rate;
   }
 
-  public Quanda setRate(final Double rate) {
+  public Quanda setRate(final Integer rate) {
     this.rate = rate;
     return this;
   }
@@ -198,8 +200,9 @@ public class Quanda {
   }
 
   @JsonIgnore
-  public double getPayment4Answer() {
-   return rate * 0.9;
+  public double getPayment4Responder() {
+    return new BigDecimal(rate * PERCENTAGE_TO_RESPONDER)
+        .setScale(2, RoundingMode.FLOOR).doubleValue();
   }
 
   @Override

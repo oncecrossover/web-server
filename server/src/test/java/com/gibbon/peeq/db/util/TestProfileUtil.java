@@ -17,7 +17,7 @@ public class TestProfileUtil {
     final Session session = HibernateTestUtil.getSessionFactory()
         .getCurrentSession();
 
-    Double result = null;
+    Integer result = null;
     try {
       result = ProfileDBUtil.getRate(session, UUID.randomUUID().toString(), true);
       fail("There shouldn't be any record.");
@@ -33,7 +33,7 @@ public class TestProfileUtil {
     final Session session = HibernateTestUtil.getSessionFactory()
         .getCurrentSession();
 
-    Double result = null;
+    Integer result = null;
     try {
       result = ProfileDBUtil.getRate(session, user.getUid(), true);
       assertEquals(result, user.getProfile().getRate());

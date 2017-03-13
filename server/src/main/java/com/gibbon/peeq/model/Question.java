@@ -10,7 +10,7 @@ public class Question {
 
   private Long id;
   private String question;
-  private Double rate;
+  private Integer rate;
   private String status;
   private Date createdTime;
   private Date updatedTime;
@@ -45,11 +45,11 @@ public class Question {
     return this;
   }
 
-  public Double getRate() {
+  public Integer getRate() {
     return rate;
   }
 
-  public Question setRate(final Double rate) {
+  public Question setRate(final Integer rate) {
     this.rate = rate;
     return this;
   }

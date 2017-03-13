@@ -91,7 +91,7 @@ public class TestJournalUtil {
       final Journal randomInstance = TestJournal.newRandomInstance();
       randomInstance.setTransactionId(qaTransaction.getId()).setUid(uid)
                     .setAmount(i * 12.3)
-                    .setType(JournalType.BALANCE.toString());
+                    .setType(JournalType.BALANCE.value());
 
       /* insert */
       session = HibernateTestUtil.getSessionFactory().getCurrentSession();
@@ -300,7 +300,7 @@ public class TestJournalUtil {
     result.setTransactionId(qaTransaction.getId())
            .setUid(qaTransaction.getUid())
            .setAmount(-1 * qaTransaction.getAmount())
-           .setType(JournalType.BALANCE.toString())
+           .setType(JournalType.BALANCE.value())
            .setChargeId(null)
            .setStatus(Journal.Status.PENDING.value())
            .setOriginId(null);

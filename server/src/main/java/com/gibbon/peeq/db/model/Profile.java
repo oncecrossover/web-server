@@ -40,7 +40,7 @@ public class Profile {
    * explicitly specified by client request, which is not expected and will
    * cause data inconsistency.
    */
-  private Double rate;
+  private Integer rate;
   private String avatarUrl;
   private byte[] avatarImage;
   private String fullName;
@@ -62,12 +62,11 @@ public class Profile {
     return this;
   }
 
-
-  public Double getRate() {
+  public Integer getRate() {
     return rate;
   }
 
-  public Profile setRate(final Double rate) {
+  public Profile setRate(final Integer rate) {
     this.rate = rate;
     return this;
   }

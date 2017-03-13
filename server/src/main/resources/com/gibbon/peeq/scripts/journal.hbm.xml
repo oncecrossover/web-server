@@ -21,11 +21,14 @@
     <property name="type" type="java.lang.String">
       <column name="type" />
     </property>
+    <property name="status" type="java.lang.String">
+      <column name="status" />
+    </property>
     <property name="chargeId" type="java.lang.String">
       <column name="chargeId" />
     </property>
-    <property name="status" type="java.lang.String">
-      <column name="status" />
+    <property name="coinEntryId" type="long">
+      <column name="coinEntryId" />
     </property>
     <property name="originId" type="long">
       <column name="originId" />

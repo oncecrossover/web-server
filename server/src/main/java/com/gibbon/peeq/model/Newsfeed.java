@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Newsfeed {
   private Long id;
   private String question;
-  private Double rate;
+  private Integer rate;
   private Date updatedTime;
   private String answerUrl;
   private String answerCoverUrl;
@@ -41,11 +41,11 @@ public class Newsfeed {
     return this;
   }
 
-  public Double getRate() {
+  public Integer getRate() {
     return rate;
   }
 
-  public Newsfeed setRate(final Double rate) {
+  public Newsfeed setRate(final Integer rate) {
     this.rate = rate;
     return this;
   }

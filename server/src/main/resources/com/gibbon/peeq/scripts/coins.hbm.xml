@@ -12,8 +12,11 @@
     <property name="uid" type="java.lang.String">
       <column name="uid" />
     </property>
-    <property name="amount" type="long">
+    <property name="amount" type="java.lang.Integer">
       <column name="amount" />
+    </property>
+    <property name="originId" type="long">
+      <column name="originId" />
     </property>
     <property name="createdTime" type="timestamp">
       <column name="createdTime" />

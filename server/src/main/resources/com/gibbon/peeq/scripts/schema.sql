@@ -26,7 +26,7 @@ CREATE TABLE `TempPwd` (
 
 CREATE TABLE `Profile` (
   `uid` NVARCHAR(200) NOT NULL,
-  `rate` DOUBLE UNSIGNED NOT NULL,
+  `rate` INT UNSIGNED NOT NULL DEFAULT 0,
   `avatarUrl` NVARCHAR(1000) DEFAULT NULL,
   `fullName` NVARCHAR(500) NOT NULL,
   `title` NVARCHAR(1000) DEFAULT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE `Quanda` (
   `asker` NVARCHAR(200) NOT NULL,
   `question` NVARCHAR(2000) NOT NULL,
   `responder` NVARCHAR(200) NOT NULL,
-  `rate` DOUBLE UNSIGNED NOT NULL,
+  `rate` INT UNSIGNED NOT NULL,
   `answerUrl` NVARCHAR(1000) DEFAULT NULL,
   `answerCoverUrl` NVARCHAR(1000) DEFAULT NULL,
   `duration` INT NOT NULL DEFAULT 0,
@@ -115,15 +115,17 @@ CREATE TABLE `Journal` (
   `transactionId` BIGINT UNSIGNED NOT NULL,
   `uid` NVARCHAR(200) NOT NULL,
   `amount` DOUBLE NOT NULL,
-  `type` ENUM('BALANCE', 'CARD', 'BANKING') NOT NULL,
-  `chargeId` NVARCHAR(200) NULL,
+  `type` ENUM('BALANCE', 'CARD', 'BANKING', 'COIN') NOT NULL,
   `status` ENUM('PENDING', 'CLEARED', 'REFUNDED') NOT NULL,
+  `chargeId` NVARCHAR(200) NULL,
+  `coinEntryId` BIGINT UNSIGNED NULL,
   `originId` BIGINT UNSIGNED NULL,
   `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `pk_journal` PRIMARY KEY (`id`),
   CONSTRAINT `fk_journal_transactionId` FOREIGN KEY (`transactionId`) REFERENCES `QaTransaction` (`id`),
   CONSTRAINT `fk_journal_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`),
-  CONSTRAINT `fk_journal_originId` FOREIGN KEY (`originId`) REFERENCES `Journal` (`id`)
+  CONSTRAINT `fk_journal_originId` FOREIGN KEY (`originId`) REFERENCES `Journal` (`id`),
+  CONSTRAINT `fk_journal_coinEntryId` FOREIGN KEY (`coinEntryId`) REFERENCES `Coin` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Category` (
@@ -153,8 +155,10 @@ CREATE TABLE `CatMapping` (
 CREATE TABLE `Coin` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `uid` NVARCHAR(200) NOT NULL,
-  `amount` BIGINT UNSIGNED NOT NULL,
+  `amount` INT NOT NULL,
+  `originId` BIGINT UNSIGNED NULL,
   `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `pk_coin` PRIMARY KEY (`id`),
-  CONSTRAINT `fk_coin_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`)
+  CONSTRAINT `fk_coin_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`),
+  CONSTRAINT `fk_coin_originId` FOREIGN KEY (`originId`) REFERENCES `Coin` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

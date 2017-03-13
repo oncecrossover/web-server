@@ -41,7 +41,7 @@ public class TestQuanda {
           .setAnswerCover("This is answer cover.".getBytes())
           .setStatus(Quanda.QnaStatus.ANSWERED.toString())
           .setActive(Quanda.LiveStatus.TRUE.value())
-          .setRate(random.nextDouble())
+          .setRate(random.nextInt())
           .setCreatedTime(new Date())
           .setUpdatedTime(new Date());
     return quanda;
@@ -57,7 +57,7 @@ public class TestQuanda {
           .setAnswerCover("This is random answer cover.".getBytes())
           .setStatus(Quanda.QnaStatus.PENDING.toString())
           .setActive(Quanda.LiveStatus.TRUE.value())
-          .setRate(random.nextDouble())
+          .setRate(random.nextInt())
           .setCreatedTime(new Date())
           .setUpdatedTime(new Date());
     return quanda;

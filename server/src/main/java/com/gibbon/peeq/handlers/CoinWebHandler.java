@@ -71,7 +71,7 @@ public class CoinWebHandler extends AbastractPeeqWebHandler
 
     /* query coins */
     try {
-      final Long amount = CoinDBUtil.getCoinsIgnoreNull(uid);
+      final int amount = CoinDBUtil.getCoinsIgnoreNull(uid);
       final CoinEntry instance = new CoinEntry().setUid(uid)
           .setAmount(amount);
 

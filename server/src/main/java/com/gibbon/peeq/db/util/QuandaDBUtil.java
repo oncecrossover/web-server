@@ -105,7 +105,7 @@ public class QuandaDBUtil {
       query.addScalar("id", new LongType())
            .addScalar("asker", new StringType())
            .addScalar("responder", new StringType())
-           .addScalar("rate", new DoubleType())
+           .addScalar("rate", new IntegerType())
            .addScalar("status", new StringType())
            .addScalar("createdTime", new TimestampType());
       list = query.list();
@@ -145,7 +145,7 @@ public class QuandaDBUtil {
       query.addScalar("id", new LongType())
            .addScalar("question", new StringType())
            .addScalar("status", new StringType())
-           .addScalar("rate", new DoubleType())
+           .addScalar("rate", new IntegerType())
            .addScalar("createdTime", new TimestampType())
            .addScalar("answerUrl", new StringType())
            .addScalar("answerCoverUrl", new StringType())
@@ -192,7 +192,7 @@ public class QuandaDBUtil {
       query.addScalar("id", new LongType())
            .addScalar("question", new StringType())
            .addScalar("status", new StringType())
-           .addScalar("rate", new DoubleType())
+           .addScalar("rate", new IntegerType())
            .addScalar("createdTime", new TimestampType())
            .addScalar("updatedTime", new TimestampType())
            .addScalar("answerUrl", new StringType())
@@ -239,7 +239,7 @@ public class QuandaDBUtil {
       /* add column mapping */
       query.addScalar("id", new LongType())
            .addScalar("question", new StringType())
-           .addScalar("rate", new DoubleType())
+           .addScalar("rate", new IntegerType())
            .addScalar("updatedTime", new TimestampType())
            .addScalar("answerUrl", new StringType())
            .addScalar("answerCoverUrl", new StringType())

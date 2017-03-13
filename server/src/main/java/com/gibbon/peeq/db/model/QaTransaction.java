@@ -7,10 +7,15 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gibbon.peeq.db.model.EnumBase;
 
 public class QaTransaction {
-  public enum TransType {
-    ASKED, SNOOPED
+  public static class TransType extends EnumBase {
+    public static final TransType ASKED = new TransType(0, "ASKED");
+    public static final TransType SNOOPED = new TransType(1, "SNOOPED");
+    TransType(final int code, final String value) {
+      super(code, value);
+    }
   }
 
   private Long id;

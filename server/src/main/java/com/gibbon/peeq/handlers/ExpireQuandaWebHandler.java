@@ -209,7 +209,7 @@ public class ExpireQuandaWebHandler extends AbastractPeeqWebHandler
     final QaTransaction qaTransaction = QaTransactionUtil.getQaTransaction(
         session,
         fromDB.getAsker(),
-        QaTransaction.TransType.ASKED.toString(),
+        QaTransaction.TransType.ASKED.value(),
         fromDB.getId());
 
     /* query pending journal */
@@ -229,11 +229,6 @@ public class ExpireQuandaWebHandler extends AbastractPeeqWebHandler
           session,
           clearanceJournal,
           fromDB);
-
-      /* refund charge */
-      if (Journal.JournalType.CARD.toString().equals(pendingJournal.getType())) {
-        StripeUtil.refundCharge(pendingJournal.getChargeId());
-      }
     }
   }
 }

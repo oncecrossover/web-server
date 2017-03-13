@@ -9,29 +9,24 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Journal {
-  public enum JournalType {
-    BALANCE, CARD, BANKING
+
+  public static class JournalType extends EnumBase {
+    public static final JournalType BALANCE = new JournalType(0, "BALANCE");
+    public static final JournalType CARD = new JournalType(1, "CARD");
+    public static final JournalType BANKING = new JournalType(2, "BANKING");
+    public static final JournalType COIN = new JournalType(3, "COIN");
+
+    public JournalType(final int code, final String value) {
+      super(code, value);
+    }
   }
 
-  public enum Status {
-    PENDING(0, "PENDING"),
-    CLEARED(1, "CLEARED"),
-    REFUNDED(2, "REFUNDED");
-
-    private final int code;
-    private final String value;
-
-    Status(final int code, final String value) {
-      this.code = code;
-      this.value = value;
-    }
-
-    public int code() {
-      return code;
-    }
-
-    public String value() {
-      return value;
+  public static class Status extends EnumBase {
+    public static final Status PENDING  = new Status(0, "PENDING");
+    public static final Status CLEARED = new Status(1, "CLEARED");
+    public static final Status REFUNDED = new Status(2, "REFUNDED");
+    public Status(final int code, final String value) {
+      super(code, value);
     }
   }
 
@@ -40,8 +35,9 @@ public class Journal {
   private String uid;
   private Double amount;
   private String type;
-  private String chargeId;
   private String status;
+  private String chargeId;
+  private Long coinEntryId;
   private Long originId;
   private Date createdTime;
 
@@ -91,6 +87,15 @@ public class Journal {
     return this;
   }
 
+  public String getStatus() {
+    return status;
+  }
+
+  public Journal setStatus(final String status) {
+    this.status = status;
+    return this;
+  }
+
   public String getChargeId() {
     return chargeId;
   }
@@ -100,12 +105,12 @@ public class Journal {
     return this;
   }
 
-  public String getStatus() {
-    return status;
+  public Long getCoinEntryId() {
+    return coinEntryId;
   }
 
-  public Journal setStatus(final String status) {
-    this.status = status;
+  public Journal setCoinEntryId(final Long coinEntryId) {
+    this.coinEntryId = coinEntryId;
     return this;
   }
 

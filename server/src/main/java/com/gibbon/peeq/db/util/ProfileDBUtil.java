@@ -3,25 +3,18 @@ package com.gibbon.peeq.db.util;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.text.StrBuilder;
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.DoubleType;
-import org.hibernate.type.LongType;
+import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.hibernate.type.TimestampType;
 
 import com.gibbon.peeq.conf.SnoopServerConf;
 import com.gibbon.peeq.db.model.Profile;
 import com.gibbon.peeq.exceptions.SnoopException;
-import com.gibbon.peeq.util.FilterParamParser;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
@@ -65,7 +58,7 @@ public class ProfileDBUtil {
   /*
    * query from a session that will open new transaction.
    */
-  public static Double getRate(final String uid) throws Exception {
+  public static Integer getRate(final String uid) throws Exception {
     final Session session = HibernateUtil.getSessionFactory()
         .getCurrentSession();
     return getRate(session, uid, true);
@@ -74,22 +67,22 @@ public class ProfileDBUtil {
   /*
    * query from a session that already opened transaction.
    */
-  public static Double getRate(final Session session, final String uid)
+  public static Integer getRate(final Session session, final String uid)
       throws Exception {
     return getRate(session, uid, false);
   }
 
-  static Double getRate(final Session session, final String uid,
+  static Integer getRate(final Session session, final String uid,
       final boolean newTransaction) throws Exception {
     final String sql = String.format("SELECT rate FROM Profile WHERE uid='%s'",
         uid);
-    Double result = null;
+    Integer result = null;
     Transaction txn = null;
     try {
       if (newTransaction) {
         txn = session.beginTransaction();
       }
-      result = (Double) session.createSQLQuery(sql).uniqueResult();
+      result = (Integer) session.createSQLQuery(sql).uniqueResult();
       if (txn != null) {
         txn.commit();
       }
@@ -129,7 +122,7 @@ public class ProfileDBUtil {
       query.setResultTransformer(Transformers.aliasToBean(Profile.class));
       /* add column mapping */
       query.addScalar("uid", new StringType())
-           .addScalar("rate", new DoubleType())
+           .addScalar("rate", new IntegerType())
            .addScalar("avatarUrl", new StringType())
            .addScalar("fullName", new StringType())
            .addScalar("title", new StringType())

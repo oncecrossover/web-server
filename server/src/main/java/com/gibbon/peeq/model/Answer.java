@@ -9,7 +9,7 @@ import com.gibbon.peeq.util.QuandaUtil;
 public class Answer {
   private Long id;
   private String question;
-  private Double rate;
+  private Integer rate;
   private String status;
   private Date createdTime;
   private String answerUrl;
@@ -42,11 +42,11 @@ public class Answer {
     return this;
   }
 
-  public Double getRate() {
+  public Integer getRate() {
     return rate;
   }
 
-  public Answer setRate(final Double rate) {
+  public Answer setRate(final Integer rate) {
     this.rate = rate;
     return this;
   }

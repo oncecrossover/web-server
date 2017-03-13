@@ -11,7 +11,7 @@
         <param name="property">user</param>
       </generator>
     </id>
-    <property name="rate" type="java.lang.Double">
+    <property name="rate" type="java.lang.Integer">
       <column name="rate" />
     </property>
     <property name="avatarUrl" type="java.lang.String">

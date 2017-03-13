@@ -62,7 +62,7 @@ public class TestQaTransaction {
     final QaTransaction result = new QaTransaction();
     result.setId(random.nextLong())
           .setUid(UUID.randomUUID().toString())
-          .setType(TransType.ASKED.toString())
+          .setType(TransType.ASKED.value())
           .setQuandaId(random.nextLong())
           .setAmount(random.nextDouble());
     return result;
@@ -72,7 +72,7 @@ public class TestQaTransaction {
     final QaTransaction result = new QaTransaction();
     result.setId(random.nextLong())
           .setUid("edmuand")
-          .setType(TransType.ASKED.toString())
+          .setType(TransType.ASKED.value())
           .setQuandaId(10L)
           .setAmount(1000);
     return result;

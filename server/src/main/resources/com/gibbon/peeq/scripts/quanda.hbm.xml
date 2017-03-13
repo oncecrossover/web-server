@@ -18,7 +18,7 @@
     <property name="responder" type="java.lang.String">
       <column name="responder" />
     </property>
-    <property name="rate" type="java.lang.Double">
+    <property name="rate" type="java.lang.Integer">
       <column name="rate" />
     </property>
     <property name="answerUrl" type="java.lang.String">

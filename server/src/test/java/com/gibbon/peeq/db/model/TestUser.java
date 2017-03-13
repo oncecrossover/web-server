@@ -27,7 +27,7 @@ public class TestUser {
         .setPwd(UUID.randomUUID().toString());
 
     final Profile profile = new Profile();
-    profile.setRate(random.nextDouble())
+    profile.setRate(random.nextInt())
            .setAvatarUrl(UUID.randomUUID().toString())
            .setFullName(UUID.randomUUID().toString())
            .setTitle(UUID.randomUUID().toString())
@@ -52,7 +52,7 @@ public class TestUser {
         .setPwd("123");
 
     final Profile profile = new Profile();
-    profile.setRate(101.11)
+    profile.setRate(101)
            .setAvatarUrl("https://en.wikiquote.org/wiki/Edmund_Burke")
            .setFullName("Edmund Burke")
            .setTitle("Philosopher")
@@ -79,7 +79,7 @@ public class TestUser {
         .setPwd("456");
 
     final Profile profile = new Profile();
-    profile.setRate(1001.89)
+    profile.setRate(1001)
            .setAvatarUrl("https://en.wikipedia.org/wiki/Guan_Zhong")
            .setFullName("Kuan Chung")
            .setTitle("Chancellor and Reformer")

@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gibbon.peeq.db.model.Journal;
+import com.gibbon.peeq.db.model.Journal.JournalType;
 import com.gibbon.peeq.db.model.QaTransaction;
 import com.gibbon.peeq.db.model.Quanda;
 import com.gibbon.peeq.exceptions.SnoopException;
@@ -34,37 +35,6 @@ public class JournalUtil {
         .getCurrentSession();
     final Double result = getBalance(session, uid, true);
     return result == null ? 0 : result.doubleValue();
-  }
-
-  /*
-   * query from a session that already opened transaction.
-   * @return balance, return 0 in case of null.
-   */
-  public static double getBalanceIgnoreNull(
-      final Session session,
-      final String uid) throws Exception {
-    final Double result = getBalance(session, uid, false);
-    return result == null ? 0 : result.doubleValue();
-  }
-
-  /*
-   * query from a session that will open new transaction.
-   * @return balance, could be null.
-   */
-  public static Double getBalance(final String uid) throws Exception {
-    final Session session = HibernateUtil.getSessionFactory()
-        .getCurrentSession();
-    return getBalance(session, uid, true);
-  }
-
-  /*
-   * query from a session that already opened transaction.
-   * @return balance, could be null.
-   */
-  public static Double getBalance(
-      final Session session,
-      final String uid) throws Exception {
-    return getBalance(session, uid, false);
   }
 
   static Double getBalance(
@@ -296,9 +266,8 @@ public class JournalUtil {
     final Journal responderJournal = new Journal();
     responderJournal.setTransactionId(clearanceJournal.getTransactionId())
                     .setUid(quanda.getResponder())
-                    .setAmount(quanda.getPayment4Answer())
-                    .setType(Journal.JournalType.BALANCE.toString())
-                    .setChargeId(null)
+                    .setAmount(quanda.getPayment4Responder())
+                    .setType(Journal.JournalType.BALANCE.value())
                     .setStatus(Journal.Status.CLEARED.value())
                     .setOriginId(clearanceJournal.getId());
 
@@ -339,8 +308,8 @@ public class JournalUtil {
     final Journal refundJournal = new Journal();
     refundJournal.setTransactionId(clearanceJournal.getTransactionId())
                  .setUid(quanda.getAsker())
-                 .setAmount(quanda.getRate())
-                 .setType(clearanceJournal.getType())
+                 .setAmount(Math.abs(quanda.getRate()))
+                 .setType(JournalType.BALANCE.value())
                  .setChargeId(clearanceJournal.getChargeId())
                  .setStatus(Journal.Status.REFUNDED.value())
                  .setOriginId(clearanceJournal.getId());

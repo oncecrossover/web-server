@@ -149,10 +149,9 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
     if (fromJson.getActive() != null
         && !fromJson.getActive().equals(Quanda.LiveStatus.FALSE.toString())) {
       throw new SnoopException(
-          "The status can be changed to ANSWERED only in this API");
+          "The active can be changed to FALSE only in this API");
     }
   }
-
 
   private FullHttpResponse onUpdate() {
     /* get id */
@@ -281,17 +280,11 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
   /**
    * Here's the processing when responder answers the question:
    * <p>
-   * 1. update status to 'ANSWERED',
-   * </p>
-   * <p>
-   * if the quanda is not free
+   * 1. update status to 'ANSWERED', if the quanda is not free
    * </p>
    * <p>
    * 2. for asker charged from balance, insert +charged_amount with 'BALANCE'
    * type for responder to Journal table.
-   * </p>
-   * <p>
-   * 3. for asker charged from card, capture charge through Stripe
    * </p>
    * @throws Exception
    */
@@ -314,7 +307,7 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
     final QaTransaction qaTransaction = QaTransactionUtil.getQaTransaction(
         session,
         fromDB.getAsker(),
-        QaTransaction.TransType.ASKED.toString(),
+        QaTransaction.TransType.ASKED.value(),
         fromDB.getId());
 
     /* query pending journal */
@@ -334,12 +327,6 @@ public class QuandaWebHandler extends AbastractPeeqWebHandler
           session,
           clearanceJournal,
           fromDB);
-
-      /* capture charge */
-      if (Journal.JournalType.CARD.toString()
-          .equals(pendingJournal.getType())) {
-        StripeUtil.captureCharge(pendingJournal.getChargeId());
-      }
     }
   }
 

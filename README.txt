@@ -478,7 +478,8 @@ Example response:
 {
   "id": null,
   "uid": "bingo",
-  "amount": 10,
+  "amount": 15,
+  "originId": null,
   "createdTime": null
 }
 

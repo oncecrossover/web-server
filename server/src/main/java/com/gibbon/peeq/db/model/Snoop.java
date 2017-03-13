@@ -15,7 +15,7 @@ public class Snoop {
   private Date createdTime;
   private String question;
   private String status;
-  private Double rate;
+  private Integer rate;
   private String answerUrl;
   private String answerCoverUrl;
   private byte[] answerCover;
@@ -82,11 +82,11 @@ public class Snoop {
     return this;
   }
 
-  public Double getRate() {
+  public Integer getRate() {
     return rate;
   }
 
-  public Snoop setRate(final Double rate) {
+  public Snoop setRate(final Integer rate) {
     this.rate = rate;
     return this;
   }

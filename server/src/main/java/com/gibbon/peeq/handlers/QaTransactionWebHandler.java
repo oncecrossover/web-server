@@ -12,24 +12,20 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.gibbon.peeq.db.model.CoinEntry;
 import com.gibbon.peeq.db.model.Journal;
 import com.gibbon.peeq.db.model.Journal.JournalType;
 import com.gibbon.peeq.db.model.QaTransaction;
 import com.gibbon.peeq.db.model.QaTransaction.TransType;
-import com.gibbon.peeq.db.model.Quanda.LiveStatus;
-import com.gibbon.peeq.db.model.Quanda.QnaStatus;
 import com.gibbon.peeq.db.model.Snoop;
 import com.gibbon.peeq.db.model.Quanda;
-import com.gibbon.peeq.db.util.JournalUtil;
-import com.gibbon.peeq.db.util.PcAccountUtil;
+import com.gibbon.peeq.db.util.CoinDBUtil;
 import com.gibbon.peeq.db.util.ProfileDBUtil;
 import com.gibbon.peeq.db.util.QuandaDBUtil;
 import com.gibbon.peeq.util.EmailUtil;
 import com.gibbon.peeq.util.NotificationUtil;
 import com.gibbon.peeq.util.ResourcePathParser;
-import com.gibbon.peeq.util.StripeUtil;
 import com.google.common.io.ByteArrayDataOutput;
-import com.stripe.model.Charge;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
@@ -43,7 +39,13 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
 
   protected static final Logger LOG = LoggerFactory
       .getLogger(QaTransactionWebHandler.class);
-  private final static double SNOOP_RATE = 1.5;
+
+  private final static int CENTS_PER_COIN = 4;
+  private final static int COINS_PER_SNOOP = 8;
+  private final static double SNOOP_RATE = (CENTS_PER_COIN * COINS_PER_SNOOP
+      * 1.0) / 100;
+  private final static double ASKER_REWARDS = 0.1;
+  private final static double RESPONDER_REWARDS = 0.1;
 
   public QaTransactionWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
@@ -132,17 +134,17 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
     }
 
     /* verify transaction type */
-    if (!TransType.ASKED.toString().equals(fromJson.getType())
-        && !TransType.SNOOPED.toString().equals(fromJson.getType())) {
+    if (!TransType.ASKED.value().equals(fromJson.getType())
+        && !TransType.SNOOPED.value().equals(fromJson.getType())) {
       appendln(String.format("Unsupported QaTransaction type ('%s')",
           fromJson.getType()));
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
-    if (TransType.ASKED.toString().equals(fromJson.getType())) {
+    if (TransType.ASKED.value().equals(fromJson.getType())) {
       /* charge asker */
       return chargeAsker(fromJson);
-    } else if (TransType.SNOOPED.toString().equals(fromJson.getType())) {
+    } else if (TransType.SNOOPED.value().equals(fromJson.getType())) {
       /* charge snooper */
       return chargeSnooper(fromJson);
     } else {
@@ -186,23 +188,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
       return resp;
     }
 
-    /* get answer rate */
-    double answerRate = 0;
-    try {
-      answerRate = ProfileDBUtil.getRate(quandaFromDB.getResponder());
-    } catch (Exception e) {
-      return newServerErrorResponse(e, LOG);
-    }
-
-    /* get snooper balance */
-    double balance = 0;
-    try {
-      balance = JournalUtil.getBalanceIgnoreNull(transUserId);
-    } catch (Exception e) {
-      return newServerErrorResponse(e, LOG);
-    }
-
-    if (answerRate <= 0) { /* free to snoop */
+    if (quandaFromDB.getRate() <= 0) { /* free to snoop */
       /* insert snoop */
 
       session = getSession();
@@ -215,23 +201,31 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
       appendln(toIdJson("id", qaTransaction.getId()));
       return newResponse(HttpResponseStatus.CREATED);
     } else { /* pay to snoop */
-      /* insert snoop, qaTransaction and journals */
+      /* insert snoop, qaTransaction, journals and CoinEntry */
 
       try {
         session = getSession();
         txn = session.beginTransaction();
 
         /* insert snoop and qaTransaction */
-        insertSnoopAndQaTransaction(session, quandaFromDB, qaTransaction, SNOOP_RATE);
+        insertSnoopAndQaTransaction(session, quandaFromDB, qaTransaction);
 
-        /* insert journals and charge */
-        if (balance >= SNOOP_RATE) {
-          chargeSnooperFromBalance(session, qaTransaction, quandaFromDB, SNOOP_RATE);
-        } else {
-          chargeSnooperFromCard(session, qaTransaction, quandaFromDB, SNOOP_RATE);
+        /* get asker coins */
+        long coins = 0;
+        try {
+          coins = CoinDBUtil.getCoinsIgnoreNull(transUserId, session, false);
+        } catch (Exception e) {
+          return newServerErrorResponse(e, LOG);
         }
 
-        txn.commit();
+        /* insert journals and charge */
+        if (toDollarsFromCoins(coins) >= SNOOP_RATE) {
+          chargeSnooperFromCoins(session, qaTransaction, quandaFromDB);
+          txn.commit();
+        } else {
+          appendln("Not enough coins to pay to snoop answers.");
+          return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
+        }
 
         /* send payment confirmation */
         EmailUtil.sendPaymentConfirmation(
@@ -312,7 +306,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
   }
 
   /*
-   * 1/10 of charge of asking goes to platform, 9/10 goes to responder.
+   * 0/10 of charge of asking goes to platform, 7/10 goes to responder.
    */
   private FullHttpResponse chargeAsker(final QaTransaction qaTransaction) {
     Session session = null;
@@ -328,12 +322,10 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
     }
 
     /* QaTransaction user must be same as quanda asker */
-    quanda.setAsker(transUserId)
-          .setStatus(QnaStatus.PENDING.toString())
-          .setActive(LiveStatus.TRUE.value());
+    quanda.setAsker(transUserId);
 
     /* get answer rate */
-    double answerRate = 0;
+    int answerRate = 0;
     try {
       answerRate = ProfileDBUtil.getRate(quanda.getResponder());
     } catch (Exception e) {
@@ -345,14 +337,6 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
     resp = verifyQuandaForAsking(quanda, getRespBuf());
     if (resp != null) {
       return resp;
-    }
-
-    /* get asker balance */
-    double balance = 0;
-    try {
-      balance = JournalUtil.getBalanceIgnoreNull(transUserId);
-    } catch (Exception e) {
-      return newServerErrorResponse(e, LOG);
     }
 
     if (answerRate <= 0) { /* free to ask */
@@ -375,7 +359,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
         return newServerErrorResponse(e, LOG);
       }
     } else { /* pay to ask */
-      /* insert quanda, qaTransaction and journals */
+      /* insert quanda, qaTransaction, journals and CoinEntry */
 
       try {
         session = getSession();
@@ -385,14 +369,22 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
         insertQuandaAndQaTransaction(session, quanda, qaTransaction,
           answerRate);
 
-        /* insert journals and charge */
-        if (balance >= answerRate) {
-          chargeAskerFromBalance(session, qaTransaction, quanda, answerRate);
-        } else {
-          chargeAskerFromCard(session, qaTransaction, quanda, answerRate);
+        /* get asker coins */
+        long coins = 0;
+        try {
+          coins = CoinDBUtil.getCoinsIgnoreNull(transUserId, session, false);
+        } catch (Exception e) {
+          return newServerErrorResponse(e, LOG);
         }
 
-        txn.commit();
+        /* insert journals and CoinEntry */
+        if (toDollarsFromCoins(coins) >= answerRate) {
+          chargeAskerFromCoins(session, qaTransaction, quanda, answerRate);
+          txn.commit();
+        } else {
+          appendln("Not enough coins to pay to ask questions.");
+          return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
+        }
 
         /* send payment confirmation */
         EmailUtil.sendPaymentConfirmation(
@@ -420,6 +412,20 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
     }
   }
 
+  /**
+   * Convert coins to dollars.
+   */
+  private double toDollarsFromCoins(final long coins) {
+    return coins * CENTS_PER_COIN * 1.0 / 100;
+  }
+
+  /**
+   * Convert dollars to coins.
+   */
+  private int toCoinsFromDollars(final double dollars) {
+    return ((int) Math.ceil(dollars * 100 / CENTS_PER_COIN));
+  }
+
   private void insertSnoop(final Session session, final Quanda quanda,
       final QaTransaction qaTransaction) {
     /* insert snoop */
@@ -429,17 +435,16 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
   }
 
   private void insertSnoopAndQaTransaction(final Session session,
-      final Quanda quanda, final QaTransaction qaTransaction,
-      final double snoopRate) {
+      final Quanda quanda, final QaTransaction qaTransaction) {
     /* insert snoop */
     final Snoop snoop = new Snoop();
     snoop.setUid(qaTransaction.getUid()).setQuandaId(quanda.getId());
     session.save(snoop);
 
     /* insert qaTransaction */
-    qaTransaction.setType(TransType.SNOOPED.toString());
+    qaTransaction.setType(TransType.SNOOPED.value());
     qaTransaction.setQuandaId(quanda.getId());
-    qaTransaction.setAmount(Math.abs(snoopRate));
+    qaTransaction.setAmount(Math.abs(SNOOP_RATE));
     session.save(qaTransaction);
   }
 
@@ -455,92 +460,76 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
     session.save(quanda);
 
     /* insert qaTransaction */
-    qaTransaction.setType(TransType.ASKED.toString());
+    qaTransaction.setType(TransType.ASKED.value());
     qaTransaction.setQuandaId(quanda.getId());
     qaTransaction.setAmount(Math.abs(answerRate));
     session.save(qaTransaction);
   }
 
-  private void chargeSnooperFromBalance(final Session session,
-      final QaTransaction qaTransaction, final Quanda quanda,
-      final double snoopRate) {
+  private void chargeSnooperFromCoins(final Session session,
+      final QaTransaction qaTransaction, final Quanda quanda) {
+
+    /* insert CoinEntry for snoper */
+    final CoinEntry coinEntry = insertCoinEntryOfSnoopingQuanda(session,
+        qaTransaction);
 
     /* insert journal for snooper, asker and responder */
-    insertJournalsOfSnoopingQuanda(session, qaTransaction, quanda, snoopRate,
-        JournalType.BALANCE);
+    insertJournalsOfSnoopingQuanda(session, qaTransaction, quanda, coinEntry);
   }
-
-  private void chargeSnooperFromCard(final Session session,
-      final QaTransaction qaTransaction, final Quanda quanda,
-      final double snoopRate) throws Exception {
-
-    /* charge snooper from card */
-    final String cusId = PcAccountUtil.getCustomerId(session,
-        qaTransaction.getUid());
-    final Charge charge = StripeUtil.chargeCustomer(cusId, snoopRate);
-
-    /* insert journal for snooper, asker and responder */
-    insertJournalsOfSnoopingQuanda(session, qaTransaction, quanda, snoopRate,
-        JournalType.CARD, charge.getId());
-  }
-
 
   /**
-   * charge asker from balance. The charge will be refunded if responder doesn't
+   * charge asker from coins. The charge will be refunded if responder doesn't
    * answer the questions within 48 hours.
    */
-  private void chargeAskerFromBalance(
+  private void chargeAskerFromCoins(
       final Session session,
       final QaTransaction qaTransaction,
       final Quanda quanda,
-      final double answerRate) {
+      final int answerRate) {
+
+    /* insert CoinEntry for asker */
+    final CoinEntry coinEntry = insertCoinEntryOfAskingQuanda(session,
+        qaTransaction);
 
     /* insert journal for asker */
     insertJournalsOfAskingQuanda(
         session,
         qaTransaction,
         quanda,
-        answerRate,
-        JournalType.BALANCE);
-  }
-
-
-  /**
-   * charge asker from card, The charge will be refunded if responder doesn't
-   * answer the questions within 48 hours.
-   */
-  private void chargeAskerFromCard(final Session session,
-      final QaTransaction qaTransaction, final Quanda quanda,
-      final double answerRate) throws Exception {
-
-    final String cusId = PcAccountUtil.getCustomerId(session,
-        qaTransaction.getUid());
-    final Charge charge = StripeUtil.chargeCustomerUncaptured(cusId,
+        coinEntry,
         answerRate);
-
-    /* insert journal for asker */
-    insertJournalsOfAskingQuanda(
-        session,
-        qaTransaction,
-        quanda,
-        answerRate,
-        JournalType.CARD,
-        charge.getId());
   }
 
-  private void insertJournalsOfAskingQuanda(
+  int minusCoinsForSnooping() {
+    return -1 * COINS_PER_SNOOP;
+  }
+
+  private CoinEntry insertCoinEntryOfSnoopingQuanda(
       final Session session,
-      final QaTransaction qaTransaction,
-      final Quanda quanda,
-      final double answerRate,
-      final JournalType askerJournalType) {
-    insertJournalsOfAskingQuanda(
-        session,
-        qaTransaction,
-        quanda,
-        answerRate,
-        askerJournalType,
-        null);
+      final QaTransaction qaTransaction) {
+    final CoinEntry coinEntry = new CoinEntry();
+    coinEntry.setUid(qaTransaction.getUid())
+             .setAmount(minusCoinsForSnooping());
+    session.save(coinEntry);
+    return coinEntry;
+  }
+
+  int minusCoinsForAsking(final QaTransaction qaTransaction) {
+    return -1 * Math.abs(toCoinsFromDollars(qaTransaction.getAmount()));
+  }
+
+  private CoinEntry insertCoinEntryOfAskingQuanda(
+      final Session session,
+      final QaTransaction qaTransaction) {
+    final CoinEntry coinEntry = new CoinEntry();
+    coinEntry.setUid(qaTransaction.getUid())
+             .setAmount(minusCoinsForAsking(qaTransaction));
+    session.save(coinEntry);
+    return coinEntry;
+  }
+
+  int minusAskerCost(final int answerRate) {
+    return -1 * Math.abs(answerRate);
   }
 
   /**
@@ -548,34 +537,26 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
    * PENDING. A follow-on payment journal will be created as CLEARED when the
    * question is answered.
    */
-  private void insertJournalsOfAskingQuanda(final Session session,
-      final QaTransaction qaTransaction, final Quanda quanda,
-      final double answerRate, final JournalType askerJournalType,
-      final String chargeId) {
-    /* insert journal for asker */
-    final Journal journal = newJournal(
-        qaTransaction.getId(),
-        quanda.getAsker(),
-        -1 * answerRate,
-        askerJournalType,
-        chargeId,
-        Journal.Status.PENDING);
-    session.save(journal);
-  }
-
-  private void insertJournalsOfSnoopingQuanda(
+  private void insertJournalsOfAskingQuanda(
       final Session session,
       final QaTransaction qaTransaction,
       final Quanda quanda,
-      final double snoopRate,
-      final JournalType snooperJournalType) {
-    insertJournalsOfSnoopingQuanda(
-        session,
-        qaTransaction,
-        quanda,
-        snoopRate,
-        snooperJournalType,
-        null);
+      final CoinEntry coinEntry,
+      final int answerRate) {
+
+    /* insert journal for asker */
+    final Journal journal = new Journal();
+    journal.setTransactionId(qaTransaction.getId())
+           .setUid(quanda.getAsker())
+           .setAmount(minusAskerCost(answerRate))
+           .setType(JournalType.COIN.value())
+           .setCoinEntryId(coinEntry.getId());
+
+    session.save(journal);
+  }
+
+  private double minusSnoopRate() {
+    return -1 * Math.abs(SNOOP_RATE);
   }
 
   /**
@@ -586,78 +567,37 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
       final Session session,
       final QaTransaction qaTransaction,
       final Quanda quanda,
-      final double snoopRate,
-      final JournalType snooperJournalType,
-      final String chargeId) {
-    Journal journal = null;
+      final CoinEntry coinEntry) {
 
     /* insert journal for snooper */
-    journal = newJournal(
-        qaTransaction.getId(),
-        qaTransaction.getUid(),
-        -1 * snoopRate,
-        snooperJournalType,
-        chargeId,
-        Journal.Status.CLEARED);
-    session.save(journal);
+    final Journal snooperJournal = new Journal();
+    snooperJournal.setTransactionId(qaTransaction.getId())
+        .setUid(qaTransaction.getUid())
+        .setAmount(minusSnoopRate())
+        .setType(JournalType.COIN.value())
+        .setStatus(Journal.Status.CLEARED.value())
+        .setCoinEntryId(coinEntry.getId());
+    session.save(snooperJournal);
 
     /* insert journal for asker */
-    journal = newJournal(
-        qaTransaction.getId(),
-        quanda.getAsker(),
-        snoopRate / 3,
-        JournalType.BALANCE,
-        null,
-        Journal.Status.CLEARED,
-        journal.getId());
-    session.save(journal);
+    final Journal askerJournal = new Journal();
+    askerJournal.setTransactionId(qaTransaction.getId())
+        .setUid(quanda.getAsker())
+        .setAmount(Math.abs(ASKER_REWARDS))
+        .setType(JournalType.BALANCE.value())
+        .setStatus(Journal.Status.CLEARED.value())
+        .setOriginId(snooperJournal.getId());
+    session.save(askerJournal);
 
     /* insert journal for responder */
-    journal = newJournal(
-        qaTransaction.getId(),
-        quanda.getResponder(),
-        snoopRate / 3,
-        JournalType.BALANCE,
-        null,
-        Journal.Status.CLEARED,
-        journal.getId());
-    session.save(journal);
-  }
-
-  private Journal newJournal(
-      final Long transactionId,
-      final String uid,
-      final double amount,
-      final JournalType journalType,
-      final String chargeId,
-      final Journal.Status status) {
-    return newJournal(
-        transactionId,
-        uid,
-        amount,
-        journalType,
-        chargeId,
-        status,
-        null);
-  }
-
-  private Journal newJournal(
-      final Long transactionId,
-      final String uid,
-      final double amount,
-      final JournalType journalType,
-      final String chargeId,
-      final Journal.Status status,
-      final Long origineId) {
-    final Journal journal = new Journal();
-    journal.setTransactionId(transactionId)
-           .setUid(uid)
-           .setAmount(amount)
-           .setType(journalType.toString())
-           .setChargeId(chargeId)
-           .setStatus(status.value())
-           .setOriginId(origineId);
-    return journal;
+    final Journal responderJournal = new Journal();
+    responderJournal.setTransactionId(qaTransaction.getId())
+        .setUid(quanda.getResponder())
+        .setAmount(Math.abs(RESPONDER_REWARDS))
+        .setType(JournalType.BALANCE.value())
+        .setStatus(Journal.Status.CLEARED.value())
+        .setOriginId(snooperJournal.getId());
+    session.save(responderJournal);
   }
 
   private QaTransaction newInstanceFromRequest()

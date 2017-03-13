@@ -57,7 +57,7 @@ public class SnoopDBUtil {
            .addScalar("quandaId", new LongType())
            .addScalar("question", new StringType())
            .addScalar("status", new StringType())
-           .addScalar("rate", new DoubleType())
+           .addScalar("rate", new IntegerType())
            .addScalar("answerUrl", new StringType())
            .addScalar("answerCoverUrl", new StringType())
            .addScalar("duration", new IntegerType())
