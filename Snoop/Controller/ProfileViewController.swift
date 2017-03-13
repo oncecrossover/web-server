@@ -141,7 +141,8 @@ extension ProfileViewController {
       self.view.addSubview(expertiseCollection)
       isSnooper = true
       self.expertise = []
-      category.getExpertise() { jsonArray in
+      let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+      category.getExpertise(uid) { jsonArray in
         for element in jsonArray as! [[String:AnyObject]] {
           let mappingId = element["id"] as! Int
           let catId = element["catId"] as! Int
@@ -210,7 +211,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDeleg
     }
     else {
       myCell.icon.text = expertise[indexPath.row - 1].name
-      myCell.icon.layer.cornerRadius = 8
       myCell.icon.layer.borderWidth = 1
       myCell.selected = true
     }

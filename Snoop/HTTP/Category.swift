@@ -33,8 +33,7 @@ class Category {
     }
   }
 
-  func getExpertise(completion: (NSArray) -> ()) {
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+  func getExpertise(uid: String, completion: (NSArray) -> ()) {
     let url = NSURL(string: CATMAPPINGURI + "?uid='" + uid + "'&isExpertise='Yes'")!
     generics.getFilteredObjects(url) { result in
       completion(result)

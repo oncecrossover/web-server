@@ -99,7 +99,7 @@ extension ViewController {
 
     let isUserLoggedIn = NSUserDefaults.standardUserDefaults().boolForKey("isUserLoggedIn")
     if (!isUserLoggedIn){
-      let vc = UINavigationController(rootViewController: NewLoginViewController())
+      let vc = UINavigationController(rootViewController: LoginViewController())
       self.presentViewController(vc, animated: true, completion: nil)
     }
     else {
@@ -348,27 +348,32 @@ extension ViewController {
   }
 
   func confirmButtonTapped() {
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    let quandaId = self.feeds[self.activeIndexPath!.row].id
-    let quandaData: [String:AnyObject] = ["id": quandaId]
-    let jsonData: [String:AnyObject] = ["uid": uid, "type": "SNOOPED", "quanda": quandaData]
-    generics.createObject(generics.HTTPHOST + "qatransactions", jsonData: jsonData) { result in
-      if (result.isEmpty) {
-        dispatch_async(dispatch_get_main_queue()) {
-          UIView.animateWithDuration(1.0, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
-            self.blackView.alpha = 0
-            self.payWithCoinsView.alpha = 0
-          }) { (result) in
-
-          self.paidSnoops.insert(quandaId)
-          self.feedTable.reloadRowsAtIndexPaths([self.activeIndexPath!], withRowAnimation: .Fade)
+    UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
+      self.blackView.alpha = 0
+      self.payWithCoinsView.alpha = 0
+    }) { (result) in
+      let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+      let quandaId = self.feeds[self.activeIndexPath!.row].id
+      let quandaData: [String:AnyObject] = ["id": quandaId]
+      let jsonData: [String:AnyObject] = ["uid": uid, "type": "SNOOPED", "quanda": quandaData]
+      self.generics.createObject(self.generics.HTTPHOST + "qatransactions", jsonData: jsonData) { result in
+        if (result.isEmpty) {
+          dispatch_async(dispatch_get_main_queue()) {
+            self.paidSnoops.insert(quandaId)
+            self.feedTable.reloadRowsAtIndexPaths([self.activeIndexPath!], withRowAnimation: .None)
+          }
+        }
+        else {
+          dispatch_async(dispatch_get_main_queue()) {
+            self.utilityModule.displayAlertMessage("there is an error processing your payment. Please try later", title: "Error", sender: self)
           }
         }
       }
     }
   }
+
   func cancelButtonTapped() {
-    UIView.animateWithDuration(1.0, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
+    UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
       self.blackView.alpha = 0
       self.payWithCoinsView.alpha = 0
       }, completion: nil)

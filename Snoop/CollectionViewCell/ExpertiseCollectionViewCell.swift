@@ -14,7 +14,7 @@ class ExpertiseCollectionViewCell: UICollectionViewCell {
     category.font = UIFont.systemFontOfSize(14)
     category.textColor = UIColor(red: 163/255, green: 163/255, blue: 163/255, alpha: 1.0)
     category.textAlignment = .Center
-    category.layer.cornerRadius = 8
+    category.layer.cornerRadius = 4
     category.layer.borderWidth = 1
     category.layer.borderColor = UIColor(red: 163/255, green: 163/255, blue: 163/255, alpha: 1.0).CGColor
     category.clipsToBounds = true

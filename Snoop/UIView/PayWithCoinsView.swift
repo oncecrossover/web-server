@@ -32,7 +32,6 @@ class PayWithCoinsView: UIView {
     let label = UILabel()
     label.text = "8"
     label.font = UIFont.boldSystemFontOfSize(24)
-    label.textAlignment = .Center
     label.textColor = UIColor.blackColor()
     return label
   }()
@@ -87,7 +86,7 @@ class PayWithCoinsView: UIView {
     addSubview(confirmButton)
 
     // Setup constraints
-    addConstraintsWithFormat("H:|-87-[v0(30)]-5-[v1(13)]-5-[v2(15)]", views: coinView, crossLabel, numberLabel)
+    addConstraintsWithFormat("H:|-87-[v0(30)]-5-[v1(13)]-5-[v2(30)]", views: coinView, crossLabel, numberLabel)
     addConstraintsWithFormat("H:|-3-[v0]-3-|", views: underline)
     addConstraintsWithFormat("V:|-40-[v0(30)]-15-[v1(18)]-25-[v2(1)]-0-[v3]|", views: coinView, confirmLabel, underline, cancelButton)
     addConstraintsWithFormat("V:|-40-[v0(30)]-15-[v1(18)]-25-[v2(1)]-0-[v3]|", views: coinView, confirmLabel, underline, confirmButton)
@@ -112,6 +111,14 @@ class PayWithCoinsView: UIView {
     cancelButton.trailingAnchor.constraintEqualToAnchor(verticalLine.leadingAnchor).active = true
     confirmButton.leadingAnchor.constraintEqualToAnchor(verticalLine.trailingAnchor).active = true
     confirmButton.trailingAnchor.constraintEqualToAnchor(trailingAnchor).active = true
+  }
+
+  func setCount(count: Int) {
+    self.numberLabel.text = String(count)
+  }
+
+  func setConfirmMessage(message: String) {
+    self.confirmLabel.text = message
   }
 
   required init?(coder aDecoder: NSCoder) {

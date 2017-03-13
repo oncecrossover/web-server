@@ -158,16 +158,11 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
       self.isPaid = true
       if (!result.isEmpty) {
         self.isPaid = false
-        dispatch_async(dispatch_get_main_queue()) {
-          activityIndicator.hideAnimated(true)
-          self.displayPaymentResultMessage(result)
-        }
       }
       else {
         let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
         dispatch_after(time, dispatch_get_main_queue()) {
           activityIndicator.hideAnimated(true)
-          self.performSegueWithIdentifier("paymentToConfirmation", sender: self)
         }
       }
     }

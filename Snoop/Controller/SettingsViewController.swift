@@ -114,7 +114,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         dispatch_async(dispatch_get_main_queue()) {
           let currentNavigationController = self.navigationController
           let currentTabBarController = self.tabBarController
-          let vc = UINavigationController(rootViewController: NewLoginViewController())
+          let vc = UINavigationController(rootViewController: LoginViewController())
           self.presentViewController(vc, animated: true) {
             currentNavigationController?.popViewControllerAnimated(false)
             currentTabBarController?.selectedIndex = 0

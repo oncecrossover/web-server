@@ -28,6 +28,7 @@ class CoinsTableViewCell: UITableViewCell {
     let label = UILabel()
     label.font = UIFont.systemFontOfSize(18)
     label.textColor = UIColor(white: 0, alpha: 0.8)
+    label.textAlignment = .Right
     return label
   }()
 

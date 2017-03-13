@@ -10,7 +10,7 @@ import UIKit
 
 class SignupViewController: UIViewController {
 
-  var loginViewController: NewLoginViewController?
+  var loginViewController: LoginViewController?
 
   let iconView: IconView = {
     let iconView = IconView()
@@ -158,7 +158,7 @@ class SignupViewController: UIViewController {
       self.navigationController?.popViewControllerAnimated(true)
     }
     else {
-      let vc = NewLoginViewController()
+      let vc = LoginViewController()
       vc.signupViewController = self
       self.navigationController?.pushViewController(vc, animated: true)
     }
