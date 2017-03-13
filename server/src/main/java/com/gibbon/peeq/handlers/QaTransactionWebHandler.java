@@ -223,6 +223,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
           chargeSnooperFromCoins(session, qaTransaction, quandaFromDB);
           txn.commit();
         } else {
+          txn.rollback();
           appendln("Not enough coins to pay to snoop answers.");
           return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
         }
@@ -382,6 +383,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
           chargeAskerFromCoins(session, qaTransaction, quanda, answerRate);
           txn.commit();
         } else {
+          txn.rollback();
           appendln("Not enough coins to pay to ask questions.");
           return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
         }
@@ -392,9 +394,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
           qaTransaction.getquanda().getQuestion(),
           answerRate);
 
-        appendln(toIdJson("id", qaTransaction.getId()));
-
-        // Send notification to mobile device
+        /* Send notification to mobile device */
         String deviceToken = ProfileDBUtil.getDeviceToken(quanda.getResponder());
         if (deviceToken != null && !deviceToken.isEmpty()) {
           String message = transUserId + " just asked you a question";
@@ -402,6 +402,7 @@ public class QaTransactionWebHandler extends AbastractPeeqWebHandler
           NotificationUtil.sendNotification(message, title, deviceToken);
         }
 
+        appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
       } catch (Exception e) {
         if (txn != null && txn.isActive()) {

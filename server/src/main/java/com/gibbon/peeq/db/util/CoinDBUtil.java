@@ -7,13 +7,6 @@ import org.hibernate.type.IntegerType;
 
 public class CoinDBUtil {
 
-  public static int getCoinsIgnoreNull(final String uid) throws Exception {
-    final Session session = HibernateUtil.getSessionFactory()
-        .getCurrentSession();
-    final Integer result = getCoins(session, uid, true);
-    return result == null ? 0 : result.intValue();
-  }
-
   public static int getCoinsIgnoreNull(
       final String uid,
       final Session session,
