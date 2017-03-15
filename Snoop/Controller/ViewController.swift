@@ -274,17 +274,14 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
 
     // setup rate label
     if (self.paidSnoops.contains(feedInfo.id)) {
-      myCell.rateLabel.text = nil
-      myCell.rateLabel.backgroundColor = UIColor(patternImage: UIImage(named: "unlocked")!)
+      myCell.lockImage.image = UIImage(named: "unlocked")
     }
     else {
       if (feedInfo.rate > 0) {
-        myCell.rateLabel.backgroundColor = UIColor(red: 255/255, green: 183/255, blue: 78/255, alpha: 0.8)
-        myCell.rateLabel.text = "$1.5"
+        myCell.lockImage.image = UIImage(named: "lock")
       }
       else {
-        myCell.rateLabel.backgroundColor = UIColor.defaultColor()
-        myCell.rateLabel.text = "Free"
+        myCell.lockImage.image = UIImage(named: "unlocked")
       }
     }
 
