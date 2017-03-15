@@ -20,6 +20,8 @@ class CoinsViewController: UIViewController {
   let notificationName = "coinsAdded"
 
   var homeViewController: ViewController?
+  var askViewController: AskViewController?
+
   lazy var navBar: UINavigationBar = {
     let navbar = UINavigationBar(frame: CGRectMake(0, 0,
       self.view.frame.width, 64));
@@ -83,8 +85,10 @@ extension CoinsViewController {
 extension CoinsViewController {
   func closeButtonTapped() {
     let vc = self.homeViewController
+    let avc = self.askViewController
     self.dismissViewControllerAnimated(true) {
       vc?.loadCoinCount(self.numOfCoins)
+      avc?.coinCount = self.numOfCoins
     }
   }
 }

@@ -41,8 +41,18 @@ class ViewController: UIViewController {
     let view = PayWithCoinsView()
     view.layer.cornerRadius = 6
     view.clipsToBounds = true
-    view.cancelButton.addTarget(self, action: #selector(cancelButtonTapped), forControlEvents: .TouchUpInside)
+    view.cancelButton.addTarget(self, action: #selector(cancelPayButtonTapped), forControlEvents: .TouchUpInside)
     view.confirmButton.addTarget(self, action: #selector(confirmButtonTapped), forControlEvents: .TouchUpInside)
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
+
+  lazy var buyCoinsView: BuyCoinsView = {
+    let view = BuyCoinsView()
+    view.layer.cornerRadius = 6
+    view.clipsToBounds = true
+    view.cancelButton.addTarget(self, action: #selector(cancelBuyButtonTapped), forControlEvents: .TouchUpInside)
+    view.buyCoinsButton.addTarget(self, action: #selector(buyButtonTapped), forControlEvents: .TouchUpInside)
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }()
@@ -53,7 +63,6 @@ class ViewController: UIViewController {
   var feeds:[FeedsModel] = []
   var tmpFeeds:[FeedsModel] = []
 
-  var fileName = "videoFile.m4a"
   let notificationName = "coinsAdded"
 
   deinit {
@@ -214,18 +223,6 @@ extension ViewController {
     myCell.profileImage.image = UIImage(named: "default")
     myCell.coverImage.image = UIImage()
   }
-
-  func getCacheDirectory() -> String {
-    let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-    return paths[0]
-  }
-
-  func getFileUrl() -> NSURL {
-    let prefix = getCacheDirectory() as NSString
-    let path = prefix.stringByAppendingPathComponent(fileName)
-    return NSURL(fileURLWithPath: path)
-  }
-
 }
 
 // Delegate methods
@@ -372,10 +369,28 @@ extension ViewController {
     }
   }
 
-  func cancelButtonTapped() {
+  func buyButtonTapped() {
+    UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
+      self.blackView.alpha = 0
+      self.buyCoinsView.alpha = 0
+    }) { (result) in
+      dispatch_async(dispatch_get_main_queue()) {
+        self.coinButtonTapped()
+      }
+    }
+  }
+
+  func cancelPayButtonTapped() {
     UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
       self.blackView.alpha = 0
       self.payWithCoinsView.alpha = 0
+      }, completion: nil)
+  }
+
+  func cancelBuyButtonTapped() {
+    UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
+      self.blackView.alpha = 0
+      self.buyCoinsView.alpha = 0
       }, completion: nil)
   }
 
@@ -436,20 +451,30 @@ extension ViewController {
   func tappedOnImage(sender: UIGestureRecognizer) {
     let tapLocation = sender.locationInView(self.feedTable)
     let indexPath = self.feedTable.indexPathForRowAtPoint(tapLocation)!
+    let feed = feeds[indexPath.row]
     self.activeIndexPath = indexPath
     if let window = UIApplication.sharedApplication().keyWindow {
       window.addSubview(blackView)
       blackView.frame = window.frame
-      window.addSubview(payWithCoinsView)
-      payWithCoinsView.centerXAnchor.constraintEqualToAnchor(window.centerXAnchor).active = true
-      payWithCoinsView.centerYAnchor.constraintEqualToAnchor(window.centerYAnchor).active = true
-      payWithCoinsView.widthAnchor.constraintEqualToConstant(260).active = true
-      payWithCoinsView.heightAnchor.constraintEqualToConstant(176).active = true
+      var frameToAdd: UIView!
+      if (self.coinCount < 8 && feed.rate > 0) {
+        buyCoinsView.setNote("8 coins to unlock an answer")
+        frameToAdd = buyCoinsView
+      }
+      else {
+        frameToAdd = payWithCoinsView
+      }
+
+      window.addSubview(frameToAdd)
+      frameToAdd.centerXAnchor.constraintEqualToAnchor(window.centerXAnchor).active = true
+      frameToAdd.centerYAnchor.constraintEqualToAnchor(window.centerYAnchor).active = true
+      frameToAdd.widthAnchor.constraintEqualToConstant(260).active = true
+      frameToAdd.heightAnchor.constraintEqualToConstant(176).active = true
       blackView.alpha = 0
-      payWithCoinsView.alpha = 0
+      frameToAdd.alpha = 0
       UIView.animateWithDuration(0.5) {
         self.blackView.alpha = 1
-        self.payWithCoinsView.alpha = 1
+        frameToAdd.alpha = 1
       }
     }
   }

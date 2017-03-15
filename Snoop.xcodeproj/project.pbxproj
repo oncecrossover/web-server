@@ -109,6 +109,7 @@
 		4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF2A1B1D14BABA002E3CFE /* User.swift */; };
 		4AF303B71E6E89A20048895D /* PayWithCoinsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF303B61E6E89A20048895D /* PayWithCoinsView.swift */; };
 		4AF303B91E75CD210048895D /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF303B81E75CD210048895D /* ProfileView.swift */; };
+		4AF303BB1E78A1BA0048895D /* BuyCoinsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF303BA1E78A1BA0048895D /* BuyCoinsView.swift */; };
 		4AF3226A1D29A1E10043FCE5 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF322691D29A1E10043FCE5 /* Question.swift */; };
 		4AF3226C1D29DE120043FCE5 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF3226B1D29DE120043FCE5 /* ActivityViewController.swift */; };
 		4AF3226E1D29DEEB0043FCE5 /* QuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF3226D1D29DEEB0043FCE5 /* QuestionTableViewCell.swift */; };
@@ -258,6 +259,7 @@
 		4AEF2A1B1D14BABA002E3CFE /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4AF303B61E6E89A20048895D /* PayWithCoinsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayWithCoinsView.swift; sourceTree = "<group>"; };
 		4AF303B81E75CD210048895D /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		4AF303BA1E78A1BA0048895D /* BuyCoinsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyCoinsView.swift; sourceTree = "<group>"; };
 		4AF322691D29A1E10043FCE5 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		4AF3226B1D29DE120043FCE5 /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		4AF3226D1D29DEEB0043FCE5 /* QuestionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionTableViewCell.swift; sourceTree = "<group>"; };
@@ -415,6 +417,7 @@
 				4A7971D81E6C984C003105FD /* CoinButtonView.swift */,
 				4AF303B61E6E89A20048895D /* PayWithCoinsView.swift */,
 				4AF303B81E75CD210048895D /* ProfileView.swift */,
+				4AF303BA1E78A1BA0048895D /* BuyCoinsView.swift */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -675,6 +678,7 @@
 				4ABD203D1D443E1A00C3B74E /* UIUtility.swift in Sources */,
 				4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */,
 				4A7971E11E6CF51F003105FD /* CoinPriceTableHeaderViewCell.swift in Sources */,
+				4AF303BB1E78A1BA0048895D /* BuyCoinsView.swift in Sources */,
 				4A55E8FB1E282DB600B033F4 /* BalanceViewController.swift in Sources */,
 				4A10DCCE1E5BA8B3009E3996 /* SignupView.swift in Sources */,
 				4A3A56651E26DECB00FC0F3B /* CustomButton.swift in Sources */,

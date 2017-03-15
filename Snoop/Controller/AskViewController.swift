@@ -17,10 +17,12 @@ class AskViewController: UIViewController {
   var contentOffset: CGPoint = CGPointZero
   var placeholder: String = "You will be refunded if your question is not replied within 48 hours. You will be rewarded if others pay to snoop your question."
 
-  var questionModule = Question()
+  var coinModule = Coin()
   var utility = UIUtility()
   var generics = Generics()
   let placeholderColor = UIColor(red: 136/255, green: 153/255, blue: 166/255, alpha: 0.85)
+
+  var coinCount = 0
 
   lazy var profileView: ProfileView = {
     let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 220)
@@ -73,8 +75,18 @@ class AskViewController: UIViewController {
     let view = PayWithCoinsView()
     view.layer.cornerRadius = 6
     view.clipsToBounds = true
-    view.cancelButton.addTarget(self, action: #selector(cancelButtonTapped), forControlEvents: .TouchUpInside)
+    view.cancelButton.addTarget(self, action: #selector(cancelAskButtonTapped), forControlEvents: .TouchUpInside)
     view.confirmButton.addTarget(self, action: #selector(confirmButtonTapped), forControlEvents: .TouchUpInside)
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
+
+  lazy var buyCoinsView: BuyCoinsView = {
+    let view = BuyCoinsView()
+    view.layer.cornerRadius = 6
+    view.clipsToBounds = true
+    view.cancelButton.addTarget(self, action: #selector(cancelBuyButtonTapped), forControlEvents: .TouchUpInside)
+    view.buyCoinsButton.addTarget(self, action: #selector(buyButtonTapped), forControlEvents: .TouchUpInside)
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }()
@@ -89,7 +101,7 @@ extension AskViewController {
 
   override func viewDidAppear(animated: Bool) {
     super.viewDidAppear(animated)
-
+    loadCoinCount()
     initView()
   }
 
@@ -123,6 +135,14 @@ extension AskViewController {
       self.askButton.setTitle("$ \(profileInfo.rate) to ask", forState: .Normal)
     }
   }
+
+  func loadCoinCount() {
+    coinModule.getCoinsCount() { result in
+      let coinCount = result["amount"] as! Int
+      self.coinCount = coinCount
+    }
+  }
+
 }
 
 // UITextViewDelegate
@@ -169,18 +189,26 @@ extension AskViewController {
     if let window = UIApplication.sharedApplication().keyWindow {
       window.addSubview(blackView)
       blackView.frame = window.frame
-      window.addSubview(payWithCoinsView)
-      payWithCoinsView.setCount(25 * profileInfo.rate)
-      payWithCoinsView.setConfirmMessage("Confirm to Ask?")
-      payWithCoinsView.centerXAnchor.constraintEqualToAnchor(window.centerXAnchor).active = true
-      payWithCoinsView.centerYAnchor.constraintEqualToAnchor(window.centerYAnchor).active = true
-      payWithCoinsView.widthAnchor.constraintEqualToConstant(260).active = true
-      payWithCoinsView.heightAnchor.constraintEqualToConstant(176).active = true
+      var frameToAdd: UIView!
+      if (self.coinCount < profileInfo.rate * 25) {
+        buyCoinsView.setNote("$\(profileInfo.rate) (\(profileInfo.rate * 25)) coins to ask a question")
+        frameToAdd = buyCoinsView
+      }
+      else {
+        payWithCoinsView.setConfirmMessage("Confirm to Ask?")
+        payWithCoinsView.setCount(25 * profileInfo.rate)
+        frameToAdd = payWithCoinsView
+      }
+      window.addSubview(frameToAdd)
+      frameToAdd.centerXAnchor.constraintEqualToAnchor(window.centerXAnchor).active = true
+      frameToAdd.centerYAnchor.constraintEqualToAnchor(window.centerYAnchor).active = true
+      frameToAdd.widthAnchor.constraintEqualToConstant(260).active = true
+      frameToAdd.heightAnchor.constraintEqualToConstant(176).active = true
       blackView.alpha = 0
-      payWithCoinsView.alpha = 0
+      frameToAdd.alpha = 0
       UIView.animateWithDuration(0.5) {
         self.blackView.alpha = 1
-        self.payWithCoinsView.alpha = 1
+        frameToAdd.alpha = 1
       }
     }
   }
@@ -203,10 +231,30 @@ extension AskViewController {
     }
   }
 
-  func cancelButtonTapped() {
+  func buyButtonTapped() {
+    UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
+      self.blackView.alpha = 0
+      self.buyCoinsView.alpha = 0
+    }) { (result) in
+      dispatch_async(dispatch_get_main_queue()) {
+        let vc = CoinsViewController()
+        vc.numOfCoins = self.coinCount
+        self.presentViewController(vc, animated: true, completion: nil)
+      }
+    }
+  }
+
+  func cancelAskButtonTapped() {
     UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
       self.blackView.alpha = 0
       self.payWithCoinsView.alpha = 0
+      }, completion: nil)
+  }
+
+  func cancelBuyButtonTapped() {
+    UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
+      self.blackView.alpha = 0
+      self.buyCoinsView.alpha = 0
       }, completion: nil)
   }
 }
