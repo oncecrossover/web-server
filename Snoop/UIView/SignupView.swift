@@ -64,6 +64,7 @@ class SignupView: UIView {
     email.clearButtonMode = .WhileEditing
     email.keyboardType = .EmailAddress
     email.autocapitalizationType = .None
+    email.autocorrectionType = .No
     return email
   }()
 

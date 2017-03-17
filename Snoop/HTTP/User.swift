@@ -7,6 +7,7 @@ class User
   private var PROFILEURI: String
   private var SIGNINURI: String
   private var APPLYURI: String
+  private var PCURI: String
   private var generics = Generics()
   
   init(){
@@ -14,6 +15,7 @@ class User
     PROFILEURI = generics.HTTPHOST + "profiles/"
     SIGNINURI = generics.HTTPHOST + "signin"
     APPLYURI = generics.HTTPHOST + "takeq"
+    PCURI = generics.HTTPHOST + "pcaccounts/"
   }
   
   func createUser(userEmail: String, userPassword: String, fullName: String!, completion: (String) -> ()) {
@@ -146,4 +148,11 @@ class User
     }
   }
 
+  func updatePaypal(uid: String, paypalEmail: String, completion: (String) -> ()) {
+    let url = NSURL(string: PCURI + uid)
+    let jsonData = ["payTo" : paypalEmail]
+    generics.updateObject(url!, jsonData: jsonData) { result in
+      completion(result)
+    }
+  }
 }

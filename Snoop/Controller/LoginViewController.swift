@@ -83,7 +83,7 @@ class LoginViewController: UIViewController {
     view.addSubview(loginButton)
     view.addSubview(signupLink)
     view.addSubview(forgetPasswordLink)
-    view.addSubview(orLabel)
+//    view.addSubview(orLabel)
 
     // Setup Icon View
     iconView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
@@ -116,10 +116,10 @@ class LoginViewController: UIViewController {
     forgetPasswordLink.widthAnchor.constraintEqualToConstant(120).active = true
 
     // Setup or Label
-    orLabel.topAnchor.constraintEqualToAnchor(loginButton.bottomAnchor, constant: 160).active = true
-    orLabel.heightAnchor.constraintEqualToConstant(20).active = true
-    orLabel.leadingAnchor.constraintEqualToAnchor(loginButton.leadingAnchor).active = true
-    orLabel.centerXAnchor.constraintEqualToAnchor(loginButton.centerXAnchor).active = true
+//    orLabel.topAnchor.constraintEqualToAnchor(loginButton.bottomAnchor, constant: 160).active = true
+//    orLabel.heightAnchor.constraintEqualToConstant(20).active = true
+//    orLabel.leadingAnchor.constraintEqualToAnchor(loginButton.leadingAnchor).active = true
+//    orLabel.centerXAnchor.constraintEqualToAnchor(loginButton.centerXAnchor).active = true
   }
 
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {

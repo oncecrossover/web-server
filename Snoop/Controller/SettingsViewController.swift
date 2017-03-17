@@ -26,7 +26,6 @@ class SettingsViewController: UIViewController {
   let settings = ["Contact us", "Terms of Service", "Privacy Policy"]
   let settingsDict = ["Contact us" : "about", "Terms of Service" : "tos", "Privacy Policy" : "privacy"]
   let cellId = "regularCell"
-  let userModule = User()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -110,15 +109,13 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
       NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadAnswers")
       NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadSnoops")
       NSUserDefaults.standardUserDefaults().synchronize()
-      userModule.updateDeviceToken(uid, token: "") { result in
-        dispatch_async(dispatch_get_main_queue()) {
-          let currentNavigationController = self.navigationController
-          let currentTabBarController = self.tabBarController
-          let vc = UINavigationController(rootViewController: LoginViewController())
-          self.presentViewController(vc, animated: true) {
-            currentNavigationController?.popViewControllerAnimated(false)
-            currentTabBarController?.selectedIndex = 0
-          }
+      let currentNavigationController = self.navigationController
+      let currentTabBarController = self.tabBarController
+      let vc = UINavigationController(rootViewController: LoginViewController())
+      self.presentViewController(vc, animated: true) {
+        currentNavigationController?.popViewControllerAnimated(false)
+        currentTabBarController?.selectedIndex = 0
+        User().updateDeviceToken(uid, token: "") { result in
         }
       }
     }

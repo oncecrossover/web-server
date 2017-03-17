@@ -18,7 +18,6 @@ class IAPManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactionObser
   override init() {
     super.init()
     if (SKPaymentQueue.canMakePayments()) {
-      print("in-app purchase is enabled")
       var productIds = Set<String>()
       for consumableProduct in consumableProducts {
         productIds.insert(consumableProduct)
@@ -33,12 +32,6 @@ class IAPManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactionObser
   func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
     let myProducts = response.products
     for product in myProducts {
-
-      print("new product")
-      print(product.localizedTitle)
-      print(product.productIdentifier)
-      print(product.localizedDescription)
-      print(product.price)
       products.append(product)
     }
   }
@@ -51,16 +44,12 @@ class IAPManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactionObser
         let purchasedId = transaction.payment.productIdentifier
         switch (purchasedId) {
         case "com.snoop.Snoop.addcoins5":
-          print("com.snoop.Snoop.addcoins5 is purchased")
           addCoinsForUser(125)
         case "com.snoop.Snoop.addcoins20":
-          print("com.snoop.Snoop.addcoins20 is purchased")
           addCoinsForUser(520)
         case "com.snoop.Snoop.addcoins50":
-          print("com.snoop.Snoop.addcoins50 is purchased")
           addCoinsForUser(1350)
         case "com.snoop.Snoop.addcoins100":
-          print("com.snoop.Snoop.addcoins100 is purchased")
           addCoinsForUser(2800)
         default:
           print("unknow product purchased " + purchasedId)
@@ -89,7 +78,6 @@ class IAPManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactionObser
   }
 
   func complete(transaction: SKPaymentTransaction) {
-    print("complete...")
     // TODO: we may want to send notification to users in the future
     SKPaymentQueue.defaultQueue().finishTransaction(transaction)
   }

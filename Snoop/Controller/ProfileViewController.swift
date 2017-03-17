@@ -19,6 +19,7 @@ class ProfileViewController: UIViewController {
 
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   var rate:Int = 0
+  var earning:Double = 0
 
   @IBOutlet weak var applyButton: UIButton!
   @IBOutlet weak var settingsTable: UITableView!
@@ -33,6 +34,14 @@ class ProfileViewController: UIViewController {
     expertiseCollection.backgroundColor = UIColor.whiteColor()
     expertiseCollection.allowsSelection = false
     return expertiseCollection
+  }()
+
+  private lazy var earningsView: EarningLabel = {
+    let view = EarningLabel()
+    let gesture = UITapGestureRecognizer(target: self, action: #selector(earningsViewTapped))
+    view.addGestureRecognizer(gesture)
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
   }()
 
   lazy var userModule = User()
@@ -125,6 +134,7 @@ extension ProfileViewController {
   }
 
   private func handleApplyButtonView(status: String) {
+    self.earningsView.removeFromSuperview()
     if (status == "NA" || status.isEmpty) {
       applyButton.enabled = true
       isSnooper = false
@@ -152,6 +162,22 @@ extension ProfileViewController {
 
         dispatch_async(dispatch_get_main_queue()) {
           self.expertiseCollection.reloadData()
+        }
+      }
+
+      Payment().getBalance(uid) { convertedDict in
+        if let _ = convertedDict["balance"] as? Double {
+          self.earning = convertedDict["balance"] as! Double
+          if (self.earning > 0.0) {
+            dispatch_async(dispatch_get_main_queue()) {
+              self.earningsView.setAmount(self.earning)
+              self.view.addSubview(self.earningsView)
+              self.earningsView.widthAnchor.constraintEqualToConstant(50).active = true
+              self.earningsView.heightAnchor.constraintEqualToConstant(33).active = true
+              self.earningsView.centerYAnchor.constraintEqualToAnchor(self.profilePhoto.centerYAnchor).active = true
+              self.earningsView.trailingAnchor.constraintEqualToAnchor(self.view.trailingAnchor, constant: -30).active = true
+            }
+          }
         }
       }
     }
@@ -193,6 +219,12 @@ extension ProfileViewController {
   func settingsButtonTapped() {
     let dvc = SettingsViewController()
     self.navigationController?.pushViewController(dvc, animated: true)
+  }
+
+  func earningsViewTapped() {
+    let vc = EarningsViewController()
+    vc.earning = self.earning
+    self.navigationController?.pushViewController(vc, animated: true)
   }
 }
 // UICollection delegate, datasource, and flowlayout
@@ -242,20 +274,21 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
   }
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 2
+    return 1
   }
 
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier("settingsCell") as! SettingsTableViewCell
     cell.icon.contentMode = .ScaleAspectFit
-    if (indexPath.row == 0) {
-      cell.category.text = "My Wallet"
-      cell.icon.image = UIImage(named: "wallet")
-    }
-    else if (indexPath.row == 1) {
-      cell.category.text = "My Interests"
-      cell.icon.image = UIImage(named: "interest")
-    }
+    cell.category.text = "My Interests"
+    cell.icon.image = UIImage(named: "interest")
+//    if (indexPath.row == 0) {
+//      cell.category.text = "My Wallet"
+//      cell.icon.image = UIImage(named: "wallet")
+//    }
+//    else if (indexPath.row == 1) {
+//
+//    }
     return cell
   }
 
@@ -263,15 +296,58 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     let backItem = UIBarButtonItem()
     backItem.title = "Back"
     navigationItem.backBarButtonItem = backItem
+    let dvc = InterestPickerViewController()
+    dvc.isProfile = true
+    self.navigationController?.pushViewController(dvc, animated: true)
+//    if (indexPath.row == 0) {
+//      let dvc = PaymentViewController()
+//      self.navigationController?.pushViewController(dvc, animated: true)
+//    }
+//    else if (indexPath.row == 1) {
+//      let dvc = InterestPickerViewController()
+//      dvc.isProfile = true
+//      self.navigationController?.pushViewController(dvc, animated: true)
+//    }
+  }
+}
 
-    if (indexPath.row == 0) {
-      let dvc = PaymentViewController()
-      self.navigationController?.pushViewController(dvc, animated: true)
-    }
-    else if (indexPath.row == 1) {
-      let dvc = InterestPickerViewController()
-      dvc.isProfile = true
-      self.navigationController?.pushViewController(dvc, animated: true)
-    }
+// Private earningnlabel class
+private class EarningLabel: UIView {
+  // 45 by 18
+  let amount: UILabel = {
+    let amount = UILabel()
+    amount.textAlignment = .Center
+    amount.textColor = UIColor(white: 0, alpha: 0.7)
+    amount.font = UIFont.systemFontOfSize(16)
+    return amount
+  }()
+
+  let label: UILabel = {
+    //50 by 15
+    let label = UILabel()
+    label.font = UIFont.systemFontOfSize(12)
+    label.text = "Earnings"
+    label.textColor = UIColor.disabledColor()
+    label.textAlignment = .Center
+    return label
+  }()
+
+  func setAmount(num: Double) {
+    amount.text = "$\(num)"
+  }
+
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    backgroundColor = UIColor.whiteColor()
+    addSubview(amount)
+    addSubview(label)
+
+    addConstraintsWithFormat("H:|[v0]|", views: amount)
+    addConstraintsWithFormat("H:|[v0]|", views: label)
+    addConstraintsWithFormat("V:|[v0(18)]-0-[v1(15)]|", views: amount, label)
+  }
+
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
 }
