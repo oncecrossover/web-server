@@ -489,6 +489,11 @@ Example response:
 {"id":1}
 
 
+RESTFUL APIs OF PCACCOUNT:
+1. update PcAccount by uid, only payTo can be updated, e.g.
+curl -i -X PUT "http://127.0.0.1:8080/pcaccounts/edmund"  -d '{"payTo":"edmund@fight.com"}'
+
+
 
 HTTP STATUS CODE OF REST API:
 1. get user (i.e. HTTP GET):

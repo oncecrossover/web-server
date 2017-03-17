@@ -50,6 +50,7 @@ import com.gibbon.peeq.handlers.CoinWebHandler;
 import com.gibbon.peeq.handlers.NewsfeedWebHandler;
 import com.gibbon.peeq.handlers.NotFoundResourceWebHandler;
 import com.gibbon.peeq.handlers.NullResouceWebHandler;
+import com.gibbon.peeq.handlers.PcAccountWebHandler;
 import com.gibbon.peeq.handlers.PcEntryWebHandler;
 import com.gibbon.peeq.handlers.ProfileWebHandler;
 import com.gibbon.peeq.handlers.ResetPwdWebHandler;
@@ -208,6 +209,12 @@ public class HttpSnoopServerHandler
           request).handle();
     } else if ("coins".equalsIgnoreCase(resourceName)) {
       return new CoinWebHandler(
+          pathParser,
+          respBuf,
+          ctx,
+          request).handle();
+    } else if ("pcaccounts".equalsIgnoreCase(resourceName)) {
+      return new PcAccountWebHandler(
           pathParser,
           respBuf,
           ctx,
