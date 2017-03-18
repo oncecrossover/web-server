@@ -128,13 +128,32 @@ extension ProfileViewController {
         self.applyButton.hidden = false
         self.expertiseCollection.hidden = true
         self.handleApplyButtonView(status)
+        self.loadEarningView()
         self.activityIndicator.stopAnimating()
       }
     }
   }
 
-  private func handleApplyButtonView(status: String) {
+  private func loadEarningView() {
     self.earningsView.removeFromSuperview()
+    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    Payment().getBalance(uid) { convertedDict in
+      if let _ = convertedDict["balance"] as? Double {
+        self.earning = convertedDict["balance"] as! Double
+        if (self.earning > 0.0) {
+          dispatch_async(dispatch_get_main_queue()) {
+            self.earningsView.setAmount(self.earning)
+            self.view.addSubview(self.earningsView)
+            self.earningsView.widthAnchor.constraintEqualToConstant(50).active = true
+            self.earningsView.heightAnchor.constraintEqualToConstant(33).active = true
+            self.earningsView.centerYAnchor.constraintEqualToAnchor(self.profilePhoto.centerYAnchor).active = true
+            self.earningsView.trailingAnchor.constraintEqualToAnchor(self.view.trailingAnchor, constant: -30).active = true
+          }
+        }
+      }
+    }
+  }
+  private func handleApplyButtonView(status: String) {
     if (status == "NA" || status.isEmpty) {
       applyButton.enabled = true
       isSnooper = false
@@ -162,22 +181,6 @@ extension ProfileViewController {
 
         dispatch_async(dispatch_get_main_queue()) {
           self.expertiseCollection.reloadData()
-        }
-      }
-
-      Payment().getBalance(uid) { convertedDict in
-        if let _ = convertedDict["balance"] as? Double {
-          self.earning = convertedDict["balance"] as! Double
-          if (self.earning > 0.0) {
-            dispatch_async(dispatch_get_main_queue()) {
-              self.earningsView.setAmount(self.earning)
-              self.view.addSubview(self.earningsView)
-              self.earningsView.widthAnchor.constraintEqualToConstant(50).active = true
-              self.earningsView.heightAnchor.constraintEqualToConstant(33).active = true
-              self.earningsView.centerYAnchor.constraintEqualToAnchor(self.profilePhoto.centerYAnchor).active = true
-              self.earningsView.trailingAnchor.constraintEqualToAnchor(self.view.trailingAnchor, constant: -30).active = true
-            }
-          }
         }
       }
     }
