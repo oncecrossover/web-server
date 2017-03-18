@@ -490,7 +490,18 @@ Example response:
 
 
 RESTFUL APIs OF PCACCOUNT:
-1. update PcAccount by uid, only payTo can be updated, e.g.
+1. get PcAccount by uid, e.g.
+curl -i -X GET "http://127.0.0.1:8080/pcaccounts/edmund"
+Example response:
+{
+  "uid": "edmund",
+  "chargeFrom": "cus_AFSsvKP6VT7g0a",
+  "payTo": "edmund@fight.com",
+  "createdTime": 1489730136000,
+  "updatedTime": 1489730926000
+}
+
+2. update PcAccount by uid, only payTo can be updated, e.g.
 curl -i -X PUT "http://127.0.0.1:8080/pcaccounts/edmund"  -d '{"payTo":"edmund@fight.com"}'
 
 

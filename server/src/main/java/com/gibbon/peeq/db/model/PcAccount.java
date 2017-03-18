@@ -9,7 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class PcAccount {
+public class PcAccount extends ModelBase implements Model {
   private String uid;
   private String chargeFrom;
   private String payTo;
@@ -78,15 +78,13 @@ public class PcAccount {
       return true;
     }
 
-    if (obj == null) {
-      return false;
-    }
-
-    if (getClass() == obj.getClass()) {
+    if (obj instanceof PcAccount) {
       final PcAccount that = (PcAccount) obj;
       if (isEqual(this.getUid(), that.getUid())
           && isEqual(this.getChargeFrom(), that.getChargeFrom())
-          && isEqual(this.getPayTo(), that.getPayTo())) {
+          && isEqual(this.getPayTo(), that.getPayTo())
+          && isEqual(this.getCreatedTime(), that.getCreatedTime())
+          && isEqual(this.getUpdatedTime(), that.getUpdatedTime())) {
         return true;
       }
     }
@@ -94,8 +92,19 @@ public class PcAccount {
     return false;
   }
 
-  private boolean isEqual(Object a, Object b) {
-    return a == null ? b == null : a.equals(b);
+  @Override
+  public int hashCode() {
+    int result = 0;
+    result = PRIME * result + ((uid == null) ? 0 : uid.hashCode());
+    result = PRIME * result
+        + ((chargeFrom == null) ? 0 : chargeFrom.hashCode());
+    result = PRIME * result + ((payTo == null) ? 0 : payTo.hashCode());
+    result = PRIME * result
+        + ((createdTime == null) ? 0 : createdTime.hashCode());
+    result = PRIME * result
+        + ((updatedTime == null) ? 0 : updatedTime.hashCode());
+
+    return result;
   }
 
   public PcAccount setAsIgnoreNull(final PcAccount that) {
@@ -113,31 +122,5 @@ public class PcAccount {
       this.setPayTo(that.getPayTo());
     }
     return this;
-  }
-
-  @Override
-  public String toString() {
-    try {
-      return toJsonStr();
-    } catch (JsonProcessingException e) {
-      return "";
-    }
-  }
-
-  public byte[] toJsonByteArray() throws JsonProcessingException {
-    ObjectMapper mapper = new ObjectMapper();
-    return mapper.writeValueAsBytes(this);
-  }
-
-  public String toJsonStr() throws JsonProcessingException {
-    ObjectMapper mapper = new ObjectMapper();
-    return mapper.writeValueAsString(this);
-  }
-
-  public static PcAccount newInstance(final byte[] json)
-      throws JsonParseException, JsonMappingException, IOException {
-    ObjectMapper mapper = new ObjectMapper();
-    final PcAccount result = mapper.readValue(json, PcAccount.class);
-    return result;
   }
 }

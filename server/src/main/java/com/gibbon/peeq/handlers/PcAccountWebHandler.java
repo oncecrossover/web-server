@@ -1,6 +1,7 @@
 package com.gibbon.peeq.handlers;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
@@ -27,6 +28,41 @@ public class PcAccountWebHandler extends AbastractPeeqWebHandler
       ChannelHandlerContext ctx,
       FullHttpRequest request) {
     super(pathParser, respBuf, ctx, request);
+  }
+  @Override
+  protected FullHttpResponse handleRetrieval() {
+    return onGet();
+  }
+
+  private FullHttpResponse onGet() {
+    /* get uid */
+    final String uid = getPathParser().getPathStream().nextToken();
+
+    /* no id */
+    if (StringUtils.isBlank(uid)) {
+      appendln("Missing parameter: uid");
+      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    }
+
+    Session session = null;
+    Transaction txn = null;
+    try {
+      session = getSession();
+      txn = session.beginTransaction();
+      final PcAccount retInstance = (PcAccount) session.get(PcAccount.class,
+          uid);
+      txn.commit();
+
+      /* buffer result */
+      return newResponseForInstance(uid, "pcaccounts", retInstance);
+    } catch (HibernateException e) {
+      if (txn != null && txn.isActive()) {
+        txn.rollback();
+      }
+      return newServerErrorResponse(e, LOG);
+    } catch (Exception e) {
+      return newServerErrorResponse(e, LOG);
+    }
   }
 
   @Override
