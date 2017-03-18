@@ -191,8 +191,8 @@ private class EarningsView: UIView {
     let note = UILabel()
     note.textColor = UIColor(red: 111/255, green: 111/255, blue: 111/255, alpha: 0.7)
     note.font = UIFont.systemFontOfSize(11)
-    note.text = "Your earnings will be transferred to your Paypal account on 1st of each month with a threshold of $10."
-    note.numberOfLines = 2
+    note.text = "Your earnings will be transferred to your Paypal account on 1st of each month with a minimum threshold of $10."
+    note.numberOfLines = 3
     return note
   }()
 
@@ -209,9 +209,14 @@ private class EarningsView: UIView {
     addSubview(updateButton)
     addSubview(note)
 
-    addConstraintsWithFormat("V:|-9-[v0(18)]-4-[v1(23)]-9-[v2(30)]-6-[v3(30)]", views: title, amount, paypalEmail, note)
-    addConstraintsWithFormat("V:|-9-[v0(18)]-4-[v1(23)]-9-[v2(30)]-6-[v3(30)]", views: title, amount, updateButton, note)
-    addConstraintsWithFormat("H:|-11-[v0(204)]-9-[v1(80)]", views: paypalEmail, updateButton)
+    addConstraintsWithFormat("V:|-9-[v0(20)]-4-[v1(23)]-9-[v2(30)]-6-[v3(30)]", views: title, amount, paypalEmail, note)
+    addConstraintsWithFormat("V:|-9-[v0(20)]-4-[v1(23)]-9-[v2(30)]-6-[v3(30)]", views: title, amount, updateButton, note)
+    paypalEmail.leadingAnchor.constraintEqualToAnchor(leadingAnchor, constant: 11).active = true
+    updateButton.leadingAnchor.constraintEqualToAnchor(paypalEmail.trailingAnchor, constant: 9).active = true
+    updateButton.trailingAnchor.constraintEqualToAnchor(trailingAnchor, constant: -11).active = true
+    updateButton.widthAnchor.constraintEqualToAnchor(paypalEmail.widthAnchor, multiplier: 0.4).active = true
+
+//    addConstraintsWithFormat("H:|-11-[v0(\(emailWidth))]-9-[v1(\(buttonWidth))]", views: paypalEmail, updateButton)
     addConstraintsWithFormat("H:|-11-[v0]-11-|", views: note)
     title.widthAnchor.constraintEqualToConstant(200).active = true
     title.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true
