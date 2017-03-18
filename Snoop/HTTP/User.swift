@@ -155,4 +155,11 @@ class User
       completion(result)
     }
   }
+
+  func getPaypal(uid: String, completion: (NSDictionary) ->()) {
+    let url = NSURL(string: PCURI + uid)
+    generics.getObjectById(url!) { result in
+      completion(result)
+    }
+  }
 }

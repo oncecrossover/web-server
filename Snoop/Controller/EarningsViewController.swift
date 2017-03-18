@@ -51,8 +51,8 @@ class EarningsViewController: UIViewController {
     scrollView.addSubview(explainer)
     scrollView.addSubview(input)
 
-    input.paypalEmail.delegate = self
-    input.paypalEmail.addTarget(self, action: #selector(checkEmail), forControlEvents: .EditingChanged)
+    input.paypalEmail.field.delegate = self
+    input.paypalEmail.field.addTarget(self, action: #selector(checkEmail), forControlEvents: .EditingChanged)
 
     scrollView.addConstraintsWithFormat("V:|[v0(100)]-2-[v1(196)]-6-[v2(140)]|", views: slogan, explainer, input)
     let width = Int(view.frame.width)
@@ -63,6 +63,18 @@ class EarningsViewController: UIViewController {
     // Add keyboard notification
     NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EarningsViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
     NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EarningsViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+
+    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    User().getPaypal(uid) { dict in
+      dispatch_async(dispatch_get_main_queue()) {
+        if let email = dict["payTo"] as? String {
+          self.input.paypalEmail.field.placeholder = email
+        }
+        else {
+          self.input.paypalEmail.field.placeholder = "Paypal Email"
+        }
+      }
+    }
   }
 
   override func viewDidAppear(animated: Bool) {
@@ -85,7 +97,7 @@ extension EarningsViewController {
 
     let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
 
-    if (!emailTest.evaluateWithObject(input.paypalEmail.text!)) {
+    if (!emailTest.evaluateWithObject(input.paypalEmail.field.text!)) {
       input.updateButton.enabled = false
     }
     else {
@@ -96,7 +108,7 @@ extension EarningsViewController {
   func updateButtonTapped(){
     let util = UIUtility()
     let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    let email = input.paypalEmail.text!
+    let email = input.paypalEmail.field.text!
     User().updatePaypal(uid, paypalEmail: email) { result in
       if (result.isEmpty) {
         dispatch_async(dispatch_get_main_queue()) {
@@ -145,6 +157,28 @@ extension EarningsViewController {
   }
 
 }
+private class PaypalEmail: UIView {
+  let field: UITextField = {
+    let email  = UITextField()
+    email.keyboardType = .EmailAddress
+    email.autocapitalizationType = .None
+    email.autocorrectionType = .No
+    email.returnKeyType = .Done
+    return email
+  }()
+
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    backgroundColor = UIColor.whiteColor()
+    addSubview(field)
+    addConstraintsWithFormat("V:|-6-[v0]-6-|", views: field)
+    addConstraintsWithFormat("H:|-12-[v0]|", views: field)
+  }
+
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+}
 private class EarningsView: UIView {
   let title: UILabel = {
     let title = UILabel()
@@ -163,16 +197,12 @@ private class EarningsView: UIView {
     return amount
   }()
 
-  let paypalEmail: UITextField = {
-    let email = UITextField()
-    email.placeholder = "    Paypal Email"
+  let paypalEmail: PaypalEmail = {
+    let email = PaypalEmail()
     email.layer.cornerRadius = 4
     email.clipsToBounds = true
     email.layer.borderWidth = 1
     email.layer.borderColor = UIColor(red: 207/255, green: 207/255, blue: 207/255, alpha: 1.0).CGColor
-    email.keyboardType = .EmailAddress
-    email.autocapitalizationType = .None
-    email.returnKeyType = .Done
     return email
   }()
 
@@ -216,7 +246,6 @@ private class EarningsView: UIView {
     updateButton.trailingAnchor.constraintEqualToAnchor(trailingAnchor, constant: -11).active = true
     updateButton.widthAnchor.constraintEqualToAnchor(paypalEmail.widthAnchor, multiplier: 0.4).active = true
 
-//    addConstraintsWithFormat("H:|-11-[v0(\(emailWidth))]-9-[v1(\(buttonWidth))]", views: paypalEmail, updateButton)
     addConstraintsWithFormat("H:|-11-[v0]-11-|", views: note)
     title.widthAnchor.constraintEqualToConstant(200).active = true
     title.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true

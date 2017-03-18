@@ -8,7 +8,7 @@
 
 import Foundation
 class Generics: NSObject, NSURLSessionDelegate {
-  var HTTPHOST = "http://www.snoopqa.com:8081/"
+  var HTTPHOST = "http://www.snoopqa.com:8080/"
   override init() {
   }
 
