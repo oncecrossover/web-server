@@ -39,7 +39,7 @@ class DiscoverViewControllerUITests: XCTestCase {
     let passwordSecureTextField = app.secureTextFields["Password:"]
     passwordSecureTextField.tap()
     passwordSecureTextField.typeText("1234")
-    app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).element.childrenMatchingType(.Other).element.tap()
+    app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.tap()
     app.buttons["Log In"].tap()
 
     let tabBarsQuery = app.tabBars
@@ -68,19 +68,19 @@ class DiscoverViewControllerUITests: XCTestCase {
     passwordSecureTextField.tap()
     passwordSecureTextField.typeText("1234")
 
-    app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).element.childrenMatchingType(.Other).element.tap()
+    app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.tap()
     app.buttons["Log In"].tap()
 
     let tabBarsQuery = app.tabBars
     tabBarsQuery.buttons["Discover"].tap()
     app.tables.staticTexts["Ray Robinson"].tap()
 
-    let textView = app.scrollViews.childrenMatchingType(.TextView).element
+    let textView = app.scrollViews.children(matching: .textView).element
     textView.tap()
     textView.typeText("How are you?")
-    app.scrollViews.containingType(.StaticText, identifier:"Ray Robinson").element.tap()
+    app.scrollViews.containing(.staticText, identifier:"Ray Robinson").element.tap()
     app.buttons["Ask Him"].tap()
-    app.navigationBars["Snoop.ChargeView"].childrenMatchingType(.Button).matchingIdentifier("Back").elementBoundByIndex(0).tap()
+    app.navigationBars["Snoop.ChargeView"].children(matching: .button).matching(identifier: "Back").element(boundBy: 0).tap()
     app.navigationBars["Snoop.AskView"].buttons["Discover"].tap()
     tabBarsQuery.buttons["Me"].tap()
     app.buttons["Log Out"].tap()
@@ -96,7 +96,7 @@ class DiscoverViewControllerUITests: XCTestCase {
     passwordSecureTextField.tap()
     passwordSecureTextField.typeText("1234")
 
-    let element = app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).element.childrenMatchingType(.Other).element
+    let element = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element
     element.tap()
     app.buttons["Log In"].tap()
 
@@ -107,8 +107,8 @@ class DiscoverViewControllerUITests: XCTestCase {
 
     //For some reasons, the cell when search is active is not hittable. So
     //we need to instantiate a coordinate to tap
-    let cell = app.tables.cells.elementBoundByIndex(0)
-    let coordinate: XCUICoordinate = cell.coordinateWithNormalizedOffset(CGVectorMake(0.0, 0.0))
+    let cell = app.tables.cells.element(boundBy: 0)
+    let coordinate: XCUICoordinate = cell.coordinate(withNormalizedOffset: CGVector(dx: 0.0, dy: 0.0))
     coordinate.tap()
 
 

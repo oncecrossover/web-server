@@ -13,14 +13,14 @@ class CoinPriceTableViewCell: UITableViewCell {
     // 13, 23 by 23
     let view = UIImageView()
     view.image = UIImage(named: "coin")
-    view.contentMode = .ScaleAspectFill
+    view.contentMode = .scaleAspectFill
     return view
   }()
 
   let coinCount: UILabel = {
     let label = UILabel()
     label.textColor = UIColor(white: 0, alpha: 0.7)
-    label.font = UIFont.systemFontOfSize(16)
+    label.font = UIFont.systemFont(ofSize: 16)
     // left 9, 60 by 22
     return label
   }()
@@ -29,7 +29,7 @@ class CoinPriceTableViewCell: UITableViewCell {
     // 125 to the left edge, 100 by 15
     let label = UILabel()
     label.textColor = UIColor.defaultColor()
-    label.font = UIFont.boldSystemFontOfSize(12)
+    label.font = UIFont.boldSystemFont(ofSize: 12)
     return label
   }()
 
@@ -37,18 +37,18 @@ class CoinPriceTableViewCell: UITableViewCell {
     // right edge 14, 70 by 27
     let label = UILabel()
     label.layer.borderWidth = 1
-    label.layer.borderColor = UIColor.defaultColor().CGColor
+    label.layer.borderColor = UIColor.defaultColor().cgColor
     label.layer.cornerRadius = 8
     label.textColor = UIColor.defaultColor()
-    label.font = UIFont.systemFontOfSize(14)
-    label.textAlignment = .Center
+    label.font = UIFont.systemFont(ofSize: 14)
+    label.textAlignment = .center
     label.clipsToBounds = true
     return label
   }()
 
   override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
-    selectionStyle = .None
+    selectionStyle = .none
     addSubview(coinView)
     addSubview(coinCount)
     addSubview(popularLabel)
@@ -57,14 +57,14 @@ class CoinPriceTableViewCell: UITableViewCell {
     // Constraints
     addConstraintsWithFormat("H:|-14-[v0(23)]-8-[v1(50)]-30-[v2(110)]", views: coinView, coinCount, popularLabel)
     addConstraintsWithFormat("H:[v0(70)]-14-|", views: price)
-    coinView.heightAnchor.constraintEqualToConstant(23).active = true
-    coinView.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-    coinCount.heightAnchor.constraintEqualToConstant(22).active = true
-    coinCount.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-    popularLabel.heightAnchor.constraintEqualToConstant(15).active = true
-    popularLabel.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-    price.heightAnchor.constraintEqualToConstant(25).active = true
-    price.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
+    coinView.heightAnchor.constraint(equalToConstant: 23).isActive = true
+    coinView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    coinCount.heightAnchor.constraint(equalToConstant: 22).isActive = true
+    coinCount.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    popularLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
+    popularLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    price.heightAnchor.constraint(equalToConstant: 25).isActive = true
+    price.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
   }
 
   required init?(coder aDecoder: NSCoder) {

@@ -42,7 +42,7 @@ class ProfileViewControllerUITests: XCTestCase {
     app.tabBars.buttons["Me"].tap()
     app.buttons["edit"].tap()
 
-    let textField = app.scrollViews.childrenMatchingType(.TextField).elementBoundByIndex(1)
+    let textField = app.scrollViews.children(matching: .textField).element(boundBy: 1)
     textField.tap()
 
     textField.clearAndEnterText("digital CEO")
@@ -53,8 +53,8 @@ class ProfileViewControllerUITests: XCTestCase {
     XCTAssertFalse(newTitle.exists)
 
     let exists = NSPredicate(format: "exists == true")
-    expectationForPredicate(exists, evaluatedWithObject: newTitle, handler: nil)
-    waitForExpectationsWithTimeout(5, handler: nil)
+    expectation(for: exists, evaluatedWith: newTitle, handler: nil)
+    waitForExpectations(timeout: 5, handler: nil)
     XCTAssert(newTitle.exists)
 
     newTitle.tap()
@@ -68,7 +68,7 @@ extension XCUIElement {
    Removes any current text in the field before typing in the new value
    - Parameter text: the text to enter into the field
    */
-  func clearAndEnterText(text: String) -> Void {
+  func clearAndEnterText(_ text: String) -> Void {
     guard let stringValue = self.value as? String else {
       XCTFail("Tried to clear and enter text into a non string value")
       return

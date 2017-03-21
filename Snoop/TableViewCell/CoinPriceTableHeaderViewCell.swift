@@ -21,10 +21,10 @@ class CoinPriceTableHeaderViewCell: UITableViewHeaderFooterView {
   override init(reuseIdentifier: String?) {
     super.init(reuseIdentifier: reuseIdentifier)
     addSubview(label)
-    label.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true
-    label.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-    label.leadingAnchor.constraintEqualToAnchor(leadingAnchor, constant: 14).active = true
-    label.heightAnchor.constraintEqualToConstant(40).active = true
+    label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+    label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 14).isActive = true
+    label.heightAnchor.constraint(equalToConstant: 40).isActive = true
   }
 
   required init?(coder aDecoder: NSCoder) {

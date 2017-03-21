@@ -15,9 +15,9 @@ class SignupView: UIView {
     view.awakeFromNib()
     view.placeholder = "First Name"
     view.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 1.0)
-    view.font = UIFont.systemFontOfSize(16)
-    view.borderStyle = .None
-    view.clearButtonMode = .WhileEditing
+    view.font = UIFont.systemFont(ofSize: 16)
+    view.borderStyle = .none
+    view.clearButtonMode = .whileEditing
     return view
   }()
 
@@ -26,9 +26,9 @@ class SignupView: UIView {
     view.awakeFromNib()
     view.placeholder = "Last Name"
     view.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 1.0)
-    view.borderStyle = .None
-    view.clearButtonMode = .WhileEditing
-    view.font = UIFont.systemFontOfSize(16)
+    view.borderStyle = .none
+    view.clearButtonMode = .whileEditing
+    view.font = UIFont.systemFont(ofSize: 16)
     return view
   }()
 
@@ -57,14 +57,14 @@ class SignupView: UIView {
     email.awakeFromNib()
     email.translatesAutoresizingMaskIntoConstraints = false
     email.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 1.0)
-    email.textAlignment = .Left
+    email.textAlignment = .left
     email.placeholder = "Your Email"
-    email.font = UIFont.systemFontOfSize(16)
-    email.borderStyle = .None
-    email.clearButtonMode = .WhileEditing
-    email.keyboardType = .EmailAddress
-    email.autocapitalizationType = .None
-    email.autocorrectionType = .No
+    email.font = UIFont.systemFont(ofSize: 16)
+    email.borderStyle = .none
+    email.clearButtonMode = .whileEditing
+    email.keyboardType = .emailAddress
+    email.autocapitalizationType = .none
+    email.autocorrectionType = .no
     return email
   }()
 
@@ -73,13 +73,13 @@ class SignupView: UIView {
     password.awakeFromNib()
     password.translatesAutoresizingMaskIntoConstraints = false
     password.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 1.0)
-    password.textAlignment = .Left
-    password.font = UIFont.systemFontOfSize(16)
+    password.textAlignment = .left
+    password.font = UIFont.systemFont(ofSize: 16)
     password.placeholder = "Password"
-    password.secureTextEntry = true
-    password.borderStyle = .None
-    password.clearButtonMode = .WhileEditing
-    password.autocapitalizationType = .None
+    password.isSecureTextEntry = true
+    password.borderStyle = .none
+    password.clearButtonMode = .whileEditing
+    password.autocapitalizationType = .none
     return password
   }()
 
@@ -101,11 +101,11 @@ class SignupView: UIView {
     addConstraintsWithFormat("V:|[v0]-0-[v1(1)]-0-[v2]-0-[v3(1)]-0-[v4]|", views: firstName, firstUnderline, email, secondUnderline, password)
     addConstraintsWithFormat("V:|[v0]", views: middleLine)
     addConstraintsWithFormat("V:|[v0]", views: lastName)
-    middleLine.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true
-    firstName.heightAnchor.constraintEqualToAnchor(email.heightAnchor).active = true
-    email.heightAnchor.constraintEqualToAnchor(password.heightAnchor).active = true
-    firstName.heightAnchor.constraintEqualToAnchor(middleLine.heightAnchor).active = true
-    lastName.heightAnchor.constraintEqualToAnchor(middleLine.heightAnchor).active = true
+    middleLine.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+    firstName.heightAnchor.constraint(equalTo: email.heightAnchor).isActive = true
+    email.heightAnchor.constraint(equalTo: password.heightAnchor).isActive = true
+    firstName.heightAnchor.constraint(equalTo: middleLine.heightAnchor).isActive = true
+    lastName.heightAnchor.constraint(equalTo: middleLine.heightAnchor).isActive = true
     addConstraintsWithFormat("H:|-14-[v0]|", views: email)
     addConstraintsWithFormat("H:|-14-[v0]|", views: password)
   }

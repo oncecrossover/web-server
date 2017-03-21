@@ -32,7 +32,7 @@ class FeedTableViewCell: UITableViewCell {
     initConfig()
   }
 
-  override func setSelected(selected: Bool, animated: Bool) {
+  override func setSelected(_ selected: Bool, animated: Bool) {
     super.setSelected(selected, animated: animated)
 
     // Configure the view for the selected state
@@ -44,9 +44,9 @@ class FeedTableViewCell: UITableViewCell {
     coverImage.layer.cornerRadius = 4
     coverImage.clipsToBounds = true
 
-    questionLabel.font = UIFont.systemFontOfSize(13)
+    questionLabel.font = UIFont.systemFont(ofSize: 13)
 
-    titleLabel.font = UIFont.systemFontOfSize(12)
+    titleLabel.font = UIFont.systemFont(ofSize: 12)
     titleLabel.textColor = UIColor.secondaryTextColor()
     titleLabel.numberOfLines = 0
     playImage.image = UIImage(named: "play")
@@ -55,8 +55,8 @@ class FeedTableViewCell: UITableViewCell {
     durationLabel.layer.cornerRadius = 2
     durationLabel.clipsToBounds = true
 
-    nameLabel.font = UIFont.systemFontOfSize(13)
-    numOfSnoops.font = numOfSnoops.font.fontWithSize(11)
+    nameLabel.font = UIFont.systemFont(ofSize: 13)
+    numOfSnoops.font = numOfSnoops.font.withSize(11)
     numOfSnoops.textColor = UIColor.defaultColor()
   }
 

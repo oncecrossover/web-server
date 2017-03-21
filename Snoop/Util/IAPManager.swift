@@ -29,17 +29,17 @@ class IAPManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactionObser
     }
   }
 
-  func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
+  func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
     let myProducts = response.products
     for product in myProducts {
       products.append(product)
     }
   }
 
-  func paymentQueue(queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+  func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
     for transaction in transactions {
       switch (transaction.transactionState) {
-      case .Purchased:
+      case .purchased:
         complete(transaction)
         let purchasedId = transaction.payment.productIdentifier
         switch (purchasedId) {
@@ -56,45 +56,45 @@ class IAPManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactionObser
           break
         }
         break
-      case .Failed:
+      case .failed:
         fail(transaction)
         break
-      case .Restored:
+      case .restored:
         restore(transaction)
         break
-      case .Deferred:
+      case .deferred:
         break
-      case .Purchasing:
+      case .purchasing:
         break
       }
     }
   }
 
-  func restore(transaction: SKPaymentTransaction) {
-    guard let productIdentifier = transaction.originalTransaction?.payment.productIdentifier else { return }
+  func restore(_ transaction: SKPaymentTransaction) {
+    guard let productIdentifier = transaction.original?.payment.productIdentifier else { return }
 
     print("restore... \(productIdentifier)")
-    SKPaymentQueue.defaultQueue().finishTransaction(transaction)
+    SKPaymentQueue.default().finishTransaction(transaction)
   }
 
-  func complete(transaction: SKPaymentTransaction) {
+  func complete(_ transaction: SKPaymentTransaction) {
     // TODO: we may want to send notification to users in the future
-    SKPaymentQueue.defaultQueue().finishTransaction(transaction)
+    SKPaymentQueue.default().finishTransaction(transaction)
   }
 
-  func fail(transaction: SKPaymentTransaction) {
+  func fail(_ transaction: SKPaymentTransaction) {
     print("fail... \(transaction.error)")
 
-    SKPaymentQueue.defaultQueue().finishTransaction(transaction)
+    SKPaymentQueue.default().finishTransaction(transaction)
   }
 
-  func addCoinsForUser(count: Int) {
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+  func addCoinsForUser(_ count: Int) {
+    let uid = UserDefaults.standard.string(forKey: "email")!
     coinModule.addCoins(uid, count: count) { result in
       if (result.isEmpty) {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
 
-          NSNotificationCenter.defaultCenter().postNotificationName(self.notificationName, object: nil, userInfo: ["uid": uid, "amount" : count])
+          NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil, userInfo: ["uid": uid, "amount" : count])
         }
       }
     }

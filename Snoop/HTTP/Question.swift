@@ -9,12 +9,12 @@
 import Foundation
 
 class Question {
-  private var QUESTIONURI : String
-  private var SNOOPURI : String
-  private var QUANDAURI: String
-  private var ANSWERURI: String
-  private var BULKDATAURI: String
-  private var generics = Generics()
+  fileprivate var QUESTIONURI : String
+  fileprivate var SNOOPURI : String
+  fileprivate var QUANDAURI: String
+  fileprivate var ANSWERURI: String
+  fileprivate var BULKDATAURI: String
+  fileprivate var generics = Generics()
   init () {
     SNOOPURI = generics.HTTPHOST + "snoops"
     QUESTIONURI = generics.HTTPHOST + "questions"
@@ -23,44 +23,44 @@ class Question {
     BULKDATAURI = generics.HTTPHOST + "bulkdata"
   }
 
-  func createQuestion(asker: String, question: String, responder: String,
-    status: String, completion: (String) -> () ){
+  func createQuestion(_ asker: String, question: String, responder: String,
+    status: String, completion: @escaping (String) -> () ){
       let jsonData = ["asker": asker, "question": question,
         "responder": responder, "status": "PENDING"]
-      generics.createObject(QUESTIONURI, jsonData: jsonData) { result in
+      generics.createObject(QUESTIONURI, jsonData: jsonData as [String : AnyObject]) { result in
         completion(result)
       }
   }
 
-  func updateQuestion(id: Int!, answerAudio: NSData!, completion: (String) -> ()) {
-      let myUrl = NSURL(string: QUANDAURI + "/" + "\(id)")
-      let audioString = answerAudio?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
-      let jsonData: [String: AnyObject] = ["answerAudio": audioString!, "status" : "ANSWERED"]
+  func updateQuestion(_ id: Int!, answerAudio: Data!, completion: @escaping (String) -> ()) {
+      let myUrl = URL(string: QUANDAURI + "/" + "\(id)")
+      let audioString = answerAudio?.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+      let jsonData: [String: AnyObject] = ["answerAudio": audioString! as AnyObject, "status" : "ANSWERED" as AnyObject]
       generics.updateObject(myUrl!, jsonData: jsonData) { result in
         completion(result)
       }
   }
 
-  func submitAnswer(id: Int!, answerVideo: NSData!, coverPhoto: NSData!, duration: Int!, completion: (String)->()) {
-    let myUrl = NSURL(string: QUANDAURI + "/" + "\(id)")
-    let videoString = answerVideo?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
-    let photoString = coverPhoto?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
-    let jsonData: [String: AnyObject] = ["answerMedia" : videoString!, "answerCover" : photoString!, "status" : "ANSWERED", "duration" : duration]
+  func submitAnswer(_ id: Int, answerVideo: Data, coverPhoto: Data, duration: Int, completion: @escaping (String)->()) {
+    let myUrl = URL(string: QUANDAURI + "/" + "\(id)")
+    let videoString = answerVideo.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+    let photoString = coverPhoto.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+    let jsonData: [String: AnyObject] = ["answerMedia" : videoString as AnyObject, "answerCover" : photoString as AnyObject, "status" : "ANSWERED" as AnyObject, "duration" : duration as AnyObject]
     generics.updateObject(myUrl!, jsonData: jsonData) { result in
       completion(result)
     }
   }
 
-  func getActivities(filterString: String, selectedIndex: Int!, completion: (NSArray) -> ()) {
-    var myUrl = NSURL()
+  func getActivities(_ filterString: String, selectedIndex: Int!, completion: @escaping (NSArray) -> ()) {
+    var myUrl: URL!
     if (selectedIndex == 0) {
-      myUrl = NSURL(string: QUESTIONURI + "?" + filterString)!
+      myUrl = URL(string: QUESTIONURI + "?" + filterString)!
     }
     else if (selectedIndex == 1) {
-      myUrl = NSURL(string: ANSWERURI + "?" + filterString)!
+      myUrl = URL(string: ANSWERURI + "?" + filterString)!
     }
     else {
-      myUrl = NSURL(string:  SNOOPURI + "?" + filterString)!
+      myUrl = URL(string:  SNOOPURI + "?" + filterString)!
     }
 
     generics.getFilteredObjects(myUrl) { result in
@@ -68,8 +68,8 @@ class Question {
     }
   }
 
-  func getQuestionMedia(id: Int, completion: (String) -> ()){
-    let myUrl = NSURL(string: QUANDAURI + "/" + "\(id)")
+  func getQuestionMedia(_ id: Int, completion: @escaping (String) -> ()){
+    let myUrl = URL(string: QUANDAURI + "/" + "\(id)")
     generics.getObjectById(myUrl!) { convertedJsonIntoDict in
       if let storedAudio = convertedJsonIntoDict["answerMedia"] as? String {
         completion(storedAudio)
@@ -80,23 +80,23 @@ class Question {
     }
   }
 
-  func getQuestionById(id: Int, completion: (NSDictionary) -> ()){
-    let myUrl = NSURL(string: QUESTIONURI + "/" + "\(id)")
+  func getQuestionById(_ id: Int, completion: @escaping (NSDictionary) -> ()){
+    let myUrl = URL(string: QUESTIONURI + "/" + "\(id)")
     generics.getObjectById(myUrl!) { convertedJsonIntoDict in
       completion(convertedJsonIntoDict)
     }
   }
 
-  func getQuestionDatas(url: String, completion: (NSDictionary) -> ()) {
-    let myUrl = NSURL(string: BULKDATAURI + "?" + url)
+  func getQuestionDatas(_ url: String, completion: @escaping (NSDictionary) -> ()) {
+    let myUrl = URL(string: BULKDATAURI + "?" + url)
     generics.getObjectById(myUrl!) { convertedJsonIntoDict in
       completion(convertedJsonIntoDict)
     }
   }
 
-  func createSnoop(id: Int, completion: (String) -> ()) {
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    let jsonData:[String:AnyObject] = ["uid": uid, "quandaId": id]
+  func createSnoop(_ id: Int, completion: @escaping (String) -> ()) {
+    let uid = UserDefaults.standard.string(forKey: "email")!
+    let jsonData:[String:AnyObject] = ["uid": uid as AnyObject, "quandaId": id as AnyObject]
     generics.createObject(SNOOPURI, jsonData: jsonData) { result in
       completion(result)
     }

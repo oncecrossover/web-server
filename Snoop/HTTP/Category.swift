@@ -9,40 +9,40 @@
 import Foundation
 
 class Category {
-  private var generics = Generics()
-  private var CATEGORYURI: String
-  private var CATMAPPINGURI: String
+  fileprivate var generics = Generics()
+  fileprivate var CATEGORYURI: String
+  fileprivate var CATMAPPINGURI: String
 
   init() {
     CATEGORYURI = self.generics.HTTPHOST + "categories"
     CATMAPPINGURI = self.generics.HTTPHOST + "catmappings"
   }
 
-  func updateInterests(uid: String, interests: [[String: AnyObject]], completion: (String) -> ()) {
-    let url = NSURL(string: CATMAPPINGURI + "/" + uid)!
+  func updateInterests(_ uid: String, interests: [[String: AnyObject]], completion: @escaping (String) -> ()) {
+    let url = URL(string: CATMAPPINGURI + "/" + uid)!
     generics.updateObjects(url, jsonData: interests) { result in
       completion(result)
     }
   }
 
-  func getCategories(completion: (NSArray) -> ()) {
+  func getCategories(_ completion: @escaping (NSArray) -> ()) {
     let urlString = CATEGORYURI + "?name='%25%25'"
-    let url = NSURL(string: urlString)!
+    let url = URL(string: urlString)!
     generics.getFilteredObjects(url) { result in
       completion(result)
     }
   }
 
-  func getExpertise(uid: String, completion: (NSArray) -> ()) {
-    let url = NSURL(string: CATMAPPINGURI + "?uid='" + uid + "'&isExpertise='Yes'")!
+  func getExpertise(_ uid: String, completion: @escaping (NSArray) -> ()) {
+    let url = URL(string: CATMAPPINGURI + "?uid='" + uid + "'&isExpertise='Yes'")!
     generics.getFilteredObjects(url) { result in
       completion(result)
     }
   }
 
-  func getInterest(completion: (NSArray) -> ()) {
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    let url = NSURL(string: CATMAPPINGURI + "?uid='" + uid + "'&isInterest='Yes'")!
+  func getInterest(_ completion: @escaping (NSArray) -> ()) {
+    let uid = UserDefaults.standard.string(forKey: "email")!
+    let url = URL(string: CATMAPPINGURI + "?uid='" + uid + "'&isInterest='Yes'")!
     generics.getFilteredObjects(url) { result in
       completion(result)
     }

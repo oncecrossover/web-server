@@ -12,7 +12,7 @@ class TextFitLabel: UILabel {
 
   override func awakeFromNib() {
     super.awakeFromNib()
-    self.lineBreakMode = NSLineBreakMode.ByWordWrapping
+    self.lineBreakMode = NSLineBreakMode.byWordWrapping
     self.numberOfLines = 0
     self.sizeToFit()
   }

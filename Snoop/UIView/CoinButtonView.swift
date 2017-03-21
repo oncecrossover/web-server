@@ -12,7 +12,7 @@ class CoinButtonView: UIView {
   let coinView: UIImageView = {
     let view = UIImageView()
     view.image = UIImage(named: "coin")
-    view.contentMode = .ScaleAspectFill
+    view.contentMode = .scaleAspectFill
     return view
   }()
 
@@ -36,7 +36,7 @@ class CoinButtonView: UIView {
     addConstraintsWithFormat("V:|-1-[v0]-1-|", views: coinCount)
   }
 
-  func setCount(count: Int) {
+  func setCount(_ count: Int) {
     coinCount.text = String(count)
   }
 

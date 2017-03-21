@@ -8,15 +8,15 @@
 
 import Foundation
 class DiscoverModel {
-  var name: String!
-  var title: String!
-  var uid: String!
-  var about: String!
-  var rate: Int!
-  var updatedTime: Double!
+  var name: String
+  var title: String
+  var uid: String
+  var about: String
+  var rate: Int
+  var updatedTime: Double
   var avatarUrl: String?
 
-  init(_name: String!, _title: String!, _uid: String!, _about: String!, _rate: Int!, _updatedTime: Double!, _avatarUrl : String?) {
+  init(_name: String, _title: String, _uid: String, _about: String, _rate: Int, _updatedTime: Double, _avatarUrl : String?) {
     name = _name
     title = _title
     uid = _uid

@@ -23,37 +23,37 @@ class SignupViewController: UIViewController {
     view.translatesAutoresizingMaskIntoConstraints = false
     view.layer.cornerRadius = 8
     view.layer.borderWidth = 1
-    view.layer.borderColor = UIColor(red: 207/255, green: 207/255, blue: 207/255, alpha: 1.0).CGColor
+    view.layer.borderColor = UIColor(red: 207/255, green: 207/255, blue: 207/255, alpha: 1.0).cgColor
     view.clipsToBounds = true
     return view
   }()
 
   lazy var signupButton: UIButton = {
     let button = UIButton()
-    button.setTitle("Sign Up", forState: .Normal)
+    button.setTitle("Sign Up", for: UIControlState())
     button.backgroundColor = UIColor.defaultColor()
-    button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+    button.setTitleColor(UIColor.white, for: UIControlState())
     button.layer.cornerRadius = 10
     button.clipsToBounds = true
-    button.addTarget(self, action: #selector(signupButtonTapped), forControlEvents: .TouchUpInside)
+    button.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
     button.translatesAutoresizingMaskIntoConstraints = false
     return button
   }()
 
   lazy var loginLink: UIButton = {
     let link = UIButton()
-    link.setTitle("Log In", forState: .Normal)
-    link.setTitleColor(UIColor.defaultColor(), forState: .Normal)
-    link.titleLabel?.font = UIFont.systemFontOfSize(12)
-    link.backgroundColor = UIColor.whiteColor()
+    link.setTitle("Log In", for: UIControlState())
+    link.setTitleColor(UIColor.defaultColor(), for: UIControlState())
+    link.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+    link.backgroundColor = UIColor.white
     link.translatesAutoresizingMaskIntoConstraints = false
-    link.addTarget(self, action: #selector(loginLinkTapped), forControlEvents: .TouchUpInside)
+    link.addTarget(self, action: #selector(loginLinkTapped), for: .touchUpInside)
     return link
   }()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.view.backgroundColor = UIColor.whiteColor()
+    self.view.backgroundColor = UIColor.white
 
     view.addSubview(iconView)
     view.addSubview(signupView)
@@ -61,28 +61,28 @@ class SignupViewController: UIViewController {
     view.addSubview(loginLink)
 
     // Setup Icon View
-    iconView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-    iconView.widthAnchor.constraintEqualToConstant(300).active = true
-    iconView.heightAnchor.constraintEqualToConstant(120).active = true
-    iconView.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: 50).active = true
+    iconView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    iconView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+    iconView.heightAnchor.constraint(equalToConstant: 120).isActive = true
+    iconView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
 
     // Setup email and password fields
-    signupView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor, constant: 30).active = true
-    signupView.heightAnchor.constraintEqualToConstant(135).active = true
-    signupView.topAnchor.constraintEqualToAnchor(iconView.bottomAnchor, constant: 20).active = true
-    signupView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
+    signupView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
+    signupView.heightAnchor.constraint(equalToConstant: 135).isActive = true
+    signupView.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: 20).isActive = true
+    signupView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
     // Setup signup Button
-    signupButton.topAnchor.constraintEqualToAnchor(signupView.bottomAnchor, constant: 10).active = true
-    signupButton.leadingAnchor.constraintEqualToAnchor(signupView.leadingAnchor).active = true
-    signupButton.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-    signupButton.heightAnchor.constraintEqualToConstant(45).active = true
+    signupButton.topAnchor.constraint(equalTo: signupView.bottomAnchor, constant: 10).isActive = true
+    signupButton.leadingAnchor.constraint(equalTo: signupView.leadingAnchor).isActive = true
+    signupButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    signupButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
 
     // Setup login link
-    loginLink.leadingAnchor.constraintEqualToAnchor(signupButton.leadingAnchor).active = true
-    loginLink.widthAnchor.constraintEqualToConstant(60).active = true
-    loginLink.heightAnchor.constraintEqualToConstant(30).active = true
-    loginLink.topAnchor.constraintEqualToAnchor(signupButton.bottomAnchor, constant: 8).active = true
+    loginLink.leadingAnchor.constraint(equalTo: signupButton.leadingAnchor).isActive = true
+    loginLink.widthAnchor.constraint(equalToConstant: 60).isActive = true
+    loginLink.heightAnchor.constraint(equalToConstant: 30).isActive = true
+    loginLink.topAnchor.constraint(equalTo: signupButton.bottomAnchor, constant: 8).isActive = true
   }
 
   func signupButtonTapped() {
@@ -105,7 +105,7 @@ class SignupViewController: UIViewController {
 
     let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
 
-    if (!emailTest.evaluateWithObject(userEmail)) {
+    if (!emailTest.evaluate(with: userEmail)) {
       utility.displayAlertMessage("Email address invalid", title: "Alert", sender: self)
       return
     }
@@ -118,7 +118,7 @@ class SignupViewController: UIViewController {
     // Check if the email already exists
     userModule.getUser(userEmail) { user in
       if let _ = user["uid"] as? String {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
           utility.displayAlertMessage("Email \(userEmail) already exists", title: "Alert", sender: self)
         }
       }
@@ -127,10 +127,10 @@ class SignupViewController: UIViewController {
         let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Saving your Info...")
         userModule.createUser(userEmail, userPassword: userPassword, fullName: name) { resultString in
           if (resultString.isEmpty) {
-            activityIndicator.hideAnimated(true)
-            dispatch_async(dispatch_get_main_queue()) {
-              NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isUserSignedUp")
-              NSUserDefaults.standardUserDefaults().synchronize()
+            activityIndicator.hide(animated: true)
+            DispatchQueue.main.async {
+              UserDefaults.standard.set(true, forKey: "isUserSignedUp")
+              UserDefaults.standard.synchronize()
               let vc = InterestPickerViewController()
               vc.email = userEmail
               self.navigationController?.pushViewController(vc, animated: true)
@@ -139,13 +139,13 @@ class SignupViewController: UIViewController {
           }
           else {
             resultMessage = resultString
-            activityIndicator.hideAnimated(true)
+            activityIndicator.hide(animated: true)
             // Display failure message
-            let myAlert = UIAlertController(title: "Error", message: resultMessage, preferredStyle: UIAlertControllerStyle.Alert)
-            let okAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+            let myAlert = UIAlertController(title: "Error", message: resultMessage, preferredStyle: UIAlertControllerStyle.alert)
+            let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
             myAlert.addAction(okAction)
-            NSOperationQueue.mainQueue().addOperationWithBlock {
-              self.presentViewController(myAlert, animated: true, completion: nil)
+            OperationQueue.main.addOperation {
+              self.present(myAlert, animated: true, completion: nil)
             }
           }
         }
@@ -155,7 +155,7 @@ class SignupViewController: UIViewController {
 
   func loginLinkTapped() {
     if (loginViewController != nil) {
-      self.navigationController?.popViewControllerAnimated(true)
+      _ = self.navigationController?.popViewController(animated: true)
     }
     else {
       let vc = LoginViewController()

@@ -45,14 +45,14 @@ class TutorialViewControllerUITests: XCTestCase {
     passwordSecureTextField.tap()
     passwordSecureTextField.typeText("asdfgh")
 
-    let window = app.childrenMatchingType(.Window).elementBoundByIndex(0)
-    window.childrenMatchingType(.Other).elementBoundByIndex(1).childrenMatchingType(.Other).element.tap()
+    let window = app.children(matching: .window).element(boundBy: 0)
+    window.children(matching: .other).element(boundBy: 1).children(matching: .other).element.tap()
     app.buttons["Join Now"].tap()
 
     let okButton = app.alerts["OK"].collectionViews.buttons["Ok"]
     okButton.tap()
 
-    let element = window.childrenMatchingType(.Other).elementBoundByIndex(2).childrenMatchingType(.Other).element
+    let element = window.children(matching: .other).element(boundBy: 2).children(matching: .other).element
     element.tap()
     element.tap()
     element.tap()
@@ -60,7 +60,7 @@ class TutorialViewControllerUITests: XCTestCase {
     element.tap()
     app.navigationBars["Tutorial"].buttons["Skip"].tap()
     emailTextField.tap()
-    window.childrenMatchingType(.Other).element.childrenMatchingType(.Other).element.tap()
+    window.children(matching: .other).element.children(matching: .other).element.tap()
   }
 
 }

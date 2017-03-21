@@ -14,7 +14,7 @@ class InteractiveUITextField: UITextField, UITextFieldDelegate {
     self.delegate = self
   }
 
-  func textFieldShouldReturn(textField: UITextField) -> Bool {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     self.resignFirstResponder()
     return true
   }

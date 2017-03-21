@@ -11,7 +11,7 @@ import Stripe
 
 class CardsViewController: UIViewController {
 
-  var cards:[(id: Int!, lastFour: String!, brand: String!, isDefault: Bool!)] = []
+  var cards:[(id: Int?, lastFour: String?, brand: String?, isDefault: Bool?)] = []
   var paymentModule = Payment()
 
   let cellId = "cardCell"
@@ -23,8 +23,8 @@ class CardsViewController: UIViewController {
     tableView.delegate = self
     tableView.dataSource = self
     tableView.rowHeight = 40
-    tableView.registerClass(cardsTableViewCell.self, forCellReuseIdentifier: self.cellId)
-    tableView.registerClass(addCardTableViewCell.self, forCellReuseIdentifier: self.regularCell)
+    tableView.register(cardsTableViewCell.self, forCellReuseIdentifier: self.cellId)
+    tableView.register(addCardTableViewCell.self, forCellReuseIdentifier: self.regularCell)
     return tableView
   }()
 
@@ -42,14 +42,14 @@ extension CardsViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = UIColor.whiteColor()
+    view.backgroundColor = UIColor.white
     self.navigationItem.title = "Manage Cards"
     setupTableView()
     setupActivityIndicator()
   }
 
 
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     loadData()
   }
@@ -60,9 +60,9 @@ extension CardsViewController {
 
   func loadData(){
     activityIndicator.startAnimating()
-    cardsTableView.userInteractionEnabled = false
+    cardsTableView.isUserInteractionEnabled = false
     cards = []
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
+    let uid = UserDefaults.standard.string(forKey: "email")
     paymentModule.getPayments("uid=" + uid!) { jsonArray in
       for paymentInfo in jsonArray as! [[String:AnyObject]] {
         let lastFour = paymentInfo["last4"] as! String
@@ -72,10 +72,10 @@ extension CardsViewController {
         self.cards.append((id: id, lastFour: lastFour, brand: brand, isDefault: isDefault))
       }
 
-      dispatch_async(dispatch_get_main_queue()) {
+      DispatchQueue.main.async {
         self.activityIndicator.stopAnimating()
         self.cardsTableView.reloadData()
-        self.cardsTableView.userInteractionEnabled = true
+        self.cardsTableView.isUserInteractionEnabled = true
       }
     }
   }
@@ -83,29 +83,29 @@ extension CardsViewController {
   func setupTableView() {
     cardsTableView.tableFooterView = UIView()
     cardsTableView.tableHeaderView = UIView()
-    cardsTableView.separatorInset = UIEdgeInsetsZero
+    cardsTableView.separatorInset = UIEdgeInsets.zero
 
     self.view.addSubview(cardsTableView)
 
     //Set up constraints
-    cardsTableView.topAnchor.constraintEqualToAnchor(view.topAnchor).active = true
-    cardsTableView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
-    cardsTableView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor).active = true
-    cardsTableView.heightAnchor.constraintEqualToConstant(view.frame.height).active = true
+    cardsTableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+    cardsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    cardsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    cardsTableView.heightAnchor.constraint(equalToConstant: view.frame.height).isActive = true
 
   }
 
   func setupActivityIndicator() {
     self.view.addSubview(activityIndicator)
-    activityIndicator.centerXAnchor.constraintEqualToAnchor(cardsTableView.centerXAnchor).active = true
-    activityIndicator.topAnchor.constraintEqualToAnchor(cardsTableView.topAnchor, constant: 100).active = true
+    activityIndicator.centerXAnchor.constraint(equalTo: cardsTableView.centerXAnchor).isActive = true
+    activityIndicator.topAnchor.constraint(equalTo: cardsTableView.topAnchor, constant: 100).isActive = true
   }
 }
 
 // delegate and data source
 extension CardsViewController : UITableViewDataSource, UITableViewDelegate {
 
-  func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
     if (indexPath.section == 0) {
       return true
     }
@@ -113,17 +113,17 @@ extension CardsViewController : UITableViewDataSource, UITableViewDelegate {
     return false
   }
 
-  func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+  func numberOfSections(in tableView: UITableView) -> Int {
     return 2
   }
 
-  func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-    if (editingStyle == .Delete) {
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    if (editingStyle == .delete) {
       let id = cards[indexPath.row].id
-      cards.removeAtIndex(indexPath.row)
-      paymentModule.deletePayment(id) {result in
+      cards.remove(at: indexPath.row)
+      paymentModule.deletePayment(id!) {result in
         if (result.isEmpty) {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             self.cardsTableView.reloadData()
           }
         }
@@ -131,7 +131,7 @@ extension CardsViewController : UITableViewDataSource, UITableViewDelegate {
     }
   }
 
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if (section == 0) {
       return cards.count
     }
@@ -140,29 +140,29 @@ extension CardsViewController : UITableViewDataSource, UITableViewDelegate {
     }
   }
 
-  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     if (indexPath.section == 0) {
-      let myCell = tableView.dequeueReusableCellWithIdentifier(cellId) as! cardsTableViewCell
+      let myCell = tableView.dequeueReusableCell(withIdentifier: cellId) as! cardsTableViewCell
       let cardInfo = cards[indexPath.row]
       myCell.icon.image = UIImage(named: "cards")
       myCell.brand.text = cardInfo.brand
-      myCell.value.text = "xxxx " + cardInfo.lastFour
+      myCell.value.text = "xxxx " + cardInfo.lastFour!
       if (cardInfo.isDefault == true) {
-        myCell.accessoryType = .Checkmark
+        myCell.accessoryType = .checkmark
       }
       else {
-        myCell.accessoryType = .None
+        myCell.accessoryType = .none
       }
       return myCell
     }
     else {
-      let myCell = tableView.dequeueReusableCellWithIdentifier(regularCell) as! addCardTableViewCell
+      let myCell = tableView.dequeueReusableCell(withIdentifier: regularCell) as! addCardTableViewCell
       myCell.icon.image = UIImage(named: "addCard")
       return myCell
     }
   }
 
-  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if (indexPath.section == 1) {
       let backItem = UIBarButtonItem()
       backItem.title = "Back"
@@ -183,10 +183,10 @@ class addCardTableViewCell: UITableViewCell {
   override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     self.addSubview(icon)
-    icon.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true
-    icon.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-    icon.widthAnchor.constraintEqualToConstant(100).active = true
-    icon.heightAnchor.constraintEqualToConstant(30).active = true
+    icon.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+    icon.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    icon.widthAnchor.constraint(equalToConstant: 100).isActive = true
+    icon.heightAnchor.constraint(equalToConstant: 30).isActive = true
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -203,17 +203,17 @@ class cardsTableViewCell: UITableViewCell {
   let brand: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
-    label.font = UIFont.systemFontOfSize(14)
-    label.textAlignment = .Left
+    label.font = UIFont.systemFont(ofSize: 14)
+    label.textAlignment = .left
     return label
   }()
 
   let value: UILabel = {
     let value = UILabel()
     value.translatesAutoresizingMaskIntoConstraints = false
-    value.font = UIFont.systemFontOfSize(13)
+    value.font = UIFont.systemFont(ofSize: 13)
     value.textColor = UIColor(red: 136/255, green: 153/255, blue: 166/255, alpha: 1.0)
-    value.textAlignment = .Center
+    value.textAlignment = .center
     return value
   }()
 
@@ -224,22 +224,22 @@ class cardsTableViewCell: UITableViewCell {
     self.addSubview(value)
 
     // constraints for icon
-    icon.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-    icon.widthAnchor.constraintEqualToConstant(18).active = true
-    icon.heightAnchor.constraintEqualToConstant(14).active = true
-    icon.leadingAnchor.constraintEqualToAnchor(leadingAnchor, constant: 8).active = true
+    icon.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    icon.widthAnchor.constraint(equalToConstant: 18).isActive = true
+    icon.heightAnchor.constraint(equalToConstant: 14).isActive = true
+    icon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8).isActive = true
 
     // constraints for brand
-    brand.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-    brand.leadingAnchor.constraintEqualToAnchor(icon.trailingAnchor, constant: 16).active = true
-    brand.topAnchor.constraintEqualToAnchor(topAnchor, constant: 12).active = true
-    brand.widthAnchor.constraintEqualToConstant(120).active = true
+    brand.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    brand.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 16).isActive = true
+    brand.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
+    brand.widthAnchor.constraint(equalToConstant: 120).isActive = true
 
     // constraint for value
-    value.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-    value.leadingAnchor.constraintEqualToAnchor(brand.trailingAnchor, constant: 8).active = true
-    value.topAnchor.constraintEqualToAnchor(topAnchor, constant: 12).active = true
-    value.trailingAnchor.constraintEqualToAnchor(trailingAnchor, constant: -60).active = true
+    value.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    value.leadingAnchor.constraint(equalTo: brand.trailingAnchor, constant: 8).isActive = true
+    value.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
+    value.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -60).isActive = true
   }
 
   required init?(coder aDecoder: NSCoder) {

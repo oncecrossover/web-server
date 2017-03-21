@@ -8,22 +8,22 @@
 
 import Foundation
 class Coin {
-  private var generics = Generics()
-  private var COINSURI: String
+  fileprivate var generics = Generics()
+  fileprivate var COINSURI: String
 
   init() {
     COINSURI = self.generics.HTTPHOST + "coins"
   }
 
-  func getCoinsCount(completion: (NSDictionary) -> ()) {
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-    generics.getObjectById(NSURL(string: COINSURI + "/" + uid)!) { result in
+  func getCoinsCount(_ completion: @escaping (NSDictionary) -> ()) {
+    let uid = UserDefaults.standard.string(forKey: "email")!
+    generics.getObjectById(URL(string: COINSURI + "/" + uid)!) { result in
       completion(result)
     }
   }
 
-  func addCoins(uid: String, count: Int, completion: (String) ->()) {
-    let jsonData : [String: AnyObject] = ["uid" : uid, "amount": count]
+  func addCoins(_ uid: String, count: Int, completion: @escaping (String) ->()) {
+    let jsonData : [String: AnyObject] = ["uid" : uid as AnyObject, "amount": count as AnyObject]
     generics.createObject(COINSURI, jsonData: jsonData) { result in
       completion(result)
     }

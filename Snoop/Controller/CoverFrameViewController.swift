@@ -8,6 +8,30 @@
 
 import UIKit
 import AVFoundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class CoverFrameViewController: UIViewController {
 
@@ -28,11 +52,11 @@ class CoverFrameViewController: UIViewController {
 
   lazy var submitButton: UIButton = {
     let button = UIButton()
-    button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-    button.setTitle("Submit", forState: .Normal)
+    button.setTitleColor(UIColor.white, for: UIControlState())
+    button.setTitle("Submit", for: UIControlState())
     button.backgroundColor = UIColor.defaultColor()
     button.translatesAutoresizingMaskIntoConstraints = false
-    button.addTarget(self, action: #selector(submitButtonTapped), forControlEvents: .TouchUpInside)
+    button.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
     return button
   }()
 
@@ -40,12 +64,12 @@ class CoverFrameViewController: UIViewController {
     let flowLayout = UICollectionViewFlowLayout()
     flowLayout.minimumLineSpacing = 0
     flowLayout.minimumInteritemSpacing = 0
-    flowLayout.scrollDirection = .Horizontal
+    flowLayout.scrollDirection = .horizontal
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
     collectionView.delegate = self
     collectionView.dataSource = self
     collectionView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
-    collectionView.registerClass(CoverFrameCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
+    collectionView.register(CoverFrameCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     return collectionView
   }()
@@ -56,20 +80,20 @@ class CoverFrameViewController: UIViewController {
 extension CoverFrameViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.view.backgroundColor = UIColor.whiteColor()
+    self.view.backgroundColor = UIColor.white
     initView()
     setupNavbar()
 
     do {
       let fileUrl = getFileUrl()
-      let asset = AVURLAsset(URL: fileUrl, options: nil)
+      let asset = AVURLAsset(url: fileUrl, options: nil)
       let imgGenerator = AVAssetImageGenerator(asset: asset)
       imgGenerator.appliesPreferredTrackTransform = true
       let durationFromAsset = CMTimeGetSeconds(asset.duration)
       duration = Int(durationFromAsset)
-      for i in 0.stride(to: duration, by: 5) {
-        let image = try imgGenerator.copyCGImageAtTime(CMTimeMake(Int64(i), 1), actualTime: nil)
-        coverFrames.append(UIImage(CGImage: image))
+      for i in stride(from: 0, to: duration, by: 5) {
+        let image = try imgGenerator.copyCGImage(at: CMTimeMake(Int64(i), 1), actualTime: nil)
+        coverFrames.append(UIImage(cgImage: image))
       }
     }
     catch let error as NSError
@@ -78,8 +102,8 @@ extension CoverFrameViewController {
     }
 
     if (coverFrames.count > 0) {
-      let indexPath = NSIndexPath(forItem: 0, inSection: 0)
-      coverFrameCollection.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+      let indexPath = IndexPath(item: 0, section: 0)
+      coverFrameCollection.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())
       coverImage.image = coverFrames[0]
     }
   }
@@ -105,29 +129,29 @@ private extension CoverFrameViewController {
   }
   func setupNavbar() {
     // Creating left bar
-    let navbar = UINavigationBar(frame: CGRectMake(0, 0,
-      UIScreen.mainScreen().bounds.size.width, 60));
-    navbar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
+    let navbar = UINavigationBar(frame: CGRect(x: 0, y: 0,
+      width: UIScreen.main.bounds.size.width, height: 60));
+    navbar.setBackgroundImage(UIImage(), for: .default)
     navbar.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
-    navbar.titleTextAttributes = [ NSForegroundColorAttributeName:UIColor.whiteColor()]
+    navbar.titleTextAttributes = [ NSForegroundColorAttributeName:UIColor.white]
     self.view.addSubview(navbar)
 
     let navItem = UINavigationItem(title: "Pick a Cover")
-    let navBarbutton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Done, target: self, action: #selector(CoverFrameViewController.back(_:)))
-    navBarbutton.tintColor = UIColor.whiteColor()
+    let navBarbutton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.done, target: self, action: #selector(CoverFrameViewController.back(_:)))
+    navBarbutton.tintColor = UIColor.white
     navItem.leftBarButtonItem = navBarbutton
 
     navbar.items = [navItem]
   }
 
-  func getFileUrl() -> NSURL {
+  func getFileUrl() -> URL {
     let prefix = getCacheDirectory() as NSString
-    let path = prefix.stringByAppendingPathComponent(fileName)
-    return NSURL(fileURLWithPath: path)
+    let path = prefix.appendingPathComponent(fileName)
+    return URL(fileURLWithPath: path)
   }
 
   func getCacheDirectory() -> String {
-    let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+    let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
     return paths[0]
   }
 }
@@ -136,37 +160,36 @@ private extension CoverFrameViewController {
 
 extension CoverFrameViewController {
 
-  func back(sender: AnyObject) {
-    self.navigationController?.popViewControllerAnimated(false)
+  func back(_ sender: AnyObject) {
+    _ = self.navigationController?.popViewController(animated: false)
   }
 
-  @IBAction func submitButtonTapped(sender: AnyObject) {
-    let videoData = NSData(contentsOfURL: getFileUrl())
+  @IBAction func submitButtonTapped(_ sender: AnyObject) {
+    let videoData = try? Data(contentsOf: getFileUrl())
     var compressionRatio = 1.0
     let photoSize = UIImageJPEGRepresentation(coverImage.image!, 1)
-    if (photoSize?.length > 1000000) {
+    if (photoSize?.count > 1000000) {
       compressionRatio = 0.005
     }
-    else if (photoSize?.length > 500000) {
+    else if (photoSize?.count > 500000) {
       compressionRatio = 0.01
     }
-    else if (photoSize?.length > 100000){
+    else if (photoSize?.count > 100000){
       compressionRatio = 0.05
     }
-    else if (photoSize?.length > 10000) {
+    else if (photoSize?.count > 10000) {
       compressionRatio = 0.2
     }
 
     let photoData = UIImageJPEGRepresentation(coverImage.image!, CGFloat(compressionRatio))
     let activityIndicator = utilityModule.createCustomActivityIndicator(self.view, text: "Submitting Answer...")
-    questionModule.submitAnswer(quandaId, answerVideo: videoData, coverPhoto: photoData, duration: self.duration) { result in
+    questionModule.submitAnswer(quandaId!, answerVideo: videoData!, coverPhoto: photoData!, duration: self.duration) { result in
       let presentingViewController = self.presentingViewController as? UITabBarController
       let navigationController = presentingViewController?.viewControllers?[2] as? UINavigationController
-      navigationController?.popViewControllerAnimated(true)
-      let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
-      dispatch_after(time, dispatch_get_main_queue()){
-        activityIndicator.hideAnimated(true)
-        self.dismissViewControllerAnimated(true, completion: nil)
+      _ = navigationController?.popViewController(animated: true)
+      DispatchQueue.main.async {
+        activityIndicator.hide(animated: true)
+        self.dismiss(animated: true, completion: nil)
       }
     }
   }
@@ -174,8 +197,8 @@ extension CoverFrameViewController {
 }
 // MARK: - UICollectionViewDelegateFlowLayout
 extension CoverFrameViewController :  UICollectionViewDelegateFlowLayout {
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-    return CGSizeMake(50, 100)
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    return CGSize(width: 50, height: 100)
   }
 }
 
@@ -183,12 +206,12 @@ extension CoverFrameViewController :  UICollectionViewDelegateFlowLayout {
 
 extension CoverFrameViewController: UICollectionViewDataSource {
 
-  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return coverFrames.count
   }
 
-  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
-    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellId, forIndexPath: indexPath) as! CoverFrameCollectionViewCell
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CoverFrameCollectionViewCell
     cell.coverImage.image = coverFrames[indexPath.row]
 
     return cell
@@ -199,7 +222,7 @@ extension CoverFrameViewController: UICollectionViewDataSource {
 
 extension CoverFrameViewController: UICollectionViewDelegate {
 
-  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     coverImage.image = coverFrames[indexPath.row]
   }
 }

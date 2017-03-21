@@ -8,21 +8,21 @@
 
 import Foundation
 class ActivityModel {
-  var id: Int!
-  var question: String!
-  var status: String!
-  var rate: Int!
-  var duration: Int!
-  var askerName: String!
-  var responderName: String!
-  var responderTitle: String!
+  var id: Int
+  var question: String
+  var status: String
+  var rate: Int
+  var duration: Int
+  var askerName: String
+  var responderName: String
+  var responderTitle: String
   var answerCoverUrl: String?
   var askerAvatarUrl: String?
   var responderAvatarUrl: String?
   var answerUrl: String?
-  var lastSeenTime: Double!
+  var lastSeenTime: Double
 
-  init(_id: Int!, _question: String!, _status: String!, _rate: Int!, _duration: Int!, _askerName: String!, _responderName: String!, _responderTitle: String!, _answerCoverUrl: String?, _askerAvatarUrl: String?, _responderAvatarUrl: String?, _answerUrl : String?, _lastSeenTime: Double!) {
+  init(_id: Int, _question: String, _status: String, _rate: Int, _duration: Int, _askerName: String, _responderName: String, _responderTitle: String, _answerCoverUrl: String?, _askerAvatarUrl: String?, _responderAvatarUrl: String?, _answerUrl : String?, _lastSeenTime: Double) {
     id = _id
     question = _question
     status = _status

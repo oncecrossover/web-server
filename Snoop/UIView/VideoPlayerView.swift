@@ -16,23 +16,23 @@ class VideoPlayerView: UIView {
   lazy var closeButton: UIButton = {
     let view = UIButton()
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.setImage(UIImage(named: "close"), forState: .Normal)
-    view.addTarget(self, action: #selector(closeView), forControlEvents: .TouchUpInside)
+    view.setImage(UIImage(named: "close"), for: UIControlState())
+    view.addTarget(self, action: #selector(closeView), for: .touchUpInside)
     return view
   }()
 
   lazy var playButton: UIButton = {
     let view = UIButton()
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.setImage(UIImage(named: "play"), forState: .Normal)
-    view.contentVerticalAlignment = .Fill
-    view.contentHorizontalAlignment = .Fill
-    view.addTarget(self, action: #selector(handlePause), forControlEvents: .TouchUpInside)
+    view.setImage(UIImage(named: "play"), for: UIControlState())
+    view.contentVerticalAlignment = .fill
+    view.contentHorizontalAlignment = .fill
+    view.addTarget(self, action: #selector(handlePause), for: .touchUpInside)
     return view
   }()
 
   let activityIndicator : UIActivityIndicatorView = {
-    let view = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+    let view = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     view.translatesAutoresizingMaskIntoConstraints = false
     view.startAnimating()
     view.hidesWhenStopped = true
@@ -42,27 +42,27 @@ class VideoPlayerView: UIView {
   let lengthLabel: UILabel = {
     let view = UILabel()
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.textColor = UIColor.whiteColor()
+    view.textColor = UIColor.white
     view.text = "00:00"
-    view.font = view.font.fontWithSize(12)
-    view.textAlignment = .Right
+    view.font = view.font.withSize(12)
+    view.textAlignment = .right
     return view
   }()
 
   let progressLabel : UILabel = {
     let view = UILabel()
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.textColor = UIColor.whiteColor()
+    view.textColor = UIColor.white
     view.text = "00:00"
-    view.font = view.font.fontWithSize(12)
+    view.font = view.font.withSize(12)
     return view
   }()
 
   lazy var slider : UISlider = {
     let view = UISlider()
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.setThumbImage(UIImage(named: "thumb"), forState: .Normal)
-    view.addTarget(self, action: #selector(handleSlider), forControlEvents: .ValueChanged)
+    view.setThumbImage(UIImage(named: "thumb"), for: UIControlState())
+    view.addTarget(self, action: #selector(handleSlider), for: .valueChanged)
     return view
   }()
 
@@ -76,7 +76,7 @@ class VideoPlayerView: UIView {
 
   override init(frame: CGRect) {
     super.init(frame: frame)
-    backgroundColor = UIColor.blackColor()
+    backgroundColor = UIColor.black
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -86,12 +86,12 @@ class VideoPlayerView: UIView {
   func handlePause() {
     if (isPlaying) {
       isPlaying = false
-      playButton.hidden = false
+      playButton.isHidden = false
       player?.pause()
     }
     else {
       isPlaying = true
-      playButton.hidden = true
+      playButton.isHidden = true
       player?.play()
     }
   }
@@ -100,13 +100,13 @@ class VideoPlayerView: UIView {
     if let duration = player?.currentItem?.duration {
       let totalSeconds = CMTimeGetSeconds(duration)
       let seekTime = CMTime(value: Int64(Float64(slider.value) * totalSeconds), timescale: 1)
-      player?.seekToTime(seekTime)
+      player?.seek(to: seekTime)
     }
   }
 
   func closeView() {
     player?.pause()
-    UIView.animateWithDuration(1.0, animations: {
+    UIView.animate(withDuration: 1.0, animations: {
       self.alpha = 0
       }, completion: { (result) in
         self.container.removeFromSuperview()
@@ -116,8 +116,8 @@ class VideoPlayerView: UIView {
 
   func setupLoadingControls() {
     addSubview(activityIndicator)
-    activityIndicator.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true
-    activityIndicator.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
+    activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+    activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
   }
 
   func setupPlayingControls() {
@@ -126,41 +126,41 @@ class VideoPlayerView: UIView {
     addSubview(container)
 
     container.addSubview(playButton)
-    playButton.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true
-    playButton.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-    playButton.widthAnchor.constraintEqualToConstant(40).active = true
-    playButton.heightAnchor.constraintEqualToConstant(40).active = true
-    playButton.hidden = true
+    playButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+    playButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    playButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+    playButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    playButton.isHidden = true
 
     container.addSubview(closeButton)
-    closeButton.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true
-    closeButton.topAnchor.constraintEqualToAnchor(topAnchor, constant: 32).active = true
-    closeButton.widthAnchor.constraintEqualToConstant(30).active = true
-    closeButton.heightAnchor.constraintEqualToConstant(30).active = true
+    closeButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+    closeButton.topAnchor.constraint(equalTo: topAnchor, constant: 32).isActive = true
+    closeButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+    closeButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
     container.addSubview(lengthLabel)
-    lengthLabel.rightAnchor.constraintEqualToAnchor(rightAnchor, constant: -8).active = true
-    lengthLabel.bottomAnchor.constraintEqualToAnchor(bottomAnchor, constant: -16).active = true
-    lengthLabel.widthAnchor.constraintEqualToConstant(50).active = true
-    lengthLabel.heightAnchor.constraintEqualToConstant(30).active = true
+    lengthLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8).isActive = true
+    lengthLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16).isActive = true
+    lengthLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
+    lengthLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
     container.addSubview(progressLabel)
-    progressLabel.leftAnchor.constraintEqualToAnchor(leftAnchor, constant: 8).active = true
-    progressLabel.bottomAnchor.constraintEqualToAnchor(lengthLabel.bottomAnchor).active = true
-    progressLabel.widthAnchor.constraintEqualToConstant(50).active = true
-    progressLabel.heightAnchor.constraintEqualToConstant(30).active = true
+    progressLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
+    progressLabel.bottomAnchor.constraint(equalTo: lengthLabel.bottomAnchor).isActive = true
+    progressLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
+    progressLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
     container.addSubview(slider)
-    slider.rightAnchor.constraintEqualToAnchor(lengthLabel.leftAnchor).active = true
-    slider.bottomAnchor.constraintEqualToAnchor(lengthLabel.bottomAnchor).active = true
-    slider.leftAnchor.constraintEqualToAnchor(progressLabel.rightAnchor).active = true
-    slider.heightAnchor.constraintEqualToConstant(30).active = true
+    slider.rightAnchor.constraint(equalTo: lengthLabel.leftAnchor).isActive = true
+    slider.bottomAnchor.constraint(equalTo: lengthLabel.bottomAnchor).isActive = true
+    slider.leftAnchor.constraint(equalTo: progressLabel.rightAnchor).isActive = true
+    slider.heightAnchor.constraint(equalToConstant: 30).isActive = true
   }
 
   func setupProgressControls() {
     isPlaying = true
     let interval = CMTime(seconds: 1.0, preferredTimescale: 1)
-    player?.addPeriodicTimeObserverForInterval(interval, queue: dispatch_get_main_queue()) { time in
+    player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { time in
       let seconds = CMTimeGetSeconds(time)
       let secondsText = String(format: "%02d", Int(seconds) % 60)
       let minutesText = String(format: "%02d", Int(seconds) / 60)
@@ -175,11 +175,11 @@ class VideoPlayerView: UIView {
 
   func reset() {
     isPlaying  = false
-    playButton.hidden = false
+    playButton.isHidden = false
     slider.value = 0
     progressLabel.text = "00:00"
     let seekTime = CMTime(value: 0, timescale: 1)
-    player?.seekToTime(seekTime)
+    player?.seek(to: seekTime)
     player?.pause()
   }
 }

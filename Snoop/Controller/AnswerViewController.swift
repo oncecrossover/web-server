@@ -29,7 +29,7 @@ class AnswerViewController: UIViewController {
   var utilityModule = UIUtility()
 
   deinit {
-    NSNotificationCenter.defaultCenter().removeObserver(self) // app might crash without removing observer
+    NotificationCenter.default.removeObserver(self) // app might crash without removing observer
   }
 }
 
@@ -40,32 +40,32 @@ extension AnswerViewController {
     super.viewDidLoad()
     answerTableView.rowHeight = UITableViewAutomaticDimension
     answerTableView.estimatedRowHeight = 120
-    answerTableView.separatorInset = UIEdgeInsetsZero
+    answerTableView.separatorInset = UIEdgeInsets.zero
     answerTableView.tableFooterView = UIView()
 
     instructionLabel.textColor = UIColor.secondaryTextColor()
 
     answerTableView.reloadData()
     if (cellInfo.status == "PENDING") {
-      cameraImage.userInteractionEnabled = true
+      cameraImage.isUserInteractionEnabled = true
       let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(AnswerViewController.tappedOnImage(_:)))
       cameraImage.addGestureRecognizer(tappedOnImage)
     }
     else {
-      cameraImage.hidden = true
-      instructionLabel.hidden = true
+      cameraImage.isHidden = true
+      instructionLabel.isHidden = true
     }
   }
 }
 
 extension AnswerViewController: UITableViewDataSource, UITableViewDelegate {
 
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return 1
   }
 
-  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let myCell = tableView.dequeueReusableCellWithIdentifier("activityCell", forIndexPath: indexPath) as! ActivityTableViewCell
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let myCell = tableView.dequeueReusableCell(withIdentifier: "activityCell", for: indexPath) as! ActivityTableViewCell
     myCell.rateLabel.text = "$ \(cellInfo.rate)"
 
     myCell.question.text = cellInfo.question
@@ -77,14 +77,14 @@ extension AnswerViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     if let askerAvatarUrl = cellInfo.askerAvatarUrl {
-      myCell.askerImage.sd_setImageWithURL(NSURL(string: askerAvatarUrl))
+      myCell.askerImage.sd_setImage(with: URL(string: askerAvatarUrl))
     }
     else {
       myCell.askerImage.image = UIImage(named: "default")
     }
 
     if let responderAvatarUrl = cellInfo.responderAvatarUrl {
-      myCell.responderImage.sd_setImageWithURL(NSURL(string: responderAvatarUrl))
+      myCell.responderImage.sd_setImage(with: URL(string: responderAvatarUrl))
     }
     else {
       myCell.responderImage.image = UIImage(named: "default")
@@ -104,38 +104,38 @@ extension AnswerViewController: UITableViewDataSource, UITableViewDelegate {
 // Private methods
 extension AnswerViewController {
   func getCacheDirectory() -> String {
-    let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true) 
+    let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
     return paths[0]
   }
 
-  func getFileUrl() -> NSURL {
+  func getFileUrl() -> URL {
     let prefix = getCacheDirectory() as NSString
-    let path = prefix.stringByAppendingPathComponent(fileName)
-    return NSURL(fileURLWithPath: path)
+    let path = prefix.appendingPathComponent(fileName)
+    return URL(fileURLWithPath: path)
   }
 }
 
 // IB Action
 extension AnswerViewController {
 
-  func tappedToWatch(sender: UIGestureRecognizer) {
+  func tappedToWatch(_ sender: UIGestureRecognizer) {
     let questionId = cellInfo.id
     let activityIndicator = utilityModule.createCustomActivityIndicator(self.view, text: "Loading Answer...")
     questionModule.getQuestionMedia(questionId) { audioString in
       if (!audioString.isEmpty) {
-        let data = NSData(base64EncodedString: audioString, options: NSDataBase64DecodingOptions(rawValue: 0))!
-        dispatch_async(dispatch_get_main_queue()) {
+        let data = Data(base64Encoded: audioString, options: NSData.Base64DecodingOptions(rawValue: 0))!
+        DispatchQueue.main.async {
           let dataPath = self.utilityModule.getFileUrl("videoFile.m4a")
-          data.writeToURL(dataPath, atomically: false)
-          activityIndicator.hideAnimated(true)
-          let videoAsset = AVAsset(URL: dataPath)
+          try? data.write(to: dataPath, options: [])
+          activityIndicator.hide(animated: true)
+          let videoAsset = AVAsset(url: dataPath)
           let playerItem = AVPlayerItem(asset: videoAsset)
 
           //Play the video
           let player = AVPlayer(playerItem: playerItem)
           let playerViewController = AVPlayerViewController()
           playerViewController.player = player
-          self.presentViewController(playerViewController, animated: true) {
+          self.present(playerViewController, animated: true) {
             playerViewController.player?.play()
           }
         }
@@ -143,23 +143,23 @@ extension AnswerViewController {
     }
   }
 
-  func tappedOnImage(sender:UIGestureRecognizer) {
-    if (UIImagePickerController.isSourceTypeAvailable(.Camera)) {
+  func tappedOnImage(_ sender:UIGestureRecognizer) {
+    if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
       let imagePicker = UIImagePickerController()
       currentImagePicker = imagePicker
       imagePicker.delegate = self
-      imagePicker.sourceType = .Camera
+      imagePicker.sourceType = .camera
       imagePicker.allowsEditing = false
       imagePicker.mediaTypes = [kUTTypeMovie as String]
       imagePicker.showsCameraControls = false
-      imagePicker.cameraDevice = .Front
-      imagePicker.cameraCaptureMode = .Video
+      imagePicker.cameraDevice = .front
+      imagePicker.cameraCaptureMode = .video
 
       // Initiate custom camera view
       let customCameraView = CustomCameraView(frame: imagePicker.view.frame)
       imagePicker.cameraOverlayView = customCameraView
       customCameraView.delegate = self
-      self.presentViewController(imagePicker, animated: true, completion: {
+      self.present(imagePicker, animated: true, completion: {
         
       })
     }
@@ -174,22 +174,22 @@ extension AnswerViewController: UIImagePickerControllerDelegate, UINavigationCon
 
 
   //Finished recording video
-  func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-    if let pickedVideo:NSURL = (info[UIImagePickerControllerMediaURL] as? NSURL) {
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    if let pickedVideo:URL = (info[UIImagePickerControllerMediaURL] as? URL) {
 
       // Save the video to the app directory so we can play it later
-      let videoData = NSData(contentsOfURL: pickedVideo)
+      let videoData = try? Data(contentsOf: pickedVideo)
       let dataPath = getFileUrl()
-      videoData?.writeToURL(dataPath, atomically: false)
+      try? videoData?.write(to: dataPath, options: [])
     }
   }
 }
 
 // CustomCameraViewDelegate
 extension AnswerViewController: CustomCameraViewDelegate {
-  func didCancel(overlayView:CustomCameraView) {
+  func didCancel(_ overlayView:CustomCameraView) {
     if (overlayView.cancelButton.currentTitle == "cancel") {
-      currentImagePicker?.dismissViewControllerAnimated(true,
+      currentImagePicker?.dismiss(animated: true,
                                                         completion: nil)
     }
     else {
@@ -197,33 +197,33 @@ extension AnswerViewController: CustomCameraViewDelegate {
     }
   }
 
-  func didBack(overlayView: CustomCameraView) {
-    let myAlert = UIAlertController(title: "Warning", message: "recorded video will be discarded", preferredStyle: UIAlertControllerStyle.Alert)
+  func didBack(_ overlayView: CustomCameraView) {
+    let myAlert = UIAlertController(title: "Warning", message: "recorded video will be discarded", preferredStyle: UIAlertControllerStyle.alert)
 
-    let okAction = UIAlertAction(title: "Back", style: UIAlertActionStyle.Destructive) { action in
-      self.currentImagePicker?.dismissViewControllerAnimated(true, completion: nil)
+    let okAction = UIAlertAction(title: "Back", style: UIAlertActionStyle.destructive) { action in
+      self.currentImagePicker?.dismiss(animated: true, completion: nil)
     }
 
-    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
 
     myAlert.addAction(cancelAction)
     myAlert.addAction(okAction)
 
-    self.currentImagePicker?.presentViewController(myAlert, animated: true, completion: nil)
+    self.currentImagePicker?.present(myAlert, animated: true, completion: nil)
   }
 
-  func didNext(overlayView: CustomCameraView) {
+  func didNext(_ overlayView: CustomCameraView) {
     let fileUrl = getFileUrl()
-    let asset = AVURLAsset(URL: fileUrl, options: nil)
+    let asset = AVURLAsset(url: fileUrl, options: nil)
     let duration = asset.duration.value / 1000
     if (duration <= 5) {
-      let myAlert = UIAlertController(title: "Video Too Short", message: "Answer needs to be at least 5 seconds long", preferredStyle: UIAlertControllerStyle.Alert)
+      let myAlert = UIAlertController(title: "Video Too Short", message: "Answer needs to be at least 5 seconds long", preferredStyle: UIAlertControllerStyle.alert)
 
-      let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive, handler: nil)
+      let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.destructive, handler: nil)
 
       myAlert.addAction(okAction)
 
-      currentImagePicker?.presentViewController(myAlert, animated: true, completion: nil)
+      currentImagePicker?.present(myAlert, animated: true, completion: nil)
     }
     else {
 //      let dvc = storyboard?.instantiateViewControllerWithIdentifier("CoverFrameViewController") as! CoverFrameViewController
@@ -233,30 +233,30 @@ extension AnswerViewController: CustomCameraViewDelegate {
     }
   }
 
-  func didShoot(overlayView:CustomCameraView) {
+  func didShoot(_ overlayView:CustomCameraView) {
     if (overlayView.isRecording == false) {
       if ((overlayView.recordButton.currentImage?.isEqual(UIImage(named: "record")))! == true) {
         //start recording answer
         overlayView.isRecording = true
         currentImagePicker?.startVideoCapture()
         overlayView.startTimer()
-        overlayView.recordButton.setImage(UIImage(named: "recording"), forState: .Normal)
-        overlayView.cancelButton.hidden = true
+        overlayView.recordButton.setImage(UIImage(named: "recording"), for: UIControlState())
+        overlayView.cancelButton.isHidden = true
       }
       else {
         let dataPath = getFileUrl()
-        let videoAsset = AVAsset(URL: dataPath)
+        let videoAsset = AVAsset(url: dataPath)
         let playerItem = AVPlayerItem(asset: videoAsset)
 
         //Play the video
         let player = AVPlayer(playerItem: playerItem)
-        player.actionAtItemEnd = AVPlayerActionAtItemEnd.None
+        player.actionAtItemEnd = AVPlayerActionAtItemEnd.none
         let videoLayer = AVPlayerLayer(player: player)
         videoLayer.frame = self.view.bounds;
         videoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
         currentImagePicker?.cameraOverlayView?.layer.addSublayer(videoLayer)
         player.play()
-        NSNotificationCenter.defaultCenter().addObserverForName(AVPlayerItemDidPlayToEndTimeNotification, object: nil, queue: nil) { notification in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { notification in
           // block base observer has retain cycle issue, remember to unregister observer in deinit
           videoLayer.removeFromSuperlayer()
         }
@@ -269,7 +269,7 @@ extension AnswerViewController: CustomCameraViewDelegate {
     }
   }
 
-  func stopRecording(overlayView: CustomCameraView) {
+  func stopRecording(_ overlayView: CustomCameraView) {
     currentImagePicker?.stopVideoCapture()
     overlayView.reset()
   }

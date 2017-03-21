@@ -7,6 +7,30 @@
 //
 
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class EditProfileViewController: UIViewController {
 
@@ -14,27 +38,27 @@ class EditProfileViewController: UIViewController {
 
   lazy var submitButton: UIButton = {
     let button = CustomButton()
-    button.enabled = true
+    button.isEnabled = true
     if (self.isEditingProfile) {
-      button.setTitle("Save", forState: .Normal)
+      button.setTitle("Save", for: UIControlState())
     }
     else {
-      button.setTitle("Apply", forState: .Normal)
+      button.setTitle("Apply", for: UIControlState())
     }
 
-    button.addTarget(self, action: #selector(submitButtonTapped), forControlEvents: .TouchUpInside)
+    button.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
     return button
   }()
 
   var labelColor = UIColor(red: 199/255, green: 199/255, blue: 205/255, alpha: 1.0)
 
-  var profileValues: (name: String!, title: String!, about: String!, avatarImage:  UIImage!, rate: Int!)
+  var profileValues: (name: String?, title: String?, about: String?, avatarImage:  UIImage?, rate: Int?)
 
   lazy var userModule = User()
   lazy var utility = UIUtility()
   lazy var category = Category()
 
-  var contentOffset: CGPoint = CGPointZero
+  var contentOffset: CGPoint = CGPoint.zero
 
   var activeText: UIView?
 
@@ -51,23 +75,23 @@ class EditProfileViewController: UIViewController {
   var selectedExpertise: [ExpertiseModel] = []
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = UIColor.whiteColor()
+    view.backgroundColor = UIColor.white
 
     initView()
 
-    let name = profileValues.name.characters.split{$0 == " "}.map(String.init)
-    profileView.fillValues(profileValues.avatarImage, firstName: name[0], lastName: name[1], title: profileValues.title, about: profileValues.about)
-    profileView.fillRate(profileValues.rate)
+    let name = profileValues.name?.characters.split{$0 == " "}.map(String.init)
+    profileView.fillValues(profileValues.avatarImage!, firstName: name![0], lastName: name![1], title: profileValues.title!, about: profileValues.about!)
+    profileView.fillRate(profileValues.rate!)
 
     setupInputLimits()
 
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditProfileViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditProfileViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(EditProfileViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(EditProfileViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
     navigationController?.delegate = self
   }
 
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     self.contentOffset = profileView.contentOffset
   }
@@ -76,7 +100,7 @@ class EditProfileViewController: UIViewController {
 // Helper in init view
 extension EditProfileViewController {
   func initView() {
-    let frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height - 100)
+    let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height - 100)
     if (self.isEditingProfile && !isSnooper) {
       profileView = EditProfileView(frame: frame, includeExpertise: false, selectedExpertise: selectedExpertise)
     }
@@ -89,61 +113,61 @@ extension EditProfileViewController {
 
     // Setup constraints
     self.view.addConstraintsWithFormat("H:|[v0]|", views: submitButton)
-    submitButton.topAnchor.constraintEqualToAnchor(profileView.bottomAnchor).active = true
+    submitButton.topAnchor.constraint(equalTo: profileView.bottomAnchor).isActive = true
     if let tabBarHeight = self.tabBarController?.tabBar.frame.height {
-      submitButton.bottomAnchor.constraintEqualToAnchor(self.view.bottomAnchor, constant: -tabBarHeight).active = true
+      submitButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -tabBarHeight).isActive = true
     }
     else {
-      submitButton.bottomAnchor.constraintEqualToAnchor(self.view.bottomAnchor, constant: -49).active = true
+      submitButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -49).isActive = true
     }
 
     profileView.about.value.delegate = self
 
-    profileView.changeButton.addTarget(self, action: #selector(uploadButtonTapped), forControlEvents: .TouchUpInside)
+    profileView.changeButton.addTarget(self, action: #selector(uploadButtonTapped), for: .touchUpInside)
   }
 
   func setupInputLimits() {
-    profileView.firstName.value.addTarget(self, action: #selector(handleFirstNameLimit(_:)), forControlEvents: .EditingChanged)
-    profileView.lastName.value.addTarget(self, action: #selector(handleLastNameLimit(_:)), forControlEvents: .EditingChanged)
-    profileView.title.value.addTarget(self, action: #selector(handleTitleLimit(_:)), forControlEvents: .EditingChanged)
+    profileView.firstName.value.addTarget(self, action: #selector(handleFirstNameLimit(_:)), for: .editingChanged)
+    profileView.lastName.value.addTarget(self, action: #selector(handleLastNameLimit(_:)), for: .editingChanged)
+    profileView.title.value.addTarget(self, action: #selector(handleTitleLimit(_:)), for: .editingChanged)
   }
 }
 
 // Helper functions
 extension EditProfileViewController {
-  func handleFirstNameLimit(sender: UITextField) {
-    profileView.firstName.limit.hidden = false
+  func handleFirstNameLimit(_ sender: UITextField) {
+    profileView.firstName.limit.isHidden = false
     let remainder = 20 - sender.text!.characters.count
     profileView.firstName.limit.text = "\(remainder)"
-    profileView.firstName.limit.textColor = remainder < 0 ? UIColor.redColor() : UIColor.defaultColor()
+    profileView.firstName.limit.textColor = remainder < 0 ? UIColor.red : UIColor.defaultColor()
     nameExceeded = remainder < 0
-    submitButton.enabled = !nameExceeded && !titleExceeded && !aboutExceeded
+    submitButton.isEnabled = !nameExceeded && !titleExceeded && !aboutExceeded
   }
 
-  func handleLastNameLimit(sender: UITextField) {
-    profileView.lastName.limit.hidden = false
+  func handleLastNameLimit(_ sender: UITextField) {
+    profileView.lastName.limit.isHidden = false
     let remainder = 20 - sender.text!.characters.count
     profileView.lastName.limit.text = "\(remainder)"
-    profileView.lastName.limit.textColor = remainder < 0 ? UIColor.redColor() : UIColor.defaultColor()
+    profileView.lastName.limit.textColor = remainder < 0 ? UIColor.red : UIColor.defaultColor()
     nameExceeded = remainder < 0
-    submitButton.enabled = !nameExceeded && !titleExceeded && !aboutExceeded
+    submitButton.isEnabled = !nameExceeded && !titleExceeded && !aboutExceeded
   }
 
-  func handleTitleLimit(sender: UITextField) {
-    profileView.title.limit.hidden = false
+  func handleTitleLimit(_ sender: UITextField) {
+    profileView.title.limit.isHidden = false
     let remainder = 30 - sender.text!.characters.count
     profileView.title.limit.text = "\(remainder)"
-    profileView.title.limit.textColor = remainder < 0 ? UIColor.redColor() : UIColor.defaultColor()
+    profileView.title.limit.textColor = remainder < 0 ? UIColor.red : UIColor.defaultColor()
     titleExceeded = remainder < 0
-    submitButton.enabled = !nameExceeded && !titleExceeded && !aboutExceeded
+    submitButton.isEnabled = !nameExceeded && !titleExceeded && !aboutExceeded
   }
 
-  func keyboardWillShow(notification: NSNotification)
+  func keyboardWillShow(_ notification: Notification)
   {
     //Need to calculate keyboard exact size due to Apple suggestions
-    profileView.scrollEnabled = true
-    let info : NSDictionary = notification.userInfo!
-    let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
+    profileView.isScrollEnabled = true
+    let info : NSDictionary = notification.userInfo! as NSDictionary
+    let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
     // We need to add 20 to count for the height of keyboard hint
     let keyboardHeight = keyboardSize!.height + 20
 
@@ -153,25 +177,25 @@ extension EditProfileViewController {
     if let _ = activeText
     {
       // pt is the lower left corner of the rectangular textfield or textview
-      let pt = CGPointMake(activeText!.frame.origin.x, activeText!.frame.origin.y + activeText!.frame.size.height)
-      let ptInProfileView = activeText?.convertPoint(pt, toView: profileView)
+      let pt = CGPoint(x: activeText!.frame.origin.x, y: activeText!.frame.origin.y + activeText!.frame.size.height)
+      let ptInProfileView = activeText?.convert(pt, to: profileView)
 
-      if (!CGRectContainsPoint(aRect, ptInProfileView!))
+      if (!aRect.contains(ptInProfileView!))
       {
         // Compute the exact offset we need to scroll the view up
         let offset = ptInProfileView!.y - (aRect.origin.y + aRect.size.height)
-        profileView.setContentOffset(CGPointMake(0, self.contentOffset.y + offset + 40), animated: true)
+        profileView.setContentOffset(CGPoint(x: 0, y: self.contentOffset.y + offset + 40), animated: true)
       }
     }
   }
 
-  func keyboardWillHide(notification: NSNotification)
+  func keyboardWillHide(_ notification: Notification)
   {
-    profileView.firstName.limit.hidden = true
-    profileView.lastName.limit.hidden = true
-    profileView.title.limit.hidden = true
+    profileView.firstName.limit.isHidden = true
+    profileView.lastName.limit.isHidden = true
+    profileView.title.limit.isHidden = true
     self.view.endEditing(true)
-    profileView.setContentOffset(CGPointMake(0, self.contentOffset.y), animated: true)
+    profileView.setContentOffset(CGPoint(x: 0, y: self.contentOffset.y), animated: true)
   }
 
   func dismissKeyboard() {
@@ -184,38 +208,38 @@ extension EditProfileViewController {
 }
 
 extension EditProfileViewController: UITextViewDelegate {
-  func textViewDidChange(textView: UITextView) {
-    profileView.about.limit.hidden = false
+  func textViewDidChange(_ textView: UITextView) {
+    profileView.about.limit.isHidden = false
     let remainder = 80 - textView.text!.characters.count
     profileView.about.limit.text = "\(remainder)"
-    profileView.about.limit.textColor = remainder < 0 ? UIColor.redColor() : UIColor.defaultColor()
+    profileView.about.limit.textColor = remainder < 0 ? UIColor.red : UIColor.defaultColor()
     aboutExceeded = remainder < 0
-    submitButton.enabled = !nameExceeded && !titleExceeded && !aboutExceeded
+    submitButton.isEnabled = !nameExceeded && !titleExceeded && !aboutExceeded
   }
 
-  func textViewDidBeginEditing(textView: UITextView) {
+  func textViewDidBeginEditing(_ textView: UITextView) {
     if (profileView.about.value.textColor == labelColor) {
       profileView.about.value.text = ""
-      profileView.about.value.textColor = UIColor.blackColor()
+      profileView.about.value.textColor = UIColor.black
     }
   }
 
-  func textViewDidEndEditing(textView: UITextView) {
+  func textViewDidEndEditing(_ textView: UITextView) {
     if (profileView.about.value.text.isEmpty) {
       profileView.about.value.text = placeHolder
       profileView.about.value.textColor = labelColor
     }
 
     activeText = nil
-    profileView.about.limit.hidden = true
+    profileView.about.limit.isHidden = true
   }
 
-  func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+  func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
     activeText = profileView.about.value
     return true
   }
 
-  func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+  func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
     if(text == "\n") {
       textView.resignFirstResponder()
       return false
@@ -238,14 +262,14 @@ extension EditProfileViewController {
         return
       }
 
-      if (profileView.expertise.oldSelectedCategories.count == 0) {
-        utility.displayAlertMessage("Please include at least one of your expertise", title: "Missing I nfo", sender: self)
+      if (profileView.expertise.oldSelectedCategories.count == 0 && profileView.expertise.newSelectedCategories.count == 0) {
+        utility.displayAlertMessage("Please include at least one of your expertise", title: "Missing Info", sender: self)
         return
       }
     }
 
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: text)
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    let uid = UserDefaults.standard.string(forKey: "email")!
     var newRate = 0.0
     if (!profileView.rate.value.text!.isEmpty) {
       newRate = Double(profileView.rate.value.text!)!
@@ -263,8 +287,8 @@ extension EditProfileViewController {
       var message = "Your profile is successfully updated!"
       if (!resultString.isEmpty) {
         message = resultString
-        dispatch_async(dispatch_get_main_queue()) {
-          activityIndicator.hideAnimated(true)
+        DispatchQueue.main.async {
+          activityIndicator.hide(animated: true)
           self.utility.displayAlertMessage(message, title: "Alert", sender: self)
         }
       }
@@ -273,8 +297,8 @@ extension EditProfileViewController {
           // Update a user's expertise areas
           self.category.updateInterests(uid, interests: self.profileView.expertise.populateCategoriesToUpdate()) { result in
             if (!result.isEmpty) {
-              dispatch_async(dispatch_get_main_queue()) {
-                activityIndicator.hideAnimated(true)
+              DispatchQueue.main.async {
+                activityIndicator.hide(animated: true)
                 self.utility.displayAlertMessage("An error occurs. Please apply later", title: "Alert", sender: self)
               }
             }
@@ -283,26 +307,26 @@ extension EditProfileViewController {
                 // The users are applying to be a snooper
                 self.userModule.applyToTakeQuestion(uid) { result in
                   if (!result.isEmpty) {
-                    dispatch_async(dispatch_get_main_queue()) {
-                      activityIndicator.hideAnimated(true)
+                    DispatchQueue.main.async {
+                      activityIndicator.hide(animated: true)
                       self.utility.displayAlertMessage("An error occurs. Please apply later", title: "Alert", sender: self)
                     }
                   }
                   else {
                     // application successfully submitted
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                       self.isProfileUpdated = true
-                      activityIndicator.hideAnimated(true)
-                      self.navigationController?.popViewControllerAnimated(true)
+                      activityIndicator.hide(animated: true)
+                      _ = self.navigationController?.popViewController(animated: true)
                     }
                   }
                 }
               }
               else {
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                   self.isProfileUpdated = true
-                  activityIndicator.hideAnimated(true)
-                  self.navigationController?.popViewControllerAnimated(true)
+                  activityIndicator.hide(animated: true)
+                  _ = self.navigationController?.popViewController(animated: true)
                 }
               }
 
@@ -311,11 +335,11 @@ extension EditProfileViewController {
         }
         else {
           // We use the delay so users can always see the activity indicator showing profile is being updated
-          let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
-          dispatch_after(time, dispatch_get_main_queue()) {
+          let time = DispatchTime.now() + Double(1 * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC)
+          DispatchQueue.main.asyncAfter(deadline: time) {
             self.isProfileUpdated = true
-            activityIndicator.hideAnimated(true)
-            self.navigationController?.popViewControllerAnimated(true)
+            activityIndicator.hide(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
           }
         }
       }
@@ -325,16 +349,16 @@ extension EditProfileViewController {
   func uploadButtonTapped() {
     let myPickerController = UIImagePickerController()
     myPickerController.delegate = self
-    myPickerController.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-    self.presentViewController(myPickerController, animated:  true, completion: nil)
+    myPickerController.sourceType = UIImagePickerControllerSourceType.photoLibrary
+    self.present(myPickerController, animated:  true, completion: nil)
   }
 }
 
 // UIImagePickerDelegate
 extension EditProfileViewController: UIImagePickerControllerDelegate {
-  func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
     profileView.profilePhoto.image = info[UIImagePickerControllerOriginalImage] as? UIImage
-    self.dismissViewControllerAnimated(true, completion: nil)
+    self.dismiss(animated: true, completion: nil)
     uploadImage()
   }
 
@@ -343,33 +367,33 @@ extension EditProfileViewController: UIImagePickerControllerDelegate {
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Uploading Your Photo...")
     var compressionRatio = 1.0
     let photoSize = UIImageJPEGRepresentation(profileView.profilePhoto.image!, 1)
-    if (photoSize?.length > 1000000) {
+    if (photoSize?.count > 1000000) {
       compressionRatio = 0.005
     }
-    else if (photoSize?.length > 500000) {
+    else if (photoSize?.count > 500000) {
       compressionRatio = 0.01
     }
-    else if (photoSize?.length > 100000){
+    else if (photoSize?.count > 100000){
       compressionRatio = 0.05
     }
-    else if (photoSize?.length > 10000) {
+    else if (photoSize?.count > 10000) {
       compressionRatio = 0.2
     }
     let photoData = UIImageJPEGRepresentation(profileView.profilePhoto.image!, CGFloat(compressionRatio))
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    let uid = UserDefaults.standard.string(forKey: "email")!
     userModule.updateProfilePhoto(uid, imageData: photoData){ resultString in
       var message = ""
       if (resultString.isEmpty) {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
           self.isProfileUpdated = true
-          activityIndicator.hideAnimated(true)
-          self.navigationController?.popViewControllerAnimated(true)
+          activityIndicator.hide(animated: true)
+          _ = self.navigationController?.popViewController(animated: true)
         }
       }
       else {
         message = resultString
-        dispatch_async(dispatch_get_main_queue()) {
-          activityIndicator.hideAnimated(true)
+        DispatchQueue.main.async {
+          activityIndicator.hide(animated: true)
           self.utility.displayAlertMessage(message, title: "Alert", sender: self)
         }
       }
@@ -379,7 +403,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate {
 
 // UINavigationControllerDelegate
 extension EditProfileViewController: UINavigationControllerDelegate {
-  func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+  func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
     if let controller = viewController as? ProfileViewController {
       if (isProfileUpdated) {
         controller.initView()

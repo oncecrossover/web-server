@@ -16,10 +16,10 @@ class SettingsViewController: UIViewController {
     table.dataSource = self
     table.delegate = self
     table.rowHeight = 50
-    table.separatorInset = UIEdgeInsetsZero
+    table.separatorInset = UIEdgeInsets.zero
     table.tableFooterView = UIView()
     table.tableHeaderView = UIView()
-    table.registerClass(UITableViewCell.self, forCellReuseIdentifier: self.cellId)
+    table.register(UITableViewCell.self, forCellReuseIdentifier: self.cellId)
     return table
   }()
 
@@ -35,52 +35,52 @@ class SettingsViewController: UIViewController {
     view.addSubview(settingsTable)
 
     // Setup constraints for table
-    settingsTable.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
-    settingsTable.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor).active = true
-    settingsTable.topAnchor.constraintEqualToAnchor(view.topAnchor).active = true
-    settingsTable.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor).active = true
+    settingsTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    settingsTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    settingsTable.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+    settingsTable.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
   }
 
 }
 
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
-  func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     return 40.0
   }
 
-  func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+  func numberOfSections(in tableView: UITableView) -> Int {
     return 2
   }
-  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let myCell = tableView.dequeueReusableCellWithIdentifier(self.cellId)!
-    myCell.selectionStyle = .None
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let myCell = tableView.dequeueReusableCell(withIdentifier: self.cellId)!
+    myCell.selectionStyle = .none
     if (indexPath.section == 0) {
       myCell.textLabel?.text = settings[indexPath.row]
-      myCell.textLabel?.textColor = UIColor.blackColor()
+      myCell.textLabel?.textColor = UIColor.black
     }
     else {
       myCell.textLabel?.textColor = UIColor.defaultColor()
       myCell.textLabel?.text = "Log Out"
     }
 
-    myCell.textLabel?.textAlignment = .Left
-    myCell.accessoryType = .DisclosureIndicator
+    myCell.textLabel?.textAlignment = .left
+    myCell.accessoryType = .disclosureIndicator
     return myCell
   }
 
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if (section == 0) {
       return 3
     }
     return 1
   }
 
-  func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     if (section == 0) {
       let headerView = UILabel()
       headerView.backgroundColor = UIColor(red: 248/255, green: 248/255, blue: 248/255, alpha: 1.0)
       headerView.text = "About"
-      headerView.textAlignment = .Center
+      headerView.textAlignment = .center
       headerView.textColor = UIColor.defaultColor()
       return headerView
     }
@@ -90,7 +90,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     return headerView
   }
 
-  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if (indexPath.section == 0) {
       let title = settings[indexPath.row]
       let dvc = DocumentViewController()
@@ -99,21 +99,21 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
       self.navigationController?.pushViewController(dvc, animated: true)
     }
     else if (indexPath.section == 1) {
-      let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
-      NSUserDefaults.standardUserDefaults().setBool(false, forKey: "isUserLoggedIn")
-      NSUserDefaults.standardUserDefaults().removeObjectForKey("email")
-      NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadHome")
-      NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadDiscover")
-      NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadProfile")
-      NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadQuestions")
-      NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadAnswers")
-      NSUserDefaults.standardUserDefaults().setBool(true, forKey: "shouldLoadSnoops")
-      NSUserDefaults.standardUserDefaults().synchronize()
+      let uid = UserDefaults.standard.string(forKey: "email")!
+      UserDefaults.standard.set(false, forKey: "isUserLoggedIn")
+      UserDefaults.standard.removeObject(forKey: "email")
+      UserDefaults.standard.set(true, forKey: "shouldLoadHome")
+      UserDefaults.standard.set(true, forKey: "shouldLoadDiscover")
+      UserDefaults.standard.set(true, forKey: "shouldLoadProfile")
+      UserDefaults.standard.set(true, forKey: "shouldLoadQuestions")
+      UserDefaults.standard.set(true, forKey: "shouldLoadAnswers")
+      UserDefaults.standard.set(true, forKey: "shouldLoadSnoops")
+      UserDefaults.standard.synchronize()
       let currentNavigationController = self.navigationController
       let currentTabBarController = self.tabBarController
       let vc = UINavigationController(rootViewController: LoginViewController())
-      self.presentViewController(vc, animated: true) {
-        currentNavigationController?.popViewControllerAnimated(false)
+      self.present(vc, animated: true) {
+        _ = currentNavigationController?.popViewController(animated: false)
         currentTabBarController?.selectedIndex = 0
         User().updateDeviceToken(uid, token: "") { result in
         }

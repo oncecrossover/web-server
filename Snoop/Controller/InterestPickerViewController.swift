@@ -26,10 +26,10 @@ class InterestPickerViewController: UIViewController {
 
   let message: UILabel = {
     let label = UILabel()
-    label.font = UIFont.systemFontOfSize(16)
+    label.font = UIFont.systemFont(ofSize: 16)
     label.text = "Choose all your interests"
     label.textColor = UIColor(red: 95/255, green: 95/255, blue: 95/255, alpha: 1.0)
-    label.textAlignment = .Center
+    label.textAlignment = .center
     return label
   }()
 
@@ -38,8 +38,8 @@ class InterestPickerViewController: UIViewController {
     layout.minimumLineSpacing = 20
     layout.minimumInteritemSpacing = 20
     let interests = UICollectionView(frame: .zero, collectionViewLayout: layout)
-    interests.registerClass(InterestCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
-    interests.backgroundColor = UIColor.clearColor()
+    interests.register(InterestCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
+    interests.backgroundColor = UIColor.clear
     interests.allowsMultipleSelection = true
     interests.dataSource = self
     interests.delegate = self
@@ -56,26 +56,26 @@ class InterestPickerViewController: UIViewController {
     let label = UILabel()
     label.text = "Snoop will customize content for you"
     label.textColor = UIColor(red: 95/255, green: 95/255, blue: 95/255, alpha: 1.0)
-    label.textAlignment = .Center
-    label.font = UIFont.systemFontOfSize(14)
+    label.textAlignment = .center
+    label.font = UIFont.systemFont(ofSize: 14)
     return label
   }()
 
   lazy var doneButton: UIButton = {
     let button = CustomButton()
     button.backgroundColor = UIColor.defaultColor()
-    button.setTitle("Done", forState: .Normal)
-    button.setTitle("Done", forState: .Disabled)
-    button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-    button.setTitleColor(UIColor.whiteColor(), forState: .Disabled)
+    button.setTitle("Done", for: UIControlState())
+    button.setTitle("Done", for: .disabled)
+    button.setTitleColor(UIColor.white, for: UIControlState())
+    button.setTitleColor(UIColor.white, for: .disabled)
 
-    button.addTarget(self, action: #selector(doneButtonTapped), forControlEvents: .TouchUpInside)
+    button.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
     return button
   }()
 
   lazy var activityIndicator: UIActivityIndicatorView = {
-    let indicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 40, 40))
-    indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+    let indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+    indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
     indicator.hidesWhenStopped = true
     indicator.translatesAutoresizingMaskIntoConstraints = false
     return indicator
@@ -83,7 +83,7 @@ class InterestPickerViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = UIColor.whiteColor()
+    view.backgroundColor = UIColor.white
 
     loadData()
 
@@ -94,17 +94,17 @@ class InterestPickerViewController: UIViewController {
     view.addSubview(doneButton)
     view.addSubview(activityIndicator)
     activityIndicator.center = view.center
-    doneButton.enabled = false
+    doneButton.isEnabled = false
 
     view.addConstraintsWithFormat("H:|-20-[v0]-20-|", views: message)
     view.addConstraintsWithFormat("H:|[v0]|", views: underline)
     view.addConstraintsWithFormat("H:|-20-[v0]-20-|", views: note)
     view.addConstraintsWithFormat("V:|-80-[v0(20)]-20-[v1]-20-[v2(1)]-10-[v3(20)]-8-[v4(36)]-58-|", views: message, interests, underline, note, doneButton)
-    interests.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-    interests.widthAnchor.constraintEqualToConstant(286).active = true
+    interests.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    interests.widthAnchor.constraint(equalToConstant: 286).isActive = true
 
-    doneButton.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-    doneButton.widthAnchor.constraintEqualToConstant(100).active = true
+    doneButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    doneButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
     doneButton.layer.cornerRadius = 18
     doneButton.clipsToBounds = true
   }
@@ -126,7 +126,7 @@ class InterestPickerViewController: UIViewController {
             self.selectedCategories.insert(InterestModel(_id: mappingId, _catId: catId, _name: name))
           }
 
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             self.interests.reloadData()
             self.activityIndicator.stopAnimating()
             self.populateSelectedCells()
@@ -134,7 +134,7 @@ class InterestPickerViewController: UIViewController {
         }
       }
       else {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
           self.interests.reloadData()
           self.activityIndicator.stopAnimating()
         }
@@ -143,10 +143,10 @@ class InterestPickerViewController: UIViewController {
   }
 
   func populateSelectedCells() {
-    for (index, item) in allCategories.enumerate() {
+    for (index, item) in allCategories.enumerated() {
       for interest in selectedCategories {
         if (item.id == interest.catId) {
-          interests.selectItemAtIndexPath(NSIndexPath(forRow: index, inSection: 0), animated: false, scrollPosition: .None)
+          interests.selectItem(at: IndexPath(row: index, section: 0), animated: false, scrollPosition: UICollectionViewScrollPosition())
         }
       }
     }
@@ -157,22 +157,22 @@ class InterestPickerViewController: UIViewController {
     for category in newSelectedCategories {
       var interest: [String: AnyObject] = [:]
       if let _ = category.id {
-        interest["id"] = category.id
+        interest["id"] = category.id as AnyObject?
       }
 
-      interest["catId"] = category.catId
-      interest["isInterest"] = "Yes"
+      interest["catId"] = category.catId as AnyObject?
+      interest["isInterest"] = "Yes" as AnyObject?
       categoriesToUpdate.append(interest)
     }
 
     for category in deselectedCategories {
       var interest: [String: AnyObject] = [:]
       if let _ = category.id {
-        interest["id"] = category.id
+        interest["id"] = category.id as AnyObject?
       }
 
-      interest["catId"] = category.catId
-      interest["isInterest"] = "No"
+      interest["catId"] = category.catId as AnyObject?
+      interest["isInterest"] = "No" as AnyObject?
       categoriesToUpdate.append(interest)
     }
 
@@ -186,14 +186,14 @@ extension InterestPickerViewController {
     let categoriesToUpdate:[[String: AnyObject]] = populateCategoriesToUpdate()
 
     if (email == nil) {
-      email = NSUserDefaults.standardUserDefaults().stringForKey("email")
+      email = UserDefaults.standard.string(forKey: "email")
     }
 
     category.updateInterests(email!, interests: categoriesToUpdate) { result in
       if (result.isEmpty) {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
           if (self.isProfile) {
-            self.navigationController?.popViewControllerAnimated(true)
+            _ = self.navigationController?.popViewController(animated: true)
           }
           else {
             let vc = TutorialViewController()
@@ -203,7 +203,7 @@ extension InterestPickerViewController {
         }
       }
       else {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
           self.utility.displayAlertMessage("Where is an error saving your interests", title: "Alert", sender: self)
         }
       }
@@ -212,28 +212,28 @@ extension InterestPickerViewController {
 
   func checkButton() {
     if (selectedCategories.count > 0 || newSelectedCategories.count > 0 || deselectedCategories.count > 0) {
-      doneButton.enabled = true
+      doneButton.isEnabled = true
     }
     else {
-      doneButton.enabled = false
+      doneButton.isEnabled = false
     }
   }
 }
 extension InterestPickerViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
 
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-    return CGSizeMake(82, 82)
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    return CGSize(width: 82, height: 82)
   }
 
-  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return allCategories.count
   }
 
-  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    let myCell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellId, forIndexPath: indexPath) as! InterestCollectionViewCell
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellId, for: indexPath) as! InterestCollectionViewCell
     let category = allCategories[indexPath.row]
     let image = UIImage(named: category.name)
-    myCell.icon.image = image?.imageWithRenderingMode(.AlwaysTemplate)
+    myCell.icon.image = image?.withRenderingMode(.alwaysTemplate)
     let interest = InterestModel(_catId: category.id, _name: category.name)
     if (selectedCategories.contains(interest)) {
       myCell.icon.tintColor = UIColor.defaultColor()
@@ -245,7 +245,7 @@ extension InterestPickerViewController: UICollectionViewDelegate, UICollectionVi
     return myCell
   }
 
-  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let category = allCategories[indexPath.row]
     let interest = InterestModel(_catId: category.id, _name: category.name)
     if (deselectedCategories.contains(interest)) {
@@ -257,7 +257,7 @@ extension InterestPickerViewController: UICollectionViewDelegate, UICollectionVi
     checkButton()
   }
 
-  func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+  func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
     let category = allCategories[indexPath.row]
     let interest = InterestModel(_catId: category.id, _name: category.name)
     if (newSelectedCategories.contains(interest)) {

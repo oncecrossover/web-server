@@ -584,13 +584,13 @@
 					4A5B25791D65247700691696 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = 5RFZ63C7NL;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 						TestTargetID = 4AC283621CE2F58100A08D35;
 					};
 					4AC283621CE2F58100A08D35 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = 7LKHJZRS28;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -794,7 +794,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.snoop.SnoopUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = Snoop;
 				USES_XCTRUNNER = YES;
 			};
@@ -807,7 +807,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.snoop.SnoopUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = Snoop;
 				USES_XCTRUNNER = YES;
 			};
@@ -929,7 +929,7 @@
 				PRODUCT_NAME = Snoop;
 				SWIFT_OBJC_BRIDGING_HEADER = "Snoop/Snoop-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -953,7 +953,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.snoop.Snoop;
 				PRODUCT_NAME = Snoop;
 				SWIFT_OBJC_BRIDGING_HEADER = "Snoop/Snoop-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

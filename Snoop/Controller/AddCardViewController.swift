@@ -18,60 +18,60 @@ class AddCardViewController: UIViewController, STPPaymentCardTextFieldDelegate {
 
   lazy var saveButton: CustomButton = {
     let button = CustomButton()
-    button.enabled = false
-    button.setTitle("Save", forState: .Normal)
-    button.setTitle("Save", forState: .Disabled)
+    button.isEnabled = false
+    button.setTitle("Save", for: UIControlState())
+    button.setTitle("Save", for: .disabled)
     button.translatesAutoresizingMaskIntoConstraints = false
-    button.addTarget(self, action: #selector(AddCardViewController.saveButtonTapped(_:)), forControlEvents: .TouchUpInside)
+    button.addTarget(self, action: #selector(AddCardViewController.saveButtonTapped(_:)), for: .touchUpInside)
     return button
   }()
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    view.backgroundColor = UIColor.whiteColor()
+    view.backgroundColor = UIColor.white
 
-    stripeView = STPPaymentCardTextField(frame: CGRectMake((self.view.frame.width - 300)/2, 100, 300, 60))
+    stripeView = STPPaymentCardTextField(frame: CGRect(x: (self.view.frame.width - 300)/2, y: 100, width: 300, height: 60))
     stripeView.delegate = self
     view.addSubview(stripeView)
     view.addSubview(saveButton)
 
     // button constraints
     let height = self.tabBarController?.tabBar.frame.height
-    saveButton.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
-    saveButton.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-    saveButton.heightAnchor.constraintEqualToConstant(40).active = true
-    saveButton.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -height!).active = true
+    saveButton.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+    saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    saveButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -height!).isActive = true
 
     self.navigationItem.rightBarButtonItem = nil
 
   }
 
-  func saveButtonTapped(sender: AnyObject) {
+  func saveButtonTapped(_ sender: AnyObject) {
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Adding New Card...")
 
     let client = STPAPIClient.init(publishableKey: "pk_test_wyZIIuEmr4TQLHVnZHUxlTtm")
-    client.createTokenWithCard(card) { token, error in
+    client.createToken(withCard: card) { token, error in
       if (error != nil) {
-        print(error)
-        dispatch_async(dispatch_get_main_queue()) {
-          activityIndicator.hideAnimated(true)
+        print(error!)
+        DispatchQueue.main.async {
+          activityIndicator.hide(animated: true)
         }
       }
       else {
         self.paymentModule.createPayment(token?.tokenId) { result in
           if (!result.isEmpty) {
             print("error is \(result)")
-            dispatch_async(dispatch_get_main_queue()) {
-              activityIndicator.hideAnimated(true)
+            DispatchQueue.main.async {
+              activityIndicator.hide(animated: true)
               self.utility.displayAlertMessage("Please try again later", title: "Failed to Add your card", sender: self)
             }
           }
           else {
-            dispatch_async(dispatch_get_main_queue()) {
-              self.saveButton.enabled = false
-              activityIndicator.hideAnimated(true)
-              self.navigationController?.popViewControllerAnimated(true)
+            DispatchQueue.main.async {
+              self.saveButton.isEnabled = false
+              activityIndicator.hide(animated: true)
+              _ = self.navigationController?.popViewController(animated: true)
             }
           }
         }
@@ -80,13 +80,13 @@ class AddCardViewController: UIViewController, STPPaymentCardTextFieldDelegate {
     }
   }
 
-  func paymentCardTextFieldDidChange(textField: STPPaymentCardTextField) {
+  func paymentCardTextFieldDidChange(_ textField: STPPaymentCardTextField) {
     if (textField.isValid) {
       self.card.number = textField.cardNumber;
       self.card.expMonth = textField.expirationMonth;
       self.card.expYear = textField.expirationYear;
       self.card.cvc = textField.cvc;
-      saveButton.enabled = true
+      saveButton.isEnabled = true
       stripeView.resignFirstResponder()
     }
   }

@@ -14,14 +14,14 @@ class LoginView: UIView {
     email.awakeFromNib()
     email.translatesAutoresizingMaskIntoConstraints = false
     email.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 1.0)
-    email.textAlignment = .Left
+    email.textAlignment = .left
     email.placeholder = "Your Email"
-    email.font = UIFont.systemFontOfSize(16)
-    email.borderStyle = .None
-    email.clearButtonMode = .WhileEditing
-    email.keyboardType = .EmailAddress
-    email.autocapitalizationType = .None
-    email.autocorrectionType = .No
+    email.font = UIFont.systemFont(ofSize: 16)
+    email.borderStyle = .none
+    email.clearButtonMode = .whileEditing
+    email.keyboardType = .emailAddress
+    email.autocapitalizationType = .none
+    email.autocorrectionType = .no
     return email
   }()
 
@@ -37,13 +37,13 @@ class LoginView: UIView {
     password.awakeFromNib()
     password.translatesAutoresizingMaskIntoConstraints = false
     password.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 1.0)
-    password.textAlignment = .Left
-    password.font = UIFont.systemFontOfSize(16)
+    password.textAlignment = .left
+    password.font = UIFont.systemFont(ofSize: 16)
     password.placeholder = "Password"
-    password.secureTextEntry = true
-    password.borderStyle = .None
-    password.clearButtonMode = .WhileEditing
-    password.autocapitalizationType = .None
+    password.isSecureTextEntry = true
+    password.borderStyle = .none
+    password.clearButtonMode = .whileEditing
+    password.autocapitalizationType = .none
     return password
   }()
 

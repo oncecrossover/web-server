@@ -15,43 +15,43 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
   var pageImages = ["page1", "page2", "page3", "page4", "page5", "page6"]
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = UIColor.whiteColor()
+    view.backgroundColor = UIColor.white
     setupNavbar()
 
-    pageViewController = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
+    pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     pageViewController.dataSource = self
     let startVC = pageViewControllerAtIndex(0)
     let viewControllers:[UIViewController] = [startVC]
-    pageViewController.setViewControllers(viewControllers, direction: .Forward, animated: true, completion: nil)
+    pageViewController.setViewControllers(viewControllers, direction: .forward, animated: true, completion: nil)
 
-    pageViewController.view.frame = CGRectMake(25, 100, self.view.frame.width - 50, self.view.frame.height - 100)
+    pageViewController.view.frame = CGRect(x: 25, y: 100, width: self.view.frame.width - 50, height: self.view.frame.height - 100)
 
     self.addChildViewController(pageViewController)
     self.view.addSubview(pageViewController.view)
-    pageViewController.didMoveToParentViewController(self)
+    pageViewController.didMove(toParentViewController: self)
   }
 
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    let application = UIApplication.sharedApplication()
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let application = UIApplication.shared
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     appDelegate.registerForPushNotifications(application)
   }
 
   func setupNavbar() {
     // Creating right bar button
-    let navbar = UINavigationBar(frame: CGRectMake(0, 0,
-      UIScreen.mainScreen().bounds.size.width, 60));
-    navbar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
-    navbar.backgroundColor = UIColor.whiteColor()
-    navbar.titleTextAttributes = [ NSForegroundColorAttributeName:UIColor.blackColor()]
+    let navbar = UINavigationBar(frame: CGRect(x: 0, y: 0,
+      width: UIScreen.main.bounds.size.width, height: 60));
+    navbar.setBackgroundImage(UIImage(), for: .default)
+    navbar.backgroundColor = UIColor.white
+    navbar.titleTextAttributes = [ NSForegroundColorAttributeName:UIColor.black]
     self.view.addSubview(navbar)
 
     let navItem = UINavigationItem(title: "Tutorial")
-    let skipButton = UIButton(type: .Custom)
-    skipButton.setTitle("Skip", forState: .Normal)
-    skipButton.setTitleColor(UIColor.defaultColor(), forState: .Normal)
-    skipButton.addTarget(self, action: #selector(skipButtonTapped), forControlEvents: .TouchUpInside)
+    let skipButton = UIButton(type: .custom)
+    skipButton.setTitle("Skip", for: UIControlState())
+    skipButton.setTitleColor(UIColor.defaultColor(), for: UIControlState())
+    skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
     skipButton.frame = CGRect(x: 0, y: 0, width: 60, height: 20)
     let rightBarItem = UIBarButtonItem(customView: skipButton)
     navItem.rightBarButtonItem = rightBarItem
@@ -60,22 +60,22 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
   }
 
   func skipButtonTapped() {
-    NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isUserLoggedIn")
-    NSUserDefaults.standardUserDefaults().setObject(email, forKey: "email")
-    NSUserDefaults.standardUserDefaults().synchronize()
-    if let deviceToken = NSUserDefaults.standardUserDefaults().stringForKey("deviceToken") {
+    UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
+    UserDefaults.standard.set(email, forKey: "email")
+    UserDefaults.standard.synchronize()
+    if let deviceToken = UserDefaults.standard.string(forKey: "deviceToken") {
       let userModule = User()
       userModule.updateDeviceToken(email, token: deviceToken) { result in
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
       }
     }
     else {
-      self.dismissViewControllerAnimated(true, completion: nil)
+      self.dismiss(animated: true, completion: nil)
     }
 
   }
 
-  func pageViewControllerAtIndex(index: Int!) -> ContentViewController {
+  func pageViewControllerAtIndex(_ index: Int!) -> ContentViewController {
     if (pageImages.count == 0 || index >= pageImages.count) {
       return ContentViewController()
     }
@@ -85,7 +85,7 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
     return vc
   }
 
-  func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+  func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
     let vc = viewController as! ContentViewController
     var index = vc.pageIndex as Int
 
@@ -98,7 +98,7 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
     return self.pageViewControllerAtIndex(index)
   }
 
-  func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+  func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
     let vc = viewController as! ContentViewController
     var index = vc.pageIndex as Int
 
@@ -115,11 +115,11 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
     return self.pageViewControllerAtIndex(index)
   }
 
-  func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
+  func presentationCount(for pageViewController: UIPageViewController) -> Int {
     return pageImages.count
   }
 
-  func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
+  func presentationIndex(for pageViewController: UIPageViewController) -> Int {
     return 0
   }
 

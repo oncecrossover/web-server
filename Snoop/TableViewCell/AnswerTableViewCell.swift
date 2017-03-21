@@ -24,21 +24,21 @@ class AnswerTableViewCell: UITableViewCell {
     initConfig()
   }
 
-  override func setSelected(selected: Bool, animated: Bool) {
+  override func setSelected(_ selected: Bool, animated: Bool) {
     super.setSelected(selected, animated: animated)
 
     // Configure the view for the selected state
   }
 
   func initConfig(){
-    question.font = question.font.fontWithSize(16.5)
+    question.font = question.font.withSize(16.5)
 
-    askerName.font = askerName.font.fontWithSize(14.5)
-    askerName.textColor = UIColor.grayColor()
+    askerName.font = askerName.font.withSize(14.5)
+    askerName.textColor = UIColor.gray
 
-    status.font = status.font.fontWithSize(14)
-    rateLabel.font = rateLabel.font.fontWithSize(12)
-    expiration.font = expiration.font.fontWithSize(13)
+    status.font = status.font.withSize(14)
+    rateLabel.font = rateLabel.font.withSize(12)
+    expiration.font = expiration.font.withSize(13)
   }
 
 }

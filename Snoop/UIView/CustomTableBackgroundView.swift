@@ -9,7 +9,7 @@
 import UIKit
 
 protocol CustomTableBackgroundViewDelegate {
-  func didTapButton(index: Int)
+  func didTapButton(_ index: Int)
 }
 
 class CustomTableBackgroundView: UIView {
@@ -17,10 +17,10 @@ class CustomTableBackgroundView: UIView {
 
   let label: UILabel = {
     let label = UILabel()
-    label.textAlignment = .Center
-    label.lineBreakMode = .ByWordWrapping
+    label.textAlignment = .center
+    label.lineBreakMode = .byWordWrapping
     label.numberOfLines = 0
-    label.font = UIFont.systemFontOfSize(14)
+    label.font = UIFont.systemFont(ofSize: 14)
     label.textColor = UIColor(red: 140/255, green: 157/255, blue: 170/255, alpha: 1.0)
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
@@ -29,16 +29,16 @@ class CustomTableBackgroundView: UIView {
   lazy var button: UIButton = {
     let button = UIButton()
     button.layer.cornerRadius = 4
-    button.addTarget(self, action: #selector(switchPage), forControlEvents: .TouchUpInside)
+    button.addTarget(self, action: #selector(switchPage), for: .touchUpInside)
     button.translatesAutoresizingMaskIntoConstraints = false
     return button
   }()
 
-  func setButtonImage(image: UIImage) {
-    button.setImage(image, forState: .Normal)
+  func setButtonImage(_ image: UIImage) {
+    button.setImage(image, for: UIControlState())
   }
 
-  func setLabelText(text: String) {
+  func setLabelText(_ text: String) {
     label.text = text
   }
 
@@ -58,15 +58,15 @@ class CustomTableBackgroundView: UIView {
 
   override init(frame: CGRect) {
     super.init(frame: frame)
-    backgroundColor = UIColor.whiteColor()
+    backgroundColor = UIColor.white
     addSubview(label)
     addSubview(button)
     addConstraintsWithFormat("H:|[v0]|", views: label)
     addConstraintsWithFormat("H:|[v0]|", views: button)
-    label.heightAnchor.constraintEqualToConstant(40).active = true
-    button.heightAnchor.constraintEqualToConstant(40).active = true
-    label.bottomAnchor.constraintEqualToAnchor(button.topAnchor, constant: -10).active = true
-    label.centerYAnchor.constraintEqualToAnchor(centerYAnchor, constant: -25).active = true
+    label.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    button.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    label.bottomAnchor.constraint(equalTo: button.topAnchor, constant: -10).isActive = true
+    label.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -25).isActive = true
   }
 
   required init?(coder aDecoder: NSCoder) {

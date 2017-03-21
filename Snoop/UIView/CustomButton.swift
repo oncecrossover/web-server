@@ -9,9 +9,9 @@
 import UIKit
 
 class CustomButton: UIButton {
-  override var enabled : Bool {
+  override var isEnabled : Bool {
     didSet {
-      backgroundColor = enabled ? UIColor.defaultColor() : UIColor.disabledColor()
+      backgroundColor = isEnabled ? UIColor.defaultColor() : UIColor.disabledColor()
     }
   }
 

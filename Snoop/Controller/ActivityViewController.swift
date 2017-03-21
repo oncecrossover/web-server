@@ -42,7 +42,7 @@ class ActivityViewController: UIViewController {
   }()
 
   deinit {
-    NSNotificationCenter.defaultCenter().removeObserver(self) // app might crash without removing observer
+    NotificationCenter.default.removeObserver(self) // app might crash without removing observer
   }
 }
 
@@ -56,19 +56,19 @@ extension ActivityViewController {
     activityTableView.tableHeaderView = UIView()
     activityTableView.tableFooterView = UIView()
 
-    refreshControl.addTarget(self, action: #selector(ActivityViewController.refresh(_:)), forControlEvents: .ValueChanged)
+    refreshControl.addTarget(self, action: #selector(ActivityViewController.refresh(_:)), for: .valueChanged)
     activityTableView.addSubview(refreshControl)
     controlBar.delegate = self
 
     setupSegmentedControl()
   }
 
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     loadIndex(selectedIndex)
   }
 
-  override func viewWillDisappear(animated: Bool) {
+  override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     activePlayerView?.closeView()
   }
@@ -76,13 +76,13 @@ extension ActivityViewController {
 
 //segmentedControlDelegate
 extension ActivityViewController: SegmentedControlDelegate {
-  func loadIndex(index: Int) {
+  func loadIndex(_ index: Int) {
     selectedIndex = index
     if (index == 0) {
-      if (NSUserDefaults.standardUserDefaults().objectForKey("shouldLoadQuestions") == nil
-        || NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadQuestions") == true) {
-        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadQuestions")
-        NSUserDefaults.standardUserDefaults().synchronize()
+      if (UserDefaults.standard.object(forKey: "shouldLoadQuestions") == nil
+        || UserDefaults.standard.bool(forKey: "shouldLoadQuestions") == true) {
+        UserDefaults.standard.set(false, forKey: "shouldLoadQuestions")
+        UserDefaults.standard.synchronize()
         loadIndexWithRefresh(index)
       }
       else {
@@ -95,10 +95,10 @@ extension ActivityViewController: SegmentedControlDelegate {
       }
     }
     else if (index == 1) {
-      if (NSUserDefaults.standardUserDefaults().objectForKey("shouldLoadAnswers") == nil
-        || NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadAnswers") == true) {
-        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadAnswers")
-        NSUserDefaults.standardUserDefaults().synchronize()
+      if (UserDefaults.standard.object(forKey: "shouldLoadAnswers") == nil
+        || UserDefaults.standard.bool(forKey: "shouldLoadAnswers") == true) {
+        UserDefaults.standard.set(false, forKey: "shouldLoadAnswers")
+        UserDefaults.standard.synchronize()
         loadIndexWithRefresh(index)
       }
       else {
@@ -111,10 +111,10 @@ extension ActivityViewController: SegmentedControlDelegate {
       }
     }
     else {
-      if (NSUserDefaults.standardUserDefaults().objectForKey("shouldLoadSnoops") == nil
-        || NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadSnoops") == true) {
-        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadSnoops")
-        NSUserDefaults.standardUserDefaults().synchronize()
+      if (UserDefaults.standard.object(forKey: "shouldLoadSnoops") == nil
+        || UserDefaults.standard.bool(forKey: "shouldLoadSnoops") == true) {
+        UserDefaults.standard.set(false, forKey: "shouldLoadSnoops")
+        UserDefaults.standard.synchronize()
         loadIndexWithRefresh(index)
       }
       else {
@@ -128,9 +128,9 @@ extension ActivityViewController: SegmentedControlDelegate {
     }
   }
 
-  func loadIndexWithRefresh(index: Int) {
-    activityTableView.userInteractionEnabled = false
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+  func loadIndexWithRefresh(_ index: Int) {
+    activityTableView.isUserInteractionEnabled = false
+    let uid = UserDefaults.standard.string(forKey: "email")!
     if (index == 0) {
       tmpQuestions = []
       loadDataWithFilter("asker='" + uid + "'")
@@ -149,26 +149,26 @@ extension ActivityViewController: SegmentedControlDelegate {
 // Private function
 extension ActivityViewController {
 
-  func refresh(sender: AnyObject) {
+  func refresh(_ sender: AnyObject) {
     activePlayerView?.closeView()
     loadIndexWithRefresh(selectedIndex)
   }
 
   func setupSegmentedControl() {
-    self.segmentedControl.hidden = true
+    self.segmentedControl.isHidden = true
     view.addSubview(controlBar)
 
     // set up constraint
     let navigationBarHeight = self.navigationController?.navigationBar.frame.height
-    let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
+    let statusBarHeight = UIApplication.shared.statusBarFrame.height
     let topMargin = navigationBarHeight! + statusBarHeight
-    controlBar.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-    controlBar.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
-    controlBar.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: topMargin).active = true
-    controlBar.bottomAnchor.constraintEqualToAnchor(activityTableView.topAnchor).active = true
+    controlBar.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    controlBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    controlBar.topAnchor.constraint(equalTo: view.topAnchor, constant: topMargin).isActive = true
+    controlBar.bottomAnchor.constraint(equalTo: activityTableView.topAnchor).isActive = true
   }
 
-  func createActitivyModel(questionInfo: [String:AnyObject], isSnoop: Bool) -> ActivityModel{
+  func createActitivyModel(_ questionInfo: [String:AnyObject], isSnoop: Bool) -> ActivityModel{
     var questionId = questionInfo["id"] as! Int
     if (isSnoop) {
       questionId = questionInfo["quandaId"] as! Int
@@ -196,21 +196,21 @@ extension ActivityViewController {
     return ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _duration: duration, _askerName: askerName, _responderName: responderName, _responderTitle: responderTitle, _answerCoverUrl: answerCoverUrl, _askerAvatarUrl: askerAvatarUrl, _responderAvatarUrl: responderAvatarUrl, _answerUrl: answerUrl, _lastSeenTime: createdTime)
   }
 
-  func setPlaceholderImages(cell: ActivityTableViewCell) {
-    cell.coverImage.userInteractionEnabled = false
+  func setPlaceholderImages(_ cell: ActivityTableViewCell) {
+    cell.coverImage.isUserInteractionEnabled = false
     cell.coverImage.image = UIImage()
     cell.askerImage.image = UIImage()
     cell.responderImage.image = UIImage()
   }
 
-  func loadDataWithFilter(filterString: String) {
-    let indicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 40, 40))
-    indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+  func loadDataWithFilter(_ filterString: String) {
+    let indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+    indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
     indicator.center = self.view.center
     self.view.addSubview(indicator)
 
     indicator.startAnimating()
-    indicator.backgroundColor = UIColor.whiteColor()
+    indicator.backgroundColor = UIColor.white
     activityTableView.backgroundView = nil
     questionModule.getActivities(filterString, selectedIndex: selectedIndex) { jsonArray in
       for activityInfo in jsonArray as! [[String:AnyObject]] {
@@ -226,7 +226,7 @@ extension ActivityViewController {
         }
       }
 
-      dispatch_async(dispatch_get_main_queue()) {
+      DispatchQueue.main.async {
         if (self.selectedIndex == 0) {
           self.questions = self.tmpQuestions
         }
@@ -237,13 +237,13 @@ extension ActivityViewController {
           self.snoops = self.tmpSnoops
         }
 
-        if (jsonArray.count > 0 || !filterString.containsString("lastSeenId")) {
+        if (jsonArray.count > 0 || !filterString.contains("lastSeenId")) {
           self.activityTableView.reloadData()
         }
 
         indicator.stopAnimating()
         indicator.hidesWhenStopped = true
-        self.activityTableView.userInteractionEnabled = true
+        self.activityTableView.isUserInteractionEnabled = true
         self.refreshControl.endRefreshing()
         self.tabBarController?.tabBar.items?[2].badgeValue = nil
       }
@@ -255,11 +255,11 @@ extension ActivityViewController {
 // delegate
 extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, CustomTableBackgroundViewDelegate {
 
-  func didTapButton(index: Int) {
+  func didTapButton(_ index: Int) {
     self.tabBarController?.selectedIndex = index
   }
 
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if (selectedIndex == 0) {
       return self.questions.count
     }
@@ -272,11 +272,11 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
     return 0
   }
 
-  func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    let frame = CGRectMake(0, 0, activityTableView.frame.width, activityTableView.frame.height)
+  func numberOfSections(in tableView: UITableView) -> Int {
+    let frame = CGRect(x: 0, y: 0, width: activityTableView.frame.width, height: activityTableView.frame.height)
     let backgroundView = CustomTableBackgroundView(frame: frame)
     self.activityTableView.backgroundView = nil
-    self.activityTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+    self.activityTableView.separatorStyle = UITableViewCellSeparatorStyle.singleLine
 
     if (selectedIndex == 0) {
       if (questions.count == 0) {
@@ -306,19 +306,19 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
       }
     }
 
-    activityTableView.separatorStyle = UITableViewCellSeparatorStyle.None
+    activityTableView.separatorStyle = UITableViewCellSeparatorStyle.none
     backgroundView.delegate = self
     activityTableView.backgroundView = backgroundView
     return 0
   }
 
-  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let myCell = tableView.dequeueReusableCellWithIdentifier("activityCell", forIndexPath: indexPath)
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let myCell = tableView.dequeueReusableCell(withIdentifier: "activityCell", for: indexPath)
       as! ActivityTableViewCell
 
-    myCell.userInteractionEnabled = false
+    myCell.isUserInteractionEnabled = false
     var arrayCount = 0
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    let uid = UserDefaults.standard.string(forKey: "email")!
     var filterString = "&limit=10"
     let cellInfo: ActivityModel
     if (selectedIndex == 0) {
@@ -349,14 +349,14 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
     setPlaceholderImages(myCell)
 
     if let askerAvatarUrl = cellInfo.askerAvatarUrl {
-      myCell.askerImage.sd_setImageWithURL(NSURL(string: askerAvatarUrl))
+      myCell.askerImage.sd_setImage(with: URL(string: askerAvatarUrl))
     }
     else {
       myCell.askerImage.image = UIImage(named: "default")
     }
 
     if let responderAvatarUrl = cellInfo.responderAvatarUrl {
-      myCell.responderImage.sd_setImageWithURL(NSURL(string: responderAvatarUrl))
+      myCell.responderImage.sd_setImage(with: URL(string: responderAvatarUrl))
     }
     else {
       myCell.responderImage.image = UIImage(named: "default")
@@ -365,25 +365,25 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
     if (cellInfo.status == "PENDING") {
       myCell.coverImage.image = UIImage()
       myCell.coverImage.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1.0)
-      myCell.coverImage.userInteractionEnabled = false
-      myCell.durationLabel.hidden = true
+      myCell.coverImage.isUserInteractionEnabled = false
+      myCell.durationLabel.isHidden = true
     }
     else if (cellInfo.status == "ANSWERED") {
       if let coverImageUrl = cellInfo.answerCoverUrl {
-        myCell.coverImage.sd_setImageWithURL(NSURL(string: coverImageUrl))
-        myCell.coverImage.userInteractionEnabled = true
+        myCell.coverImage.sd_setImage(with: URL(string: coverImageUrl))
+        myCell.coverImage.isUserInteractionEnabled = true
         let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnImage(_:)))
         myCell.coverImage.addGestureRecognizer(tappedOnImage)
 
         myCell.durationLabel.text = "00:\(cellInfo.duration)"
-        myCell.durationLabel.hidden = false
+        myCell.durationLabel.isHidden = false
       }
       else {
-        myCell.coverImage.userInteractionEnabled = false
+        myCell.coverImage.isUserInteractionEnabled = false
       }
     }
 
-    myCell.userInteractionEnabled = true
+    myCell.isUserInteractionEnabled = true
 
     if (indexPath.row == arrayCount - 1) {
       loadDataWithFilter(filterString)
@@ -392,11 +392,11 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
     return myCell
   }
 
-  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if (selectedIndex == 1) {
       let cell = answers[indexPath.row]
       if (cell.status == "PENDING") {
-        self.performSegueWithIdentifier("segueFromActivityToAnswer", sender: indexPath)
+        self.performSegue(withIdentifier: "segueFromActivityToAnswer", sender: indexPath)
       }
     }
   }
@@ -405,20 +405,20 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
 
 // UI triggered actions
 extension ActivityViewController {
-  func tappedOnImage(sender:UIGestureRecognizer) {
-    let tapLocation = sender.locationInView(self.activityTableView)
+  func tappedOnImage(_ sender:UIGestureRecognizer) {
+    let tapLocation = sender.location(in: self.activityTableView)
 
     //using the tapLocation, we retrieve the corresponding indexPath
-    let indexPath = self.activityTableView.indexPathForRowAtPoint(tapLocation)!
+    let indexPath = self.activityTableView.indexPathForRow(at: tapLocation)!
     let videoPlayerView = VideoPlayerView()
-    let bounds = UIScreen.mainScreen().bounds
+    let bounds = UIScreen.main.bounds
 
     let oldFrame = CGRect(x: 0, y: bounds.size.height, width: bounds.size.width, height: 0)
     videoPlayerView.frame = oldFrame
     let newFrame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
     self.tabBarController?.view.addSubview(videoPlayerView)
     activePlayerView = videoPlayerView
-    UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseOut, animations: {
+    UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
       videoPlayerView.frame = newFrame
       videoPlayerView.setupLoadingControls()
 
@@ -437,7 +437,7 @@ extension ActivityViewController {
     }
 
     let answerUrl = questionInfo.answerUrl!
-    let player = AVPlayer(URL: NSURL(string: answerUrl)!)
+    let player = AVPlayer(url: URL(string: answerUrl)!)
     videoPlayerView.player = player
     let playerLayer = AVPlayerLayer(player: player)
     playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
@@ -451,16 +451,16 @@ extension ActivityViewController {
     videoPlayerView.setupProgressControls()
 
     player.play()
-    NSNotificationCenter.defaultCenter().addObserverForName(AVPlayerItemDidPlayToEndTimeNotification, object: nil, queue: nil) { notification in
+    NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { notification in
       // block base observer has retain cycle issue, remember to unregister observer in deinit
       videoPlayerView.reset()
     }
   }
 
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if (segue.identifier == "segueFromActivityToAnswer") {
-      let indexPath = sender as! NSIndexPath
-      let dvc = segue.destinationViewController as! AnswerViewController;
+      let indexPath = sender as! IndexPath
+      let dvc = segue.destination as! AnswerViewController;
       let questionInfo = answers[indexPath.row]
       dvc.cellInfo = questionInfo
     }

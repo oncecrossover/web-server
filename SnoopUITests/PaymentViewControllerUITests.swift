@@ -41,7 +41,7 @@ class PaymentViewControllerUITests: XCTestCase {
       let moreNumbersKey = app.keys["more, numbers"]
       moreNumbersKey.tap()
       passwordSecureTextField.typeText("1234")
-      app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).element.childrenMatchingType(.Other).element.tap()
+      app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.tap()
       app.buttons["Log In"].tap()
       app.tabBars.buttons["Me"].tap()
       app.buttons["Manage Payment"].tap()

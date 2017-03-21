@@ -14,7 +14,7 @@ class ConfirmationViewController: UIViewController {
   @IBOutlet weak var confirmationButton: UIButton!
   override func viewDidLoad() {
     super.viewDidLoad()
-    confirmationButton.enabled = true
+    confirmationButton.isEnabled = true
     message.textColor = UIColor.secondaryTextColor()
   }
 }

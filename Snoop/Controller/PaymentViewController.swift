@@ -22,7 +22,7 @@ class PaymentViewController: UIViewController {
     table.delegate = self
     table.dataSource = self
     table.rowHeight = 40
-    table.registerClass(paymentTableViewCell.self, forCellReuseIdentifier: self.cellId)
+    table.register(paymentTableViewCell.self, forCellReuseIdentifier: self.cellId)
     return table
   }()
 
@@ -40,13 +40,13 @@ extension PaymentViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = UIColor.clearColor()
+    view.backgroundColor = UIColor.clear
     self.navigationItem.title = "Payment"
     setupTableView()
     setupActivityIndicator()
   }
 
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     loadAccountInfo()
   }
@@ -54,31 +54,31 @@ extension PaymentViewController {
   func setupTableView() {
     paymentTableView.tableFooterView = UIView()
     paymentTableView.tableHeaderView = UIView()
-    paymentTableView.separatorInset = UIEdgeInsetsZero
+    paymentTableView.separatorInset = UIEdgeInsets.zero
 
     self.view.addSubview(paymentTableView)
 
     //Set up constraints
-    paymentTableView.topAnchor.constraintEqualToAnchor(view.topAnchor).active = true
-    paymentTableView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
-    paymentTableView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor).active = true
-    paymentTableView.heightAnchor.constraintEqualToConstant(view.frame.height).active = true
+    paymentTableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+    paymentTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    paymentTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    paymentTableView.heightAnchor.constraint(equalToConstant: view.frame.height).isActive = true
 
   }
 
   func setupActivityIndicator() {
     self.view.addSubview(activityIndicator)
-    activityIndicator.centerXAnchor.constraintEqualToAnchor(paymentTableView.centerXAnchor).active = true
-    activityIndicator.topAnchor.constraintEqualToAnchor(paymentTableView.topAnchor, constant: 100).active = true
+    activityIndicator.centerXAnchor.constraint(equalTo: paymentTableView.centerXAnchor).isActive = true
+    activityIndicator.topAnchor.constraint(equalTo: paymentTableView.topAnchor, constant: 100).isActive = true
   }
 }
 
 //Private methods to load data
 extension PaymentViewController {
-  private func loadAccountInfo() {
-    self.paymentTableView.userInteractionEnabled = false
+  fileprivate func loadAccountInfo() {
+    self.paymentTableView.isUserInteractionEnabled = false
     last4 = " No Cards"
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
+    let uid = UserDefaults.standard.string(forKey: "email")
     self.activityIndicator.startAnimating()
     paymentModule.getPayments("uid=" + uid!) { jsonArray in
       for paymentInfo in jsonArray as! [[String:AnyObject]] {
@@ -89,15 +89,15 @@ extension PaymentViewController {
         }
       }
 
-      let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
+      let uid = UserDefaults.standard.string(forKey: "email")
       self.paymentModule.getBalance(uid) { convertedDict in
         if let _ = convertedDict["balance"] as? Double {
           self.balance = convertedDict["balance"] as! Double
         }
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
           self.activityIndicator.stopAnimating()
           self.paymentTableView.reloadData()
-          self.paymentTableView.userInteractionEnabled = true
+          self.paymentTableView.isUserInteractionEnabled = true
         }
       }
     }
@@ -106,13 +106,13 @@ extension PaymentViewController {
 
 // datasource and delegate for tableView
 extension PaymentViewController: UITableViewDataSource, UITableViewDelegate {
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return 2
   }
 
-  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! paymentTableViewCell
-    cell.iconImage.contentMode = .ScaleAspectFit
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! paymentTableViewCell
+    cell.iconImage.contentMode = .scaleAspectFit
     if (indexPath.row == 0) {
       cell.iconImage.image = UIImage(named: "paymentIcon")
       cell.title.text = "Manage Cards"
@@ -126,7 +126,7 @@ extension PaymentViewController: UITableViewDataSource, UITableViewDelegate {
     return cell
   }
 
-  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let backButton = UIBarButtonItem()
     backButton.title = "Back"
     navigationItem.backBarButtonItem = backButton
@@ -153,16 +153,16 @@ class paymentTableViewCell: UITableViewCell {
 
   let title: UILabel = {
     let view = UILabel()
-    view.font = UIFont.systemFontOfSize(14)
-    view.textAlignment = .Left
+    view.font = UIFont.systemFont(ofSize: 14)
+    view.textAlignment = .left
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }()
 
   let value: UILabel = {
     let view = UILabel()
-    view.font = UIFont.systemFontOfSize(13)
-    view.textAlignment = .Right
+    view.font = UIFont.systemFont(ofSize: 13)
+    view.textAlignment = .right
     view.textColor = UIColor(red: 136/255, green: 153/255, blue: 166/255, alpha: 1.0)
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
@@ -174,20 +174,20 @@ class paymentTableViewCell: UITableViewCell {
     self.addSubview(title)
     self.addSubview(value)
 
-    iconImage.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-    iconImage.widthAnchor.constraintEqualToConstant(18).active = true
-    iconImage.heightAnchor.constraintEqualToConstant(14).active = true
-    iconImage.leadingAnchor.constraintEqualToAnchor(leadingAnchor, constant: 20).active = true
+    iconImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    iconImage.widthAnchor.constraint(equalToConstant: 18).isActive = true
+    iconImage.heightAnchor.constraint(equalToConstant: 14).isActive = true
+    iconImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
 
-    title.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-    title.leadingAnchor.constraintEqualToAnchor(iconImage.leadingAnchor, constant: 38).active = true
-    title.topAnchor.constraintEqualToAnchor(topAnchor, constant: 12).active = true
-    title.trailingAnchor.constraintEqualToAnchor(value.leadingAnchor, constant: 48).active = true
+    title.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    title.leadingAnchor.constraint(equalTo: iconImage.leadingAnchor, constant: 38).isActive = true
+    title.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
+    title.trailingAnchor.constraint(equalTo: value.leadingAnchor, constant: 48).isActive = true
 
 
-    value.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-    value.trailingAnchor.constraintEqualToAnchor(trailingAnchor, constant: -16).active = true
-    value.topAnchor.constraintEqualToAnchor(topAnchor, constant: 12).active = true
+    value.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    value.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16).isActive = true
+    value.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
   }
 
   required init?(coder aDecoder: NSCoder) {

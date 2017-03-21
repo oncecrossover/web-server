@@ -13,8 +13,8 @@ class BuyCoinsView: UIView {
     // left by 11, top 16, height 18
     let title = UILabel()
     title.textColor = UIColor(red: 42/255, green: 48/255, blue: 52/255, alpha: 1.0)
-    title.font = UIFont.systemFontOfSize(16, weight: UIFontWeightMedium)
-    title.textAlignment = .Center
+    title.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightMedium)
+    title.textAlignment = .center
     title.text = "Insuffient Coins"
     return title
   }()
@@ -30,8 +30,8 @@ class BuyCoinsView: UIView {
     // height 18, top 15
     let note = UILabel()
     note.textColor = UIColor(red: 42/255, green: 48/255, blue: 52/255, alpha: 1.0)
-    note.font = UIFont.systemFontOfSize(15)
-    note.textAlignment = .Center
+    note.font = UIFont.systemFont(ofSize: 15)
+    note.textAlignment = .center
     return note
   }()
 
@@ -50,25 +50,25 @@ class BuyCoinsView: UIView {
 
   lazy var cancelButton: UIButton = {
     let button = UIButton()
-    button.setTitleColor(UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 0.6), forState: .Normal)
-    button.setTitle("Cancel", forState: .Normal)
+    button.setTitleColor(UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 0.6), for: UIControlState())
+    button.setTitle("Cancel", for: UIControlState())
     return button
   }()
 
   lazy var buyCoinsButton: UIButton = {
     let button = UIButton()
-    button.setTitle("Buy Coins", forState: .Normal)
-    button.setTitleColor(UIColor.defaultColor(), forState: .Normal)
+    button.setTitle("Buy Coins", for: UIControlState())
+    button.setTitleColor(UIColor.defaultColor(), for: UIControlState())
     return button
   }()
 
-  func setNote(message: String) {
+  func setNote(_ message: String) {
     note.text = message
   }
 
   override init(frame: CGRect) {
     super.init(frame: frame)
-    backgroundColor = UIColor.whiteColor()
+    backgroundColor = UIColor.white
     addSubview(title)
     addSubview(topLine)
     addSubview(note)
@@ -86,13 +86,13 @@ class BuyCoinsView: UIView {
     addConstraintsWithFormat("V:|-16-[v0(18)]-15-[v1(1)]-26-[v2(18)]-38-[v3(1)]-3-[v4]-3-|", views: title, topLine, note, underline, cancelButton)
     addConstraintsWithFormat("V:|-16-[v0(18)]-15-[v1(1)]-26-[v2(18)]-38-[v3(1)]-3-[v4]-3-|", views: title, topLine, note, underline, buyCoinsButton)
 
-    verticalLine.widthAnchor.constraintEqualToConstant(1).active = true
-    buyCoinsButton.widthAnchor.constraintEqualToAnchor(cancelButton.widthAnchor).active = true
+    verticalLine.widthAnchor.constraint(equalToConstant: 1).isActive = true
+    buyCoinsButton.widthAnchor.constraint(equalTo: cancelButton.widthAnchor).isActive = true
 
-    cancelButton.leadingAnchor.constraintEqualToAnchor(leadingAnchor).active = true
-    cancelButton.trailingAnchor.constraintEqualToAnchor(verticalLine.leadingAnchor).active = true
-    buyCoinsButton.leadingAnchor.constraintEqualToAnchor(verticalLine.trailingAnchor).active = true
-    buyCoinsButton.trailingAnchor.constraintEqualToAnchor(trailingAnchor).active = true
+    cancelButton.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+    cancelButton.trailingAnchor.constraint(equalTo: verticalLine.leadingAnchor).isActive = true
+    buyCoinsButton.leadingAnchor.constraint(equalTo: verticalLine.trailingAnchor).isActive = true
+    buyCoinsButton.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
   }
 
   required init?(coder aDecoder: NSCoder) {

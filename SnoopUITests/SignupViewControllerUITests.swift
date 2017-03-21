@@ -43,7 +43,7 @@ class SignupViewControllerUITests: XCTestCase {
     passwordSecureTextField.tap()
     passwordSecureTextField.typeText("123456")
 
-    app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).elementBoundByIndex(1).childrenMatchingType(.Other).element.tap()
+    app.children(matching: .window).element(boundBy: 0).children(matching: .other).element(boundBy: 1).children(matching: .other).element.tap()
     app.buttons["Join Now"].tap()
 
     //We should see an Alert popup since the email address is invalid
@@ -65,7 +65,7 @@ class SignupViewControllerUITests: XCTestCase {
     let passwordSecureTextField = app.secureTextFields["Password:"]
     passwordSecureTextField.tap()
     passwordSecureTextField.typeText("123456")
-    app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).elementBoundByIndex(1).childrenMatchingType(.Other).element.tap()
+    app.children(matching: .window).element(boundBy: 0).children(matching: .other).element(boundBy: 1).children(matching: .other).element.tap()
 
     app.buttons["Join Now"].tap()
     //We should see a popup here since the email lacks of ".com" at the end
@@ -89,7 +89,7 @@ class SignupViewControllerUITests: XCTestCase {
     passwordSecureTextField.tap()
     passwordSecureTextField.typeText("123456")
 
-    app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).elementBoundByIndex(1).childrenMatchingType(.Other).element.tap()
+    app.children(matching: .window).element(boundBy: 0).children(matching: .other).element(boundBy: 1).children(matching: .other).element.tap()
     app.buttons["Join Now"].tap()
 
     //We should see a popup indicating user exists already
@@ -113,7 +113,7 @@ class SignupViewControllerUITests: XCTestCase {
     passwordSecureTextField.tap()
     passwordSecureTextField.typeText("1234")
 
-    app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).elementBoundByIndex(1).childrenMatchingType(.Other).element.tap()
+    app.children(matching: .window).element(boundBy: 0).children(matching: .other).element(boundBy: 1).children(matching: .other).element.tap()
     app.buttons["Join Now"].tap()
 
     //We should see a popup indicating password is not long enough
@@ -125,13 +125,13 @@ class SignupViewControllerUITests: XCTestCase {
     //Make sure the user is signed out
     let app = XCUIApplication()
 
-    let window = app.childrenMatchingType(.Window).elementBoundByIndex(0)
-    window.childrenMatchingType(.Other).element.childrenMatchingType(.Other).element.tap()
+    let window = app.children(matching: .window).element(boundBy: 0)
+    window.children(matching: .other).element.children(matching: .other).element.tap()
     app.buttons["Forget Password?"].tap()
     let enterEmailTextField = app.textFields["Enter Email:"]
     enterEmailTextField.tap()
     enterEmailTextField.typeText("bowenzhangusa@gmail.com")
-    window.childrenMatchingType(.Other).elementBoundByIndex(1).childrenMatchingType(.Other).element.tap()
+    window.children(matching: .other).element(boundBy: 1).children(matching: .other).element.tap()
     app.buttons["Cancel"].tap()
 
   }

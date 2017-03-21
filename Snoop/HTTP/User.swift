@@ -3,12 +3,12 @@ import Foundation
 
 class User
 {  
-  private var USERURI: String
-  private var PROFILEURI: String
-  private var SIGNINURI: String
-  private var APPLYURI: String
-  private var PCURI: String
-  private var generics = Generics()
+  fileprivate var USERURI: String
+  fileprivate var PROFILEURI: String
+  fileprivate var SIGNINURI: String
+  fileprivate var APPLYURI: String
+  fileprivate var PCURI: String
+  fileprivate var generics = Generics()
   
   init(){
     USERURI = generics.HTTPHOST + "users/"
@@ -17,43 +17,43 @@ class User
     APPLYURI = generics.HTTPHOST + "takeq"
     PCURI = generics.HTTPHOST + "pcaccounts/"
   }
-  
-  func createUser(userEmail: String, userPassword: String, fullName: String!, completion: (String) -> ()) {
-    let jsonData = ["uid": userEmail, "pwd": userPassword, "fullName" : fullName]
+
+  func createUser(_ userEmail: String, userPassword: String, fullName: String!, completion: @escaping (String) -> ()) {
+    let jsonData: [String : AnyObject] = ["uid": userEmail as AnyObject, "pwd": userPassword as AnyObject, "fullName" : fullName as AnyObject]
     generics.createObject(USERURI, jsonData: jsonData) { result in
       completion(result)
     }
   }
-  
-  func signinUser(email: String, password: String, completion: (String) -> ()) {
-    let myUrl = NSURL(string: self.SIGNINURI)!;
-    let request = NSMutableURLRequest(URL: myUrl)
-    request.HTTPMethod = "POST"
+
+  func signinUser(_ email: String, password: String, completion: @escaping (String) -> ()) {
+    let myUrl = URL(string: self.SIGNINURI)!;
+    let request = NSMutableURLRequest(url: myUrl)
+    request.httpMethod = "POST"
     let jsonData = ["uid" : email, "pwd": password]
 
     do {
-      request.HTTPBody =  try NSJSONSerialization.dataWithJSONObject(jsonData, options: [])
+      request.httpBody =  try JSONSerialization.data(withJSONObject: jsonData, options: [])
     }
     catch {
       print("error=\(error)")
       completion("an error occurs when creating object: \(error)")
     }
     let session = generics.getURLSession()
-    let task = session.dataTaskWithRequest(request) {
+    let task = session.dataTask(with: request as URLRequest) {
       data, response, error in
       if error != nil {
         print ("error: \(error)")
         return
       }
 
-      let httpResponse = response as! NSHTTPURLResponse
+      let httpResponse = response as! HTTPURLResponse
       if (httpResponse.statusCode == 400) {
         completion("Password does not match with email account \(email)")
         return
       }
 
       do {
-        if let _ = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSDictionary {
+        if let _ = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
           completion("")
         }
       } catch let error as NSError {
@@ -64,46 +64,46 @@ class User
     task.resume()
   }
 
-  func getUser(email: String, completion: (NSDictionary) -> ()) {
-    let myUrl = NSURL(string: USERURI + email)
+  func getUser(_ email: String, completion: @escaping (NSDictionary) -> ()) {
+    let myUrl = URL(string: USERURI + email)
     generics.getObjectById(myUrl!) {
       completion($0)
     }
   }
 
-  func updateProfile(uid: String, name: String, title: String, about: String, rate: Double, completion: (String) -> ()) {
-    let myUrl = NSURL(string: PROFILEURI + uid)
-    let jsonData = ["fullName": name, "title" : title, "aboutMe": about, "rate" : rate]
-    generics.updateObject(myUrl!, jsonData: jsonData as! [String : AnyObject]) { result in
-      completion(result)
-    }
-  }
-
-  func updateProfilePhoto(uid: String, imageData: NSData!, completion: (String) -> ()) {
-    let myUrl = NSURL(string: PROFILEURI + uid)
-    let jsonData = ["avatarImage" : imageData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))]
+  func updateProfile(_ uid: String, name: String, title: String, about: String, rate: Double, completion: @escaping (String) -> ()) {
+    let myUrl = URL(string: PROFILEURI + uid)
+    let jsonData = ["fullName": name as AnyObject, "title" : title as AnyObject, "aboutMe": about as AnyObject, "rate" : rate as AnyObject]
     generics.updateObject(myUrl!, jsonData: jsonData) { result in
       completion(result)
     }
   }
 
-  func updateDeviceToken(uid: String, token: String, completion: (String) -> ()) {
-    let myUrl = NSURL(string: PROFILEURI + uid)
-    let jsonData = ["deviceToken" : token]
+  func updateProfilePhoto(_ uid: String, imageData: Data!, completion: @escaping (String) -> ()) {
+    let myUrl = URL(string: PROFILEURI + uid)
+    let jsonData = ["avatarImage" : imageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0)) as AnyObject]
     generics.updateObject(myUrl!, jsonData: jsonData) { result in
       completion(result)
     }
   }
 
-  func applyToTakeQuestion(uid: String, completion: (String) ->()) {
-    let data = ["uid": uid, "takeQuestion": "APPLIED"]
+  func updateDeviceToken(_ uid: String, token: String, completion: @escaping (String) -> ()) {
+    let myUrl = URL(string: PROFILEURI + uid)
+    let jsonData = ["deviceToken" : token as AnyObject]
+    generics.updateObject(myUrl!, jsonData: jsonData) { result in
+      completion(result)
+    }
+  }
+
+  func applyToTakeQuestion(_ uid: String, completion: @escaping (String) ->()) {
+    let data = ["uid": uid as AnyObject, "takeQuestion": "APPLIED" as AnyObject]
     generics.createObject(APPLYURI, jsonData: data){ result in
       completion(result)
     }
   }
 
-  func getProfile(uid: String, completion: (String, String, String, String?, Int, String) -> ()){
-    let myUrl = NSURL(string: PROFILEURI + uid);
+  func getProfile(_ uid: String, completion: @escaping (String, String, String, String?, Int, String) -> ()){
+    let myUrl = URL(string: PROFILEURI + uid);
     generics.getObjectById(myUrl!) { convertedJsonIntoDict in
       var fullName = ""
       var title = ""
@@ -141,23 +141,23 @@ class User
     }
   }
 
-  func getDiscover(filterString: String, completion: (NSArray) -> ()) {
-    let url = NSURL(string: generics.HTTPHOST + "profiles?" + filterString)
+  func getDiscover(_ filterString: String, completion: @escaping (NSArray) -> ()) {
+    let url = URL(string: generics.HTTPHOST + "profiles?" + filterString)
     generics.getFilteredObjects(url!) { result in
       completion(result)
     }
   }
 
-  func updatePaypal(uid: String, paypalEmail: String, completion: (String) -> ()) {
-    let url = NSURL(string: PCURI + uid)
-    let jsonData = ["payTo" : paypalEmail]
+  func updatePaypal(_ uid: String, paypalEmail: String, completion: @escaping (String) -> ()) {
+    let url = URL(string: PCURI + uid)
+    let jsonData = ["payTo" : paypalEmail as AnyObject]
     generics.updateObject(url!, jsonData: jsonData) { result in
       completion(result)
     }
   }
 
-  func getPaypal(uid: String, completion: (NSDictionary) ->()) {
-    let url = NSURL(string: PCURI + uid)
+  func getPaypal(_ uid: String, completion: @escaping (NSDictionary) ->()) {
+    let url = URL(string: PCURI + uid)
     generics.getObjectById(url!) { result in
       completion(result)
     }

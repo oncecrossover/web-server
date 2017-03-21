@@ -13,13 +13,13 @@ class PasswordResetView: UIView {
     let password = InteractiveUITextField()
     password.awakeFromNib()
     password.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 1.0)
-    password.textAlignment = .Left
+    password.textAlignment = .left
     password.placeholder = "Temporary Password"
-    password.font = UIFont.systemFontOfSize(16)
-    password.borderStyle = .None
-    password.clearButtonMode = .WhileEditing
-    password.secureTextEntry = true
-    password.autocapitalizationType = .None
+    password.font = UIFont.systemFont(ofSize: 16)
+    password.borderStyle = .none
+    password.clearButtonMode = .whileEditing
+    password.isSecureTextEntry = true
+    password.autocapitalizationType = .none
     return password
   }()
 
@@ -33,13 +33,13 @@ class PasswordResetView: UIView {
     let password = InteractiveUITextField()
     password.awakeFromNib()
     password.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 1.0)
-    password.textAlignment = .Left
-    password.font = UIFont.systemFontOfSize(16)
+    password.textAlignment = .left
+    password.font = UIFont.systemFont(ofSize: 16)
     password.placeholder = "New Password"
-    password.secureTextEntry = true
-    password.borderStyle = .None
-    password.clearButtonMode = .WhileEditing
-    password.autocapitalizationType = .None
+    password.isSecureTextEntry = true
+    password.borderStyle = .none
+    password.clearButtonMode = .whileEditing
+    password.autocapitalizationType = .none
     return password
   }()
 

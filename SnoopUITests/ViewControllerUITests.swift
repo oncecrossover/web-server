@@ -41,7 +41,7 @@ class ViewControllerUITests: XCTestCase {
     passwordSecureTextField.tap()
 
     passwordSecureTextField.typeText("1234")
-    app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).element.childrenMatchingType(.Other).element.tap()
+    app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.tap()
     app.buttons["Log In"].tap()
     XCTAssertEqual(app.tables.count, 1)
     app.tabBars.buttons["Me"].tap()

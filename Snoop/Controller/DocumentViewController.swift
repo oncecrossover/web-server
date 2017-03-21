@@ -20,13 +20,13 @@ class DocumentViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    view.backgroundColor = UIColor.whiteColor()
+    view.backgroundColor = UIColor.white
 
     self.navigationController?.navigationItem.title = navigationTitle
     view.addSubview(webView)
     view.addConstraintsWithFormat("H:|[v0]|", views: webView)
     view.addConstraintsWithFormat("V:|[v0]|", views: webView)
-    webView.loadRequest(NSURLRequest(URL: NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(fileName, ofType: "html")!)))
+    webView.loadRequest(URLRequest(url: URL(fileURLWithPath: Bundle.main.path(forResource: fileName, ofType: "html")!)))
   }
 
 }

@@ -14,7 +14,7 @@ class AskViewController: UIViewController {
 
   @IBOutlet weak var scrollView: UIScrollView!
 
-  var contentOffset: CGPoint = CGPointZero
+  var contentOffset: CGPoint = CGPoint.zero
   var placeholder: String = "You will be refunded if your question is not replied within 48 hours. You will be rewarded if others pay to snoop your question."
 
   var coinModule = Coin()
@@ -33,7 +33,7 @@ class AskViewController: UIViewController {
   lazy var askView: UIView = {
     let askView = UIView()
     askView.translatesAutoresizingMaskIntoConstraints = false
-    askView.backgroundColor = UIColor.whiteColor()
+    askView.backgroundColor = UIColor.white
     askView.addSubview(self.questionView)
     askView.addSubview(self.askButton)
 
@@ -49,7 +49,7 @@ class AskViewController: UIViewController {
     textView.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 0.2)
     textView.textColor = self.placeholderColor
     textView.text = self.placeholder
-    textView.font = UIFont.systemFontOfSize(14)
+    textView.font = UIFont.systemFont(ofSize: 14)
     textView.layer.cornerRadius = 4
     textView.clipsToBounds = true
     return textView
@@ -57,11 +57,11 @@ class AskViewController: UIViewController {
 
   lazy var askButton: UIButton = {
     let askButton = CustomButton()
-    askButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-    askButton.enabled = true
+    askButton.setTitleColor(UIColor.white, for: UIControlState())
+    askButton.isEnabled = true
     askButton.layer.cornerRadius = 5
     askButton.clipsToBounds = true
-    askButton.addTarget(self, action: #selector(askButtonTapped), forControlEvents: .TouchUpInside)
+    askButton.addTarget(self, action: #selector(askButtonTapped), for: .touchUpInside)
     return askButton
   }()
 
@@ -75,8 +75,8 @@ class AskViewController: UIViewController {
     let view = PayWithCoinsView()
     view.layer.cornerRadius = 6
     view.clipsToBounds = true
-    view.cancelButton.addTarget(self, action: #selector(cancelAskButtonTapped), forControlEvents: .TouchUpInside)
-    view.confirmButton.addTarget(self, action: #selector(confirmButtonTapped), forControlEvents: .TouchUpInside)
+    view.cancelButton.addTarget(self, action: #selector(cancelAskButtonTapped), for: .touchUpInside)
+    view.confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }()
@@ -85,8 +85,8 @@ class AskViewController: UIViewController {
     let view = BuyCoinsView()
     view.layer.cornerRadius = 6
     view.clipsToBounds = true
-    view.cancelButton.addTarget(self, action: #selector(cancelBuyButtonTapped), forControlEvents: .TouchUpInside)
-    view.buyCoinsButton.addTarget(self, action: #selector(buyButtonTapped), forControlEvents: .TouchUpInside)
+    view.cancelButton.addTarget(self, action: #selector(cancelBuyButtonTapped), for: .touchUpInside)
+    view.buyCoinsButton.addTarget(self, action: #selector(buyButtonTapped), for: .touchUpInside)
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }()
@@ -99,7 +99,7 @@ extension AskViewController {
 
   }
 
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     loadCoinCount()
     initView()
@@ -112,13 +112,13 @@ extension AskViewController {
 
     let width = self.view.frame.width
     scrollView.addConstraintsWithFormat("H:|[v0(\(width))]|", views: askView)
-    profileView.topAnchor.constraintEqualToAnchor(scrollView.topAnchor).active = true
-    askView.topAnchor.constraintEqualToAnchor(profileView.bottomAnchor, constant: 10).active = true
-    askView.heightAnchor.constraintEqualToAnchor(view.heightAnchor, constant: -220).active = true
-    askView.bottomAnchor.constraintEqualToAnchor(scrollView.bottomAnchor).active = true
+    profileView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+    askView.topAnchor.constraint(equalTo: profileView.bottomAnchor, constant: 10).isActive = true
+    askView.heightAnchor.constraint(equalTo: view.heightAnchor, constant: -220).isActive = true
+    askView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
 
     if let avatarUrl = profileInfo.avatarUrl {
-      self.profileView.profileImage.sd_setImageWithURL(NSURL(string: avatarUrl))
+      self.profileView.profileImage.sd_setImage(with: URL(string: avatarUrl))
     }
     else {
       self.profileView.profileImage.image = UIImage(named: "default")
@@ -129,10 +129,10 @@ extension AskViewController {
     self.profileView.about.text = profileInfo.about
 
     if (profileInfo.rate == 0) {
-      self.askButton.setTitle("Free to ask", forState: .Normal)
+      self.askButton.setTitle("Free to ask", for: UIControlState())
     }
     else {
-      self.askButton.setTitle("$ \(profileInfo.rate) to ask", forState: .Normal)
+      self.askButton.setTitle("$ \(profileInfo.rate) to ask", for: UIControlState())
     }
   }
 
@@ -148,18 +148,18 @@ extension AskViewController {
 // UITextViewDelegate
 extension AskViewController: UITextViewDelegate {
 
-  func textViewDidBeginEditing(textView: UITextView) {
+  func textViewDidBeginEditing(_ textView: UITextView) {
     if (textView.textColor == placeholderColor) {
       textView.text = ""
-      textView.textColor = UIColor.blackColor()
+      textView.textColor = UIColor.black
     }
 
-    self.scrollView.scrollEnabled = true
+    self.scrollView.isScrollEnabled = true
     self.contentOffset = self.scrollView.contentOffset
-    self.scrollView.setContentOffset(CGPointMake(0, self.contentOffset.y + 120), animated: true)
+    self.scrollView.setContentOffset(CGPoint(x: 0, y: self.contentOffset.y + 120), animated: true)
   }
 
-  func textViewDidEndEditing(textView: UITextView) {
+  func textViewDidEndEditing(_ textView: UITextView) {
     if (textView.text.isEmpty) {
       textView.text = placeholder
       textView.textColor = placeholderColor
@@ -168,7 +168,7 @@ extension AskViewController: UITextViewDelegate {
     self.scrollView.setContentOffset(self.contentOffset, animated: true)
   }
 
-  func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+  func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
     if(text == "\n") {
       textView.resignFirstResponder()
       return false
@@ -186,7 +186,7 @@ extension AskViewController {
       return
     }
 
-    if let window = UIApplication.sharedApplication().keyWindow {
+    if let window = UIApplication.shared.keyWindow {
       window.addSubview(blackView)
       blackView.frame = window.frame
       var frameToAdd: UIView!
@@ -200,30 +200,30 @@ extension AskViewController {
         frameToAdd = payWithCoinsView
       }
       window.addSubview(frameToAdd)
-      frameToAdd.centerXAnchor.constraintEqualToAnchor(window.centerXAnchor).active = true
-      frameToAdd.centerYAnchor.constraintEqualToAnchor(window.centerYAnchor).active = true
-      frameToAdd.widthAnchor.constraintEqualToConstant(260).active = true
-      frameToAdd.heightAnchor.constraintEqualToConstant(176).active = true
+      frameToAdd.centerXAnchor.constraint(equalTo: window.centerXAnchor).isActive = true
+      frameToAdd.centerYAnchor.constraint(equalTo: window.centerYAnchor).isActive = true
+      frameToAdd.widthAnchor.constraint(equalToConstant: 260).isActive = true
+      frameToAdd.heightAnchor.constraint(equalToConstant: 176).isActive = true
       blackView.alpha = 0
       frameToAdd.alpha = 0
-      UIView.animateWithDuration(0.5) {
+      UIView.animate(withDuration: 0.5, animations: {
         self.blackView.alpha = 1
         frameToAdd.alpha = 1
-      }
+      }) 
     }
   }
 
   func confirmButtonTapped() {
-    UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
+    UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
       self.blackView.alpha = 0
       self.payWithCoinsView.alpha = 0
     }) { (result) in
-      let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+      let uid = UserDefaults.standard.string(forKey: "email")!
       let quandaData = ["question" : self.questionView.text!, "responder" : self.profileInfo.uid]
-      let jsonData:[String: AnyObject] = ["uid": uid, "type" : "ASKED", "quanda" : quandaData]
+      let jsonData:[String: AnyObject] = ["uid": uid as AnyObject, "type" : "ASKED" as AnyObject, "quanda" : quandaData as AnyObject]
       self.generics.createObject(self.generics.HTTPHOST + "qatransactions", jsonData: jsonData) { result in
         if (!result.isEmpty) {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             self.utility.displayAlertMessage("there is an error processing your payment. Please try later", title: "Error", sender: self)
           }
         }
@@ -232,27 +232,27 @@ extension AskViewController {
   }
 
   func buyButtonTapped() {
-    UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
+    UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
       self.blackView.alpha = 0
       self.buyCoinsView.alpha = 0
     }) { (result) in
-      dispatch_async(dispatch_get_main_queue()) {
+      DispatchQueue.main.async {
         let vc = CoinsViewController()
         vc.numOfCoins = self.coinCount
-        self.presentViewController(vc, animated: true, completion: nil)
+        self.present(vc, animated: true, completion: nil)
       }
     }
   }
 
   func cancelAskButtonTapped() {
-    UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
+    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
       self.blackView.alpha = 0
       self.payWithCoinsView.alpha = 0
       }, completion: nil)
   }
 
   func cancelBuyButtonTapped() {
-    UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
+    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
       self.blackView.alpha = 0
       self.buyCoinsView.alpha = 0
       }, completion: nil)

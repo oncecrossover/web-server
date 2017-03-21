@@ -11,12 +11,12 @@ import UIKit
 class ExpertiseCollectionViewCell: UICollectionViewCell {
   let icon: UILabel = {
     let category = UILabel()
-    category.font = UIFont.systemFontOfSize(14)
+    category.font = UIFont.systemFont(ofSize: 14)
     category.textColor = UIColor(red: 163/255, green: 163/255, blue: 163/255, alpha: 1.0)
-    category.textAlignment = .Center
+    category.textAlignment = .center
     category.layer.cornerRadius = 4
     category.layer.borderWidth = 1
-    category.layer.borderColor = UIColor(red: 163/255, green: 163/255, blue: 163/255, alpha: 1.0).CGColor
+    category.layer.borderColor = UIColor(red: 163/255, green: 163/255, blue: 163/255, alpha: 1.0).cgColor
     category.clipsToBounds = true
     return category
   }()
@@ -29,15 +29,15 @@ class ExpertiseCollectionViewCell: UICollectionViewCell {
     addConstraintsWithFormat("V:|[v0]|", views: icon)
   }
 
-  override var selected: Bool {
+  override var isSelected: Bool {
     didSet {
-      if (selected) {
+      if (isSelected) {
         icon.textColor = UIColor.defaultColor()
-        icon.layer.borderColor = UIColor.defaultColor().CGColor
+        icon.layer.borderColor = UIColor.defaultColor().cgColor
       }
       else {
         icon.textColor = UIColor(red: 163/255, green: 163/255, blue: 163/255, alpha: 1.0)
-        icon.layer.borderColor = UIColor(red: 163/255, green: 163/255, blue: 163/255, alpha: 1.0).CGColor
+        icon.layer.borderColor = UIColor(red: 163/255, green: 163/255, blue: 163/255, alpha: 1.0).cgColor
       }
     }
   }

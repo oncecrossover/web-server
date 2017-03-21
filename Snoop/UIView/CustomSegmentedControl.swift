@@ -8,8 +8,8 @@
 
 import UIKit
 protocol SegmentedControlDelegate {
-  func loadIndex(index: Int)
-  func loadIndexWithRefresh(index: Int)
+  func loadIndex(_ index: Int)
+  func loadIndexWithRefresh(_ index: Int)
 }
 
 class CustomSegmentedControl: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -21,12 +21,12 @@ class CustomSegmentedControl: UIView, UICollectionViewDataSource, UICollectionVi
     let layout = UICollectionViewFlowLayout()
     layout.minimumInteritemSpacing = 0
     layout.minimumLineSpacing = 0
-    layout.scrollDirection = .Horizontal
+    layout.scrollDirection = .horizontal
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     collectionView.delegate = self
     collectionView.dataSource = self
     collectionView.translatesAutoresizingMaskIntoConstraints = false
-    collectionView.backgroundColor = UIColor.whiteColor()
+    collectionView.backgroundColor = UIColor.white
     return collectionView
   }()
 
@@ -34,20 +34,20 @@ class CustomSegmentedControl: UIView, UICollectionViewDataSource, UICollectionVi
     super.init(frame: frame)
     self.frame = frame
     self.addSubview(controlBar)
-    controlBar.registerClass(controlCell.self, forCellWithReuseIdentifier: self.cellId)
-    controlBar.leadingAnchor.constraintEqualToAnchor(leadingAnchor).active = true
-    controlBar.trailingAnchor.constraintEqualToAnchor(trailingAnchor).active = true
-    controlBar.topAnchor.constraintEqualToAnchor(topAnchor).active = true
-    controlBar.bottomAnchor.constraintEqualToAnchor(bottomAnchor).active = true
+    controlBar.register(controlCell.self, forCellWithReuseIdentifier: self.cellId)
+    controlBar.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+    controlBar.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+    controlBar.topAnchor.constraint(equalTo: topAnchor).isActive = true
+    controlBar.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
 
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(reloadQuestions), name: "reloadQuestions", object: nil)
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(reloadAnswers), name: "reloadAnswers", object: nil)
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(reloadSnoops), name: "reloadSnoops", object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(reloadQuestions), name: NSNotification.Name(rawValue: "reloadQuestions"), object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(reloadAnswers), name: NSNotification.Name(rawValue: "reloadAnswers"), object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(reloadSnoops), name: NSNotification.Name(rawValue: "reloadSnoops"), object: nil)
 
-    let selectedIndexPath = NSIndexPath(forItem: 0, inSection: 0)
-    controlBar.selectItemAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .None)
-    let cell = controlBar.cellForItemAtIndexPath(selectedIndexPath)
-    cell?.selected = true
+    let selectedIndexPath = IndexPath(item: 0, section: 0)
+    controlBar.selectItem(at: selectedIndexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())
+    let cell = controlBar.cellForItem(at: selectedIndexPath)
+    cell?.isSelected = true
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -67,24 +67,24 @@ class CustomSegmentedControl: UIView, UICollectionViewDataSource, UICollectionVi
   }
 
   deinit {
-    NSNotificationCenter.defaultCenter().removeObserver(self) // app might crash without removing observer
+    NotificationCenter.default.removeObserver(self) // app might crash without removing observer
   }
 
-  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return 3
   }
 
-  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellId, forIndexPath: indexPath) as! controlCell
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellId, for: indexPath) as! controlCell
     cell.controlName.text = controls[indexPath.row]
     return cell
   }
 
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-    return CGSizeMake(self.frame.width/3, self.frame.height)
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    return CGSize(width: self.frame.width/3, height: self.frame.height)
   }
 
-  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let index = indexPath.row
     delegate.loadIndex(index)
   }
@@ -94,8 +94,8 @@ class controlCell: UICollectionViewCell {
   let controlName: UILabel = {
     let control = UILabel()
     control.textColor = UIColor(red: 136/255, green: 153/255, blue: 166/255, alpha: 1.0)
-    control.textAlignment = .Center
-    control.font = UIFont.systemFontOfSize(14)
+    control.textAlignment = .center
+    control.font = UIFont.systemFont(ofSize: 14)
     control.translatesAutoresizingMaskIntoConstraints = false
     return control
   }()
@@ -107,10 +107,10 @@ class controlCell: UICollectionViewCell {
     return line
   }()
 
-  override var selected: Bool {
+  override var isSelected: Bool {
     didSet{
-      controlName.textColor = selected ? UIColor.defaultColor() : UIColor(red: 136/255, green: 153/255, blue: 166/255, alpha: 1.0)
-      underline.backgroundColor = selected ? UIColor.defaultColor() : UIColor(red: 136/255, green: 153/255, blue: 166/255, alpha: 1.0)
+      controlName.textColor = isSelected ? UIColor.defaultColor() : UIColor(red: 136/255, green: 153/255, blue: 166/255, alpha: 1.0)
+      underline.backgroundColor = isSelected ? UIColor.defaultColor() : UIColor(red: 136/255, green: 153/255, blue: 166/255, alpha: 1.0)
     }
   }
 
@@ -120,15 +120,15 @@ class controlCell: UICollectionViewCell {
     self.addSubview(underline)
 
     // set contraints
-    controlName.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-    controlName.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true
-    controlName.widthAnchor.constraintEqualToAnchor(widthAnchor).active = true
-    controlName.heightAnchor.constraintEqualToConstant(30).active = true
+    controlName.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    controlName.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+    controlName.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
+    controlName.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
-    underline.widthAnchor.constraintEqualToAnchor(widthAnchor).active = true
-    underline.heightAnchor.constraintEqualToConstant(1).active = true
-    underline.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true
-    underline.bottomAnchor.constraintEqualToAnchor(bottomAnchor).active = true
+    underline.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
+    underline.heightAnchor.constraint(equalToConstant: 1).isActive = true
+    underline.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+    underline.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
   }
 
   required init?(coder aDecoder: NSCoder) {

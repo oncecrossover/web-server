@@ -11,18 +11,18 @@ import UIKit
 class WelcomeCollectionViewCell: UICollectionViewCell {
   let title: UILabel = {
     let title = UILabel()
-    title.font = UIFont.boldSystemFontOfSize(30)
+    title.font = UIFont.boldSystemFont(ofSize: 30)
     title.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 1.0)
-    title.textAlignment = .Left
+    title.textAlignment = .left
     title.numberOfLines = 3
     return title
   }()
 
   let summary: UILabel = {
     let summary = UILabel()
-    summary.font = UIFont.systemFontOfSize(15)
-    summary.textAlignment = .Left
-    summary.textColor = UIColor.blackColor()
+    summary.font = UIFont.systemFont(ofSize: 15)
+    summary.textAlignment = .left
+    summary.textColor = UIColor.black
     summary.numberOfLines = 4
     return summary
   }()

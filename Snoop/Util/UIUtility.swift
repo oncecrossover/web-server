@@ -9,37 +9,37 @@
 import Foundation
 import UIKit
 class UIUtility {
-  func displayAlertMessage(userMessage:String, title: String, sender: UIViewController) {
+  func displayAlertMessage(_ userMessage:String, title: String, sender: UIViewController) {
 
-    let myAlert = UIAlertController(title: title, message: userMessage, preferredStyle: UIAlertControllerStyle.Alert)
+    let myAlert = UIAlertController(title: title, message: userMessage, preferredStyle: UIAlertControllerStyle.alert)
 
-    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
 
     myAlert.addAction(okAction)
 
-    sender.presentViewController(myAlert, animated: true, completion: nil)
+    sender.present(myAlert, animated: true, completion: nil)
 
   }
 
-  func createCustomActivityIndicator(view: UIView, text: String!) -> MBProgressHUD{
-    let activityIndicator = MBProgressHUD.showHUDAddedTo(view, animated: true)
+  func createCustomActivityIndicator(_ view: UIView, text: String!) -> MBProgressHUD{
+    let activityIndicator = MBProgressHUD.showAdded(to: view, animated: true)
     activityIndicator.label.text = text
-    activityIndicator.label.textColor = UIColor.blackColor()
+    activityIndicator.label.textColor = UIColor.black
     //setup the background color of the popup
-    activityIndicator.bezelView.color = UIColor.whiteColor()
+    activityIndicator.bezelView.color = UIColor.white
     //setup border color
     activityIndicator.bezelView.layer.borderWidth = 1
-    activityIndicator.bezelView.layer.borderColor = UIColor.lightGrayColor().CGColor
+    activityIndicator.bezelView.layer.borderColor = UIColor.lightGray.cgColor
 
     //This part is interesting in that we set the interaction to false so users can't interact with other
     //UI element when popup is spinning
-    activityIndicator.userInteractionEnabled = false
+    activityIndicator.isUserInteractionEnabled = false
     return activityIndicator
   }
 
-  func addTextToImage(drawText: NSString, inImage: UIImage, atPoint: CGPoint, textColor: UIColor, textFont: UIFont) -> UIImage {
+  func addTextToImage(_ drawText: NSString, inImage: UIImage, atPoint: CGPoint, textColor: UIColor, textFont: UIFont) -> UIImage {
     // Setup the image context using the passed image
-    let scale = UIScreen.mainScreen().scale
+    let scale = UIScreen.main.scale
     UIGraphicsBeginImageContextWithOptions(inImage.size, false, scale)
 
     // Setup the font attributes that will be later used to dictate how the text should be drawn
@@ -49,13 +49,13 @@ class UIUtility {
     ]
 
     // Put the image into a rectangle as large as the original image
-    inImage.drawInRect(CGRectMake(0, 0, inImage.size.width, inImage.size.height))
+    inImage.draw(in: CGRect(x: 0, y: 0, width: inImage.size.width, height: inImage.size.height))
 
     // Create a point within the space that is as bit as the image
-    let rect = CGRectMake(atPoint.x, atPoint.y, inImage.size.width, inImage.size.height)
+    let rect = CGRect(x: atPoint.x, y: atPoint.y, width: inImage.size.width, height: inImage.size.height)
 
     // Draw the text into an image
-    drawText.drawInRect(rect, withAttributes: textFontAttributes)
+    drawText.draw(in: rect, withAttributes: textFontAttributes)
 
     // Create a new image out of the images we have created
     let newImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -68,28 +68,28 @@ class UIUtility {
   }
 
   func getCacheDirectory() -> String {
-    let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+    let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
 
     return paths[0]
   }
 
-  func getFileUrl(fileName: String!) -> NSURL {
+  func getFileUrl(_ fileName: String!) -> URL {
     let prefix = getCacheDirectory() as NSString
-    let path = prefix.stringByAppendingPathComponent(fileName)
-    return NSURL(fileURLWithPath: path)
+    let path = prefix.appendingPathComponent(fileName)
+    return URL(fileURLWithPath: path)
   }
 
-  func isInCache(quandaId: Int!) -> Bool {
+  func isInCache(_ quandaId: Int!) -> Bool {
     let key = String(quandaId)
-    if (NSUserDefaults.standardUserDefaults().boolForKey(key) == true) {
+    if (UserDefaults.standard.bool(forKey: key) == true) {
       return true
     }
     return false
   }
 
-  func getAudioFromCache(quandaId: Int!) -> String! {
+  func getAudioFromCache(_ quandaId: Int!) -> String! {
     let key = String(quandaId)
-    let path = NSUserDefaults.standardUserDefaults().stringForKey(key)!
+    let path = UserDefaults.standard.string(forKey: key)!
     return path
   }
 }

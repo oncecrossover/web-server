@@ -13,13 +13,13 @@ class EditProfileView: UIScrollView {
     let photo = UIImageView()
     photo.layer.cornerRadius = 33
     photo.clipsToBounds = true
-    photo.contentMode = .ScaleAspectFill
+    photo.contentMode = .scaleAspectFill
     return photo
   }()
 
   lazy var changeButton: UIButton = {
     let button = UIButton()
-    button.setBackgroundImage(UIImage(named: "change"), forState: .Normal)
+    button.setBackgroundImage(UIImage(named: "change"), for: UIControlState())
     return button
   }()
 
@@ -55,7 +55,7 @@ class EditProfileView: UIScrollView {
   lazy var rate : FieldGroup = {
     let rate = FieldGroup()
     rate.title.text = "Answer a question for"
-    rate.value.keyboardType = .NumberPad
+    rate.value.keyboardType = .numberPad
     return rate
   }()
 
@@ -64,7 +64,7 @@ class EditProfileView: UIScrollView {
     return expertise
   }()
 
-  func fillValues(avatarImage: UIImage, firstName: String, lastName: String, title: String, about: String) {
+  func fillValues(_ avatarImage: UIImage, firstName: String, lastName: String, title: String, about: String) {
     self.profilePhoto.image = avatarImage
     self.firstName.value.text = firstName
     self.lastName.value.text = lastName
@@ -72,11 +72,11 @@ class EditProfileView: UIScrollView {
     self.about.value.text = about
   }
 
-  func fillRate(rate: Int) {
+  func fillRate(_ rate: Int) {
     self.rate.value.text = String(rate)
   }
 
-  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     self.endEditing(true)
   }
 
@@ -114,7 +114,7 @@ class EditProfileView: UIScrollView {
           self.expertise.allCategories.append(CategoryModel(_id: id, _name: name))
         }
 
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
           self.expertise.oldSelectedCategories = selectedExpertise
           self.expertise.expertiseCollection.reloadData()
           self.expertise.populateSelectedCells()
@@ -125,8 +125,8 @@ class EditProfileView: UIScrollView {
     else {
       addConstraintsWithFormat("V:|-12-[v0(66)]-28-[v1(50)]-4-[v2(50)]-4-[v3(50)]-4-[v4(120)]-150-|", views: profilePhoto, firstName, lastName, title, about)
     }
-    changeButton.heightAnchor.constraintEqualToConstant(20).active = true
-    changeButton.centerYAnchor.constraintEqualToAnchor(profilePhoto.centerYAnchor).active = true
+    changeButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+    changeButton.centerYAnchor.constraint(equalTo: profilePhoto.centerYAnchor).isActive = true
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -138,16 +138,16 @@ class FieldGroup: UIView {
   let title: UILabel = {
     let title = UILabel()
     title.textColor = UIColor(red: 163/255, green: 163/255, blue: 163/255, alpha: 1.0)
-    title.font = UIFont.systemFontOfSize(12)
+    title.font = UIFont.systemFont(ofSize: 12)
     return title
   }()
 
   let value: UITextField = {
     let value = InteractiveUITextField()
     value.awakeFromNib()
-    value.borderStyle = .None
-    value.textColor = UIColor.blackColor()
-    value.font = UIFont.systemFontOfSize(16)
+    value.borderStyle = .none
+    value.textColor = UIColor.black
+    value.font = UIFont.systemFont(ofSize: 16)
     return value
   }()
 
@@ -159,17 +159,17 @@ class FieldGroup: UIView {
 
   let limit: UILabel = {
     let limit = UILabel()
-    limit.font = UIFont.systemFontOfSize(14)
-    limit.textAlignment = .Center
+    limit.font = UIFont.systemFont(ofSize: 14)
+    limit.textAlignment = .center
     limit.textColor = UIColor.defaultColor()
-    limit.hidden = true
+    limit.isHidden = true
     return limit
   }()
 
   override init(frame: CGRect) {
     super.init(frame: frame)
     self.frame = frame
-    backgroundColor = UIColor.clearColor()
+    backgroundColor = UIColor.clear
 
     addSubview(title)
     addSubview(value)
@@ -193,14 +193,14 @@ class ViewGroup: UIView {
   let title: UILabel = {
     let title = UILabel()
     title.textColor = UIColor(red: 163/255, green: 163/255, blue: 163/255, alpha: 1.0)
-    title.font = UIFont.systemFontOfSize(12)
+    title.font = UIFont.systemFont(ofSize: 12)
     return title
   }()
 
   let value: UITextView = {
     let value = UITextView()
-    value.textColor = UIColor.blackColor()
-    value.font = UIFont.systemFontOfSize(16)
+    value.textColor = UIColor.black
+    value.font = UIFont.systemFont(ofSize: 16)
     return value
   }()
 
@@ -212,17 +212,17 @@ class ViewGroup: UIView {
 
   let limit: UILabel = {
     let limit = UILabel()
-    limit.font = UIFont.systemFontOfSize(14)
-    limit.textAlignment = .Center
+    limit.font = UIFont.systemFont(ofSize: 14)
+    limit.textAlignment = .center
     limit.textColor = UIColor.defaultColor()
-    limit.hidden = true
+    limit.isHidden = true
     return limit
   }()
 
   override init(frame: CGRect) {
     super.init(frame: frame)
     self.frame = frame
-    backgroundColor = UIColor.clearColor()
+    backgroundColor = UIColor.clear
 
     addSubview(title)
     addSubview(value)
@@ -251,7 +251,7 @@ class CollectionGroup: UIView, UICollectionViewDelegate, UICollectionViewDelegat
   let title: UILabel = {
     let title = UILabel()
     title.textColor = UIColor(red: 163/255, green: 163/255, blue: 163/255, alpha: 1.0)
-    title.font = UIFont.systemFontOfSize(12)
+    title.font = UIFont.systemFont(ofSize: 12)
     title.text = "Ask Me About"
     return title
   }()
@@ -263,33 +263,33 @@ class CollectionGroup: UIView, UICollectionViewDelegate, UICollectionViewDelegat
     layout.minimumLineSpacing = 12
     layout.minimumInteritemSpacing = 12
     let expertise = UICollectionView(frame: .zero, collectionViewLayout: layout)
-    expertise.registerClass(ExpertiseCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
+    expertise.register(ExpertiseCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
     expertise.dataSource = self
     expertise.delegate = self
-    expertise.backgroundColor = UIColor.clearColor()
+    expertise.backgroundColor = UIColor.clear
     expertise.allowsMultipleSelection = true
     return expertise
   }()
 
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     let category = allCategories[indexPath.row]
     let name = category.name as NSString
-    let estimatedSize = name.sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(14.0)])
-    return CGSizeMake(estimatedSize.width + 8, 27)
+    let estimatedSize = name.size(attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14.0)])
+    return CGSize(width: estimatedSize.width + 8, height: 27)
   }
 
-  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return allCategories.count
   }
 
-  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    let myCell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellId, forIndexPath: indexPath) as! ExpertiseCollectionViewCell
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellId, for: indexPath) as! ExpertiseCollectionViewCell
     let category = allCategories[indexPath.row]
     myCell.icon.text = category.name
     return myCell
   }
 
-  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let category = allCategories[indexPath.row]
     let expertise = ExpertiseModel(_catId: category.id, _name: category.name)
     if (deselectedCategories.contains(expertise)) {
@@ -301,7 +301,7 @@ class CollectionGroup: UIView, UICollectionViewDelegate, UICollectionViewDelegat
 
   }
 
-  func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+  func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
     let category = allCategories[indexPath.row]
     let expertise = ExpertiseModel(_catId: category.id, _name: category.name)
     if (newSelectedCategories.contains(expertise)) {
@@ -317,22 +317,22 @@ class CollectionGroup: UIView, UICollectionViewDelegate, UICollectionViewDelegat
     for category in newSelectedCategories {
       var interest: [String: AnyObject] = [:]
       if let _ = category.id {
-        interest["id"] = category.id
+        interest["id"] = category.id as AnyObject?
       }
 
-      interest["catId"] = category.catId
-      interest["isExpertise"] = "Yes"
+      interest["catId"] = category.catId as AnyObject?
+      interest["isExpertise"] = "Yes" as AnyObject?
       categoriesToUpdate.append(interest)
     }
 
     for category in deselectedCategories {
       var interest: [String: AnyObject] = [:]
       if let _ = category.id {
-        interest["id"] = category.id
+        interest["id"] = category.id as AnyObject?
       }
 
-      interest["catId"] = category.catId
-      interest["isExpertise"] = "No"
+      interest["catId"] = category.catId as AnyObject?
+      interest["isExpertise"] = "No" as AnyObject?
       categoriesToUpdate.append(interest)
     }
 
@@ -340,17 +340,18 @@ class CollectionGroup: UIView, UICollectionViewDelegate, UICollectionViewDelegat
   }
 
   func populateSelectedCells() {
-    for (index, item) in allCategories.enumerate() {
+    for (index, item) in allCategories.enumerated() {
       for expertise in oldSelectedCategories {
         if (item.id == expertise.catId) {
-          expertiseCollection.selectItemAtIndexPath(NSIndexPath(forRow: index, inSection: 0), animated: false, scrollPosition: .None)
+          expertiseCollection.selectItem(at: IndexPath(row: index, section: 0), animated: false, scrollPosition: UICollectionViewScrollPosition())
         }
       }
     }
   }
+
   override init(frame: CGRect) {
     super.init(frame: frame)
-    backgroundColor = UIColor.clearColor()
+    backgroundColor = UIColor.clear
     addSubview(title)
     addSubview(expertiseCollection)
 

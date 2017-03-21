@@ -28,15 +28,15 @@ class ProfileViewController: UIViewController {
     layout.minimumInteritemSpacing = 6
     layout.minimumLineSpacing = 6
     let expertiseCollection = UICollectionView(frame: .zero, collectionViewLayout: layout)
-    expertiseCollection.registerClass(ExpertiseCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
+    expertiseCollection.register(ExpertiseCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
     expertiseCollection.delegate = self
     expertiseCollection.dataSource = self
-    expertiseCollection.backgroundColor = UIColor.whiteColor()
+    expertiseCollection.backgroundColor = UIColor.white
     expertiseCollection.allowsSelection = false
     return expertiseCollection
   }()
 
-  private lazy var earningsView: EarningLabel = {
+  fileprivate lazy var earningsView: EarningLabel = {
     let view = EarningLabel()
     let gesture = UITapGestureRecognizer(target: self, action: #selector(earningsViewTapped))
     view.addGestureRecognizer(gesture)
@@ -59,40 +59,40 @@ extension ProfileViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     settingsTable.tableFooterView = UIView()
-    settingsTable.separatorInset = UIEdgeInsetsZero
+    settingsTable.separatorInset = UIEdgeInsets.zero
 
-    let settingsButton = UIButton(type: .Custom)
-    settingsButton.setImage(UIImage(named: "settings"), forState: .Normal)
-    settingsButton.addTarget(self, action: #selector(settingsButtonTapped), forControlEvents: .TouchUpInside)
+    let settingsButton = UIButton(type: .custom)
+    settingsButton.setImage(UIImage(named: "settings"), for: UIControlState())
+    settingsButton.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
     settingsButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: settingsButton)
 
-    let editButton = UIButton(type: .Custom)
-    editButton.setImage(UIImage(named: "edit"), forState: .Normal)
-    editButton.addTarget(self, action: #selector(editButtonTapped), forControlEvents: .TouchUpInside)
+    let editButton = UIButton(type: .custom)
+    editButton.setImage(UIImage(named: "edit"), for: UIControlState())
+    editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
     editButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
     navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
 
-    applyButton.setTitle("Apply to Take Questions", forState: .Normal)
-    applyButton.setTitle("Awaiting Approval", forState: .Disabled)
+    applyButton.setTitle("Apply to Take Questions", for: UIControlState())
+    applyButton.setTitle("Awaiting Approval", for: .disabled)
     applyButton.layer.cornerRadius = 4
 
-    aboutLabel.font = UIFont.systemFontOfSize(14)
+    aboutLabel.font = UIFont.systemFont(ofSize: 14)
     aboutLabel.textColor = UIColor(white: 0, alpha: 0.8)
 
-    nameLabel.font = UIFont.boldSystemFontOfSize(18)
+    nameLabel.font = UIFont.boldSystemFont(ofSize: 18)
     nameLabel.textColor = UIColor(white: 0, alpha: 0.7)
 
-    titleLabel.font = UIFont.systemFontOfSize(14)
+    titleLabel.font = UIFont.systemFont(ofSize: 14)
     titleLabel.textColor = UIColor.secondaryTextColor()
   }
 
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    if (NSUserDefaults.standardUserDefaults().objectForKey("shouldLoadProfile") == nil ||
-      NSUserDefaults.standardUserDefaults().boolForKey("shouldLoadProfile") == true) {
-      NSUserDefaults.standardUserDefaults().setBool(false, forKey: "shouldLoadProfile")
-      NSUserDefaults.standardUserDefaults().synchronize()
+    if (UserDefaults.standard.object(forKey: "shouldLoadProfile") == nil ||
+      UserDefaults.standard.bool(forKey: "shouldLoadProfile") == true) {
+      UserDefaults.standard.set(false, forKey: "shouldLoadProfile")
+      UserDefaults.standard.synchronize()
       initView()
     }
     else if (nameLabel.text?.isEmpty == true) {
@@ -109,9 +109,9 @@ extension ProfileViewController {
     aboutLabel.text = ""
     titleLabel.text = ""
     activityIndicator.startAnimating()
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    let uid = UserDefaults.standard.string(forKey: "email")!
     userModule.getProfile(uid) { fullName, title, aboutMe, avatarUrl, rate, status in
-      dispatch_async(dispatch_get_main_queue()) {
+      DispatchQueue.main.async {
         self.aboutLabel.text = aboutMe
         self.nameLabel.text = fullName
         self.titleLabel.text = title
@@ -119,14 +119,14 @@ extension ProfileViewController {
         self.rate = rate
 
         if (avatarUrl != nil) {
-          self.profilePhoto.sd_setImageWithURL(NSURL(string: avatarUrl!))
+          self.profilePhoto.sd_setImage(with: URL(string: avatarUrl!))
         }
         else {
           self.profilePhoto.image = UIImage(named: "default")
         }
 
-        self.applyButton.hidden = false
-        self.expertiseCollection.hidden = true
+        self.applyButton.isHidden = false
+        self.expertiseCollection.isHidden = true
         self.handleApplyButtonView(status)
         self.loadEarningView()
         self.activityIndicator.stopAnimating()
@@ -134,43 +134,33 @@ extension ProfileViewController {
     }
   }
 
-  private func loadEarningView() {
+  fileprivate func loadEarningView() {
     self.earningsView.removeFromSuperview()
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    let uid = UserDefaults.standard.string(forKey: "email")!
     Payment().getBalance(uid) { convertedDict in
       if let _ = convertedDict["balance"] as? Double {
         self.earning = convertedDict["balance"] as! Double
         if (self.earning > 0.0) {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             self.earningsView.setAmount(self.earning)
             self.view.addSubview(self.earningsView)
-            self.earningsView.widthAnchor.constraintEqualToConstant(50).active = true
-            self.earningsView.heightAnchor.constraintEqualToConstant(33).active = true
-            self.earningsView.centerYAnchor.constraintEqualToAnchor(self.profilePhoto.centerYAnchor).active = true
-            self.earningsView.trailingAnchor.constraintEqualToAnchor(self.view.trailingAnchor, constant: -30).active = true
+            self.earningsView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+            self.earningsView.heightAnchor.constraint(equalToConstant: 33).isActive = true
+            self.earningsView.centerYAnchor.constraint(equalTo: self.profilePhoto.centerYAnchor).isActive = true
+            self.earningsView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -30).isActive = true
           }
         }
       }
     }
   }
-  private func handleApplyButtonView(status: String) {
+  fileprivate func handleApplyButtonView(_ status: String) {
     if (status == "NA" || status.isEmpty) {
-      applyButton.enabled = true
+      applyButton.isEnabled = true
       isSnooper = false
     }
-    else if (status == "APPLIED") {
-      applyButton.enabled = false
-      isSnooper = true
-    }
     else {
-      let frame = applyButton.frame
-      self.expertiseCollection.frame = frame
-      applyButton.hidden = true
-      expertiseCollection.hidden = false
-      self.view.addSubview(expertiseCollection)
-      isSnooper = true
       self.expertise = []
-      let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+      let uid = UserDefaults.standard.string(forKey: "email")!
       category.getExpertise(uid) { jsonArray in
         for element in jsonArray as! [[String:AnyObject]] {
           let mappingId = element["id"] as! Int
@@ -179,8 +169,22 @@ extension ProfileViewController {
           self.expertise.append(ExpertiseModel(_id: mappingId, _catId: catId, _name: name))
         }
 
-        dispatch_async(dispatch_get_main_queue()) {
-          self.expertiseCollection.reloadData()
+        if (status == "APPLIED") {
+          DispatchQueue.main.async {
+            self.applyButton.isEnabled = false
+            self.isSnooper = true
+          }
+        }
+        else {
+          let frame = self.applyButton.frame
+          self.expertiseCollection.frame = frame
+          self.applyButton.isHidden = true
+          self.expertiseCollection.isHidden = false
+          self.view.addSubview(self.expertiseCollection)
+          self.isSnooper = true
+          DispatchQueue.main.async {
+            self.expertiseCollection.reloadData()
+          }
         }
       }
     }
@@ -205,7 +209,7 @@ extension ProfileViewController {
     self.navigationController?.pushViewController(dvc, animated: true)
   }
 
-  @IBAction func applyButtonTapped(sender: AnyObject) {
+  @IBAction func applyButtonTapped(_ sender: AnyObject) {
     isEditButtonClicked = false
     let dvc = EditProfileViewController()
     var image = UIImage()
@@ -232,13 +236,13 @@ extension ProfileViewController {
 }
 // UICollection delegate, datasource, and flowlayout
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return self.expertise.count + 1
   }
 
-  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    let myCell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellId, forIndexPath: indexPath) as! ExpertiseCollectionViewCell
-    myCell.icon.font = UIFont.systemFontOfSize(12)
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellId, for: indexPath) as! ExpertiseCollectionViewCell
+    myCell.icon.font = UIFont.systemFont(ofSize: 12)
     if (indexPath.row == 0) {
       myCell.icon.text = "Ask me about:"
       myCell.icon.textColor = UIColor.secondaryTextColor()
@@ -247,42 +251,42 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDeleg
     else {
       myCell.icon.text = expertise[indexPath.row - 1].name
       myCell.icon.layer.borderWidth = 1
-      myCell.selected = true
+      myCell.isSelected = true
     }
 
     myCell.clipsToBounds = true
     return myCell
   }
 
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     var name = "Ask me about:" as NSString
     if (indexPath.row > 0) {
       let category = expertise[indexPath.row - 1]
       name = category.name as NSString
     }
 
-    let estimatedSize = name.sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(12)])
-    return CGSizeMake(estimatedSize.width + 8, 18)
+    let estimatedSize = name.size(attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 12)])
+    return CGSize(width: estimatedSize.width + 8, height: 18)
   }
 }
 
 // UITableview delegate and datasource
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
-  func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     return 8.0
   }
 
-  func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+  func numberOfSections(in tableView: UITableView) -> Int {
     return 1
   }
 
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return 1
   }
 
-  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier("settingsCell") as! SettingsTableViewCell
-    cell.icon.contentMode = .ScaleAspectFit
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell") as! SettingsTableViewCell
+    cell.icon.contentMode = .scaleAspectFit
     cell.category.text = "My Interests"
     cell.icon.image = UIImage(named: "interest")
 //    if (indexPath.row == 0) {
@@ -295,7 +299,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     return cell
   }
 
-  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let backItem = UIBarButtonItem()
     backItem.title = "Back"
     navigationItem.backBarButtonItem = backItem
@@ -319,29 +323,29 @@ private class EarningLabel: UIView {
   // 45 by 18
   let amount: UILabel = {
     let amount = UILabel()
-    amount.textAlignment = .Center
+    amount.textAlignment = .center
     amount.textColor = UIColor(white: 0, alpha: 0.7)
-    amount.font = UIFont.systemFontOfSize(16)
+    amount.font = UIFont.systemFont(ofSize: 16)
     return amount
   }()
 
   let label: UILabel = {
     //50 by 15
     let label = UILabel()
-    label.font = UIFont.systemFontOfSize(12)
+    label.font = UIFont.systemFont(ofSize: 12)
     label.text = "Earnings"
     label.textColor = UIColor.disabledColor()
-    label.textAlignment = .Center
+    label.textAlignment = .center
     return label
   }()
 
-  func setAmount(num: Double) {
+  func setAmount(_ num: Double) {
     amount.text = "$\(num)"
   }
 
   override init(frame: CGRect) {
     super.init(frame: frame)
-    backgroundColor = UIColor.whiteColor()
+    backgroundColor = UIColor.white
     addSubview(amount)
     addSubview(label)
 

@@ -16,9 +16,9 @@ class DiscoverTableViewCell: UITableViewCell {
   @IBOutlet weak var about: UILabel!
 
   override func awakeFromNib() {
-    about.font = about.font.fontWithSize(12)
-    name.font = UIFont.systemFontOfSize(14)
-    title.font = UIFont.systemFontOfSize(12)
+    about.font = about.font.withSize(12)
+    name.font = UIFont.systemFont(ofSize: 14)
+    title.font = UIFont.systemFont(ofSize: 12)
     title.textColor = UIColor.secondaryTextColor()
 
     name.numberOfLines = 1

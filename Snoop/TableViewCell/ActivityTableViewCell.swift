@@ -34,17 +34,17 @@ class ActivityTableViewCell: UITableViewCell {
     rateLabel.layer.cornerRadius = 2
     rateLabel.clipsToBounds = true
 
-    durationLabel.hidden = true
+    durationLabel.isHidden = true
     durationLabel.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
     durationLabel.layer.cornerRadius = 2
     durationLabel.clipsToBounds = true
 
-    question.font = UIFont.systemFontOfSize(13)
+    question.font = UIFont.systemFont(ofSize: 13)
 
-    responderName.font = UIFont.systemFontOfSize(13)
+    responderName.font = UIFont.systemFont(ofSize: 13)
     responderTitle.textColor = UIColor(red: 140/255, green: 157/255, blue: 170/255, alpha: 1.0)
 
-    askerName.font = UIFont.systemFontOfSize(12)
+    askerName.font = UIFont.systemFont(ofSize: 12)
   }
 
 }

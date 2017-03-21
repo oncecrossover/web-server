@@ -13,7 +13,7 @@ class PayWithCoinsView: UIView {
     // left 87, 30 by 30, top by 40
     let view = UIImageView()
     view.image = UIImage(named: "coin")
-    view.contentMode = .ScaleAspectFill
+    view.contentMode = .scaleAspectFill
     return view
   }()
 
@@ -21,9 +21,9 @@ class PayWithCoinsView: UIView {
     // left by 5 , 13 by 13
     let label = UILabel()
     label.text = "X"
-    label.textAlignment = .Center
-    label.font = UIFont.boldSystemFontOfSize(18)
-    label.textColor = UIColor.blackColor()
+    label.textAlignment = .center
+    label.font = UIFont.boldSystemFont(ofSize: 18)
+    label.textColor = UIColor.black
     return label
   }()
 
@@ -31,8 +31,8 @@ class PayWithCoinsView: UIView {
     // left by 5 15 by 28
     let label = UILabel()
     label.text = "8"
-    label.font = UIFont.boldSystemFontOfSize(24)
-    label.textColor = UIColor.blackColor()
+    label.font = UIFont.boldSystemFont(ofSize: 24)
+    label.textColor = UIColor.black
     return label
   }()
 
@@ -41,8 +41,8 @@ class PayWithCoinsView: UIView {
     let label = UILabel()
     label.text = "Confirm To Snoop?"
     label.textColor = UIColor(red: 42/255, green: 48/255, blue: 52/255, alpha: 1.0)
-    label.font = UIFont.boldSystemFontOfSize(16)
-    label.textAlignment = .Center
+    label.font = UIFont.boldSystemFont(ofSize: 16)
+    label.textAlignment = .center
     return label
   }()
 
@@ -61,21 +61,21 @@ class PayWithCoinsView: UIView {
 
   lazy var cancelButton: UIButton = {
     let button = UIButton()
-    button.setTitleColor(UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 0.6), forState: .Normal)
-    button.setTitle("Cancel", forState: .Normal)
+    button.setTitleColor(UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 0.6), for: UIControlState())
+    button.setTitle("Cancel", for: UIControlState())
     return button
   }()
 
   lazy var confirmButton: UIButton = {
     let button = UIButton()
-    button.setTitle("Confirm", forState: .Normal)
-    button.setTitleColor(UIColor.defaultColor(), forState: .Normal)
+    button.setTitle("Confirm", for: UIControlState())
+    button.setTitleColor(UIColor.defaultColor(), for: UIControlState())
     return button
   }()
 
   override init(frame: CGRect) {
     super.init(frame: frame)
-    backgroundColor = UIColor.whiteColor()
+    backgroundColor = UIColor.white
     addSubview(coinView)
     addSubview(crossLabel)
     addSubview(numberLabel)
@@ -93,31 +93,31 @@ class PayWithCoinsView: UIView {
     addConstraintsWithFormat("V:|-40-[v0(30)]-15-[v1(18)]-25-[v2(1)]-5-[v3]-5-|", views: coinView, confirmLabel, underline, verticalLine)
 
     // Additional setup for cross Label
-    crossLabel.centerYAnchor.constraintEqualToAnchor(coinView.centerYAnchor).active = true
-    crossLabel.heightAnchor.constraintEqualToAnchor(crossLabel.widthAnchor).active = true
+    crossLabel.centerYAnchor.constraint(equalTo: coinView.centerYAnchor).isActive = true
+    crossLabel.heightAnchor.constraint(equalTo: crossLabel.widthAnchor).isActive = true
 
     // Additional setup for numberLabel
-    numberLabel.centerYAnchor.constraintEqualToAnchor(coinView.centerYAnchor).active = true
-    numberLabel.heightAnchor.constraintEqualToConstant(18).active = true
+    numberLabel.centerYAnchor.constraint(equalTo: coinView.centerYAnchor).isActive = true
+    numberLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
 
     // Additional setup for confirmLabel
-    confirmLabel.widthAnchor.constraintEqualToConstant(240).active = true
-    confirmLabel.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true
+    confirmLabel.widthAnchor.constraint(equalToConstant: 240).isActive = true
+    confirmLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
 
     // Additional setup for two buttons and the vertical line
-    verticalLine.widthAnchor.constraintEqualToConstant(1).active = true
-    cancelButton.widthAnchor.constraintEqualToAnchor(confirmButton.widthAnchor).active = true
-    cancelButton.leadingAnchor.constraintEqualToAnchor(leadingAnchor).active = true
-    cancelButton.trailingAnchor.constraintEqualToAnchor(verticalLine.leadingAnchor).active = true
-    confirmButton.leadingAnchor.constraintEqualToAnchor(verticalLine.trailingAnchor).active = true
-    confirmButton.trailingAnchor.constraintEqualToAnchor(trailingAnchor).active = true
+    verticalLine.widthAnchor.constraint(equalToConstant: 1).isActive = true
+    cancelButton.widthAnchor.constraint(equalTo: confirmButton.widthAnchor).isActive = true
+    cancelButton.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+    cancelButton.trailingAnchor.constraint(equalTo: verticalLine.leadingAnchor).isActive = true
+    confirmButton.leadingAnchor.constraint(equalTo: verticalLine.trailingAnchor).isActive = true
+    confirmButton.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
   }
 
-  func setCount(count: Int) {
+  func setCount(_ count: Int) {
     self.numberLabel.text = String(count)
   }
 
-  func setConfirmMessage(message: String) {
+  func setConfirmMessage(_ message: String) {
     self.confirmLabel.text = message
   }
 

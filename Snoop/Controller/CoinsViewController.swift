@@ -23,16 +23,16 @@ class CoinsViewController: UIViewController {
   var askViewController: AskViewController?
 
   lazy var navBar: UINavigationBar = {
-    let navbar = UINavigationBar(frame: CGRectMake(0, 0,
-      self.view.frame.width, 64));
-    navbar.backgroundColor = UIColor.whiteColor()
-    navbar.titleTextAttributes = [ NSForegroundColorAttributeName:UIColor.blackColor()]
+    let navbar = UINavigationBar(frame: CGRect(x: 0, y: 0,
+      width: self.view.frame.width, height: 64));
+    navbar.backgroundColor = UIColor.white
+    navbar.titleTextAttributes = [ NSForegroundColorAttributeName:UIColor.black]
     let navItem = UINavigationItem(title: "My Coins")
     let closeImage = UIImageView()
     closeImage.frame = CGRect(x: 0, y: 0, width: 15, height: 15)
-    closeImage.image = UIImage(named : "close")?.imageWithRenderingMode(.AlwaysTemplate)
-    closeImage.contentMode = .ScaleAspectFit
-    closeImage.tintColor = UIColor.blackColor()
+    closeImage.image = UIImage(named : "close")?.withRenderingMode(.alwaysTemplate)
+    closeImage.contentMode = .scaleAspectFit
+    closeImage.tintColor = UIColor.black
     closeImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(closeButtonTapped)))
     navItem.leftBarButtonItem = UIBarButtonItem(customView: closeImage)
     navbar.items = [navItem]
@@ -45,10 +45,10 @@ class CoinsViewController: UIViewController {
     table.delegate = self
     table.dataSource = self
     table.tableFooterView = UIView()
-    table.separatorInset = UIEdgeInsetsZero
-    table.registerClass(CoinsTableViewCell.self, forCellReuseIdentifier: self.summaryCellId)
-    table.registerClass(CoinPriceTableViewCell.self, forCellReuseIdentifier: self.priceCellId)
-    table.registerClass(CoinPriceTableHeaderViewCell.self, forHeaderFooterViewReuseIdentifier: self.headerCellId)
+    table.separatorInset = UIEdgeInsets.zero
+    table.register(CoinsTableViewCell.self, forCellReuseIdentifier: self.summaryCellId)
+    table.register(CoinPriceTableViewCell.self, forCellReuseIdentifier: self.priceCellId)
+    table.register(CoinPriceTableHeaderViewCell.self, forHeaderFooterViewReuseIdentifier: self.headerCellId)
     return table
   }()
 
@@ -56,7 +56,7 @@ class CoinsViewController: UIViewController {
   var product = SKProduct()
 
   deinit {
-    NSNotificationCenter.defaultCenter().removeObserver(self) // app might crash without removing observer
+    NotificationCenter.default.removeObserver(self) // app might crash without removing observer
   }
 }
 
@@ -65,17 +65,17 @@ extension CoinsViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = UIColor.whiteColor()
+    view.backgroundColor = UIColor.white
 
     coinsTable.tableHeaderView = navBar
     self.view.addSubview(coinsTable)
     self.view.addConstraintsWithFormat("H:|[v0]|", views: coinsTable)
     self.view.addConstraintsWithFormat("V:|[v0]|", views: coinsTable)
 
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.addCoins(_:)), name: self.notificationName, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(self.addCoins(_:)), name: NSNotification.Name(rawValue: self.notificationName), object: nil)
   }
 
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     self.coinsTable.reloadData()
   }
@@ -86,7 +86,7 @@ extension CoinsViewController {
   func closeButtonTapped() {
     let vc = self.homeViewController
     let avc = self.askViewController
-    self.dismissViewControllerAnimated(true) {
+    self.dismiss(animated: true) {
       vc?.loadCoinCount(self.numOfCoins)
       avc?.coinCount = self.numOfCoins
     }
@@ -95,9 +95,9 @@ extension CoinsViewController {
 
 // Private methods
 extension CoinsViewController {
-  func addCoins(notification: NSNotification) {
+  func addCoins(_ notification: Notification) {
     if let uid = notification.userInfo?["uid"] as? String {
-      let currentUid = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+      let currentUid = UserDefaults.standard.string(forKey: "email")!
       // Check if these two are the same user if app relaunches or user signs out.
       if (currentUid == uid) {
         if let amount = notification.userInfo?["amount"] as? Int {
@@ -111,13 +111,13 @@ extension CoinsViewController {
 
 // UITableview delegate
 extension CoinsViewController: UITableViewDelegate, UITableViewDataSource {
-  func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+  func numberOfSections(in tableView: UITableView) -> Int {
     return 2
   }
 
-  func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     if (section == 1) {
-      let myCell = tableView.dequeueReusableHeaderFooterViewWithIdentifier(self.headerCellId) as! CoinPriceTableHeaderViewCell
+      let myCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: self.headerCellId) as! CoinPriceTableHeaderViewCell
       return myCell
     }
     else {
@@ -125,7 +125,7 @@ extension CoinsViewController: UITableViewDelegate, UITableViewDataSource {
     }
   }
 
-  func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     if (section == 1) {
       return 60
     }
@@ -133,7 +133,7 @@ extension CoinsViewController: UITableViewDelegate, UITableViewDataSource {
       return 0
     }
   }
-  func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     if (indexPath.section == 0) {
       return 70
     }
@@ -142,7 +142,7 @@ extension CoinsViewController: UITableViewDelegate, UITableViewDataSource {
     }
   }
 
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if (section == 0) {
       return 1
     }
@@ -151,9 +151,9 @@ extension CoinsViewController: UITableViewDelegate, UITableViewDataSource {
     }
   }
 
-  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     if (indexPath.section == 1) {
-      let myCell = tableView.dequeueReusableCellWithIdentifier(self.priceCellId, forIndexPath: indexPath) as! CoinPriceTableViewCell
+      let myCell = tableView.dequeueReusableCell(withIdentifier: self.priceCellId, for: indexPath) as! CoinPriceTableViewCell
       if (indexPath.row == 1) {
         myCell.popularLabel.text = "MOST POPULAR!"
         myCell.price.text = "$19.99"
@@ -179,21 +179,21 @@ extension CoinsViewController: UITableViewDelegate, UITableViewDataSource {
       return myCell
     }
     else {
-      let myCell = tableView.dequeueReusableCellWithIdentifier(self.summaryCellId, forIndexPath: indexPath) as! CoinsTableViewCell
+      let myCell = tableView.dequeueReusableCell(withIdentifier: self.summaryCellId, for: indexPath) as! CoinsTableViewCell
       print("number of coins is \(numOfCoins)")
       myCell.coinCount.text = String(numOfCoins)
       return myCell
     }
   }
 
-  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if (indexPath.section == 1) {
       let productId = consumableProducts[indexPath.row]
       print("initiating " + productId)
       for product in IAPManager.sharedInstance.products {
         if (product.productIdentifier == productId) {
           let payment = SKPayment(product: product)
-          SKPaymentQueue.defaultQueue().addPayment(payment)
+          SKPaymentQueue.default().add(payment)
         }
       }
     }

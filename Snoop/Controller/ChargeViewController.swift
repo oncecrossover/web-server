@@ -21,8 +21,8 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
   var paymentModule = Payment()
   var utility = UIUtility()
   var questionModule = Question()
-  var chargeInfo: (amount: Int!, type: String!, quandaId: Int!)
-  var submittedQuestion: (amount: Int!, type: String!, question: String!, askerId: String!, responderId: String!)
+  var chargeInfo: (amount: Int?, type: String?, quandaId: Int?)
+  var submittedQuestion: (amount: Int?, type: String?, question: String?, askerId: String?, responderId: String?)
   var isPaid = false
   var isSnooped = true
   var chargeAmount = 0
@@ -31,74 +31,74 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
     super.viewDidLoad()
 
     if (chargeInfo.amount != nil) {
-      chargeLabel.text = "$" + String(chargeInfo.amount)
-      chargeAmount = chargeInfo.amount
+      chargeLabel.text = "$" + String(describing: chargeInfo.amount)
+      chargeAmount = chargeInfo.amount!
     }
     else {
-      chargeLabel.text = "$" + String(submittedQuestion.amount)
-      chargeAmount = submittedQuestion.amount
+      chargeLabel.text = "$" + String(describing: submittedQuestion.amount)
+      chargeAmount = submittedQuestion.amount!
     }
 
-    payButton.enabled = false
-    addCardButton.setTitleColor(UIColor.defaultColor(), forState: .Normal)
-    addCardButton.setTitleColor(UIColor.disabledColor(), forState: .Disabled)
-    addCardButton.titleLabel!.font = UIFont.systemFontOfSize(13)
+    payButton.isEnabled = false
+    addCardButton.setTitleColor(UIColor.defaultColor(), for: UIControlState())
+    addCardButton.setTitleColor(UIColor.disabledColor(), for: .disabled)
+    addCardButton.titleLabel!.font = UIFont.systemFont(ofSize: 13)
 
     header.textColor = UIColor.secondaryTextColor()
     paymentLabel.textColor = UIColor.secondaryTextColor()
 
-    balanceLabel.font = UIFont.systemFontOfSize(13)
+    balanceLabel.font = UIFont.systemFont(ofSize: 13)
 
     navigationController?.delegate = self
 
     // Do any additional setup after loading the view.
   }
 
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     loadPaymentMethod()
   }
 
   func loadPaymentMethod() {
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
-    let myUrl = NSURL(string: generics.HTTPHOST + "balances/" + uid!)
+    let uid = UserDefaults.standard.string(forKey: "email")
+    let myUrl = URL(string: generics.HTTPHOST + "balances/" + uid!)
     self.generics.getObjectById(myUrl!) { dict in
       let balance = dict["balance"] as! Double
       if (balance >= Double(self.chargeAmount)) {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
           self.balanceLabel.text = "Balance(" + String(balance) + ")"
-          self.addCardButton.enabled = false
-          self.payButton.enabled = true
+          self.addCardButton.isEnabled = false
+          self.payButton.isEnabled = true
           if (self.chargeAmount == 0) {
-            self.payButton.setTitle("Get It For Free", forState: .Normal)
+            self.payButton.setTitle("Get It For Free", for: UIControlState())
           }
           else {
-            self.payButton.setTitle("Pay Now", forState: .Normal)
+            self.payButton.setTitle("Pay Now", for: UIControlState())
           }
         }
       }
       else {
         self.paymentModule.getPayments("uid=" + uid!) { jsonArray in
           var hasCardOnFile = false
-          for paymentInfo in jsonArray {
+          for paymentInfo in jsonArray as! [[String: AnyObject]] {
             if (paymentInfo["default"] as! Bool == true) {
               hasCardOnFile = true
               let brand = paymentInfo["brand"] as! String
               let last4 = paymentInfo["last4"] as! String
-              dispatch_async(dispatch_get_main_queue()) {
+              DispatchQueue.main.async {
                 self.balanceLabel.text = brand + " " + last4
-                self.addCardButton.enabled = false
-                self.payButton.enabled = true
+                self.addCardButton.isEnabled = false
+                self.payButton.isEnabled = true
               }
               return
             }
           }
 
           if (!hasCardOnFile) {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
               self.balanceLabel.text = "Balance(" + String(balance) + ")"
-              self.payButton.enabled = false
-              self.addCardButton.enabled = true
+              self.payButton.isEnabled = false
+              self.addCardButton.isEnabled = true
             }
           }
         }
@@ -107,7 +107,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
     }
   }
 
-  @IBAction func payButtonTapped(sender: AnyObject) {
+  @IBAction func payButtonTapped(_ sender: AnyObject) {
     if (isSnooped){
       submitPaymentForSnoop()
     }
@@ -116,7 +116,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
     }
   }
 
-  @IBAction func addCardButtonTapped(sender: AnyObject) {
+  @IBAction func addCardButtonTapped(_ sender: AnyObject) {
     let backItem = UIBarButtonItem()
     backItem.title = "Back"
     navigationItem.backBarButtonItem = backItem
@@ -125,23 +125,23 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
   }
   func submitPaymentForSnoop() {
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Submitting Your Payment...")
-    let uid = NSUserDefaults.standardUserDefaults().stringForKey("email")
-    let quandaData: [String:AnyObject] = ["id": chargeInfo.quandaId]
-    let jsonData: [String:AnyObject] = ["uid": uid!, "type": "SNOOPED", "quanda": quandaData]
+    let uid = UserDefaults.standard.string(forKey: "email")
+    let quandaData: [String:AnyObject] = ["id": chargeInfo.quandaId as AnyObject]
+    let jsonData: [String:AnyObject] = ["uid": uid! as AnyObject, "type": "SNOOPED" as AnyObject, "quanda": quandaData as AnyObject]
     generics.createObject(generics.HTTPHOST + "qatransactions", jsonData: jsonData) { result in
       self.isPaid = true
       if (!result.isEmpty) {
         self.isPaid = false
-        dispatch_async(dispatch_get_main_queue()) {
-          activityIndicator.hideAnimated(true)
+        DispatchQueue.main.async {
+          activityIndicator.hide(animated: true)
           self.displayPaymentResultMessage(result)
         }
       }
       else {
-        let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
-        dispatch_after(time, dispatch_get_main_queue()) {
-          activityIndicator.hideAnimated(true)
-          self.performSegueWithIdentifier("paymentToConfirmation", sender: self)
+        let time = DispatchTime.now() + Double(1 * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) {
+          activityIndicator.hide(animated: true)
+          self.performSegue(withIdentifier: "paymentToConfirmation", sender: self)
         }
       }
     }
@@ -153,25 +153,25 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
     let responder = submittedQuestion.responderId
     let question = submittedQuestion.question
     let quandaData = ["question" : question, "responder" : responder]
-    let jsonData:[String: AnyObject] = ["uid": asker, "type" : "ASKED", "quanda" : quandaData]
+    let jsonData:[String: AnyObject] = ["uid": asker as AnyObject, "type" : "ASKED" as AnyObject, "quanda" : quandaData as AnyObject]
     generics.createObject(generics.HTTPHOST + "qatransactions", jsonData: jsonData) { result in
       self.isPaid = true
       if (!result.isEmpty) {
         self.isPaid = false
       }
       else {
-        let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
-        dispatch_after(time, dispatch_get_main_queue()) {
-          activityIndicator.hideAnimated(true)
+        let time = DispatchTime.now() + Double(1 * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) {
+          activityIndicator.hide(animated: true)
         }
       }
     }
   }
 
-  func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+  func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
     if let controller = viewController as? ViewController {
       if (isPaid) {
-        controller.paidSnoops.insert(chargeInfo.quandaId)
+        controller.paidSnoops.insert(chargeInfo.quandaId!)
         controller.feedTable.reloadData()
       }
     }
@@ -183,7 +183,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
     }
   }
 
-  func displayPaymentResultMessage(message: String!) {
+  func displayPaymentResultMessage(_ message: String!) {
     if (self.isPaid) {
       self.utility.displayAlertMessage(message, title: "OK", sender: self)
     }
@@ -192,7 +192,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
     }
   }
 
-  @IBAction func unwindPage(segue: UIStoryboardSegue) {
-    self.navigationController?.popViewControllerAnimated(true)
+  @IBAction func unwindPage(_ segue: UIStoryboardSegue) {
+    _ = self.navigationController?.popViewController(animated: true)
   }
 }

@@ -12,7 +12,7 @@ class InterestCollectionViewCell: UICollectionViewCell {
 
   let icon: UIImageView = {
     let image = UIImageView()
-    image.contentMode = .ScaleAspectFill
+    image.contentMode = .scaleAspectFill
     image.layer.cornerRadius = 15
     image.clipsToBounds = true
     return image
@@ -26,9 +26,9 @@ class InterestCollectionViewCell: UICollectionViewCell {
     addConstraintsWithFormat("V:|[v0]|", views: icon)
   }
 
-  override var selected: Bool {
+  override var isSelected: Bool {
     didSet {
-      if (selected) {
+      if (isSelected) {
         icon.tintColor = UIColor.defaultColor()
       }
       else {

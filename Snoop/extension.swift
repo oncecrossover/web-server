@@ -24,14 +24,14 @@ extension UIColor {
 }
 
 extension UIView {
-  public func addConstraintsWithFormat(format: String, views: UIView...) {
+  public func addConstraintsWithFormat(_ format: String, views: UIView...) {
     var viewDictionary = [String: UIView]()
-    for (index, view) in views.enumerate() {
+    for (index, view) in views.enumerated() {
       let key = "v\(index)"
       view.translatesAutoresizingMaskIntoConstraints = false
       viewDictionary[key] = view
     }
 
-    addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(format, options: [], metrics: nil, views: viewDictionary))
+    addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: [], metrics: nil, views: viewDictionary))
   }
 }

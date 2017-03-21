@@ -16,14 +16,14 @@ class CoverFrameCollectionViewCell: UICollectionViewCell {
     return image
   }()
 
-  override var selected: Bool {
+  override var isSelected: Bool {
     didSet {
-      if (selected) {
-        layer.borderColor = UIColor(red: 74/255, green: 144/255, blue: 226/255, alpha: 1.0).CGColor
+      if (isSelected) {
+        layer.borderColor = UIColor(red: 74/255, green: 144/255, blue: 226/255, alpha: 1.0).cgColor
         layer.borderWidth = 2
       }
       else {
-        layer.borderColor = UIColor.clearColor().CGColor
+        layer.borderColor = UIColor.clear.cgColor
         layer.borderWidth = 0
       }
     }
@@ -33,10 +33,10 @@ class CoverFrameCollectionViewCell: UICollectionViewCell {
     super.init(frame: frame)
     addSubview(coverImage)
 
-    coverImage.leadingAnchor.constraintEqualToAnchor(leadingAnchor).active = true
-    coverImage.trailingAnchor.constraintEqualToAnchor(trailingAnchor).active = true
-    coverImage.topAnchor.constraintEqualToAnchor(topAnchor).active = true
-    coverImage.bottomAnchor.constraintEqualToAnchor(bottomAnchor).active = true
+    coverImage.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+    coverImage.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+    coverImage.topAnchor.constraint(equalTo: topAnchor).isActive = true
+    coverImage.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
   }
 
   required init?(coder aDecoder: NSCoder) {

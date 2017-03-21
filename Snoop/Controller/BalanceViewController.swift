@@ -16,9 +16,9 @@ class BalanceViewController: UIViewController {
   let balanceLabel: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
-    label.font = UIFont.systemFontOfSize(18)
+    label.font = UIFont.systemFont(ofSize: 18)
     label.textColor = UIColor(red: 136/255, green: 153/255, blue: 166/255, alpha: 1.0)
-    label.textAlignment = .Center
+    label.textAlignment = .center
     label.text = "Available Balance"
     return label
   }()
@@ -26,37 +26,37 @@ class BalanceViewController: UIViewController {
   let balanceValue: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
-    label.font = UIFont.systemFontOfSize(20)
-    label.textColor = UIColor.blackColor()
-    label.textAlignment = .Center
+    label.font = UIFont.systemFont(ofSize: 20)
+    label.textColor = UIColor.black
+    label.textAlignment = .center
     return label
   }()
 
   let note: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
-    label.font = UIFont.systemFontOfSize(11)
+    label.font = UIFont.systemFont(ofSize: 11)
     label.textColor = UIColor(red: 136/255, green: 153/255, blue: 166/255, alpha: 1.0)
-    label.textAlignment = .Center
+    label.textAlignment = .center
     label.text = "A minimum balance of $5 is required to cash out"
     return label
   }()
 
   let cashoutButton : CustomButton = {
     let button = CustomButton()
-    button.setTitle("Cash Out", forState: .Normal)
-    button.setTitle("Cash Out", forState: .Disabled)
+    button.setTitle("Cash Out", for: UIControlState())
+    button.setTitle("Cash Out", for: .disabled)
     button.translatesAutoresizingMaskIntoConstraints = false
     return button
   }()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = UIColor.whiteColor()
+    view.backgroundColor = UIColor.white
     initView()
   }
 
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     initView()
   }
@@ -69,29 +69,29 @@ class BalanceViewController: UIViewController {
 
     // setup value
     balanceValue.text = "$ \(balance)"
-    cashoutButton.enabled = canCashout
+    cashoutButton.isEnabled = canCashout
 
     // setup constraints
-    balanceLabel.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-    balanceLabel.widthAnchor.constraintEqualToConstant(150).active = true
-    balanceLabel.heightAnchor.constraintEqualToConstant(20).active = true
-    balanceLabel.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: 120).active = true
+    balanceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    balanceLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
+    balanceLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+    balanceLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 120).isActive = true
 
-    balanceValue.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-    balanceValue.heightAnchor.constraintEqualToConstant(25).active = true
-    balanceValue.widthAnchor.constraintEqualToConstant(90).active = true
-    balanceValue.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: 160).active = true
+    balanceValue.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    balanceValue.heightAnchor.constraint(equalToConstant: 25).isActive = true
+    balanceValue.widthAnchor.constraint(equalToConstant: 90).isActive = true
+    balanceValue.topAnchor.constraint(equalTo: view.topAnchor, constant: 160).isActive = true
 
-    note.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-    note.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
-    note.heightAnchor.constraintEqualToConstant(15).active = true
-    note.bottomAnchor.constraintEqualToAnchor(cashoutButton.topAnchor, constant: -20).active = true
+    note.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    note.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+    note.heightAnchor.constraint(equalToConstant: 15).isActive = true
+    note.bottomAnchor.constraint(equalTo: cashoutButton.topAnchor, constant: -20).isActive = true
 
     let height = self.tabBarController?.tabBar.frame.height
-    cashoutButton.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-    cashoutButton.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
-    cashoutButton.heightAnchor.constraintEqualToConstant(40).active = true
-    cashoutButton.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -height!).active = true
+    cashoutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    cashoutButton.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+    cashoutButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    cashoutButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -height!).isActive = true
   }
 
 }

@@ -15,14 +15,14 @@ class ContentViewController: UIViewController {
 
   lazy var imageView: UIImageView = {
     let view = UIImageView()
-    view.contentMode = .ScaleAspectFit
+    view.contentMode = .scaleAspectFit
     view.image = UIImage(named: self.imageName)
     return view
   }()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = UIColor.whiteColor()
+    view.backgroundColor = UIColor.white
 
     view.addSubview(imageView)
     view.addConstraintsWithFormat("H:|-4-[v0]-4-|", views: imageView)

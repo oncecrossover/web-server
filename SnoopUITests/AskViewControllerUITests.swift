@@ -41,7 +41,7 @@ class AskViewControllerUITests: XCTestCase {
     passwordSecureTextField.tap()
     passwordSecureTextField.typeText("asdfgh")
 
-    app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).element.childrenMatchingType(.Other).element.tap()
+    app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.tap()
     app.buttons["Log In"].tap()
 
     // Go to Tyson' profile from discover
@@ -52,7 +52,7 @@ class AskViewControllerUITests: XCTestCase {
     tablesQuery.staticTexts["Mike Tyson"].tap()
 
     // ASk a question
-    let textView = app.scrollViews.childrenMatchingType(.TextView).element
+    let textView = app.scrollViews.children(matching: .textView).element
     textView.tap()
     textView.typeText("What do you think about Floyd talking about greater than Ali?")
     app.buttons["Return"].tap()
@@ -62,8 +62,8 @@ class AskViewControllerUITests: XCTestCase {
     // Wait for the payment method to load and tap on "pay now"
     let predicate = NSPredicate(format: "enabled == 1")
     let query = XCUIApplication().buttons["Pay Now"]
-    expectationForPredicate(predicate, evaluatedWithObject: query, handler: nil)
-    waitForExpectationsWithTimeout(5, handler: nil)
+    expectation(for: predicate, evaluatedWith: query, handler: nil)
+    waitForExpectations(timeout: 5, handler: nil)
     app.buttons["Pay Now"].tap()
 
     app.buttons["done"].tap()

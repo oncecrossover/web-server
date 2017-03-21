@@ -19,13 +19,13 @@ class WelcomeViewController: UIViewController {
     let layout = UICollectionViewFlowLayout()
     layout.minimumInteritemSpacing = 0
     layout.minimumLineSpacing = 0
-    layout.scrollDirection = .Horizontal
+    layout.scrollDirection = .horizontal
     let introduction = UICollectionView(frame: .zero, collectionViewLayout: layout)
     introduction.dataSource = self
     introduction.delegate = self
     introduction.translatesAutoresizingMaskIntoConstraints = false
-    introduction.backgroundColor = UIColor.clearColor()
-    introduction.registerClass(WelcomeCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
+    introduction.backgroundColor = UIColor.clear
+    introduction.register(WelcomeCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
     introduction.showsHorizontalScrollIndicator = false
     return introduction
   }()
@@ -34,11 +34,11 @@ class WelcomeViewController: UIViewController {
     let pageControl = UIPageControl()
     pageControl.numberOfPages = self.titles.count
     pageControl.currentPage = 0
-    pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
+    pageControl.pageIndicatorTintColor = UIColor.lightGray
     pageControl.currentPageIndicatorTintColor = UIColor.defaultColor()
     pageControl.translatesAutoresizingMaskIntoConstraints = false
 
-    pageControl.addTarget(self, action: #selector(pageControlTapped), forControlEvents: .ValueChanged)
+    pageControl.addTarget(self, action: #selector(pageControlTapped), for: .valueChanged)
     return pageControl
   }()
 
@@ -47,10 +47,10 @@ class WelcomeViewController: UIViewController {
     button.layer.cornerRadius = 10
     button.clipsToBounds = true
     button.backgroundColor = UIColor.defaultColor()
-    button.setTitle("Sign Up", forState: .Normal)
-    button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+    button.setTitle("Sign Up", for: UIControlState())
+    button.setTitleColor(UIColor.white, for: UIControlState())
 
-    button.addTarget(self, action: #selector(signupButtonTapped), forControlEvents: .TouchUpInside)
+    button.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
     button.translatesAutoresizingMaskIntoConstraints = false
     return button
   }()
@@ -60,12 +60,12 @@ class WelcomeViewController: UIViewController {
     button.layer.cornerRadius = 10
     button.clipsToBounds = true
     button.layer.borderWidth = 1
-    button.layer.borderColor = UIColor.defaultColor().CGColor
-    button.setTitle("Log In", forState: .Normal)
-    button.setTitleColor(UIColor.defaultColor(), forState: .Normal)
-    button.backgroundColor = UIColor.whiteColor()
+    button.layer.borderColor = UIColor.defaultColor().cgColor
+    button.setTitle("Log In", for: UIControlState())
+    button.setTitleColor(UIColor.defaultColor(), for: UIControlState())
+    button.backgroundColor = UIColor.white
 
-    button.addTarget(self, action: #selector(loginButtonTapped), forControlEvents: .TouchUpInside)
+    button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
     button.translatesAutoresizingMaskIntoConstraints = false
     return button
   }()
@@ -80,26 +80,26 @@ class WelcomeViewController: UIViewController {
     view.addSubview(loginButton)
 
     // Setup constraints for introduction view
-    introduction.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-    introduction.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor).active = true
-    introduction.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
-    introduction.heightAnchor.constraintEqualToConstant(215).active = true
+    introduction.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    introduction.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    introduction.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+    introduction.heightAnchor.constraint(equalToConstant: 215).isActive = true
 
     // Setup PageControl constraints
-    pageControl.widthAnchor.constraintEqualToConstant(120).active = true
-    pageControl.heightAnchor.constraintEqualToConstant(10).active = true
-    pageControl.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-    pageControl.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -130).active = true
+    pageControl.widthAnchor.constraint(equalToConstant: 120).isActive = true
+    pageControl.heightAnchor.constraint(equalToConstant: 10).isActive = true
+    pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    pageControl.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -130).isActive = true
 
     // Setup button
-    signupbutton.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor, constant: 25).active = true
-    signupbutton.heightAnchor.constraintEqualToConstant(47).active = true
-    signupbutton.trailingAnchor.constraintEqualToAnchor(view.centerXAnchor, constant: -12).active = true
-    signupbutton.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -45).active = true
-    loginButton.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor, constant: -25).active = true
-    loginButton.heightAnchor.constraintEqualToAnchor(signupbutton.heightAnchor).active = true
-    loginButton.leadingAnchor.constraintEqualToAnchor(view.centerXAnchor, constant: 12).active = true
-    loginButton.bottomAnchor.constraintEqualToAnchor(signupbutton.bottomAnchor).active = true
+    signupbutton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25).isActive = true
+    signupbutton.heightAnchor.constraint(equalToConstant: 47).isActive = true
+    signupbutton.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -12).isActive = true
+    signupbutton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -45).isActive = true
+    loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25).isActive = true
+    loginButton.heightAnchor.constraint(equalTo: signupbutton.heightAnchor).isActive = true
+    loginButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 12).isActive = true
+    loginButton.bottomAnchor.constraint(equalTo: signupbutton.bottomAnchor).isActive = true
 
   }
 }
@@ -108,8 +108,8 @@ class WelcomeViewController: UIViewController {
 extension WelcomeViewController {
   func pageControlTapped() {
     let currentPage = self.pageControl.currentPage
-    let indexPath = NSIndexPath(forRow: currentPage, inSection: 0)
-    self.introduction.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated: true)
+    let indexPath = IndexPath(row: currentPage, section: 0)
+    self.introduction.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
   }
 
   func signupButtonTapped() {
@@ -124,20 +124,20 @@ extension WelcomeViewController {
 }
 
 extension WelcomeViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-  func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 1
   }
 
-  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return titles.count
   }
 
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-    return CGSizeMake(view.frame.width, 215)
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    return CGSize(width: view.frame.width, height: 215)
   }
 
-  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellId, forIndexPath: indexPath) as! WelcomeCollectionViewCell
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellId, for: indexPath) as! WelcomeCollectionViewCell
     cell.title.text = titles[indexPath.row]
     cell.summary.text = summaries[indexPath.row]
     return cell
@@ -145,13 +145,13 @@ extension WelcomeViewController: UICollectionViewDataSource, UICollectionViewDel
 }
 
 extension WelcomeViewController: UIScrollViewDelegate {
-  func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+  func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
     let pageWidth = introduction.frame.size.width
     let halfPageSize = pageWidth / 2
     pageControl.currentPage = Int((introduction.contentOffset.x + halfPageSize) / pageWidth)
     // Add scroll to position action
-    let indexPath = NSIndexPath(forRow: pageControl.currentPage, inSection: 0)
-    self.introduction.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated: true)
+    let indexPath = IndexPath(row: pageControl.currentPage, section: 0)
+    self.introduction.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
   }
 }
 
