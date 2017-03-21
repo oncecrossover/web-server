@@ -94,6 +94,8 @@ public class HttpSnoopServerHandler
       send100Continue(ctx);
     }
 
+    LOG.info("http/https request uri: " + request.uri());
+
     final ResourcePathParser pathParser = new ResourcePathParser(request.uri());
     writeResponse(ctx, dispatchRequest(pathParser, ctx));
     ctx.writeAndFlush(Unpooled.EMPTY_BUFFER)
