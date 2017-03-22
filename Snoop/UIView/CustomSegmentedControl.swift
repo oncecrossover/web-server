@@ -30,15 +30,31 @@ class CustomSegmentedControl: UIView, UICollectionViewDataSource, UICollectionVi
     return collectionView
   }()
 
+  lazy var slidingBar: UIView = {
+    let bar = UIView()
+    bar.translatesAutoresizingMaskIntoConstraints = false
+    bar.backgroundColor = UIColor.defaultColor()
+    return bar
+  }()
+
+  var slidingBarLeadingAnchor: NSLayoutConstraint?
+
   override init(frame: CGRect) {
     super.init(frame: frame)
     self.frame = frame
     self.addSubview(controlBar)
+    self.addSubview(slidingBar)
     controlBar.register(controlCell.self, forCellWithReuseIdentifier: self.cellId)
     controlBar.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
     controlBar.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
     controlBar.topAnchor.constraint(equalTo: topAnchor).isActive = true
     controlBar.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+
+    slidingBar.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1/3).isActive = true
+    slidingBar.heightAnchor.constraint(equalToConstant: 1).isActive = true
+    slidingBar.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+    slidingBarLeadingAnchor = slidingBar.leadingAnchor.constraint(equalTo: leadingAnchor)
+    slidingBarLeadingAnchor?.isActive = true
 
     NotificationCenter.default.addObserver(self, selector: #selector(reloadQuestions), name: NSNotification.Name(rawValue: "reloadQuestions"), object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(reloadAnswers), name: NSNotification.Name(rawValue: "reloadAnswers"), object: nil)
@@ -86,6 +102,11 @@ class CustomSegmentedControl: UIView, UICollectionViewDataSource, UICollectionVi
 
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let index = indexPath.row
+    let constant = self.frame.width / 3 * CGFloat(index)
+    slidingBarLeadingAnchor?.constant = constant
+    UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+      self.layoutIfNeeded()
+    }, completion: nil)
     delegate.loadIndex(index)
   }
 }
@@ -100,35 +121,21 @@ class controlCell: UICollectionViewCell {
     return control
   }()
 
-  let underline: UIView = {
-    let line = UIView()
-    line.backgroundColor = UIColor(red: 136/255, green: 153/255, blue: 166/255, alpha: 1.0)
-    line.translatesAutoresizingMaskIntoConstraints = false
-    return line
-  }()
-
   override var isSelected: Bool {
     didSet{
       controlName.textColor = isSelected ? UIColor.defaultColor() : UIColor(red: 136/255, green: 153/255, blue: 166/255, alpha: 1.0)
-      underline.backgroundColor = isSelected ? UIColor.defaultColor() : UIColor(red: 136/255, green: 153/255, blue: 166/255, alpha: 1.0)
     }
   }
 
   override init(frame: CGRect) {
     super.init(frame: frame)
     self.addSubview(controlName)
-    self.addSubview(underline)
 
     // set contraints
     controlName.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     controlName.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     controlName.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
     controlName.heightAnchor.constraint(equalToConstant: 30).isActive = true
-
-    underline.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-    underline.heightAnchor.constraint(equalToConstant: 1).isActive = true
-    underline.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-    underline.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
   }
 
   required init?(coder aDecoder: NSCoder) {
