@@ -43,6 +43,7 @@
 		4A55E8FD1E2877D000B033F4 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A55E8FC1E2877D000B033F4 /* CustomSegmentedControl.swift */; };
 		4A55E8FF1E28AD3700B033F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A55E8FE1E28AD3700B033F4 /* LaunchScreen.storyboard */; };
 		4A55E9011E332E8E00B033F4 /* CustomCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A55E9001E332E8E00B033F4 /* CustomCameraView.swift */; };
+		4A58B0E61E83902E0079F46E /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A58B0E51E83902E0079F46E /* ProgressView.swift */; };
 		4A5A9A311D80D38F00140AA9 /* AskViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9A301D80D38F00140AA9 /* AskViewControllerUITests.swift */; };
 		4A5B257D1D65247700691696 /* SnoopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B257C1D65247700691696 /* SnoopUITests.swift */; };
 		4A5B25851D6524EB00691696 /* ViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B25841D6524EB00691696 /* ViewControllerUITests.swift */; };
@@ -86,6 +87,7 @@
 		4AD721A41D8335B600B9E64E /* TutorialViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD721A31D8335B600B9E64E /* TutorialViewControllerUITests.swift */; };
 		4AD8A6A21D63E8AF00757D9D /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD8A6A11D63E8AF00757D9D /* Stripe.framework */; };
 		4AD8A6A41D63E8C600757D9D /* Stripe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4AD8A6A31D63E8C600757D9D /* Stripe.bundle */; };
+		4ADECB521E83A98C00DA8998 /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADECB511E83A98C00DA8998 /* Answer.swift */; };
 		4ADFD38E1E56628B00CD3D92 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADFD3671E56628B00CD3D92 /* MKAnnotationView+WebCache.m */; };
 		4ADFD38F1E56628B00CD3D92 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADFD3691E56628B00CD3D92 /* NSData+ImageContentType.m */; };
 		4ADFD3901E56628B00CD3D92 /* NSImage+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADFD36B1E56628B00CD3D92 /* NSImage+WebCache.m */; };
@@ -170,6 +172,7 @@
 		4A55E8FC1E2877D000B033F4 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 		4A55E8FE1E28AD3700B033F4 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4A55E9001E332E8E00B033F4 /* CustomCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCameraView.swift; sourceTree = "<group>"; };
+		4A58B0E51E83902E0079F46E /* ProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		4A5A9A301D80D38F00140AA9 /* AskViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AskViewControllerUITests.swift; sourceTree = "<group>"; };
 		4A5B257A1D65247700691696 /* SnoopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnoopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A5B257C1D65247700691696 /* SnoopUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoopUITests.swift; sourceTree = "<group>"; };
@@ -217,6 +220,7 @@
 		4AD721A31D8335B600B9E64E /* TutorialViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewControllerUITests.swift; sourceTree = "<group>"; };
 		4AD8A6A11D63E8AF00757D9D /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Stripe.framework; sourceTree = "<group>"; };
 		4AD8A6A31D63E8C600757D9D /* Stripe.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Stripe.bundle; path = Stripe.framework/Stripe.bundle; sourceTree = "<group>"; };
+		4ADECB511E83A98C00DA8998 /* Answer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
 		4ADFD3661E56628B00CD3D92 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
 		4ADFD3671E56628B00CD3D92 /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
 		4ADFD3681E56628B00CD3D92 /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
@@ -396,6 +400,7 @@
 				4A152F611D59106700FA48E7 /* Generics.swift */,
 				4A27FCC21E60C96000D78294 /* Category.swift */,
 				4A7971E41E6E2494003105FD /* Coin.swift */,
+				4ADECB511E83A98C00DA8998 /* Answer.swift */,
 			);
 			path = HTTP;
 			sourceTree = "<group>";
@@ -421,6 +426,7 @@
 				4AF303B61E6E89A20048895D /* PayWithCoinsView.swift */,
 				4AF303B81E75CD210048895D /* ProfileView.swift */,
 				4AF303BA1E78A1BA0048895D /* BuyCoinsView.swift */,
+				4A58B0E51E83902E0079F46E /* ProgressView.swift */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -683,6 +689,7 @@
 				4A7971E11E6CF51F003105FD /* CoinPriceTableHeaderViewCell.swift in Sources */,
 				4AF303BB1E78A1BA0048895D /* BuyCoinsView.swift in Sources */,
 				4A55E8FB1E282DB600B033F4 /* BalanceViewController.swift in Sources */,
+				4ADECB521E83A98C00DA8998 /* Answer.swift in Sources */,
 				4A10DCCE1E5BA8B3009E3996 /* SignupView.swift in Sources */,
 				4A3A56651E26DECB00FC0F3B /* CustomButton.swift in Sources */,
 				4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */,
@@ -708,6 +715,7 @@
 				4AC9231F1D360A0800C83177 /* FeedTableViewCell.swift in Sources */,
 				4A7971E71E6E4C2D003105FD /* IAPManager.swift in Sources */,
 				4A6730BB1E23301A00C512B1 /* SettingsTableViewCell.swift in Sources */,
+				4A58B0E61E83902E0079F46E /* ProgressView.swift in Sources */,
 				4ADFD38E1E56628B00CD3D92 /* MKAnnotationView+WebCache.m in Sources */,
 				4AF303B91E75CD210048895D /* ProfileView.swift in Sources */,
 				4A27FCC31E60C96000D78294 /* Category.swift in Sources */,

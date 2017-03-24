@@ -183,14 +183,14 @@ extension CoverFrameViewController {
 
     let photoData = UIImageJPEGRepresentation(coverImage.image!, CGFloat(compressionRatio))
     let activityIndicator = utilityModule.createCustomActivityIndicator(self.view, text: "Submitting Answer...")
-    questionModule.submitAnswer(quandaId!, answerVideo: videoData!, coverPhoto: photoData!, duration: self.duration) { result in
+    let time = DispatchTime.now() + Double(2 * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC)
+    DispatchQueue.main.asyncAfter(deadline: time) {
+      Answer().submitAnswer(self.quandaId!, answerVideo: videoData!, coverPhoto: photoData!, duration: self.duration)
       let presentingViewController = self.presentingViewController as? UITabBarController
       let navigationController = presentingViewController?.viewControllers?[2] as? UINavigationController
       _ = navigationController?.popViewController(animated: true)
-      DispatchQueue.main.async {
-        activityIndicator.hide(animated: true)
-        self.dismiss(animated: true, completion: nil)
-      }
+      activityIndicator.hide(animated: true)
+      self.dismiss(animated: true, completion: nil)
     }
   }
 

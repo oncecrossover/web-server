@@ -12,13 +12,17 @@ class Generics: NSObject, URLSessionDelegate {
   override init() {
   }
 
-  func getURLSession() -> Foundation.URLSession {
+  func getURLSession(_ urlDelegate: Generics) -> Foundation.URLSession {
     let configuration =
       URLSessionConfiguration.default
     let session = Foundation.URLSession(configuration: configuration,
-                               delegate: self,
+                               delegate: urlDelegate,
                                delegateQueue: OperationQueue.main)
     return session
+  }
+
+  func getURLSession() -> Foundation.URLSession {
+    return getURLSession(self)
   }
 
   func urlSession(_ session: URLSession,  didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
@@ -178,7 +182,7 @@ class Generics: NSObject, URLSessionDelegate {
   func getObjectById(_ myUrl: URL, completion: @escaping (NSDictionary) -> ()) {
     let request = NSMutableURLRequest(url: myUrl)
     request.httpMethod = "GET"
-    let session = self.getURLSession()
+    let session = self.getURLSession(self)
     let task = session.dataTask(with: request as URLRequest) {
       data, response, error in
       if error != nil {
