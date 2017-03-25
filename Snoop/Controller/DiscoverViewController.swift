@@ -54,11 +54,9 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   }
 
   func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-    filteredProfiles = profiles.filter { profile in
-      return profile.name.lowercased().contains(searchText.lowercased())
-    }
-    self.discoverTableView.reloadData()
-
+    tmpProfiles = []
+    let url = "takeQuestion='APPROVED'&limit=10&fullName='%25\(searchText.lowercased())%25'"
+    loadProfiles(url, isSearch: true)
   }
 
   func refresh(_ sender:AnyObject) {
@@ -69,10 +67,10 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     discoverTableView.isUserInteractionEnabled = false
     tmpProfiles = []
     let url = "takeQuestion='APPROVED'&limit=10"
-    loadProfiles(url)
+    loadProfiles(url, isSearch: false)
   }
 
-  func loadProfiles(_ url: String!) {
+  func loadProfiles(_ url: String!, isSearch: Bool) {
     let indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
     indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
     indicator.center = self.view.center
@@ -111,7 +109,12 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
         self.tmpProfiles.append(DiscoverModel(_name: profileName, _title: profileTitle, _uid: profileUid, _about: profileAbout, _rate: rate, _updatedTime: updatedTime, _avatarUrl: avatarUrl))
         didLoadNewProfiles = true
       }
-      self.profiles = self.tmpProfiles
+      if (isSearch) {
+        self.filteredProfiles = self.tmpProfiles
+      }
+      else {
+        self.profiles = self.tmpProfiles
+      }
 
       DispatchQueue.main.async {
         if (didLoadNewProfiles || !String(url).contains("lastSeenId")) {
@@ -183,7 +186,15 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
         let updatedTime = Int64(cellInfo.updatedTime)
         let lastSeenId = cellInfo.uid
         let url = "takeQuestion='APPROVED'&limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId='" + lastSeenId + "'"
-        loadProfiles(url)
+        loadProfiles(url, isSearch: false)
+      }
+    }
+    else {
+      if (indexPath.row == filteredProfiles.count - 1) {
+        let updatedTime = Int64(cellInfo.updatedTime)
+        let lastSeenId = cellInfo.uid
+        let url = "takeQuestion='APPROVED'&limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId='" + lastSeenId + "'&fullName='%25\(searchController.searchBar.text!)%25'"
+        loadProfiles(url, isSearch: true)
       }
     }
     return myCell
