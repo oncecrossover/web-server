@@ -135,8 +135,8 @@ extension EarningsViewController {
     let keyboardHeight = keyboardSize!.height + 20
 
     var aRect : CGRect = scrollView.frame
-    // We need to add 100 to count for the height of submitbutton and tabbar
-    aRect.size.height = aRect.size.height + (self.tabBarController?.tabBar.frame.height)! - keyboardHeight
+    // Deduct the keyboard height to get visible frame height
+    aRect.size.height = aRect.size.height - keyboardHeight
     let activeText = input.paypalEmail
       // pt is the lower left corner of the rectangular textfield or textview
     let pt = CGPoint(x: activeText.frame.origin.x, y: activeText.frame.origin.y + activeText.frame.size.height)
