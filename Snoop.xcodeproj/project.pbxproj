@@ -35,6 +35,8 @@
 		4A3A56651E26DECB00FC0F3B /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3A56641E26DECB00FC0F3B /* CustomButton.swift */; };
 		4A3A56671E27168C00FC0F3B /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3A56661E27168C00FC0F3B /* PaymentViewController.swift */; };
 		4A3D5D791DE8C41A006FE077 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */; };
+		4A436E471E885E3400908D24 /* SettingsTableHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A436E461E885E3400908D24 /* SettingsTableHeaderViewCell.swift */; };
+		4A436E491E8866AF00908D24 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A436E481E8866AF00908D24 /* SettingsTableViewCell.swift */; };
 		4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
 		4A4BB82E1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
 		4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */; };
@@ -47,7 +49,7 @@
 		4A5A9A311D80D38F00140AA9 /* AskViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9A301D80D38F00140AA9 /* AskViewControllerUITests.swift */; };
 		4A5B257D1D65247700691696 /* SnoopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B257C1D65247700691696 /* SnoopUITests.swift */; };
 		4A5B25851D6524EB00691696 /* ViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B25841D6524EB00691696 /* ViewControllerUITests.swift */; };
-		4A6730BB1E23301A00C512B1 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6730BA1E23301A00C512B1 /* SettingsTableViewCell.swift */; };
+		4A6730BB1E23301A00C512B1 /* ProfileSettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6730BA1E23301A00C512B1 /* ProfileSettingsTableViewCell.swift */; };
 		4A6730BD1E23412100C512B1 /* privacy.html in Resources */ = {isa = PBXBuildFile; fileRef = 4A6730BC1E23412100C512B1 /* privacy.html */; };
 		4A6730BF1E23420A00C512B1 /* tos.html in Resources */ = {isa = PBXBuildFile; fileRef = 4A6730BE1E23420A00C512B1 /* tos.html */; };
 		4A6730C11E23426A00C512B1 /* DocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6730C01E23426A00C512B1 /* DocumentViewController.swift */; };
@@ -164,6 +166,8 @@
 		4A3A56641E26DECB00FC0F3B /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		4A3A56661E27168C00FC0F3B /* PaymentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
 		4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		4A436E461E885E3400908D24 /* SettingsTableHeaderViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableHeaderViewCell.swift; sourceTree = "<group>"; };
+		4A436E481E8866AF00908D24 /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		4A4BB82C1D769CF40085160F /* DiscoverModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverModel.swift; sourceTree = "<group>"; };
 		4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
 		4A5495571E4295E20072C45B /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
@@ -178,7 +182,7 @@
 		4A5B257C1D65247700691696 /* SnoopUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoopUITests.swift; sourceTree = "<group>"; };
 		4A5B257E1D65247700691696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4A5B25841D6524EB00691696 /* ViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerUITests.swift; sourceTree = "<group>"; };
-		4A6730BA1E23301A00C512B1 /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
+		4A6730BA1E23301A00C512B1 /* ProfileSettingsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSettingsTableViewCell.swift; sourceTree = "<group>"; };
 		4A6730BC1E23412100C512B1 /* privacy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = privacy.html; sourceTree = "<group>"; };
 		4A6730BE1E23420A00C512B1 /* tos.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = tos.html; sourceTree = "<group>"; };
 		4A6730C01E23426A00C512B1 /* DocumentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentViewController.swift; sourceTree = "<group>"; };
@@ -383,10 +387,12 @@
 				4AF322731D2C83260043FCE5 /* AnswerTableViewCell.swift */,
 				4AC9231E1D360A0800C83177 /* FeedTableViewCell.swift */,
 				4ACADE121E1345E000831929 /* ActivityTableViewCell.swift */,
-				4A6730BA1E23301A00C512B1 /* SettingsTableViewCell.swift */,
+				4A6730BA1E23301A00C512B1 /* ProfileSettingsTableViewCell.swift */,
 				4A7971DC1E6CD0A1003105FD /* CoinsTableViewCell.swift */,
 				4A7971DE1E6CD70B003105FD /* CoinPriceTableViewCell.swift */,
 				4A7971E01E6CF51F003105FD /* CoinPriceTableHeaderViewCell.swift */,
+				4A436E461E885E3400908D24 /* SettingsTableHeaderViewCell.swift */,
+				4A436E481E8866AF00908D24 /* SettingsTableViewCell.swift */,
 			);
 			path = TableViewCell;
 			sourceTree = "<group>";
@@ -676,6 +682,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A436E471E885E3400908D24 /* SettingsTableHeaderViewCell.swift in Sources */,
 				4ADFD3A01E56628B00CD3D92 /* UIView+WebCacheOperation.m in Sources */,
 				4AF303B71E6E89A20048895D /* PayWithCoinsView.swift in Sources */,
 				4A15D1781E037CD70013EDC1 /* CoverFrameViewController.swift in Sources */,
@@ -714,7 +721,7 @@
 				4ADFD3931E56628B00CD3D92 /* SDWebImageCompat.m in Sources */,
 				4AC9231F1D360A0800C83177 /* FeedTableViewCell.swift in Sources */,
 				4A7971E71E6E4C2D003105FD /* IAPManager.swift in Sources */,
-				4A6730BB1E23301A00C512B1 /* SettingsTableViewCell.swift in Sources */,
+				4A6730BB1E23301A00C512B1 /* ProfileSettingsTableViewCell.swift in Sources */,
 				4A58B0E61E83902E0079F46E /* ProgressView.swift in Sources */,
 				4ADFD38E1E56628B00CD3D92 /* MKAnnotationView+WebCache.m in Sources */,
 				4AF303B91E75CD210048895D /* ProfileView.swift in Sources */,
@@ -749,6 +756,7 @@
 				4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */,
 				4A10DCC21E5A7BA9009E3996 /* WelcomeViewController.swift in Sources */,
 				4A745CBE1D73A5D500797AFC /* ConfirmationViewController.swift in Sources */,
+				4A436E491E8866AF00908D24 /* SettingsTableViewCell.swift in Sources */,
 				4A3A56631E26D8D600FC0F3B /* extension.swift in Sources */,
 				4A27FCC51E638DCA00D78294 /* EditProfileView.swift in Sources */,
 				4ABB89F81D7DEE2C0022DEF2 /* FeedsModel.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  SettingsTableViewCell.swift
+//  SettingsTableHeaderViewCell.swift
 //  Snoop
 //
 //  Created by Bowen Zhang on 3/26/17.
@@ -8,18 +8,19 @@
 
 import UIKit
 
-class SettingsTableViewCell: UITableViewCell {
+class SettingsTableHeaderViewCell: UITableViewHeaderFooterView {
   let label: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
-    label.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightMedium)
+    label.text = "About"
+    label.textColor = UIColor.defaultColor()
     return label
   }()
 
-  override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-    super.init(style: style, reuseIdentifier: reuseIdentifier)
+  override init(reuseIdentifier: String?) {
+    super.init(reuseIdentifier: reuseIdentifier)
     addSubview(label)
-    addConstraintsWithFormat("H:|-15-[v0(200)]", views: label)
+    addConstraintsWithFormat("H:|-15-[v0(100)]", views: label)
     label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     label.heightAnchor.constraint(equalToConstant: 25).isActive = true
   }

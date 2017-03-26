@@ -285,17 +285,10 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell") as! SettingsTableViewCell
+    let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell") as! ProfileSettingsTableViewCell
     cell.icon.contentMode = .scaleAspectFit
     cell.category.text = "My Interests"
     cell.icon.image = UIImage(named: "interest")
-//    if (indexPath.row == 0) {
-//      cell.category.text = "My Wallet"
-//      cell.icon.image = UIImage(named: "wallet")
-//    }
-//    else if (indexPath.row == 1) {
-//
-//    }
     return cell
   }
 
@@ -306,21 +299,11 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     let dvc = InterestPickerViewController()
     dvc.isProfile = true
     self.navigationController?.pushViewController(dvc, animated: true)
-//    if (indexPath.row == 0) {
-//      let dvc = PaymentViewController()
-//      self.navigationController?.pushViewController(dvc, animated: true)
-//    }
-//    else if (indexPath.row == 1) {
-//      let dvc = InterestPickerViewController()
-//      dvc.isProfile = true
-//      self.navigationController?.pushViewController(dvc, animated: true)
-//    }
   }
 }
 
 // Private earningnlabel class
 private class EarningLabel: UIView {
-  // 45 by 18
   let amount: UILabel = {
     let amount = UILabel()
     amount.textAlignment = .center
@@ -330,7 +313,6 @@ private class EarningLabel: UIView {
   }()
 
   let label: UILabel = {
-    //50 by 15
     let label = UILabel()
     label.font = UIFont.systemFont(ofSize: 12)
     label.text = "Earnings"

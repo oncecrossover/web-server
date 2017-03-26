@@ -19,13 +19,15 @@ class SettingsViewController: UIViewController {
     table.separatorInset = UIEdgeInsets.zero
     table.tableFooterView = UIView()
     table.tableHeaderView = UIView()
-    table.register(UITableViewCell.self, forCellReuseIdentifier: self.cellId)
+    table.register(SettingsTableViewCell.self, forCellReuseIdentifier: self.cellId)
+    table.register(SettingsTableHeaderViewCell.self, forHeaderFooterViewReuseIdentifier: self.headerCellId)
     return table
   }()
 
   let settings = ["Contact us", "Terms of Service", "Privacy Policy"]
   let settingsDict = ["Contact us" : "about", "Terms of Service" : "tos", "Privacy Policy" : "privacy"]
-  let cellId = "regularCell"
+  let cellId = "settingsCell"
+  let headerCellId = "headerCell"
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -52,18 +54,17 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     return 2
   }
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let myCell = tableView.dequeueReusableCell(withIdentifier: self.cellId)!
+    let myCell = tableView.dequeueReusableCell(withIdentifier: self.cellId) as! SettingsTableViewCell
     myCell.selectionStyle = .none
     if (indexPath.section == 0) {
-      myCell.textLabel?.text = settings[indexPath.row]
-      myCell.textLabel?.textColor = UIColor.black
+      myCell.label.text = settings[indexPath.row]
+      myCell.label.textColor = UIColor(white: 0, alpha: 0.7)
     }
     else {
-      myCell.textLabel?.textColor = UIColor.defaultColor()
-      myCell.textLabel?.text = "Log Out"
+      myCell.label.textColor = UIColor.defaultColor()
+      myCell.label.text = "Log Out"
     }
 
-    myCell.textLabel?.textAlignment = .left
     myCell.accessoryType = .disclosureIndicator
     return myCell
   }
@@ -77,12 +78,8 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     if (section == 0) {
-      let headerView = UILabel()
-      headerView.backgroundColor = UIColor(red: 248/255, green: 248/255, blue: 248/255, alpha: 1.0)
-      headerView.text = "About"
-      headerView.textAlignment = .center
-      headerView.textColor = UIColor.defaultColor()
-      return headerView
+      let myCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: self.headerCellId) as! SettingsTableHeaderViewCell
+      return myCell
     }
 
     let headerView = UIView()
