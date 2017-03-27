@@ -149,6 +149,21 @@
       <artifactId>apns</artifactId>
       <version>1.0.0.Beta6</version>
     </dependency>
+    <dependency>
+      <groupId>io.dropwizard.metrics</groupId>
+      <artifactId>metrics-core</artifactId>
+      <version>3.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+      <version>3.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.6.2</version>
+    </dependency>
   </dependencies>
 
   <build>
