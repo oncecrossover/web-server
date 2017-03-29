@@ -26,8 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.MetricRegistry;
-import com.gibbon.peeq.exceptions.InvalidSystemClock;
-import com.gibbon.peeq.exceptions.InvalidUserAgentError;
+import com.snoop.server.exceptions.InvalidSystemClock;
+import com.snoop.server.exceptions.InvalidUserAgentError;
 
 public class IdWorker {
 

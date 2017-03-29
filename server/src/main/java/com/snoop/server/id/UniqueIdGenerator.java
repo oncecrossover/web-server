@@ -8,8 +8,8 @@ import org.hibernate.id.IdentifierGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gibbon.peeq.exceptions.InvalidSystemClock;
 import com.snoop.server.conf.Configuration;
+import com.snoop.server.exceptions.InvalidSystemClock;
 
 public class UniqueIdGenerator implements IdentifierGenerator {
   protected static final Logger LOG = LoggerFactory

@@ -25,10 +25,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gibbon.peeq.exceptions.InvalidSystemClock;
-import com.gibbon.peeq.exceptions.InvalidUserAgentError;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.snoop.server.exceptions.InvalidSystemClock;
+import com.snoop.server.exceptions.InvalidUserAgentError;
 import com.snoop.server.id.IdWorker;
 
 public class TestIdWorker {

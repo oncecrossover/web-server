@@ -1,5 +1,5 @@
 WHAT IS IT?
-Peeq is a novel social Q&A community, where people paid to get voice answers from celebrities they love most to ask questions for. Three major functions in the community:
+Snoop is a novel social Q&A community, where people paid to get voice answers from celebrities they love most to ask questions for. Three major functions in the community:
 1. Celebrities get paid for answering questions by voice.
 2. People pay to ask celebrities questions.
 3. Eavesdroppers pay to hear others' answers.
@@ -8,7 +8,7 @@ Peeq is a novel social Q&A community, where people paid to get voice answers fro
 
 DIRECTORY STRUCTURE:
 server:  backend server
-Peeq:    IOS frontend
+Snoop:    IOS frontend
 
 
 
@@ -25,12 +25,12 @@ Co-located HDFS setup is needed to run the backend server. 127.0.0.1:8020 is HDF
 
 
 HOW TO INITIALIZE MySQL?
-execute com.gibbon.peeq.scripts/schema.sql to create tables.
+execute com.snoop.server.scripts/schema.sql to create tables.
 
 
 
 HOW TO CHANGE PARAMETERS OF DB CONNECTION?
-go to com.gibbon.peeq.scripts/hibernate.cfg.xml, change <hibernate.connection.url>,
+go to com.snoop.server.scripts/hibernate.cfg.xml, change <hibernate.connection.url>,
 <hibernate.connection.username> and <hibernate.connection.password> accordingly.
 
 
@@ -38,17 +38,17 @@ go to com.gibbon.peeq.scripts/hibernate.cfg.xml, change <hibernate.connection.ur
 HOW TO RUN SERVER?
 ./run-jar.sh, you will see
   Usage: run-jar.sh [-D<name>[=<value>] ...] <component-name>
-Example: run-jar.sh  peeq-snoop-server
-         run-jar.sh -Dhttp.snoop.server.port=8080 peeq-snoop-server
-         run-jar.sh -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl peeq-snoop-server
-         run-jar.sh -Dhttp.snoop.server.host=127.0.0.1 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl -Dresource.uri=users/edmund peeq-snoop-client
+Example: run-jar.sh  snoop-web-server
+         run-jar.sh -Dhttp.snoop.server.port=8080 snoop-web-server
+         run-jar.sh -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl snoop-web-server
+         run-jar.sh -Dhttp.snoop.server.host=127.0.0.1 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl -Dresource.uri=users/edmund snoop-web-client
 
 Available servers:
 
-  peeq-snoop-client       peeq-snoop-server
+  snoop-web-client        snoop-web-server
 
-Specifically, "./run-jar.sh peeq-snoop-server" to start snoop server, and
-"nohup ./run-jar.sh peeq-snoop-server &" will run snoop server as long running independent daemon.
+Specifically, "./run-jar.sh snoop-web-server" to start snoop server, and
+"nohup ./run-jar.sh snoop-web-server &" will run snoop server as long running independent daemon.
 
 ./run-jar.sh will also compile/package any changes you made to the code base.
 
@@ -531,8 +531,8 @@ HTTP STATUS CODE OF REST API:
 
 
 PLAY WITH SECURITY TEST
-1. bash run-jar.sh -Dhttp.snoop.ssl  peeq-snoop-server
-2. bash run-jar.sh -Dhttp.snoop.ssl -Dresource.uri=users/edmund peeq-snoop-client
+1. bash run-jar.sh -Dhttp.snoop.ssl  snoop-web-server
+2. bash run-jar.sh -Dhttp.snoop.ssl -Dresource.uri=users/edmund snoop-web-client
 
 Programmatically, http should be replaced with https for security, the port should be changed too.
 Without proper certificates, curl command is not supported, please switch to insecure conf for curl for test purpose.
@@ -558,7 +558,7 @@ snoop-server.crt:            server-side public key certificate
 
 
 HOW TO FIND DB SCHEMA?
-server/src/main/resources/com/gibbon/peeq/scripts/schema.sql
+server/src/main/resources/com/snoop/server/scripts/schema.sql
 
 
 

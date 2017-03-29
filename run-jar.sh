@@ -1,7 +1,7 @@
 #!/bin/bash -e
 EXAMPLE_MAP=(
-  'peeq-snoop-client:com.gibbon.peeq.snoop.HttpSnoopClient'
-  'peeq-snoop-server:com.gibbon.peeq.snoop.HttpSnoopServer'
+  'snoop-web-client:com.snoop.server.web.HttpSnoopClient'
+  'snoop-web-server:com.snoop.server.web.HttpSnoopServer'
 )
 
 NEEDS_NPN_MAP=(
@@ -36,10 +36,10 @@ done
 
 if [[ -z "$EXAMPLE" ]] || [[ -z "$EXAMPLE_CLASS" ]] || [[ $# -ne 0 ]]; then
   echo "  Usage: $0 [-D<name>[=<value>] ...] <component-name>" >&2
-  echo "Example: $0  peeq-snoop-server" >&2
-  echo "         $0 -Dhttp.snoop.server.port=8080 peeq-snoop-server" >&2
-  echo "         $0 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl peeq-snoop-server" >&2
-  echo "         $0 -Dhttp.snoop.server.host=127.0.0.1 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl -Dresource.uri=users/edmund peeq-snoop-client" >&2
+  echo "Example: $0  snoop-web-server" >&2
+  echo "         $0 -Dhttp.snoop.server.port=8080 snoop-web-server" >&2
+  echo "         $0 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl snoop-web-server" >&2
+  echo "         $0 -Dhttp.snoop.server.host=127.0.0.1 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl -Dresource.uri=users/edmund snoop-web-client" >&2
   echo >&2
   echo "Available servers:" >&2
   echo >&2

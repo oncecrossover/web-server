@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.snoop.server.db.model.PcEntry" dynamic-update="true"
+  dynamic-insert="true" table="PcEntry">
+    <id name="id" type="long">
+      <column name="id" />
+      <generator class="increment" />
+    </id>
+    <property name="uid" type="java.lang.String">
+      <column name="uid" />
+    </property>
+    <property name="entryId" type="java.lang.String">
+      <column name="entryId" />
+    </property>
+    <property name="brand" type="java.lang.String">
+      <column name="brand" />
+    </property>
+    <property name="last4" type="java.lang.String">
+      <column name="last4" />
+    </property>
+    <property name="createdTime" type="timestamp">
+      <column name="createdTime" />
+    </property>
+  </class>
+</hibernate-mapping>
