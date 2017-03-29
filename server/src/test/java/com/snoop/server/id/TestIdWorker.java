@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.snoop.server.core;
+package com.snoop.server.id;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
@@ -29,9 +29,9 @@ import com.gibbon.peeq.exceptions.InvalidSystemClock;
 import com.gibbon.peeq.exceptions.InvalidUserAgentError;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.snoop.server.core.IdWorker;
+import com.snoop.server.id.IdWorker;
 
-public class IdWorkerTest {
+public class TestIdWorker {
     private static final long WORKER_MASK =     0x000000000001F000L;
     private static final long TIMESTAMP_MASK =  0xFFFFFFFFFFC00000L;
 
@@ -226,7 +226,7 @@ public class IdWorkerTest {
     }
 
     private static final Logger LOG = LoggerFactory
-        .getLogger(IdWorkerTest.class);
+        .getLogger(TestIdWorker.class);
 
     @Test
     public void testGenerateIdPrintout() throws Exception {
