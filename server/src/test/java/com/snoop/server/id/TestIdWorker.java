@@ -22,24 +22,22 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
+import com.snoop.server.id.IdWorker;
 import com.snoop.server.exceptions.InvalidSystemClock;
 import com.snoop.server.exceptions.InvalidUserAgentError;
-import com.snoop.server.id.IdWorker;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 public class TestIdWorker {
-    private static final long WORKER_MASK =     0x000000000001F000L;
-    private static final long TIMESTAMP_MASK =  0xFFFFFFFFFFC00000L;
+    private static final long WORKER_MASK = 0x000000000001F000L;
+    private static final long DATACENTER_MASK = 0x00000000003E0000L;
+    private static final long TIMESTAMP_MASK = 0xFFFFFFFFFFC00000L;
 
     class EasyTimeWorker extends IdWorker {
         public List<Long> queue = Lists.newArrayList();
 
-        public EasyTimeWorker(final Integer workerId) {
-            super(workerId);
+        public EasyTimeWorker(final Integer workerId, final Integer datacenterId) {
+            super(workerId, datacenterId);
         }
 
         public void addTimestamp(final Long timestamp) {
@@ -59,8 +57,8 @@ public class TestIdWorker {
     class WakingIdWorker extends EasyTimeWorker {
         public int slept = 0;
 
-        public WakingIdWorker(final Integer workerId) {
-            super(workerId);
+        public WakingIdWorker(final Integer workerId, final Integer datacenterId) {
+            super(workerId, datacenterId);
         }
 
         @Override
@@ -73,8 +71,9 @@ public class TestIdWorker {
     class StaticTimeWorker extends IdWorker {
         public long time = 1L;
 
-        public StaticTimeWorker(final Integer workerId) {
-            super(workerId);
+        public StaticTimeWorker(final Integer workerId,
+                final Integer datacenterId) {
+            super(workerId, datacenterId);
         }
 
         @Override
@@ -88,19 +87,42 @@ public class TestIdWorker {
     public void testInvalidWorkerId() {
         try {
             final Integer workerId = null;
-            new IdWorker(workerId);
+            new IdWorker(workerId, 1);
             failBecauseExceptionWasNotThrown(NullPointerException.class);
         } catch (NullPointerException e) {
         }
 
         try {
-            new IdWorker(-1);
+            new IdWorker(-1, 1);
             failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
         } catch (IllegalArgumentException e) {
         }
 
         try {
-            new IdWorker(1024);
+            new IdWorker(32, 1);
+            failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
+        } catch (IllegalArgumentException e) {
+        }
+    }
+
+    @Test
+    @SuppressWarnings("null")
+    public void testInvalidDatacenterId() {
+        try {
+            final Integer datacenterId = null;
+            new IdWorker(1, datacenterId);
+            failBecauseExceptionWasNotThrown(NullPointerException.class);
+        } catch (NullPointerException e) {
+        }
+
+        try {
+            new IdWorker(1, -1);
+            failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
+        } catch (IllegalArgumentException e) {
+        }
+
+        try {
+            new IdWorker(1, 32);
             failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
         } catch (IllegalArgumentException e) {
         }
@@ -128,14 +150,15 @@ public class TestIdWorker {
 
     @Test
     public void testDatacenterId() throws Exception {
-        final IdWorker worker = new IdWorker(1);
-        assertThat(worker.getDatacenterId()).isEqualTo(0);
+        final IdWorker worker = new IdWorker(1, 1);
+        assertThat(worker.getDatacenterId()).isEqualTo(1);
     }
 
     @Test
     public void testMaskWorkerId() throws Exception {
         final Integer workerId = 0x1F;
-        final IdWorker worker = new IdWorker(workerId);
+        final Integer datacenterId = 0;
+        final IdWorker worker = new IdWorker(workerId, datacenterId);
         for (int i = 0; i < 1000; i++) {
             Long id = worker.nextId();
             assertThat((id & WORKER_MASK) >> 12).isEqualTo(
@@ -144,8 +167,18 @@ public class TestIdWorker {
     }
 
     @Test
+    public void testMaskDatacenterId() throws Exception {
+        final Integer workerId = 0;
+        final Integer datacenterId = 0x1F;
+        final IdWorker worker = new IdWorker(workerId, datacenterId);
+        final Long id = worker.nextId();
+        assertThat((id & DATACENTER_MASK) >> 17).isEqualTo(
+                Long.valueOf(datacenterId));
+    }
+
+    @Test
     public void testMaskTimestamp() throws Exception {
-        final EasyTimeWorker worker = new EasyTimeWorker(31);
+        final EasyTimeWorker worker = new EasyTimeWorker(31, 31);
         for (int i = 0; i < 100; i++) {
             Long timestamp = System.currentTimeMillis();
             worker.addTimestamp(timestamp);
@@ -158,9 +191,10 @@ public class TestIdWorker {
     @Test
     public void testRollOverSequenceId() throws Exception {
         final Integer workerId = 4;
+        final Integer datacenterId = 4;
         final Long startSequence = 0xFFFFFF - 20L;
         final Long endSequence = 0xFFFFFF + 20L;
-        final IdWorker worker = new IdWorker(workerId,
+        final IdWorker worker = new IdWorker(workerId, datacenterId,
                 startSequence);
 
         for (Long i = startSequence; i < endSequence; i++) {
@@ -183,7 +217,7 @@ public class TestIdWorker {
 
     @Test
     public void testMillionIds() throws Exception {
-        final IdWorker worker = new IdWorker(0, 3);
+        final IdWorker worker = new IdWorker(31, 31);
         final Long startTime = System.currentTimeMillis();
         for (int i = 0; i < 1000000; i++) {
             worker.nextId();
@@ -196,7 +230,7 @@ public class TestIdWorker {
 
     @Test
     public void testSleep() throws Exception {
-        final WakingIdWorker worker = new WakingIdWorker(1);
+        final WakingIdWorker worker = new WakingIdWorker(1, 1);
         worker.addTimestamp(2L);
         worker.addTimestamp(2L);
         worker.addTimestamp(3L);
@@ -211,7 +245,7 @@ public class TestIdWorker {
 
     @Test
     public void testGenerateUniqueIds() throws Exception {
-        final IdWorker worker = new IdWorker(31, 3);
+        final IdWorker worker = new IdWorker(31, 31);
         final Set<Long> ids = Sets.newHashSet();
         final int count = 2000000;
         for (int i = 0; i < count; i++) {
@@ -225,17 +259,6 @@ public class TestIdWorker {
         assertThat(ids.size()).isEqualTo(count);
     }
 
-    private static final Logger LOG = LoggerFactory
-        .getLogger(TestIdWorker.class);
-
-    @Test
-    public void testGenerateIdPrintout() throws Exception {
-      final IdWorker worker = new IdWorker(0, 0);
-      for (int i = 0; i < 100; i++) {
-      LOG.info("the id is: " + worker.nextId());
-      }
-    }
-
     @Test
     public void testGenerateIdsOver50Billion() throws Exception {
         final IdWorker worker = new IdWorker(0, 0);
@@ -245,7 +268,7 @@ public class TestIdWorker {
     @Test
     public void testUniqueIdsBackwardsTime() throws Exception {
         final long sequenceMask = -1L ^ (-1L << 12);
-        final StaticTimeWorker worker = new StaticTimeWorker(0);
+        final StaticTimeWorker worker = new StaticTimeWorker(0, 0);
 
         // first we generate 2 ids with the same time, so that we get the
         // sequqence to 1

@@ -38,8 +38,8 @@ public class IdWorker {
 
     public static final long TWEPOCH = 1288834974657L;
 
-    private static final long WORKER_ID_BITS = 10L;
-    private static final long DATACENTER_ID_BITS = 0L;
+    private static final long WORKER_ID_BITS = 5L;
+    private static final long DATACENTER_ID_BITS = 5L;
     private static final long MAX_WORKER_ID = -1L ^ (-1L << WORKER_ID_BITS);
     private static final long MAX_DATACENTER_ID = -1L
             ^ (-1L << DATACENTER_ID_BITS);
@@ -57,14 +57,22 @@ public class IdWorker {
     private final Counter exceptionsCounter;
     private final Map<String, Counter> agentCounters = new ConcurrentHashMap<String, Counter>();
     private final int workerId;
-    private final int datacenterId = 0;
+    private final int datacenterId;
     private final boolean validateUserAgent;
 
     private final AtomicLong lastTimestamp = new AtomicLong(-1L);
     private final AtomicLong sequence;
 
-    public IdWorker(final int workerId) {
-      this(workerId, 0L, true, new MetricRegistry());
+    /**
+     * Constructor
+     *
+     * @param workerId
+     *            Worker ID
+     * @param datacenterId
+     *            Datacenter ID
+     */
+    public IdWorker(final int workerId, final int datacenterId) {
+        this(workerId, datacenterId, 0L, true, new MetricRegistry());
     }
 
     /**
@@ -72,11 +80,14 @@ public class IdWorker {
      * 
      * @param workerId
      *            Worker ID
+     * @param datacenterId
+     *            Datacenter ID
      * @param startSequence
      *            Starting sequence number
      */
-    public IdWorker(final int workerId, final long startSequence) {
-        this(workerId, startSequence, true, new MetricRegistry());
+    public IdWorker(final int workerId, final int datacenterId,
+            final long startSequence) {
+        this(workerId, datacenterId, startSequence, true, new MetricRegistry());
     }
 
     /**
@@ -84,12 +95,14 @@ public class IdWorker {
      * 
      * @param workerId
      *            Worker ID
+     * @param datacenterId
+     *            Datacenter ID
      * @param validateUserAgent
      *            Whether to validate the User-Agent headers or not
      */
-    public IdWorker(final int workerId,
+    public IdWorker(final int workerId, final int datacenterId,
             final boolean validateUserAgent) {
-        this(workerId, 0L, validateUserAgent,
+        this(workerId, datacenterId, 0L, validateUserAgent,
                 new MetricRegistry());
     }
 
@@ -98,14 +111,16 @@ public class IdWorker {
      * 
      * @param workerId
      *            Worker ID
+     * @param datacenterId
+     *            Datacenter ID
      * @param startSequence
      *            Starting sequence number
      * @param validateUserAgent
      *            Whether to validate the User-Agent headers or not
      */
-    public IdWorker(final int workerId,
+    public IdWorker(final int workerId, final int datacenterId,
             final long startSequence, final boolean validateUserAgent) {
-        this(workerId, startSequence, validateUserAgent,
+        this(workerId, datacenterId, startSequence, validateUserAgent,
                 new MetricRegistry());
     }
 
@@ -114,6 +129,8 @@ public class IdWorker {
      * 
      * @param workerId
      *            Worker ID
+     * @param datacenterId
+     *            Datacenter ID
      * @param startSequence
      *            Starting sequence number
      * @param validateUserAgent
@@ -121,7 +138,7 @@ public class IdWorker {
      * @param registry
      *            Metric Registry
      */
-    public IdWorker(final int workerId,
+    public IdWorker(final int workerId, final int datacenterId,
             final long startSequence, final boolean validateUserAgent,
             final MetricRegistry registry) {
 
@@ -144,6 +161,7 @@ public class IdWorker {
         checkNotNull(startSequence);
 
         this.workerId = workerId;
+        this.datacenterId = datacenterId;
         this.validateUserAgent = validateUserAgent;
         this.registry = registry;
 

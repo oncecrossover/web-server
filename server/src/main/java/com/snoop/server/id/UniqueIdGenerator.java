@@ -18,7 +18,8 @@ public class UniqueIdGenerator implements IdentifierGenerator {
 
   static {
     ID_WORKER = new IdWorker(
-        Configuration.COM_SNOOP_SERVER_ID_WORKER_ID_DEFAULT);
+        Configuration.COM_SNOOP_SERVER_ID_WORKER_ID_DEFAULT,
+        Configuration.COM_SNOOP_SERVER_ID_DATACENTER_ID_DEFAULT);
   }
 
   @Override
