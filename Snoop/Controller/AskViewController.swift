@@ -227,6 +227,12 @@ extension AskViewController {
             self.utility.displayAlertMessage("there is an error processing your payment. Please try later", title: "Error", sender: self)
           }
         }
+        else {
+          DispatchQueue.main.async {
+            self.questionView.textColor = self.placeholderColor
+            self.questionView.text = self.placeholder
+          }
+        }
       }
     }
   }
