@@ -35,3 +35,28 @@ extension UIView {
     addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: [], metrics: nil, views: viewDictionary))
   }
 }
+
+extension UIViewController {
+  public func displayConfirmation(_ msg: String) {
+    let confirmView = ConfirmView()
+    confirmView.translatesAutoresizingMaskIntoConstraints = false
+    confirmView.setMessage(msg)
+    view.addSubview(confirmView)
+    confirmView.widthAnchor.constraint(equalToConstant: 160).isActive = true
+    confirmView.heightAnchor.constraint(equalToConstant: 90).isActive = true
+    confirmView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    confirmView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    confirmView.alpha = 0
+    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+      confirmView.alpha = 1
+    }, completion: nil)
+    let time = DispatchTime.now() + Double(2 * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC)
+    DispatchQueue.main.asyncAfter(deadline: time) {
+      UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+        confirmView.alpha = 0
+      }) { (result) in
+        confirmView.removeFromSuperview()
+      }
+    }
+  }
+}

@@ -231,6 +231,7 @@ extension AskViewController {
           DispatchQueue.main.async {
             self.questionView.textColor = self.placeholderColor
             self.questionView.text = self.placeholder
+            self.displayConfirmation("Question Sent!")
           }
         }
       }

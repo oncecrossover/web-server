@@ -37,6 +37,7 @@
 		4A3D5D791DE8C41A006FE077 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */; };
 		4A436E471E885E3400908D24 /* SettingsTableHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A436E461E885E3400908D24 /* SettingsTableHeaderViewCell.swift */; };
 		4A436E491E8866AF00908D24 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A436E481E8866AF00908D24 /* SettingsTableViewCell.swift */; };
+		4A436E4B1E8DB8B700908D24 /* ConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A436E4A1E8DB8B700908D24 /* ConfirmView.swift */; };
 		4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
 		4A4BB82E1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
 		4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */; };
@@ -168,6 +169,7 @@
 		4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4A436E461E885E3400908D24 /* SettingsTableHeaderViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableHeaderViewCell.swift; sourceTree = "<group>"; };
 		4A436E481E8866AF00908D24 /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
+		4A436E4A1E8DB8B700908D24 /* ConfirmView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmView.swift; sourceTree = "<group>"; };
 		4A4BB82C1D769CF40085160F /* DiscoverModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverModel.swift; sourceTree = "<group>"; };
 		4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
 		4A5495571E4295E20072C45B /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 				4AF303B81E75CD210048895D /* ProfileView.swift */,
 				4AF303BA1E78A1BA0048895D /* BuyCoinsView.swift */,
 				4A58B0E51E83902E0079F46E /* ProgressView.swift */,
+				4A436E4A1E8DB8B700908D24 /* ConfirmView.swift */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -702,6 +705,7 @@
 				4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */,
 				4AF322761D2DBCB50043FCE5 /* AnswerViewController.swift in Sources */,
 				4ACADE151E13586C00831929 /* ActivityModel.swift in Sources */,
+				4A436E4B1E8DB8B700908D24 /* ConfirmView.swift in Sources */,
 				4A10DCC81E5AD440009E3996 /* IconView.swift in Sources */,
 				4A10DCC41E5A8075009E3996 /* WelcomeCollectionViewCell.swift in Sources */,
 				4A10DCD01E5BBBF9009E3996 /* InterestPickerViewController.swift in Sources */,
