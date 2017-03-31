@@ -186,6 +186,8 @@ extension AskViewController {
       return
     }
 
+    self.questionView.resignFirstResponder()
+
     if let window = UIApplication.shared.keyWindow {
       window.addSubview(blackView)
       blackView.frame = window.frame
