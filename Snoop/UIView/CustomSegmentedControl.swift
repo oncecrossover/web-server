@@ -37,22 +37,36 @@ class CustomSegmentedControl: UIView, UICollectionViewDataSource, UICollectionVi
     return bar
   }()
 
+  let underline: UIView = {
+    let line = UIView()
+    line.backgroundColor = UIColor(red: 140/255, green: 157/255, blue: 170/255, alpha: 0.6)
+    line.translatesAutoresizingMaskIntoConstraints = false
+    return line
+  }()
+
   var slidingBarLeadingAnchor: NSLayoutConstraint?
 
   override init(frame: CGRect) {
     super.init(frame: frame)
     self.frame = frame
     self.addSubview(controlBar)
+    self.addSubview(underline)
     self.addSubview(slidingBar)
+
     controlBar.register(controlCell.self, forCellWithReuseIdentifier: self.cellId)
     controlBar.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
     controlBar.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
     controlBar.topAnchor.constraint(equalTo: topAnchor).isActive = true
     controlBar.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
 
+    underline.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
+    underline.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
+    underline.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+    underline.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+
     slidingBar.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1/3).isActive = true
     slidingBar.heightAnchor.constraint(equalToConstant: 1).isActive = true
-    slidingBar.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+    slidingBar.bottomAnchor.constraint(equalTo: underline.topAnchor).isActive = true
     slidingBarLeadingAnchor = slidingBar.leadingAnchor.constraint(equalTo: leadingAnchor)
     slidingBarLeadingAnchor?.isActive = true
 
