@@ -170,7 +170,6 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
     myCell.name.text = cellInfo.name
     myCell.title.text = cellInfo.title
-    myCell.about.text = cellInfo.about
 
     if let avatarUrl = cellInfo.avatarUrl {
       myCell.discoverImageView.sd_setImage(with: URL(string: avatarUrl))
