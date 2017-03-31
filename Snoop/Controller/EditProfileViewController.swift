@@ -387,7 +387,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate {
         DispatchQueue.main.async {
           self.isProfileUpdated = true
           activityIndicator.hide(animated: true)
-          _ = self.navigationController?.popViewController(animated: true)
+          self.displayConfirmation("Photo Updated!")
         }
       }
       else {
