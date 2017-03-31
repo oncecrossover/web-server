@@ -204,7 +204,7 @@ extension InterestPickerViewController {
       }
       else {
         DispatchQueue.main.async {
-          self.utility.displayAlertMessage("Where is an error saving your interests", title: "Alert", sender: self)
+          self.utility.displayAlertMessage("There is an error saving your interests", title: "Alert", sender: self)
         }
       }
     }

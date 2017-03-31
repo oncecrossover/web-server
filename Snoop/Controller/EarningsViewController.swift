@@ -112,7 +112,7 @@ extension EarningsViewController {
     User().updatePaypal(uid, paypalEmail: email) { result in
       if (result.isEmpty) {
         DispatchQueue.main.async {
-          util.displayAlertMessage("Thanks for updating your paypal email", title: "OK", sender: self)
+          self.displayConfirmation("Thank you!")
         }
       }
       else {
