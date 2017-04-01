@@ -25,7 +25,7 @@ class AskViewController: UIViewController {
   var coinCount = 0
 
   lazy var profileView: ProfileView = {
-    let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 220)
+    let frame = CGRect(x: 0, y: 0, width: self.scrollView.frame.width, height: 220)
     let view = ProfileView(frame: frame, uid: self.profileInfo.uid)
     return view
   }()
@@ -110,7 +110,8 @@ extension AskViewController {
     scrollView.addSubview(profileView)
     scrollView.addSubview(askView)
 
-    let width = self.view.frame.width
+    let width = self.scrollView.frame.width
+
     scrollView.addConstraintsWithFormat("H:|[v0(\(width))]|", views: askView)
     profileView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
     askView.topAnchor.constraint(equalTo: profileView.bottomAnchor, constant: 10).isActive = true
