@@ -53,6 +53,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
   func numberOfSections(in tableView: UITableView) -> Int {
     return 2
   }
+
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let myCell = tableView.dequeueReusableCell(withIdentifier: self.cellId) as! SettingsTableViewCell
     myCell.selectionStyle = .none

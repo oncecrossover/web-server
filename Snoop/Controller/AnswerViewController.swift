@@ -15,9 +15,6 @@ class AnswerViewController: UIViewController {
 
   @IBOutlet weak var answerTableView: UITableView!
 
-  @IBOutlet weak var instructionLabel: UILabel!
-  @IBOutlet weak var cameraImage: UIImageView!
-
   var currentImagePicker: UIImagePickerController?
 
   var fileName = "videoFile.m4a"
@@ -36,6 +33,7 @@ class AnswerViewController: UIViewController {
     return view
   }()
 
+  let footerCellId = "footerCell"
   deinit {
     NotificationCenter.default.removeObserver(self) // app might crash without removing observer
   }
@@ -48,26 +46,26 @@ extension AnswerViewController {
     super.viewDidLoad()
     answerTableView.rowHeight = UITableViewAutomaticDimension
     answerTableView.estimatedRowHeight = 120
-    answerTableView.separatorInset = UIEdgeInsets.zero
+    answerTableView.separatorStyle = .none
     answerTableView.tableFooterView = UIView()
-
-    instructionLabel.textColor = UIColor.secondaryTextColor()
+    answerTableView.register(AnswerTableFooterViewCell.self, forHeaderFooterViewReuseIdentifier: self.footerCellId)
 
     answerTableView.reloadData()
-    if (cellInfo.status == "PENDING") {
-      cameraImage.isUserInteractionEnabled = true
-      let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(AnswerViewController.tappedOnImage(_:)))
-      cameraImage.addGestureRecognizer(tappedOnImage)
-    }
-    else {
-      cameraImage.isHidden = true
-      instructionLabel.isHidden = true
-    }
   }
 }
 
 extension AnswerViewController: UITableViewDataSource, UITableViewDelegate {
 
+  func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    return 200
+  }
+
+  func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: self.footerCellId) as! AnswerTableFooterViewCell
+    footer.cameraView.isUserInteractionEnabled = true
+    footer.cameraView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedOnImage)))
+    return footer
+  }
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return 1
   }
@@ -151,7 +149,7 @@ extension AnswerViewController {
     }
   }
 
-  func tappedOnImage(_ sender:UIGestureRecognizer) {
+  func tappedOnImage() {
     // Check if user granted camera access
     if (AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) !=  AVAuthorizationStatus.authorized) {
       if let window = UIApplication.shared.keyWindow {

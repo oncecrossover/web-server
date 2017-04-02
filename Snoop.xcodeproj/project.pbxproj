@@ -39,6 +39,7 @@
 		4A436E491E8866AF00908D24 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A436E481E8866AF00908D24 /* SettingsTableViewCell.swift */; };
 		4A436E4B1E8DB8B700908D24 /* ConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A436E4A1E8DB8B700908D24 /* ConfirmView.swift */; };
 		4A436E4D1E9061A600908D24 /* PermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A436E4C1E9061A600908D24 /* PermissionView.swift */; };
+		4A436E4F1E90B38600908D24 /* AnswerTableFooterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A436E4E1E90B38600908D24 /* AnswerTableFooterViewCell.swift */; };
 		4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
 		4A4BB82E1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
 		4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */; };
@@ -172,6 +173,7 @@
 		4A436E481E8866AF00908D24 /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		4A436E4A1E8DB8B700908D24 /* ConfirmView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmView.swift; sourceTree = "<group>"; };
 		4A436E4C1E9061A600908D24 /* PermissionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionView.swift; sourceTree = "<group>"; };
+		4A436E4E1E90B38600908D24 /* AnswerTableFooterViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerTableFooterViewCell.swift; sourceTree = "<group>"; };
 		4A4BB82C1D769CF40085160F /* DiscoverModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverModel.swift; sourceTree = "<group>"; };
 		4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
 		4A5495571E4295E20072C45B /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
@@ -397,6 +399,7 @@
 				4A7971E01E6CF51F003105FD /* CoinPriceTableHeaderViewCell.swift */,
 				4A436E461E885E3400908D24 /* SettingsTableHeaderViewCell.swift */,
 				4A436E481E8866AF00908D24 /* SettingsTableViewCell.swift */,
+				4A436E4E1E90B38600908D24 /* AnswerTableFooterViewCell.swift */,
 			);
 			path = TableViewCell;
 			sourceTree = "<group>";
@@ -724,6 +727,7 @@
 				4ADFD3901E56628B00CD3D92 /* NSImage+WebCache.m in Sources */,
 				4A15D17B1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift in Sources */,
 				4ADFD3981E56628B00CD3D92 /* SDWebImagePrefetcher.m in Sources */,
+				4A436E4F1E90B38600908D24 /* AnswerTableFooterViewCell.swift in Sources */,
 				4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */,
 				4ADFD3931E56628B00CD3D92 /* SDWebImageCompat.m in Sources */,
 				4AC9231F1D360A0800C83177 /* FeedTableViewCell.swift in Sources */,
