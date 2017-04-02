@@ -28,6 +28,14 @@ class AnswerViewController: UIViewController {
 
   var utilityModule = UIUtility()
 
+  lazy var permissionView: PermissionView = {
+    let view = PermissionView()
+    view.setHeader("Allow Snoop to access your camera")
+    view.setInstruction("1. Open Iphone settings \n2. Tap privacy \n3. Tap camera \n4. Set Snoop to ON")
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
+
   deinit {
     NotificationCenter.default.removeObserver(self) // app might crash without removing observer
   }
@@ -144,6 +152,36 @@ extension AnswerViewController {
   }
 
   func tappedOnImage(_ sender:UIGestureRecognizer) {
+    // Check if user granted camera access
+    if (AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) !=  AVAuthorizationStatus.authorized) {
+      if let window = UIApplication.shared.keyWindow {
+        window.addSubview(permissionView)
+        window.addConstraintsWithFormat("H:|[v0]|", views: permissionView)
+        window.addConstraintsWithFormat("V:|[v0]|", views: permissionView)
+        permissionView.alpha = 0
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+          self.permissionView.alpha = 1
+        }, completion: nil)
+        return
+      }
+    }
+
+    // Check if user granted microphone access
+    if (AVAudioSession.sharedInstance().recordPermission() != AVAudioSessionRecordPermission.granted) {
+      if let window = UIApplication.shared.keyWindow {
+        window.addSubview(permissionView)
+        window.addConstraintsWithFormat("H:|[v0]|", views: permissionView)
+        window.addConstraintsWithFormat("V:|[v0]|", views: permissionView)
+        permissionView.alpha = 0
+        permissionView.setHeader("Allow Snoop to access your microphone")
+        permissionView.setInstruction("1. Open Iphone settings \n2. Tap privacy \n3. Tap microphone \n4. Set Snoop to ON")
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+          self.permissionView.alpha = 1
+        }, completion: nil)
+        return
+      }
+    }
+
     if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
       let imagePicker = UIImagePickerController()
       currentImagePicker = imagePicker
@@ -226,7 +264,6 @@ extension AnswerViewController: CustomCameraViewDelegate {
       currentImagePicker?.present(myAlert, animated: true, completion: nil)
     }
     else {
-//      let dvc = storyboard?.instantiateViewControllerWithIdentifier("CoverFrameViewController") as! CoverFrameViewController
       let dvc = CoverFrameViewController()
       dvc.quandaId = self.cellInfo.id
       currentImagePicker?.pushViewController(dvc, animated: true)

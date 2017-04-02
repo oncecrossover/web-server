@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
@@ -48,6 +49,14 @@ class EditProfileViewController: UIViewController {
 
     button.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
     return button
+  }()
+
+  lazy var permissionView: PermissionView = {
+    let view = PermissionView()
+    view.setHeader("Allow Snoop to access your photos")
+    view.setInstruction("1. Open Iphone settings \n2. Tap privacy \n3. Tap photos \n4. Set Snoop to ON")
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
   }()
 
   var labelColor = UIColor(red: 199/255, green: 199/255, blue: 205/255, alpha: 1.0)
@@ -347,6 +356,19 @@ extension EditProfileViewController {
   }
 
   func uploadButtonTapped() {
+    if (PHPhotoLibrary.authorizationStatus() != .authorized) {
+      if let window = UIApplication.shared.keyWindow {
+        window.addSubview(permissionView)
+        window.addConstraintsWithFormat("H:|[v0]|", views: permissionView)
+        window.addConstraintsWithFormat("V:|[v0]|", views: permissionView)
+        permissionView.alpha = 0
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+          self.permissionView.alpha = 1
+        }, completion: nil)
+        return
+      }
+    }
+
     let myPickerController = UIImagePickerController()
     myPickerController.delegate = self
     myPickerController.sourceType = UIImagePickerControllerSourceType.photoLibrary
