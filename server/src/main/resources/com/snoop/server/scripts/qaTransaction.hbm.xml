@@ -7,9 +7,9 @@
   dynamic-insert="true" table="QaTransaction">
     <id name="id" type="long">
       <column name="id" />
-      <generator class="increment" />
+      <generator class="com.snoop.server.id.UniqueIdGenerator" />
     </id>
-    <property name="uid" type="java.lang.String">
+    <property name="uid" type="long">
       <column name="uid" />
     </property>
     <property name="type" type="java.lang.String">

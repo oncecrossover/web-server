@@ -24,7 +24,7 @@ public class TestCatMappingEntry {
   private static final Logger LOG = LoggerFactory
       .getLogger(TestCatMappingEntry.class);
 
-  private static final String JSON_STR = "[{\"id\":null,\"catId\":1,\"catName\":null,\"catDescription\":null,\"uid\":\"bingo\",\"isExpertise\":\"YES\",\"isInterest\":null,\"createdTime\":null,\"updatedTime\":null},{\"id\":null,\"catId\":2,\"catName\":null,\"catDescription\":null,\"uid\":\"edmund\",\"isExpertise\":\"YES\",\"isInterest\":null,\"createdTime\":null,\"updatedTime\":null}]";
+  private static final String JSON_STR = "[{\"id\":null,\"catId\":1,\"catName\":null,\"catDescription\":null,\"uid\":123,\"isExpertise\":\"YES\",\"isInterest\":null,\"createdTime\":null,\"updatedTime\":null},{\"id\":null,\"catId\":2,\"catName\":null,\"catDescription\":null,\"uid\":345,\"isExpertise\":\"YES\",\"isInterest\":null,\"createdTime\":null,\"updatedTime\":null}]";
 
   @Test(timeout = 60000)
   public void testDeserializeJson()
@@ -41,10 +41,10 @@ public class TestCatMappingEntry {
   public void testSerializeJson() {
     final List<CatMappingEntry> list = Lists.newArrayList();
     CatMappingEntry entry = null;
-    entry = new CatMappingEntry().setCatId(1L).setUid("bingo")
+    entry = new CatMappingEntry().setCatId(1L).setUid(123L)
         .setIsExpertise(CatMappingEntry.Status.YES.value());
     list.add(entry);
-    entry = new CatMappingEntry().setCatId(2L).setUid("edmund")
+    entry = new CatMappingEntry().setCatId(2L).setUid(345L)
         .setIsExpertise(CatMappingEntry.Status.YES.value());
     list.add(entry);
 

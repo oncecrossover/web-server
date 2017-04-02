@@ -7,6 +7,7 @@ import javax.mail.internet.*;
 
 import org.apache.commons.lang.text.StrBuilder;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,14 +42,19 @@ public class EmailUtil {
   }
 
   public static void sendPaymentConfirmation(
-      final String uid,
+      final String email,
       final String question,
       final double amount) {
+
+    if (StringUtils.isEmpty(email)) {
+      return;
+    }
+
     try {
       final Message message = new MimeMessage(getEmailSession());
       message.setFrom(new InternetAddress(USER_NAME, "Snoop Inc"));
       message.setRecipients(Message.RecipientType.TO,
-          InternetAddress.parse(uid));
+          InternetAddress.parse(email));
       message.setSubject("Payment confirmation from Snoop Inc");
 
       /* set email body */
@@ -72,9 +78,9 @@ public class EmailUtil {
     } catch (Exception e) {
       final StrBuilder sb = new StrBuilder();
       sb.appendln(String.format(
-          "Error in sending payment confirmation to '%s' for "
+          "Error in sending payment confirmation to %s for "
               + "asking or snooping",
-          uid));
+          email));
       sb.appendln("");
       sb.append("\"");
       sb.append(question);
@@ -84,13 +90,13 @@ public class EmailUtil {
     }
   }
 
-  public static void sendTempPwd(final String uid, final String tmpPwd) {
+  public static void sendTempPwd(final String email, final String tmpPwd) {
 
     try {
       final Message message = new MimeMessage(getEmailSession());
       message.setFrom(new InternetAddress(USER_NAME, "Snoop Inc"));
       message.setRecipients(Message.RecipientType.TO,
-          InternetAddress.parse(uid));
+          InternetAddress.parse(email));
       message.setSubject("Temporary password for your Snoop account");
 
       /* set email body */
@@ -109,7 +115,7 @@ public class EmailUtil {
       Transport.send(message);
     } catch (Exception e) {
       final StrBuilder sb = new StrBuilder();
-      sb.appendln(String.format("Error in sending temporary password to '%s'.", uid));
+      sb.appendln(String.format("Error in sending temporary password to %s.", email));
       LOG.warn(sb.toString(), e);
     }
   }

@@ -155,12 +155,12 @@ public class QuandaWebHandler extends AbastractWebHandler
 
   private FullHttpResponse onUpdate() {
     /* get id */
-    final String id = getPathParser().getPathStream().nextToken();
-
-    /* no id */
-    if (StringUtils.isBlank(id)) {
-      appendln("Missing parameter: id");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    Long id = null;
+    try {
+      id = Long.parseLong(getPathParser().getPathStream().nextToken());
+    } catch (NumberFormatException e) {
+      appendln("Incorrect id format.");
+      return newClientErrorResponse(e, LOG);
     }
 
     /* get instance from json */
@@ -188,12 +188,12 @@ public class QuandaWebHandler extends AbastractWebHandler
       /* get DB copy */
       session  = getSession();
       txn = session.beginTransaction();
-      fromDB = (Quanda) session.get(Quanda.class, Long.parseLong(id));
+      fromDB = (Quanda) session.get(Quanda.class, id);
       txn.commit();
 
       if (fromDB == null) {
         appendln(
-            String.format("Nonexistent quanda ('%d')", Long.parseLong(id)));
+            String.format("Nonexistent quanda ('%d')", id));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (HibernateException e) {
@@ -209,8 +209,8 @@ public class QuandaWebHandler extends AbastractWebHandler
       session = getSession();
       txn = session.beginTransaction();
 
-      String asker = fromDB.getAsker();
-      String responder = fromDB.getResponder();
+      final Long asker = fromDB.getAsker();
+      final Long responder = fromDB.getResponder();
 
       /* process journals and capture charge */
       processJournals4Answer(session, fromJson, fromDB);
@@ -222,7 +222,7 @@ public class QuandaWebHandler extends AbastractWebHandler
       saveCoverToObjectStore(fromJson, fromDB);
 
       /* update */
-      UpdateStatusActive(session, fromJson, fromDB);
+      UpdateStatusAndActive(session, fromJson, fromDB);
 
       /* Get token device to send to question asker */
       String deviceToken = ProfileDBUtil.getDeviceToken(session, asker);
@@ -247,7 +247,7 @@ public class QuandaWebHandler extends AbastractWebHandler
     }
   }
 
-  private void UpdateStatusActive(
+  private void UpdateStatusAndActive(
       final Session session,
       final Quanda fromJson,
       final Quanda fromDB) {
@@ -384,7 +384,7 @@ public class QuandaWebHandler extends AbastractWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    if (StringUtils.isBlank(quanda.getAsker())) {
+    if (quanda.getAsker() == null) {
       appendln("No asker specified in quanda", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
@@ -394,7 +394,7 @@ public class QuandaWebHandler extends AbastractWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    if (StringUtils.isBlank(quanda.getResponder())) {
+    if (quanda.getResponder() == null) {
       appendln("No responder specified in quanda", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
@@ -406,7 +406,7 @@ public class QuandaWebHandler extends AbastractWebHandler
 
     if (quanda.getAsker().equals(quanda.getResponder())) {
       appendln(String.format(
-          "Quanda asker ('%s') can't be the same as responder ('%s')",
+          "Quanda asker ('%d') can't be the same as responder ('%d')",
           quanda.getAsker(), quanda.getResponder()), respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }

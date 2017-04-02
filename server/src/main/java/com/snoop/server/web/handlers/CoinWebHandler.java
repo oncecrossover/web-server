@@ -1,6 +1,5 @@
 package com.snoop.server.web.handlers;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -39,12 +38,12 @@ public class CoinWebHandler extends AbastractWebHandler
 
   private FullHttpResponse onGet() {
     /* get uid */
-    final String uid = getPathParser().getPathStream().nextToken();
-
-    /* no uid */
-    if (StringUtils.isBlank(uid)) {
-      appendln("Missing parameter: uid");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    Long uid = null;
+    try {
+      uid = Long.parseLong(getPathParser().getPathStream().nextToken());
+    } catch (NumberFormatException e) {
+      appendln("Incorrect uid format.");
+      return newClientErrorResponse(e, LOG);
     }
 
     /* query user */
@@ -57,7 +56,7 @@ public class CoinWebHandler extends AbastractWebHandler
       txn.commit();
 
       if (retInstance == null) {
-        appendln(String.format("Nonexistent user ('%s')", uid));
+        appendln(String.format("Nonexistent user ('%d')", uid));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (HibernateException e) {
@@ -77,7 +76,7 @@ public class CoinWebHandler extends AbastractWebHandler
           .setAmount(amount);
 
       /* buffer result */
-      return newResponseForInstance(uid, "coins", instance);
+      return newResponseForInstance(uid.toString(), "coins", instance);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
@@ -124,7 +123,7 @@ public class CoinWebHandler extends AbastractWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    if (StringUtils.isBlank(instance.getUid())) {
+    if (instance.getUid() == null) {
       appendln("No uid specified.", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }

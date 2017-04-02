@@ -51,7 +51,7 @@ public class TestPcEntry {
   private PcEntry newRandomInstance() {
     final PcEntry result = new PcEntry();
     result.setId(random.nextLong())
-          .setUid(UUID.randomUUID().toString())
+          .setUid(random.nextLong())
           .setEntryId(UUID.randomUUID().toString())
           .setBrand(UUID.randomUUID().toString())
           .setLast4(UUID.randomUUID().toString())
@@ -62,7 +62,7 @@ public class TestPcEntry {
   private Object newInstance() {
     final PcEntry result = new PcEntry();
     result.setId(random.nextLong())
-          .setUid("kuan")
+          .setUid(random.nextLong())
           .setEntryId("card_12345678")
           .setBrand("VISA")
           .setLast4("5678")

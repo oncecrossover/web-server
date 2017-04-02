@@ -23,6 +23,7 @@ import com.snoop.server.db.model.QaTransaction.TransType;
 import com.snoop.server.db.util.CoinDBUtil;
 import com.snoop.server.db.util.ProfileDBUtil;
 import com.snoop.server.db.util.QuandaDBUtil;
+import com.snoop.server.db.util.UserDBUtil;
 import com.snoop.server.util.EmailUtil;
 import com.snoop.server.util.NotificationUtil;
 import com.snoop.server.util.ResourcePathParser;
@@ -127,8 +128,8 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     }
 
     /* verify uid */
-    final String uid = fromJson.getUid();
-    if (StringUtils.isBlank(uid)) {
+    final Long uid = fromJson.getUid();
+    if (uid == null) {
       appendln("Missing parameter: uid");
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
@@ -161,7 +162,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     Transaction txn = null;
     FullHttpResponse resp = null;
 
-    final String transUserId = qaTransaction.getUid();
+    final Long transUserId = qaTransaction.getUid();
 
     /* get client copy */
     final Quanda quandaFromClient = qaTransaction.getquanda();
@@ -218,6 +219,10 @@ public class QaTransactionWebHandler extends AbastractWebHandler
           return newServerErrorResponse(e, LOG);
         }
 
+        /* get email address */
+        final String email = UserDBUtil.getEmail(session,
+            qaTransaction.getUid(), false);
+
         /* insert journals and charge */
         if (toDollarsFromCoins(coins) >= SNOOP_RATE) {
           chargeSnooperFromCoins(session, qaTransaction, quandaFromDB);
@@ -230,7 +235,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
 
         /* send payment confirmation */
         EmailUtil.sendPaymentConfirmation(
-            qaTransaction.getUid(),
+            email,
             quandaFromDB.getQuestion(),
             SNOOP_RATE);
 
@@ -273,19 +278,19 @@ public class QaTransactionWebHandler extends AbastractWebHandler
       return resp;
     }
 
-    if (StringUtils.isBlank(quanda.getAsker())) {
+    if (quanda.getAsker() == null) {
       appendln("No asker specified in quanda");
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
-    if (StringUtils.isBlank(quanda.getResponder())) {
+    if (quanda.getResponder() == null) {
       appendln("No responder specified in quanda");
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
     if (quanda.getAsker().equals(quanda.getResponder())) {
       appendln(String.format(
-          "Quanda asker ('%s') can't be the same as responder ('%s')",
+          "Quanda asker ('%d') can't be the same as responder ('%d')",
           quanda.getAsker(), quanda.getResponder()));
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
@@ -294,11 +299,11 @@ public class QaTransactionWebHandler extends AbastractWebHandler
   }
 
   private FullHttpResponse verifyTransactionForSnooping(
-      final String transUserId, final Quanda quanda) {
+      final Long transUserId, final Quanda quanda) {
     if (transUserId.equals(quanda.getAsker())
         || transUserId.equals(quanda.getResponder())) {
       appendln(String.format(
-          "QaTransaction user ('%s') shouldn't be same as quanda asker ('%s') or responder ('%s')",
+          "QaTransaction user ('%d') shouldn't be same as quanda asker ('%d') or responder ('%d')",
           transUserId, quanda.getAsker(), quanda.getResponder()));
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
@@ -313,7 +318,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     Session session = null;
     Transaction txn = null;
     FullHttpResponse resp = null;
-    final String transUserId = qaTransaction.getUid();
+    final Long transUserId = qaTransaction.getUid();
 
     /* get quanda */
     final Quanda quanda = qaTransaction.getquanda();
@@ -378,6 +383,10 @@ public class QaTransactionWebHandler extends AbastractWebHandler
           return newServerErrorResponse(e, LOG);
         }
 
+        /* get email address */
+        final String email = UserDBUtil.getEmail(session,
+            qaTransaction.getUid(), false);
+
         /* insert journals and CoinEntry */
         if (toDollarsFromCoins(coins) >= answerRate) {
           chargeAskerFromCoins(session, qaTransaction, quanda, answerRate);
@@ -390,7 +399,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
 
         /* send payment confirmation */
         EmailUtil.sendPaymentConfirmation(
-          qaTransaction.getUid(),
+          email,
           qaTransaction.getquanda().getQuestion(),
           answerRate);
 
@@ -456,7 +465,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
 
   private void insertQuandaAndQaTransaction(final Session session,
       final Quanda quanda, final QaTransaction qaTransaction,
-      final double answerRate) {
+      final int answerRate) {
     /* insert quanda */
     session.save(quanda);
 
@@ -515,7 +524,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     return coinEntry;
   }
 
-  int minusCoinsForAsking(final QaTransaction qaTransaction) {
+  int negativeCoinsForAsking(final QaTransaction qaTransaction) {
     return -1 * Math.abs(toCoinsFromDollars(qaTransaction.getAmount()));
   }
 
@@ -524,12 +533,12 @@ public class QaTransactionWebHandler extends AbastractWebHandler
       final QaTransaction qaTransaction) {
     final CoinEntry coinEntry = new CoinEntry();
     coinEntry.setUid(qaTransaction.getUid())
-             .setAmount(minusCoinsForAsking(qaTransaction));
+             .setAmount(negativeCoinsForAsking(qaTransaction));
     session.save(coinEntry);
     return coinEntry;
   }
 
-  int minusAskerCost(final int answerRate) {
+  int negativeAskerCost(final int answerRate) {
     return -1 * Math.abs(answerRate);
   }
 
@@ -549,7 +558,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     final Journal journal = new Journal();
     journal.setTransactionId(qaTransaction.getId())
            .setUid(quanda.getAsker())
-           .setAmount(minusAskerCost(answerRate))
+           .setAmount(negativeAskerCost(answerRate))
            .setType(JournalType.COIN.value())
            .setCoinEntryId(coinEntry.getId());
 

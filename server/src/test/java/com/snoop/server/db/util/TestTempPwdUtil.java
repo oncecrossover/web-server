@@ -2,6 +2,7 @@ package com.snoop.server.db.util;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Random;
 import java.util.UUID;
 
 import org.hibernate.Session;
@@ -17,13 +18,15 @@ import com.snoop.server.db.util.TempPwdUtil;
 
 public class TestTempPwdUtil {
 
+  private Random r = new Random(System.currentTimeMillis());
+
   @Test(timeout = 60000)
   public void testTempPwdExists4UserWithoutRecords() throws Exception {
     final Session session = HibernateTestUtil.getSessionFactory()
         .getCurrentSession();
 
     final boolean result = TempPwdUtil.tempPwdExists4User(session,
-        UUID.randomUUID().toString(), UUID.randomUUID().toString(), true);
+        r.nextLong(), UUID.randomUUID().toString(), true);
     assertEquals(false, result);
   }
 
@@ -36,7 +39,7 @@ public class TestTempPwdUtil {
 
     /* insert user */
     final User randomUser = TestUser.insertRandomUser();
-    final String uid = randomUser.getUid();
+    final Long uid = randomUser.getUid();
 
     /* insert TempPwd */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
@@ -69,7 +72,7 @@ public class TestTempPwdUtil {
         .getCurrentSession();
 
     final int result = TempPwdUtil.expireAllPendingPwds(session,
-        UUID.randomUUID().toString(), true);
+        r.nextLong(), true);
     assertEquals(0, result);
   }
 
@@ -82,7 +85,7 @@ public class TestTempPwdUtil {
 
     /* insert user */
     final User randomUser = TestUser.insertRandomUser();
-    final String uid = randomUser.getUid();
+    final Long uid = randomUser.getUid();
 
     for (int i = 1; i <= 5; i++) {
       randomInstance = TestTempPwd.newRandomInstance();

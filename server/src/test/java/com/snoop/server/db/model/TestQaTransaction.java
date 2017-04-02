@@ -37,7 +37,7 @@ public class TestQaTransaction {
 
   @Test(timeout = 60000)
   public void testCreateInstanceFromJson() throws IOException {
-    final String json = "{\"id\":-4135475961452305480,\"uid\":\"edmuand\",\"type\":\"ASKED\",\"quandaId\":10,\"amount\":1000.0,\"createdTime\":null}";
+    final String json = "{\"id\":-4135475961452305480,\"uid\":1234,\"type\":\"ASKED\",\"quandaId\":10,\"amount\":1000.0,\"createdTime\":null}";
     QaTransaction instance = QaTransaction.newInstance(json.getBytes(Charsets.UTF_8));
 
     ObjectMapper mapper = new ObjectMapper();
@@ -63,7 +63,7 @@ public class TestQaTransaction {
   public static QaTransaction newRandomInstance() {
     final QaTransaction result = new QaTransaction();
     result.setId(random.nextLong())
-          .setUid(UUID.randomUUID().toString())
+          .setUid(random.nextLong())
           .setType(TransType.ASKED.value())
           .setQuandaId(random.nextLong())
           .setAmount(random.nextDouble());
@@ -73,7 +73,7 @@ public class TestQaTransaction {
   public static Object newInstance() {
     final QaTransaction result = new QaTransaction();
     result.setId(random.nextLong())
-          .setUid("edmuand")
+          .setUid(random.nextLong())
           .setType(TransType.ASKED.value())
           .setQuandaId(10L)
           .setAmount(1000);

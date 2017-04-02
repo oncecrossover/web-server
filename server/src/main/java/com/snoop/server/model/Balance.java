@@ -8,13 +8,13 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Balance {
-  private String uid;
+  private Long uid;
   private Double balance;
 
-  public String getUid() {
+  public Long getUid() {
     return uid;
   }
-  public Balance setUid(final String uid) {
+  public Balance setUid(final Long uid) {
     this.uid = uid;
     return this;
   }

@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TempPwd {
   private Long id;
-  private String uid;
+  private Long uid;
   private String pwd;
   private String status;
   private Date createdTime;
@@ -46,11 +46,11 @@ public class TempPwd {
     return this;
   }
 
-  public String getUid() {
+  public Long getUid() {
     return uid;
   }
 
-  public TempPwd setUid(final String uid) {
+  public TempPwd setUid(final Long uid) {
     this.uid = uid;
     return this;
   }

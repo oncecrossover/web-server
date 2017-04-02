@@ -11,7 +11,7 @@ public class TempPwdUtil {
    * Execute query from a session that will open new transaction.
    * @return The number of entities updated or deleted.
    */
-  public static int expireAllPendingPwds(final String uid) throws Exception {
+  public static int expireAllPendingPwds(final Long uid) throws Exception {
     final Session session = HibernateUtil.getSessionFactory()
         .getCurrentSession();
     return expireAllPendingPwds(session, uid, true);
@@ -22,7 +22,7 @@ public class TempPwdUtil {
    * @return The number of entities updated or deleted.
    */
   public static int expireAllPendingPwds(final Session session,
-      final String uid) throws Exception {
+      final Long uid) throws Exception {
     return expireAllPendingPwds(session, uid, false);
   }
 
@@ -30,7 +30,7 @@ public class TempPwdUtil {
    * Execute query from a session that will open new transaction.
    * @return true if uid/pwd/PENDING exists, otherwise false.
    */
-  public static boolean tempPwdExists4User(final String uid, final String pwd)
+  public static boolean tempPwdExists4User(final Long uid, final String pwd)
       throws Exception {
     final Session session = HibernateUtil.getSessionFactory()
         .getCurrentSession();
@@ -42,14 +42,14 @@ public class TempPwdUtil {
    * @return true if uid/pwd/PENDING exists, otherwise false.
    */
   public static boolean tempPwdExists4User(final Session session,
-      final String uid, final String pwd) throws Exception {
+      final Long uid, final String pwd) throws Exception {
     return tempPwdExists4User(session, uid, pwd, false);
   }
 
-  static boolean tempPwdExists4User(final Session session, final String uid,
+  static boolean tempPwdExists4User(final Session session, final Long uid,
       final String pwd, final boolean newTransaction) throws Exception {
     final String sql = String
-        .format("SELECT COUNT(*) FROM TempPwd WHERE uid = '%s'"
+        .format("SELECT COUNT(*) FROM TempPwd WHERE uid = %d"
             + " AND pwd = '%s' AND status = 'PENDING';", uid, pwd);
     Transaction txn = null;
     try {
@@ -72,10 +72,10 @@ public class TempPwdUtil {
     }
   }
 
-  static int expireAllPendingPwds(final Session session, final String uid,
+  static int expireAllPendingPwds(final Session session, final Long uid,
       final boolean newTransaction) throws Exception {
     final String sql = String
-        .format("UPDATE TempPwd SET status = 'EXPIRED' WHERE uid = '%s'"
+        .format("UPDATE TempPwd SET status = 'EXPIRED' WHERE uid = %d"
             + " AND status = 'PENDING';", uid);
     Transaction txn = null;
     try {

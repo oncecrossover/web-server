@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.util.UUID;
+import java.util.Random;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -15,6 +15,7 @@ import com.snoop.server.util.ObjectStoreClient;
 
 public class TestObjectStoreClient {
 
+  private Random r = new Random(System.currentTimeMillis());
   private static final String PREFIX = "https://s3-us-west-2.amazonaws.com/com.snoop.server.test";
  
   @BeforeClass
@@ -64,7 +65,7 @@ public class TestObjectStoreClient {
     assertNotNull(fileContent);
 
     final ObjectStoreClient osc = new ObjectStoreClient();
-    final String uid = UUID.randomUUID() + "@test.com";
+    final Long uid = r.nextLong();
     final Profile profile = new Profile();
     profile.setUid(uid).setAvatarImage(fileContent);
 

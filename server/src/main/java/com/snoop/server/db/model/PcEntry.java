@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PcEntry {
   private long id;
-  private String uid;
+  private Long uid;
   private String entryId;
   private String brand;
   private String last4;
@@ -27,11 +27,11 @@ public class PcEntry {
     return this;
   }
 
-  public String getUid() {
+  public Long getUid() {
     return uid;
   }
 
-  public PcEntry setUid(final String uid) {
+  public PcEntry setUid(final Long uid) {
     this.uid = uid;
     return this;
   }

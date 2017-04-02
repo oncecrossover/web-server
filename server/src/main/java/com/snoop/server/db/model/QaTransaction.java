@@ -19,7 +19,7 @@ public class QaTransaction {
   }
 
   private Long id;
-  private String uid;
+  private Long uid;
   private String type;
   private Long quandaId;
   private Double amount;
@@ -35,11 +35,11 @@ public class QaTransaction {
     return this;
   }
 
-  public String getUid() {
+  public Long getUid() {
     return uid;
   }
 
-  public QaTransaction setUid(final String uid) {
+  public QaTransaction setUid(final Long uid) {
     this.uid = uid;
     return this;
   }

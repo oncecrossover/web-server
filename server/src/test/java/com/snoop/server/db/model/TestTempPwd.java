@@ -53,7 +53,7 @@ public class TestTempPwd {
   public static TempPwd newRandomInstance() {
     TempPwd tempPwd = new TempPwd();
     tempPwd.setId(random.nextLong())
-           .setUid(UUID.randomUUID().toString())
+           .setUid(random.nextLong())
            .setPwd(UUID.randomUUID().toString())
            .setStatus(TempPwd.Status.PENDING.value());
     return tempPwd;
@@ -62,7 +62,7 @@ public class TestTempPwd {
   static TempPwd newInstance() {
     TempPwd tempPwd = new TempPwd();
     tempPwd.setId(random.nextLong())
-           .setUid("kuan")
+           .setUid(random.nextLong())
            .setPwd("123456")
            .setStatus(TempPwd.Status.PENDING.value());
     return tempPwd;

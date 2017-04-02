@@ -1,6 +1,5 @@
 package com.snoop.server.web.handlers;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -9,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.io.ByteArrayDataOutput;
-import com.snoop.server.db.model.PcEntry;
 import com.snoop.server.db.model.User;
 import com.snoop.server.db.util.JournalUtil;
 import com.snoop.server.model.Balance;
@@ -37,12 +35,12 @@ public class BalanceWebHandler extends AbastractWebHandler
 
   private FullHttpResponse onGet() {
     /* get id */
-    final String uid = getPathParser().getPathStream().nextToken();
-
-    /* no uid */
-    if (StringUtils.isBlank(uid)) {
-      appendln("Missing parameter: uid");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    Long uid = null;
+    try {
+      uid = Long.parseLong(getPathParser().getPathStream().nextToken());
+    } catch (NumberFormatException e) {
+      appendln("Incorrect uid format.");
+      return newClientErrorResponse(e, LOG);
     }
 
     /* query user */
@@ -55,7 +53,7 @@ public class BalanceWebHandler extends AbastractWebHandler
       txn.commit();
 
       if (retInstance == null) {
-        appendln(String.format("Nonexistent user ('%s')", uid));
+        appendln(String.format("Nonexistent user ('%d')", uid));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (HibernateException e) {
@@ -84,13 +82,13 @@ public class BalanceWebHandler extends AbastractWebHandler
     return Math.floor(amount * 100.0) / 100.0;
   }
 
-  private FullHttpResponse newResponseForInstance(final String id,
+  private FullHttpResponse newResponseForInstance(final Long id,
       final Balance instance) throws JsonProcessingException {
     if (instance != null) {
       appendByteArray(instance.toJsonByteArray());
       return newResponse(HttpResponseStatus.OK);
     } else {
-      appendln(String.format("Nonexistent balance for user ('%s')", id));
+      appendln(String.format("Nonexistent balance for user ('%d')", id));
       return newResponse(HttpResponseStatus.NOT_FOUND);
     }
   }

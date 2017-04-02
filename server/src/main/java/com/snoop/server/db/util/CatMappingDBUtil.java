@@ -21,7 +21,7 @@ public class CatMappingDBUtil {
   public static CatMappingEntry getCatMappingEntry(
       final Session session,
       final Long catId,
-      final String uid,
+      final Long uid,
       final boolean newTransaction) {
 
     final String sql = buildSql4CatMappingEntry(catId, uid);
@@ -60,7 +60,7 @@ public class CatMappingDBUtil {
          .addScalar("catId", new LongType())
          .addScalar("catName", new StringType())
          .addScalar("catDescription", new StringType())
-         .addScalar("uid", new StringType())
+         .addScalar("uid", new LongType())
          .addScalar("isExpertise", new StringType())
          .addScalar("isInterest", new StringType())
          .addScalar("createdTime", new TimestampType())
@@ -70,12 +70,12 @@ public class CatMappingDBUtil {
 
   private static String buildSql4CatMappingEntry(
       final Long catId,
-      final String uid) {
+      final Long uid) {
     final String select = "SELECT CM.id, CM.catId,"
         + " C.name AS catName, C.description AS catDescription,"
         + " CM.uid, CM.isExpertise, CM.isInterest, CM.createdTime, CM.updatedTime"
         + " FROM CatMapping AS CM INNER JOIN Category AS C"
-        + " ON CM.catId = C.id AND CM.catId = %d WHERE uid = '%s'";
+        + " ON CM.catId = C.id AND CM.catId = %d WHERE uid = %d";
     return String.format(select, catId, uid);
   }
 
@@ -123,13 +123,14 @@ public class CatMappingDBUtil {
     final List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
       if ("id".equals(key)) {
-        list.add(
-            String.format("CM.id = %d", Long.parseLong(params.get(key).get(0))));
+        list.add(String.format("CM.id = %d",
+            Long.parseLong(params.get(key).get(0))));
       } else if ("catId".equals(key)) {
         list.add(String.format("CM.catId = %d",
             Long.parseLong(params.get(key).get(0))));
       } else if ("uid".equals(key)) {
-        list.add(String.format("CM.uid = %s", params.get(key).get(0)));
+        list.add(String.format("CM.uid = %d",
+            Long.parseLong(params.get(key).get(0))));
       } else if ("isExpertise".equals(key)) {
         list.add(String.format("CM.isExpertise = %s", params.get(key).get(0)));
       } else if ("isInterest".equals(key)) {

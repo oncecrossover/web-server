@@ -40,9 +40,9 @@ public class Quanda {
   }
 
   private Long id;
-  private String asker;
+  private Long asker;
   private String question;
-  private String responder;
+  private Long responder;
   private Integer rate;
   private String answerUrl;
   private String answerCoverUrl;
@@ -65,11 +65,11 @@ public class Quanda {
     return this;
   }
 
-  public String getAsker() {
+  public Long getAsker() {
     return asker;
   }
 
-  public Quanda setAsker(final String asker) {
+  public Quanda setAsker(final Long asker) {
     this.asker = asker;
     return this;
   }
@@ -83,11 +83,11 @@ public class Quanda {
     return this;
   }
 
-  public String getResponder() {
+  public Long getResponder() {
     return responder;
   }
 
-  public Quanda setResponder(final String responder) {
+  public Quanda setResponder(final Long responder) {
     this.responder = responder;
     return this;
   }

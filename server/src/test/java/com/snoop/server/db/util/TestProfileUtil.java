@@ -2,7 +2,7 @@ package com.snoop.server.db.util;
 
 import static org.junit.Assert.*;
 
-import java.util.UUID;
+import java.util.Random;
 
 import org.hibernate.Session;
 import org.junit.Test;
@@ -14,6 +14,9 @@ import com.snoop.server.db.util.ProfileDBUtil;
 import com.snoop.server.exceptions.SnoopException;
 
 public class TestProfileUtil {
+
+  private Random r = new Random(System.currentTimeMillis());
+
   @Test(timeout = 60000)
   public void testGetRateWithoutRecords() throws Exception {
     final Session session = HibernateTestUtil.getSessionFactory()
@@ -21,7 +24,7 @@ public class TestProfileUtil {
 
     Integer result = null;
     try {
-      result = ProfileDBUtil.getRate(session, UUID.randomUUID().toString(), true);
+      result = ProfileDBUtil.getRate(session, r.nextLong(), true);
       fail("There shouldn't be any record.");
     } catch (Exception e) {
       assertTrue(e instanceof SnoopException);

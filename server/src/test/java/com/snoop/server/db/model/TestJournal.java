@@ -55,7 +55,7 @@ public class TestJournal {
     final Journal result = new Journal();
     result.setId(random.nextLong())
           .setTransactionId(random.nextLong())
-          .setUid(UUID.randomUUID().toString())
+          .setUid(random.nextLong())
           .setAmount(random.nextDouble())
           .setType(JournalType.BALANCE.value())
           .setChargeId(UUID.randomUUID().toString())
@@ -68,7 +68,7 @@ public class TestJournal {
     final Journal result = new Journal();
     result.setId(random.nextLong())
           .setTransactionId(random.nextLong())
-          .setUid("edmuand")
+          .setUid(random.nextLong())
           .setAmount(-199)
           .setType(JournalType.BALANCE.value())
           .setChargeId(UUID.randomUUID().toString())

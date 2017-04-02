@@ -11,7 +11,7 @@ public class PcAccountUtil {
   /*
    * query from a session that will open new transaction.
    */
-  public static String getCustomerId(final String uid) throws Exception {
+  public static String getCustomerId(final Long uid) throws Exception {
     final Session session = HibernateUtil.getSessionFactory()
         .getCurrentSession();
     return getCustomerId(session, uid, true);
@@ -20,15 +20,15 @@ public class PcAccountUtil {
   /*
    * query from a session that already opened transaction.
    */
-  public static String getCustomerId(final Session session, final String uid)
+  public static String getCustomerId(final Session session, final Long uid)
       throws Exception {
     return getCustomerId(session, uid, false);
   }
 
-  static String getCustomerId(final Session session, final String uid,
+  static String getCustomerId(final Session session, final Long uid,
       final boolean newTransaction) throws Exception {
     final String sql = String
-        .format("SELECT chargeFrom FROM PcAccount WHERE uid='%s'", uid);
+        .format("SELECT chargeFrom FROM PcAccount WHERE uid=%d", uid);
 
     Transaction txn = null;
     String result = null;
@@ -51,7 +51,7 @@ public class PcAccountUtil {
 
     if (result == null) {
       throw new SnoopException(
-          String.format("Nonexistent customer for user ('%s')", uid));
+          String.format("Nonexistent customer for user ('%d')", uid));
     }
 
     return result;

@@ -101,8 +101,8 @@ public class QuandaDBUtil {
       query.setResultTransformer(Transformers.aliasToBean(Quanda.class));
       /* add column mapping */
       query.addScalar("id", new LongType())
-           .addScalar("asker", new StringType())
-           .addScalar("responder", new StringType())
+           .addScalar("asker", new LongType())
+           .addScalar("responder", new LongType())
            .addScalar("rate", new IntegerType())
            .addScalar("status", new StringType())
            .addScalar("createdTime", new TimestampType());
@@ -291,7 +291,8 @@ public class QuandaDBUtil {
             "Q.id=%d",
             Long.parseLong(params.get(key).get(0))));
       } else if ("responder".equals(key)) {
-        list.add(String.format("Q.responder=%s", params.get(key).get(0)));
+        list.add(String.format("Q.responder=%d",
+            Long.parseLong(params.get(key).get(0))));
       } else if ("lastSeenCreatedTime".equals(key)) {
         lastSeenCreatedTime = Long.parseLong(params.get(key).get(0));
       } else if ("lastSeenId".equals(key)) {
@@ -349,7 +350,8 @@ public class QuandaDBUtil {
             "Q.id=%d",
             Long.parseLong(params.get(key).get(0))));
       } else if ("asker".equals(key)) {
-        list.add(String.format("Q.asker=%s", params.get(key).get(0)));
+        list.add(String.format("Q.asker=%d",
+            Long.parseLong(params.get(key).get(0))));
       } else if ("lastSeenId".equals(key)) {
         lastSeenId = Long.parseLong(params.get(key).get(0));
       } else if ("lastSeenUpdatedTime".equals(key)) {
@@ -395,11 +397,11 @@ public class QuandaDBUtil {
         " INNER JOIN Profile AS P2 ON Q.asker = P2.uid" +
         " LEFT JOIN Snoop AS S ON Q.id = S.quandaId";
 
-    String uid = "NULL";
+    Long uid = 0L;
     List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
       if ("uid".equals(key)) {
-        uid = params.get(key).get(0);
+        uid = Long.parseLong(params.get(key).get(0));
       } else if ("lastSeenId".equals(key)) {
         lastSeenId = Long.parseLong(params.get(key).get(0));
       } else if ("lastSeenUpdatedTime".equals(key)) {
@@ -410,10 +412,10 @@ public class QuandaDBUtil {
     }
 
     /* query where clause */
-    String where = " WHERE Q.asker != %s AND Q.responder != %s"
+    String where = " WHERE Q.asker != %d AND Q.responder != %d"
         + " AND Q.status = 'ANSWERED' AND NOT EXISTS"
         + " (SELECT DISTINCT S.quandaId FROM Snoop S"
-        + " WHERE S.uid = %s AND S.quandaId = Q.id)";
+        + " WHERE S.uid = %d AND S.quandaId = Q.id)";
     where = String.format(where, uid, uid, uid);
 
     /* pagination where clause */

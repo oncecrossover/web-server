@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class CoinEntry extends ModelBase implements Model {
   private Long id;
-  private String uid;
+  private Long uid;
   private Integer amount;
   private Long originId;
   private Date createdTime;
@@ -18,11 +18,11 @@ public class CoinEntry extends ModelBase implements Model {
     return this;
   }
 
-  public String getUid() {
+  public Long getUid() {
     return uid;
   }
 
-  public CoinEntry setUid(final String uid) {
+  public CoinEntry setUid(final Long uid) {
     this.uid = uid;
     return this;
   }

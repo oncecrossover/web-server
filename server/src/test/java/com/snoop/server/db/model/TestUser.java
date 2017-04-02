@@ -26,7 +26,7 @@ public class TestUser {
 
   static User newRandomUser() {
     final User user = new User();
-    user.setUid(UUID.randomUUID().toString())
+    user.setUname(UUID.randomUUID().toString())
         .setPwd(UUID.randomUUID().toString());
 
     final Profile profile = new Profile();
@@ -51,8 +51,7 @@ public class TestUser {
 
   static User newUser() {
     final User user = new User();
-    user.setUid("edmund")
-        .setPwd("123");
+    user.setPwd("123");
 
     final Profile profile = new Profile();
     profile.setRate(101)
@@ -78,8 +77,7 @@ public class TestUser {
 
   static User newAnotherUser() {
     final User user = new User();
-    user.setUid("kuan")
-        .setPwd("456");
+    user.setPwd("456");
 
     final Profile profile = new Profile();
     profile.setRate(1001)
@@ -192,7 +190,6 @@ public class TestUser {
   public void testUpdateUser() throws JsonProcessingException {
     final User randomUser = newRandomUser();
     final User newRandomUser = newRandomUser()
-                                .setUid(randomUser.getUid())
                                 .setProfile(randomUser.getProfile())
                                 .setPcAccount(randomUser.getPcAccount());
     Session session = null;
@@ -215,6 +212,7 @@ public class TestUser {
     assertUserEquals(randomUser, retUser);
 
     /* update user */
+    newRandomUser.setUid(randomUser.getUid());
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
     txn = session.beginTransaction();
     session.update(newRandomUser);

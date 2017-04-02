@@ -32,7 +32,7 @@ public class Journal {
 
   private Long id;
   private Long transactionId;
-  private String uid;
+  private Long uid;
   private Double amount;
   private String type;
   private String status;
@@ -60,11 +60,11 @@ public class Journal {
     return this;
   }
 
-  public String getUid() {
+  public Long getUid() {
     return uid;
   }
 
-  public Journal setUid(final String uid) {
+  public Journal setUid(final Long uid) {
     this.uid = uid;
     return this;
   }

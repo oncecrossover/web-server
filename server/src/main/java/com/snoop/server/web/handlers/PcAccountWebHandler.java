@@ -36,12 +36,12 @@ public class PcAccountWebHandler extends AbastractWebHandler
 
   private FullHttpResponse onGet() {
     /* get uid */
-    final String uid = getPathParser().getPathStream().nextToken();
-
-    /* no id */
-    if (StringUtils.isBlank(uid)) {
-      appendln("Missing parameter: uid");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    Long uid = null;
+    try {
+      uid = Long.parseLong(getPathParser().getPathStream().nextToken());
+    } catch (NumberFormatException e) {
+      appendln("Incorrect uid format.");
+      return newClientErrorResponse(e, LOG);
     }
 
     Session session = null;
@@ -54,7 +54,7 @@ public class PcAccountWebHandler extends AbastractWebHandler
       txn.commit();
 
       /* buffer result */
-      return newResponseForInstance(uid, "pcaccounts", retInstance);
+      return newResponseForInstance(uid.toString(), "pcaccounts", retInstance);
     } catch (HibernateException e) {
       if (txn != null && txn.isActive()) {
         txn.rollback();
@@ -71,13 +71,13 @@ public class PcAccountWebHandler extends AbastractWebHandler
   }
 
   private FullHttpResponse onUpdate() {
-    /* get id */
-    final String uid = getPathParser().getPathStream().nextToken();
-
-    /* no uid */
-    if (StringUtils.isBlank(uid)) {
-      appendln("Missing parameter: uid");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    /* get uid */
+    Long uid = null;
+    try {
+      uid = Long.parseLong(getPathParser().getPathStream().nextToken());
+    } catch (NumberFormatException e) {
+      appendln("Incorrect uid format.");
+      return newClientErrorResponse(e, LOG);
     }
 
     /* deserialize json */
@@ -105,7 +105,7 @@ public class PcAccountWebHandler extends AbastractWebHandler
       fromDB = (PcAccount) session.get(PcAccount.class, uid);
       txn.commit();
       if (fromDB == null) {
-        appendln(String.format("Nonexistent PcAccount for user ('%s')", uid));
+        appendln(String.format("Nonexistent PcAccount for user ('%d')", uid));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (Exception e) {

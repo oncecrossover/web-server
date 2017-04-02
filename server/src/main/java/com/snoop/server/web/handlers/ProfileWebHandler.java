@@ -50,12 +50,12 @@ public class ProfileWebHandler extends AbastractWebHandler {
 
   private FullHttpResponse onGet() {
     /* get id */
-    final String uid = getPathParser().getPathStream().nextToken();
-
-    /* no uid */
-    if (StringUtils.isBlank(uid)) {
-      appendln("Missing parameter: uid");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    Long uid = null;
+    try {
+      uid = Long.parseLong(getPathParser().getPathStream().nextToken());
+    } catch (NumberFormatException e) {
+      appendln("Incorrect uid format.");
+      return newClientErrorResponse(e, LOG);
     }
 
     Session session = null;
@@ -67,7 +67,7 @@ public class ProfileWebHandler extends AbastractWebHandler {
       txn.commit();
 
       /* buffer result */
-      return newResponseForInstance(uid, retInstance);
+      return newResponseForInstance(uid.toString(), retInstance);
     } catch (Exception e) {
       if (txn != null && txn.isActive()) {
         txn.rollback();
@@ -83,12 +83,12 @@ public class ProfileWebHandler extends AbastractWebHandler {
 
   private FullHttpResponse onUpdate() {
     /* get id */
-    final String uid = getPathParser().getPathStream().nextToken();
-
-    /* no uid */
-    if (StringUtils.isBlank(uid)) {
-      appendln("Missing parameter: uid");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    Long uid = null;
+    try {
+      uid = Long.parseLong(getPathParser().getPathStream().nextToken());
+    } catch (NumberFormatException e) {
+      appendln("Incorrect uid format.");
+      return newClientErrorResponse(e, LOG);
     }
 
     /* deserialize json */
@@ -116,7 +116,7 @@ public class ProfileWebHandler extends AbastractWebHandler {
       fromDB = (Profile) session.get(Profile.class, uid);
       txn.commit();
       if (fromDB == null) {
-        appendln(String.format("Nonexistent profile for user ('%s')", uid));
+        appendln(String.format("Nonexistent profile for user ('%d')", uid));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (Exception e) {

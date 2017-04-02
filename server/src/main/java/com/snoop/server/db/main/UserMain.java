@@ -28,7 +28,6 @@ public class UserMain {
 
   private static void insertUser() {
     User user = new User();
-    user.setUid("xiaobingo");
     user.setPwd("123");
 
     // start transaction

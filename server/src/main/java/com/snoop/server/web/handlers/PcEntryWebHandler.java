@@ -78,7 +78,7 @@ public class PcEntryWebHandler extends AbastractWebHandler
     }
 
     /* verify uid */
-    if (StringUtils.isBlank(fromJson.getUid())) {
+    if (fromJson.getUid() == null) {
       appendln("No user id specified.");
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
@@ -101,7 +101,7 @@ public class PcEntryWebHandler extends AbastractWebHandler
 
       /* no PcAccount */
       if (pcAccount == null) {
-        appendln(String.format("Nonexistent PcAccount for user ('%s')",
+        appendln(String.format("Nonexistent PcAccount for user ('%d')",
             fromJson.getUid()));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
@@ -121,7 +121,7 @@ public class PcEntryWebHandler extends AbastractWebHandler
       final String cusId = pcAccount.getChargeFrom();
       customer = StripeUtil.getCustomer(cusId);
       if (customer == null) {
-        appendln(String.format("Nonexistent Customer ('%s') for user ('%s')",
+        appendln(String.format("Nonexistent Customer ('%s') for user ('%d')",
             cusId, fromJson.getUid()));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
@@ -133,7 +133,7 @@ public class PcEntryWebHandler extends AbastractWebHandler
       /* add card to customer */
       card = StripeUtil.addCardToCustomer(customer, fromJson.getToken());
       if (card == null) {
-        appendln(String.format("Failed to add card (%s) for user ('%s')",
+        appendln(String.format("Failed to add card (%s) for user ('%d')",
             fromJson.getToken(), fromJson.getUid()));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
@@ -278,7 +278,7 @@ public class PcEntryWebHandler extends AbastractWebHandler
 
       /* no PcAccount */
       if (pcAccount == null) {
-        appendln(String.format("Nonexistent PcAccount for user ('%s')",
+        appendln(String.format("Nonexistent PcAccount for user ('%d')",
             pcEntry.getUid()));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
@@ -297,7 +297,7 @@ public class PcEntryWebHandler extends AbastractWebHandler
       final String cusId = pcAccount.getChargeFrom();
       customer = StripeUtil.getCustomer(cusId);
       if (customer == null) {
-        appendln(String.format("Nonexistent Customer ('%s') for user ('%s')",
+        appendln(String.format("Nonexistent Customer ('%s') for user ('%d')",
             cusId, pcEntry.getUid()));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }

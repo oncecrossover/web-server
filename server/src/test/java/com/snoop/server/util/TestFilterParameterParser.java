@@ -12,15 +12,11 @@ public class TestFilterParameterParser {
   private final static String PREFIX = "profiles?filter=";
 
   private final String edmundReqUri = String.format("%s%s|%s|%s|%s", PREFIX,
-      "uid=edmund", "avatarUrl=https://en.wikiquote.org/wiki/Edmund_Burke",
+      "uid=123456", "avatarUrl=https://en.wikiquote.org/wiki/Edmund_Burke",
       "fullName=Edmund Burke", "title=Philosopher");
   private final String loadAllReqUri = String.format("%s%s", PREFIX, "*");
   private final String simpleReqUri = String.format("%s%s", PREFIX,
-      "uid=edmund");
-
-  private final String kuanReqUri = String.format("%s=%s|%s|%s|%s", PREFIX,
-      "uid=kuan", "avatarUrl=https://en.wikipedia.org/wiki/Guan_Zhong",
-      "fullName=Kuan Chung", "title=Chancellor and Reformer");
+      "uid=345678");
 
   @Test(timeout = 60000)
   public void testGetFilter() {
@@ -44,7 +40,7 @@ public class TestFilterParameterParser {
     FilterParamParser fpp = new FilterParamParser(simpleReqUri);
     Map<String, String> kvs = fpp.getQueryKVs();
     assertTrue("must contain uid", kvs.containsKey("uid"));
-    assertEquals(kvs.get("uid"), "edmund");
+    assertEquals(kvs.get("uid"), "345678");
   }
 
   @Test(timeout = 60000)
@@ -62,7 +58,7 @@ public class TestFilterParameterParser {
   }
 
   private void verifyValues(final Map<String, String> kvs) {
-    assertEquals(kvs.get("uid"), "edmund");
+    assertEquals(kvs.get("uid"), "123456");
     assertEquals(kvs.get("avatarUrl"),
         "https://en.wikiquote.org/wiki/Edmund_Burke");
     assertEquals(kvs.get("fullName"), "Edmund Burke");

@@ -88,7 +88,7 @@ public class ObjectStoreClient {
   }
 
   public String saveAvatarImage(final Profile profile) throws Exception {
-    if (!StringUtils.isBlank(profile.getUid())
+    if (profile.getUid() != null
         && profile.getAvatarImage() != null
         && profile.getAvatarImage().length > 0) {
       final String s3url = getAvatarS3Url(profile);
@@ -106,7 +106,7 @@ public class ObjectStoreClient {
      * https://s3-us-west-2.amazonaws.com/com.snoop.home/users/xxx@gmail.com/1/
      * avatar.jpg
      */
-    return String.format("%s/%s/%s/%s/%s", s3UriPrefix, HOME_BUCKET,
+    return String.format("%s/%s/%s/%d/%s", s3UriPrefix, HOME_BUCKET,
         HOME_USERS_PREFIX, profile.getUid(), "avatar.jpg");
   }
 
@@ -115,7 +115,7 @@ public class ObjectStoreClient {
      * e.g.
      * https://ddk9xa5p5b3lb.cloudfront.net/users/xxx@gmail.com/1/avatar.jpg
      */
-    return String.format("%s/%s/%s/%s", cloudfrontUriPrefix, HOME_USERS_PREFIX,
+    return String.format("%s/%s/%d/%s", cloudfrontUriPrefix, HOME_USERS_PREFIX,
         profile.getUid(), "avatar.jpg");
   }
 

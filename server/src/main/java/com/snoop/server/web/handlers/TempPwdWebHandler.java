@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.io.ByteArrayDataOutput;
 import com.snoop.server.db.model.TempPwd;
 import com.snoop.server.db.util.TempPwdUtil;
+import com.snoop.server.db.util.UserDBUtil;
 import com.snoop.server.util.EmailUtil;
 import com.snoop.server.util.ResourcePathParser;
 
@@ -52,7 +53,7 @@ public class TempPwdWebHandler extends AbastractWebHandler
       return newServerErrorResponse(e, LOG);
     }
 
-    if (fromJson == null || StringUtils.isBlank(fromJson.getUid())) {
+    if (fromJson == null || fromJson.getUid() == null) {
       appendln("No temp pwd info or incorrect format specified.");
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
@@ -73,10 +74,14 @@ public class TempPwdWebHandler extends AbastractWebHandler
       /* insert new temp one */
       session.save(fromJson);
 
+      /* get email address */
+      final String email = UserDBUtil.getEmail(session, fromJson.getUid(),
+          false);
+
       txn.commit();
 
       /* send temp pwd to user by email */
-      sendTempPwdToUser(fromJson);
+      sendTempPwdToUser(email, fromJson);
 
       appendln(toIdJson("id", fromJson.getId()));
       return newResponse(HttpResponseStatus.CREATED);
@@ -88,8 +93,8 @@ public class TempPwdWebHandler extends AbastractWebHandler
     }
   }
 
-  private void sendTempPwdToUser(final TempPwd tempPwd) {
-    EmailUtil.sendTempPwd(tempPwd.getUid(), tempPwd.getPwd());
+  private void sendTempPwdToUser(final String email, final TempPwd tempPwd) {
+    EmailUtil.sendTempPwd(email, tempPwd.getPwd());
   }
 
   private TempPwd newTempPwdFromRequest()

@@ -8,7 +8,7 @@ import org.hibernate.type.IntegerType;
 public class CoinDBUtil {
 
   public static int getCoinsIgnoreNull(
-      final String uid,
+      final Long uid,
       final Session session,
       final boolean newTransaction) throws Exception {
     final Integer result = getCoins(session, uid, newTransaction);
@@ -17,10 +17,10 @@ public class CoinDBUtil {
 
   static Integer getCoins(
       final Session session,
-      final String uid,
+      final Long uid,
       final boolean newTransaction) throws Exception {
     final String sql = String
-        .format("SELECT SUM(amount) As total FROM Coin WHERE uid = '%s'", uid);
+        .format("SELECT SUM(amount) As total FROM Coin WHERE uid = %d", uid);
     Integer result = null;
     Transaction txn = null;
     try {

@@ -221,6 +221,11 @@ public abstract class AbastractWebHandler implements WebHandler {
     appendln(st);
   }
 
+  FullHttpResponse newClientErrorResponse(final Exception e, final Logger LOG) {
+    stashServerError(e, LOG);
+    return newResponse(HttpResponseStatus.BAD_REQUEST);
+  }
+
   FullHttpResponse newServerErrorResponse(final Exception e, final Logger LOG) {
     stashServerError(e, LOG);
     return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);

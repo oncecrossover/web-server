@@ -36,25 +36,4 @@ public class DBUtil {
     return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         .format(new Date(lastSeenTime));
   }
-
-  public static String getPaginationWhereClause(
-      final String timeColumnName,
-      final long lastSeenTime,
-      final String idColumnName,
-      final String lastSeenId) {
-
-    if (lastSeenTime != 0 && !lastSeenId.equals('0')) {
-      final String lastSeenlocalTime = longToTimeString(lastSeenTime);
-      return String.format(
-          " AND %s <= '%s' AND (%s < %s OR %s < '%s')",
-          timeColumnName,
-          lastSeenlocalTime,
-          idColumnName,
-          lastSeenId,
-          timeColumnName,
-          lastSeenlocalTime);
-    } else {
-      return "";
-    }
-  }
 }

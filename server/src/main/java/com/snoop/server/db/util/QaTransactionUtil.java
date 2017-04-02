@@ -18,7 +18,7 @@ import com.snoop.server.exceptions.SnoopException;
 public class QaTransactionUtil {
 
   public static QaTransaction getQaTransaction(
-      final String uid,
+      final Long uid,
       final String transType,
       final long quandaId) throws Exception {
     final Session session = HibernateUtil.getSessionFactory()
@@ -28,7 +28,7 @@ public class QaTransactionUtil {
 
   public static QaTransaction getQaTransaction(
       final Session session,
-      final String uid,
+      final Long uid,
       final String transType,
       final long quandaId) throws Exception {
     return getQaTransaction(session, uid, transType, quandaId, false);
@@ -36,13 +36,13 @@ public class QaTransactionUtil {
 
   static QaTransaction getQaTransaction(
       final Session session,
-      final String uid,
+      final Long uid,
       final String transType,
       final long quandaId,  
       final boolean newTransaction) throws Exception {
     /* build sql */
     final String sql = String.format(
-        "SELECT * FROM QaTransaction WHERE uid = '%s' AND type = '%s' AND quandaId = '%d';",
+        "SELECT * FROM QaTransaction WHERE uid = %d AND type = '%s' AND quandaId = %d;",
         uid, transType, quandaId);
 
     Transaction txn = null;
@@ -57,7 +57,7 @@ public class QaTransactionUtil {
       query.setResultTransformer(Transformers.aliasToBean(QaTransaction.class));
       /* add column mapping */
       query.addScalar("id", new LongType())
-           .addScalar("uid", new StringType())
+           .addScalar("uid", new LongType())
            .addScalar("type", new StringType())
            .addScalar("quandaId", new LongType())
            .addScalar("amount", new DoubleType())
@@ -77,13 +77,13 @@ public class QaTransactionUtil {
 
     if (list == null || list.size() == 0) {
       throw new SnoopException(
-          String.format("Nonexistent qaTransaction ('%s, %s, %s')", uid,
+          String.format("Nonexistent qaTransaction ('%d, %s, %d')", uid,
               transType, quandaId));
     }
 
     if (list.size() != 1) {
       throw new SnoopException(
-          String.format("Inconsistent state of qaTransaction ('%s, %s, %s')",
+          String.format("Inconsistent state of qaTransaction ('%d, %s, %d')",
               uid, transType, quandaId));
     }
 

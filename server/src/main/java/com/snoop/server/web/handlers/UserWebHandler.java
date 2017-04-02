@@ -57,8 +57,8 @@ public class UserWebHandler extends AbastractWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    if (StringUtils.isBlank(user.getUid())) {
-      appendln("No uid specified.", respBuf);
+    if (StringUtils.isBlank(user.getUname())) {
+      appendln("No username specified.", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
@@ -98,10 +98,10 @@ public class UserWebHandler extends AbastractWebHandler
     Session session = null;
     try {
       /* create Stripe customer */
-      customer = StripeUtil.createCustomerForUser(fromJson.getUid());
+      customer = StripeUtil.createCustomerForUser(fromJson.getUname());
       if (customer == null) {
         appendln(String.format("Creating Customer for user '%s' failed.",
-            fromJson.getUid()));
+            fromJson.getUname()));
         return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
       }
 
@@ -140,12 +140,13 @@ public class UserWebHandler extends AbastractWebHandler
 
   private FullHttpResponse onGet() {
     /* get user id */
-    final String uid = getPathParser().getPathStream().nextToken();
+    Long uid = null;
 
-    /* no uid */
-    if (StringUtils.isBlank(uid)) {
-      appendln("Missing parameter: uid");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    try {
+      uid = Long.parseLong(getPathParser().getPathStream().nextToken());
+    } catch (NumberFormatException e) {
+      appendln("Incorrect uid format.");
+      return newClientErrorResponse(e, LOG);
     }
 
     Session session = null;
@@ -166,13 +167,13 @@ public class UserWebHandler extends AbastractWebHandler
     }
   }
 
-  private FullHttpResponse newResponseForInstance(final String uid,
+  private FullHttpResponse newResponseForInstance(final Long uid,
       final User instance) throws JsonProcessingException {
     if (instance != null) {
       appendByteArray(instance.toJsonByteArray());
       return newResponse(HttpResponseStatus.OK);
     } else {
-      appendln(String.format("Nonexistent resource with URI: /users/%s", uid));
+      appendln(String.format("Nonexistent resource with URI: /users/%d", uid));
       return newResponse(HttpResponseStatus.NOT_FOUND);
     }
   }

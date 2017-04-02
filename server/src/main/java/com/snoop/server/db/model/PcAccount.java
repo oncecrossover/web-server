@@ -1,16 +1,11 @@
 package com.snoop.server.db.model;
 
-import java.io.IOException;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PcAccount extends ModelBase implements Model {
-  private String uid;
+  private Long uid;
   private String chargeFrom;
   private String payTo;
   private Date createdTime;
@@ -18,11 +13,11 @@ public class PcAccount extends ModelBase implements Model {
   @JsonIgnore
   private User user;
 
-  public String getUid() {
+  public Long getUid() {
     return uid;
   }
 
-  public PcAccount setUid(final String uid) {
+  public PcAccount setUid(final Long uid) {
     this.uid = uid;
     return this;
   }

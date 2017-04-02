@@ -1,6 +1,7 @@
 package com.snoop.server.db.model;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.UUID;
 
 import org.junit.Test;
@@ -17,6 +18,7 @@ import com.snoop.server.db.model.PcAccount;
 public class TestPcAccount {
   private static final Logger LOG = LoggerFactory
       .getLogger(TestPcAccount.class);
+  private static Random r = new Random(System.currentTimeMillis());
 
   @Test(timeout = 60000)
   public void testRandomPcAccountToJason() throws IOException {
@@ -31,7 +33,7 @@ public class TestPcAccount {
   @Test(timeout = 60000)
   public void testCreateFromJson()
       throws JsonParseException, JsonMappingException, IOException {
-    final String json = "{\"uid\":\"kuan\",\"chargeFrom\":\"this_is_my_charge_from_account\",\"payTo\":\"this_is_my_pay_to_account\",\"createdTime\":null,\"updatedTime\":null}";
+    final String json = "{\"uid\":123,\"chargeFrom\":\"this_is_my_charge_from_account\",\"payTo\":\"this_is_my_pay_to_account\",\"createdTime\":null,\"updatedTime\":null}";
     ObjectMapper mapper = new ObjectMapper();
 
     // convert json to object
@@ -41,7 +43,7 @@ public class TestPcAccount {
 
   private static PcAccount newRandomPcAccount() {
     final PcAccount result = new PcAccount();
-    result.setUid(UUID.randomUUID().toString())
+    result.setUid(r.nextLong())
         .setChargeFrom(UUID.randomUUID().toString())
         .setPayTo(UUID.randomUUID().toString());
     return result;
@@ -49,7 +51,7 @@ public class TestPcAccount {
 
   private static PcAccount newPcAccount() {
     final PcAccount result = new PcAccount();
-    result.setUid("kuan").setChargeFrom("this_is_my_charge_from_account")
+    result.setUid(r.nextLong()).setChargeFrom("this_is_my_charge_from_account")
         .setPayTo("this_is_my_pay_to_account");
     return result;
   }

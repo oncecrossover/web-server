@@ -62,22 +62,22 @@ pk_test_wyZIIuEmr4TQLHVnZHUxlTtm
 WHAT RESTFUL APIs AVAILABLE?
 RESTFUL APIs OF USERS:
 1. get user by uid, e.g.
-curl -i -X GET "http://127.0.0.1:8080/users/edmund"
+curl -i -X GET "http://127.0.0.1:8080/users/812381424844800"
 
 2. create new user, e.g.
-curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uid":"edmund","fullName":"Edmund Burke","pwd":"123"}'
+curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uname":"edmund@fight.com","primaryEmail":"edmund@fight.com","fullName":"Bingo Zhou","pwd":"123"}'
 
 
 RESTFUL APIs OF SIGNIN:
 1. sign-in by user id and password, e.g.
-curl -i -X POST "http://127.0.0.1:8080/signin" -d '{"uid":"kuan","pwd":"123"}'
+curl -i -X POST "http://127.0.0.1:8080/signin" -d '{"uname":"edmund@fight.com","pwd":"123"}'
 
 
 RESTFUL APIs OF PROFILES:
 1. get profile by uid, e.g.
-curl -i -X GET "http://127.0.0.1:8080/profiles/edmund"
-curl -i -G -X GET http://127.0.0.1:8080/profiles --data-urlencode "uid='edmund'", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/profiles/edmund"
+curl -i -X GET "http://127.0.0.1:8080/profiles/812381424844800"
+curl -i -G -X GET http://127.0.0.1:8080/profiles --data-urlencode "uid=812381424844800", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/profiles/812381424844800"
 
 2. get profile by name. It's always doing SQL LIKE style query.
 For example, fullName LIKE 'edmund burke':
@@ -89,7 +89,7 @@ curl -i -G -X GET http://127.0.0.1:8080/profiles --data-urlencode "fullName='%ed
 curl -i -X GET "http://127.0.0.1:8080/profiles?fullName='%edmund%'"
 
 3. update profile by uid, e.g.
-curl -i -X PUT "http://127.0.0.1:8080/profiles/edmund" -d '{"rate":200,"title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism."}'
+curl -i -X PUT "http://127.0.0.1:8080/profiles/813938593759232" -d '{"rate":200,"title":"Philosopher","aboutMe":"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism."}'
 
 4. paginate profiles.
 Both lastSeenUpdatedTime and lastSeenId must be specified since updatedTime can have duplicate values.
@@ -100,61 +100,78 @@ curl -i -G -X GET http://127.0.0.1:8080/profiles -d "limit=20", equivalent to
 curl -i -X GET "http://127.0.0.1:8080/profiles?limit=20"
 
 Query based on the last seen, e.g.
-curl -i -G -X GET http://127.0.0.1:8080/profiles --data-urlencode "takeQuestion='APPROVED'" --data-urlencode "fullName='%zh%'" --data-urlencode "lastSeenUpdatedTime=1474607620000" -d "lastSeenId='xiaobingo'" -d "limit=20", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/questions?takeQuestion='APPROVED'&fullName='%zh%'&lastSeenUpdatedTime=1474607620000&lastSeenId='xiaobingo'&limit=20"
+curl -i -G -X GET http://127.0.0.1:8080/profiles --data-urlencode "takeQuestion='APPROVED'" --data-urlencode "fullName='%zh%'" --data-urlencode "lastSeenUpdatedTime=1491148086000" -d "lastSeenId=812381424844800" -d "limit=20", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/questions?takeQuestion='APPROVED'&fullName='%zh%'&lastSeenUpdatedTime=1491148086000&lastSeenId=812381424844800&limit=20"
+Example response:
+[
+  {
+    "uid": 813938593759232,
+    "rate": 200,
+    "avatarUrl": null,
+    "avatarImage": null,
+    "fullName": "Edmund Burke",
+    "title": "Philosopher",
+    "aboutMe": "I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.",
+    "takeQuestion": "NA",
+    "deviceToken": null,
+    "createdTime": null,
+    "updatedTime": 1491148458000
+  }
+]
+
 
 RESTFUL APIs OF QUANDAS:
 1. get quanda by id, e.g.
-curl -i -X GET "http://127.0.0.1:8080/quandas/1"
+curl -i -X GET "http://127.0.0.1:8080/quandas/1012998336413696"
 Example response:
 {
-  "id": 8,
-  "asker": "xiaobingo",
-  "question": "How do you predict house market in US?",
-  "responder": "bowen",
-  "rate": 1,
-  "answerUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8",
-  "answerCoverUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8.cover",
+  "id": 1012998336413696,
+  "asker": 812381424844800,
+  "question": "How do you define a good man?",
+  "responder": 813938593759232,
+  "rate": 2,
+  "answerUrl": "https://ddk9xa5p5b3lb.cloudfront.net/answers/videos/1012998336413696/1012998336413696.mp4",
+  "answerCoverUrl": "https://ddk9xa5p5b3lb.cloudfront.net/answers/thumbnails/1012998336413696/1012998336413696.png",
   "answerMedia": null,
   "answerCover": null,
   "duration": 0,
   "status": "ANSWERED",
   "active": "TRUE",
-  "createdTime": 1484635427000,
-  "updatedTime": 1484635427000,
+  "createdTime": 1491195917000,
+  "updatedTime": 1491195917000,
   "snoops": null,
-  "hoursToExpire": 0
+  "hoursToExpire": 47
 }
 
 2. answer question by id, e.g.
-curl -i -X PUT "http://127.0.0.1:8080/quandas/1" -d '{"answerMedia":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","answerCover":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","status":"ANSWERED"}'
+curl -i -X PUT "http://127.0.0.1:8080/quandas/1012998336413696" -d '{"answerMedia":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","answerCover":"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==","status":"ANSWERED"}'
 
 3. deactivate quanda by id, e.g.
-curl -i -X PUT "http://127.0.0.1:8080/quandas/1" -d '{"active":"FALSE"}'
+curl -i -X PUT "http://127.0.0.1:8080/quandas/1012998336413696" -d '{"active":"FALSE"}'
 
 
 RESTFUL APIs OF QUESTIONS:
 1. query questions, e.g.
-curl -i -G -X GET http://127.0.0.1:8080/questions --data-urlencode "asker='bowen'", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/questions?asker='bowen'"
+curl -i -G -X GET http://127.0.0.1:8080/questions --data-urlencode "asker=812381424844800", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/questions?asker=812381424844800"
 
 2. paginate questions.
 Both lastSeenUpdatedTime and lastSeenId must be specified since updatedTime can have duplicate values. Limit defaults as 10 if it's not specified.
 For example:
-curl -i -G -X GET http://127.0.0.1:8080/questions -d "asker='kuan'" --data-urlencode "lastSeenUpdatedTime=1474522304000" -d "lastSeenId=3" -d "limit=20", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/questions?asker='kuan'&lastSeenUpdatedTime=1474522304000&lastSeenId=3&limit=20"
+curl -i -G -X GET http://127.0.0.1:8080/questions -d "asker=812381424844800" --data-urlencode "lastSeenUpdatedTime=1491195917000" -d "lastSeenId=1012998336413696" -d "limit=20", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/questions?asker=812381424844800&lastSeenUpdatedTime=1491195917000&lastSeenId=1012998336413696&limit=20"
 
 Example response:
 [
   {
-    "id": 8,
+    "id": 1012998336413696,
     "question": "How do you predict house market in US?",
     "rate": 1,
     "status": "ANSWERED",
     "createdTime": 1484635427000,
     "updatedTime": 1484635427000,
-    "answerUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8",
-    "answerCoverUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8.cover",
+    "answerUrl": "https://ddk9xa5p5b3lb.cloudfront.net/answers/videos/1012998336413696/1012998336413696.mp4",
+    "answerCoverUrl": "https://ddk9xa5p5b3lb.cloudfront.net/answers/thumbnails/1012998336413696/1012998336413696.png"
     "answerCover": null,
     "duration": 0,
     "hoursToExpire": 0,
@@ -171,69 +188,69 @@ Example response:
 
 RESTFUL APIs OF ANSWERS:
 1. query answers by other criteria, e.g.
-curl -i -G -X GET http://127.0.0.1:8080/answers/ --data-urlencode "responder='bowen'", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/answers?responder='bowen'"
+curl -i -G -X GET http://127.0.0.1:8080/answers/ --data-urlencode "responder=813938593759232", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/answers?responder=813938593759232"
 
 2. paginate answers.
 Both lastSeenCreatedTime and lastSeenId must be specified since createdTime can have duplicate values. Limit defaults as 10 if it's not specified.
 For example:
-curl -i -G -X GET http://127.0.0.1:8080/answers/ -d "responder='edmund'" --data-urlencode "lastSeenCreatedTime=1473224175000" -d "lastSeenId=3" -d "limit=20", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/answers?responder='edmund'&lastSeenCreatedTime=1473224175000&lastSeenId=3&limit=20"
+curl -i -G -X GET http://127.0.0.1:8080/answers/ -d "responder=813938593759232" --data-urlencode "lastSeenCreatedTime=1473224175000" -d "lastSeenId=3" -d "limit=20", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/answers?responder=813938593759232&lastSeenCreatedTime=1473224175000&lastSeenId=3&limit=20"
 
 Example response:
 [
   {
-    "id": 8,
-    "question": "How do you predict house market in US?",
-    "rate": 1,
+    "id": 1031638783885312,
+    "question": "What would you pursue if given a second life?",
+    "rate": 2,
     "status": "ANSWERED",
-    "createdTime": 1484635427000,
-    "answerUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8",
-    "answerCoverUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8.cover",
+    "createdTime": 1491200361000,
+    "answerUrl": "https://ddk9xa5p5b3lb.cloudfront.net/answers/videos/1031638783885312/1031638783885312.mp4",
+    "answerCoverUrl": "https://ddk9xa5p5b3lb.cloudfront.net/answers/thumbnails/1031638783885312/1031638783885312.png",
     "answerCover": null,
     "duration": 0,
-    "responderName": "Bowen Zhang",
-    "responderTitle": null,
+    "responderName": "Edmund Zhou",
+    "responderTitle": "Philosopher",
     "responderAvatarUrl": null,
     "responderAvatarImage": null,
-    "askerName": "Xiaobing Zhou",
+    "askerName": "Bingo Zhou",
     "askerAvatarUrl": null,
     "askerAvatarImage": null,
-    "hoursToExpire": 0
+    "hoursToExpire": 48
   }
 ]
 
 
 RESTFUL APIs OF SNOOPS:
 1. query snoops, e.g.
-curl -i -G -X GET http://127.0.0.1:8080/snoops --data-urlencode "uid='edmund'", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/snoops?uid='edmund'"
+curl -i -G -X GET http://127.0.0.1:8080/snoops --data-urlencode "uid=813562284998656", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/snoops?uid=813562284998656"
 
 2. paginate snoops.
 Both lastSeenCreatedTime and lastSeenId must be specified since createdTime can have duplicate values. Limit defaults as 10 if it's not specified.
 For example:
-curl -i -G -X GET http://127.0.0.1:8080/snoops -d "uid='kuan'" --data-urlencode "lastSeenCreatedTime=1473225675000" -d "lastSeenId=10" -d "limit=20", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/snoops?uid='kuan'&lastSeenCreatedTime=1473225675000&lastSeenId=10&limit=20"
+curl -i -G -X GET http://127.0.0.1:8080/snoops -d "uid=813562284998656" --data-urlencode "lastSeenCreatedTime=1473225675000" -d "lastSeenId=10" -d "limit=20", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/snoops?uid=813562284998656&lastSeenCreatedTime=1473225675000&lastSeenId=10&limit=20"
 
 Example response:
 [
   {
-    "id": 4,
+    "id": 1036727590322176,
     "uid": null,
-    "quandaId": 8,
-    "createdTime": 1484636530000,
-    "question": "How do you predict house market in US?",
+    "quandaId": 1031638783885312,
+    "createdTime": 1491201575000,
+    "question": "What would you pursue if given a second life?",
     "status": "ANSWERED",
-    "rate": 1,
-    "answerUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8",
-    "answerCoverUrl": "https://s3-us-west-1.amazonaws.com/com.snoop.server.answers/8.cover",
+    "rate": 2,
+    "answerUrl": "https://ddk9xa5p5b3lb.cloudfront.net/answers/videos/1031638783885312/1031638783885312.mp4",
+    "answerCoverUrl": "https://ddk9xa5p5b3lb.cloudfront.net/answers/thumbnails/1031638783885312/1031638783885312.png",
     "answerCover": null,
     "duration": 0,
-    "responderName": "Bowen Zhang",
-    "responderTitle": null,
+    "responderName": "Edmund Zhou",
+    "responderTitle": "Philosopher",
     "responderAvatarUrl": null,
     "responderAvatarImage": null,
-    "askerName": "Xiaobing Zhou",
+    "askerName": "Bingo Zhou",
     "askerAvatarUrl": null,
     "askerAvatarImage": null
   }
@@ -242,10 +259,10 @@ Example response:
 
 RESTFUL APIs OF PCENTRY (i.e. credit/debit card or bank account):
 1. get PcEntry by id, e.g.
-curl -i -X GET "http://127.0.0.1:8080/pcentries/1"
+curl -i -X GET "http://127.0.0.1:8080/pcentries/964211601571840"
 
 2. create new PcEntry, e.g.
-curl -i -X POST "http://127.0.0.1:8080/pcentries" -d '{"uid":"edmund","token":"tok_18fZTsEl5MEVXMYqdo1MHZtn"}'
+curl -i -X POST "http://127.0.0.1:8080/pcentries" -d '{"uid":813938593759232,"token":"tok_1A4KLCEl5MEVXMYqYxar9tOV"}'
 
 3. delete PcEntry, e.g.
 curl -i -X DELETE "http://127.0.0.1:8080/pcentries/1"
@@ -253,56 +270,60 @@ curl -i -X DELETE "http://127.0.0.1:8080/pcentries/1"
 
 RESTFUL APIs OF FILTERING PCENTRY (i.e. credit/debit card or bank account):
 1. load PcEntries by user id, e.g.
-curl -i -X GET "http://127.0.0.1:8080/pcentries?filter=uid=edmund"
+curl -i -X GET "http://127.0.0.1:8080/pcentries?filter=uid=813938593759232"
 It doesn't support loading all, e.g. filter=*
 
 
 RESTFUL APIs OF BALANCE:
 1. get balance for a user with 'kuan' as uid, e.g.
-curl -i -X GET "http://127.0.0.1:8080/balances/kuan"
-
+curl -i -X GET "http://127.0.0.1:8080/balances/812381424844800"
+Example response:
+{
+  "uid": 812381424844800,
+  "balance": 0
+}
 
 RESTFUL APIs OF QATRANSACTION:
 1. get QaTransaction by id, e.g.
-curl -i -X GET "http://127.0.0.1:8080/qatransactions/1"
+curl -i -X GET "http://127.0.0.1:8080/qatransactions/1012998336413697"
 
 2. create new QaTransaction with type of ASKED, e.g.
-curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":"kuan","type":"ASKED","quanda":{"question":"How do you define a good man?","responder":"edmund"}}'
+curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":812381424844800,"type":"ASKED","quanda":{"question":"How do you define a good man?","responder":813938593759232}}'
 
 create new QaTransaction with type of SNOOPED, e.g.
-curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":"xiaobingo","type":"SNOOPED","quanda":{"id":1}}'
+curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":"813562284998656","type":"SNOOPED","quanda":{"id":1012998336413696}}'
 
 
 RESTFUL APIs OF NEWSFEED:
 1. query newsfeed, e.g.
-curl -i -G -X GET http://127.0.0.1:8080/newsfeeds/ --data-urlencode "uid='kuan'", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/newsfeeds?uid='kuan'"
+curl -i -G -X GET http://127.0.0.1:8080/newsfeeds/ --data-urlencode "uid=1037529214091264", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/newsfeeds?uid=1037529214091264"
 
 2. paginate newsfeed.
 Both lastSeenUpdatedTime and lastSeenId must be specified since updatedTime can have duplicate values. Limit defaults as 10 if it's not specified.
 For example:
-curl -i -G -X GET http://127.0.0.1:8080/newsfeeds/ -d "uid='bowen'" --data-urlencode "lastSeenUpdatedTime=1474522304000" -d "lastSeenId=3" -d "limit=10", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/newsfeeds?uid='bowen'&lastSeenUpdatedTime=1474522304000&lastSeenId=3&limit=10"
+curl -i -G -X GET http://127.0.0.1:8080/newsfeeds/ -d "uid=1037529214091264" --data-urlencode "lastSeenUpdatedTime=1474522304000" -d "lastSeenId=3" -d "limit=10", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/newsfeeds?uid=1037529214091264&lastSeenUpdatedTime=1474522304000&lastSeenId=3&limit=10"
 
 Example response:
 [
   {
-    "id": 8,
-    "question": "How do you fight against the powerful competitors?",
+    "id": 1012998336413696,
+    "question": "How do you define a good man?",
     "rate": 2,
-    "updatedTime": 1487553797000,
-    "answerUrl": "https://ddk9xa5p5b3lb.cloudfront.net/answers/videos/8/8.mp4",
-    "answerCoverUrl": "https://ddk9xa5p5b3lb.cloudfront.net/answers/thumbnails/8/8.png",
+    "updatedTime": 1491202590000,
+    "answerUrl": "https://ddk9xa5p5b3lb.cloudfront.net/answers/videos/1012998336413696/1012998336413696.mp4",
+    "answerCoverUrl": "https://ddk9xa5p5b3lb.cloudfront.net/answers/thumbnails/1012998336413696/1012998336413696.png",
     "answerCover": null,
-    "duration": 49,
+    "duration": 0,
     "askerName": "Bingo Zhou",
-    "askerAvatarUrl": "https://ddk9xa5p5b3lb.cloudfront.net/users/xzhou40@gmail.com/avatar.jpg",
-    "responderId": "bzhang@test.com",
-    "responderName": "Bowen Zhang",
-    "responderTitle": "First time entrepreneur.",
-    "responderAvatarUrl": "https://ddk9xa5p5b3lb.cloudfront.net/users/bzhang@test.com/avatar.jpg",
+    "askerAvatarUrl": null,
+    "responderId": "813938593759232",
+    "responderName": "Edmund Zhou",
+    "responderTitle": "Philosopher",
+    "responderAvatarUrl": null,
     "responderAvatarImage": null,
-    "snoops": 0
+    "snoops": 1
   }
 ]
 
@@ -313,7 +334,7 @@ curl -i -X POST "http://127.0.0.1:8080/temppwds" -d '{"uid":"edmund@gmail.com"}'
 
 RESTFUL APIs OF RESETING PASSWORD:
 1. reset password for a user, e.g.
-curl -i -X POST "http://127.0.0.1:8080/resetpwd/edmund@gmail.com" -d '{"tempPwd":"1*j@Tz", "newPwd":"yyyy"}'
+curl -i -X POST "http://127.0.0.1:8080/resetpwd/812381424844800" -d '{"tempPwd":"^ucSE0", "newPwd":"yyyy"}'
 
 
 RESTFUL APIs OF EXPIRING QUANDAs:
@@ -323,13 +344,19 @@ curl -i -X POST "http://127.0.0.1:8080/quandas/expire"
 
 RESTFUL APIs TO APPLY FOR/APROVE/DENY TAKING QUESTIONs:
 1. to apply for taking questions, e.g.
-curl -i -X POST "http://127.0.0.1:8080/takeq" -d '{"uid":"kuan","takeQuestion":"APPLIED"}'
+curl -i -X POST "http://127.0.0.1:8080/takeq" -d '{"uid":812381424844800,"takeQuestion":"APPLIED"}'
+Example response:
+{"uid":812381424844800}
 
 2. to approve taking questions, e.g.
-curl -i -X POST "http://127.0.0.1:8080/takeq" -d '{"uid":"kuan","takeQuestion":"APPROVED"}'
+curl -i -X POST "http://127.0.0.1:8080/takeq" -d '{"uid":812381424844800,"takeQuestion":"APPROVED"}'
+Example response:
+{"uid":812381424844800}
 
 3. to deny taking questions, e.g.
-curl -i -X POST "http://127.0.0.1:8080/takeq" -d '{"uid":"kuan","takeQuestion":"DENIED"}'
+curl -i -X POST "http://127.0.0.1:8080/takeq" -d '{"uid":812381424844800,"takeQuestion":"DENIED"}'
+Example response:
+{"uid":812381424844800}
 
 
 RESTFUL APIs OF BULKDATA:
@@ -346,23 +373,23 @@ Example response:
 
 RESTFUL APIs OF CATEGORY:
 1. get category by id, e.g.
-curl -i -X GET "http://127.0.0.1:8080/categories/1"
+curl -i -X GET "http://127.0.0.1:8080/categories/983752469643264"
 Example response:
 {
-  "id": 1,
+  "id": 983752469643264,
   "name": "beauty",
   "description": "category for makeup and cosmetic.",
-  "createdTime": 1487637009000,
-  "updatedTime": 1487637009000
+  "createdTime": 1491188944000,
+  "updatedTime": 1491188944000
 }
 
 2. create category, e.g.
 curl -i -X POST "http://127.0.0.1:8080/categories" -d '{"name":"beauty","description":"category for makeup and cosmetic."}'
 Example response:
-{"id":1}
+{"id":983752469643264}
 
 3. update category, e.g.
-curl -i -X PUT "http://127.0.0.1:8080/categories/1" -d '{"name":"beauty","description":"category for makeup and cosmetic."}'
+curl -i -X PUT "http://127.0.0.1:8080/categories/983752469643264" -d '{"name":"beauty","description":"category for beauty like makeup and cosmetic."}'
 
 4. query category, e.g.
 curl -i -G -X GET http://127.0.0.1:8080/categories --data-urlencode "name='%'", equivalent to
@@ -371,23 +398,23 @@ curl -i -X GET "http://127.0.0.1:8080/categories?name='%%'"
 curl -i -G -X GET http://127.0.0.1:8080/categories --data-urlencode "name='%music'", equivalent to
 curl -i -G -X GET http://127.0.0.1:8080/categories --data-urlencode "name='%%music'",
 
-curl -i -X GET "http://127.0.0.1:8080/categories?id=1"
+curl -i -X GET "http://127.0.0.1:8080/categories?id=983752469643264"
 
 Example response:
 [
   {
-    "id": 1,
+    "id": 983752469643264,
     "name": "beauty",
-    "description": "category for makeup and cosmetic.",
-    "createdTime": 1487637009000,
-    "updatedTime": 1487637009000
+    "description": "category for beauty like makeup and cosmetic.",
+    "createdTime": 1491188944000,
+    "updatedTime": 1491188944000
   },
   {
-    "id": 2,
-    "name": "music",
-    "description": "category for music education.",
-    "createdTime": 1487748652000,
-    "updatedTime": 1487748652000
+    "id": 984987897692160,
+    "name": "fitness",
+    "description": "category for fitness.",
+    "createdTime": 1491189239000,
+    "updatedTime": 1491189239000
   }
 ]
 
@@ -409,100 +436,89 @@ Example response:
 }
 
 2. update catmapping for user
-curl -i -X PUT "http://127.0.0.1:8080/catmappings/bingo" -d '[{"catId":5,"isExpertise":"YES"}]'
-curl -i -X PUT "http://127.0.0.1:8080/catmappings/bingo" -d '[{"id":1,"catId":5,"isExpertise":"YES"}]'
-curl -i -X PUT "http://127.0.0.1:8080/catmappings/bingo" -d '[{"catId":5,"isExpertise":"YES"},{"catId":4,"isInterest":"YES"}]'
-curl -i -X PUT "http://127.0.0.1:8080/catmappings/bingo" -d '[{"id":1,"catId":5,"isExpertise":"YES"},{"id":2,"catId":4,"isInterest":"YES"}]'
+curl -i -X PUT "http://127.0.0.1:8080/catmappings/812381424844800" -d '[{"catId":983752469643264,"isExpertise":"YES"}]'
+curl -i -X PUT "http://127.0.0.1:8080/catmappings/812381424844800" -d '[{"id":999719186726912,"catId":983752469643264,"isExpertise":"NO"}]'
+curl -i -X PUT "http://127.0.0.1:8080/catmappings/812381424844800" -d '[{"catId":984987897692160,"isExpertise":"YES"},{"catId":983752469643264,"isInterest":"YES"}]'
+curl -i -X PUT "http://127.0.0.1:8080/catmappings/812381424844800" -d '[{"id":999719186726912,"catId":983752469643264,"isExpertise":"YES"},{"id":1003944083980288,"catId":984987897692160,"isInterest":"YES"}]'
 
 3. Query expertise for user:
-curl -i -X GET "http://127.0.0.1:8080/catmappings?uid='edmund'&isExpertise='YES'"
+curl -i -X GET "http://127.0.0.1:8080/catmappings?uid=812381424844800&isExpertise='YES'"
 Example response:
 [
   {
-    "id": 3,
-    "catId": 2,
-    "catName": "music",
-    "catDescription": "category for music education.",
-    "uid": "edmund",
+    "id": 1003944083980288,
+    "catId": 984987897692160,
+    "catName": "fitness",
+    "catDescription": "category for fitness.",
+    "uid": 812381424844800,
     "isExpertise": "YES",
-    "isInterest": "NO",
-    "createdTime": 1487755969000,
-    "updatedTime": 1487755969000
-  },
-  {
-    "id": 5,
-    "catId": 5,
-    "catName": "tech",
-    "catDescription": "category for tech.",
-    "uid": "edmund",
-    "isExpertise": "YES",
-    "isInterest": "NO",
-    "createdTime": 1487756001000,
-    "updatedTime": 1487756001000
+    "isInterest": "YES",
+    "createdTime": 1491193758000,
+    "updatedTime": 1491193758000
   }
 ]
 
 4. Query interests for user:
-curl -i -X GET "http://127.0.0.1:8080/catmappings?uid='edmund'&isInterest='YES'"
+curl -i -X GET "http://127.0.0.1:8080/catmappings?uid=812381424844800&isInterest='YES'"
 Example response:
 [
   {
-    "id": 4,
-    "catId": 3,
-    "catName": "fitness",
-    "catDescription": "category for fitness education.",
-    "uid": "edmund",
+    "id": 999719186726912,
+    "catId": 983752469643264,
+    "catName": "beauty",
+    "catDescription": "category for beauty like makeup and cosmetic.",
+    "uid": 812381424844800,
     "isExpertise": "NO",
     "isInterest": "YES",
-    "createdTime": 1487755972000,
-    "updatedTime": 1487755972000
+    "createdTime": 1491192751000,
+    "updatedTime": 1491192751000
   },
   {
-    "id": 6,
-    "catId": 4,
-    "catName": "sports",
-    "catDescription": "category for sports.",
-    "uid": "edmund",
-    "isExpertise": "NO",
+    "id": 1003944083980288,
+    "catId": 984987897692160,
+    "catName": "fitness",
+    "catDescription": "category for fitness.",
+    "uid": 812381424844800,
+    "isExpertise": "YES",
     "isInterest": "YES",
-    "createdTime": 1487756004000,
-    "updatedTime": 1487756004000
+    "createdTime": 1491193758000,
+    "updatedTime": 1491193758000
   }
 ]
 
 
 RESTFUL APIs OF COIN:
 1. get by user, e.g.
-curl -i -X GET "http://127.0.0.1:8080/coins/bingo"
+curl -i -X GET "http://127.0.0.1:8080/coins/812381424844800"
 Example response:
 {
   "id": null,
-  "uid": "bingo",
-  "amount": 15,
+  "uid": 812381424844800,
+  "amount": 0,
   "originId": null,
   "createdTime": null
 }
 
 2. buy coins, e.g.
-curl -i -X POST "http://127.0.0.1:8080/coins" -d '{"uid":"bingo","amount":10}'
+curl -i -X POST "http://127.0.0.1:8080/coins" -d '{"uid":"812381424844800","amount":200}'
 Example response:
 {"id":1}
 
 
 RESTFUL APIs OF PCACCOUNT:
 1. get PcAccount by uid, e.g.
-curl -i -X GET "http://127.0.0.1:8080/pcaccounts/edmund"
+curl -i -X GET "http://127.0.0.1:8080/pcaccounts/813938593759232"
 Example response:
 {
-  "uid": "edmund",
-  "chargeFrom": "cus_AFSsvKP6VT7g0a",
+  "uid": 813938593759232,
+  "chargeFrom": "cus_AOyzQ05QJTkoLV",
   "payTo": "edmund@fight.com",
-  "createdTime": 1489730136000,
-  "updatedTime": 1489730926000
+  "createdTime": 1491148458000,
+  "updatedTime": 1491148458000
 }
 
 2. update PcAccount by uid, only payTo can be updated, e.g.
-curl -i -X PUT "http://127.0.0.1:8080/pcaccounts/edmund"  -d '{"payTo":"edmund@fight.com"}'
+curl -i -X PUT "http://127.0.0.1:8080/pcaccounts/813938593759232"  -d '{"payTo":"edmund@fight.com"}'
 
 
 

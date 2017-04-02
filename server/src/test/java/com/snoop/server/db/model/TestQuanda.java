@@ -36,9 +36,9 @@ public class TestQuanda {
   private Quanda newQuanda() {
     Quanda quanda = new Quanda();
     quanda.setId(random.nextLong())
-          .setAsker("kuan")
+          .setAsker(random.nextLong())
           .setQuestion("How do you define good man?")
-          .setResponder("edmund")
+          .setResponder(random.nextLong())
           .setAnswerMedia("This is answer media.".getBytes())
           .setAnswerCover("This is answer cover.".getBytes())
           .setStatus(Quanda.QnaStatus.ANSWERED.toString())
@@ -52,9 +52,9 @@ public class TestQuanda {
   static Quanda newRandomQuanda() {
     Quanda quanda = new Quanda();
     quanda.setId(random.nextLong())
-          .setAsker(UUID.randomUUID().toString())
+          .setAsker(random.nextLong())
           .setQuestion(UUID.randomUUID().toString())
-          .setResponder(UUID.randomUUID().toString())
+          .setResponder(random.nextLong())
           .setAnswerMedia("This is random answer media.".getBytes())
           .setAnswerCover("This is random answer cover.".getBytes())
           .setStatus(Quanda.QnaStatus.PENDING.toString())
@@ -160,8 +160,8 @@ public class TestQuanda {
     assertEquals(quanda, retQuanda);
 
     /* set something new */
-    quanda.setAsker(UUID.randomUUID().toString())
-          .setResponder(UUID.randomUUID().toString());
+    quanda.setAsker(random.nextLong())
+          .setResponder(random.nextLong());
 
     /* update quanda */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();

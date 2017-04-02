@@ -5,7 +5,7 @@
 <hibernate-mapping>
   <class name="com.snoop.server.db.model.PcAccount" dynamic-update="true"
   dynamic-insert="true" table="PcAccount">
-    <id name="uid" type="java.lang.String">
+    <id name="uid" type="long">
       <column name="uid" />
       <generator class="foreign">
         <param name="property">user</param>

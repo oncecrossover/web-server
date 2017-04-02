@@ -42,12 +42,13 @@ public class ResetPwdWebHandler extends AbastractWebHandler
 
   private FullHttpResponse onCreate() {
     /* get user id */
-    final String uid = getPathParser().getPathStream().nextToken();
+    Long uid = null;
 
-    /* no uid */
-    if (StringUtils.isBlank(uid)) {
-      appendln("Missing parameter: uid");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    try {
+      uid = Long.parseLong(getPathParser().getPathStream().nextToken());
+    } catch (NumberFormatException e) {
+      appendln("Incorrect uid format.");
+      return newClientErrorResponse(e, LOG);
     }
 
     /* deserialize json */
@@ -80,7 +81,7 @@ public class ResetPwdWebHandler extends AbastractWebHandler
       fromDB = (User) getSession().get(User.class, uid);
       txn.commit();
       if (fromDB == null) {
-        appendln(String.format("Nonexistent user ('%s') in the DB", uid));
+        appendln(String.format("Nonexistent user ('%d') in the DB", uid));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (Exception e) {
@@ -101,7 +102,7 @@ public class ResetPwdWebHandler extends AbastractWebHandler
         /* expire all temp pwds */
         TempPwdUtil.expireAllPendingPwds(session, fromJson.getUid());
       } else {
-        appendln(String.format("Invalid temp pwd ('%s') for user ('%s')",
+        appendln(String.format("Invalid temp pwd ('%s') for user ('%d')",
             fromJson.getTempPwd(), fromJson.getUid()));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
@@ -152,7 +153,7 @@ public class ResetPwdWebHandler extends AbastractWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    if (StringUtils.isBlank(fromJson.getUid())) {
+    if (fromJson.getUid() == null) {
       appendln("No user id specified in PwdEntry", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }

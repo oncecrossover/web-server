@@ -10,20 +10,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.snoop.server.db.model.Profile.TakeQuestionStatus;
 
 public class User {
-  private String uid;
+  private Long uid;
+  private String uname;
   private String pwd;
+  private String primaryEmail;
   private Date createdTime;
   private Date updatedTime;
   private String fullName;
   private Profile profile;
   private PcAccount pcAccount;
 
-  public String getUid() {
+  public Long getUid() {
     return uid;
   }
 
-  public User setUid(String uid) {
+  public User setUid(Long uid) {
     this.uid = uid;
+    return this;
+  }
+
+  public String getUname() {
+    return uname;
+  }
+
+  public User setUname(final String uname) {
+    this.uname = uname;
     return this;
   }
 
@@ -42,6 +53,15 @@ public class User {
 
   public User setPwd(String pwd) {
     this.pwd = pwd;
+    return this;
+  }
+
+  public String getPrimaryEmail() {
+    return primaryEmail;
+  }
+
+  public User setPrimaryEmail(final String primaryEmail) {
+    this.primaryEmail = primaryEmail;
     return this;
   }
 
@@ -90,8 +110,8 @@ public class User {
       throws JsonParseException, JsonMappingException, IOException {
     final ObjectMapper mapper = new ObjectMapper();
     final User user = mapper.readValue(json, User.class);
-    /* always make uid case insensitive */
-    user.uid = user.uid != null ? user.uid.toLowerCase() : user.uid;
+    /* always make uname case insensitive */
+    user.uname = user.uname != null ? user.uname.toLowerCase() : user.uname;
 
     if (user.getProfile() == null) {
       user.setProfile(new Profile());

@@ -51,8 +51,8 @@ public class SigninWebHandler extends AbastractWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    if (StringUtils.isBlank(user.getUid())) {
-      appendln("No user id specified.", respBuf);
+    if (StringUtils.isBlank(user.getUname())) {
+      appendln("No username specified.", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
@@ -86,7 +86,7 @@ public class SigninWebHandler extends AbastractWebHandler
       txn = session.beginTransaction();
 
       /* query encoded pwd */
-      final String encodedPwd = UserDBUtil.getPwd(session, fromJson.getUid(),
+      final String encodedPwd = UserDBUtil.getPwd(session, fromJson.getUname(),
           false);
 
       /* commit transaction */
@@ -94,10 +94,10 @@ public class SigninWebHandler extends AbastractWebHandler
 
       /* return */
       if (encodedPwd == null) {
-        appendln(String.format("Nonexistent user '%s'", fromJson.getUid()));
+        appendln(String.format("Nonexistent user '%s'", fromJson.getUname()));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       } else if (UserUtil.checkPassword(fromJson.getPwd(), encodedPwd)) {
-        appendln(toIdJson("uid", fromJson.getUid()));
+        appendln(toIdJson("uname", fromJson.getUname()));
         return newResponse(HttpResponseStatus.CREATED);
       } else {
         appendln("User id and password do not match.");

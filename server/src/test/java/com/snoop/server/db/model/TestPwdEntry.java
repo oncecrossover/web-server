@@ -3,6 +3,7 @@ package com.snoop.server.db.model;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.UUID;
 
 import org.junit.Test;
@@ -14,6 +15,7 @@ import com.snoop.server.model.PwdEntry;
 
 public class TestPwdEntry {
   private static final Logger LOG = LoggerFactory.getLogger(TestPwdEntry.class);
+  private static Random r = new Random(System.currentTimeMillis());
 
   @Test(timeout = 60000)
   public void testRandomInstanceToJason() throws IOException {
@@ -43,7 +45,7 @@ public class TestPwdEntry {
 
   public static PwdEntry newRandomInstance() {
     PwdEntry instance = new PwdEntry();
-    instance.setUid(UUID.randomUUID().toString())
+    instance.setUid(r.nextLong())
             .setTempPwd(UUID.randomUUID().toString())
             .setNewPwd(UUID.randomUUID().toString());
     return instance;
@@ -51,7 +53,7 @@ public class TestPwdEntry {
 
   static PwdEntry newInstance() {
     PwdEntry instance = new PwdEntry();
-    instance.setUid(UUID.randomUUID().toString())
+    instance.setUid(r.nextLong())
             .setTempPwd("_PbW%o")
             .setNewPwd("helllopwd");
     return instance;

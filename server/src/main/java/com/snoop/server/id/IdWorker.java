@@ -36,7 +36,11 @@ public class IdWorker {
     private static final Pattern AGENT_PATTERN = Pattern
             .compile("([a-zA-Z][a-zA-Z0-9\\-]*)");
 
-    public static final long TWEPOCH = 1288834974657L;
+    /*
+     * start epoch: 1490954400000L, which is Fri, 31 Mar 2017 10:00:00 GMT,
+     * original one is 1288834974657L
+     */
+    public static final long TWEPOCH = 1490954400000L;
 
     private static final long WORKER_ID_BITS = 5L;
     private static final long DATACENTER_ID_BITS = 5L;
@@ -166,9 +170,10 @@ public class IdWorker {
         this.registry = registry;
 
         LOGGER.info(
-                "worker starting. timestamp left shift {}, datacenter id bits {}, worker id bits {}, sequence bits {}, workerid {}",
+                "worker starting. timestamp left shift {}, datacenter id bits {},"
+                +" worker id bits {}, sequence bits {}, datacenterId {}, workerid {}",
                 TIMESTAMP_LEFT_SHIFT, DATACENTER_ID_BITS, WORKER_ID_BITS,
-                SEQUENCE_BITS, workerId);
+                SEQUENCE_BITS, datacenterId, workerId);
 
         sequence = new AtomicLong(startSequence);
 

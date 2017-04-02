@@ -33,7 +33,7 @@ public class Profile {
     }
   }
 
-  private String uid;
+  private Long uid;
   /*
    * If Profile.rate filed is initialized to 0 or whatever value, every profile
    * update request will update user's rate to that value even if it's not
@@ -53,11 +53,11 @@ public class Profile {
   @JsonIgnore
   private User user;
 
-  public String getUid() {
+  public Long getUid() {
     return uid;
   }
 
-  public Profile setUid(final String uid) {
+  public Profile setUid(final Long uid) {
     this.uid = uid;
     return this;
   }

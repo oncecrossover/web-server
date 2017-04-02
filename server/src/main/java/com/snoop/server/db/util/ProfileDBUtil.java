@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.IntegerType;
+import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 import org.hibernate.type.TimestampType;
 
@@ -20,19 +21,19 @@ import com.google.common.collect.Lists;
 
 public class ProfileDBUtil {
 
-  public static String getDeviceToken(final String uid) throws Exception {
+  public static String getDeviceToken(final Long uid) throws Exception {
     final Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     return getDeviceToken(session, uid, true);
   }
 
-  public static String getDeviceToken(final Session session, final String uid)
+  public static String getDeviceToken(final Session session, final Long uid)
     throws Exception {
     return getDeviceToken(session, uid, false);
   }
 
-  static String getDeviceToken(final Session session, final String uid, final boolean newTransaction)
+  static String getDeviceToken(final Session session, final Long uid, final boolean newTransaction)
     throws Exception {
-    final String sql = String.format("SELECT deviceToken from Profile WHERE uid='%s'", uid);
+    final String sql = String.format("SELECT deviceToken from Profile WHERE uid=%d", uid);
 
     String result = null;
     Transaction txn = null;
@@ -58,7 +59,7 @@ public class ProfileDBUtil {
   /*
    * query from a session that will open new transaction.
    */
-  public static Integer getRate(final String uid) throws Exception {
+  public static Integer getRate(final Long uid) throws Exception {
     final Session session = HibernateUtil.getSessionFactory()
         .getCurrentSession();
     return getRate(session, uid, true);
@@ -67,14 +68,14 @@ public class ProfileDBUtil {
   /*
    * query from a session that already opened transaction.
    */
-  public static Integer getRate(final Session session, final String uid)
+  public static Integer getRate(final Session session, final Long uid)
       throws Exception {
     return getRate(session, uid, false);
   }
 
-  static Integer getRate(final Session session, final String uid,
+  static Integer getRate(final Session session, final Long uid,
       final boolean newTransaction) throws Exception {
-    final String sql = String.format("SELECT rate FROM Profile WHERE uid='%s'",
+    final String sql = String.format("SELECT rate FROM Profile WHERE uid=%d",
         uid);
     Integer result = null;
     Transaction txn = null;
@@ -97,7 +98,7 @@ public class ProfileDBUtil {
 
     if (result == null) {
       throw new SnoopException(
-          String.format("Nonexistent profile for user ('%s')", uid));
+          String.format("Nonexistent profile for user ('%d')", uid));
     }
 
     return result;
@@ -121,7 +122,7 @@ public class ProfileDBUtil {
       final SQLQuery query = session.createSQLQuery(sql);
       query.setResultTransformer(Transformers.aliasToBean(Profile.class));
       /* add column mapping */
-      query.addScalar("uid", new StringType())
+      query.addScalar("uid", new LongType())
            .addScalar("rate", new IntegerType())
            .addScalar("avatarUrl", new StringType())
            .addScalar("fullName", new StringType())
@@ -149,7 +150,7 @@ public class ProfileDBUtil {
       final Map<String, List<String>> params) {
 
     long lastSeenUpdatedTime = 0;
-    String lastSeenId = "'0'";
+    long lastSeenId = 0;
     int limit = Configuration.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
     final String select = "SELECT P.uid, P.rate, P.avatarUrl, P.fullName,"
         + " P.title, P.aboutMe, P.updatedTime, P.takeQuestion FROM Profile AS P";
@@ -157,13 +158,14 @@ public class ProfileDBUtil {
     List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
       if ("uid".equals(key)) {
-        list.add(String.format("P.uid=%s", params.get(key).get(0)));
+        list.add(
+            String.format("P.uid=%d", Long.parseLong(params.get(key).get(0))));
       } else if ("fullName".equals(key)) {
         list.add(String.format(
             "P.fullName LIKE %s",
             params.get(key).get(0)));
       } else if ("lastSeenId".equals(key)) {
-        lastSeenId = params.get(key).get(0);
+        lastSeenId = Long.parseLong(params.get(key).get(0));
       } else if ("lastSeenUpdatedTime".equals(key)) {
         lastSeenUpdatedTime = Long.parseLong(params.get(key).get(0));
       } else if ("limit".equals(key)) {

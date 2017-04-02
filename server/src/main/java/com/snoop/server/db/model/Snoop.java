@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Snoop {
   private Long id;
-  private String uid;
+  private Long uid;
   private Long quandaId;
   private Date createdTime;
   private String question;
@@ -37,11 +37,11 @@ public class Snoop {
     return this;
   }
 
-  public String getUid() {
+  public Long getUid() {
     return uid;
   }
 
-  public Snoop setUid(final String uid) {
+  public Snoop setUid(final Long uid) {
     this.uid = uid;
     return this;
   }

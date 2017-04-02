@@ -66,7 +66,7 @@ public class TakeQuestionWebHandler extends AbastractWebHandler
       fromDB = (Profile) session.get(Profile.class, fromJson.getUid());
       txn.commit();
       if (fromDB == null) {
-        appendln(String.format("Nonexistent profile for user ('%s')",
+        appendln(String.format("Nonexistent profile for user ('%d')",
             fromJson.getUid()));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
@@ -106,7 +106,7 @@ public class TakeQuestionWebHandler extends AbastractWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    if (StringUtils.isBlank(profile.getUid())) {
+    if (profile.getUid() == null) {
       appendln("No profile id specified.", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }

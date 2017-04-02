@@ -23,10 +23,10 @@ public class StripeUtil {
     return Customer.retrieve(cusId);
   }
 
-  public static Customer createCustomerForUser(final String uid)
+  public static Customer createCustomerForUser(final String uname)
       throws StripeException {
     final Map<String, Object> params = new HashMap<String, Object>();
-    params.put("description", String.format("Customer for %s", uid));
+    params.put("description", String.format("Customer for %s", uname));
     final Customer customer = Customer.create(params);
     return customer;
   }

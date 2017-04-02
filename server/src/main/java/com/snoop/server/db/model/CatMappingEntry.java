@@ -29,7 +29,7 @@ public class CatMappingEntry extends ModelBase implements Model {
   private Long catId;
   private String catName;
   private String catDescription;
-  private String uid;
+  private Long uid;
   private String isExpertise;
   private String isInterest;
   private Date createdTime;
@@ -71,11 +71,11 @@ public class CatMappingEntry extends ModelBase implements Model {
     return this;
   }
 
-  public String getUid() {
+  public Long getUid() {
     return uid;
   }
 
-  public CatMappingEntry setUid(final String uid) {
+  public CatMappingEntry setUid(final Long uid) {
     this.uid = uid;
     return this;
   }

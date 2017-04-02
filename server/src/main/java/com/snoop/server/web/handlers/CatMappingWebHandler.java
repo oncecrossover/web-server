@@ -56,7 +56,7 @@ public class CatMappingWebHandler extends AbastractWebHandler
 
     /* no id */
     if (StringUtils.isBlank(id)) {
-      appendln("Missing parameter: uid");
+      appendln("Missing parameter: id");
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
@@ -97,12 +97,12 @@ public class CatMappingWebHandler extends AbastractWebHandler
 
   private FullHttpResponse onUpdate() {
     /* get id */
-    final String uid = getPathParser().getPathStream().nextToken();
-
-    /* no uid */
-    if (StringUtils.isBlank(uid)) {
-      appendln("Missing parameter: uid");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    Long uid = null;
+    try {
+      uid = Long.parseLong(getPathParser().getPathStream().nextToken());
+    } catch (NumberFormatException e) {
+      appendln("Incorrect uid format.");
+      return newClientErrorResponse(e, LOG);
     }
 
     /* deserialize json */
@@ -138,7 +138,7 @@ public class CatMappingWebHandler extends AbastractWebHandler
               fromJson.getId());
           txn.commit();
           if (fromDB == null) {
-            appendln(String.format("Nonexistent CatMapping for (%d, '%s')",
+            appendln(String.format("Nonexistent CatMapping for (%d, %d)",
                 fromJson.getCatId(), uid));
             return newResponse(HttpResponseStatus.BAD_REQUEST);
           }

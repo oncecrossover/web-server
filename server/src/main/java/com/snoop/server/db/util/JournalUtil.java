@@ -30,7 +30,7 @@ public class JournalUtil {
    * query from a session that will open new transaction.
    * @return balance, return 0 in case of null.
    */
-  public static double getBalanceIgnoreNull(final String uid) throws Exception {
+  public static double getBalanceIgnoreNull(final Long uid) throws Exception {
     final Session session = HibernateUtil.getSessionFactory()
         .getCurrentSession();
     final Double result = getBalance(session, uid, true);
@@ -39,10 +39,10 @@ public class JournalUtil {
 
   static Double getBalance(
       final Session session,
-      final String uid,
+      final Long uid,
       final boolean newTransaction) throws Exception {
     final String sql = String
-        .format("SELECT SUM(amount) AS total FROM Journal WHERE uid='%s'"
+        .format("SELECT SUM(amount) AS total FROM Journal WHERE uid=%d"
             + "  AND type='BALANCE'", uid);
     Double result = null;
     Transaction txn = null;
@@ -86,11 +86,11 @@ public class JournalUtil {
       final boolean newTransaction) throws Exception {
     /* build sql */
     final String sql = String.format(
-        "SELECT * FROM Journal WHERE transactionId = %d AND uid = '%s' AND"
-            + " amount = %s AND status = 'PENDING' AND originId IS NULL;",
+        "SELECT * FROM Journal WHERE transactionId = %d AND uid = %d AND"
+            + " amount = %.2f AND status = 'PENDING' AND originId IS NULL;",
         qaTransaction.getId(),
         qaTransaction.getUid(),
-        Double.toString(-1 * qaTransaction.getAmount()));
+        -1 * qaTransaction.getAmount());
 
     Transaction txn = null;
     List<Journal> list = null;
@@ -105,7 +105,7 @@ public class JournalUtil {
       /* add column mapping */
       query.addScalar("id", new LongType())
            .addScalar("transactionId", new LongType())
-           .addScalar("uid", new StringType())
+           .addScalar("uid", new LongType())
            .addScalar("amount", new DoubleType())
            .addScalar("type", new StringType())
            .addScalar("chargeId", new StringType())
@@ -129,19 +129,19 @@ public class JournalUtil {
     if (list == null || list.size() == 0) {
       throw new SnoopException(
           String.format(
-              "Nonexistent journal (transactionId:%d, uid:%s, amount:%s, status:PENDING, originId:NULL)",
+              "Nonexistent journal (transactionId:%d, uid:%d, amount:%.2f, status:PENDING, originId:NULL)",
               qaTransaction.getId(),
               qaTransaction.getUid(),
-              Double.toString(-1 * qaTransaction.getAmount())));
+              -1 * qaTransaction.getAmount()));
     }
 
     if (list.size() != 1) {
       throw new SnoopException(
           String.format(
-              "Inconsistent journal (transactionId:%d, uid:%s, amount:%s, status:PENDING, originId:NULL)",
+              "Inconsistent journal (transactionId:%d, uid:%d, amount:%.2f, status:PENDING, originId:NULL)",
               qaTransaction.getId(),
               qaTransaction.getUid(),
-              Double.toString(-1 * qaTransaction.getAmount())));
+              -1 * qaTransaction.getAmount()));
     }
 
     return list.get(0);
@@ -170,7 +170,7 @@ public class JournalUtil {
 
     /* build sql */
     final String sql = String.format(
-        "SELECT COUNT(*) FROM Journal WHERE transactionId = %d AND uid = '%s'"
+        "SELECT COUNT(*) FROM Journal WHERE transactionId = %d AND uid = %d"
             + " AND amount = 0 AND type = '%s' AND %s AND"
             + " status = 'CLEARED' AND originId = %d;",
             pendingJournal.getTransactionId(),

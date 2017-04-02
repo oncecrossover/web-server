@@ -2,6 +2,7 @@ package com.snoop.server.db.util;
 
 import static org.junit.Assert.*;
 
+import java.util.Random;
 import java.util.UUID;
 
 import org.hibernate.Session;
@@ -26,6 +27,7 @@ import com.snoop.server.exceptions.SnoopException;
 public class TestJournalUtil {
   private static final Logger LOG = LoggerFactory
       .getLogger(TestJournalUtil.class);
+  private Random r = new Random(System.currentTimeMillis());
 
   @Test(timeout = 60000)
   public void testGetPendingJournalWithoutRecords() throws Exception {
@@ -71,7 +73,7 @@ public class TestJournalUtil {
         .getCurrentSession();
 
     final Double result = JournalUtil.getBalance(session,
-        UUID.randomUUID().toString(), true);
+        r.nextLong(), true);
     assertEquals(null, result);
   }
 
@@ -87,7 +89,7 @@ public class TestJournalUtil {
 
     /* insert user */
     final User randomUser = TestUser.insertRandomUser();
-    final String uid = randomUser.getUid();
+    final Long uid = randomUser.getUid();
 
     for (int i = 1; i <= 5; i++) {
       final Journal randomInstance = TestJournal.newRandomInstance();

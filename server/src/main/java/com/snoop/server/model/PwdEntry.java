@@ -9,15 +9,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PwdEntry {
 
-  private String uid;
+  private Long uid;
   private String tempPwd;
   private String newPwd;
 
-  public String getUid() {
+  public Long getUid() {
     return uid;
   }
 
-  public PwdEntry setUid(final String uid) {
+  public PwdEntry setUid(final Long uid) {
     this.uid = uid;
     return this;
   }

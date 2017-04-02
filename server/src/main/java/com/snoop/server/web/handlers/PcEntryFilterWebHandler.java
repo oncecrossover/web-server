@@ -49,7 +49,7 @@ public class PcEntryFilterWebHandler extends AbastractWebHandler
 
   private FullHttpResponse onQuery() {
     List<PcEntry> resultList = Lists.newArrayList();
-    String uid = "";
+    Long uid = null;
     final StrBuilder sbUid = new StrBuilder();
 
     Transaction txn = null;
@@ -68,12 +68,11 @@ public class PcEntryFilterWebHandler extends AbastractWebHandler
     }
 
     /* extract uid */
-    uid = sbUid.toString();
-
-    /* verify uid */
-    if (StringUtils.isBlank(uid)) {
-      appendln("No user id specified.");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    try {
+      uid = Long.parseLong(sbUid.toString());
+    } catch (NumberFormatException e) {
+      appendln("Incorrect uid format.");
+      return newClientErrorResponse(e, LOG);
     }
 
     PcAccount pcAccount = null;
@@ -86,7 +85,7 @@ public class PcEntryFilterWebHandler extends AbastractWebHandler
 
       /* no PcAccount */
       if (pcAccount == null) {
-        appendln(String.format("Nonexistent PcAccount for user ('%s')", uid));
+        appendln(String.format("Nonexistent PcAccount for user ('%d')", uid));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (HibernateException e) {
@@ -104,7 +103,7 @@ public class PcEntryFilterWebHandler extends AbastractWebHandler
       final String cusId = pcAccount.getChargeFrom();
       customer = StripeUtil.getCustomer(cusId);
       if (customer == null) {
-        appendln(String.format("Nonexistent Customer ('%s') for user ('%s')",
+        appendln(String.format("Nonexistent Customer ('%s') for user ('%d')",
             cusId, uid));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }

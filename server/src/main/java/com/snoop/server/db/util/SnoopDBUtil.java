@@ -103,8 +103,8 @@ public class SnoopDBUtil {
             Long.parseLong(params.get(key).get(0))));
       } else if ("uid".equals(key)) {
         list.add(String.format(
-            "S.uid=%s",
-            params.get(key).get(0)));
+            "S.uid=%d",
+            Long.parseLong(params.get(key).get(0))));
       } else if ("lastSeenId".equals(key)) {
         lastSeenId = Long.parseLong(params.get(key).get(0));
       } else if ("lastSeenCreatedTime".equals(key)) {
