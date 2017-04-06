@@ -73,12 +73,17 @@ public class UserWebHandler extends AbastractWebHandler
     }
 
     if (StringUtils.isBlank(user.getPwd())) {
-      appendln("No password specified.", respBuf);
+      appendln("No pwd specified.", respBuf);
+      return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
+    }
+
+    if (StringUtils.isBlank(user.getPrimaryEmail())) {
+      appendln("No primaryEmail specified.", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
     if (StringUtils.isBlank(user.getFullName())) {
-      appendln("No full name specified.", respBuf);
+      appendln("No fullName specified.", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 

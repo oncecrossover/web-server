@@ -78,6 +78,8 @@ Example response:
 
 2. create new user, e.g.
 curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uname":"edmund@fight.com","primaryEmail":"edmund@fight.com","fullName":"Bingo Zhou","pwd":"123"}'
+Example response:
+{"uid": 812381424844800}
 
 3. Query users by uid, uname and so on, e.g.
 curl -i -G -X GET http://127.0.0.1:8080/users --data-urlencode "uid=812381424844800", equivalent to
