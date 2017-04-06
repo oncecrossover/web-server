@@ -42,7 +42,6 @@ public class TestJournalUtil {
     }
   }
 
-  @Test(timeout = 60000)
   public void testGetPendingJournal() throws Exception {
     Session session = null;
     Transaction txn = null;

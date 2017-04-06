@@ -63,6 +63,18 @@ WHAT RESTFUL APIs AVAILABLE?
 RESTFUL APIs OF USERS:
 1. get user by uid, e.g.
 curl -i -X GET "http://127.0.0.1:8080/users/812381424844800"
+Example response:
+{
+  "uid": 812381424844800,
+  "uname": "bingo@snoopqa.com",
+  "pwd": null,
+  "primaryEmail": "bingo@snoopqa.com",
+  "createdTime": 1491148086000,
+  "updatedTime": 1491195101000,
+  "fullName": null,
+  "profile": null,
+  "pcAccount": null
+}
 
 2. create new user, e.g.
 curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uname":"edmund@fight.com","primaryEmail":"edmund@fight.com","fullName":"Bingo Zhou","pwd":"123"}'
@@ -332,7 +344,9 @@ Example response:
 
 RESTFUL APIs OF TEMP PASSWORD:
 1. request new temp password, e.g.
-curl -i -X POST "http://127.0.0.1:8080/temppwds" -d '{"uid":"edmund@gmail.com"}'
+curl -i -X POST "http://127.0.0.1:8080/temppwds" -d '{"uname":"edmund@gmail.com"}'
+Example response:
+{"id":2123595681628160}
 
 RESTFUL APIs OF RESETING PASSWORD:
 1. reset password for a user, e.g.

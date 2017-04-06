@@ -17,6 +17,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.io.ByteArrayDataOutput;
 import com.snoop.server.db.model.TempPwd;
+import com.snoop.server.db.model.User;
 import com.snoop.server.db.util.TempPwdUtil;
 import com.snoop.server.db.util.UserDBUtil;
 import com.snoop.server.util.EmailUtil;
@@ -53,8 +54,8 @@ public class TempPwdWebHandler extends AbastractWebHandler
       return newServerErrorResponse(e, LOG);
     }
 
-    if (fromJson == null || fromJson.getUid() == null) {
-      appendln("No temp pwd info or incorrect format specified.");
+    if (fromJson == null || fromJson.getUname() == null) {
+      appendln("No uname specified.");
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
@@ -68,20 +69,22 @@ public class TempPwdWebHandler extends AbastractWebHandler
       session = getSession();
       txn = session.beginTransaction();
 
-      /* expire all pending ones */
-      TempPwdUtil.expireAllPendingPwds(session, fromJson.getUid());
+      /* query user */
+      final User user = UserDBUtil.getUserByUname(session, fromJson.getUname(),
+          false);
+      if (user == null) {
+        appendln(String.format("Nonexistent user ('%s')", fromJson.getUname()));
+        return newResponse(HttpResponseStatus.BAD_REQUEST);
+      }
 
       /* insert new temp one */
+      fromJson.setUid(user.getUid());
       session.save(fromJson);
-
-      /* get email address */
-      final String email = UserDBUtil.getEmail(session, fromJson.getUid(),
-          false);
 
       txn.commit();
 
       /* send temp pwd to user by email */
-      sendTempPwdToUser(email, fromJson);
+      sendTempPwdToUser(user.getPrimaryEmail(), fromJson);
 
       appendln(toIdJson("id", fromJson.getId()));
       return newResponse(HttpResponseStatus.CREATED);

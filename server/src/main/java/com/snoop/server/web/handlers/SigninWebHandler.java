@@ -86,7 +86,7 @@ public class SigninWebHandler extends AbastractWebHandler
       txn = session.beginTransaction();
 
       /* query encoded pwd */
-      final User fromDB = UserDBUtil.getUserWithPwdAndUid(
+      final User fromDB = UserDBUtil.getUserWithUidAndPwd(
           session,
           fromJson.getUname(), false);
 

@@ -154,7 +154,7 @@ public class UserWebHandler extends AbastractWebHandler
     try {
       session = getSession();
       txn = session.beginTransaction();
-      final User retInstance = UserDBUtil.getUser(session, uid, false);
+      final User retInstance = UserDBUtil.getUserByUid(session, uid, false);
       txn.commit();
 
       /* buffer result */

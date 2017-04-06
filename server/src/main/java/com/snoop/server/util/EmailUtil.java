@@ -92,6 +92,10 @@ public class EmailUtil {
 
   public static void sendTempPwd(final String email, final String tmpPwd) {
 
+    if (StringUtils.isBlank(email)) {
+      return;
+    }
+
     try {
       final Message message = new MimeMessage(getEmailSession());
       message.setFrom(new InternetAddress(USER_NAME, "Snoop Inc"));

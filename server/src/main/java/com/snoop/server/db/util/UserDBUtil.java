@@ -15,86 +15,60 @@ import com.snoop.server.db.model.User;
 
 public class UserDBUtil {
 
-  public static String getEmail(
+  public static String getEmailByUid(
       final Session session,
       final Long uid,
       final boolean newTransaction) {
-    final String select = "SELECT U.primaryEmail FROM User AS U WHERE U.uid = %d";
-    final String sql = String.format(select, uid);
-
-    Transaction txn = null;
-    List<User> list = null;
-    try {
-      if (newTransaction) {
-        txn = session.beginTransaction();
-      }
-
-      /* build query */
-      final SQLQuery query = session.createSQLQuery(sql);
-      query.setResultTransformer(Transformers.aliasToBean(User.class));
-      /* add column mapping */
-      query.addScalar("primaryEmail", new StringType());
-      list = query.list();
-
-      if (txn != null) {
-        txn.commit();
-      }
-    } catch (HibernateException e) {
-      if (txn != null && txn.isActive()) {
-        txn.rollback();
-      }
-      throw e;
-    } catch (Exception e) {
-      throw e;
-    }
-
-    return list.size() == 1 ? list.get(0).getPrimaryEmail() : null;
+    final User user = getUserByUid(session, uid, newTransaction);
+    return user != null ? user.getPrimaryEmail() : null;
   }
 
-  public static User getUserWithPwdAndUid(
+  public static User getUserByUid(
+      final Session session,
+      final Long uid,
+      final boolean newTransaction) {
+
+    final String select = "SELECT U.uid, U.uname, U.primaryEmail, U.createdTime, U.updatedTime"
+        + " FROM User AS U WHERE U.uid = %d";
+    final String sql = String.format(select, uid);
+    return getUserByQuery(session, getQuery(session, sql), newTransaction);
+  }
+
+  public static User getUserByUname(
       final Session session,
       final String uname,
       final boolean newTransaction) {
 
-    final String sql = buildSqlToGetUserWithPwdAndUid(uname);
-
-    Transaction txn = null;
-    List<User> list = null;
-    try {
-      if (newTransaction) {
-        txn = session.beginTransaction();
-      }
-
-      /* build query */
-      final SQLQuery query = session.createSQLQuery(sql);
-      query.setResultTransformer(Transformers.aliasToBean(User.class));
-      /* add column mapping */
-      query.addScalar("uid", new LongType());
-      query.addScalar("pwd", new StringType());
-      list = query.list();
-
-      if (txn != null) {
-        txn.commit();
-      }
-    } catch (HibernateException e) {
-      if (txn != null && txn.isActive()) {
-        txn.rollback();
-      }
-      throw e;
-    } catch (Exception e) {
-      throw e;
-    }
-
-    return list.size() == 1 ? list.get(0) : null;
+    final String select = "SELECT U.uid, U.uname, U.primaryEmail, U.createdTime, U.updatedTime"
+        + " FROM User AS U WHERE U.uname = '%s'";
+    final String sql = String.format(select, uname);
+    return getUserByQuery(session, getQuery(session, sql), newTransaction);
   }
 
-  public static User getUser(
+  private static SQLQuery getQuery(
       final Session session,
-      final Long uid,
+      final String sql) {
+    /* build query */
+    final SQLQuery query = session.createSQLQuery(sql);
+
+    /* add column mapping */
+    query.addScalar("uid", new LongType())
+         .addScalar("uname", new StringType())
+         .addScalar("primaryEmail", new StringType())
+         .addScalar("createdTime", new TimestampType())
+         .addScalar("updatedTime", new TimestampType());
+    return query;
+  }
+
+  /**
+   * Gets user by a hibernate query. This is a common function for code
+   * reusability.
+   */
+  private static User getUserByQuery(
+      final Session session,
+      final SQLQuery query,
       final boolean newTransaction) {
 
-    final String sql = buildSqlToGetUser(uid);
-
     Transaction txn = null;
     List<User> list = null;
     try {
@@ -102,14 +76,7 @@ public class UserDBUtil {
         txn = session.beginTransaction();
       }
 
-      /* build query */
-      final SQLQuery query = session.createSQLQuery(sql);
       query.setResultTransformer(Transformers.aliasToBean(User.class));
-      /* add column mapping */
-      query.addScalar("uid", new LongType())
-           .addScalar("uname", new StringType())
-           .addScalar("createdTime", new TimestampType())
-           .addScalar("updatedTime", new TimestampType());
       list = query.list();
 
       if (txn != null) {
@@ -127,14 +94,21 @@ public class UserDBUtil {
     return list.size() == 1 ? list.get(0) : null;
   }
 
-  private static String buildSqlToGetUserWithPwdAndUid(final String uname) {
-    final String select = "SELECT U.uid, U.pwd FROM User AS U WHERE U.uname = '%s'";
-    return String.format(select, uname);
-  }
+  public static User getUserWithUidAndPwd(
+      final Session session,
+      final String uname,
+      final boolean newTransaction) {
 
-  private static String buildSqlToGetUser(final Long uid) {
-    final String select = "SELECT U.uid, U.uname, U.createdTime, U.updatedTime"
-        + " FROM User AS U WHERE U.uid = %d";
-    return String.format(select, uid);
+    final String select = "SELECT U.uid, U.pwd FROM User AS U WHERE U.uname = '%s'";
+    final String sql = String.format(select, uname);
+
+    /* build query */
+    final SQLQuery query = session.createSQLQuery(sql);
+
+    /* add column mapping */
+    query.addScalar("uid", new LongType())
+         .addScalar("pwd", new StringType());
+
+    return getUserByQuery(session, query, newTransaction);
   }
 }

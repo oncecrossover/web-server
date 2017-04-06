@@ -220,7 +220,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
         }
 
         /* get email address */
-        final String email = UserDBUtil.getEmail(session,
+        final String email = UserDBUtil.getEmailByUid(session,
             qaTransaction.getUid(), false);
 
         /* insert journals and charge */
@@ -384,7 +384,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
         }
 
         /* get email address */
-        final String email = UserDBUtil.getEmail(session,
+        final String email = UserDBUtil.getEmailByUid(session,
             qaTransaction.getUid(), false);
 
         /* insert journals and CoinEntry */
