@@ -83,13 +83,13 @@ class IAPManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactionObser
   }
 
   func fail(_ transaction: SKPaymentTransaction) {
-    print("fail... \(transaction.error)")
+    print("fail... \(String(describing: transaction.error))")
 
     SKPaymentQueue.default().finishTransaction(transaction)
   }
 
   func addCoinsForUser(_ count: Int) {
-    let uid = UserDefaults.standard.string(forKey: "email")!
+    let uid = UserDefaults.standard.integer(forKey: "uid")
     coinModule.addCoins(uid, count: count) { result in
       if (result.isEmpty) {
         DispatchQueue.main.async {

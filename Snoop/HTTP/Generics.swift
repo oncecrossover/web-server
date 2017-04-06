@@ -75,7 +75,7 @@ class Generics: NSObject, URLSessionDelegate {
       data, response, error in
       if (error != nil)
       {
-        completion("\(error)")
+        completion("\(String(describing: error))")
         return
       }
 
@@ -108,7 +108,7 @@ class Generics: NSObject, URLSessionDelegate {
       data, response, error in
       if (error != nil)
       {
-        completion("\(error)")
+        completion("\(String(describing: error))")
         return
       }
 
@@ -141,7 +141,7 @@ class Generics: NSObject, URLSessionDelegate {
     let task = session.dataTask(with: request as URLRequest) {
       data, response, error in
       if (error != nil) {
-        completion("\(error)")
+        completion("\(String(describing: error))")
         return
       }
 
@@ -164,7 +164,7 @@ class Generics: NSObject, URLSessionDelegate {
     let task = session.dataTask(with: request as URLRequest) {
       data, response, error in
       if error != nil {
-        print ("error: \(error)")
+        print ("error: \(String(describing: error))")
         return
       }
 
@@ -186,7 +186,7 @@ class Generics: NSObject, URLSessionDelegate {
     let task = session.dataTask(with: request as URLRequest) {
       data, response, error in
       if error != nil {
-        print ("error: \(error)")
+        print ("error: \(String(describing: error))")
         return
       }
 

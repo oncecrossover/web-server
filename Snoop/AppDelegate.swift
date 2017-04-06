@@ -103,7 +103,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     UserDefaults.standard.set(tokenString, forKey: "deviceToken")
     UserDefaults.standard.synchronize()
-    if let uid = UserDefaults.standard.string(forKey: "email") {
+    let uid = UserDefaults.standard.integer(forKey: "uid")
+    if (uid != 0){
       User().updateDeviceToken(uid, token: tokenString) { _ in
       }
     }

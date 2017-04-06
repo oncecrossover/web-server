@@ -18,33 +18,33 @@ class Category {
     CATMAPPINGURI = self.generics.HTTPHOST + "catmappings"
   }
 
-  func updateInterests(_ uid: String, interests: [[String: AnyObject]], completion: @escaping (String) -> ()) {
-    let url = URL(string: CATMAPPINGURI + "/" + uid)!
-    generics.updateObjects(url, jsonData: interests) { result in
-      completion(result)
+  func updateInterests(_ uid: Int, interests: [[String: AnyObject]], completion: @escaping (String) -> ()) {
+    let url = URL(string: CATMAPPINGURI + "/" + "\(uid)")!
+    generics.updateObjects(url, jsonData: interests) {
+      completion($0)
     }
   }
 
   func getCategories(_ completion: @escaping (NSArray) -> ()) {
     let urlString = CATEGORYURI + "?name='%25%25'"
     let url = URL(string: urlString)!
-    generics.getFilteredObjects(url) { result in
-      completion(result)
+    generics.getFilteredObjects(url) {
+      completion($0)
     }
   }
 
-  func getExpertise(_ uid: String, completion: @escaping (NSArray) -> ()) {
-    let url = URL(string: CATMAPPINGURI + "?uid='" + uid + "'&isExpertise='Yes'")!
-    generics.getFilteredObjects(url) { result in
-      completion(result)
+  func getExpertise(_ uid: Int, completion: @escaping (NSArray) -> ()) {
+    let url = URL(string: CATMAPPINGURI + "?uid=" + "\(uid)" + "&isExpertise='Yes'")!
+    generics.getFilteredObjects(url) {
+      completion($0)
     }
   }
 
   func getInterest(_ completion: @escaping (NSArray) -> ()) {
-    let uid = UserDefaults.standard.string(forKey: "email")!
-    let url = URL(string: CATMAPPINGURI + "?uid='" + uid + "'&isInterest='Yes'")!
-    generics.getFilteredObjects(url) { result in
-      completion(result)
+    let uid = UserDefaults.standard.integer(forKey: "uid")
+    let url = URL(string: CATMAPPINGURI + "?uid=\(uid)" + "&isInterest='Yes'")!
+    generics.getFilteredObjects(url) {
+      completion($0)
     }
   }
 }

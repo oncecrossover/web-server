@@ -97,9 +97,9 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
       self.navigationController?.pushViewController(dvc, animated: true)
     }
     else if (indexPath.section == 1) {
-      let uid = UserDefaults.standard.string(forKey: "email")!
+      let uid = UserDefaults.standard.integer(forKey: "uid")
       UserDefaults.standard.set(false, forKey: "isUserLoggedIn")
-      UserDefaults.standard.removeObject(forKey: "email")
+      UserDefaults.standard.removeObject(forKey: "uid")
       UserDefaults.standard.set(true, forKey: "shouldLoadHome")
       UserDefaults.standard.set(true, forKey: "shouldLoadDiscover")
       UserDefaults.standard.set(true, forKey: "shouldLoadProfile")

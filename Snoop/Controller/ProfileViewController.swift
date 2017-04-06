@@ -109,7 +109,7 @@ extension ProfileViewController {
     aboutLabel.text = ""
     titleLabel.text = ""
     activityIndicator.startAnimating()
-    let uid = UserDefaults.standard.string(forKey: "email")!
+    let uid = UserDefaults.standard.integer(forKey: "uid")
     userModule.getProfile(uid) { fullName, title, aboutMe, avatarUrl, rate, status in
       DispatchQueue.main.async {
         self.aboutLabel.text = aboutMe
@@ -136,7 +136,7 @@ extension ProfileViewController {
 
   fileprivate func loadEarningView() {
     self.earningsView.removeFromSuperview()
-    let uid = UserDefaults.standard.string(forKey: "email")!
+    let uid = UserDefaults.standard.integer(forKey: "uid")
     Payment().getBalance(uid) { convertedDict in
       if let _ = convertedDict["balance"] as? Double {
         self.earning = convertedDict["balance"] as! Double
@@ -160,7 +160,7 @@ extension ProfileViewController {
     }
     else {
       self.expertise = []
-      let uid = UserDefaults.standard.string(forKey: "email")!
+      let uid = UserDefaults.standard.integer(forKey: "uid")
       category.getExpertise(uid) { jsonArray in
         for element in jsonArray as! [[String:AnyObject]] {
           let mappingId = element["id"] as! Int

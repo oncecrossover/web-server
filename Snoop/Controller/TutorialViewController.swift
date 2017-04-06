@@ -10,7 +10,7 @@ import UIKit
 
 class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
 
-  var email:String!
+  var uid:Int = 0
   var pageViewController: UIPageViewController!
   var pageImages = ["page1", "page2", "page3", "page4", "page5", "page6"]
   override func viewDidLoad() {
@@ -61,11 +61,11 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
 
   func skipButtonTapped() {
     UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
-    UserDefaults.standard.set(email, forKey: "email")
+    UserDefaults.standard.set(uid, forKey: "uid")
     UserDefaults.standard.synchronize()
     if let deviceToken = UserDefaults.standard.string(forKey: "deviceToken") {
       let userModule = User()
-      userModule.updateDeviceToken(email, token: deviceToken) { result in
+      userModule.updateDeviceToken(uid, token: deviceToken) { result in
         self.dismiss(animated: true, completion: nil)
       }
     }

@@ -23,20 +23,20 @@ class Payment {
     let uid = UserDefaults.standard.string(forKey: "email")
 
     let jsonData = ["uid" : uid as AnyObject, "token" : token as AnyObject]
-    generics.createObject(PAYMENTURI, jsonData: jsonData) { result in
-      completion(result)
+    generics.createObject(PAYMENTURI, jsonData: jsonData) {
+      completion($0)
     }
   }
 
   func getPayments(_ filterString: String!, completion: @escaping (NSArray) -> ()) {
     let url = URL(string: PAYMENTURI + "?filter=" + filterString)
-    generics.getFilteredObjects(url!) { result in
-      completion(result)
+    generics.getFilteredObjects(url!) {
+      completion($0)
     }
   }
 
-  func getBalance(_ uid: String!, completion: @escaping (NSDictionary) -> ()) {
-    let url = URL(string: BALANCEURI + uid)!
+  func getBalance(_ uid: Int, completion: @escaping (NSDictionary) -> ()) {
+    let url = URL(string: BALANCEURI + "\(uid)")!
     generics.getObjectById(url) { result in
       completion(result)
     }
@@ -51,7 +51,7 @@ class Payment {
       data, response, error in
       if (error != nil)
       {
-        print("error=\(error)")
+        print("error=\(String(describing: error))")
         return
       }
 

@@ -153,7 +153,7 @@ extension ViewController {
 
   func addCoins(_ notification: Notification) {
     if let uid = notification.userInfo?["uid"] as? String {
-      let currentUid = UserDefaults.standard.string(forKey: "email")!
+      let currentUid = UserDefaults.standard.string(forKey: "uid")!
       // Check if these two are the same user if app relaunches or user signs out.
       if (currentUid == uid) {
         if let amount = notification.userInfo?["amount"] as? Int {
@@ -169,8 +169,8 @@ extension ViewController {
   }
 
   func loadData(){
-    let uid = UserDefaults.standard.string(forKey: "email")!
-    let url = "uid='" + uid + "'"
+    let uid = UserDefaults.standard.integer(forKey: "uid")
+    let url = "uid=" + "\(uid)"
     tmpFeeds = []
     self.paidSnoops = []
     loadData(url)
@@ -185,7 +185,7 @@ extension ViewController {
       for feedInfo in jsonArray as! [[String:AnyObject]] {
         let questionId = feedInfo["id"] as! Int
         let question = feedInfo["question"] as! String
-        let responderId = feedInfo["responderId"] as! String
+        let responderId = feedInfo["responderId"] as! Int
         let numberOfSnoops = feedInfo["snoops"] as! Int
         let name = feedInfo["responderName"] as! String
         let updatedTime = feedInfo["updatedTime"] as! Double
@@ -322,8 +322,8 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     if (indexPath.row == feeds.count - 1) {
       let lastSeenId = feeds[indexPath.row].id
       let updatedTime = Int64(feeds[indexPath.row].updatedTime)
-      let uid = UserDefaults.standard.string(forKey: "email")!
-      let url = "uid='" + uid + "'&lastSeenUpdatedTime=\(updatedTime)&lastSeenId=\(lastSeenId)&limit=5"
+      let uid = UserDefaults.standard.integer(forKey: "uid")
+      let url = "uid=" + "\(uid)" + "&lastSeenUpdatedTime=\(updatedTime)&lastSeenId=\(lastSeenId)&limit=5"
       loadData(url)
     }
 
@@ -346,7 +346,7 @@ extension ViewController {
       self.blackView.alpha = 0
       self.payWithCoinsView.alpha = 0
     }) { (result) in
-      let uid = UserDefaults.standard.string(forKey: "email")!
+      let uid = UserDefaults.standard.integer(forKey: "uid")
       let quandaId = self.feeds[self.activeIndexPath!.row].id
       let quandaData: [String:AnyObject] = ["id": quandaId as AnyObject]
       let jsonData: [String:AnyObject] = ["uid": uid as AnyObject, "type": "SNOOPED" as AnyObject, "quanda": quandaData as AnyObject]
@@ -458,7 +458,12 @@ extension ViewController {
         buyCoinsView.setNote("8 coins to unlock an answer")
         frameToAdd = buyCoinsView
       }
+      else if (feed.rate == 0) {
+        payWithCoinsView.setCount(0)
+        frameToAdd = payWithCoinsView
+      }
       else {
+        payWithCoinsView.setCount(8)
         frameToAdd = payWithCoinsView
       }
 

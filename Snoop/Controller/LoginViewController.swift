@@ -134,14 +134,14 @@ class LoginViewController: UIViewController {
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Signing In...")
 
     let userModule = User()
-    userModule.signinUser(userEmail, password: userPassword) { displayMessage in
-      if (displayMessage.isEmpty) {
+    userModule.signinUser(userEmail, password: userPassword) { dict in
+      if let uid = dict["uid"] as? Int {
         UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
-        UserDefaults.standard.set(userEmail, forKey: "email")
+        UserDefaults.standard.set(uid, forKey: "uid")
         UserDefaults.standard.set(true, forKey:"isUserSignedUp")
         UserDefaults.standard.synchronize()
         if let deviceToken = UserDefaults.standard.string(forKey: "deviceToken") {
-          userModule.updateDeviceToken(userEmail, token: deviceToken) { result in
+          userModule.updateDeviceToken(uid, token: deviceToken) { result in
             DispatchQueue.main.async {
               activityIndicator.hide(animated: true)
               self.dismiss(animated: true, completion: nil)
@@ -162,7 +162,7 @@ class LoginViewController: UIViewController {
       else {
         OperationQueue.main.addOperation {
           activityIndicator.hide(animated: true)
-          utility.displayAlertMessage(displayMessage, title: "Alert", sender: self)
+          utility.displayAlertMessage(dict["error"] as! String, title: "Alert", sender: self)
         }
       }
     }

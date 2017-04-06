@@ -86,7 +86,7 @@ class PayWithCoinsView: UIView {
     addSubview(confirmButton)
 
     // Setup constraints
-    addConstraintsWithFormat("H:|-87-[v0(30)]-5-[v1(13)]-5-[v2(30)]", views: coinView, crossLabel, numberLabel)
+    addConstraintsWithFormat("H:|-87-[v0(30)]-5-[v1(13)]-5-[v2(40)]", views: coinView, crossLabel, numberLabel)
     addConstraintsWithFormat("H:|-3-[v0]-3-|", views: underline)
     addConstraintsWithFormat("V:|-40-[v0(30)]-15-[v1(18)]-25-[v2(1)]-0-[v3]|", views: coinView, confirmLabel, underline, cancelButton)
     addConstraintsWithFormat("V:|-40-[v0(30)]-15-[v1(18)]-25-[v2(1)]-0-[v3]|", views: coinView, confirmLabel, underline, confirmButton)
@@ -98,7 +98,7 @@ class PayWithCoinsView: UIView {
 
     // Additional setup for numberLabel
     numberLabel.centerYAnchor.constraint(equalTo: coinView.centerYAnchor).isActive = true
-    numberLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
+    numberLabel.heightAnchor.constraint(equalToConstant: 28).isActive = true
 
     // Additional setup for confirmLabel
     confirmLabel.widthAnchor.constraint(equalToConstant: 240).isActive = true

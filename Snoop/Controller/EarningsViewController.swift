@@ -64,7 +64,7 @@ class EarningsViewController: UIViewController {
     NotificationCenter.default.addObserver(self, selector: #selector(EarningsViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(EarningsViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
-    let uid = UserDefaults.standard.string(forKey: "email")!
+    let uid = UserDefaults.standard.integer(forKey: "uid")
     User().getPaypal(uid) { dict in
       DispatchQueue.main.async {
         if let email = dict["payTo"] as? String {
@@ -107,7 +107,7 @@ extension EarningsViewController {
 
   func updateButtonTapped(){
     let util = UIUtility()
-    let uid = UserDefaults.standard.string(forKey: "email")!
+    let uid = UserDefaults.standard.integer(forKey: "uid")
     let email = input.paypalEmail.field.text!
     User().updatePaypal(uid, paypalEmail: email) { result in
       if (result.isEmpty) {

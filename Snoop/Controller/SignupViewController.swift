@@ -117,7 +117,7 @@ class SignupViewController: UIViewController {
 
     // Check if the email already exists
     userModule.getUser(userEmail) { user in
-      if let _ = user["uid"] as? String {
+      if (user.count > 0) {
         DispatchQueue.main.async {
           utility.displayAlertMessage("Email \(userEmail) already exists", title: "Alert", sender: self)
         }
@@ -125,20 +125,20 @@ class SignupViewController: UIViewController {
       else {
         var resultMessage = ""
         let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Saving your Info...")
-        userModule.createUser(userEmail, userPassword: userPassword, fullName: name) { resultString in
-          if (resultString.isEmpty) {
+        userModule.createUser(userEmail, userPassword: userPassword, fullName: name) { result in
+          if let uid = result["uid"] as? Int {
             activityIndicator.hide(animated: true)
             DispatchQueue.main.async {
               UserDefaults.standard.set(true, forKey: "isUserSignedUp")
               UserDefaults.standard.synchronize()
               let vc = InterestPickerViewController()
-              vc.email = userEmail
+              vc.uid = uid
               self.navigationController?.pushViewController(vc, animated: true)
             }
 
           }
           else {
-            resultMessage = resultString
+            resultMessage = result["error"] as! String
             activityIndicator.hide(animated: true)
             // Display failure message
             let myAlert = UIAlertController(title: "Error", message: resultMessage, preferredStyle: UIAlertControllerStyle.alert)

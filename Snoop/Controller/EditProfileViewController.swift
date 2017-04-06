@@ -278,7 +278,7 @@ extension EditProfileViewController {
     }
 
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: text)
-    let uid = UserDefaults.standard.string(forKey: "email")!
+    let uid = UserDefaults.standard.integer(forKey: "uid")
     var newRate = 0.0
     if (!profileView.rate.value.text!.isEmpty) {
       newRate = Double(profileView.rate.value.text!)!
@@ -402,7 +402,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate {
       compressionRatio = 0.2
     }
     let photoData = UIImageJPEGRepresentation(profileView.profilePhoto.image!, CGFloat(compressionRatio))
-    let uid = UserDefaults.standard.string(forKey: "email")!
+    let uid = UserDefaults.standard.integer(forKey: "uid")
     userModule.updateProfilePhoto(uid, imageData: photoData){ resultString in
       var message = ""
       if (resultString.isEmpty) {

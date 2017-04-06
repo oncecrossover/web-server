@@ -11,7 +11,7 @@ import UIKit
 class InterestPickerViewController: UIViewController {
 
   let cellId = "interestCell"
-  var email: String?
+  var uid: Int?
 
   var allCategories: [CategoryModel] = []
   var selectedCategories: Set<InterestModel> = []
@@ -185,11 +185,12 @@ extension InterestPickerViewController {
   func doneButtonTapped() {
     let categoriesToUpdate:[[String: AnyObject]] = populateCategoriesToUpdate()
 
-    if (email == nil) {
-      email = UserDefaults.standard.string(forKey: "email")
-    }
+//    if (email == nil) {
+//      email = UserDefaults.standard.string(forKey: "email")
+//    }
 
-    category.updateInterests(email!, interests: categoriesToUpdate) { result in
+    let uid = UserDefaults.standard.integer(forKey: "uid")
+    category.updateInterests(uid, interests: categoriesToUpdate) { result in
       if (result.isEmpty) {
         DispatchQueue.main.async {
           if (self.isProfile) {
@@ -197,7 +198,7 @@ extension InterestPickerViewController {
           }
           else {
             let vc = TutorialViewController()
-            vc.email = self.email
+            vc.uid = self.uid!
             self.navigationController?.pushViewController(vc, animated: true)
           }
         }

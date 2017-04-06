@@ -78,9 +78,9 @@ extension PaymentViewController {
   fileprivate func loadAccountInfo() {
     self.paymentTableView.isUserInteractionEnabled = false
     last4 = " No Cards"
-    let uid = UserDefaults.standard.string(forKey: "email")
+    let uid = UserDefaults.standard.integer(forKey: "uid")
     self.activityIndicator.startAnimating()
-    paymentModule.getPayments("uid=" + uid!) { jsonArray in
+    paymentModule.getPayments("uid=\(uid)") { jsonArray in
       for paymentInfo in jsonArray as! [[String:AnyObject]] {
         let isDefault = paymentInfo["default"] as! Bool
         if (isDefault == true) {
@@ -89,7 +89,7 @@ extension PaymentViewController {
         }
       }
 
-      let uid = UserDefaults.standard.string(forKey: "email")
+      let uid = UserDefaults.standard.integer(forKey: "uid")
       self.paymentModule.getBalance(uid) { convertedDict in
         if let _ = convertedDict["balance"] as? Double {
           self.balance = convertedDict["balance"] as! Double

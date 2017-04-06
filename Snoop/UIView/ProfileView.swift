@@ -53,7 +53,7 @@ class ProfileView: UIView {
   let cellId = "expertiseCell"
   var expertise:[ExpertiseModel] = []
 
-  init(frame: CGRect, uid: String) {
+  init(frame: CGRect, uid: Int) {
     super.init(frame: frame)
     self.frame = frame
     backgroundColor = UIColor.white

@@ -12,6 +12,7 @@ class PasswordResetViewController: UIViewController{
   var utility = UIUtility()
   var generics = Generics()
   var userModule = User()
+  var uid:Int?
 
   lazy var backButton: UIButton = {
     let button = UIButton()
@@ -192,7 +193,7 @@ class PasswordResetViewController: UIViewController{
 
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Updating Password...")
 
-    let urlString = generics.HTTPHOST + "resetpwd/" + email.text!
+    let urlString = generics.HTTPHOST + "resetpwd/\(self.uid!)"
     let jsonData = ["tempPwd" : tmpPwd, "newPwd" : newPwd]
     generics.createObject(urlString, jsonData: jsonData as [String : AnyObject]) { result in
       let message = result
@@ -219,9 +220,11 @@ class PasswordResetViewController: UIViewController{
     activityIndicator.isUserInteractionEnabled = false
 
     //Check if the email address exists in our system
-    userModule.getUser(email.text!) { user in
-      if let _ = user["uid"] as? String {
+    userModule.getUser(email.text!) { users in
+      if (users.count > 0) {
+        let user = users[0] as! [String: AnyObject]
         let URI = self.generics.HTTPHOST + "temppwds"
+        self.uid = user["uid"] as? Int
         let jsonData = ["uid" : self.email.text!]
         self.generics.createObject(URI, jsonData: jsonData as [String : AnyObject]) { result in
           if (result.isEmpty) {

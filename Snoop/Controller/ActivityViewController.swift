@@ -130,18 +130,18 @@ extension ActivityViewController: SegmentedControlDelegate {
 
   func loadIndexWithRefresh(_ index: Int) {
     activityTableView.isUserInteractionEnabled = false
-    let uid = UserDefaults.standard.string(forKey: "email")!
+    let uid = UserDefaults.standard.integer(forKey: "uid")
     if (index == 0) {
       tmpQuestions = []
-      loadDataWithFilter("asker='" + uid + "'")
+      loadDataWithFilter("asker=\(uid)")
     }
     else if (index == 1) {
       tmpAnswers = []
-      loadDataWithFilter("responder='" + uid + "'")
+      loadDataWithFilter("responder=\(uid)")
     }
     else if (index == 2) {
       tmpSnoops = []
-      loadDataWithFilter("uid='" + uid + "'")
+      loadDataWithFilter("uid=\(uid)")
     }
   }
 }
@@ -318,23 +318,23 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
 
     myCell.isUserInteractionEnabled = false
     var arrayCount = 0
-    let uid = UserDefaults.standard.string(forKey: "email")!
+    let uid = UserDefaults.standard.integer(forKey: "uid")
     var filterString = "&limit=10"
     let cellInfo: ActivityModel
     if (selectedIndex == 0) {
       cellInfo = questions[indexPath.row]
       arrayCount = questions.count
-      filterString = "asker='\(uid)'&lastSeenUpdatedTime=\(Int64(cellInfo.lastSeenTime))&lastSeenId=\(cellInfo.id)" + filterString
+      filterString = "asker=\(uid)&lastSeenUpdatedTime=\(Int64(cellInfo.lastSeenTime))&lastSeenId=\(cellInfo.id)" + filterString
     }
     else if (selectedIndex == 1){
       cellInfo = answers[indexPath.row]
       arrayCount = answers.count
-      filterString = "responder='\(uid)'&lastSeenCreatedTime=\(Int64(cellInfo.lastSeenTime))&lastSeenId=\(cellInfo.id)" + filterString
+      filterString = "responder=\(uid)&lastSeenCreatedTime=\(Int64(cellInfo.lastSeenTime))&lastSeenId=\(cellInfo.id)" + filterString
     }
     else {
       cellInfo = snoops[indexPath.row]
       arrayCount = snoops.count
-      filterString = "uid='\(uid)'&lastSeenCreatedTime=\(Int64(cellInfo.lastSeenTime))&lastSeenId=\(cellInfo.id)" + filterString
+      filterString = "uid=\(uid)&lastSeenCreatedTime=\(Int64(cellInfo.lastSeenTime))&lastSeenId=\(cellInfo.id)" + filterString
     }
 
     myCell.rateLabel.text = "$ \(cellInfo.rate)"

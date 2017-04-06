@@ -27,8 +27,8 @@ class Question {
     status: String, completion: @escaping (String) -> () ){
       let jsonData = ["asker": asker, "question": question,
         "responder": responder, "status": "PENDING"]
-      generics.createObject(QUESTIONURI, jsonData: jsonData as [String : AnyObject]) { result in
-        completion(result)
+      generics.createObject(QUESTIONURI, jsonData: jsonData as [String : AnyObject]) {
+        completion($0)
       }
   }
 
@@ -36,8 +36,8 @@ class Question {
       let myUrl = URL(string: QUANDAURI + "/" + "\(id)")
       let audioString = answerAudio?.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
       let jsonData: [String: AnyObject] = ["answerAudio": audioString! as AnyObject, "status" : "ANSWERED" as AnyObject]
-      generics.updateObject(myUrl!, jsonData: jsonData) { result in
-        completion(result)
+      generics.updateObject(myUrl!, jsonData: jsonData) {
+        completion($0)
       }
   }
 
@@ -46,8 +46,8 @@ class Question {
     let videoString = answerVideo.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
     let photoString = coverPhoto.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
     let jsonData: [String: AnyObject] = ["answerMedia" : videoString as AnyObject, "answerCover" : photoString as AnyObject, "status" : "ANSWERED" as AnyObject, "duration" : duration as AnyObject]
-    generics.updateObject(myUrl!, jsonData: jsonData) { result in
-      completion(result)
+    generics.updateObject(myUrl!, jsonData: jsonData) {
+      completion($0)
     }
   }
 
@@ -63,8 +63,8 @@ class Question {
       myUrl = URL(string:  SNOOPURI + "?" + filterString)!
     }
 
-    generics.getFilteredObjects(myUrl) { result in
-      completion(result)
+    generics.getFilteredObjects(myUrl) {
+      completion($0)
     }
   }
 
@@ -82,23 +82,23 @@ class Question {
 
   func getQuestionById(_ id: Int, completion: @escaping (NSDictionary) -> ()){
     let myUrl = URL(string: QUESTIONURI + "/" + "\(id)")
-    generics.getObjectById(myUrl!) { convertedJsonIntoDict in
-      completion(convertedJsonIntoDict)
+    generics.getObjectById(myUrl!) {
+      completion($0)
     }
   }
 
   func getQuestionDatas(_ url: String, completion: @escaping (NSDictionary) -> ()) {
     let myUrl = URL(string: BULKDATAURI + "?" + url)
-    generics.getObjectById(myUrl!) { convertedJsonIntoDict in
-      completion(convertedJsonIntoDict)
+    generics.getObjectById(myUrl!) {
+      completion($0)
     }
   }
 
   func createSnoop(_ id: Int, completion: @escaping (String) -> ()) {
     let uid = UserDefaults.standard.string(forKey: "email")!
     let jsonData:[String:AnyObject] = ["uid": uid as AnyObject, "quandaId": id as AnyObject]
-    generics.createObject(SNOOPURI, jsonData: jsonData) { result in
-      completion(result)
+    generics.createObject(SNOOPURI, jsonData: jsonData) {
+      completion($0)
     }
   }
 }

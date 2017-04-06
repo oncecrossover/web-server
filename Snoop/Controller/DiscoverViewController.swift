@@ -78,11 +78,11 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
     indicator.startAnimating()
     indicator.backgroundColor = UIColor.white
-    let uid = UserDefaults.standard.string(forKey: "email")!
+    let uid = UserDefaults.standard.integer(forKey: "uid")
     var didLoadNewProfiles = false
     userModule.getDiscover(url) { jsonArray in
       for profileInfo in jsonArray as! [[String:AnyObject]] {
-        let profileUid = profileInfo["uid"] as! String
+        let profileUid = profileInfo["uid"] as! Int
         if (profileUid == uid) {
           continue
         }
@@ -184,7 +184,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
       if (indexPath.row == profiles.count - 1) {
         let updatedTime = Int64(cellInfo.updatedTime)
         let lastSeenId = cellInfo.uid
-        let url = "takeQuestion='APPROVED'&limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId='" + lastSeenId + "'"
+        let url = "takeQuestion='APPROVED'&limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId=" + "\(lastSeenId)"
         loadProfiles(url, isSearch: false)
       }
     }
@@ -192,7 +192,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
       if (indexPath.row == filteredProfiles.count - 1) {
         let updatedTime = Int64(cellInfo.updatedTime)
         let lastSeenId = cellInfo.uid
-        let url = "takeQuestion='APPROVED'&limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId='" + lastSeenId + "'&fullName='%25\(searchController.searchBar.text!)%25'"
+        let url = "takeQuestion='APPROVED'&limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId='" + "\(lastSeenId)" + "'&fullName='%25\(searchController.searchBar.text!)%25'"
         loadProfiles(url, isSearch: true)
       }
     }
