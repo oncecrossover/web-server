@@ -1,6 +1,7 @@
 package com.snoop.server.db.util;
 
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
@@ -11,6 +12,9 @@ import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 import org.hibernate.type.TimestampType;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
+import com.snoop.server.conf.Configuration;
 import com.snoop.server.db.model.User;
 
 public class UserDBUtil {
@@ -69,6 +73,19 @@ public class UserDBUtil {
       final SQLQuery query,
       final boolean newTransaction) {
 
+    final List<User> list = getUsersByQuery(session, query, newTransaction);
+    return list.size() == 1 ? list.get(0) : null;
+  }
+
+  /**
+   * Gets a list of users by a hibernate query. This is a common function for
+   * code reusability.
+   */
+  private static List<User> getUsersByQuery(
+      final Session session,
+      final SQLQuery query,
+      final boolean newTransaction) {
+
     Transaction txn = null;
     List<User> list = null;
     try {
@@ -91,7 +108,7 @@ public class UserDBUtil {
       throw e;
     }
 
-    return list.size() == 1 ? list.get(0) : null;
+    return list;
   }
 
   public static User getUserWithUidAndPwd(
@@ -110,5 +127,69 @@ public class UserDBUtil {
          .addScalar("pwd", new StringType());
 
     return getUserByQuery(session, query, newTransaction);
+  }
+
+  public static List<User> getUsers(
+      final Session session,
+      final Map<String, List<String>> params,
+      final boolean newTransaction) {
+
+    final String sql = buildSql4AllUsers(params);
+    return getUsersByQuery(session, getQuery(session, sql), newTransaction);
+  }
+
+  private static String buildSql4AllUsers(
+      final Map<String, List<String>> params) {
+
+    long lastSeenUpdatedTime = 0;
+    long lastSeenId = 0;
+    int limit = Configuration.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
+    final String select = "SELECT U.uid, U.uname, U.primaryEmail, U.createdTime, U.updatedTime"
+        + " FROM User AS U";
+    final List<String> list = Lists.newArrayList();
+    for (String key : params.keySet()) {
+      switch (key) {
+      case "uid":
+        list.add(
+            String.format("U.uid=%d", Long.parseLong(params.get(key).get(0))));
+        break;
+      case "uname":
+        list.add(String.format("U.uname LIKE %s", params.get(key).get(0)));
+        break;
+      case "primaryEmail":
+        list.add(
+            String.format("U.primaryEmail LIKE %s", params.get(key).get(0)));
+        break;
+      case "lastSeenId":
+        lastSeenId = Long.parseLong(params.get(key).get(0));
+        break;
+      case "lastSeenUpdatedTime":
+        lastSeenUpdatedTime = Long.parseLong(params.get(key).get(0));
+        break;
+      case "limit":
+        limit = Integer.parseInt(params.get(key).get(0));
+        break;
+      default:
+        break;
+      }
+    }
+
+    /* query where clause */
+    String where = " WHERE ";
+    where += list.size() == 0 ?
+        "1 = 0" : /* simulate no columns specified */
+        Joiner.on(" AND ").skipNulls().join(list);
+
+    /* pagination where clause */
+    where += DBUtil.getPaginationWhereClause(
+        "U.updatedTime",
+        lastSeenUpdatedTime,
+        "U.uid",
+        lastSeenId);
+
+    final String orderBy = " ORDER BY u.updatedTime DESC, U.uid DESC";
+    final String limitClause = String.format(" limit %d;", limit);
+
+    return select + where + orderBy + limitClause;
   }
 }

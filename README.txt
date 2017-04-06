@@ -79,6 +79,46 @@ Example response:
 2. create new user, e.g.
 curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uname":"edmund@fight.com","primaryEmail":"edmund@fight.com","fullName":"Bingo Zhou","pwd":"123"}'
 
+3. Query users by uid, uname and so on, e.g.
+curl -i -G -X GET http://127.0.0.1:8080/users --data-urlencode "uid=812381424844800", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/users/812381424844800"
+
+curl -i -G -X GET http://127.0.0.1:8080/users --data-urlencode "uname='bingo@snoopqa.com'", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/users?uname='bingo@snoopqa.com'"
+
+4. paginate users, e.g.
+Both lastSeenUpdatedTime and lastSeenId must be specified since updatedTime can have duplicate values.
+Limit defaults as 10 if it's not specified.
+
+Query based on the last seen, e.g.
+curl -i -G -X GET http://127.0.0.1:8080/users --data-urlencode "uname='%o%'" --data-urlencode "lastSeenUpdatedTime=1491201766000" -d "lastSeenId=1037529214091264" -d "limit=20", equivalent to
+curl -i -X GET "http://127.0.0.1:8080/users?uname='%%o%%'&lastSeenUpdatedTime=1491201766000&lastSeenId=812381424844800&limit=20"
+Example response:
+[
+  {
+    "uid": 812381424844800,
+    "uname": "bingo@snoopqa.com",
+    "pwd": null,
+    "primaryEmail": "bingo@snoopqa.com",
+    "createdTime": 1491148086000,
+    "updatedTime": 1491195101000,
+    "fullName": null,
+    "profile": null,
+    "pcAccount": null
+  },
+  {
+    "uid": 813938593759232,
+    "uname": "xzhou40@gmail.com",
+    "pwd": null,
+    "primaryEmail": "xzhou40@gmail.com",
+    "createdTime": 1491148458000,
+    "updatedTime": 1491148458000,
+    "fullName": null,
+    "profile": null,
+    "pcAccount": null
+  }
+]
+
 
 RESTFUL APIs OF SIGNIN:
 1. sign-in by user name and password, e.g.

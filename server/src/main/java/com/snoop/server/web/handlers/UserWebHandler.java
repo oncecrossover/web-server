@@ -40,7 +40,17 @@ public class UserWebHandler extends AbastractWebHandler
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    return onGet();
+    final WebHandler pwh = new UserFilterWebHandler(
+        getPathParser(),
+        getRespBuf(),
+        getHandlerContext(),
+        getRequest());
+
+    if (pwh.willFilter()) {
+      return pwh.handle();
+    } else {
+      return onGet();
+    }
   }
 
   @Override
