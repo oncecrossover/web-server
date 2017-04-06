@@ -69,8 +69,10 @@ curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uname":"edmund@fight.com","p
 
 
 RESTFUL APIs OF SIGNIN:
-1. sign-in by user id and password, e.g.
+1. sign-in by user name and password, e.g.
 curl -i -X POST "http://127.0.0.1:8080/signin" -d '{"uname":"edmund@fight.com","pwd":"123"}'
+Example response:
+{"uid":1918315924553728}
 
 
 RESTFUL APIs OF PROFILES:

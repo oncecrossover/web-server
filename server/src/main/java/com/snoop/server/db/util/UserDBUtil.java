@@ -51,12 +51,12 @@ public class UserDBUtil {
     return list.size() == 1 ? list.get(0).getPrimaryEmail() : null;
   }
 
-  public static String getPwd(
+  public static User getUserWithPwdAndUid(
       final Session session,
       final String uname,
       final boolean newTransaction) {
 
-    final String sql = buildSqlToGetPwd(uname);
+    final String sql = buildSqlToGetUserWithPwdAndUid(uname);
 
     Transaction txn = null;
     List<User> list = null;
@@ -69,6 +69,7 @@ public class UserDBUtil {
       final SQLQuery query = session.createSQLQuery(sql);
       query.setResultTransformer(Transformers.aliasToBean(User.class));
       /* add column mapping */
+      query.addScalar("uid", new LongType());
       query.addScalar("pwd", new StringType());
       list = query.list();
 
@@ -84,7 +85,7 @@ public class UserDBUtil {
       throw e;
     }
 
-    return list.size() == 1 ? list.get(0).getPwd() : null;
+    return list.size() == 1 ? list.get(0) : null;
   }
 
   public static User getUser(
@@ -126,8 +127,8 @@ public class UserDBUtil {
     return list.size() == 1 ? list.get(0) : null;
   }
 
-  private static String buildSqlToGetPwd(final String uname) {
-    final String select = "SELECT U.pwd FROM User AS U WHERE U.uname = '%s'";
+  private static String buildSqlToGetUserWithPwdAndUid(final String uname) {
+    final String select = "SELECT U.uid, U.pwd FROM User AS U WHERE U.uname = '%s'";
     return String.format(select, uname);
   }
 

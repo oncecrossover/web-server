@@ -86,18 +86,19 @@ public class SigninWebHandler extends AbastractWebHandler
       txn = session.beginTransaction();
 
       /* query encoded pwd */
-      final String encodedPwd = UserDBUtil.getPwd(session, fromJson.getUname(),
-          false);
+      final User fromDB = UserDBUtil.getUserWithPwdAndUid(
+          session,
+          fromJson.getUname(), false);
 
       /* commit transaction */
       txn.commit();
 
       /* return */
-      if (encodedPwd == null) {
+      if (fromDB == null) {
         appendln(String.format("Nonexistent user '%s'", fromJson.getUname()));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
-      } else if (UserUtil.checkPassword(fromJson.getPwd(), encodedPwd)) {
-        appendln(toIdJson("uname", fromJson.getUname()));
+      } else if (UserUtil.checkPassword(fromJson.getPwd(), fromDB.getPwd())) {
+        appendln(toIdJson("uid", fromDB.getUid()));
         return newResponse(HttpResponseStatus.CREATED);
       } else {
         appendln("User id and password do not match.");
