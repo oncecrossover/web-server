@@ -16,7 +16,7 @@ public class Newsfeed {
   private int duration;
   private String askerName;
   private String askerAvatarUrl;
-  private String responderId;
+  private Long responderId;
   private String responderName;
   private String responderTitle;
   private String responderAvatarUrl;
@@ -94,11 +94,11 @@ public class Newsfeed {
     this.duration = duration;
   }
 
-  public String getResponderId() {
+  public Long getResponderId() {
     return responderId;
   }
 
-  public Newsfeed setResponderId(final String responderId) {
+  public Newsfeed setResponderId(final Long responderId) {
     this.responderId = responderId;
     return this;
   }

@@ -244,7 +244,7 @@ public class QuandaDBUtil {
            .addScalar("duration", new IntegerType())
            .addScalar("askerName", new StringType())
            .addScalar("askerAvatarUrl", new StringType())
-           .addScalar("responderId", new StringType())
+           .addScalar("responderId", new LongType())
            .addScalar("responderName", new StringType())
            .addScalar("responderTitle", new StringType())
            .addScalar("responderAvatarUrl", new StringType())

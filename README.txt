@@ -360,7 +360,6 @@ Both lastSeenUpdatedTime and lastSeenId must be specified since updatedTime can 
 For example:
 curl -i -G -X GET http://127.0.0.1:8080/newsfeeds/ -d "uid=1037529214091264" --data-urlencode "lastSeenUpdatedTime=1474522304000" -d "lastSeenId=3" -d "limit=10", equivalent to
 curl -i -X GET "http://127.0.0.1:8080/newsfeeds?uid=1037529214091264&lastSeenUpdatedTime=1474522304000&lastSeenId=3&limit=10"
-
 Example response:
 [
   {
@@ -374,7 +373,7 @@ Example response:
     "duration": 0,
     "askerName": "Bingo Zhou",
     "askerAvatarUrl": null,
-    "responderId": "813938593759232",
+    "responderId": 813938593759232,
     "responderName": "Edmund Zhou",
     "responderTitle": "Philosopher",
     "responderAvatarUrl": null,
