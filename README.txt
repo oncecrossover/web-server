@@ -157,7 +157,7 @@ curl -i -X GET "http://127.0.0.1:8080/profiles?limit=20"
 
 Query based on the last seen, e.g.
 curl -i -G -X GET http://127.0.0.1:8080/profiles --data-urlencode "takeQuestion='APPROVED'" --data-urlencode "fullName='%zh%'" --data-urlencode "lastSeenUpdatedTime=1491148086000" -d "lastSeenId=812381424844800" -d "limit=20", equivalent to
-curl -i -X GET "http://127.0.0.1:8080/questions?takeQuestion='APPROVED'&fullName='%zh%'&lastSeenUpdatedTime=1491148086000&lastSeenId=812381424844800&limit=20"
+curl -i -X GET "http://127.0.0.1:8080/profiles?takeQuestion='APPROVED'&fullName='%zh%'&lastSeenUpdatedTime=1491148086000&lastSeenId=812381424844800&limit=20"
 Example response:
 [
   {
