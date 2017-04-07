@@ -187,7 +187,7 @@ public class UserDBUtil {
         "U.uid",
         lastSeenId);
 
-    final String orderBy = " ORDER BY u.updatedTime DESC, U.uid DESC";
+    final String orderBy = " ORDER BY U.updatedTime DESC, U.uid DESC";
     final String limitClause = String.format(" limit %d;", limit);
 
     return select + where + orderBy + limitClause;
