@@ -27,24 +27,7 @@ import com.google.common.collect.Lists;
 public class QuandaDBUtil {
   protected static final Logger LOG = LoggerFactory.getLogger(QuandaDBUtil.class);
 
-  /*
-   * query from a session that will open new transaction.
-   */
-  public static Quanda getQuanda(final long id) throws Exception {
-    final Session session = HibernateUtil.getSessionFactory()
-        .getCurrentSession();
-    return getQuanda(session, id, true);
-  }
-
-  /*
-   * query from a session that already opened transaction.
-   */
-  public static Quanda getQuanda(final Session session, final long id)
-      throws Exception {
-    return getQuanda(session, id, false);
-  }
-
-  static Quanda getQuanda(final Session session, final long id,
+  public static Quanda getQuanda(final Session session, final long id,
       final boolean newTransaction) throws Exception {
     Transaction txn = null;
     Quanda retInstance = null;

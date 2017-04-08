@@ -175,7 +175,8 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     /* get DB copy */
     Quanda quandaFromDB = null;
     try {
-      quandaFromDB = QuandaDBUtil.getQuanda(quandaFromClient.getId());
+      quandaFromDB = QuandaDBUtil.getQuanda(getSession(),
+          quandaFromClient.getId(), true);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
@@ -217,6 +218,9 @@ public class QaTransactionWebHandler extends AbastractWebHandler
         try {
           coins = CoinDBUtil.getCoinsIgnoreNull(transUid, session, false);
         } catch (Exception e) {
+          if (txn != null && txn.isActive()) {
+            txn.rollback();
+          }
           return newServerErrorResponse(e, LOG);
         }
 
@@ -327,8 +331,8 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     /* get answer rate */
     int answerRate = 0;
     try {
-      session = getSession();
-      answerRate = ProfileDBUtil.getRate(session, quanda.getResponder(), true);
+      answerRate = ProfileDBUtil.getRate(getSession(), quanda.getResponder(),
+          true);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
@@ -344,6 +348,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
       /* insert quanda */
 
       try {
+        session = getSession();
         txn = session.beginTransaction();
 
         /* insert quanda */
