@@ -225,7 +225,7 @@ class PasswordResetViewController: UIViewController{
         let user = users[0] as! [String: AnyObject]
         let URI = self.generics.HTTPHOST + "temppwds"
         self.uid = user["uid"] as? Int
-        let jsonData = ["uid" : self.email.text!]
+        let jsonData = ["uname" : self.email.text!]
         self.generics.createObject(URI, jsonData: jsonData as [String : AnyObject]) { result in
           if (result.isEmpty) {
             DispatchQueue.main.async {
