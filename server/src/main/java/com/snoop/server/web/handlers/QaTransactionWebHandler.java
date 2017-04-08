@@ -426,19 +426,15 @@ public class QaTransactionWebHandler extends AbastractWebHandler
   }
 
   private void sendNotificationToResponder(final QaTransaction qaTransaction) {
-
-    /* Send notification to mobile device */
-    final Long askerId = qaTransaction.getquanda().getAsker();
-    final Long responderId = qaTransaction.getquanda().getResponder();
-    Profile responderProfile = ProfileDBUtil
-        .getProfileForNotification(getSession(), responderId, true);
-    Profile askerProfile = ProfileDBUtil.getProfileForNotification(getSession(),
-        askerId, true);
+    final Profile responderProfile = ProfileDBUtil.getProfileForNotification(
+        getSession(), qaTransaction.getquanda().getResponder(), true);
+    final Profile askerProfile = ProfileDBUtil.getProfileForNotification(
+        getSession(), qaTransaction.getquanda().getAsker(), true);
     if (responderProfile != null
         && !StringUtils.isEmpty(responderProfile.getDeviceToken())
         && askerProfile != null) {
-      String title = "New Question!";
-      String message = askerProfile.getFullName()
+      final String title = "New Question!";
+      final String message = askerProfile.getFullName()
           + " just asked you a question.";
       NotificationUtil.sendNotification(title, message,
           responderProfile.getDeviceToken());
