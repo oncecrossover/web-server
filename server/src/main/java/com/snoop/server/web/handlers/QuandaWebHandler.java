@@ -226,7 +226,7 @@ public class QuandaWebHandler extends AbastractWebHandler
       txn.commit();
 
       /* Send notification to mobile device */
-      sendNotificationToAsker(session, fromJson, fromDB);
+      sendNotificationToAsker(fromJson, fromDB);
 
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {
@@ -239,16 +239,15 @@ public class QuandaWebHandler extends AbastractWebHandler
   }
 
   private void sendNotificationToAsker(
-      final Session session,
       final Quanda fromJson,
       final Quanda fromDB) {
     final Long askerId = fromDB.getAsker();
     final Long responderId = fromDB.getResponder();
     if (isAnsweringQuestion(fromJson, fromDB)) {
-      Profile askerProfile = ProfileDBUtil.getProfileForNotification(session,
-          askerId, true);
+      Profile askerProfile = ProfileDBUtil
+          .getProfileForNotification(getSession(), askerId, true);
       Profile responderProfile = ProfileDBUtil
-          .getProfileForNotification(session, responderId, true);
+          .getProfileForNotification(getSession(), responderId, true);
       if (askerProfile != null
           && !StringUtils.isEmpty(askerProfile.getDeviceToken())
           && responderProfile != null) {

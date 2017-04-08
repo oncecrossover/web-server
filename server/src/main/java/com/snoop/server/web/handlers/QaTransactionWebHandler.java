@@ -231,7 +231,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
         }
 
         /* send payment confirmation to snooper */
-        sendPaymentConfirmation(session, qaTransaction, SNOOP_RATE);
+        sendPaymentConfirmation(qaTransaction, SNOOP_RATE);
 
         appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
@@ -352,7 +352,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
         txn.commit();
 
         /* send notification */
-        sendNotificationToResponder(session, qaTransaction);
+        sendNotificationToResponder(qaTransaction);
 
         appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
@@ -392,10 +392,10 @@ public class QaTransactionWebHandler extends AbastractWebHandler
         }
 
         /* send payment confirmation to asker */
-        sendPaymentConfirmation(session, qaTransaction, answerRate);
+        sendPaymentConfirmation(qaTransaction, answerRate);
 
         /* send notification */
-        sendNotificationToResponder(session, qaTransaction);
+        sendNotificationToResponder(qaTransaction);
 
         appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
@@ -409,11 +409,10 @@ public class QaTransactionWebHandler extends AbastractWebHandler
   }
 
   private void sendPaymentConfirmation(
-      final Session session,
       final QaTransaction qaTransaction,
       final double amount) {
 
-    final String email = UserDBUtil.getEmailByUid(session,
+    final String email = UserDBUtil.getEmailByUid(getSession(),
         qaTransaction.getUid(), true);
     EmailUtil.sendPaymentConfirmation(
       email,
@@ -421,16 +420,14 @@ public class QaTransactionWebHandler extends AbastractWebHandler
       amount);
   }
 
-  private void sendNotificationToResponder(
-      final Session session,
-      final QaTransaction qaTransaction) {
+  private void sendNotificationToResponder(final QaTransaction qaTransaction) {
 
     /* Send notification to mobile device */
     final Long askerId = qaTransaction.getquanda().getAsker();
     final Long responderId = qaTransaction.getquanda().getResponder();
-    Profile responderProfile = ProfileDBUtil.getProfileForNotification(session,
-        responderId, true);
-    Profile askerProfile = ProfileDBUtil.getProfileForNotification(session,
+    Profile responderProfile = ProfileDBUtil
+        .getProfileForNotification(getSession(), responderId, true);
+    Profile askerProfile = ProfileDBUtil.getProfileForNotification(getSession(),
         askerId, true);
     if (responderProfile != null
         && !StringUtils.isEmpty(responderProfile.getDeviceToken())
