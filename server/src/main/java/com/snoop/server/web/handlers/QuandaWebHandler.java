@@ -14,6 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.io.ByteArrayDataOutput;
 import com.snoop.server.db.model.Journal;
+import com.snoop.server.db.model.Profile;
 import com.snoop.server.db.model.QaTransaction;
 import com.snoop.server.db.model.Quanda;
 import com.snoop.server.db.util.JournalUtil;
@@ -209,9 +210,6 @@ public class QuandaWebHandler extends AbastractWebHandler
       session = getSession();
       txn = session.beginTransaction();
 
-      final Long asker = fromDB.getAsker();
-      final Long responder = fromDB.getResponder();
-
       /* process journals and capture charge */
       processJournals4Answer(session, fromJson, fromDB);
 
@@ -224,17 +222,26 @@ public class QuandaWebHandler extends AbastractWebHandler
       /* update */
       UpdateStatusAndActive(session, fromJson, fromDB);
 
-      /* Get token device to send to question asker */
-      String deviceToken = ProfileDBUtil.getDeviceToken(session, asker);
-
       /* commit all transactions */
       txn.commit();
 
       /* Send notification to mobile device */
-      if (deviceToken != null && !deviceToken.isEmpty()) {
-        String message = responder + " just answered your question";
-        String title = "New Answer!";
-        NotificationUtil.sendNotification(message, title, deviceToken);
+      final Long askerId = fromDB.getAsker();
+      final Long responderId = fromDB.getResponder();
+      if (isAnsweringQuestion(fromJson, fromDB)) {
+        Profile askerProfile = ProfileDBUtil.getProfileForNotification(session,
+            askerId, true);
+        Profile responderProfile = ProfileDBUtil
+            .getProfileForNotification(session, responderId, true);
+        if (askerProfile != null
+            && !StringUtils.isEmpty(askerProfile.getDeviceToken())
+            && responderProfile != null) {
+          String title = "New Answer!";
+          String message = responderProfile.getFullName()
+              + " just answered your question.";
+          NotificationUtil.sendNotification(title, message,
+              askerProfile.getDeviceToken());
+        }
       }
 
       return newResponse(HttpResponseStatus.NO_CONTENT);
@@ -247,21 +254,31 @@ public class QuandaWebHandler extends AbastractWebHandler
     }
   }
 
+  private boolean isAnsweringQuestion(final Quanda fromJson,
+      final Quanda fromDB) {
+    return Quanda.QnaStatus.ANSWERED.toString().equals(fromJson.getStatus())
+        && Quanda.QnaStatus.PENDING.toString().equals(fromDB.getStatus());
+  }
+
+  private boolean isDeactivatingQuestion(final Quanda fromJson,
+      final Quanda fromDB) {
+    return Quanda.LiveStatus.FALSE.value().equals(fromJson.getActive())
+        && Quanda.LiveStatus.TRUE.value().equals(fromDB.getActive());
+  }
+
   private void UpdateStatusAndActive(
       final Session session,
       final Quanda fromJson,
       final Quanda fromDB) {
 
     boolean needUpdate = false;
-    if (Quanda.QnaStatus.ANSWERED.toString().equals(fromJson.getStatus()) &&
-        Quanda.QnaStatus.PENDING.toString().equals(fromDB.getStatus())) {
+    if (isAnsweringQuestion(fromJson, fromDB)) {
       /* answer it */
       fromDB.setStatus(Quanda.QnaStatus.ANSWERED.toString());
       needUpdate = true;
     }
 
-    if (Quanda.LiveStatus.FALSE.value().equals(fromJson.getActive()) &&
-        Quanda.LiveStatus.TRUE.value().equals(fromDB.getActive())) {
+    if (isDeactivatingQuestion(fromJson, fromDB)) {
       /* deactivate it */
       fromDB.setActive(Quanda.LiveStatus.FALSE.toString());
       needUpdate = true;

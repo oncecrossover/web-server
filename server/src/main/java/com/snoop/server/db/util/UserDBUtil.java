@@ -8,12 +8,15 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.IntegerType;
 import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 import org.hibernate.type.TimestampType;
+import org.hibernate.type.Type;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.snoop.server.conf.Configuration;
 import com.snoop.server.db.model.User;
 
@@ -35,7 +38,7 @@ public class UserDBUtil {
     final String select = "SELECT U.uid, U.uname, U.primaryEmail, U.createdTime, U.updatedTime"
         + " FROM User AS U WHERE U.uid = %d";
     final String sql = String.format(select, uid);
-    return getUserByQuery(session, getQuery(session, sql), newTransaction);
+    return getUserByQuery(session, sql, getScalars(), newTransaction);
   }
 
   public static User getUserByUname(
@@ -46,22 +49,18 @@ public class UserDBUtil {
     final String select = "SELECT U.uid, U.uname, U.primaryEmail, U.createdTime, U.updatedTime"
         + " FROM User AS U WHERE U.uname = '%s'";
     final String sql = String.format(select, uname);
-    return getUserByQuery(session, getQuery(session, sql), newTransaction);
+
+    return getUserByQuery(session, sql, getScalars(), newTransaction);
   }
 
-  private static SQLQuery getQuery(
-      final Session session,
-      final String sql) {
-    /* build query */
-    final SQLQuery query = session.createSQLQuery(sql);
-
-    /* add column mapping */
-    query.addScalar("uid", new LongType())
-         .addScalar("uname", new StringType())
-         .addScalar("primaryEmail", new StringType())
-         .addScalar("createdTime", new TimestampType())
-         .addScalar("updatedTime", new TimestampType());
-    return query;
+  private static Map<String, Type> getScalars() {
+    final Map<String, Type> scalars = Maps.newHashMap();
+    scalars.put("uid", new LongType());
+    scalars.put("uname", new StringType());
+    scalars.put("primaryEmail", new StringType());
+    scalars.put("createdTime", new TimestampType());
+    scalars.put("updatedTime", new TimestampType());
+    return scalars;
   }
 
   /**
@@ -70,10 +69,12 @@ public class UserDBUtil {
    */
   private static User getUserByQuery(
       final Session session,
-      final SQLQuery query,
+      final String sql,
+      final Map<String, Type> scalars,
       final boolean newTransaction) {
 
-    final List<User> list = getUsersByQuery(session, query, newTransaction);
+    final List<User> list = getUsersByQuery(session, sql, scalars,
+        newTransaction);
     return list.size() == 1 ? list.get(0) : null;
   }
 
@@ -83,7 +84,8 @@ public class UserDBUtil {
    */
   private static List<User> getUsersByQuery(
       final Session session,
-      final SQLQuery query,
+      final String sql,
+      final Map<String, Type> scalars,
       final boolean newTransaction) {
 
     Transaction txn = null;
@@ -93,6 +95,15 @@ public class UserDBUtil {
         txn = session.beginTransaction();
       }
 
+      /* build query */
+      final SQLQuery query = session.createSQLQuery(sql);
+
+      /* add column mapping */
+      for (Map.Entry<String, Type> entry : scalars.entrySet()) {
+        query.addScalar(entry.getKey(), entry.getValue());
+      }
+
+      /* execute query */
       query.setResultTransformer(Transformers.aliasToBean(User.class));
       list = query.list();
 
@@ -119,14 +130,11 @@ public class UserDBUtil {
     final String select = "SELECT U.uid, U.pwd FROM User AS U WHERE U.uname = '%s'";
     final String sql = String.format(select, uname);
 
-    /* build query */
-    final SQLQuery query = session.createSQLQuery(sql);
+    final Map<String, Type> scalars = Maps.newHashMap();
+    scalars.put("uid", new LongType());
+    scalars.put("pwd", new StringType());
 
-    /* add column mapping */
-    query.addScalar("uid", new LongType())
-         .addScalar("pwd", new StringType());
-
-    return getUserByQuery(session, query, newTransaction);
+    return getUserByQuery(session, sql, scalars, newTransaction);
   }
 
   public static List<User> getUsers(
@@ -135,7 +143,7 @@ public class UserDBUtil {
       final boolean newTransaction) {
 
     final String sql = buildSql4AllUsers(params);
-    return getUsersByQuery(session, getQuery(session, sql), newTransaction);
+    return getUsersByQuery(session, sql, getScalars(), newTransaction);
   }
 
   private static String buildSql4AllUsers(

@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.io.ByteArrayDataOutput;
 import com.snoop.server.db.model.CoinEntry;
 import com.snoop.server.db.model.Journal;
+import com.snoop.server.db.model.Profile;
 import com.snoop.server.db.model.QaTransaction;
 import com.snoop.server.db.model.Quanda;
 import com.snoop.server.db.model.Snoop;
@@ -162,7 +163,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     Transaction txn = null;
     FullHttpResponse resp = null;
 
-    final Long transUserId = qaTransaction.getUid();
+    final Long transUid = qaTransaction.getUid();
 
     /* get client copy */
     final Quanda quandaFromClient = qaTransaction.getquanda();
@@ -184,7 +185,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     }
 
     /* QaTransaction user shouldn't be same as quanda asker or responder */
-    resp = verifyTransactionForSnooping(transUserId, quandaFromDB);
+    resp = verifyTransactionForSnooping(transUid, quandaFromDB);
     if (resp != null) {
       return resp;
     }
@@ -214,14 +215,10 @@ public class QaTransactionWebHandler extends AbastractWebHandler
         /* get asker coins */
         long coins = 0;
         try {
-          coins = CoinDBUtil.getCoinsIgnoreNull(transUserId, session, false);
+          coins = CoinDBUtil.getCoinsIgnoreNull(transUid, session, false);
         } catch (Exception e) {
           return newServerErrorResponse(e, LOG);
         }
-
-        /* get email address */
-        final String email = UserDBUtil.getEmailByUid(session,
-            qaTransaction.getUid(), false);
 
         /* insert journals and charge */
         if (toDollarsFromCoins(coins) >= SNOOP_RATE) {
@@ -233,6 +230,9 @@ public class QaTransactionWebHandler extends AbastractWebHandler
           return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
         }
 
+        /* get email address */
+        final String email = UserDBUtil.getEmailByUid(session,
+            qaTransaction.getUid(), true);
         /* send payment confirmation */
         EmailUtil.sendPaymentConfirmation(
             email,
@@ -299,12 +299,12 @@ public class QaTransactionWebHandler extends AbastractWebHandler
   }
 
   private FullHttpResponse verifyTransactionForSnooping(
-      final Long transUserId, final Quanda quanda) {
-    if (transUserId.equals(quanda.getAsker())
-        || transUserId.equals(quanda.getResponder())) {
+      final Long transUid, final Quanda quanda) {
+    if (transUid.equals(quanda.getAsker())
+        || transUid.equals(quanda.getResponder())) {
       appendln(String.format(
           "QaTransaction user ('%d') shouldn't be same as quanda asker ('%d') or responder ('%d')",
-          transUserId, quanda.getAsker(), quanda.getResponder()));
+          transUid, quanda.getAsker(), quanda.getResponder()));
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
@@ -318,7 +318,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     Session session = null;
     Transaction txn = null;
     FullHttpResponse resp = null;
-    final Long transUserId = qaTransaction.getUid();
+    final Long transUid = qaTransaction.getUid();
 
     /* get quanda */
     final Quanda quanda = qaTransaction.getquanda();
@@ -328,12 +328,13 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     }
 
     /* QaTransaction user must be same as quanda asker */
-    quanda.setAsker(transUserId);
+    quanda.setAsker(transUid);
 
     /* get answer rate */
     int answerRate = 0;
     try {
-      answerRate = ProfileDBUtil.getRate(quanda.getResponder());
+      session = getSession();
+      answerRate = ProfileDBUtil.getRate(session, quanda.getResponder(), true);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
@@ -349,7 +350,6 @@ public class QaTransactionWebHandler extends AbastractWebHandler
       /* insert quanda */
 
       try {
-        session = getSession();
         txn = session.beginTransaction();
 
         /* insert quanda */
@@ -378,14 +378,10 @@ public class QaTransactionWebHandler extends AbastractWebHandler
         /* get asker coins */
         long coins = 0;
         try {
-          coins = CoinDBUtil.getCoinsIgnoreNull(transUserId, session, false);
+          coins = CoinDBUtil.getCoinsIgnoreNull(transUid, session, false);
         } catch (Exception e) {
           return newServerErrorResponse(e, LOG);
         }
-
-        /* get email address */
-        final String email = UserDBUtil.getEmailByUid(session,
-            qaTransaction.getUid(), false);
 
         /* insert journals and CoinEntry */
         if (toDollarsFromCoins(coins) >= answerRate) {
@@ -397,6 +393,9 @@ public class QaTransactionWebHandler extends AbastractWebHandler
           return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
         }
 
+        /* get email address */
+        final String email = UserDBUtil.getEmailByUid(session,
+            qaTransaction.getUid(), true);
         /* send payment confirmation */
         EmailUtil.sendPaymentConfirmation(
           email,
@@ -404,11 +403,20 @@ public class QaTransactionWebHandler extends AbastractWebHandler
           answerRate);
 
         /* Send notification to mobile device */
-        String deviceToken = ProfileDBUtil.getDeviceToken(quanda.getResponder());
-        if (deviceToken != null && !deviceToken.isEmpty()) {
-          String message = transUserId + " just asked you a question";
-          String title = "New Request!";
-          NotificationUtil.sendNotification(message, title, deviceToken);
+        final Long askerId = qaTransaction.getquanda().getAsker();
+        final Long responderId = qaTransaction.getquanda().getResponder();
+        Profile responderProfile = ProfileDBUtil
+            .getProfileForNotification(session, responderId, true);
+        Profile askerProfile = ProfileDBUtil.getProfileForNotification(session,
+            askerId, true);
+        if (responderProfile != null
+            && !StringUtils.isEmpty(responderProfile.getDeviceToken())
+            && askerProfile != null) {
+          String title = "New Question!";
+          String message = askerProfile.getFullName()
+              + " just asked you a question.";
+          NotificationUtil.sendNotification(title, message,
+              responderProfile.getDeviceToken());
         }
 
         appendln(toIdJson("id", qaTransaction.getId()));

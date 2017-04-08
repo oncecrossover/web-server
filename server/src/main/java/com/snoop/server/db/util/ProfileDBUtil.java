@@ -18,101 +18,61 @@ import com.snoop.server.db.model.Profile;
 import com.snoop.server.exceptions.SnoopException;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
+import org.hibernate.type.Type;
 
 public class ProfileDBUtil {
 
-  public static String getDeviceToken(final Long uid) throws Exception {
-    final Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-    return getDeviceToken(session, uid, true);
+  public static Profile getProfileForNotification(final Session session,
+      final Long uid, final boolean newTransaction) {
+    final String select = "SELECT fullName, deviceToken from Profile WHERE uid = %d";
+    final String sql = String.format(select, uid);
+
+    final Map<String, Type> scalars = Maps.newHashMap();
+    scalars.put("fullName", new StringType());
+    scalars.put("deviceToken", new StringType());
+
+    return getProfileByQuery(session, sql, scalars, newTransaction);
   }
 
-  public static String getDeviceToken(final Session session, final Long uid)
-    throws Exception {
-    return getDeviceToken(session, uid, false);
-  }
-
-  static String getDeviceToken(final Session session, final Long uid, final boolean newTransaction)
-    throws Exception {
-    final String sql = String.format("SELECT deviceToken from Profile WHERE uid=%d", uid);
-
-    String result = null;
-    Transaction txn = null;
-    try {
-      if (newTransaction) {
-        txn = session.beginTransaction();
-      }
-      result = (String) session.createSQLQuery(sql).uniqueResult();
-      if (txn != null) {
-        txn.commit();
-      }
-    } catch (HibernateException e) {
-      if (txn != null && txn.isActive()) {
-        txn.rollback();
-      }
-      throw e;
-    } catch (Exception e) {
-      throw e;
-    }
-
-    return result;
-  }
-  /*
-   * query from a session that will open new transaction.
-   */
-  public static Integer getRate(final Long uid) throws Exception {
-    final Session session = HibernateUtil.getSessionFactory()
-        .getCurrentSession();
-    return getRate(session, uid, true);
-  }
-
-  /*
-   * query from a session that already opened transaction.
-   */
-  public static Integer getRate(final Session session, final Long uid)
-      throws Exception {
-    return getRate(session, uid, false);
-  }
-
-  static Integer getRate(final Session session, final Long uid,
+  public static Integer getRate(final Session session, final Long uid,
       final boolean newTransaction) throws Exception {
-    final String sql = String.format("SELECT rate FROM Profile WHERE uid=%d",
-        uid);
-    Integer result = null;
-    Transaction txn = null;
-    try {
-      if (newTransaction) {
-        txn = session.beginTransaction();
-      }
-      result = (Integer) session.createSQLQuery(sql).uniqueResult();
-      if (txn != null) {
-        txn.commit();
-      }
-    } catch (HibernateException e) {
-      if (txn != null && txn.isActive()) {
-        txn.rollback();
-      }
-      throw e;
-    } catch (Exception e) {
-      throw e;
-    }
 
-    if (result == null) {
+    final String select = "SELECT rate FROM Profile WHERE uid = %d";
+    final String sql = String.format(select, uid);
+
+    final Map<String, Type> scalars = Maps.newHashMap();
+    scalars.put("rate", new IntegerType());
+
+    final Profile profile = getProfileByQuery(session, sql, scalars,
+        newTransaction);
+    if (profile == null) {
       throw new SnoopException(
           String.format("Nonexistent profile for user ('%d')", uid));
     }
-
-    return result;
+    return profile.getRate();
   }
 
-  public static List<Profile> getProfiles(
+  private static Profile getProfileByQuery(
       final Session session,
-      final Map<String, List<String>> params,
-      final boolean newTransaction)  throws Exception {
+      final String sql,
+      final Map<String, Type> scalars,
+      final boolean newTransaction) {
 
-    final String sql = buildSql4Profiles(params);
+    final List<Profile> list = getProfilesByQuery(session, sql, scalars,
+        newTransaction);
+    return list.size() == 1 ? list.get(0) : null;
+  }
+
+  private static List<Profile> getProfilesByQuery(
+      final Session session,
+      final String sql,
+      final Map<String, Type> scalars,
+      final boolean newTransaction) {
+
     Transaction txn = null;
     List<Profile> list = null;
-
     try {
       if (newTransaction) {
         txn = session.beginTransaction();
@@ -120,16 +80,14 @@ public class ProfileDBUtil {
 
       /* build query */
       final SQLQuery query = session.createSQLQuery(sql);
-      query.setResultTransformer(Transformers.aliasToBean(Profile.class));
+
       /* add column mapping */
-      query.addScalar("uid", new LongType())
-           .addScalar("rate", new IntegerType())
-           .addScalar("avatarUrl", new StringType())
-           .addScalar("fullName", new StringType())
-           .addScalar("title", new StringType())
-           .addScalar("aboutMe", new StringType())
-           .addScalar("updatedTime", new TimestampType())
-           .addScalar("takeQuestion", new StringType());
+      for (Map.Entry<String, Type> entry : scalars.entrySet()) {
+        query.addScalar(entry.getKey(), entry.getValue());
+      }
+
+      /* execute query */
+      query.setResultTransformer(Transformers.aliasToBean(Profile.class));
       list = query.list();
 
       if (txn != null) {
@@ -143,7 +101,28 @@ public class ProfileDBUtil {
     } catch (Exception e) {
       throw e;
     }
+
     return list;
+  }
+
+  public static List<Profile> getProfiles(
+      final Session session,
+      final Map<String, List<String>> params,
+      final boolean newTransaction)  throws Exception {
+
+    final String sql = buildSql4Profiles(params);
+
+    final Map<String, Type> scalars = Maps.newHashMap();
+    scalars.put("uid", new LongType());
+    scalars.put("rate", new IntegerType());
+    scalars.put("avatarUrl", new StringType());
+    scalars.put("fullName", new StringType());
+    scalars.put("title", new StringType());
+    scalars.put("aboutMe", new StringType());
+    scalars.put("updatedTime", new TimestampType());
+    scalars.put("takeQuestion", new StringType());
+
+    return getProfilesByQuery(session, sql, scalars, newTransaction);
   }
 
   private static String buildSql4Profiles(

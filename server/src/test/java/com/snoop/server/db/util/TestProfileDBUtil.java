@@ -6,15 +6,20 @@ import java.util.Random;
 
 import org.hibernate.Session;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.snoop.server.db.model.Profile;
 import com.snoop.server.db.model.TestUser;
 import com.snoop.server.db.model.User;
 import com.snoop.server.db.util.HibernateTestUtil;
 import com.snoop.server.db.util.ProfileDBUtil;
 import com.snoop.server.exceptions.SnoopException;
 
-public class TestProfileUtil {
+public class TestProfileDBUtil {
 
+  protected static final Logger LOG = LoggerFactory
+      .getLogger(TestProfileDBUtil.class);
   private Random r = new Random(System.currentTimeMillis());
 
   @Test(timeout = 60000)
@@ -27,6 +32,7 @@ public class TestProfileUtil {
       result = ProfileDBUtil.getRate(session, r.nextLong(), true);
       fail("There shouldn't be any record.");
     } catch (Exception e) {
+      LOG.warn("expected SnoopException here.", e);
       assertTrue(e instanceof SnoopException);
     }
   }
@@ -41,7 +47,26 @@ public class TestProfileUtil {
     Integer result = null;
     try {
       result = ProfileDBUtil.getRate(session, user.getUid(), true);
-      assertEquals(result, user.getProfile().getRate());
+      assertEquals(user.getProfile().getRate(), result);
+    } catch (Exception e) {
+      fail("There should be any record.");
+    }
+  }
+
+  @Test(timeout = 60000)
+  public void testGetProfileForNotification() {
+    final User user = TestUser.insertRandomUser();
+
+    final Session session = HibernateTestUtil.getSessionFactory()
+        .getCurrentSession();
+
+    Profile result = null;
+    try {
+      result = ProfileDBUtil.getProfileForNotification(session, user.getUid(),
+          true);
+      assertNotNull(result);
+      assertEquals(user.getProfile().getFullName(), result.getFullName());
+      assertEquals(user.getProfile().getDeviceToken(), result.getDeviceToken());
     } catch (Exception e) {
       fail("There should be any record.");
     }

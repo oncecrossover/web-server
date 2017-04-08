@@ -7,7 +7,8 @@ public class NotificationUtil {
   public static String password = "Snoop2017";
   public static String keyPath = "DevelopmentPushCertificate.p12";
 
-  public static void sendNotification(String message, String title, String deviceToken) {
+  public static void sendNotification(String title, String message,
+      String deviceToken) {
     ApnsService service = APNS.newService()
       .withCert(keyPath, password)
       .withSandboxDestination()
