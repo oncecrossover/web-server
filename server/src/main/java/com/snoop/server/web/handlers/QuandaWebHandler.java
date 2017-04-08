@@ -243,7 +243,7 @@ public class QuandaWebHandler extends AbastractWebHandler
       final Quanda fromDB) {
     final Long askerId = fromDB.getAsker();
     final Long responderId = fromDB.getResponder();
-    if (isAnsweringQuestion(fromJson, fromDB)) {
+    if (didAnswerQuestion(fromJson, fromDB)) {
       Profile askerProfile = ProfileDBUtil
           .getProfileForNotification(getSession(), askerId, true);
       Profile responderProfile = ProfileDBUtil
@@ -264,6 +264,12 @@ public class QuandaWebHandler extends AbastractWebHandler
       final Quanda fromDB) {
     return Quanda.QnaStatus.ANSWERED.toString().equals(fromJson.getStatus())
         && Quanda.QnaStatus.PENDING.toString().equals(fromDB.getStatus());
+  }
+
+  private boolean didAnswerQuestion(final Quanda fromJson,
+      final Quanda fromDB) {
+    return Quanda.QnaStatus.ANSWERED.toString().equals(fromJson.getStatus())
+        && Quanda.QnaStatus.ANSWERED.toString().equals(fromDB.getStatus());
   }
 
   private boolean isDeactivatingQuestion(final Quanda fromJson,
