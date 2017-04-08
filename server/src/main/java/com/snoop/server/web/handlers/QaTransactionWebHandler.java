@@ -230,14 +230,8 @@ public class QaTransactionWebHandler extends AbastractWebHandler
           return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
         }
 
-        /* get email address */
-        final String email = UserDBUtil.getEmailByUid(session,
-            qaTransaction.getUid(), true);
-        /* send payment confirmation */
-        EmailUtil.sendPaymentConfirmation(
-            email,
-            quandaFromDB.getQuestion(),
-            SNOOP_RATE);
+        /* send payment confirmation to snooper */
+        sendPaymentConfirmation(session, qaTransaction, SNOOP_RATE);
 
         appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
@@ -356,6 +350,10 @@ public class QaTransactionWebHandler extends AbastractWebHandler
         insertQuanda(session, quanda);
 
         txn.commit();
+
+        /* send notification */
+        sendNotificationToResponder(session, qaTransaction);
+
         appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
       } catch (Exception e) {
@@ -393,31 +391,11 @@ public class QaTransactionWebHandler extends AbastractWebHandler
           return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
         }
 
-        /* get email address */
-        final String email = UserDBUtil.getEmailByUid(session,
-            qaTransaction.getUid(), true);
-        /* send payment confirmation */
-        EmailUtil.sendPaymentConfirmation(
-          email,
-          qaTransaction.getquanda().getQuestion(),
-          answerRate);
+        /* send payment confirmation to asker */
+        sendPaymentConfirmation(session, qaTransaction, answerRate);
 
-        /* Send notification to mobile device */
-        final Long askerId = qaTransaction.getquanda().getAsker();
-        final Long responderId = qaTransaction.getquanda().getResponder();
-        Profile responderProfile = ProfileDBUtil
-            .getProfileForNotification(session, responderId, true);
-        Profile askerProfile = ProfileDBUtil.getProfileForNotification(session,
-            askerId, true);
-        if (responderProfile != null
-            && !StringUtils.isEmpty(responderProfile.getDeviceToken())
-            && askerProfile != null) {
-          String title = "New Question!";
-          String message = askerProfile.getFullName()
-              + " just asked you a question.";
-          NotificationUtil.sendNotification(title, message,
-              responderProfile.getDeviceToken());
-        }
+        /* send notification */
+        sendNotificationToResponder(session, qaTransaction);
 
         appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
@@ -427,6 +405,41 @@ public class QaTransactionWebHandler extends AbastractWebHandler
         }
         return newServerErrorResponse(e, LOG);
       }
+    }
+  }
+
+  private void sendPaymentConfirmation(
+      final Session session,
+      final QaTransaction qaTransaction,
+      final double amount) {
+
+    final String email = UserDBUtil.getEmailByUid(session,
+        qaTransaction.getUid(), true);
+    EmailUtil.sendPaymentConfirmation(
+      email,
+      qaTransaction.getquanda().getQuestion(),
+      amount);
+  }
+
+  private void sendNotificationToResponder(
+      final Session session,
+      final QaTransaction qaTransaction) {
+
+    /* Send notification to mobile device */
+    final Long askerId = qaTransaction.getquanda().getAsker();
+    final Long responderId = qaTransaction.getquanda().getResponder();
+    Profile responderProfile = ProfileDBUtil.getProfileForNotification(session,
+        responderId, true);
+    Profile askerProfile = ProfileDBUtil.getProfileForNotification(session,
+        askerId, true);
+    if (responderProfile != null
+        && !StringUtils.isEmpty(responderProfile.getDeviceToken())
+        && askerProfile != null) {
+      String title = "New Question!";
+      String message = askerProfile.getFullName()
+          + " just asked you a question.";
+      NotificationUtil.sendNotification(title, message,
+          responderProfile.getDeviceToken());
     }
   }
 

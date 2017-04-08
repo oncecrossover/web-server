@@ -226,23 +226,7 @@ public class QuandaWebHandler extends AbastractWebHandler
       txn.commit();
 
       /* Send notification to mobile device */
-      final Long askerId = fromDB.getAsker();
-      final Long responderId = fromDB.getResponder();
-      if (isAnsweringQuestion(fromJson, fromDB)) {
-        Profile askerProfile = ProfileDBUtil.getProfileForNotification(session,
-            askerId, true);
-        Profile responderProfile = ProfileDBUtil
-            .getProfileForNotification(session, responderId, true);
-        if (askerProfile != null
-            && !StringUtils.isEmpty(askerProfile.getDeviceToken())
-            && responderProfile != null) {
-          String title = "New Answer!";
-          String message = responderProfile.getFullName()
-              + " just answered your question.";
-          NotificationUtil.sendNotification(title, message,
-              askerProfile.getDeviceToken());
-        }
-      }
+      sendNotificationToAsker(session, fromJson, fromDB);
 
       return newResponse(HttpResponseStatus.NO_CONTENT);
     } catch (Exception e) {
@@ -251,6 +235,29 @@ public class QuandaWebHandler extends AbastractWebHandler
       }
       /* TODO: delete answer media from object store */
       return newServerErrorResponse(e, LOG);
+    }
+  }
+
+  private void sendNotificationToAsker(
+      final Session session,
+      final Quanda fromJson,
+      final Quanda fromDB) {
+    final Long askerId = fromDB.getAsker();
+    final Long responderId = fromDB.getResponder();
+    if (isAnsweringQuestion(fromJson, fromDB)) {
+      Profile askerProfile = ProfileDBUtil.getProfileForNotification(session,
+          askerId, true);
+      Profile responderProfile = ProfileDBUtil
+          .getProfileForNotification(session, responderId, true);
+      if (askerProfile != null
+          && !StringUtils.isEmpty(askerProfile.getDeviceToken())
+          && responderProfile != null) {
+        String title = "New Answer!";
+        String message = responderProfile.getFullName()
+            + " just answered your question.";
+        NotificationUtil.sendNotification(title, message,
+            askerProfile.getDeviceToken());
+      }
     }
   }
 
