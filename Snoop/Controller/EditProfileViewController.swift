@@ -356,7 +356,7 @@ extension EditProfileViewController {
   }
 
   func uploadButtonTapped() {
-    if (PHPhotoLibrary.authorizationStatus() != .authorized) {
+    if (PHPhotoLibrary.authorizationStatus() == .denied) {
       if let window = UIApplication.shared.keyWindow {
         window.addSubview(permissionView)
         window.addConstraintsWithFormat("H:|[v0]|", views: permissionView)

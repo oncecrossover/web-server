@@ -151,7 +151,7 @@ extension AnswerViewController {
 
   func tappedOnImage() {
     // Check if user granted camera access
-    if (AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) !=  AVAuthorizationStatus.authorized) {
+    if (AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) ==  AVAuthorizationStatus.denied) {
       if let window = UIApplication.shared.keyWindow {
         window.addSubview(permissionView)
         window.addConstraintsWithFormat("H:|[v0]|", views: permissionView)
@@ -165,7 +165,7 @@ extension AnswerViewController {
     }
 
     // Check if user granted microphone access
-    if (AVAudioSession.sharedInstance().recordPermission() != AVAudioSessionRecordPermission.granted) {
+    if (AVAudioSession.sharedInstance().recordPermission() == AVAudioSessionRecordPermission.denied) {
       if let window = UIApplication.shared.keyWindow {
         window.addSubview(permissionView)
         window.addConstraintsWithFormat("H:|[v0]|", views: permissionView)
