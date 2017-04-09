@@ -16,6 +16,7 @@ class AnswerViewController: UIViewController {
   @IBOutlet weak var answerTableView: UITableView!
 
   var currentImagePicker: UIImagePickerController?
+  var videoLayer: AVPlayerLayer?
 
   var fileName = "videoFile.m4a"
 
@@ -31,6 +32,14 @@ class AnswerViewController: UIViewController {
     view.setInstruction("1. Open Iphone settings \n2. Tap privacy \n3. Tap camera \n4. Set Snoop to ON")
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
+  }()
+
+  lazy var closeButton: UIButton = {
+    let button = UIButton()
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.setImage(UIImage(named: "close"), for: UIControlState())
+    button.addTarget(self, action: #selector(stopPlaying), for: .touchUpInside)
+    return button
   }()
 
   let footerCellId = "footerCell"
@@ -286,14 +295,22 @@ extension AnswerViewController: CustomCameraViewDelegate {
         //Play the video
         let player = AVPlayer(playerItem: playerItem)
         player.actionAtItemEnd = AVPlayerActionAtItemEnd.none
-        let videoLayer = AVPlayerLayer(player: player)
-        videoLayer.frame = self.view.bounds;
-        videoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-        currentImagePicker?.cameraOverlayView?.layer.addSublayer(videoLayer)
+        videoLayer = AVPlayerLayer(player: player)
+        videoLayer?.frame = self.view.bounds;
+        videoLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+        currentImagePicker?.cameraOverlayView?.layer.addSublayer(videoLayer!)
+
+        // Add close button
+        currentImagePicker?.cameraOverlayView?.addSubview(closeButton)
+        closeButton.topAnchor.constraint(equalTo: (currentImagePicker?.cameraOverlayView?.topAnchor)!, constant: 20).isActive = true
+        closeButton.centerXAnchor.constraint(equalTo: (currentImagePicker?.cameraOverlayView?.centerXAnchor)!).isActive = true
+        closeButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        closeButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         player.play()
         NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { notification in
           // block base observer has retain cycle issue, remember to unregister observer in deinit
-          videoLayer.removeFromSuperlayer()
+          self.videoLayer?.removeFromSuperlayer()
+          self.closeButton.removeFromSuperview()
         }
       }
     }
@@ -307,5 +324,11 @@ extension AnswerViewController: CustomCameraViewDelegate {
   func stopRecording(_ overlayView: CustomCameraView) {
     currentImagePicker?.stopVideoCapture()
     overlayView.reset()
+  }
+
+  func stopPlaying() {
+    self.videoLayer?.player?.pause()
+    self.closeButton.removeFromSuperview()
+    self.videoLayer?.removeFromSuperlayer()
   }
 }
