@@ -19,7 +19,7 @@ class User
   }
 
   func createUser(_ userEmail: String, userPassword: String, fullName: String!, completion: @escaping (NSDictionary) -> ()) {
-    let jsonData: [String : AnyObject] = ["uid": userEmail as AnyObject, "pwd": userPassword as AnyObject, "fullName" : fullName as AnyObject]
+    let jsonData: [String : AnyObject] = ["uname": userEmail as AnyObject, "primaryEmail": userEmail as AnyObject, "pwd": userPassword as AnyObject, "fullName" : fullName as AnyObject]
     let myUrl = URL(string: USERURI);
     let request = NSMutableURLRequest(url:myUrl!);
     request.httpMethod = "POST";
