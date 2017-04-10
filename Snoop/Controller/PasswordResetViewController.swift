@@ -14,23 +14,23 @@ class PasswordResetViewController: UIViewController{
   var userModule = User()
   var uid:Int?
 
-  lazy var backButton: UIButton = {
-    let button = UIButton()
-    button.setTitle("<", for: UIControlState())
-    button.setTitleColor(UIColor.black, for: UIControlState())
-    button.backgroundColor = UIColor.white
-    button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-    return button
-  }()
-
-  let heading: UILabel = {
-    let title = UILabel()
-    title.text = "Forgot Password"
-    title.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 0.8)
-    title.textAlignment = .center
-    title.font = UIFont.systemFont(ofSize: 18)
-    return title
-  }()
+//  lazy var backButton: UIButton = {
+//    let button = UIButton()
+//    button.setTitle("<", for: UIControlState())
+//    button.setTitleColor(UIColor.black, for: UIControlState())
+//    button.backgroundColor = UIColor.white
+//    button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+//    return button
+//  }()
+//
+//  let heading: UILabel = {
+//    let title = UILabel()
+//    title.text = "Forgot Password"
+//    title.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 0.8)
+//    title.textAlignment = .center
+//    title.font = UIFont.systemFont(ofSize: 18)
+//    return title
+//  }()
 
   let note: UILabel = {
     let note = UILabel()
@@ -101,20 +101,21 @@ class PasswordResetViewController: UIViewController{
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = UIColor.white
-    view.addSubview(backButton)
-    view.addSubview(heading)
+    self.navigationItem.title = "Forgot Password"
+//    view.addSubview(backButton)
+//    view.addSubview(heading)
     view.addSubview(note)
     view.addSubview(email)
     view.addSubview(sendButton)
 
     // Setup constraints
-    view.addConstraintsWithFormat("V:|-27-[v0(39)]-38-[v1(51)]-52-[v2(45)]-19-[v3(45)]", views: heading, note, email, sendButton)
-    view.addConstraintsWithFormat("H:|-17-[v0(18)]", views: backButton)
+    view.addConstraintsWithFormat("V:|-104-[v0(51)]-52-[v1(45)]-19-[v2(45)]", views: note, email, sendButton)
+//    view.addConstraintsWithFormat("H:|-17-[v0(18)]", views: backButton)
 
-    heading.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    heading.widthAnchor.constraint(equalToConstant: 226).isActive = true
-    backButton.centerYAnchor.constraint(equalTo: heading.centerYAnchor).isActive = true
-    backButton.widthAnchor.constraint(equalToConstant: 18).isActive = true
+//    heading.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//    heading.widthAnchor.constraint(equalToConstant: 226).isActive = true
+//    backButton.centerYAnchor.constraint(equalTo: heading.centerYAnchor).isActive = true
+//    backButton.widthAnchor.constraint(equalToConstant: 18).isActive = true
     note.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     note.widthAnchor.constraint(equalToConstant: 270).isActive = true
     email.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -124,8 +125,18 @@ class PasswordResetViewController: UIViewController{
     sendButton.isEnabled = false
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    self.navigationController?.setNavigationBarHidden(false, animated: false)
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    self.navigationController?.setNavigationBarHidden(true, animated: false)
+  }
+
   func showPasswordResetView() {
-    heading.isHidden = true
+//    heading.isHidden = true
     note.isHidden = true
     email.isHidden = true
     sendButton.isHidden = true
