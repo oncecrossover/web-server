@@ -224,6 +224,7 @@ extension AskViewController {
       let uid = UserDefaults.standard.integer(forKey: "uid")
       let quandaData = ["question" : self.questionView.text!, "responder" : self.profileInfo.uid] as [String : Any]
       let jsonData:[String: AnyObject] = ["uid": uid as AnyObject, "type" : "ASKED" as AnyObject, "quanda" : quandaData as AnyObject]
+      self.scrollView.isUserInteractionEnabled = false
       self.generics.createObject(self.generics.HTTPHOST + "qatransactions", jsonData: jsonData) { result in
         if (!result.isEmpty) {
           DispatchQueue.main.async {
@@ -237,6 +238,7 @@ extension AskViewController {
             self.displayConfirmation("Question Sent!")
           }
         }
+        self.scrollView.isUserInteractionEnabled = true
       }
     }
   }
