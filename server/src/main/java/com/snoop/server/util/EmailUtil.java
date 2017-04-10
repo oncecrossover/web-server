@@ -1,6 +1,5 @@
 package com.snoop.server.util;
 
-import java.io.UnsupportedEncodingException;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -16,8 +15,9 @@ public class EmailUtil {
   final static int LEN_PWD = 6;
   final static String CHARACTERS =
       "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+";
-  private final static String USER_NAME = "snoopmedev@gmail.com";
-  private final static String PASS_WORD = "Sn@@pmd@1";
+  private final static String USER_NAME = "notification@snoopqa.com";
+  private final static String PASS_WORD = "Sn@@pntf*#@$";
+  private final static String PERSONAL = "Snoop Tech Inc";
 
   public static String getRandomPwd() {
     return RandomStringUtils.random(LEN_PWD, CHARACTERS);
@@ -52,10 +52,10 @@ public class EmailUtil {
 
     try {
       final Message message = new MimeMessage(getEmailSession());
-      message.setFrom(new InternetAddress(USER_NAME, "Snoop Inc"));
+      message.setFrom(new InternetAddress(USER_NAME, PERSONAL));
       message.setRecipients(Message.RecipientType.TO,
           InternetAddress.parse(email));
-      message.setSubject("Payment confirmation from Snoop Inc");
+      message.setSubject("Payment confirmation from " + PERSONAL);
 
       /* set email body */
       final StrBuilder sb = new StrBuilder();
@@ -98,7 +98,7 @@ public class EmailUtil {
 
     try {
       final Message message = new MimeMessage(getEmailSession());
-      message.setFrom(new InternetAddress(USER_NAME, "Snoop Inc"));
+      message.setFrom(new InternetAddress(USER_NAME, PERSONAL));
       message.setRecipients(Message.RecipientType.TO,
           InternetAddress.parse(email));
       message.setSubject("Temporary password for your Snoop account");
