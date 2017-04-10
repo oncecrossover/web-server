@@ -130,6 +130,7 @@ extension ActivityViewController: SegmentedControlDelegate {
 
   func loadIndexWithRefresh(_ index: Int) {
     activityTableView.isUserInteractionEnabled = false
+    controlBar.isUserInteractionEnabled = false
     let uid = UserDefaults.standard.integer(forKey: "uid")
     if (index == 0) {
       tmpQuestions = []
@@ -139,7 +140,7 @@ extension ActivityViewController: SegmentedControlDelegate {
       tmpAnswers = []
       loadDataWithFilter("responder=\(uid)")
     }
-    else if (index == 2) {
+    else {
       tmpSnoops = []
       loadDataWithFilter("uid=\(uid)")
     }
@@ -244,6 +245,7 @@ extension ActivityViewController {
         indicator.stopAnimating()
         indicator.hidesWhenStopped = true
         self.activityTableView.isUserInteractionEnabled = true
+        self.controlBar.isUserInteractionEnabled = true
         self.refreshControl.endRefreshing()
         self.tabBarController?.tabBar.items?[2].badgeValue = nil
       }
