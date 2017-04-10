@@ -8,30 +8,6 @@
 
 import UIKit
 import Photos
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 class EditProfileViewController: UIViewController {
 
@@ -291,7 +267,7 @@ extension EditProfileViewController {
     }
 
     let fullName = profileView.firstName.value.text! + " " + profileView.lastName.value.text!
-    userModule.updateProfile(uid, name: fullName, title: profileView.title.value.text!, about: profileView.about.value.text!,
+    userModule.updateProfile(uid, name: fullName, title: profileView.title.value.text!, about: profileView.about.value.textColor == labelColor ? "" :  profileView.about.value.text!,
       rate: newRate){ resultString in
       var message = "Your profile is successfully updated!"
       if (!resultString.isEmpty) {
@@ -389,18 +365,21 @@ extension EditProfileViewController: UIImagePickerControllerDelegate {
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Uploading Your Photo...")
     var compressionRatio = 1.0
     let photoSize = UIImageJPEGRepresentation(profileView.profilePhoto.image!, 1)
-    if (photoSize?.count > 1000000) {
-      compressionRatio = 0.005
+    if let size = photoSize?.count {
+      if (size > 1000000) {
+        compressionRatio = 0.005
+      }
+      else if (size > 500000) {
+        compressionRatio = 0.01
+      }
+      else if (size > 100000){
+        compressionRatio = 0.05
+      }
+      else if (size > 10000) {
+        compressionRatio = 0.2
+      }
     }
-    else if (photoSize?.count > 500000) {
-      compressionRatio = 0.01
-    }
-    else if (photoSize?.count > 100000){
-      compressionRatio = 0.05
-    }
-    else if (photoSize?.count > 10000) {
-      compressionRatio = 0.2
-    }
+
     let photoData = UIImageJPEGRepresentation(profileView.profilePhoto.image!, CGFloat(compressionRatio))
     let uid = UserDefaults.standard.integer(forKey: "uid")
     userModule.updateProfilePhoto(uid, imageData: photoData){ resultString in

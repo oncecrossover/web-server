@@ -47,7 +47,6 @@ class EditProfileView: UIScrollView {
   lazy var about: ViewGroup = {
     let about = ViewGroup()
     about.title.text = "Description"
-    about.value.text = "Add a short description of your expertise and your interests"
     about.limit.text = "80"
     return about
   }()
@@ -69,7 +68,14 @@ class EditProfileView: UIScrollView {
     self.firstName.value.text = firstName
     self.lastName.value.text = lastName
     self.title.value.text = title
-    self.about.value.text = about
+    if (about.isEmpty) {
+      self.about.value.text = "Add a short description of your expertise and your interests"
+      self.about.value.textColor = UIColor(red: 199/255, green: 199/255, blue: 205/255, alpha: 1.0)
+    }
+    else {
+      self.about.value.text = about
+      self.about.value.textColor = UIColor.black
+    }
   }
 
   func fillRate(_ rate: Int) {
