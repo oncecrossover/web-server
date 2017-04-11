@@ -195,13 +195,14 @@ extension ViewController {
           title = feedInfo["responderTitle"] as! String
         }
 
-        let avatarImageUrl = feedInfo["responderAvatarUrl"] as? String
+        let responderAvatarUrl = feedInfo["responderAvatarUrl"] as? String
+        let askerAvatarUrl = feedInfo["askerAvatarUrl"] as? String
         let coverUrl = feedInfo["answerCoverUrl"] as? String
         let answerUrl = feedInfo["answerUrl"] as? String
 
         let duration = feedInfo["duration"] as! Int
         let rate = feedInfo["rate"] as! Int
-        self.tmpFeeds.append(FeedsModel(_name: name, _title: title, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime,  _duration: duration, _avatarImageUrl: avatarImageUrl, _coverUrl: coverUrl, _answerUrl: answerUrl!, _rate: rate))
+        self.tmpFeeds.append(FeedsModel(_name: name, _title: title, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime,  _duration: duration, _responderAvatarUrl: responderAvatarUrl, _askerAvatarUrl: askerAvatarUrl, _coverUrl: coverUrl, _answerUrl: answerUrl!, _rate: rate))
       }
 
       self.feeds = self.tmpFeeds
@@ -218,9 +219,11 @@ extension ViewController {
   }
 
   func setPlaceholderImages(_ myCell: FeedTableViewCell) {
-    myCell.profileImage.isUserInteractionEnabled = false
+    myCell.askerImage.isUserInteractionEnabled = false
     myCell.coverImage.isUserInteractionEnabled = false
-    myCell.profileImage.image = UIImage(named: "default")
+    myCell.responderImage.isUserInteractionEnabled = false
+    myCell.askerImage.image = UIImage(named: "default")
+    myCell.responderImage.image = UIImage(named: "deafult")
     myCell.coverImage.image = UIImage()
   }
 }
@@ -309,13 +312,17 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     }
 
     // set profile image
-    if let profileUrl = feedInfo.avatarImageUrl {
-      myCell.profileImage.sd_setImage(with: URL(string: profileUrl))
+    if let responderAvatarUrl = feedInfo.responderAvatarUrl {
+      myCell.responderImage.sd_setImage(with: URL(string: responderAvatarUrl))
     }
 
-    myCell.profileImage.isUserInteractionEnabled = true
+    if let askerAvatarUrl = feedInfo.askerAvatarUrl {
+      myCell.askerImage.sd_setImage(with: URL(string: askerAvatarUrl))
+    }
+
+    myCell.responderImage.isUserInteractionEnabled = true
     let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnProfile(_:)))
-    myCell.profileImage.addGestureRecognizer(tappedOnImage)
+    myCell.responderImage.addGestureRecognizer(tappedOnImage)
 
     myCell.isUserInteractionEnabled = true
 

@@ -14,24 +14,6 @@ class PasswordResetViewController: UIViewController{
   var userModule = User()
   var uid:Int?
 
-//  lazy var backButton: UIButton = {
-//    let button = UIButton()
-//    button.setTitle("<", for: UIControlState())
-//    button.setTitleColor(UIColor.black, for: UIControlState())
-//    button.backgroundColor = UIColor.white
-//    button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-//    return button
-//  }()
-//
-//  let heading: UILabel = {
-//    let title = UILabel()
-//    title.text = "Forgot Password"
-//    title.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 0.8)
-//    title.textAlignment = .center
-//    title.font = UIFont.systemFont(ofSize: 18)
-//    return title
-//  }()
-
   let note: UILabel = {
     let note = UILabel()
     note.numberOfLines = 3
@@ -102,20 +84,12 @@ class PasswordResetViewController: UIViewController{
     super.viewDidLoad()
     view.backgroundColor = UIColor.white
     self.navigationItem.title = "Forgot Password"
-//    view.addSubview(backButton)
-//    view.addSubview(heading)
     view.addSubview(note)
     view.addSubview(email)
     view.addSubview(sendButton)
 
     // Setup constraints
     view.addConstraintsWithFormat("V:|-104-[v0(51)]-52-[v1(45)]-19-[v2(45)]", views: note, email, sendButton)
-//    view.addConstraintsWithFormat("H:|-17-[v0(18)]", views: backButton)
-
-//    heading.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//    heading.widthAnchor.constraint(equalToConstant: 226).isActive = true
-//    backButton.centerYAnchor.constraint(equalTo: heading.centerYAnchor).isActive = true
-//    backButton.widthAnchor.constraint(equalToConstant: 18).isActive = true
     note.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     note.widthAnchor.constraint(equalToConstant: 270).isActive = true
     email.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

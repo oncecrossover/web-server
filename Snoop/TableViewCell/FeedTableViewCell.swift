@@ -11,6 +11,7 @@ import UIKit
 class FeedTableViewCell: UITableViewCell {
 
 
+  @IBOutlet weak var askerImage: UIImageView!
   @IBOutlet weak var questionLabel: UILabel!
 
   @IBOutlet weak var titleLabel: UILabel!
@@ -19,7 +20,7 @@ class FeedTableViewCell: UITableViewCell {
   @IBOutlet weak var nameLabel: UILabel!
   @IBOutlet weak var playImage: UIImageView!
   @IBOutlet weak var durationLabel: UILabel!
-  @IBOutlet weak var profileImage: UIImageView!
+  @IBOutlet weak var responderImage: UIImageView!
 
   @IBOutlet weak var lockImage: UIImageView!
   @IBOutlet weak var numOfSnoops: UILabel!
@@ -45,6 +46,8 @@ class FeedTableViewCell: UITableViewCell {
     coverImage.clipsToBounds = true
 
     questionLabel.font = UIFont.systemFont(ofSize: 13)
+    questionLabel.layer.cornerRadius = 4
+    questionLabel.clipsToBounds = true
 
     titleLabel.font = UIFont.systemFont(ofSize: 12)
     titleLabel.textColor = UIColor.secondaryTextColor()
