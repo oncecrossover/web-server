@@ -104,36 +104,38 @@ public class ObjectStoreClient {
     /*
      * e.g.
      * https://s3-us-west-2.amazonaws.com/com.snoop.home/users/xxx@gmail.com/1/
-     * avatar.jpg
+     * 1.avatar.jpg
      */
-    return String.format("%s/%s/%s/%d/%s", s3UriPrefix, HOME_BUCKET,
-        HOME_USERS_PREFIX, profile.getUid(), "avatar.jpg");
+    return String.format("%s/%s/%s/%d/%d.avatar.jpg", s3UriPrefix, HOME_BUCKET,
+        HOME_USERS_PREFIX, profile.getUid(), profile.getUid());
   }
 
   private String getAvatarCloudfrontUrl(final Profile profile) {
     /*
      * e.g.
-     * https://ddk9xa5p5b3lb.cloudfront.net/users/xxx@gmail.com/1/avatar.jpg
+     * https://ddk9xa5p5b3lb.cloudfront.net/users/xxx@gmail.com/1/1.avatar.jpg
      */
-    return String.format("%s/%s/%d/%s", cloudfrontUriPrefix, HOME_USERS_PREFIX,
-        profile.getUid(), "avatar.jpg");
+    return String.format("%s/%s/%d/%d.avatar.jpg", cloudfrontUriPrefix,
+        HOME_USERS_PREFIX, profile.getUid(), profile.getUid());
   }
 
   private String getAnswerThumbnailS3Url(final Quanda quanda) {
     /*
      * e.g.
      * https://s3-us-west-2.amazonaws.com/com.snoop.quanda/answers/thumbnails/1/
-     * 1.png
+     * 1.thumbnail.png
      */
-    return String.format("%s/%s/%s/%d/%d.png", s3UriPrefix, QUANDA_BUCKET,
-        QUANDA_ANSWERS_THUMBNAILS_PREFIX, quanda.getId(), quanda.getId());
+    return String.format("%s/%s/%s/%d/%d.thumbnail.png", s3UriPrefix,
+        QUANDA_BUCKET, QUANDA_ANSWERS_THUMBNAILS_PREFIX, quanda.getId(),
+        quanda.getId());
   }
 
   private String getAnswerThumbnailCloudfrontUrl(final Quanda quanda) {
     /*
-     * e.g. https://ddk9xa5p5b3lb.cloudfront.net/answers/thumbnails/1/1.png
+     * e.g.
+     * https://ddk9xa5p5b3lb.cloudfront.net/answers/thumbnails/1/1.thumbnail.png
      */
-    return String.format("%s/%s/%d/%d.png", cloudfrontUriPrefix,
+    return String.format("%s/%s/%d/%d.thumbnail.png", cloudfrontUriPrefix,
         QUANDA_ANSWERS_THUMBNAILS_PREFIX, quanda.getId(), quanda.getId());
   }
 
@@ -142,17 +144,17 @@ public class ObjectStoreClient {
     /*
      * e.g.
      * https://s3-us-west-2.amazonaws.com/com.snoop.quanda/answers/videos/1/1.
-     * mp4
+     * video.mp4
      */
-    return String.format("%s/%s/%s/%d/%d.mp4", s3UriPrefix, QUANDA_BUCKET,
+    return String.format("%s/%s/%s/%d/%d.video.mp4", s3UriPrefix, QUANDA_BUCKET,
         QUANDA_ANSWERS_VIDEOS_PREFIX, quanda.getId(), quanda.getId());
   }
 
   private String getAnswerVideoCloudfrontUrl(final Quanda quanda) {
     /*
-     * e.g. https://ddk9xa5p5b3lb.cloudfront.net/answers/videos/1/1.mp4
+     * e.g. https://ddk9xa5p5b3lb.cloudfront.net/answers/videos/1/1.video.mp4
      */
-    return String.format("%s/%s/%d/%d.mp4", cloudfrontUriPrefix,
+    return String.format("%s/%s/%d/%d.video.mp4", cloudfrontUriPrefix,
         QUANDA_ANSWERS_VIDEOS_PREFIX, quanda.getId(), quanda.getId());
   }
 
