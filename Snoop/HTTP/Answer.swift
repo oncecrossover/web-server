@@ -11,6 +11,7 @@ class Answer: Generics, URLSessionTaskDelegate {
 
   var progressView: ProgressView
 
+  let notificationName = "answerRefresh"
   override init() {
     progressView = ProgressView()
     progressView.translatesAutoresizingMaskIntoConstraints = false
@@ -65,6 +66,7 @@ class Answer: Generics, URLSessionTaskDelegate {
             self.progressView.alpha = 0
           }) {(result) in
             self.progressView.removeFromSuperview()
+            NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil)
           }
         }
         //completion("")

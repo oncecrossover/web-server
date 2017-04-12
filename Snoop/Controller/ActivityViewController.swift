@@ -41,6 +41,8 @@ class ActivityViewController: UIViewController {
     return control
   }()
 
+  let notificationName = "answerRefresh"
+
   deinit {
     NotificationCenter.default.removeObserver(self) // app might crash without removing observer
   }
@@ -61,6 +63,7 @@ extension ActivityViewController {
     controlBar.delegate = self
 
     setupSegmentedControl()
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshAnswers), name: NSNotification.Name(rawValue: self.notificationName), object: nil)
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -153,6 +156,10 @@ extension ActivityViewController {
   func refresh(_ sender: AnyObject) {
     activePlayerView?.closeView()
     loadIndexWithRefresh(selectedIndex)
+  }
+
+  func refreshAnswers() {
+    loadIndexWithRefresh(1)
   }
 
   func setupSegmentedControl() {
