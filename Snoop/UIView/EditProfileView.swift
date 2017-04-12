@@ -63,8 +63,11 @@ class EditProfileView: UIScrollView {
     return expertise
   }()
 
-  func fillValues(_ avatarImage: UIImage, firstName: String, lastName: String, title: String, about: String) {
-    self.profilePhoto.image = avatarImage
+  func fillValues(_ avatarUrl: String?, firstName: String, lastName: String, title: String, about: String){
+    if let _  = avatarUrl {
+      self.profilePhoto.sd_setImage(with: URL(string: avatarUrl!))
+    }
+
     self.firstName.value.text = firstName
     self.lastName.value.text = lastName
     self.title.value.text = title

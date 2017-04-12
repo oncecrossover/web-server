@@ -12,6 +12,7 @@ class ProfileViewController: UIViewController {
 
   @IBOutlet weak var profilePhoto: UIImageView!
 
+  var avatarUrl: String?
   @IBOutlet weak var nameLabel: UILabel!
 
   @IBOutlet weak var aboutLabel: UILabel!
@@ -119,6 +120,7 @@ extension ProfileViewController {
         self.rate = rate
 
         if (avatarUrl != nil) {
+          self.avatarUrl = avatarUrl
           self.profilePhoto.sd_setImage(with: URL(string: avatarUrl!))
         }
         else {
@@ -197,12 +199,8 @@ extension ProfileViewController {
   func editButtonTapped() {
     isEditButtonClicked = true
     let dvc = EditProfileViewController()
-    var image = UIImage()
-    if (profilePhoto.image != nil) {
-      image = profilePhoto.image!
-    }
     dvc.profileValues = (name: nameLabel.text, title: titleLabel.text, about: aboutLabel.text,
-                         avatarImage : image, rate: self.rate)
+                         avatarUrl : self.avatarUrl, rate: self.rate)
     dvc.isEditingProfile = isEditButtonClicked
     dvc.isSnooper = isSnooper
     dvc.selectedExpertise = self.expertise
@@ -212,12 +210,8 @@ extension ProfileViewController {
   @IBAction func applyButtonTapped(_ sender: AnyObject) {
     isEditButtonClicked = false
     let dvc = EditProfileViewController()
-    var image = UIImage()
-    if (profilePhoto.image != nil) {
-      image = profilePhoto.image!
-    }
     dvc.profileValues = (name: nameLabel.text, title: titleLabel.text, about: aboutLabel.text,
-                         avatarImage : image, rate: self.rate)
+                         avatarUrl : self.avatarUrl, rate: self.rate)
     dvc.isEditingProfile = isEditButtonClicked
     dvc.isSnooper = isSnooper
     self.navigationController?.pushViewController(dvc, animated: true)

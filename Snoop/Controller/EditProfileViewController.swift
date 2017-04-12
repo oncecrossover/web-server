@@ -37,7 +37,7 @@ class EditProfileViewController: UIViewController {
 
   var labelColor = UIColor(red: 199/255, green: 199/255, blue: 205/255, alpha: 1.0)
 
-  var profileValues: (name: String?, title: String?, about: String?, avatarImage:  UIImage?, rate: Int?)
+  var profileValues: (name: String?, title: String?, about: String?, avatarUrl:  String?, rate: Int?)
 
   lazy var userModule = User()
   lazy var utility = UIUtility()
@@ -65,7 +65,7 @@ class EditProfileViewController: UIViewController {
     initView()
 
     let name = profileValues.name?.characters.split{$0 == " "}.map(String.init)
-    profileView.fillValues(profileValues.avatarImage!, firstName: name![0], lastName: name![1], title: profileValues.title!, about: profileValues.about!)
+    profileView.fillValues(profileValues.avatarUrl, firstName: name![0], lastName: name![1], title: profileValues.title!, about: profileValues.about!)
     profileView.fillRate(profileValues.rate!)
 
     setupInputLimits()
@@ -388,6 +388,9 @@ extension EditProfileViewController: UIImagePickerControllerDelegate {
         DispatchQueue.main.async {
           self.isProfileUpdated = true
           activityIndicator.hide(animated: true)
+          if let url = self.profileValues.avatarUrl {
+            SDImageCache.shared().removeImage(forKey: url, fromDisk: true, withCompletion: nil)
+          }
           self.displayConfirmation("Photo Updated!")
         }
       }
