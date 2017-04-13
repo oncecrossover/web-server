@@ -26,7 +26,7 @@ class CoinsTableViewCell: UITableViewCell {
 
   let coinCount: UILabel = {
     let label = UILabel()
-    label.font = UIFont.systemFont(ofSize: 18)
+    label.font = UIFont.systemFont(ofSize: 16)
     label.textColor = UIColor(white: 0, alpha: 0.8)
     label.textAlignment = .right
     return label
@@ -41,7 +41,7 @@ class CoinsTableViewCell: UITableViewCell {
 
     // Setup constraints
     addConstraintsWithFormat("H:|-14-[v0(120)]", views: title)
-    addConstraintsWithFormat("H:[v0(23)]-6-[v1(40)]-14-|", views: coinView, coinCount)
+    addConstraintsWithFormat("H:[v0(45)][v1(23)]-14-|", views: coinCount, coinView)
     title.heightAnchor.constraint(equalToConstant: 20).isActive = true
     title.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     coinView.heightAnchor.constraint(equalToConstant: 23).isActive = true
