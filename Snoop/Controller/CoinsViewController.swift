@@ -180,7 +180,6 @@ extension CoinsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     else {
       let myCell = tableView.dequeueReusableCell(withIdentifier: self.summaryCellId, for: indexPath) as! CoinsTableViewCell
-      print("number of coins is \(numOfCoins)")
       myCell.coinCount.text = String(numOfCoins)
       return myCell
     }

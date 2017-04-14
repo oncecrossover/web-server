@@ -73,12 +73,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-    // Do some stuff since notification will not be shown
+    // application is active and notification will not be shown
     let aps = userInfo["aps"] as! [String: AnyObject]
-    print("inside remote with aps \(aps)")
     let alert = aps["alert"] as! [String : String]
     let title = alert["title"]!
-    if (title.contains("Request")) {
+    if (title.contains("Question")) {
       loadActivityPage(1)
     }
     else {
@@ -116,13 +115,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func loadActivityPage(_ index: Int) {
     let tabBarController = window?.rootViewController as! UITabBarController
-    tabBarController.selectedIndex = 2
-    var notificationName = "reloadQuestions"
-    if (index == 1) {
-      notificationName = "reloadAnswers"
-    }
+    UserDefaults.standard.set(true, forKey: "shouldLoadAnswers")
+    UserDefaults.standard.set(true, forKey: "shouldLoadQuestions")
+    UserDefaults.standard.set(true, forKey: "shouldLoadSnoops")
+    UserDefaults.standard.synchronize()
 
-    NotificationCenter.default.post(name: Notification.Name(rawValue: notificationName), object: nil)
+    tabBarController.selectedIndex = 2
   }
 
   func setupCustomUI() {
