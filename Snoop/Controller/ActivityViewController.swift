@@ -82,8 +82,7 @@ extension ActivityViewController: SegmentedControlDelegate {
   func loadIndex(_ index: Int) {
     selectedIndex = index
     if (index == 0) {
-      if (UserDefaults.standard.object(forKey: "shouldLoadQuestions") == nil
-        || UserDefaults.standard.bool(forKey: "shouldLoadQuestions") == true) {
+      if (UserDefaults.standard.bool(forKey: "shouldLoadQuestions") == true) {
         UserDefaults.standard.set(false, forKey: "shouldLoadQuestions")
         UserDefaults.standard.synchronize()
         loadIndexWithRefresh(index)
@@ -98,8 +97,7 @@ extension ActivityViewController: SegmentedControlDelegate {
       }
     }
     else if (index == 1) {
-      if (UserDefaults.standard.object(forKey: "shouldLoadAnswers") == nil
-        || UserDefaults.standard.bool(forKey: "shouldLoadAnswers") == true) {
+      if (UserDefaults.standard.bool(forKey: "shouldLoadAnswers") == true) {
         UserDefaults.standard.set(false, forKey: "shouldLoadAnswers")
         UserDefaults.standard.synchronize()
         loadIndexWithRefresh(index)
@@ -114,8 +112,7 @@ extension ActivityViewController: SegmentedControlDelegate {
       }
     }
     else {
-      if (UserDefaults.standard.object(forKey: "shouldLoadSnoops") == nil
-        || UserDefaults.standard.bool(forKey: "shouldLoadSnoops") == true) {
+      if (UserDefaults.standard.bool(forKey: "shouldLoadSnoops") == true) {
         UserDefaults.standard.set(false, forKey: "shouldLoadSnoops")
         UserDefaults.standard.synchronize()
         loadIndexWithRefresh(index)
@@ -237,9 +234,19 @@ extension ActivityViewController {
       DispatchQueue.main.async {
         if (self.selectedIndex == 0) {
           self.questions = self.tmpQuestions
+          if (UserDefaults.standard.bool(forKey: "shouldResetQuestionsBadge")) {
+            self.tabBarController?.tabBar.items?[2].badgeValue = nil
+            UserDefaults.standard.set(false, forKey: "shouldResetQuestionsBadge")
+            UserDefaults.standard.synchronize()
+          }
         }
         else if (self.selectedIndex == 1){
           self.answers = self.tmpAnswers
+          if (UserDefaults.standard.bool(forKey: "shouldResetAnswersBadge")) {
+            self.tabBarController?.tabBar.items?[2].badgeValue = nil
+            UserDefaults.standard.set(false, forKey: "shouldResetAnswersBadge")
+            UserDefaults.standard.synchronize()
+          }
         }
         else {
           self.snoops = self.tmpSnoops
@@ -254,7 +261,7 @@ extension ActivityViewController {
         self.activityTableView.isUserInteractionEnabled = true
         self.controlBar.isUserInteractionEnabled = true
         self.refreshControl.endRefreshing()
-        self.tabBarController?.tabBar.items?[2].badgeValue = nil
+
       }
     }
 

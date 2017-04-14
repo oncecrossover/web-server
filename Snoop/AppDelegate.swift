@@ -25,16 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     SKPaymentQueue.default().add(IAPManager.sharedInstance)
     setupCustomUI()
 
-    if let notification = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [String: AnyObject] {
-      let aps = notification["aps"] as! [String: AnyObject]
-      let alert = aps["alert"] as! [String : String]
-      let title = alert["title"]!
-      if (title.contains("Request")) {
-        loadActivityPage(1)
-      }
-      else {
-        loadActivityPage(0)
-      }
+    if let _ = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [String: AnyObject] {
+      loadActivityPage()
     }
     return true
   }
@@ -55,19 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
   func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
-
-    let aps = userInfo["aps"] as! [String: AnyObject]
-
     if (identifier == "VIEW_IDENTIFIER") {
-      if let alert = aps["alert"] as? [String: String] {
-        let title = alert["title"]!
-        if (title.contains("Request")) {
-          loadActivityPage(1)
-        }
-        else {
-          loadActivityPage(0)
-        }
-      }
+      loadActivityPage()
     }
     completionHandler()
   }
@@ -78,12 +59,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let alert = aps["alert"] as! [String : String]
     let title = alert["title"]!
     if (title.contains("Question")) {
-      loadActivityPage(1)
+      UserDefaults.standard.set(true, forKey: "shouldResetAnswersBadge")
+      UserDefaults.standard.synchronize()
     }
     else {
-      loadActivityPage(0)
+      UserDefaults.standard.set(true, forKey: "shouldResetQuestionsBadge")
+      UserDefaults.standard.synchronize()
     }
 
+    let tabBarController = window?.rootViewController as! UITabBarController
+    tabBarController.tabBar.items?[2].badgeValue = "1"
+    resetActivity()
   }
 
   func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
@@ -113,14 +99,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     print("Failed to register:", error)
   }
 
-  func loadActivityPage(_ index: Int) {
+  func loadActivityPage() {
     let tabBarController = window?.rootViewController as! UITabBarController
+    resetActivity()
+    tabBarController.selectedIndex = 2
+  }
+
+  func resetActivity() {
     UserDefaults.standard.set(true, forKey: "shouldLoadAnswers")
     UserDefaults.standard.set(true, forKey: "shouldLoadQuestions")
     UserDefaults.standard.set(true, forKey: "shouldLoadSnoops")
     UserDefaults.standard.synchronize()
-
-    tabBarController.selectedIndex = 2
   }
 
   func setupCustomUI() {
