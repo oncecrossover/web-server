@@ -5,6 +5,8 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import com.snoop.server.web.HttpSnoopServer;
+
 public class HibernateUtil {
 
   // XML based configuration
@@ -24,6 +26,26 @@ public class HibernateUtil {
     }
   }
 
+  private static void setConnectionUrl(final Configuration configuration) {
+    final String connectionUrlKey = "hibernate.connection.url";
+
+    /* use settings in conf file */
+    if (configuration.getProperty(connectionUrlKey) != null) {
+      return;
+    }
+
+    String connectionUrlValue;
+    if (HttpSnoopServer.LIVE) {
+      connectionUrlValue = "jdbc:mysql://localhost/snoopdb";
+      configuration.setProperty(connectionUrlKey, connectionUrlValue);
+    } else {
+      connectionUrlValue = "jdbc:mysql://localhost/snooptestdb";
+      configuration.setProperty(connectionUrlKey, connectionUrlValue);
+    }
+    System.out
+        .println(String.format("connection url set to %s", connectionUrlValue));
+  }
+
   static SessionFactory buildSessionFactory(final String resource) {
     try {
       // Create the SessionFactory from hibernate-mysql.conf.xml
@@ -31,6 +53,8 @@ public class HibernateUtil {
       System.out.println("resource is " + resource);
       configuration.configure(resource);
       System.out.println("Hibernate Configuration loaded");
+
+      setConnectionUrl(configuration);
 
       ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
           .applySettings(configuration.getProperties()).build();

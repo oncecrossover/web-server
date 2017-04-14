@@ -38,12 +38,16 @@ go to com.snoop.server.scripts/hibernate.cfg.xml, change <hibernate.connection.u
 HOW TO RUN SERVER?
 ./run-jar.sh, you will see
   Usage: run-jar.sh [-D<name>[=<value>] ...] <component-name>
+
+Defaults: http.snoop.ssl and http.snoop.server.live default false
+
 Example: run-jar.sh  snoop-web-server
          run-jar.sh -Dhttp.snoop.server.port=8080 snoop-web-server
          run-jar.sh -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl snoop-web-server
+         run-jar.sh -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl -Dhttp.snoop.server.live snoop-web-server
          run-jar.sh -Dhttp.snoop.server.host=127.0.0.1 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl -Dresource.uri=users/edmund snoop-web-client
 
-Available servers:
+Available services:
 
   snoop-web-client        snoop-web-server
 

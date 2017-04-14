@@ -3,6 +3,7 @@ package com.snoop.server.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.snoop.server.web.HttpSnoopServer;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Card;
@@ -15,7 +16,11 @@ import com.stripe.model.Refund;
 
 public class StripeUtil {
   static {
-    Stripe.apiKey = "sk_test_qHGH10BjT9f7jSze3mhHijuU";
+    if (HttpSnoopServer.LIVE) {
+      Stripe.apiKey = "sk_live_LdLEiqZ0slVwaSG9W5Nbs7So";
+    } else {
+      Stripe.apiKey = "sk_test_qHGH10BjT9f7jSze3mhHijuU";
+    }
   }
 
   public static Customer getCustomer(final String cusId)

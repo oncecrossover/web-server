@@ -26,10 +26,9 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
-import io.netty.handler.ssl.util.SelfSignedCertificate;
 
 /**
- * An HTTP server that sends back the content of the received HTTP request in a
+ * An HTTP server that sends back the response of the received HTTP request in a
  * plain text or encrypted form.
  */
 public final class HttpSnoopServer {
@@ -38,6 +37,8 @@ public final class HttpSnoopServer {
       System.getProperty("http.snoop.ssl") != null;
   static final int PORT = Integer.parseInt(
       System.getProperty("http.snoop.server.port", SSL ? "8443" : "8080"));
+  public static final boolean LIVE = System
+      .getProperty("http.snoop.server.live") != null;
 
   public static void main(String[] args) throws Exception {
     start();
@@ -73,6 +74,8 @@ public final class HttpSnoopServer {
 
       Channel ch = b.bind(PORT).sync().channel();
 
+      System.out.println(String.format("SNOOP OPTIONS: SSL:%s, LIVE:%s",
+          SSL, LIVE));
       System.err.println("Open your web browser and navigate to "
           + (SSL ? "https" : "http") + "://127.0.0.1:" + PORT + '/');
 

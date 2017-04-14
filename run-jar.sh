@@ -36,12 +36,16 @@ done
 
 if [[ -z "$EXAMPLE" ]] || [[ -z "$EXAMPLE_CLASS" ]] || [[ $# -ne 0 ]]; then
   echo "  Usage: $0 [-D<name>[=<value>] ...] <component-name>" >&2
+  echo "" >&2
+  echo "Defaults: http.snoop.ssl and http.snoop.server.live default false" >&2
+  echo "" >&2
   echo "Example: $0  snoop-web-server" >&2
   echo "         $0 -Dhttp.snoop.server.port=8080 snoop-web-server" >&2
   echo "         $0 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl snoop-web-server" >&2
+  echo "         $0 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl -Dhttp.snoop.server.live snoop-web-server" >&2
   echo "         $0 -Dhttp.snoop.server.host=127.0.0.1 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl -Dresource.uri=users/edmund snoop-web-client" >&2
   echo >&2
-  echo "Available servers:" >&2
+  echo "Available services:" >&2
   echo >&2
   I=0
   for E in "${EXAMPLE_MAP[@]}"; do
