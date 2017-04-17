@@ -316,7 +316,7 @@ private class EarningLabel: UIView {
   }()
 
   func setAmount(_ num: Double) {
-    amount.text = "$\(num)"
+    amount.text = String(format: "%.2f", num)
   }
 
   override init(frame: CGRect) {
