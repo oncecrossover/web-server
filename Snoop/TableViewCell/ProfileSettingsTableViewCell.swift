@@ -25,6 +25,7 @@ class ProfileSettingsTableViewCell: UITableViewCell {
 
   override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
+    selectionStyle = .none
     addSubview(icon)
     addSubview(category)
     addConstraintsWithFormat("H:|-20-[v0(18)]-14-[v1(100)]", views: icon, category)

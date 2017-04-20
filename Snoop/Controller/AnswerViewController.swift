@@ -303,7 +303,7 @@ extension AnswerViewController: CustomCameraViewDelegate {
         // Add close button
         currentImagePicker?.cameraOverlayView?.addSubview(closeButton)
         closeButton.topAnchor.constraint(equalTo: (currentImagePicker?.cameraOverlayView?.topAnchor)!, constant: 20).isActive = true
-        closeButton.centerXAnchor.constraint(equalTo: (currentImagePicker?.cameraOverlayView?.centerXAnchor)!).isActive = true
+        closeButton.leadingAnchor.constraint(equalTo: (currentImagePicker?.cameraOverlayView?.leadingAnchor)!).isActive = true
         closeButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         closeButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         player.play()

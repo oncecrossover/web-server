@@ -133,8 +133,8 @@ class VideoPlayerView: UIView {
     playButton.isHidden = true
 
     container.addSubview(closeButton)
-    closeButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-    closeButton.topAnchor.constraint(equalTo: topAnchor, constant: 32).isActive = true
+    closeButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
+    closeButton.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
     closeButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
     closeButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
@@ -155,6 +155,13 @@ class VideoPlayerView: UIView {
     slider.bottomAnchor.constraint(equalTo: lengthLabel.bottomAnchor).isActive = true
     slider.leftAnchor.constraint(equalTo: progressLabel.rightAnchor).isActive = true
     slider.heightAnchor.constraint(equalToConstant: 30).isActive = true
+
+    let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(closeView))
+    swipeUpGesture.direction = .up
+    let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(closeView))
+    swipeDownGesture.direction = .down
+    self.addGestureRecognizer(swipeUpGesture)
+    self.addGestureRecognizer(swipeDownGesture)
   }
 
   func setupProgressControls() {

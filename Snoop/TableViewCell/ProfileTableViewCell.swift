@@ -66,6 +66,7 @@ class ProfileTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollect
   override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     backgroundColor = UIColor.white
+    selectionStyle = .none
     addSubview(profilePhoto)
     addSubview(nameLabel)
     addSubview(titleLabel)

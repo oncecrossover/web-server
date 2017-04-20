@@ -225,12 +225,14 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
   }
 
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let backItem = UIBarButtonItem()
-    backItem.title = "Back"
-    navigationItem.backBarButtonItem = backItem
-    let dvc = InterestPickerViewController()
-    dvc.isProfile = true
-    self.navigationController?.pushViewController(dvc, animated: true)
+    if (indexPath.section == 1) {
+      let backItem = UIBarButtonItem()
+      backItem.title = "Back"
+      navigationItem.backBarButtonItem = backItem
+      let dvc = InterestPickerViewController()
+      dvc.isProfile = true
+      self.navigationController?.pushViewController(dvc, animated: true)
+    }
   }
 }
 

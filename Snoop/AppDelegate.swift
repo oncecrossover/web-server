@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let aps = userInfo["aps"] as! [String: AnyObject]
     let alert = aps["alert"] as! [String : String]
     let title = alert["title"]!
-    if (title.contains("Question")) {
+    if (title.contains("asked")) {
       UserDefaults.standard.set(true, forKey: "shouldResetAnswersBadge")
       UserDefaults.standard.synchronize()
     }
