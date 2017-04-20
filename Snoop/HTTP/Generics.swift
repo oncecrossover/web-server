@@ -8,7 +8,7 @@
 
 import Foundation
 class Generics: NSObject, URLSessionDelegate {
-  var HTTPHOST = "http://www.snoopqa.com:8080/"
+  var HTTPHOST = Bundle.main.object(forInfoDictionaryKey: "HTTPHOST") as! String
   override init() {
   }
 
