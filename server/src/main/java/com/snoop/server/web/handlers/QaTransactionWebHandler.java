@@ -396,11 +396,11 @@ public class QaTransactionWebHandler extends AbastractWebHandler
           return newResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR);
         }
 
-        /* send payment confirmation to asker */
-        sendPaymentConfirmation(qaTransaction, answerRate);
-
         /* send notification */
         sendNotificationToResponder(qaTransaction);
+
+        /* send payment confirmation to asker */
+        sendPaymentConfirmation(qaTransaction, answerRate);
 
         appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
