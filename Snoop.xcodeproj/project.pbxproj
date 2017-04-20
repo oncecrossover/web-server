@@ -77,6 +77,7 @@
 		4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26861D21D01D0001989E /* EditProfileViewController.swift */; };
 		4A9C17CF1DBD5A1900F91893 /* snoop-server.der in Resources */ = {isa = PBXBuildFile; fileRef = 4A9C17CE1DBD5A1900F91893 /* snoop-server.der */; };
 		4A9F53C01D68DB5100D753B2 /* PaymentViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9F53BF1D68DB5100D753B2 /* PaymentViewControllerUITests.swift */; };
+		4AB9079D1EA87D1200B2E4B9 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB9079C1EA87D1200B2E4B9 /* ProfileTableViewCell.swift */; };
 		4ABB89F81D7DEE2C0022DEF2 /* FeedsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB89F71D7DEE2C0022DEF2 /* FeedsModel.swift */; };
 		4ABD20311D407ECC00C3B74E /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD20301D407ECC00C3B74E /* AddCardViewController.swift */; };
 		4ABD20371D4409F900C3B74E /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD20361D4409F900C3B74E /* Payment.swift */; };
@@ -214,6 +215,7 @@
 		4A8F26861D21D01D0001989E /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		4A9C17CE1DBD5A1900F91893 /* snoop-server.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = "snoop-server.der"; sourceTree = "<group>"; };
 		4A9F53BF1D68DB5100D753B2 /* PaymentViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewControllerUITests.swift; sourceTree = "<group>"; };
+		4AB9079C1EA87D1200B2E4B9 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		4ABB89F71D7DEE2C0022DEF2 /* FeedsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedsModel.swift; sourceTree = "<group>"; };
 		4ABD20301D407ECC00C3B74E /* AddCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardViewController.swift; sourceTree = "<group>"; };
 		4ABD20361D4409F900C3B74E /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
@@ -402,6 +404,7 @@
 				4A436E461E885E3400908D24 /* SettingsTableHeaderViewCell.swift */,
 				4A436E481E8866AF00908D24 /* SettingsTableViewCell.swift */,
 				4A436E4E1E90B38600908D24 /* AnswerTableFooterViewCell.swift */,
+				4AB9079C1EA87D1200B2E4B9 /* ProfileTableViewCell.swift */,
 			);
 			path = TableViewCell;
 			sourceTree = "<group>";
@@ -769,6 +772,7 @@
 				4AF303BD1E7A74AE0048895D /* EarningsViewController.swift in Sources */,
 				4ADFD39A1E56628B00CD3D92 /* UIImage+GIF.m in Sources */,
 				4ADFD3911E56628B00CD3D92 /* SDImageCache.m in Sources */,
+				4AB9079D1EA87D1200B2E4B9 /* ProfileTableViewCell.swift in Sources */,
 				4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */,
 				4A10DCC21E5A7BA9009E3996 /* WelcomeViewController.swift in Sources */,
 				4A745CBE1D73A5D500797AFC /* ConfirmationViewController.swift in Sources */,
@@ -959,6 +963,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.snoop.Snoop;
 				PRODUCT_NAME = Snoop;
+				"STRIPE_API_KEY[arch=*]" = pk_test_wyZIIuEmr4TQLHVnZHUxlTtm;
 				SWIFT_OBJC_BRIDGING_HEADER = "Snoop/Snoop-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -984,6 +989,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.snoop.Snoop;
 				PRODUCT_NAME = Snoop;
+				"STRIPE_API_KEY[arch=*]" = pk_live_63ViAWPBwYTJSnZ5ZBICaKK3;
 				SWIFT_OBJC_BRIDGING_HEADER = "Snoop/Snoop-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
