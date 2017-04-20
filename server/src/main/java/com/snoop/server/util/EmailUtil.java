@@ -15,7 +15,7 @@ public class EmailUtil {
   final static int LEN_PWD = 6;
   final static String CHARACTERS =
       "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+";
-  private final static String USER_NAME = "notification@snoopqa.com";
+  private final static String USER_NAME = "no-reply@snoopqa.com";
   private final static String PASS_WORD = "Sn@@pntf*#@$";
   private final static String PERSONAL = "Snoop Tech Inc";
 
