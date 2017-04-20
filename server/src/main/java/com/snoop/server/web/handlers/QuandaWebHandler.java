@@ -231,7 +231,7 @@ public class QuandaWebHandler extends AbastractWebHandler
 
       /* Send notification */
       if (needSendNotification) {
-        sendNotificationToAsker(fromJson, fromDB);
+        sendNotificationToAsker(fromDB);
       }
 
       return newResponse(HttpResponseStatus.NO_CONTENT);
@@ -244,18 +244,18 @@ public class QuandaWebHandler extends AbastractWebHandler
     }
   }
 
-  private void sendNotificationToAsker(final Quanda fromJson,
-      final Quanda fromDB) {
+  private void sendNotificationToAsker(final Quanda fromDB) {
     final Profile askerProfile = ProfileDBUtil
         .getProfileForNotification(getSession(), fromDB.getAsker(), true);
     final Profile responderProfile = ProfileDBUtil
         .getProfileForNotification(getSession(), fromDB.getResponder(), true);
+
     if (askerProfile != null
         && !StringUtils.isEmpty(askerProfile.getDeviceToken())
         && responderProfile != null) {
-      final String title = "New Answer!";
-      final String message = responderProfile.getFullName()
-          + " just answered your question.";
+      final String title = responderProfile.getFullName()
+          + " just answered your question:";
+      final String message = fromDB.getQuestion();
       NotificationUtil.sendNotification(title, message,
           askerProfile.getDeviceToken());
     }

@@ -430,12 +430,13 @@ public class QaTransactionWebHandler extends AbastractWebHandler
         getSession(), qaTransaction.getquanda().getResponder(), true);
     final Profile askerProfile = ProfileDBUtil.getProfileForNotification(
         getSession(), qaTransaction.getquanda().getAsker(), true);
+
     if (responderProfile != null
         && !StringUtils.isEmpty(responderProfile.getDeviceToken())
         && askerProfile != null) {
-      final String title = "New Question!";
-      final String message = askerProfile.getFullName()
-          + " just asked you a question.";
+      final String title = askerProfile.getFullName()
+          + " just asked you a question:";
+      final String message = qaTransaction.getquanda().getQuestion();
       NotificationUtil.sendNotification(title, message,
           responderProfile.getDeviceToken());
     }
