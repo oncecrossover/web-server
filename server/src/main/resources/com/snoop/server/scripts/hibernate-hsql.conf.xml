@@ -1,33 +1,36 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
-    <!-- Database connection settings -->
-    <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
-    <property name="connection.url">jdbc:hsqldb:file:HibernateTutorialDB</property>
-    <property name="connection.username">sa</property>
-    <property name="connection.password"></property>
-
-    <!-- JDBC connection pool (use the built-in) -->
-    <property name="connection.pool_size">1</property>
-
-    <!-- SQL dialect -->
-    <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
-
+    <!-- Database connection properties - Driver, URL, user, password -->
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:hsqldb:file:snooptestdb</property>
+    <property name="hibernate.connection.username">sa</property>
+    <property name="hibernate.connection.password"></property>
+    <!-- connection pool setting -->
+    <property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+    <property name="hibernate.c3p0.min_size">5</property>
+    <property name="hibernate.c3p0.max_size">20</property>
+    <property name="hibernate.c3p0.timeout">1800</property>
+    <property name="hibernate.c3p0.max_statements">50</property>
+    <property name="hibernate.c3p0.idle_test_period">10</property>
+    <property name="hibernate.c3p0.acquire_increment">5</property>
     <!-- Enable Hibernate's automatic session context management -->
-    <property name="current_session_context_class">thread</property>
+    <property name="hibernate.current_session_context_class">thread</property>
 
     <!-- Disable the second-level cache -->
-    <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
-
-    <!-- Echo all executed SQL to stdout -->
-    <property name="show_sql">true</property>
-
+    <property name="hibernate.cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+    <!-- Outputs the SQL queries, should be disabled in Production -->
+    <property name="hibernate.show_sql">true</property>
+    <!-- Dialect is required to let Hibernate know the Database Type, MySQL, Oracle
+      etc Hibernate 4 automatically figure out Dialect from Database Connection Metadata -->
+    <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
     <!-- Drop and re-create the database schema on startup -->
-    <property name="hbm2ddl.auto">create</property>
+    <property name="hibernate.hbm2ddl.auto">create</property>
 
+    <!-- mapping file, we can use Bean annotations too -->
     <mapping resource="com/snoop/server/scripts/user.hbm.xml" />
     <mapping resource="com/snoop/server/scripts/profile.hbm.xml" />
     <mapping resource="com/snoop/server/scripts/quanda.hbm.xml" />
