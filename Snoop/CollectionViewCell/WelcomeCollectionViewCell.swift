@@ -9,6 +9,12 @@
 import UIKit
 
 class WelcomeCollectionViewCell: UICollectionViewCell {
+  let emptySpace: UIView = {
+    let view = UIView()
+    view.backgroundColor = UIColor.clear
+    return view
+  }()
+
   let title: UILabel = {
     let title = UILabel()
     title.font = UIFont.boldSystemFont(ofSize: 30)
@@ -29,15 +35,15 @@ class WelcomeCollectionViewCell: UICollectionViewCell {
 
   override init(frame: CGRect) {
     super.init(frame: frame)
-    self.frame = frame
-    self.addSubview(title)
-    self.addSubview(summary)
+    addSubview(emptySpace)
+    addSubview(title)
+    addSubview(summary)
 
     // setup constraints
-    self.addConstraintsWithFormat("H:|-20-[v0]|", views: title)
-    self.addConstraintsWithFormat("H:|-20-[v0]|", views: summary)
-    self.addConstraintsWithFormat("V:|[v0(120)]", views: title)
-    self.addConstraintsWithFormat("V:[v0(90)]|", views: summary)
+    addConstraintsWithFormat("H:|[v0]|", views: emptySpace)
+    addConstraintsWithFormat("H:|-20-[v0]|", views: title)
+    addConstraintsWithFormat("H:|-20-[v0]|", views: summary)
+    addConstraintsWithFormat("V:|[v0]-0-[v1(120)]-20-[v2(90)]|", views: emptySpace, title, summary)
   }
 
   required init?(coder aDecoder: NSCoder) {

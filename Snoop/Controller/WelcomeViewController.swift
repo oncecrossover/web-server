@@ -70,10 +70,20 @@ class WelcomeViewController: UIViewController {
     return button
   }()
 
+  let background: UIImageView = {
+    let view = UIImageView()
+    view.contentMode = .scaleAspectFill
+    view.image = UIImage(named: "gradient")
+    return view
+  }()
+
   override func viewDidLoad() {
     super.viewDidLoad()
     self.navigationController?.setNavigationBarHidden(true, animated: false)
-    view.backgroundColor = UIColor(patternImage: UIImage(named: "gradient")!)
+    view.backgroundColor = UIColor.white
+    view.addSubview(background)
+    view.addConstraintsWithFormat("H:|[v0]|", views: background)
+    view.addConstraintsWithFormat("V:|[v0]|", views: background)
     view.addSubview(introduction)
     view.addSubview(pageControl)
     view.addSubview(signupbutton)
@@ -81,9 +91,9 @@ class WelcomeViewController: UIViewController {
 
     // Setup constraints for introduction view
     introduction.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    introduction.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    introduction.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
     introduction.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-    introduction.heightAnchor.constraint(equalToConstant: 215).isActive = true
+    introduction.bottomAnchor.constraint(equalTo: pageControl.topAnchor, constant: -20).isActive = true
 
     // Setup PageControl constraints
     pageControl.widthAnchor.constraint(equalToConstant: 120).isActive = true
@@ -133,7 +143,7 @@ extension WelcomeViewController: UICollectionViewDataSource, UICollectionViewDel
   }
 
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: view.frame.width, height: 215)
+    return CGSize(width: view.frame.width, height: collectionView.frame.height)
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
