@@ -114,6 +114,17 @@ CREATE TABLE `QaTransaction` (
   CONSTRAINT `fk_qaTransaction_quandaId` FOREIGN KEY (`quandaId`) REFERENCES `Quanda` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `Coin` (
+  `id` BIGINT UNSIGNED NOT NULL,
+  `uid` BIGINT UNSIGNED NOT NULL,
+  `amount` INT NOT NULL,
+  `originId` BIGINT UNSIGNED NULL,
+  `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `pk_coin` PRIMARY KEY (`id`),
+  CONSTRAINT `fk_coin_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`),
+  CONSTRAINT `fk_coin_originId` FOREIGN KEY (`originId`) REFERENCES `Coin` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `Journal` (
   `id` BIGINT UNSIGNED NOT NULL,
   `transactionId` BIGINT UNSIGNED NOT NULL,
@@ -154,15 +165,4 @@ CREATE TABLE `CatMapping` (
   CONSTRAINT `uk_catMapping` UNIQUE (`catId`, `uid`),
   CONSTRAINT `fk_catMapping_catId` FOREIGN KEY (`catId`) REFERENCES `Category` (`id`),
   CONSTRAINT `fk_catMapping_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `Coin` (
-  `id` BIGINT UNSIGNED NOT NULL,
-  `uid` BIGINT UNSIGNED NOT NULL,
-  `amount` INT NOT NULL,
-  `originId` BIGINT UNSIGNED NULL,
-  `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT `pk_coin` PRIMARY KEY (`id`),
-  CONSTRAINT `fk_coin_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`uid`),
-  CONSTRAINT `fk_coin_originId` FOREIGN KEY (`originId`) REFERENCES `Coin` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
