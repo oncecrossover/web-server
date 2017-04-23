@@ -107,132 +107,135 @@ public class HttpSnoopServerHandler
     final ByteArrayDataOutput respBuf = ByteStreams.newDataOutput();
     final String resourceName = pathParser.getPathStream().nextToken();
 
-    if ("users".equalsIgnoreCase(resourceName)) {
-      return new UserWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("signin".equalsIgnoreCase(resourceName)) {
-      return new SigninWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("profiles".equalsIgnoreCase(resourceName)) {
-      return new ProfileWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("quandas".equalsIgnoreCase(resourceName)) {
-      return new QuandaWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("snoops".equalsIgnoreCase(resourceName)) {
-      return new SnoopWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("pcentries".equalsIgnoreCase(resourceName)) {
-      return new PcEntryWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("balances".equalsIgnoreCase(resourceName)) {
-      return new BalanceWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("qatransactions".equalsIgnoreCase(resourceName)) {
-      return new QaTransactionWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("newsfeeds".equalsIgnoreCase(resourceName)) {
-      return new NewsfeedWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("temppwds".equalsIgnoreCase(resourceName)) {
-      return new TempPwdWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("resetpwd".equalsIgnoreCase(resourceName)) {
-      return new ResetPwdWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("questions".equalsIgnoreCase(resourceName)) {
-      return new QuestionWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("answers".equalsIgnoreCase(resourceName)) {
-      return new AnswerWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("takeq".equalsIgnoreCase(resourceName)) {
-      return new TakeQuestionWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("bulkdata".equalsIgnoreCase(resourceName)) {
-      return new BulkDataWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("categories".equalsIgnoreCase(resourceName)) {
-      return new CategoryWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("catmappings".equalsIgnoreCase(resourceName)) {
-      return new CatMappingWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("coins".equalsIgnoreCase(resourceName)) {
-      return new CoinWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if ("pcaccounts".equalsIgnoreCase(resourceName)) {
-      return new PcAccountWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else if (!StringUtils.isBlank(resourceName)) {
-      return new NotFoundResourceWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
-    } else {
-      return new NullResouceWebHandler(
-          pathParser,
-          respBuf,
-          ctx,
-          request).handle();
+    switch (resourceName) {
+      case "users":
+        return new UserWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "signin":
+        return new SigninWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "profiles":
+        return new ProfileWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "quandas":
+        return new QuandaWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "snoops":
+        return new SnoopWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "pcentries":
+        return new PcEntryWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "balances":
+        return new BalanceWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "qatransactions":
+        return new QaTransactionWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "newsfeeds":
+        return new NewsfeedWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "temppwds":
+        return new TempPwdWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "resetpwd":
+        return new ResetPwdWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "questions":
+        return new QuestionWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "answers":
+        return new AnswerWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "takeq":
+        return new TakeQuestionWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "bulkdata":
+        return new BulkDataWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "categories":
+        return new CategoryWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "catmappings":
+        return new CatMappingWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "coins":
+        return new CoinWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "pcaccounts":
+        return new PcAccountWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      default:
+        if (!StringUtils.isBlank(resourceName)) {
+          return new NotFoundResourceWebHandler(
+              pathParser,
+              respBuf,
+              ctx,
+              request).handle();
+        } else {
+          return new NullResouceWebHandler(
+              pathParser,
+              respBuf,
+              ctx,
+              request).handle();
+        }
     }
   }
 
