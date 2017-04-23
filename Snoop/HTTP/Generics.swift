@@ -90,6 +90,7 @@ class Generics: NSObject, URLSessionDelegate {
 
     }
     task.resume()
+    session.finishTasksAndInvalidate()
   }
 
   func updateObject(_ myUrl: URL, jsonData: [String:AnyObject], completion: @escaping (String) -> ()) {
@@ -123,6 +124,7 @@ class Generics: NSObject, URLSessionDelegate {
 
     }
     task.resume()
+    session.finishTasksAndInvalidate()
   }
 
   func updateObjects(_ myUrl: URL, jsonData: [[String: AnyObject]], completion: @escaping (String) -> ()) {
@@ -155,6 +157,7 @@ class Generics: NSObject, URLSessionDelegate {
       }
     }
     task.resume()
+    session.finishTasksAndInvalidate()
   }
 
   func getFilteredObjects(_ myUrl: URL, completion: @escaping (NSArray) -> ()) {
@@ -177,6 +180,7 @@ class Generics: NSObject, URLSessionDelegate {
       }
     }
     task.resume()
+    session.finishTasksAndInvalidate()
   }
 
   func getObjectById(_ myUrl: URL, completion: @escaping (NSDictionary) -> ()) {
@@ -205,5 +209,6 @@ class Generics: NSObject, URLSessionDelegate {
 
     }
     task.resume()
+    session.finishTasksAndInvalidate()
   }
 }
