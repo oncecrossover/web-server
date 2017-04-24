@@ -43,11 +43,11 @@ public class QaTransactionWebHandler extends AbastractWebHandler
       .getLogger(QaTransactionWebHandler.class);
 
   private final static int CENTS_PER_COIN = 4;
-  private final static int COINS_PER_SNOOP = 8;
+  private final static int COINS_PER_SNOOP = 4;
   private final static double SNOOP_RATE = (CENTS_PER_COIN * COINS_PER_SNOOP
       * 1.0) / 100;
-  private final static double ASKER_REWARDS = 0.1;
-  private final static double RESPONDER_REWARDS = 0.1;
+  private final static double ASKER_REWARDS = 0.05;
+  private final static double RESPONDER_REWARDS = 0.05;
 
   public QaTransactionWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
