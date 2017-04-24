@@ -24,6 +24,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.ssl.ClientAuth;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 
@@ -52,6 +53,7 @@ public final class HttpSnoopServer {
           .forServer(SecureSnoopSslContextFactory.getServerKeyManagerFactory())
           .trustManager(
               SecureSnoopSslContextFactory.getServerTrustManagerFactory())
+          .clientAuth(ClientAuth.REQUIRE)
           .build();
     } else {
       sslCtx = null;
