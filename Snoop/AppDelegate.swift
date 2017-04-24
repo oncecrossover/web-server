@@ -10,6 +10,8 @@ import UIKit
 import CoreData
 import Stripe
 import StoreKit
+import Fabric
+import TwitterKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -28,6 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     if let _ = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [String: AnyObject] {
       loadActivityPage()
     }
+
+    // Setup Twitter Integration
+    Fabric.with([STPAPIClient.self, Twitter.self])
+
     return true
   }
 

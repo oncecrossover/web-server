@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TwitterKit
 
 class SignupViewController: UIViewController {
 
@@ -51,6 +52,25 @@ class SignupViewController: UIViewController {
     return link
   }()
 
+  lazy var twitterLoginButton: TWTRLogInButton = {
+    let twitterLoginButton = TWTRLogInButton { (session, error) in
+      if let unwrappedSession = session {
+        let alert = UIAlertController(title: "Logged In",
+                                      message: "User \(unwrappedSession.userName) has logged in",
+          preferredStyle: UIAlertControllerStyle.alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+      } else {
+        NSLog("Login error: %@", error!.localizedDescription);
+      }
+    }
+    twitterLoginButton.layer.cornerRadius = 10
+    twitterLoginButton.clipsToBounds = true
+    //    twitterLoginButton.loginMethods = [.webBased]
+    return twitterLoginButton
+  }()
+
   override func viewDidLoad() {
     super.viewDidLoad()
     self.view.backgroundColor = UIColor.white
@@ -59,6 +79,7 @@ class SignupViewController: UIViewController {
     view.addSubview(signupView)
     view.addSubview(signupButton)
     view.addSubview(loginLink)
+    view.addSubview(twitterLoginButton)
 
     // Setup Icon View
     iconView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -83,6 +104,14 @@ class SignupViewController: UIViewController {
     loginLink.widthAnchor.constraint(equalToConstant: 60).isActive = true
     loginLink.heightAnchor.constraint(equalToConstant: 30).isActive = true
     loginLink.topAnchor.constraint(equalTo: signupButton.bottomAnchor, constant: 8).isActive = true
+
+    // Setup twitter button
+    view.addConstraintsWithFormat("H:|-30-[v0]-30-|", views: twitterLoginButton)
+    view.addConstraintsWithFormat("V:[v0]-20-[v1(45)]", views: loginLink, twitterLoginButton)
+  }
+
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    self.view.endEditing(true)
   }
 
   func signupButtonTapped() {

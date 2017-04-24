@@ -77,6 +77,10 @@
 		4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26861D21D01D0001989E /* EditProfileViewController.swift */; };
 		4A9C17CF1DBD5A1900F91893 /* snoop-server.der in Resources */ = {isa = PBXBuildFile; fileRef = 4A9C17CE1DBD5A1900F91893 /* snoop-server.der */; };
 		4A9F53C01D68DB5100D753B2 /* PaymentViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9F53BF1D68DB5100D753B2 /* PaymentViewControllerUITests.swift */; };
+		4AA3284E1EAEA73700DB9E59 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AA3284A1EAEA73700DB9E59 /* Fabric.framework */; };
+		4AA3284F1EAEA73700DB9E59 /* TwitterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AA3284B1EAEA73700DB9E59 /* TwitterKit.framework */; };
+		4AA328501EAEA73700DB9E59 /* TwitterKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4AA3284C1EAEA73700DB9E59 /* TwitterKitResources.bundle */; };
+		4AA328511EAEA73700DB9E59 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AA3284D1EAEA73700DB9E59 /* TwitterCore.framework */; };
 		4AB9079D1EA87D1200B2E4B9 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB9079C1EA87D1200B2E4B9 /* ProfileTableViewCell.swift */; };
 		4ABB89F81D7DEE2C0022DEF2 /* FeedsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB89F71D7DEE2C0022DEF2 /* FeedsModel.swift */; };
 		4ABD20311D407ECC00C3B74E /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD20301D407ECC00C3B74E /* AddCardViewController.swift */; };
@@ -215,6 +219,10 @@
 		4A8F26861D21D01D0001989E /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		4A9C17CE1DBD5A1900F91893 /* snoop-server.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = "snoop-server.der"; sourceTree = "<group>"; };
 		4A9F53BF1D68DB5100D753B2 /* PaymentViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewControllerUITests.swift; sourceTree = "<group>"; };
+		4AA3284A1EAEA73700DB9E59 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		4AA3284B1EAEA73700DB9E59 /* TwitterKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterKit.framework; sourceTree = "<group>"; };
+		4AA3284C1EAEA73700DB9E59 /* TwitterKitResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TwitterKitResources.bundle; path = TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle; sourceTree = "<group>"; };
+		4AA3284D1EAEA73700DB9E59 /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterCore.framework; sourceTree = "<group>"; };
 		4AB9079C1EA87D1200B2E4B9 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		4ABB89F71D7DEE2C0022DEF2 /* FeedsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedsModel.swift; sourceTree = "<group>"; };
 		4ABD20301D407ECC00C3B74E /* AddCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardViewController.swift; sourceTree = "<group>"; };
@@ -303,8 +311,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A7971E31E6D0C70003105FD /* StoreKit.framework in Frameworks */,
+				4AA328511EAEA73700DB9E59 /* TwitterCore.framework in Frameworks */,
+				4AA3284F1EAEA73700DB9E59 /* TwitterKit.framework in Frameworks */,
 				4A3D5D791DE8C41A006FE077 /* MobileCoreServices.framework in Frameworks */,
 				4AD8A6A21D63E8AF00757D9D /* Stripe.framework in Frameworks */,
+				4AA3284E1EAEA73700DB9E59 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,6 +477,10 @@
 		4AC2835A1CE2F58100A08D35 = {
 			isa = PBXGroup;
 			children = (
+				4AA3284A1EAEA73700DB9E59 /* Fabric.framework */,
+				4AA3284B1EAEA73700DB9E59 /* TwitterKit.framework */,
+				4AA3284C1EAEA73700DB9E59 /* TwitterKitResources.bundle */,
+				4AA3284D1EAEA73700DB9E59 /* TwitterCore.framework */,
 				4AC283651CE2F58100A08D35 /* Snoop */,
 				4A5B257B1D65247700691696 /* SnoopUITests */,
 				4AC283641CE2F58100A08D35 /* Products */,
@@ -588,6 +603,7 @@
 				4AC2835F1CE2F58100A08D35 /* Sources */,
 				4AC283601CE2F58100A08D35 /* Frameworks */,
 				4AC283611CE2F58100A08D35 /* Resources */,
+				4AA328491EAEA6FE00DB9E59 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -670,11 +686,28 @@
 				4A6730BD1E23412100C512B1 /* privacy.html in Resources */,
 				4AC283711CE2F58100A08D35 /* Assets.xcassets in Resources */,
 				4AD8A6A41D63E8C600757D9D /* Stripe.bundle in Resources */,
+				4AA328501EAEA73700DB9E59 /* TwitterKitResources.bundle in Resources */,
 				4AC2836C1CE2F58100A08D35 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4AA328491EAEA6FE00DB9E59 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 61f6c72119a77a359370e02462bd762b0399a17e 0dc7faa3c637e7ca32f6837c5311e503bf26bc2cf550c1bd6e931c6cc213a1cd";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4A5B25761D65247700691696 /* Sources */ = {

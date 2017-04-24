@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TwitterKit
 
 class LoginViewController: UIViewController {
 
@@ -62,19 +63,31 @@ class LoginViewController: UIViewController {
     return link
   }()
 
-  //160
-  let orLabel: UILabel = {
-    let label = UILabel()
-    label.text = "Or Log in using Twitter"
-    label.textAlignment = .center
-    label.font = UIFont.systemFont(ofSize: 16)
-    label.translatesAutoresizingMaskIntoConstraints = false
-    label.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 1.0)
-    return label
+  lazy var twitterLoginButton: TWTRLogInButton = {
+    let twitterLoginButton = TWTRLogInButton { (session, error) in
+      if let unwrappedSession = session {
+        let alert = UIAlertController(title: "Logged In",
+                                      message: "User \(unwrappedSession.userName) has logged in",
+          preferredStyle: UIAlertControllerStyle.alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+      } else {
+        NSLog("Login error: %@", error!.localizedDescription);
+      }
+    }
+    twitterLoginButton.layer.cornerRadius = 10
+    twitterLoginButton.clipsToBounds = true
+//    twitterLoginButton.loginMethods = [.webBased]
+    return twitterLoginButton
   }()
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    // TODO: Change where the log in button is positioned in your view
+    
+
     self.navigationController?.setNavigationBarHidden(true, animated: false)
     self.view.backgroundColor = UIColor.white
 
@@ -83,7 +96,7 @@ class LoginViewController: UIViewController {
     view.addSubview(loginButton)
     view.addSubview(signupLink)
     view.addSubview(forgetPasswordLink)
-//    view.addSubview(orLabel)
+    view.addSubview(twitterLoginButton)
 
     // Setup Icon View
     iconView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -115,11 +128,9 @@ class LoginViewController: UIViewController {
     forgetPasswordLink.heightAnchor.constraint(equalTo: signupLink.heightAnchor).isActive = true
     forgetPasswordLink.widthAnchor.constraint(equalToConstant: 120).isActive = true
 
-    // Setup or Label
-//    orLabel.topAnchor.constraintEqualToAnchor(loginButton.bottomAnchor, constant: 160).active = true
-//    orLabel.heightAnchor.constraintEqualToConstant(20).active = true
-//    orLabel.leadingAnchor.constraintEqualToAnchor(loginButton.leadingAnchor).active = true
-//    orLabel.centerXAnchor.constraintEqualToAnchor(loginButton.centerXAnchor).active = true
+    // Add Twitter log in button
+    view.addConstraintsWithFormat("H:|-30-[v0]-30-|", views: twitterLoginButton)
+    view.addConstraintsWithFormat("V:[v0]-20-[v1(45)]", views: signupLink, twitterLoginButton)
   }
 
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
