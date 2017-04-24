@@ -11,6 +11,7 @@ import AVKit
 import AVFoundation
 class VideoPlayerView: UIView {
   var player: AVPlayer?
+  var timeObserver: Any?
   var isPlaying = false
 
   lazy var closeButton: UIButton = {
@@ -106,6 +107,8 @@ class VideoPlayerView: UIView {
 
   func closeView() {
     player?.pause()
+    player?.removeTimeObserver(self.timeObserver!)
+
     UIView.animate(withDuration: 1.0, animations: {
       self.alpha = 0
       }, completion: { (result) in
@@ -167,15 +170,15 @@ class VideoPlayerView: UIView {
   func setupProgressControls() {
     isPlaying = true
     let interval = CMTime(seconds: 1.0, preferredTimescale: 1)
-    player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { time in
+    self.timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] time in
       let seconds = CMTimeGetSeconds(time)
       let secondsText = String(format: "%02d", Int(seconds) % 60)
       let minutesText = String(format: "%02d", Int(seconds) / 60)
-      self.progressLabel.text = "\(minutesText):\(secondsText)"
+      self?.progressLabel.text = "\(minutesText):\(secondsText)"
 
-      if let duration = self.player?.currentItem?.duration {
+      if let duration = self?.player?.currentItem?.duration {
         let durationInseconds = CMTimeGetSeconds(duration)
-        self.slider.value = Float(seconds/durationInseconds)
+        self?.slider.value = Float(seconds/durationInseconds)
       }
     }
   }

@@ -469,7 +469,7 @@ extension ActivityViewController {
     player.play()
     NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { notification in
       // block base observer has retain cycle issue, remember to unregister observer in deinit
-      videoPlayerView.reset()
+      self.activePlayerView?.reset()
     }
   }
 
