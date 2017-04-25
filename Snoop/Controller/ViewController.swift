@@ -431,8 +431,8 @@ extension ViewController {
       window.addSubview(blackView)
       blackView.frame = window.frame
       var frameToAdd: UIView!
-      if (self.coinCount < 8 && feed.rate > 0) {
-        buyCoinsView.setNote("8 coins to unlock an answer")
+      if (self.coinCount < 4 && feed.rate > 0) {
+        buyCoinsView.setNote("4 coins to unlock an answer")
         frameToAdd = buyCoinsView
       }
       else if (feed.rate == 0) {
@@ -440,7 +440,7 @@ extension ViewController {
         frameToAdd = payWithCoinsView
       }
       else {
-        payWithCoinsView.setCount(8)
+        payWithCoinsView.setCount(4)
         frameToAdd = payWithCoinsView
       }
 
