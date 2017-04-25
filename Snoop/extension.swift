@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import AVFoundation
 
 extension UIColor {
   public class func defaultColor() -> UIColor {
@@ -37,6 +38,35 @@ extension UIView {
 }
 
 extension UIViewController {
+  func launchVideoPlayer(_ answerUrl: String, duration: Int) -> VideoPlayerView {
+    let videoPlayerView = VideoPlayerView()
+    let bounds = UIScreen.main.bounds
+
+    let oldFrame = CGRect(x: 0, y: bounds.size.height, width: bounds.size.width, height: 0)
+    videoPlayerView.frame = oldFrame
+    let newFrame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
+    self.tabBarController?.view.addSubview(videoPlayerView)
+    UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
+      videoPlayerView.frame = newFrame
+      videoPlayerView.setupLoadingControls()
+    }, completion: nil)
+
+    let player = AVPlayer(url: URL(string: answerUrl)!)
+    videoPlayerView.player = player
+    let playerLayer = AVPlayerLayer(player: player)
+    playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+    videoPlayerView.layer.addSublayer(playerLayer)
+    playerLayer.frame = videoPlayerView.frame
+    videoPlayerView.setupPlayingControls()
+    let secondsText = String(format: "%02d", duration % 60)
+    let minutesText = String(format: "%02d", duration / 60)
+    videoPlayerView.lengthLabel.text = "\(minutesText):\(secondsText)"
+    videoPlayerView.setupProgressControls()
+
+    player.play()
+    return videoPlayerView
+  }
+
   public func displayConfirmation(_ msg: String) {
     let confirmView = ConfirmView()
     confirmView.translatesAutoresizingMaskIntoConstraints = false

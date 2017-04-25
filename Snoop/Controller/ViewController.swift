@@ -127,11 +127,6 @@ extension ViewController {
       }
     }
   }
-
-  override func viewDidDisappear(_ animated: Bool) {
-    super.viewDidDisappear(animated)
-    activePlayerView?.closeView()
-  }
 }
 
 // Private function
@@ -416,36 +411,11 @@ extension ViewController {
     //using the tapLocation, we retrieve the corresponding indexPath
     let indexPath = self.feedTable.indexPathForRow(at: tapLocation)!
 
-    let videoPlayerView = VideoPlayerView()
-    let bounds = UIScreen.main.bounds
-
-    let oldFrame = CGRect(x: 0, y: bounds.size.height, width: bounds.size.width, height: 0)
-    videoPlayerView.frame = oldFrame
-    let newFrame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
-    self.tabBarController?.view.addSubview(videoPlayerView)
-    activePlayerView = videoPlayerView
-    UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
-      videoPlayerView.frame = newFrame
-      videoPlayerView.setupLoadingControls()
-      }, completion: nil)
-
     let questionInfo = feeds[indexPath.row]
     let answerUrl = questionInfo.answerUrl
-
-    let player = AVPlayer(url: URL(string: answerUrl)!)
-    videoPlayerView.player = player
-    let playerLayer = AVPlayerLayer(player: player)
-    playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-    videoPlayerView.layer.addSublayer(playerLayer)
-    playerLayer.frame = videoPlayerView.frame
-    videoPlayerView.setupPlayingControls()
     let duration = questionInfo.duration
-    let secondsText = String(format: "%02d", duration % 60)
-    let minutesText = String(format: "%02d", duration / 60)
-    videoPlayerView.lengthLabel.text = "\(minutesText):\(secondsText)"
-    videoPlayerView.setupProgressControls()
 
-    player.play()
+    self.activePlayerView = self.launchVideoPlayer(answerUrl, duration: duration)
     NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { notification in
       // block base observer has retain cycle issue, remember to unregister observer in deinit
       self.activePlayerView?.reset()

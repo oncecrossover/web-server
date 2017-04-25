@@ -158,16 +158,16 @@ class VideoPlayerView: UIView {
     slider.bottomAnchor.constraint(equalTo: lengthLabel.bottomAnchor).isActive = true
     slider.leftAnchor.constraint(equalTo: progressLabel.rightAnchor).isActive = true
     slider.heightAnchor.constraint(equalToConstant: 30).isActive = true
+  }
 
+  func setupProgressControls() {
     let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(closeView))
     swipeUpGesture.direction = .up
     let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(closeView))
     swipeDownGesture.direction = .down
     self.addGestureRecognizer(swipeUpGesture)
     self.addGestureRecognizer(swipeDownGesture)
-  }
 
-  func setupProgressControls() {
     isPlaying = true
     let interval = CMTime(seconds: 1.0, preferredTimescale: 1)
     self.timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] time in
