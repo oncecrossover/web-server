@@ -301,8 +301,8 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
         myCell.coverImage.addGestureRecognizer(tappedToWatch)
       }
       else {
-        let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnImage(_:)))
-        myCell.coverImage.addGestureRecognizer(tappedOnImage)
+        let tappedToWatch = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToWatch(_:)))
+        myCell.coverImage.addGestureRecognizer(tappedToWatch)
       }
     }
 
@@ -316,8 +316,8 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     }
 
     myCell.responderImage.isUserInteractionEnabled = true
-    let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnProfile(_:)))
-    myCell.responderImage.addGestureRecognizer(tappedOnImage)
+    let tappedOnProfile = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnProfile(_:)))
+    myCell.responderImage.addGestureRecognizer(tappedOnProfile)
 
     myCell.isUserInteractionEnabled = true
 
@@ -336,6 +336,26 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
 // Segue action
 extension ViewController {
 
+  func processTransaction() {
+    let uid = UserDefaults.standard.integer(forKey: "uid")
+    let quandaId = self.feeds[self.activeIndexPath!.row].id
+    let quandaData: [String:AnyObject] = ["id": quandaId as AnyObject]
+    let jsonData: [String:AnyObject] = ["uid": uid as AnyObject, "type": "SNOOPED" as AnyObject, "quanda": quandaData as AnyObject]
+    self.generics.createObject(self.generics.HTTPHOST + "qatransactions", jsonData: jsonData) { result in
+      if (result.isEmpty) {
+        DispatchQueue.main.async {
+          self.paidSnoops.insert(quandaId)
+          self.feedTable.reloadRows(at: [self.activeIndexPath!], with: .none)
+        }
+      }
+      else {
+        DispatchQueue.main.async {
+          self.utilityModule.displayAlertMessage("there is an error processing your payment. Please try later", title: "Error", sender: self)
+        }
+      }
+    }
+  }
+
   func coinButtonTapped() {
     let vc = CoinsViewController()
     vc.numOfCoins = self.coinCount
@@ -348,23 +368,8 @@ extension ViewController {
       self.blackView.alpha = 0
       self.payWithCoinsView.alpha = 0
     }) { (result) in
-      let uid = UserDefaults.standard.integer(forKey: "uid")
-      let quandaId = self.feeds[self.activeIndexPath!.row].id
-      let quandaData: [String:AnyObject] = ["id": quandaId as AnyObject]
-      let jsonData: [String:AnyObject] = ["uid": uid as AnyObject, "type": "SNOOPED" as AnyObject, "quanda": quandaData as AnyObject]
-      self.generics.createObject(self.generics.HTTPHOST + "qatransactions", jsonData: jsonData) { result in
-        if (result.isEmpty) {
-          DispatchQueue.main.async {
-            self.paidSnoops.insert(quandaId)
-            self.feedTable.reloadRows(at: [self.activeIndexPath!], with: .none)
-          }
-        }
-        else {
-          DispatchQueue.main.async {
-            self.utilityModule.displayAlertMessage("there is an error processing your payment. Please try later", title: "Error", sender: self)
-          }
-        }
-      }
+      self.processTransaction()
+      self.playVideo()
     }
   }
 
@@ -412,49 +417,50 @@ extension ViewController {
     let indexPath = self.feedTable.indexPathForRow(at: tapLocation)!
 
     let questionInfo = feeds[indexPath.row]
+    self.activeIndexPath = indexPath
+    if (questionInfo.rate == 0 || self.paidSnoops.contains(questionInfo.id)) {
+      if (!self.paidSnoops.contains(questionInfo.id)) {
+        processTransaction()
+      }
+      playVideo()
+    }
+    else {
+      if let window = UIApplication.shared.keyWindow {
+        window.addSubview(blackView)
+        blackView.frame = window.frame
+        var frameToAdd: UIView!
+        if (self.coinCount < 4 && questionInfo.rate > 0) {
+          buyCoinsView.setNote("4 coins to unlock an answer")
+          frameToAdd = buyCoinsView
+        }
+        else {
+          payWithCoinsView.setCount(4)
+          frameToAdd = payWithCoinsView
+        }
+
+        window.addSubview(frameToAdd)
+        frameToAdd.centerXAnchor.constraint(equalTo: window.centerXAnchor).isActive = true
+        frameToAdd.centerYAnchor.constraint(equalTo: window.centerYAnchor).isActive = true
+        frameToAdd.widthAnchor.constraint(equalToConstant: 260).isActive = true
+        frameToAdd.heightAnchor.constraint(equalToConstant: 176).isActive = true
+        blackView.alpha = 0
+        frameToAdd.alpha = 0
+        UIView.animate(withDuration: 0.5, animations: {
+          self.blackView.alpha = 1
+          frameToAdd.alpha = 1
+        })
+      }
+    }
+  }
+
+  func playVideo() {
+    let questionInfo = feeds[self.activeIndexPath!.row]
     let answerUrl = questionInfo.answerUrl
     let duration = questionInfo.duration
-
     self.activePlayerView = self.launchVideoPlayer(answerUrl, duration: duration)
     NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { notification in
       // block base observer has retain cycle issue, remember to unregister observer in deinit
       self.activePlayerView?.reset()
-    }
-  }
-
-  func tappedOnImage(_ sender: UIGestureRecognizer) {
-    let tapLocation = sender.location(in: self.feedTable)
-    let indexPath = self.feedTable.indexPathForRow(at: tapLocation)!
-    let feed = feeds[indexPath.row]
-    self.activeIndexPath = indexPath
-    if let window = UIApplication.shared.keyWindow {
-      window.addSubview(blackView)
-      blackView.frame = window.frame
-      var frameToAdd: UIView!
-      if (self.coinCount < 4 && feed.rate > 0) {
-        buyCoinsView.setNote("4 coins to unlock an answer")
-        frameToAdd = buyCoinsView
-      }
-      else if (feed.rate == 0) {
-        payWithCoinsView.setCount(0)
-        frameToAdd = payWithCoinsView
-      }
-      else {
-        payWithCoinsView.setCount(4)
-        frameToAdd = payWithCoinsView
-      }
-
-      window.addSubview(frameToAdd)
-      frameToAdd.centerXAnchor.constraint(equalTo: window.centerXAnchor).isActive = true
-      frameToAdd.centerYAnchor.constraint(equalTo: window.centerYAnchor).isActive = true
-      frameToAdd.widthAnchor.constraint(equalToConstant: 260).isActive = true
-      frameToAdd.heightAnchor.constraint(equalToConstant: 176).isActive = true
-      blackView.alpha = 0
-      frameToAdd.alpha = 0
-      UIView.animate(withDuration: 0.5, animations: {
-        self.blackView.alpha = 1
-        frameToAdd.alpha = 1
-      })
     }
   }
 
@@ -469,5 +475,3 @@ extension ViewController {
   @IBAction func unwindSegueToHome(_ segue: UIStoryboardSegue) {
   }
 }
-
-

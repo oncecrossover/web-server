@@ -189,30 +189,58 @@ extension AskViewController {
 
     self.questionView.resignFirstResponder()
 
-    if let window = UIApplication.shared.keyWindow {
-      window.addSubview(blackView)
-      blackView.frame = window.frame
-      var frameToAdd: UIView!
-      if (self.coinCount < profileInfo.rate * 25) {
-        buyCoinsView.setNote("$\(profileInfo.rate) (\(profileInfo.rate * 25)) coins to ask a question")
-        frameToAdd = buyCoinsView
+    if (profileInfo.rate == 0) {
+      processTransaction()
+    }
+    else {
+      if let window = UIApplication.shared.keyWindow {
+        window.addSubview(blackView)
+        blackView.frame = window.frame
+        var frameToAdd: UIView!
+        if (self.coinCount < profileInfo.rate * 25) {
+          buyCoinsView.setNote("$\(profileInfo.rate) (\(profileInfo.rate * 25)) coins to ask a question")
+          frameToAdd = buyCoinsView
+        }
+        else {
+          payWithCoinsView.setConfirmMessage("Confirm to Ask?")
+          payWithCoinsView.setCount(25 * profileInfo.rate)
+          frameToAdd = payWithCoinsView
+        }
+        window.addSubview(frameToAdd)
+        frameToAdd.centerXAnchor.constraint(equalTo: window.centerXAnchor).isActive = true
+        frameToAdd.centerYAnchor.constraint(equalTo: window.centerYAnchor).isActive = true
+        frameToAdd.widthAnchor.constraint(equalToConstant: 260).isActive = true
+        frameToAdd.heightAnchor.constraint(equalToConstant: 176).isActive = true
+        blackView.alpha = 0
+        frameToAdd.alpha = 0
+        UIView.animate(withDuration: 0.5, animations: {
+          self.blackView.alpha = 1
+          frameToAdd.alpha = 1
+        })
+      }
+    }
+
+  }
+
+  func processTransaction() {
+    let uid = UserDefaults.standard.integer(forKey: "uid")
+    let quandaData = ["question" : self.questionView.text!, "responder" : self.profileInfo.uid] as [String : Any]
+    let jsonData:[String: AnyObject] = ["uid": uid as AnyObject, "type" : "ASKED" as AnyObject, "quanda" : quandaData as AnyObject]
+    self.scrollView.isUserInteractionEnabled = false
+    self.generics.createObject(self.generics.HTTPHOST + "qatransactions", jsonData: jsonData) { result in
+      if (!result.isEmpty) {
+        DispatchQueue.main.async {
+          self.utility.displayAlertMessage("there is an error processing your payment. Please try later", title: "Error", sender: self)
+        }
       }
       else {
-        payWithCoinsView.setConfirmMessage("Confirm to Ask?")
-        payWithCoinsView.setCount(25 * profileInfo.rate)
-        frameToAdd = payWithCoinsView
+        DispatchQueue.main.async {
+          self.questionView.textColor = self.placeholderColor
+          self.questionView.text = self.placeholder
+          self.displayConfirmation("Question Sent!")
+        }
       }
-      window.addSubview(frameToAdd)
-      frameToAdd.centerXAnchor.constraint(equalTo: window.centerXAnchor).isActive = true
-      frameToAdd.centerYAnchor.constraint(equalTo: window.centerYAnchor).isActive = true
-      frameToAdd.widthAnchor.constraint(equalToConstant: 260).isActive = true
-      frameToAdd.heightAnchor.constraint(equalToConstant: 176).isActive = true
-      blackView.alpha = 0
-      frameToAdd.alpha = 0
-      UIView.animate(withDuration: 0.5, animations: {
-        self.blackView.alpha = 1
-        frameToAdd.alpha = 1
-      }) 
+      self.scrollView.isUserInteractionEnabled = true
     }
   }
 
@@ -221,25 +249,7 @@ extension AskViewController {
       self.blackView.alpha = 0
       self.payWithCoinsView.alpha = 0
     }) { (result) in
-      let uid = UserDefaults.standard.integer(forKey: "uid")
-      let quandaData = ["question" : self.questionView.text!, "responder" : self.profileInfo.uid] as [String : Any]
-      let jsonData:[String: AnyObject] = ["uid": uid as AnyObject, "type" : "ASKED" as AnyObject, "quanda" : quandaData as AnyObject]
-      self.scrollView.isUserInteractionEnabled = false
-      self.generics.createObject(self.generics.HTTPHOST + "qatransactions", jsonData: jsonData) { result in
-        if (!result.isEmpty) {
-          DispatchQueue.main.async {
-            self.utility.displayAlertMessage("there is an error processing your payment. Please try later", title: "Error", sender: self)
-          }
-        }
-        else {
-          DispatchQueue.main.async {
-            self.questionView.textColor = self.placeholderColor
-            self.questionView.text = self.placeholder
-            self.displayConfirmation("Question Sent!")
-          }
-        }
-        self.scrollView.isUserInteractionEnabled = true
-      }
+      self.processTransaction()
     }
   }
 

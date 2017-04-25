@@ -106,8 +106,12 @@ class VideoPlayerView: UIView {
   }
 
   func closeView() {
+    self.gestureRecognizers?.forEach(self.removeGestureRecognizer)
     player?.pause()
-    player?.removeTimeObserver(self.timeObserver!)
+    if let _ = self.timeObserver {
+      player?.removeTimeObserver(self.timeObserver!)
+      self.timeObserver = nil
+    }
 
     UIView.animate(withDuration: 1.0, animations: {
       self.alpha = 0
