@@ -102,20 +102,19 @@ public class PcAccount extends ModelBase implements Model {
     return result;
   }
 
-  public PcAccount setAsIgnoreNull(final PcAccount that) {
-    if (that == null) {
-      return null;
+  @Override
+  public <T extends ModelBase> void setAsIgnoreNull(T obj) {
+    if (obj instanceof PcAccount) {
+      final PcAccount that = (PcAccount) obj;
+      if (that.getUid() != null) {
+        this.setUid(that.getUid());
+      }
+      if (that.getChargeFrom() != null) {
+        this.setChargeFrom(that.getChargeFrom());
+      }
+      if (that.getPayTo() != null) {
+        this.setPayTo(that.getPayTo());
+      }
     }
-
-    if (that.getUid() != null) {
-      this.setUid(that.getUid());
-    }
-    if (that.getChargeFrom() != null) {
-      this.setChargeFrom(that.getChargeFrom());
-    }
-    if (that.getPayTo() != null) {
-      this.setPayTo(that.getPayTo());
-    }
-    return this;
   }
 }

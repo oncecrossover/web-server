@@ -80,4 +80,6 @@ public abstract class ModelBase implements Model {
     final ObjectMapper mapper = new ObjectMapper();
     return mapper.writeValueAsBytes(this);
   }
+
+  public abstract <T extends ModelBase> void setAsIgnoreNull(final T obj);
 }

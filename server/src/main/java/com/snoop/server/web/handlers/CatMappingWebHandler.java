@@ -1,7 +1,6 @@
 package com.snoop.server.web.handlers;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
@@ -10,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataOutput;
 import com.snoop.server.db.model.CatMappingEntry;
 import com.snoop.server.db.util.CatMappingDBUtil;
@@ -52,12 +50,13 @@ public class CatMappingWebHandler extends AbastractWebHandler
 
   private FullHttpResponse onGet() {
     /* get id */
-    final String id = getPathParser().getPathStream().nextToken();
+    Long id;
 
-    /* no id */
-    if (StringUtils.isBlank(id)) {
-      appendln("Missing parameter: id");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    try {
+      id = Long.parseLong(getPathParser().getPathStream().nextToken());
+    } catch (NumberFormatException e) {
+      appendln("Incorrect id format.");
+      return newClientErrorResponse(e, LOG);
     }
 
     Session session = null;
@@ -66,21 +65,9 @@ public class CatMappingWebHandler extends AbastractWebHandler
       session = getSession();
       txn = session.beginTransaction();
 
-      /* buid params map */
-      Map<String, List<String>> params = Maps.newHashMap();
-      List<String> paramList = Lists.newArrayList();
-      paramList.add(id);
-      params.put("id", paramList);
-
-      /* query */
-      final List<CatMappingEntry> list = CatMappingDBUtil.getCatMappingEntries(
-          session,
-          params,
-          false);
+      final CatMappingEntry retInstance = (CatMappingEntry) session.get(CatMappingEntry.class, id);
       txn.commit();
 
-      /* buffer result */
-      final CatMappingEntry retInstance = list.size() == 1 ? list.get(0) : null;
       return newResponseForInstance(id.toString(), "catmappings", retInstance);
     } catch (Exception e) {
       if (txn != null && txn.isActive()) {

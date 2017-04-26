@@ -85,7 +85,8 @@ public class Category extends ModelBase implements Model {
     return result;
   }
 
-  public <T extends ModelBase> T setAsIgnoreNull(final T obj) {
+  @Override
+  public <T extends ModelBase> void setAsIgnoreNull(final T obj) {
     if (obj instanceof Category) {
       final Category that = (Category)obj;
       if (that.getId() != null) {
@@ -98,7 +99,5 @@ public class Category extends ModelBase implements Model {
         this.setDescription(that.getDescription());
       }
     }
-
-    return null;
   }
 }

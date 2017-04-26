@@ -50,6 +50,7 @@ import com.snoop.server.web.handlers.BulkDataWebHandler;
 import com.snoop.server.web.handlers.CatMappingWebHandler;
 import com.snoop.server.web.handlers.CategoryWebHandler;
 import com.snoop.server.web.handlers.CoinWebHandler;
+import com.snoop.server.web.handlers.ConfigurationWebHandler;
 import com.snoop.server.web.handlers.NewsfeedWebHandler;
 import com.snoop.server.web.handlers.NotFoundResourceWebHandler;
 import com.snoop.server.web.handlers.NullResouceWebHandler;
@@ -218,6 +219,12 @@ public class HttpSnoopServerHandler
             request).handle();
       case "pcaccounts":
         return new PcAccountWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "configurations":
+        return new ConfigurationWebHandler(
             pathParser,
             respBuf,
             ctx,

@@ -270,6 +270,13 @@ public abstract class AbastractWebHandler implements WebHandler {
   }
 
   protected <T extends ModelBase> FullHttpResponse newResponseForInstance(
+      final Long id,
+      final String prefix,
+      final T instance) throws JsonProcessingException {
+    return newResponseForInstance(id.toString(), prefix, instance);
+  }
+
+  protected <T extends ModelBase> FullHttpResponse newResponseForInstance(
       final String id,
       final String prefix,
       final T instance) throws JsonProcessingException {

@@ -41,5 +41,6 @@
     <mapping resource="com/snoop/server/scripts/category.hbm.xml" />
     <mapping resource="com/snoop/server/scripts/catMapping.hbm.xml" />
     <mapping resource="com/snoop/server/scripts/coins.hbm.xml" />
+    <mapping resource="com/snoop/server/scripts/configuration.hbm.xml" />
   </session-factory>
 </hibernate-configuration>

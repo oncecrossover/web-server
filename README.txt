@@ -582,6 +582,42 @@ Example response:
 curl -i -X PUT "http://127.0.0.1:8080/pcaccounts/813938593759232"  -d '{"payTo":"edmund@fight.com"}'
 
 
+RESTFUL APIs OF CONFIGURATION:
+1. get configuration by id, e.g.
+curl -i -X GET "http://127.0.0.1:8080/configurations/9543380463779840"
+Example response:
+{
+  "id": 9543380463779840,
+  "ckey": "com.snoop.app.welcome.video.url",
+  "value": "xxx",
+  "defaultValue": "yyy",
+  "description": "url for welcome video",
+  "createdTime": 1493229719000,
+  "updatedTime": 1493229719000
+}
+
+2. create a configuration, e.g.
+curl -i -X POST "http://127.0.0.1:8080/configurations" -d '{"ckey":"com.snoop.app.welcome.video.url","value":"xxx","defaultValue":"yyy","description":"url for welcome video"}'
+
+3. update a configuration, e.g.
+curl -i -X PUT "http://127.0.0.1:8080/configurations/9294612522860544" -d '{"ckey":"com.snoop.app.welcome.video.url","value":"zzz"}'
+
+4. query configurations, e.g.
+curl -i -X GET "http://127.0.0.1:8080/configurations?id=9543380463779840"
+curl -i -X GET "http://127.0.0.1:8080/configurations?ckey='com.snoop.app.welcome.video.url'"
+[
+  {
+    "id": 9543380463779840,
+    "ckey": "com.snoop.app.welcome.video.url",
+    "value": "xxx",
+    "defaultValue": "yyy",
+    "description": "url for welcome video",
+    "createdTime": 1493229719000,
+    "updatedTime": 1493229719000
+  }
+]
+
+
 
 HTTP STATUS CODE OF REST API:
 1. get user (i.e. HTTP GET):

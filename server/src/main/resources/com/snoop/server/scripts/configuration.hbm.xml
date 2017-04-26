@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.snoop.server.db.model.DBConf" dynamic-update="true"
+  dynamic-insert="true" table="Configuration">
+    <id name="id" type="long">
+      <column name="id" />
+      <generator class="com.snoop.server.id.UniqueIdGenerator" />
+    </id>
+    <property name="ckey" type="java.lang.String">
+      <column name="ckey" />
+    </property>
+    <property name="value" type="java.lang.String">
+      <column name="value" />
+    </property>
+    <property name="defaultValue" type="java.lang.String">
+      <column name="defaultValue" />
+    </property>
+    <property name="description" type="java.lang.String">
+      <column name="description" />
+    </property>
+    <property name="createdTime" type="timestamp">
+      <column name="createdTime" />
+    </property>
+    <property name="updatedTime" type="timestamp">
+      <column name="updatedTime" />
+    </property>
+  </class>
+</hibernate-mapping>

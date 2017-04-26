@@ -158,7 +158,8 @@ public class CatMappingEntry extends ModelBase implements Model {
     return result;
   }
 
-  public <T extends ModelBase> T setAsIgnoreNull(final T obj) {
+  @Override
+  public <T extends ModelBase> void setAsIgnoreNull(final T obj) {
     if (obj instanceof CatMappingEntry) {
       final CatMappingEntry that = (CatMappingEntry)obj;
       if (that.getCatId() != null) {
@@ -174,8 +175,6 @@ public class CatMappingEntry extends ModelBase implements Model {
         this.setIsInterest(that.getIsInterest());
       }
     }
-
-    return null;
   }
 
 }

@@ -79,7 +79,27 @@ public class CoinEntry extends ModelBase implements Model {
     result = PRIME * result + ((id == null) ? 0 : id.hashCode());
     result = PRIME * result + ((uid == null) ? 0 : uid.hashCode());
     result = PRIME * result + ((amount == null) ? 0 : amount.hashCode());
+    result = PRIME * result + ((originId == null) ? 0 : originId.hashCode());
     result = PRIME * result + ((createdTime == null) ? 0 : createdTime.hashCode());
     return result;
+  }
+
+  @Override
+  public <T extends ModelBase> void setAsIgnoreNull(T obj) {
+    if (obj instanceof CoinEntry) {
+      final CoinEntry that = (CoinEntry) obj;
+      if (that.getId() != null) {
+        this.setId(that.getId());
+      }
+      if (that.getUid() != null) {
+        this.setUid(that.getUid());
+      }
+      if (that.getAmount() != null) {
+        this.setAmount(that.getAmount());
+      }
+      if (that.getOriginId() != null) {
+        this.setOriginId(that.getOriginId());
+      }
+    }
   }
 }
