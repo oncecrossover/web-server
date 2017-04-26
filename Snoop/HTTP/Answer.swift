@@ -9,6 +9,7 @@
 import Foundation
 class Answer: Generics, URLSessionTaskDelegate {
 
+  var customWindow: UIWindow?
   var progressView: ProgressView
 
   let notificationName = "answerRefresh"
@@ -36,13 +37,15 @@ class Answer: Generics, URLSessionTaskDelegate {
     let session = self.getURLSession(self)
 
     if let window = UIApplication.shared.keyWindow {
-      window.addSubview(progressView)
-      progressView.widthAnchor.constraint(equalToConstant: 250).isActive = true
-      progressView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-      progressView.centerXAnchor.constraint(equalTo: window.centerXAnchor).isActive = true
-      progressView.centerYAnchor.constraint(equalTo: window.centerYAnchor).isActive = true
-      progressView.progressBar.setProgress(0, animated: true)
+      customWindow = UIWindow(frame: CGRect(x: 0, y: 0, width: window.frame.width, height: UIApplication.shared.statusBarFrame.height))
+      customWindow?.addSubview(progressView)
+      customWindow?.addConstraintsWithFormat("H:|[v0]|", views: progressView)
+      customWindow?.addConstraintsWithFormat("V:|[v0]|", views: progressView)
+      progressView.label.text = "Uploading... 0%"
+      customWindow?.windowLevel = UIWindowLevelStatusBar
+      customWindow?.isHidden = false
     }
+
     let task = session.dataTask(with: request as URLRequest) {
       data, response, error in
       if (error != nil)
@@ -66,6 +69,8 @@ class Answer: Generics, URLSessionTaskDelegate {
             self.progressView.alpha = 0
           }) {(result) in
             self.progressView.removeFromSuperview()
+            self.customWindow?.isHidden = true
+            self.customWindow = nil
             NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil)
           }
         }
@@ -83,6 +88,7 @@ class Answer: Generics, URLSessionTaskDelegate {
 
   func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
     let progress = Float(totalBytesSent)/Float(totalBytesExpectedToSend)
-    progressView.progressBar.setProgress(progress, animated: true)
+    let percentage = Int(progress * 100)
+    progressView.label.text = "Uploading... \(percentage)%"
   }
 }

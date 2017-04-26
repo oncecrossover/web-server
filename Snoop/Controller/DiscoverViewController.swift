@@ -192,7 +192,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
       if (indexPath.row == filteredProfiles.count - 1) {
         let updatedTime = Int64(cellInfo.updatedTime)
         let lastSeenId = cellInfo.uid
-        let url = "takeQuestion='APPROVED'&limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId='" + "\(lastSeenId)" + "'&fullName='%25\(searchController.searchBar.text!)%25'"
+        let url = "takeQuestion='APPROVED'&limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId=" + "\(lastSeenId)" + "&fullName='%25\(searchController.searchBar.text!)%25'"
         loadProfiles(url, isSearch: true)
       }
     }

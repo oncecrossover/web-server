@@ -147,7 +147,6 @@ extension ViewController {
   }
 
   func addCoins(_ notification: Notification) {
-    print("notification is received")
     if let uid = notification.userInfo?["uid"] as? Int {
       let currentUid = UserDefaults.standard.integer(forKey: "uid")
       // Check if these two are the same user if app relaunches or user signs out.

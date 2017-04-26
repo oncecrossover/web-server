@@ -9,37 +9,27 @@
 import UIKit
 
 class ProgressView: UIView {
-  let progressBar: UIProgressView = {
-    let view = UIProgressView()
-    view.progressTintColor = UIColor.defaultColor()
-    view.trackTintColor = UIColor.disabledColor()
-    return view
-  }()
-
   let label: UILabel = {
     let label = UILabel()
     label.text = "Uploading..."
-    label.font = UIFont.boldSystemFont(ofSize: 20)
+    label.font = UIFont.systemFont(ofSize: 12)
     label.textAlignment = .center
-    label.textColor = UIColor.defaultColor()
+    label.textColor = UIColor.white
     return label
   }()
 
   func showSuccess() {
-    progressBar.isHidden = true
     label.text = "Upload Success!"
   }
 
   override init(frame: CGRect) {
     super.init(frame: frame)
-    //backgroundColor = UIColor(red: 245/255, green: 246/255, blue: 252/255, alpha: 1.0)
-    backgroundColor = UIColor.clear
-    addSubview(progressBar)
+    backgroundColor = UIColor.defaultColor()
     addSubview(label)
 
-    addConstraintsWithFormat("H:|-20-[v0]-20-|", views: progressBar)
     addConstraintsWithFormat("H:|-20-[v0]-20-|", views: label)
-    addConstraintsWithFormat("V:|-20-[v0(4)]-20-[v1(30)]", views: progressBar, label)
+    label.heightAnchor.constraint(equalToConstant: 15).isActive = true
+    label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
   }
 
   required init?(coder aDecoder: NSCoder) {
