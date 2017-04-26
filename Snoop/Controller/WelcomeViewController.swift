@@ -7,42 +7,12 @@
 //
 
 import UIKit
+import AVFoundation
 
 class WelcomeViewController: UIViewController {
-
-  let titles = ["Obtain\nExpert\nInsights", "Monetize\nYour\nExpertise", "'Snoop'\nInteresting\nAnswers"]
-  let summaries = ["Ask your question to a designated expert\nReceive insights via video response\nBoth of you will be rewarded if someone 'snoops' the answer", "Set your price for answering a question\nIf someone requests an answer from you\nYou have 48 hours to repond", "Pay $1.5 to 'snoop' any question\nFor a small amout\nYou get domain expertise"]
-
-  let cellId = "welcomeCell"
-
-  lazy var introduction: UICollectionView = {
-    let layout = UICollectionViewFlowLayout()
-    layout.minimumInteritemSpacing = 0
-    layout.minimumLineSpacing = 0
-    layout.scrollDirection = .horizontal
-    let introduction = UICollectionView(frame: .zero, collectionViewLayout: layout)
-    introduction.dataSource = self
-    introduction.delegate = self
-    introduction.translatesAutoresizingMaskIntoConstraints = false
-    introduction.backgroundColor = UIColor.clear
-    introduction.register(WelcomeCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
-    introduction.showsHorizontalScrollIndicator = false
-    return introduction
-  }()
-
-  lazy var pageControl: UIPageControl = {
-    let pageControl = UIPageControl()
-    pageControl.numberOfPages = self.titles.count
-    pageControl.currentPage = 0
-    pageControl.pageIndicatorTintColor = UIColor.lightGray
-    pageControl.currentPageIndicatorTintColor = UIColor.defaultColor()
-    pageControl.translatesAutoresizingMaskIntoConstraints = false
-
-    pageControl.addTarget(self, action: #selector(pageControlTapped), for: .valueChanged)
-    return pageControl
-  }()
-
-  lazy var signupbutton: UIButton = {
+  let videoPlayerView = UIView()
+  var player: AVPlayer?
+  lazy var signupButton: UIButton = {
     let button = UIButton()
     button.layer.cornerRadius = 10
     button.clipsToBounds = true
@@ -70,57 +40,54 @@ class WelcomeViewController: UIViewController {
     return button
   }()
 
-  let background: UIImageView = {
-    let view = UIImageView()
-    view.contentMode = .scaleAspectFill
-    view.image = UIImage(named: "gradient")
-    return view
-  }()
-
   override func viewDidLoad() {
     super.viewDidLoad()
     self.navigationController?.setNavigationBarHidden(true, animated: false)
     view.backgroundColor = UIColor.white
-    view.addSubview(background)
-    view.addConstraintsWithFormat("H:|[v0]|", views: background)
-    view.addConstraintsWithFormat("V:|[v0]|", views: background)
-    view.addSubview(introduction)
-    view.addSubview(pageControl)
-    view.addSubview(signupbutton)
+    view.addSubview(videoPlayerView)
+    view.addSubview(signupButton)
     view.addSubview(loginButton)
 
-    // Setup constraints for introduction view
-    introduction.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    introduction.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-    introduction.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-    introduction.bottomAnchor.constraint(equalTo: pageControl.topAnchor, constant: -20).isActive = true
-
-    // Setup PageControl constraints
-    pageControl.widthAnchor.constraint(equalToConstant: 120).isActive = true
-    pageControl.heightAnchor.constraint(equalToConstant: 10).isActive = true
-    pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    pageControl.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -130).isActive = true
+    view.addConstraintsWithFormat("H:|[v0]|", views: videoPlayerView)
+    view.addConstraintsWithFormat("V:|[v0]|", views: videoPlayerView)
 
     // Setup button
-    signupbutton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25).isActive = true
-    signupbutton.heightAnchor.constraint(equalToConstant: 47).isActive = true
-    signupbutton.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -12).isActive = true
-    signupbutton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -45).isActive = true
+    signupButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25).isActive = true
+    signupButton.heightAnchor.constraint(equalToConstant: 47).isActive = true
+    signupButton.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -12).isActive = true
+    signupButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -25).isActive = true
     loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25).isActive = true
-    loginButton.heightAnchor.constraint(equalTo: signupbutton.heightAnchor).isActive = true
+    loginButton.heightAnchor.constraint(equalTo: signupButton.heightAnchor).isActive = true
     loginButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 12).isActive = true
-    loginButton.bottomAnchor.constraint(equalTo: signupbutton.bottomAnchor).isActive = true
+    loginButton.bottomAnchor.constraint(equalTo: signupButton.bottomAnchor).isActive = true
+  }
 
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    let url = "https://ddk9xa5p5b3lb.cloudfront.net/test/answers/videos/7860017080303616/7860017080303616.video.mp4"
+    self.player = AVPlayer(url: URL(string: url)!)
+    let playerLayer = AVPlayerLayer(player: self.player)
+    playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+    videoPlayerView.layer.addSublayer(playerLayer)
+    playerLayer.frame = videoPlayerView.frame
+    self.player?.play()
+    NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: self.player?.currentItem, queue: nil) { notification in
+      DispatchQueue.main.async {
+        self.player?.seek(to: kCMTimeZero)
+        self.player?.play()
+      }
+    }
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    self.player?.pause()
+    NotificationCenter.default.removeObserver(self)
   }
 }
 
 // Extension for IB related actions
 extension WelcomeViewController {
-  func pageControlTapped() {
-    let currentPage = self.pageControl.currentPage
-    let indexPath = IndexPath(row: currentPage, section: 0)
-    self.introduction.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-  }
 
   func signupButtonTapped() {
     let vc = SignupViewController()
@@ -130,38 +97,6 @@ extension WelcomeViewController {
   func loginButtonTapped(){
     let vc = LoginViewController()
     self.navigationController?.pushViewController(vc, animated: true)
-  }
-}
-
-extension WelcomeViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-  func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 1
-  }
-
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return titles.count
-  }
-
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: view.frame.width, height: collectionView.frame.height)
-  }
-
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellId, for: indexPath) as! WelcomeCollectionViewCell
-    cell.title.text = titles[indexPath.row]
-    cell.summary.text = summaries[indexPath.row]
-    return cell
-  }
-}
-
-extension WelcomeViewController: UIScrollViewDelegate {
-  func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-    let pageWidth = introduction.frame.size.width
-    let halfPageSize = pageWidth / 2
-    pageControl.currentPage = Int((introduction.contentOffset.x + halfPageSize) / pageWidth)
-    // Add scroll to position action
-    let indexPath = IndexPath(row: pageControl.currentPage, section: 0)
-    self.introduction.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
   }
 }
 
