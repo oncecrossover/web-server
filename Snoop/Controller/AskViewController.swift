@@ -23,6 +23,7 @@ class AskViewController: UIViewController {
   let placeholderColor = UIColor(red: 136/255, green: 153/255, blue: 166/255, alpha: 0.85)
 
   var coinCount = 0
+  var notificationName = "coinsAdded"
 
   lazy var profileView: ProfileView = {
     let frame = CGRect(x: 0, y: 0, width: self.scrollView.frame.width, height: 220)
@@ -238,6 +239,8 @@ extension AskViewController {
           self.questionView.textColor = self.placeholderColor
           self.questionView.text = self.placeholder
           self.displayConfirmation("Question Sent!")
+          let amount = self.profileInfo.rate * 25
+          NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil, userInfo: ["uid": uid, "amount" : -amount])
         }
       }
       self.scrollView.isUserInteractionEnabled = true

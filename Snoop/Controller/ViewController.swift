@@ -147,8 +147,9 @@ extension ViewController {
   }
 
   func addCoins(_ notification: Notification) {
-    if let uid = notification.userInfo?["uid"] as? String {
-      let currentUid = UserDefaults.standard.string(forKey: "uid")!
+    print("notification is received")
+    if let uid = notification.userInfo?["uid"] as? Int {
+      let currentUid = UserDefaults.standard.integer(forKey: "uid")
       // Check if these two are the same user if app relaunches or user signs out.
       if (currentUid == uid) {
         if let amount = notification.userInfo?["amount"] as? Int {
@@ -336,7 +337,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
 // Segue action
 extension ViewController {
 
-  func processTransaction() {
+  func processTransaction(_ amount: Int) {
     let uid = UserDefaults.standard.integer(forKey: "uid")
     let quandaId = self.feeds[self.activeIndexPath!.row].id
     let quandaData: [String:AnyObject] = ["id": quandaId as AnyObject]
@@ -346,6 +347,7 @@ extension ViewController {
         DispatchQueue.main.async {
           self.paidSnoops.insert(quandaId)
           self.feedTable.reloadRows(at: [self.activeIndexPath!], with: .none)
+          NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil, userInfo: ["uid": uid, "amount" : -amount])
         }
       }
       else {
@@ -368,7 +370,7 @@ extension ViewController {
       self.blackView.alpha = 0
       self.payWithCoinsView.alpha = 0
     }) { (result) in
-      self.processTransaction()
+      self.processTransaction(8)
       self.playVideo()
     }
   }
@@ -420,7 +422,7 @@ extension ViewController {
     self.activeIndexPath = indexPath
     if (questionInfo.rate == 0 || self.paidSnoops.contains(questionInfo.id)) {
       if (!self.paidSnoops.contains(questionInfo.id)) {
-        processTransaction()
+        processTransaction(0)
       }
       playVideo()
     }
