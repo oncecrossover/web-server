@@ -463,6 +463,10 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     session.save(snoop);
   }
 
+  private double positiveSnoopRate() {
+    return Math.abs(SNOOP_RATE);
+  }
+
   private void insertSnoopAndQaTransaction(final Session session,
       final Quanda quanda, final QaTransaction qaTransaction) {
     /* insert snoop */
@@ -473,13 +477,17 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     /* insert qaTransaction */
     qaTransaction.setType(TransType.SNOOPED.value());
     qaTransaction.setQuandaId(quanda.getId());
-    qaTransaction.setAmount(Math.abs(SNOOP_RATE));
+    qaTransaction.setAmount(positiveSnoopRate());
     session.save(qaTransaction);
   }
 
   private void insertQuanda(final Session session, final Quanda quanda) {
     /* insert quanda */
     session.save(quanda);
+  }
+
+  private double positiveAnswerRate(final int answerRate) {
+    return Math.abs(answerRate);
   }
 
   private void insertQuandaAndQaTransaction(final Session session,
@@ -491,7 +499,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     /* insert qaTransaction */
     qaTransaction.setType(TransType.ASKED.value());
     qaTransaction.setQuandaId(quanda.getId());
-    qaTransaction.setAmount(Math.abs(answerRate));
+    qaTransaction.setAmount(positiveAnswerRate(answerRate));
     session.save(qaTransaction);
   }
 
@@ -529,8 +537,8 @@ public class QaTransactionWebHandler extends AbastractWebHandler
         answerRate);
   }
 
-  int minusCoinsForSnooping() {
-    return -1 * COINS_PER_SNOOP;
+  int negativeCoinsForSnooping() {
+    return -1 * Math.abs(COINS_PER_SNOOP);
   }
 
   private CoinEntry insertCoinEntryOfSnoopingQuanda(
@@ -538,7 +546,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
       final QaTransaction qaTransaction) {
     final CoinEntry coinEntry = new CoinEntry();
     coinEntry.setUid(qaTransaction.getUid())
-             .setAmount(minusCoinsForSnooping());
+             .setAmount(negativeCoinsForSnooping());
     session.save(coinEntry);
     return coinEntry;
   }
@@ -557,7 +565,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     return coinEntry;
   }
 
-  int negativeAskerCost(final int answerRate) {
+  int negativeAnswerRate(final int answerRate) {
     return -1 * Math.abs(answerRate);
   }
 
@@ -577,15 +585,23 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     final Journal journal = new Journal();
     journal.setTransactionId(qaTransaction.getId())
            .setUid(quanda.getAsker())
-           .setAmount(negativeAskerCost(answerRate))
+           .setAmount(negativeAnswerRate(answerRate))
            .setType(JournalType.COIN.value())
            .setCoinEntryId(coinEntry.getId());
 
     session.save(journal);
   }
 
-  private double minusSnoopRate() {
+  private double negativeSnoopRate() {
     return -1 * Math.abs(SNOOP_RATE);
+  }
+
+  private double positiveAskerRewards() {
+    return Math.abs(ASKER_REWARDS);
+  }
+
+  private double positiveResponderRewards() {
+    return Math.abs(RESPONDER_REWARDS);
   }
 
   /**
@@ -602,7 +618,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     final Journal snooperJournal = new Journal();
     snooperJournal.setTransactionId(qaTransaction.getId())
         .setUid(qaTransaction.getUid())
-        .setAmount(minusSnoopRate())
+        .setAmount(negativeSnoopRate())
         .setType(JournalType.COIN.value())
         .setStatus(Journal.Status.CLEARED.value())
         .setCoinEntryId(coinEntry.getId());
@@ -612,7 +628,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     final Journal askerJournal = new Journal();
     askerJournal.setTransactionId(qaTransaction.getId())
         .setUid(quanda.getAsker())
-        .setAmount(Math.abs(ASKER_REWARDS))
+        .setAmount(positiveAskerRewards())
         .setType(JournalType.BALANCE.value())
         .setStatus(Journal.Status.CLEARED.value())
         .setOriginId(snooperJournal.getId());
@@ -622,7 +638,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     final Journal responderJournal = new Journal();
     responderJournal.setTransactionId(qaTransaction.getId())
         .setUid(quanda.getResponder())
-        .setAmount(Math.abs(RESPONDER_REWARDS))
+        .setAmount(positiveResponderRewards())
         .setType(JournalType.BALANCE.value())
         .setStatus(Journal.Status.CLEARED.value())
         .setOriginId(snooperJournal.getId());
