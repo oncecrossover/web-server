@@ -57,12 +57,12 @@ public class CategoryWebHandler extends AbastractWebHandler
 
   private FullHttpResponse onGet() {
     /* get id */
-    final String id = getPathParser().getPathStream().nextToken();
-
-    /* no id */
-    if (StringUtils.isBlank(id)) {
-      appendln("Missing parameter: id");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    Long id;
+    try {
+      id = Long.parseLong(getPathParser().getPathStream().nextToken());
+    } catch (NumberFormatException e) {
+      appendln("Incorrect id format.");
+      return newClientErrorResponse(e, LOG);
     }
 
     Session session = null;
@@ -70,8 +70,7 @@ public class CategoryWebHandler extends AbastractWebHandler
     try {
       session = getSession();
       txn = session.beginTransaction();
-      final Category retInstance = (Category) session.get(Category.class,
-          Long.parseLong(id));
+      final Category retInstance = (Category) session.get(Category.class, id);
       txn.commit();
 
       /* buffer result */
@@ -137,12 +136,12 @@ public class CategoryWebHandler extends AbastractWebHandler
 
   private FullHttpResponse onUpdate() {
     /* get id */
-    final String id = getPathParser().getPathStream().nextToken();
-
-    /* no id */
-    if (StringUtils.isBlank(id)) {
-      appendln("Missing parameter: id");
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
+    Long id;
+    try {
+      id = Long.parseLong(getPathParser().getPathStream().nextToken());
+    } catch (NumberFormatException e) {
+      appendln("Incorrect id format.");
+      return newClientErrorResponse(e, LOG);
     }
 
     /* deserialize json */
@@ -167,10 +166,10 @@ public class CategoryWebHandler extends AbastractWebHandler
     try {
       session = getSession();
       txn = session.beginTransaction();
-      fromDB = (Category) session.get(Category.class, Long.parseLong(id));
+      fromDB = (Category) session.get(Category.class, id);
       txn.commit();
       if (fromDB == null) {
-        appendln(String.format("Nonexistent category for user ('%s')", id));
+        appendln(String.format("Nonexistent category (%d)", id));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (Exception e) {
@@ -181,7 +180,7 @@ public class CategoryWebHandler extends AbastractWebHandler
     }
 
     /* use id from url, ignore that from json */
-    fromJson.setId(Long.parseLong(id));
+    fromJson.setId(id);
     fromDB.setAsIgnoreNull(fromJson);
     try {
       session = getSession();
