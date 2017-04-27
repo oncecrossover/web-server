@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PcEntry {
-  private long id;
+  private Long id;
   private Long uid;
   private String entryId;
   private String brand;
@@ -18,11 +18,11 @@ public class PcEntry {
   private Date createdTime;
   private Boolean isDefault = false;
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public PcEntry setId(final long id) {
+  public PcEntry setId(final Long id) {
     this.id = id;
     return this;
   }
