@@ -12,7 +12,6 @@
 		4A0EB0ED1D8277C700390D06 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0EB0EC1D8277C700390D06 /* ContentViewController.swift */; };
 		4A10DCC01E579CF9009E3996 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCBF1E579CF9009E3996 /* SettingsViewController.swift */; };
 		4A10DCC21E5A7BA9009E3996 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCC11E5A7BA9009E3996 /* WelcomeViewController.swift */; };
-		4A10DCC41E5A8075009E3996 /* WelcomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCC31E5A8075009E3996 /* WelcomeCollectionViewCell.swift */; };
 		4A10DCC61E5AC0B0009E3996 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCC51E5AC0B0009E3996 /* LoginViewController.swift */; };
 		4A10DCC81E5AD440009E3996 /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCC71E5AD440009E3996 /* IconView.swift */; };
 		4A10DCCA1E5B663A009E3996 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A10DCC91E5B663A009E3996 /* LoginView.swift */; };
@@ -152,7 +151,6 @@
 		4A0EB0EC1D8277C700390D06 /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		4A10DCBF1E579CF9009E3996 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4A10DCC11E5A7BA9009E3996 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
-		4A10DCC31E5A8075009E3996 /* WelcomeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A10DCC51E5AC0B0009E3996 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4A10DCC71E5AD440009E3996 /* IconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		4A10DCC91E5B663A009E3996 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -467,7 +465,6 @@
 			isa = PBXGroup;
 			children = (
 				4A15D17A1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift */,
-				4A10DCC31E5A8075009E3996 /* WelcomeCollectionViewCell.swift */,
 				4A10DCD11E5BBE9A009E3996 /* InterestCollectionViewCell.swift */,
 				4A27FCC61E63F7E800D78294 /* ExpertiseCollectionViewCell.swift */,
 			);
@@ -753,7 +750,6 @@
 				4ACADE151E13586C00831929 /* ActivityModel.swift in Sources */,
 				4A436E4B1E8DB8B700908D24 /* ConfirmView.swift in Sources */,
 				4A10DCC81E5AD440009E3996 /* IconView.swift in Sources */,
-				4A10DCC41E5A8075009E3996 /* WelcomeCollectionViewCell.swift in Sources */,
 				4A10DCD01E5BBBF9009E3996 /* InterestPickerViewController.swift in Sources */,
 				4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */,
 				4A0EB0EB1D8276DC00390D06 /* TutorialViewController.swift in Sources */,

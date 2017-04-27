@@ -35,8 +35,8 @@ class InterestPickerViewController: UIViewController {
 
   lazy var interests: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
-    layout.minimumLineSpacing = 20
-    layout.minimumInteritemSpacing = 20
+    layout.minimumLineSpacing = 10
+    layout.minimumInteritemSpacing = 15
     let interests = UICollectionView(frame: .zero, collectionViewLayout: layout)
     interests.register(InterestCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
     interests.backgroundColor = UIColor.clear
@@ -85,6 +85,7 @@ class InterestPickerViewController: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = UIColor.white
 
+    self.tabBarController?.tabBar.isHidden = true
     loadData()
 
     view.addSubview(message)
@@ -99,14 +100,18 @@ class InterestPickerViewController: UIViewController {
     view.addConstraintsWithFormat("H:|-20-[v0]-20-|", views: message)
     view.addConstraintsWithFormat("H:|[v0]|", views: underline)
     view.addConstraintsWithFormat("H:|-20-[v0]-20-|", views: note)
-    view.addConstraintsWithFormat("V:|-80-[v0(20)]-20-[v1]-20-[v2(1)]-10-[v3(20)]-8-[v4(36)]-58-|", views: message, interests, underline, note, doneButton)
-    interests.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    interests.widthAnchor.constraint(equalToConstant: 286).isActive = true
+    view.addConstraintsWithFormat("V:|-80-[v0(20)]-10-[v1]-10-[v2(1)]-10-[v3(20)]-8-[v4(36)]-20-|", views: message, interests, underline, note, doneButton)
+    view.addConstraintsWithFormat("H:|-20-[v0]-20-|", views: interests)
 
     doneButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     doneButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
     doneButton.layer.cornerRadius = 18
     doneButton.clipsToBounds = true
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    self.tabBarController?.tabBar.isHidden = false
   }
 
   func loadData() {
@@ -185,11 +190,11 @@ extension InterestPickerViewController {
   func doneButtonTapped() {
     let categoriesToUpdate:[[String: AnyObject]] = populateCategoriesToUpdate()
 
-//    if (email == nil) {
-//      email = UserDefaults.standard.string(forKey: "email")
-//    }
+    var uid = UserDefaults.standard.integer(forKey: "uid")
+    if (uid == 0) {
+      uid = self.uid!
+    }
 
-    let uid = UserDefaults.standard.integer(forKey: "uid")
     category.updateInterests(uid, interests: categoriesToUpdate) { result in
       if (result.isEmpty) {
         DispatchQueue.main.async {
@@ -223,7 +228,8 @@ extension InterestPickerViewController {
 extension InterestPickerViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
 
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: 82, height: 82)
+    let width = (collectionView.frame.width - 30)/3
+    return CGSize(width: width, height: width + 25)
   }
 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -234,14 +240,8 @@ extension InterestPickerViewController: UICollectionViewDelegate, UICollectionVi
     let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellId, for: indexPath) as! InterestCollectionViewCell
     let category = allCategories[indexPath.row]
     let image = UIImage(named: category.name)
-    myCell.icon.image = image?.withRenderingMode(.alwaysTemplate)
-    let interest = InterestModel(_catId: category.id, _name: category.name)
-    if (selectedCategories.contains(interest)) {
-      myCell.icon.tintColor = UIColor.defaultColor()
-    }
-    else {
-      myCell.icon.tintColor = UIColor(red: 136/255, green: 153/255, blue: 166/255, alpha: 1.0)
-    }
+    myCell.icon.image = image
+    myCell.name.text = category.name
 
     return myCell
   }

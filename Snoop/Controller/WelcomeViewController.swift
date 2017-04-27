@@ -82,6 +82,7 @@ class WelcomeViewController: UIViewController {
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     self.player?.pause()
+    self.player = nil
     NotificationCenter.default.removeObserver(self)
   }
 }

@@ -269,8 +269,8 @@ class CollectionGroup: UIView, UICollectionViewDelegate, UICollectionViewDelegat
 
   lazy var expertiseCollection: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
-    layout.minimumLineSpacing = 12
-    layout.minimumInteritemSpacing = 12
+    layout.minimumLineSpacing = 6
+    layout.minimumInteritemSpacing = 6
     let expertise = UICollectionView(frame: .zero, collectionViewLayout: layout)
     expertise.register(ExpertiseCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
     expertise.dataSource = self
