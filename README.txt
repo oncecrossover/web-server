@@ -45,7 +45,7 @@ Example: run-jar.sh  snoop-web-server
          run-jar.sh -Dhttp.snoop.server.port=8080 snoop-web-server
          run-jar.sh -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl snoop-web-server
          run-jar.sh -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl -Dhttp.snoop.server.live snoop-web-server
-         run-jar.sh -Dhttp.snoop.server.host=127.0.0.1 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl -Dresource.uri=users/edmund snoop-web-client
+         run-jar.sh -Dhttp.snoop.server.host=127.0.0.1 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl -Dresource.uri=users/123 snoop-web-client
 
 Available services:
 

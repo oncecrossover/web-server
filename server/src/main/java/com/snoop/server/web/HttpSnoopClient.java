@@ -39,6 +39,8 @@ import java.net.URI;
 
 import javax.net.ssl.SSLException;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * A simple HTTP client that prints out the content of the HTTP response to
  * {@link System#out} to test {@link HttpSnoopServer}.
@@ -52,6 +54,7 @@ public final class HttpSnoopClient {
   static final int PORT = Integer.parseInt(
       System.getProperty("http.snoop.server.port", SSL ? "8443" : "8080"));
   static final String RES_URI = System.getProperty("resource.uri");
+  static final String HTTP_METHOD = System.getProperty("http.method");
 
   public static void main(String[] args) throws Exception {
     final String scheme = SSL ? "https" : "http";
@@ -108,10 +111,30 @@ public final class HttpSnoopClient {
     return sslCtx;
   }
 
+  private static HttpMethod getHttpMethod() {
+    if (StringUtils.isBlank(HTTP_METHOD)) {
+      return HttpMethod.GET;
+    }
+
+    String method = HTTP_METHOD.toUpperCase();
+    switch (method) {
+      case "GET":
+        return HttpMethod.GET;
+      case "POST":
+        return HttpMethod.POST;
+      case "PUT":
+        return HttpMethod.PUT;
+      case "DELETE":
+        return HttpMethod.DELETE;
+      default:
+        return HttpMethod.GET;
+    }
+  }
+
   private static HttpRequest buildRequest(final URI uri, final String host) {
     // Prepare the HTTP request.
     FullHttpRequest request = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1,
-        HttpMethod.GET, uri.getRawPath());
+        getHttpMethod(), uri.getRawPath());
     request.headers().set(HttpHeaderNames.HOST, host);
     request.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.CLOSE);
     request.headers().set(HttpHeaderNames.ACCEPT_ENCODING,

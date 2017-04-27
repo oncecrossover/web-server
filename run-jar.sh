@@ -43,7 +43,7 @@ if [[ -z "$EXAMPLE" ]] || [[ -z "$EXAMPLE_CLASS" ]] || [[ $# -ne 0 ]]; then
   echo "         $0 -Dhttp.snoop.server.port=8080 snoop-web-server" >&2
   echo "         $0 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl snoop-web-server" >&2
   echo "         $0 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl -Dhttp.snoop.server.live snoop-web-server" >&2
-  echo "         $0 -Dhttp.snoop.server.host=127.0.0.1 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl -Dresource.uri=users/edmund snoop-web-client" >&2
+  echo "         $0 -Dhttp.snoop.server.host=127.0.0.1 -Dhttp.snoop.server.port=8443 -Dhttp.snoop.ssl -Dresource.uri=users/123 snoop-web-client" >&2
   echo >&2
   echo "Available services:" >&2
   echo >&2
@@ -77,4 +77,13 @@ done
 
 cd "`dirname "$0"`"/server
 echo "[INFO] Running: $EXAMPLE ($EXAMPLE_CLASS $EXAMPLE_ARGS)"
-exec mvn -q -nsu compile exec:exec -Dcheckstyle.skip=true -Dforcenpn="$FORCE_NPN" -DargLine.example="$EXAMPLE_ARGS" -DexampleClass="$EXAMPLE_CLASS"
+mvn -q -nsu compile exec:exec -Dcheckstyle.skip=true -Dforcenpn="$FORCE_NPN" -DargLine.example="$EXAMPLE_ARGS" -DexampleClass="$EXAMPLE_CLASS" &> snoop.server.log &
+
+# wait for server to start
+sleep 30
+# run expiring quandas every 1 hour
+while true;
+do
+mvn -q -nsu compile exec:exec -Dcheckstyle.skip=true -DargLine.example="$EXAMPLE_ARGS -Dhttp.method=POST -Dresource.uri=quandas/expire" -DexampleClass="com.snoop.server.web.HttpSnoopClient" &> expire-quanda.log
+sleep 3600
+done
