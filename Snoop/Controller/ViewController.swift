@@ -57,6 +57,15 @@ class ViewController: UIViewController {
     return view
   }()
 
+  lazy var freeCoinsView: FreeCoinsView = {
+    let view = FreeCoinsView()
+    view.layer.cornerRadius = 6
+    view.clipsToBounds = true
+    view.claimButton.addTarget(self, action: #selector(claimButtonTapped), for: .touchUpInside)
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
+
   @IBOutlet weak var feedTable: UITableView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
@@ -100,8 +109,9 @@ extension ViewController {
   }
   
   override func viewDidAppear(_ animated: Bool) {
-    let isUserSignedUp = UserDefaults.standard.bool(forKey: "isUserSignedUp")
-    if (!isUserSignedUp) {
+    if (!UserDefaults.standard.bool(forKey: "isUserWelcomed")) {
+      UserDefaults.standard.set(true, forKey: "isUserWelcomed")
+      UserDefaults.standard.synchronize()
       let vc = UINavigationController(rootViewController: WelcomeViewController())
       self.present(vc, animated: true, completion: nil)
     }
@@ -125,6 +135,11 @@ extension ViewController {
           loadCoinCount()
         }
       }
+    }
+    if (UserDefaults.standard.bool(forKey: "shouldGiftUser")) {
+      displayFreeCoinsView()
+      UserDefaults.standard.set(false, forKey: "shouldGiftUser")
+      UserDefaults.standard.synchronize()
     }
   }
 }
@@ -352,6 +367,42 @@ extension ViewController {
       else {
         DispatchQueue.main.async {
           self.utilityModule.displayAlertMessage("there is an error processing your payment. Please try later", title: "Error", sender: self)
+        }
+      }
+    }
+  }
+
+  func displayFreeCoinsView() {
+    if let window = UIApplication.shared.keyWindow {
+      window.addSubview(blackView)
+      blackView.frame = window.frame
+
+      window.addSubview(freeCoinsView)
+      freeCoinsView.centerXAnchor.constraint(equalTo: window.centerXAnchor).isActive = true
+      freeCoinsView.centerYAnchor.constraint(equalTo: window.centerYAnchor).isActive = true
+      freeCoinsView.widthAnchor.constraint(equalToConstant: 260).isActive = true
+      freeCoinsView.heightAnchor.constraint(equalToConstant: 176).isActive = true
+      blackView.alpha = 0
+      freeCoinsView.alpha = 0
+      UIView.animate(withDuration: 0.5, animations: {
+        self.blackView.alpha = 1
+        self.freeCoinsView.alpha = 1
+      })
+    }
+
+  }
+  func claimButtonTapped() {
+    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+      self.blackView.alpha = 0
+      self.freeCoinsView.alpha = 0
+    }) {(_) in
+      let uid = UserDefaults.standard.integer(forKey: "uid")
+      self.coinModule.addCoins(uid, count: 100) { result in
+        if (result.isEmpty) {
+          DispatchQueue.main.async {
+
+            NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil, userInfo: ["uid": uid, "amount" : 100])
+          }
         }
       }
     }

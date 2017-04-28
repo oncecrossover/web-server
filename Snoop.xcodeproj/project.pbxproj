@@ -70,6 +70,7 @@
 		4A7971E31E6D0C70003105FD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A7971E21E6D0C70003105FD /* StoreKit.framework */; };
 		4A7971E51E6E2495003105FD /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7971E41E6E2494003105FD /* Coin.swift */; };
 		4A7971E71E6E4C2D003105FD /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7971E61E6E4C2D003105FD /* IAPManager.swift */; };
+		4A7986A21EB2A5B7002A32A9 /* FreeCoinsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7986A11EB2A5B7002A32A9 /* FreeCoinsView.swift */; };
 		4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */; };
 		4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */; };
 		4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26821D218FC60001989E /* ProfileViewController.swift */; };
@@ -211,6 +212,7 @@
 		4A7971E21E6D0C70003105FD /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4A7971E41E6E2494003105FD /* Coin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
 		4A7971E61E6E4C2D003105FD /* IAPManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
+		4A7986A11EB2A5B7002A32A9 /* FreeCoinsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreeCoinsView.swift; sourceTree = "<group>"; };
 		4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewCell.swift; sourceTree = "<group>"; };
 		4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 		4A8F26821D218FC60001989E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -457,6 +459,7 @@
 				4A436E4A1E8DB8B700908D24 /* ConfirmView.swift */,
 				4A436E4C1E9061A600908D24 /* PermissionView.swift */,
 				4A16ADBB1E9C85B900AA017E /* QuestionView.swift */,
+				4A7986A11EB2A5B7002A32A9 /* FreeCoinsView.swift */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -768,6 +771,7 @@
 				4ADFD3931E56628B00CD3D92 /* SDWebImageCompat.m in Sources */,
 				4AC9231F1D360A0800C83177 /* FeedTableViewCell.swift in Sources */,
 				4A7971E71E6E4C2D003105FD /* IAPManager.swift in Sources */,
+				4A7986A21EB2A5B7002A32A9 /* FreeCoinsView.swift in Sources */,
 				4A6730BB1E23301A00C512B1 /* ProfileSettingsTableViewCell.swift in Sources */,
 				4A58B0E61E83902E0079F46E /* ProgressView.swift in Sources */,
 				4ADFD38E1E56628B00CD3D92 /* MKAnnotationView+WebCache.m in Sources */,

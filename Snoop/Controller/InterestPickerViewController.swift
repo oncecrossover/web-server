@@ -36,7 +36,7 @@ class InterestPickerViewController: UIViewController {
   lazy var interests: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
     layout.minimumLineSpacing = 10
-    layout.minimumInteritemSpacing = 15
+    layout.minimumInteritemSpacing = 10
     let interests = UICollectionView(frame: .zero, collectionViewLayout: layout)
     interests.register(InterestCollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
     interests.backgroundColor = UIColor.clear

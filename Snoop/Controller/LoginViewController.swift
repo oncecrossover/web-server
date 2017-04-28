@@ -149,7 +149,6 @@ class LoginViewController: UIViewController {
       if let uid = dict["uid"] as? Int {
         UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
         UserDefaults.standard.set(uid, forKey: "uid")
-        UserDefaults.standard.set(true, forKey:"isUserSignedUp")
         UserDefaults.standard.synchronize()
         if let deviceToken = UserDefaults.standard.string(forKey: "deviceToken") {
           userModule.updateDeviceToken(uid, token: deviceToken) { result in

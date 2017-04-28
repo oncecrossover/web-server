@@ -30,7 +30,7 @@ class PayWithCoinsView: UIView {
   let numberLabel: UILabel = {
     // left by 5 15 by 28
     let label = UILabel()
-    label.text = "8"
+    label.text = "4"
     label.font = UIFont.boldSystemFont(ofSize: 24)
     label.textColor = UIColor.black
     return label
