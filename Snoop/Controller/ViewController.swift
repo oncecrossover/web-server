@@ -26,10 +26,8 @@ class ViewController: UIViewController {
   var activePlayerView: VideoPlayerView?
 
   var coinCount = 0
-  lazy var coinView: CoinButtonView = {
-    let view = CoinButtonView(frame: CGRect(origin: .zero, size: CGSize(width: 55, height: 20)))
-    return view
-  }()
+
+  var customNavigationBar: CustomNavigationView?
 
   lazy var blackView: UIView = {
     let view = UIView()
@@ -90,36 +88,33 @@ extension ViewController {
     refreshControl.addTarget(self, action: #selector(ViewController.refresh(_:)), for: .valueChanged)
     feedTable.addSubview(refreshControl)
 
-    let logo = UIImage(named: "logo")
-    let logoView = UIImageView(frame: CGRect(x: 0, y: 0, width: 68, height: 20))
-    logoView.contentMode = .scaleAspectFit
-    logoView.image = logo
-    self.navigationItem.titleView = logoView
-
-    coinView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(coinButtonTapped)))
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: coinView)
-
-    // We add the left button only to center the logo view in the nav bar.
-    // We need a better solution later one
-    let leftButton = UIButton()
-    leftButton.frame = CGRect(origin: .zero, size: CGSize(width: 55, height: 20))
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
-
     NotificationCenter.default.addObserver(self, selector: #selector(self.addCoins(_:)), name: NSNotification.Name(rawValue: self.notificationName), object: nil)
   }
   
   override func viewDidAppear(_ animated: Bool) {
+    // Check if we want to display welcome video page
     if (!UserDefaults.standard.bool(forKey: "isUserWelcomed")) {
       let vc = UINavigationController(rootViewController: WelcomeViewController())
       self.present(vc, animated: true, completion: nil)
     }
 
+    // Check if we want to display
     let isUserLoggedIn = UserDefaults.standard.bool(forKey: "isUserLoggedIn")
     if (!isUserLoggedIn){
       let vc = UINavigationController(rootViewController: LoginViewController())
       self.present(vc, animated: true, completion: nil)
     }
     else {
+      self.navigationController?.navigationBar.isHidden = true
+      if let frame = self.navigationController?.navigationBar.frame {
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let newFrame = CGRect(x: 0, y: 0, width: frame.width, height: statusBarHeight + frame.height)
+        customNavigationBar = CustomNavigationView(frame: newFrame)
+        self.view.addSubview(self.customNavigationBar!)
+        self.customNavigationBar?.coinButtonView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(coinButtonTapped)))
+        self.customNavigationBar?.coinButtonView.setCount(self.coinCount)
+      }
+
       if (feeds.count == 0){
         loadData()
         loadCoinCount()
@@ -140,6 +135,11 @@ extension ViewController {
       UserDefaults.standard.synchronize()
     }
   }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    self.navigationController?.navigationBar.isHidden = false
+  }
 }
 
 // Private function
@@ -156,7 +156,7 @@ extension ViewController {
   }
 
   func loadCoinCount(_ count: Int) {
-    self.coinView.setCount(count)
+    self.customNavigationBar?.coinButtonView.setCount(count)
   }
 
   func addCoins(_ notification: Notification) {

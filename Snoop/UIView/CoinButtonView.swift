@@ -22,6 +22,7 @@ class CoinButtonView: UIView {
     count.adjustsFontSizeToFitWidth = true
     count.minimumScaleFactor = 10 / count.font.pointSize
     count.textColor = UIColor(white: 0, alpha: 0.8)
+    count.textAlignment = .right
     return count
   }()
 
@@ -31,13 +32,13 @@ class CoinButtonView: UIView {
     addSubview(coinView)
     addSubview(coinCount)
 
-    addConstraintsWithFormat("H:|[v0(18)]-2-[v1(35)]|", views: coinView, coinCount)
+    addConstraintsWithFormat("H:|[v0(35)]-2-[v1(18)]", views: coinCount, coinView)
     addConstraintsWithFormat("V:|-1-[v0]-1-|", views: coinView)
     addConstraintsWithFormat("V:|-1-[v0]-1-|", views: coinCount)
   }
 
   func setCount(_ count: Int) {
-    coinCount.text = String(count)
+    coinCount.text = "\(count)"
   }
 
   required init?(coder aDecoder: NSCoder) {
