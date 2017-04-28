@@ -110,8 +110,6 @@ extension ViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     if (!UserDefaults.standard.bool(forKey: "isUserWelcomed")) {
-      UserDefaults.standard.set(true, forKey: "isUserWelcomed")
-      UserDefaults.standard.synchronize()
       let vc = UINavigationController(rootViewController: WelcomeViewController())
       self.present(vc, animated: true, completion: nil)
     }

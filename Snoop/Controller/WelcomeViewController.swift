@@ -60,6 +60,17 @@ class WelcomeViewController: UIViewController {
     loginButton.heightAnchor.constraint(equalTo: signupButton.heightAnchor).isActive = true
     loginButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 12).isActive = true
     loginButton.bottomAnchor.constraint(equalTo: signupButton.bottomAnchor).isActive = true
+
+    NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidEnterBackground, object: nil, queue: nil) { (_) in
+      self.player?.pause()
+    }
+
+    NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationWillEnterForeground, object: nil, queue: nil) { (_) in
+      self.player?.play()
+    }
+
+    UserDefaults.standard.set(true, forKey: "isUserWelcomed")
+    UserDefaults.standard.synchronize()
   }
 
   override func viewDidAppear(_ animated: Bool) {
