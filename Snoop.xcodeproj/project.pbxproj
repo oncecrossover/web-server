@@ -127,7 +127,6 @@
 		4AF303BD1E7A74AE0048895D /* EarningsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF303BC1E7A74AE0048895D /* EarningsViewController.swift */; };
 		4AF3226A1D29A1E10043FCE5 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF322691D29A1E10043FCE5 /* Question.swift */; };
 		4AF3226C1D29DE120043FCE5 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF3226B1D29DE120043FCE5 /* ActivityViewController.swift */; };
-		4AF3226E1D29DEEB0043FCE5 /* QuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF3226D1D29DEEB0043FCE5 /* QuestionTableViewCell.swift */; };
 		4AF322741D2C83260043FCE5 /* AnswerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF322731D2C83260043FCE5 /* AnswerTableViewCell.swift */; };
 		4AF322761D2DBCB50043FCE5 /* AnswerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF322751D2DBCB50043FCE5 /* AnswerViewController.swift */; };
 		4AF910741D449F1800546F95 /* InteractiveUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF910731D449F1800546F95 /* InteractiveUITextField.swift */; };
@@ -292,7 +291,6 @@
 		4AF303BC1E7A74AE0048895D /* EarningsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EarningsViewController.swift; sourceTree = "<group>"; };
 		4AF322691D29A1E10043FCE5 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		4AF3226B1D29DE120043FCE5 /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
-		4AF3226D1D29DEEB0043FCE5 /* QuestionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionTableViewCell.swift; sourceTree = "<group>"; };
 		4AF322731D2C83260043FCE5 /* AnswerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerTableViewCell.swift; sourceTree = "<group>"; };
 		4AF322751D2DBCB50043FCE5 /* AnswerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerViewController.swift; sourceTree = "<group>"; };
 		4AF910731D449F1800546F95 /* InteractiveUITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveUITextField.swift; sourceTree = "<group>"; };
@@ -405,7 +403,6 @@
 		4AAF42F71E5696E400074C7F /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				4AF3226D1D29DEEB0043FCE5 /* QuestionTableViewCell.swift */,
 				4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */,
 				4AF322731D2C83260043FCE5 /* AnswerTableViewCell.swift */,
 				4AC9231E1D360A0800C83177 /* FeedTableViewCell.swift */,
@@ -805,7 +802,6 @@
 				4ADFD3921E56628B00CD3D92 /* SDImageCacheConfig.m in Sources */,
 				4ADFD39E1E56628B00CD3D92 /* UIImageView+WebCache.m in Sources */,
 				4A368E8C1D5CFA8000176C54 /* ChargeViewController.swift in Sources */,
-				4AF3226E1D29DEEB0043FCE5 /* QuestionTableViewCell.swift in Sources */,
 				4AF303BD1E7A74AE0048895D /* EarningsViewController.swift in Sources */,
 				4ADFD39A1E56628B00CD3D92 /* UIImage+GIF.m in Sources */,
 				4ADFD3911E56628B00CD3D92 /* SDImageCache.m in Sources */,

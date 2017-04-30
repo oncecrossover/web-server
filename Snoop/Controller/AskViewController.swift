@@ -239,6 +239,8 @@ extension AskViewController {
           self.questionView.textColor = self.placeholderColor
           self.questionView.text = self.placeholder
           self.displayConfirmation("Question Sent!")
+          UserDefaults.standard.set(true, forKey: "shouldLoadQuestions")
+          UserDefaults.standard.synchronize()
           let amount = self.profileInfo.rate * 25
           NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil, userInfo: ["uid": uid, "amount" : -amount])
         }

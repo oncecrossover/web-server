@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MT6-4y-LwK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MT6-4y-LwK">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -99,13 +99,6 @@
                                                         <constraint firstAttribute="width" constant="40" id="X7e-aP-H4K"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ulu-SP-9l6">
-                                                    <rect key="frame" x="86" y="198" width="38" height="16"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="38" id="h8A-Zc-A2Y"/>
-                                                        <constraint firstAttribute="height" constant="16" id="igO-Qf-bDA"/>
-                                                    </constraints>
-                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="question" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zM4-xp-xB4" customClass="TextFitLabel" customModule="Snoop" customModuleProvider="target">
                                                     <rect key="frame" x="48" y="10" width="305" height="37"/>
                                                     <constraints>
@@ -128,12 +121,10 @@
                                                 <constraint firstItem="ve2-xK-cgl" firstAttribute="top" secondItem="Mhs-fJ-tpp" secondAttribute="bottom" constant="-20" id="4Xp-lL-AJa"/>
                                                 <constraint firstItem="zM4-xp-xB4" firstAttribute="trailing" secondItem="7uX-w0-SyT" secondAttribute="trailingMargin" constant="-14" id="4wj-vQ-Buk"/>
                                                 <constraint firstAttribute="leadingMargin" secondItem="DI2-uq-Es0" secondAttribute="leading" id="BPD-1Y-cii"/>
-                                                <constraint firstItem="ulu-SP-9l6" firstAttribute="leading" secondItem="Mhs-fJ-tpp" secondAttribute="trailing" constant="-42" id="CPa-3k-5qA"/>
                                                 <constraint firstItem="DUd-Sp-h8c" firstAttribute="leading" secondItem="SbK-Kx-VGC" secondAttribute="trailing" constant="8" id="Dxx-vp-8nP"/>
                                                 <constraint firstItem="SbK-Kx-VGC" firstAttribute="leading" secondItem="Mhs-fJ-tpp" secondAttribute="trailing" constant="8" id="IiY-fh-KzR"/>
                                                 <constraint firstItem="Mhs-fJ-tpp" firstAttribute="leading" secondItem="DI2-uq-Es0" secondAttribute="leading" id="JGH-YT-Nei"/>
                                                 <constraint firstItem="EeO-id-WYE" firstAttribute="leading" secondItem="SbK-Kx-VGC" secondAttribute="leading" id="Jfx-dA-MVE"/>
-                                                <constraint firstItem="ulu-SP-9l6" firstAttribute="top" secondItem="Mhs-fJ-tpp" secondAttribute="bottom" constant="-20" id="JiJ-nr-DzJ"/>
                                                 <constraint firstItem="Mhs-fJ-tpp" firstAttribute="top" secondItem="zM4-xp-xB4" secondAttribute="bottom" constant="12" id="PgP-CL-PT6"/>
                                                 <constraint firstItem="Mhs-fJ-tpp" firstAttribute="leading" secondItem="ve2-xK-cgl" secondAttribute="trailing" constant="-42" id="QyK-uS-ZMj"/>
                                                 <constraint firstItem="SbK-Kx-VGC" firstAttribute="top" secondItem="Mhs-fJ-tpp" secondAttribute="top" id="V4g-bf-oSP"/>
@@ -158,7 +149,6 @@
                                             <outlet property="askerImage" destination="DI2-uq-Es0" id="nE6-dI-ZdV"/>
                                             <outlet property="coverImage" destination="Mhs-fJ-tpp" id="O1o-fF-GBE"/>
                                             <outlet property="durationLabel" destination="ve2-xK-cgl" id="4Ny-qu-DKV"/>
-                                            <outlet property="lockImage" destination="ulu-SP-9l6" id="xJa-P0-L7h"/>
                                             <outlet property="nameLabel" destination="DUd-Sp-h8c" id="r1X-MF-WOm"/>
                                             <outlet property="numOfSnoops" destination="vyj-Fk-VtS" id="dpD-Wq-Ku7"/>
                                             <outlet property="playImage" destination="GF2-61-soV" id="XAf-bO-zCp"/>

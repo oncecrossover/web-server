@@ -22,7 +22,6 @@ class FeedTableViewCell: UITableViewCell {
   @IBOutlet weak var durationLabel: UILabel!
   @IBOutlet weak var responderImage: UIImageView!
 
-  @IBOutlet weak var lockImage: UIImageView!
   @IBOutlet weak var numOfSnoops: UILabel!
 
 
@@ -52,7 +51,6 @@ class FeedTableViewCell: UITableViewCell {
     titleLabel.font = UIFont.systemFont(ofSize: 12)
     titleLabel.textColor = UIColor.secondaryTextColor()
     titleLabel.numberOfLines = 0
-    playImage.image = UIImage(named: "play")
 
     durationLabel.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
     durationLabel.layer.cornerRadius = 2

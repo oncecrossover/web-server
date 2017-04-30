@@ -284,16 +284,11 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     }
 
     // setup rate label
-    if (self.paidSnoops.contains(feedInfo.id)) {
-      myCell.lockImage.image = UIImage(named: "unlocked")
+    if (self.paidSnoops.contains(feedInfo.id) || feedInfo.rate == 0) {
+      myCell.playImage.image = UIImage(named: "play")
     }
     else {
-      if (feedInfo.rate > 0) {
-        myCell.lockImage.image = UIImage(named: "lock")
-      }
-      else {
-        myCell.lockImage.image = UIImage(named: "unlocked")
-      }
+      myCell.playImage.image = UIImage(named: "lock")
     }
 
     setPlaceholderImages(myCell)
@@ -309,14 +304,9 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
       myCell.durationLabel.text = "00:\(feedInfo.duration)"
       myCell.durationLabel.isHidden = false
 
-      if (self.paidSnoops.contains(feedInfo.id)) {
-        let tappedToWatch = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToWatch(_:)))
-        myCell.coverImage.addGestureRecognizer(tappedToWatch)
-      }
-      else {
-        let tappedToWatch = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToWatch(_:)))
-        myCell.coverImage.addGestureRecognizer(tappedToWatch)
-      }
+      let tappedToWatch = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToWatch(_:)))
+      myCell.coverImage.addGestureRecognizer(tappedToWatch)
+
     }
 
     // set profile image
@@ -359,6 +349,8 @@ extension ViewController {
         DispatchQueue.main.async {
           self.paidSnoops.insert(quandaId)
           self.feedTable.reloadRows(at: [self.activeIndexPath!], with: .none)
+          UserDefaults.standard.set(true, forKey: "shouldLoadSnoops")
+          UserDefaults.standard.synchronize()
           NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil, userInfo: ["uid": uid, "amount" : -amount])
         }
       }
