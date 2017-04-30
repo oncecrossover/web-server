@@ -41,10 +41,10 @@ class ActivityTableViewCell: UITableViewCell {
 
     question.font = UIFont.systemFont(ofSize: 13)
 
-    responderName.font = UIFont.systemFont(ofSize: 13)
+    responderName.font = UIFont.boldSystemFont(ofSize: 14)
     responderTitle.textColor = UIColor(red: 140/255, green: 157/255, blue: 170/255, alpha: 1.0)
 
-    askerName.font = UIFont.systemFont(ofSize: 12)
+    askerName.font = UIFont.boldSystemFont(ofSize: 14)
   }
 
 }

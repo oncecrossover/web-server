@@ -24,7 +24,7 @@ class FeedTableViewCell: UITableViewCell {
 
   @IBOutlet weak var numOfSnoops: UILabel!
 
-
+  @IBOutlet weak var askerName: UILabel!
 
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -56,7 +56,8 @@ class FeedTableViewCell: UITableViewCell {
     durationLabel.layer.cornerRadius = 2
     durationLabel.clipsToBounds = true
 
-    nameLabel.font = UIFont.systemFont(ofSize: 13)
+    nameLabel.font = UIFont.boldSystemFont(ofSize: 14)
+    askerName.font = UIFont.boldSystemFont(ofSize: 14)
     numOfSnoops.font = numOfSnoops.font.withSize(11)
     numOfSnoops.textColor = UIColor.defaultColor()
   }

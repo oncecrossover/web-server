@@ -196,6 +196,7 @@ extension ViewController {
         let responderId = feedInfo["responderId"] as! Int
         let numberOfSnoops = feedInfo["snoops"] as! Int
         let name = feedInfo["responderName"] as! String
+        let askerName = feedInfo["askerName"] as! String
         let updatedTime = feedInfo["updatedTime"] as! Double
 
         var title = ""
@@ -210,7 +211,7 @@ extension ViewController {
 
         let duration = feedInfo["duration"] as! Int
         let rate = feedInfo["rate"] as! Int
-        self.tmpFeeds.append(FeedsModel(_name: name, _title: title, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime,  _duration: duration, _responderAvatarUrl: responderAvatarUrl, _askerAvatarUrl: askerAvatarUrl, _coverUrl: coverUrl, _answerUrl: answerUrl!, _rate: rate))
+        self.tmpFeeds.append(FeedsModel(_name: name, _title: title, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime,  _duration: duration, _responderAvatarUrl: responderAvatarUrl, _askerAvatarUrl: askerAvatarUrl, _askerName: askerName, _coverUrl: coverUrl, _answerUrl: answerUrl!, _rate: rate))
       }
 
       self.feeds = self.tmpFeeds
@@ -271,7 +272,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
 
     let feedInfo = feeds[indexPath.row]
     myCell.nameLabel.text = feedInfo.name
-
+    myCell.askerName.text = feedInfo.askerName
 
     myCell.questionLabel.text = feedInfo.question
     myCell.numOfSnoops.text = String(feedInfo.snoops)
@@ -410,7 +411,7 @@ extension ViewController {
       self.blackView.alpha = 0
       self.payWithCoinsView.alpha = 0
     }) { (result) in
-      self.processTransaction(8)
+      self.processTransaction(4)
       self.playVideo()
     }
   }
