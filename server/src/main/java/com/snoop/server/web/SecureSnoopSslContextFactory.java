@@ -87,7 +87,7 @@ public final class SecureSnoopSslContextFactory {
 
     /* get client truststore location */
     final String clientTrustStoreLocation =
-        "src/main/resources/com/snoop/server/security/snoop-server-keystore.jks";
+        "src/main/resources/com/snoop/server/security/snoop-client-truststore.jks";
 
     /* get client truststore pwd */
     final String clientTrustStorePassword = "changeme";
@@ -122,7 +122,7 @@ public final class SecureSnoopSslContextFactory {
 
     /* get server truststore location */
     final String serverTrustStoreLocation =
-        "src/main/resources/com/snoop/server/security/snoop-client-keystore.jks";
+        "src/main/resources/com/snoop/server/security/snoop-server-truststore.jks";
 
     /* get server truststore pwd */
     final String serverTrustStorePassword = "changeme";

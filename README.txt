@@ -662,10 +662,10 @@ gd_bundle-g2-g1.crt:         CA signed root certificates
 snoop-cert-ca.zip:           zip that contains the two files above
 snoop-cert.csr:              certificates signing request file
 snoop-client-keystore.jks:   client-side keystore
-snoop-client-truststore.jks: server-side truststore
+snoop-client-truststore.jks: client-side truststore
 snoop-client.crt:            client-side public key certificate
 snoop-server-keystore.jks:   server-side keystore
-snoop-server-truststore.jks: client-side truststore
+snoop-server-truststore.jks: server-side truststore
 snoop-server.crt:            server-side public key certificate
 
 
