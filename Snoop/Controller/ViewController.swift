@@ -442,12 +442,14 @@ extension ViewController {
   }
 
   func tappedOnProfile(_ sender:UIGestureRecognizer) {
+    self.feedTable.isUserInteractionEnabled = false
     let tapLocation = sender.location(in: self.feedTable)
     let indexPath = self.feedTable.indexPathForRow(at: tapLocation)!
     let responderId = self.feeds[indexPath.row].responderId
     self.userModule.getProfile(responderId) {name, title, about, avatarUrl, rate, _ in
       let discoverModel = DiscoverModel(_name: name, _title: title, _uid: responderId, _about: about, _rate: rate, _updatedTime: 0, _avatarUrl: avatarUrl)
       DispatchQueue.main.async {
+        self.feedTable.isUserInteractionEnabled = true
         self.performSegue(withIdentifier: "homeToAsk", sender: discoverModel)
       }
     }
