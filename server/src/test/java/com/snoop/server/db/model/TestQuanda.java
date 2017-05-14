@@ -105,8 +105,8 @@ public class TestQuanda {
     anotherUser = TestUser.insertRandomUser();
 
     /* set asker and responder */
-    quanda.setAsker(user.getUid())
-          .setResponder(anotherUser.getUid());
+    quanda.setAsker(user.getId())
+          .setResponder(anotherUser.getId());
 
     /* insert quanda */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
@@ -141,8 +141,8 @@ public class TestQuanda {
     anotherUser = TestUser.insertRandomUser();
 
     /* assign asker and responder */
-    quanda.setAsker(user.getUid())
-          .setResponder(anotherUser.getUid());
+    quanda.setAsker(user.getId())
+          .setResponder(anotherUser.getId());
 
     /* insert quanda */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();

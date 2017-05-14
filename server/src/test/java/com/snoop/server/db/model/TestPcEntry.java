@@ -80,7 +80,7 @@ public class TestPcEntry {
     final User randomUser = TestUser.insertRandomUser();
 
     final PcEntry randomInstance = newRandomInstance();
-    randomInstance.setUid(randomUser.getUid());
+    randomInstance.setUid(randomUser.getId());
 
     /* insert */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();

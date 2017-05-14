@@ -8,7 +8,6 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.IntegerType;
 import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 import org.hibernate.type.TimestampType;
@@ -26,18 +25,18 @@ public class UserDBUtil {
       final Session session,
       final Long uid,
       final boolean newTransaction) {
-    final User user = getUserByUid(session, uid, newTransaction);
+    final User user = getUserById(session, uid, newTransaction);
     return user != null ? user.getPrimaryEmail() : null;
   }
 
-  public static User getUserByUid(
+  public static User getUserById(
       final Session session,
-      final Long uid,
+      final Long id,
       final boolean newTransaction) {
 
-    final String select = "SELECT U.uid, U.uname, U.primaryEmail, U.createdTime, U.updatedTime"
-        + " FROM User AS U WHERE U.uid = %d";
-    final String sql = String.format(select, uid);
+    final String select = "SELECT U.id, U.uname, U.primaryEmail, U.createdTime, U.updatedTime"
+        + " FROM User AS U WHERE U.id = %d";
+    final String sql = String.format(select, id);
     return getUserByQuery(session, sql, getScalars(), newTransaction);
   }
 
@@ -46,7 +45,7 @@ public class UserDBUtil {
       final String uname,
       final boolean newTransaction) {
 
-    final String select = "SELECT U.uid, U.uname, U.primaryEmail, U.createdTime, U.updatedTime"
+    final String select = "SELECT U.id, U.uname, U.primaryEmail, U.createdTime, U.updatedTime"
         + " FROM User AS U WHERE U.uname = '%s'";
     final String sql = String.format(select, uname);
 
@@ -55,7 +54,7 @@ public class UserDBUtil {
 
   private static Map<String, Type> getScalars() {
     final Map<String, Type> scalars = Maps.newHashMap();
-    scalars.put("uid", new LongType());
+    scalars.put("id", new LongType());
     scalars.put("uname", new StringType());
     scalars.put("primaryEmail", new StringType());
     scalars.put("createdTime", new TimestampType());
@@ -127,11 +126,11 @@ public class UserDBUtil {
       final String uname,
       final boolean newTransaction) {
 
-    final String select = "SELECT U.uid, U.pwd FROM User AS U WHERE U.uname = '%s'";
+    final String select = "SELECT U.id, U.pwd FROM User AS U WHERE U.uname = '%s'";
     final String sql = String.format(select, uname);
 
     final Map<String, Type> scalars = Maps.newHashMap();
-    scalars.put("uid", new LongType());
+    scalars.put("id", new LongType());
     scalars.put("pwd", new StringType());
 
     return getUserByQuery(session, sql, scalars, newTransaction);
@@ -152,14 +151,14 @@ public class UserDBUtil {
     long lastSeenUpdatedTime = 0;
     long lastSeenId = 0;
     int limit = Configuration.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
-    final String select = "SELECT U.uid, U.uname, U.primaryEmail, U.createdTime, U.updatedTime"
+    final String select = "SELECT U.id, U.uname, U.primaryEmail, U.createdTime, U.updatedTime"
         + " FROM User AS U";
     final List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
       switch (key) {
-      case "uid":
+      case "id":
         list.add(
-            String.format("U.uid=%d", Long.parseLong(params.get(key).get(0))));
+            String.format("U.id=%d", Long.parseLong(params.get(key).get(0))));
         break;
       case "uname":
         list.add(String.format("U.uname LIKE %s", params.get(key).get(0)));
@@ -192,10 +191,10 @@ public class UserDBUtil {
     where += DBUtil.getPaginationWhereClause(
         "U.updatedTime",
         lastSeenUpdatedTime,
-        "U.uid",
+        "U.id",
         lastSeenId);
 
-    final String orderBy = " ORDER BY U.updatedTime DESC, U.uid DESC";
+    final String orderBy = " ORDER BY U.updatedTime DESC, U.id DESC";
     final String limitClause = String.format(" limit %d;", limit);
 
     return select + where + orderBy + limitClause;

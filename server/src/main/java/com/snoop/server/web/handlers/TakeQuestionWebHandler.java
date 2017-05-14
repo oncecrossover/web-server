@@ -1,7 +1,5 @@
 package com.snoop.server.web.handlers;
 
-import java.io.IOException;
-
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -9,14 +7,11 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.io.ByteArrayDataOutput;
 import com.snoop.server.db.model.Profile;
+import com.snoop.server.db.model.TakeQuestionRequest;
 import com.snoop.server.util.ResourcePathParser;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
@@ -42,15 +37,15 @@ public class TakeQuestionWebHandler extends AbastractWebHandler
 
   private FullHttpResponse onCreate() {
     /* from json */
-    final Profile fromJson;
+    final TakeQuestionRequest fromJson;
     try {
-      fromJson = newIntanceFromRequest();
+      fromJson = newInstanceFromRequest(TakeQuestionRequest.class);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
 
     /* verify profile */
-    final FullHttpResponse resp = verifyProfile(fromJson, getRespBuf());
+    final FullHttpResponse resp = verifyRequest(fromJson, getRespBuf());
     if (resp != null) {
       return resp;
     }
@@ -80,7 +75,7 @@ public class TakeQuestionWebHandler extends AbastractWebHandler
     /**
      * avoid updating fields (e.g. those not explicitly set by Json) to NULL
      */
-    fromDB.setAsIgnoreNull(fromJson);
+    fromDB.setTakeQuestion(fromJson.getTakeQuestion());
 
     try {
       session = getSession();
@@ -99,33 +94,23 @@ public class TakeQuestionWebHandler extends AbastractWebHandler
     }
   }
 
-  private FullHttpResponse verifyProfile(Profile profile,
+  private FullHttpResponse verifyRequest(TakeQuestionRequest request,
       ByteArrayDataOutput respBuf) {
-    if (profile == null) {
+    if (request == null) {
       appendln("No profile or incorrect format specified.", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    if (profile.getUid() == null) {
+    if (request.getUid() == null) {
       appendln("No profile id specified.", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    if (StringUtils.isBlank(profile.getTakeQuestion())) {
+    if (StringUtils.isBlank(request.getTakeQuestion())) {
       appendln("No takeQuestion specified.", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    return null;
-  }
-
-  private Profile newIntanceFromRequest()
-      throws JsonParseException, JsonMappingException, IOException {
-    final ByteBuf content = getRequest().content();
-    if (content.isReadable()) {
-      final byte[] json = ByteBufUtil.getBytes(content);
-      return Profile.newInstance(json);
-    }
     return null;
   }
 }

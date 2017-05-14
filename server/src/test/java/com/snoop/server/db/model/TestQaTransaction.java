@@ -90,7 +90,7 @@ public class TestQaTransaction {
     TestQuanda.insertRandomQuanda(randomQuanda);
 
     final QaTransaction randomInstance = newRandomInstance();
-    randomInstance.setUid(randomUser.getUid());
+    randomInstance.setUid(randomUser.getId());
     randomInstance.setQuandaId(randomQuanda.getId());
 
     /* insert QaTransaction */
@@ -116,7 +116,7 @@ public class TestQaTransaction {
     TestQuanda.insertRandomQuanda(randomQuanda);
 
     final QaTransaction randomInstance = newRandomInstance();
-    randomInstance.setUid(randomUser.getUid());
+    randomInstance.setUid(randomUser.getId());
     randomInstance.setQuandaId(randomQuanda.getId());
 
     /* insert */
@@ -146,7 +146,7 @@ public class TestQaTransaction {
     final User randomUser = TestUser.insertRandomUser();
 
     final QaTransaction randomInstance = newRandomInstance();
-    randomInstance.setUid(randomUser.getUid());
+    randomInstance.setUid(randomUser.getId());
 
     /* insert */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();

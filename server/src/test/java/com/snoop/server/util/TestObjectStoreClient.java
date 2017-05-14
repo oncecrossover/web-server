@@ -65,9 +65,9 @@ public class TestObjectStoreClient {
     assertNotNull(fileContent);
 
     final ObjectStoreClient osc = new ObjectStoreClient();
-    final Long uid = r.nextLong();
+    final Long id = r.nextLong();
     final Profile profile = new Profile();
-    profile.setUid(uid).setAvatarImage(fileContent);
+    profile.setId(id).setAvatarImage(fileContent);
 
     osc.saveAvatarImage(profile);
     final String avatarUrl = osc.getAvatarS3Url(profile);

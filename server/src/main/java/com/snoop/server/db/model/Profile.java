@@ -33,7 +33,7 @@ public class Profile {
     }
   }
 
-  private Long uid;
+  private Long id;
   /*
    * If Profile.rate filed is initialized to 0 or whatever value, every profile
    * update request will update user's rate to that value even if it's not
@@ -53,12 +53,12 @@ public class Profile {
   @JsonIgnore
   private User user;
 
-  public Long getUid() {
-    return uid;
+  public Long getId() {
+    return id;
   }
 
-  public Profile setUid(final Long uid) {
-    this.uid = uid;
+  public Profile setId(final Long id) {
+    this.id = id;
     return this;
   }
 
@@ -172,7 +172,7 @@ public class Profile {
 
     if (getClass() == obj.getClass()) {
       Profile that = (Profile) obj;
-      if (isEqual(this.getUid(), that.getUid())
+      if (isEqual(this.getId(), that.getId())
           && isEqual(this.getRate(), that.getRate())
           && isEqual(this.getAvatarUrl(), that.getAvatarUrl())
           && isEqual(this.getFullName(), that.getFullName())
@@ -195,8 +195,8 @@ public class Profile {
       return null;
     }
 
-    if (that.getUid() != null) {
-      this.setUid(that.getUid());
+    if (that.getId() != null) {
+      this.setId(that.getId());
     }
     if (that.getRate() != null) {
       this.setRate(that.getRate());

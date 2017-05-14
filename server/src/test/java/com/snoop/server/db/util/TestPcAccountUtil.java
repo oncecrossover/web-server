@@ -42,7 +42,7 @@ public class TestPcAccountUtil {
 
     String result = null;
     try {
-      result = PcAccountUtil.getCustomerId(session, user.getUid(), true);
+      result = PcAccountUtil.getCustomerId(session, user.getId(), true);
       assertEquals(result, user.getPcAccount().getChargeFrom());
     } catch (Exception e) {
       fail("There should be any record.");

@@ -92,7 +92,7 @@ public class TestJournal {
 
     final Journal randomInstance = newRandomInstance();
     randomInstance.setTransactionId(qaTransaction.getId())
-                  .setUid(randomUser.getUid());
+                  .setUid(randomUser.getId());
 
     /* insert */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();

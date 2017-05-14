@@ -36,6 +36,6 @@ public class UserMain {
     session.save(user);
     // Commit transaction
     session.getTransaction().commit();
-    System.out.println("User ID=" + user.getUid());
+    System.out.println("User ID=" + user.getId());
   }
 }

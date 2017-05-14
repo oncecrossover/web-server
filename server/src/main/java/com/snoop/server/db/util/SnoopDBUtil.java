@@ -93,7 +93,7 @@ public class SnoopDBUtil {
         + " P.avatarUrl AS responderAvatarUrl, P2.fullName AS askerName, P2.avatarUrl AS askerAvatarUrl"
         + " FROM Snoop AS S INNER JOIN"
         + " Quanda AS Q ON S.quandaId = Q.id INNER JOIN Profile AS P"
-        + " ON Q.responder = P.uid INNER JOIN Profile AS P2 on Q.asker = P2.uid";
+        + " ON Q.responder = P.id INNER JOIN Profile AS P2 on Q.asker = P2.id";
 
     List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {

@@ -35,12 +35,12 @@ public class PcAccountWebHandler extends AbastractWebHandler
   }
 
   private FullHttpResponse onGet() {
-    /* get uid */
-    Long uid = null;
+    /* get id */
+    Long id = null;
     try {
-      uid = Long.parseLong(getPathParser().getPathStream().nextToken());
+      id = Long.parseLong(getPathParser().getPathStream().nextToken());
     } catch (NumberFormatException e) {
-      appendln("Incorrect uid format.");
+      appendln("Incorrect id format.");
       return newClientErrorResponse(e, LOG);
     }
 
@@ -50,11 +50,11 @@ public class PcAccountWebHandler extends AbastractWebHandler
       session = getSession();
       txn = session.beginTransaction();
       final PcAccount retInstance = (PcAccount) session.get(PcAccount.class,
-          uid);
+          id);
       txn.commit();
 
       /* buffer result */
-      return newResponseForInstance(uid.toString(), "pcaccounts", retInstance);
+      return newResponseForInstance(id.toString(), "pcaccounts", retInstance);
     } catch (HibernateException e) {
       if (txn != null && txn.isActive()) {
         txn.rollback();
@@ -71,12 +71,12 @@ public class PcAccountWebHandler extends AbastractWebHandler
   }
 
   private FullHttpResponse onUpdate() {
-    /* get uid */
-    Long uid = null;
+    /* get id */
+    Long id = null;
     try {
-      uid = Long.parseLong(getPathParser().getPathStream().nextToken());
+      id = Long.parseLong(getPathParser().getPathStream().nextToken());
     } catch (NumberFormatException e) {
-      appendln("Incorrect uid format.");
+      appendln("Incorrect id format.");
       return newClientErrorResponse(e, LOG);
     }
 
@@ -102,10 +102,10 @@ public class PcAccountWebHandler extends AbastractWebHandler
     try {
       session = getSession();
       txn = session.beginTransaction();
-      fromDB = (PcAccount) session.get(PcAccount.class, uid);
+      fromDB = (PcAccount) session.get(PcAccount.class, id);
       txn.commit();
       if (fromDB == null) {
-        appendln(String.format("Nonexistent PcAccount for user ('%d')", uid));
+        appendln(String.format("Nonexistent PcAccount for user ('%d')", id));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (Exception e) {

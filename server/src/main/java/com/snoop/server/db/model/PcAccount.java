@@ -5,7 +5,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class PcAccount extends ModelBase implements Model {
-  private Long uid;
+  private Long id;
   private String chargeFrom;
   private String payTo;
   private Date createdTime;
@@ -13,12 +13,12 @@ public class PcAccount extends ModelBase implements Model {
   @JsonIgnore
   private User user;
 
-  public Long getUid() {
-    return uid;
+  public Long getId() {
+    return id;
   }
 
-  public PcAccount setUid(final Long uid) {
-    this.uid = uid;
+  public PcAccount setId(final Long id) {
+    this.id = id;
     return this;
   }
 
@@ -75,7 +75,7 @@ public class PcAccount extends ModelBase implements Model {
 
     if (obj instanceof PcAccount) {
       final PcAccount that = (PcAccount) obj;
-      if (isEqual(this.getUid(), that.getUid())
+      if (isEqual(this.getId(), that.getId())
           && isEqual(this.getChargeFrom(), that.getChargeFrom())
           && isEqual(this.getPayTo(), that.getPayTo())
           && isEqual(this.getCreatedTime(), that.getCreatedTime())
@@ -90,7 +90,7 @@ public class PcAccount extends ModelBase implements Model {
   @Override
   public int hashCode() {
     int result = 0;
-    result = PRIME * result + ((uid == null) ? 0 : uid.hashCode());
+    result = PRIME * result + ((id == null) ? 0 : id.hashCode());
     result = PRIME * result
         + ((chargeFrom == null) ? 0 : chargeFrom.hashCode());
     result = PRIME * result + ((payTo == null) ? 0 : payTo.hashCode());
@@ -106,8 +106,8 @@ public class PcAccount extends ModelBase implements Model {
   public <T extends ModelBase> void setAsIgnoreNull(T obj) {
     if (obj instanceof PcAccount) {
       final PcAccount that = (PcAccount) obj;
-      if (that.getUid() != null) {
-        this.setUid(that.getUid());
+      if (that.getId() != null) {
+        this.setId(that.getId());
       }
       if (that.getChargeFrom() != null) {
         this.setChargeFrom(that.getChargeFrom());

@@ -17,7 +17,7 @@ public class TestProfile {
 
   @Test(timeout = 60000)
   public void testCreateProfileFromJson() throws IOException {
-    final String json = "{\"uid\":1234,\"rate\":100.02,\"avatarImage\":\"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==\",\"fullName\":\"Edmund Burke\",\"title\":\"Philosopher\",\"aboutMe\":\"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.\"}";
+    final String json = "{\"id\":1234,\"rate\":100.02,\"avatarImage\":\"dGhpcyBpcyBhbnN3ZXIgYXV0aWRvLg==\",\"fullName\":\"Edmund Burke\",\"title\":\"Philosopher\",\"aboutMe\":\"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.\"}";
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -42,7 +42,7 @@ public class TestProfile {
 
   private void assertProfileEquals(final Profile profile,
       final Profile anotherProfile) throws JsonProcessingException {
-    assertEquals(profile.getUid(), anotherProfile.getUid());
+    assertEquals(profile.getId(), anotherProfile.getId());
     assertEquals(profile.toJsonStr(), anotherProfile.toJsonStr());
     profile.equals(anotherProfile);
   }

@@ -39,7 +39,7 @@ public class TestTempPwdUtil {
 
     /* insert user */
     final User randomUser = TestUser.insertRandomUser();
-    final Long uid = randomUser.getUid();
+    final Long uid = randomUser.getId();
 
     /* insert TempPwd */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
@@ -85,7 +85,7 @@ public class TestTempPwdUtil {
 
     /* insert user */
     final User randomUser = TestUser.insertRandomUser();
-    final Long uid = randomUser.getUid();
+    final Long uid = randomUser.getId();
 
     for (int i = 1; i <= 5; i++) {
       randomInstance = TestTempPwd.newRandomInstance();

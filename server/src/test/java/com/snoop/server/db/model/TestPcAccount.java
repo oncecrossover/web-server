@@ -33,7 +33,7 @@ public class TestPcAccount {
   @Test(timeout = 60000)
   public void testCreateFromJson()
       throws JsonParseException, JsonMappingException, IOException {
-    final String json = "{\"uid\":123,\"chargeFrom\":\"this_is_my_charge_from_account\",\"payTo\":\"this_is_my_pay_to_account\",\"createdTime\":null,\"updatedTime\":null}";
+    final String json = "{\"id\":123,\"chargeFrom\":\"this_is_my_charge_from_account\",\"payTo\":\"this_is_my_pay_to_account\",\"createdTime\":null,\"updatedTime\":null}";
     ObjectMapper mapper = new ObjectMapper();
 
     // convert json to object
@@ -43,7 +43,7 @@ public class TestPcAccount {
 
   private static PcAccount newRandomPcAccount() {
     final PcAccount result = new PcAccount();
-    result.setUid(r.nextLong())
+    result.setId(r.nextLong())
         .setChargeFrom(UUID.randomUUID().toString())
         .setPayTo(UUID.randomUUID().toString());
     return result;
@@ -51,7 +51,7 @@ public class TestPcAccount {
 
   private static PcAccount newPcAccount() {
     final PcAccount result = new PcAccount();
-    result.setUid(r.nextLong()).setChargeFrom("this_is_my_charge_from_account")
+    result.setId(r.nextLong()).setChargeFrom("this_is_my_charge_from_account")
         .setPayTo("this_is_my_pay_to_account");
     return result;
   }

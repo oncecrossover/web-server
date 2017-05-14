@@ -77,7 +77,7 @@ public class TestTempPwd {
     final User user = TestUser.insertRandomUser();
 
     final TempPwd tempPwd = newRandomInstance();
-    tempPwd.setUid(user.getUid())
+    tempPwd.setUid(user.getId())
            .setPwd("123456")
            .setStatus(TempPwd.Status.PENDING.value());
 
@@ -106,7 +106,7 @@ public class TestTempPwd {
     final User user = TestUser.insertRandomUser();
 
     final TempPwd tempPwd = newRandomInstance();
-    tempPwd.setUid(user.getUid())
+    tempPwd.setUid(user.getId())
            .setPwd("123456")
            .setStatus(TempPwd.Status.PENDING.value());
 

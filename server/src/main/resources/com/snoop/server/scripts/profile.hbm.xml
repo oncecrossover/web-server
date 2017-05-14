@@ -5,8 +5,8 @@
 <hibernate-mapping>
   <class name="com.snoop.server.db.model.Profile" dynamic-update="true"
   dynamic-insert="true" table="Profile">
-    <id name="uid" type="long">
-      <column name="uid" />
+    <id name="id" type="long">
+      <column name="id" />
       <generator class="foreign">
         <param name="property">user</param>
       </generator>

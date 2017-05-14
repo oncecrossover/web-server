@@ -82,7 +82,7 @@ public class TestSnoop {
     TestQuanda.insertRandomQuanda(quanda);
 
     final Snoop snoop = newRandomSnoop();
-    snoop.setUid(user.getUid())
+    snoop.setUid(user.getId())
          .setQuandaId(quanda.getId())
          .setCreatedTime(new Date());
 

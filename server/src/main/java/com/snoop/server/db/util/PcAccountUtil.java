@@ -28,7 +28,7 @@ public class PcAccountUtil {
   static String getCustomerId(final Session session, final Long uid,
       final boolean newTransaction) throws Exception {
     final String sql = String
-        .format("SELECT chargeFrom FROM PcAccount WHERE uid=%d", uid);
+        .format("SELECT chargeFrom FROM PcAccount WHERE id=%d", uid);
 
     Transaction txn = null;
     String result = null;

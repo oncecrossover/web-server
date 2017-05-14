@@ -134,7 +134,7 @@ public class UserWebHandler extends AbastractWebHandler
 
       /* commit transaction */
       txn.commit();
-      appendln(toIdJson("uid", fromJson.getUid()));
+      appendln(toIdJson("id", fromJson.getId()));
       return newResponse(HttpResponseStatus.CREATED);
     } catch (StripeException e) {
       return newServerErrorResponse(e, LOG);
@@ -155,12 +155,12 @@ public class UserWebHandler extends AbastractWebHandler
 
   private FullHttpResponse onGet() {
     /* get user id */
-    Long uid = null;
+    Long id = null;
 
     try {
-      uid = Long.parseLong(getPathParser().getPathStream().nextToken());
+      id = Long.parseLong(getPathParser().getPathStream().nextToken());
     } catch (NumberFormatException e) {
-      appendln("Incorrect uid format.");
+      appendln("Incorrect id format.");
       return newClientErrorResponse(e, LOG);
     }
 
@@ -169,11 +169,11 @@ public class UserWebHandler extends AbastractWebHandler
     try {
       session = getSession();
       txn = session.beginTransaction();
-      final User retInstance = UserDBUtil.getUserByUid(session, uid, false);
+      final User retInstance = UserDBUtil.getUserById(session, id, false);
       txn.commit();
 
       /* buffer result */
-      return newResponseForInstance(uid, retInstance);
+      return newResponseForInstance(id, retInstance);
     } catch (Exception e) {
       if (txn != null && txn.isActive()) {
         txn.rollback();
@@ -182,13 +182,13 @@ public class UserWebHandler extends AbastractWebHandler
     }
   }
 
-  private FullHttpResponse newResponseForInstance(final Long uid,
+  private FullHttpResponse newResponseForInstance(final Long id,
       final User instance) throws JsonProcessingException {
     if (instance != null) {
       appendByteArray(instance.toJsonByteArray());
       return newResponse(HttpResponseStatus.OK);
     } else {
-      appendln(String.format("Nonexistent resource with URI: /users/%d", uid));
+      appendln(String.format("Nonexistent resource with URI: /users/%d", id));
       return newResponse(HttpResponseStatus.NOT_FOUND);
     }
   }

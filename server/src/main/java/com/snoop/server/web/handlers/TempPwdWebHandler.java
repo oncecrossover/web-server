@@ -78,7 +78,7 @@ public class TempPwdWebHandler extends AbastractWebHandler
       }
 
       /* insert new temp one */
-      fromJson.setUid(user.getUid());
+      fromJson.setUid(user.getId());
       session.save(fromJson);
 
       txn.commit();

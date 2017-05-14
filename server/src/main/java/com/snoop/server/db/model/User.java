@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.snoop.server.db.model.Profile.TakeQuestionStatus;
 
 public class User {
-  private Long uid;
+  private Long id;
   private String uname;
   private String pwd;
   private String primaryEmail;
@@ -20,12 +20,12 @@ public class User {
   private Profile profile;
   private PcAccount pcAccount;
 
-  public Long getUid() {
-    return uid;
+  public Long getId() {
+    return id;
   }
 
-  public User setUid(Long uid) {
-    this.uid = uid;
+  public User setId(Long id) {
+    this.id = id;
     return this;
   }
 
@@ -157,7 +157,7 @@ public class User {
 
     if (getClass() == obj.getClass()) {
       final User that = (User) obj;
-      if (isEqual(this.getUid(), that.getUid())
+      if (isEqual(this.getId(), that.getId())
           && isEqual(this.getPwd(), that.getPwd())
           && isEqual(this.getProfile(), that.getProfile())
           && isEqual(this.getPcAccount(), that.getPcAccount())) {
@@ -177,8 +177,8 @@ public class User {
       return null;
     }
 
-    if (that.getUid() != null) {
-      this.setUid(that.getUid());
+    if (that.getId() != null) {
+      this.setId(that.getId());
     }
     if (that.getPwd() != null) {
       this.setPwd(that.getPwd());

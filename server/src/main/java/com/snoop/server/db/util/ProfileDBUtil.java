@@ -26,7 +26,7 @@ public class ProfileDBUtil {
 
   public static Profile getProfileForNotification(final Session session,
       final Long uid, final boolean newTransaction) {
-    final String select = "SELECT fullName, deviceToken from Profile WHERE uid = %d";
+    final String select = "SELECT fullName, deviceToken from Profile WHERE id = %d";
     final String sql = String.format(select, uid);
 
     final Map<String, Type> scalars = Maps.newHashMap();
@@ -39,7 +39,7 @@ public class ProfileDBUtil {
   public static Integer getRate(final Session session, final Long uid,
       final boolean newTransaction) throws Exception {
 
-    final String select = "SELECT rate FROM Profile WHERE uid = %d";
+    final String select = "SELECT rate FROM Profile WHERE id = %d";
     final String sql = String.format(select, uid);
 
     final Map<String, Type> scalars = Maps.newHashMap();
@@ -113,7 +113,7 @@ public class ProfileDBUtil {
     final String sql = buildSql4Profiles(params);
 
     final Map<String, Type> scalars = Maps.newHashMap();
-    scalars.put("uid", new LongType());
+    scalars.put("id", new LongType());
     scalars.put("rate", new IntegerType());
     scalars.put("avatarUrl", new StringType());
     scalars.put("fullName", new StringType());
@@ -131,14 +131,14 @@ public class ProfileDBUtil {
     long lastSeenUpdatedTime = 0;
     long lastSeenId = 0;
     int limit = Configuration.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
-    final String select = "SELECT P.uid, P.rate, P.avatarUrl, P.fullName,"
+    final String select = "SELECT P.id, P.rate, P.avatarUrl, P.fullName,"
         + " P.title, P.aboutMe, P.updatedTime, P.takeQuestion FROM Profile AS P";
 
     List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
-      if ("uid".equals(key)) {
+      if ("id".equals(key)) {
         list.add(
-            String.format("P.uid=%d", Long.parseLong(params.get(key).get(0))));
+            String.format("P.id=%d", Long.parseLong(params.get(key).get(0))));
       } else if ("fullName".equals(key)) {
         list.add(String.format(
             "P.fullName LIKE %s",
@@ -166,10 +166,10 @@ public class ProfileDBUtil {
     where += DBUtil.getPaginationWhereClause(
         "P.updatedTime",
         lastSeenUpdatedTime,
-        "P.uid",
+        "P.id",
         lastSeenId);
 
-    final String orderBy = " ORDER BY P.updatedTime DESC, P.uid DESC";
+    final String orderBy = " ORDER BY P.updatedTime DESC, P.id DESC";
     final String limitClause = String.format(" limit %d;", limit);
 
     return select + where + orderBy + limitClause;

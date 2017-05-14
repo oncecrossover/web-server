@@ -98,7 +98,7 @@ public class SigninWebHandler extends AbastractWebHandler
         appendln(String.format("Nonexistent user '%s'", fromJson.getUname()));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       } else if (UserUtil.checkPassword(fromJson.getPwd(), fromDB.getPwd())) {
-        appendln(toIdJson("uid", fromDB.getUid()));
+        appendln(toIdJson("id", fromDB.getId()));
         return newResponse(HttpResponseStatus.CREATED);
       } else {
         appendln("User id and password do not match.");

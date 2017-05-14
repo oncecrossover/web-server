@@ -46,7 +46,7 @@ public class TestProfileDBUtil {
 
     Integer result = null;
     try {
-      result = ProfileDBUtil.getRate(session, user.getUid(), true);
+      result = ProfileDBUtil.getRate(session, user.getId(), true);
       assertEquals(user.getProfile().getRate(), result);
     } catch (Exception e) {
       fail("There should be any record.");
@@ -62,7 +62,7 @@ public class TestProfileDBUtil {
 
     Profile result = null;
     try {
-      result = ProfileDBUtil.getProfileForNotification(session, user.getUid(),
+      result = ProfileDBUtil.getProfileForNotification(session, user.getId(),
           true);
       assertNotNull(result);
       assertEquals(user.getProfile().getFullName(), result.getFullName());

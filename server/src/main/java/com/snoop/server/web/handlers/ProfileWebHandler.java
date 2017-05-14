@@ -50,11 +50,11 @@ public class ProfileWebHandler extends AbastractWebHandler {
 
   private FullHttpResponse onGet() {
     /* get id */
-    Long uid = null;
+    Long id = null;
     try {
-      uid = Long.parseLong(getPathParser().getPathStream().nextToken());
+      id = Long.parseLong(getPathParser().getPathStream().nextToken());
     } catch (NumberFormatException e) {
-      appendln("Incorrect uid format.");
+      appendln("Incorrect id format.");
       return newClientErrorResponse(e, LOG);
     }
 
@@ -63,11 +63,11 @@ public class ProfileWebHandler extends AbastractWebHandler {
     try {
       session = getSession();
       txn = session.beginTransaction();
-      final Profile retInstance = (Profile) session.get(Profile.class, uid);
+      final Profile retInstance = (Profile) session.get(Profile.class, id);
       txn.commit();
 
       /* buffer result */
-      return newResponseForInstance(uid.toString(), retInstance);
+      return newResponseForInstance(id.toString(), retInstance);
     } catch (Exception e) {
       if (txn != null && txn.isActive()) {
         txn.rollback();
@@ -83,11 +83,11 @@ public class ProfileWebHandler extends AbastractWebHandler {
 
   private FullHttpResponse onUpdate() {
     /* get id */
-    Long uid = null;
+    Long id = null;
     try {
-      uid = Long.parseLong(getPathParser().getPathStream().nextToken());
+      id = Long.parseLong(getPathParser().getPathStream().nextToken());
     } catch (NumberFormatException e) {
-      appendln("Incorrect uid format.");
+      appendln("Incorrect id format.");
       return newClientErrorResponse(e, LOG);
     }
 
@@ -113,10 +113,10 @@ public class ProfileWebHandler extends AbastractWebHandler {
     try {
       session = getSession();
       txn = session.beginTransaction();
-      fromDB = (Profile) session.get(Profile.class, uid);
+      fromDB = (Profile) session.get(Profile.class, id);
       txn.commit();
       if (fromDB == null) {
-        appendln(String.format("Nonexistent profile for user ('%d')", uid));
+        appendln(String.format("Nonexistent profile for user ('%d')", id));
         return newResponse(HttpResponseStatus.BAD_REQUEST);
       }
     } catch (Exception e) {
@@ -126,8 +126,8 @@ public class ProfileWebHandler extends AbastractWebHandler {
       return newServerErrorResponse(e, LOG);
     }
 
-    /* use uid from url, ignore that from json */
-    fromJson.setUid(uid);
+    /* use id from url, ignore that from json */
+    fromJson.setId(id);
     fromDB.setAsIgnoreNull(fromJson);
 
     try {

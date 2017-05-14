@@ -248,12 +248,6 @@ public class QuandaDBUtil {
     return list;
   }
 
-  /**
-   * SELECT Q.id, Q.question, Q.status, Q.rate, Q.createdTime, P.fullName AS
-   * askerName, P.title AS askerTitle, P.avatarUrl AS askerAvatarUrl FROM Quanda
-   * AS Q INNER JOIN Profile AS P ON Q.asker = P.uid WHERE Q.id=1 ORDER BY
-   * Q.updatedTime DESC;
-   */
   private static String buildSql4Answers(
       final Map<String, List<String>> params) {
 
@@ -265,7 +259,7 @@ public class QuandaDBUtil {
         + " P.avatarUrl AS askerAvatarUrl, P2.fullName AS responderName,"
         + " P2.title AS responderTitle, P2.avatarUrl AS responderAvatarUrl"
         + " FROM Quanda AS Q"
-        + " INNER JOIN Profile AS P ON Q.asker = P.uid INNER JOIN Profile AS P2 ON Q.responder = P2.uid";
+        + " INNER JOIN Profile AS P ON Q.asker = P.id INNER JOIN Profile AS P2 ON Q.responder = P2.id";
 
     List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
@@ -304,12 +298,6 @@ public class QuandaDBUtil {
     return select + where + orderBy + limitClause;
   }
 
-  /**
-   * SELECT Q.id, Q.question, Q.status, Q.rate, Q.createdTime, Q.updatedTime,
-   * P.fullName AS responderName, P.title AS responderTitle, P.avatarUrl AS
-   * responderAvatarUrl FROM Quanda AS Q INNER JOIN Profile AS P ON Q.responder
-   * = P.uid WHERE Q.id=1 ORDER BY Q.updatedTime DESC;
-   */
   private static String buildSql4Questions(
       final Map<String, List<String>> params) {
 
@@ -323,8 +311,8 @@ public class QuandaDBUtil {
         + " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl,"
         + " P2.fullName AS askerName, P2.avatarUrl AS askerAvatarUrl"
         + " FROM Quanda AS Q"
-        + " INNER JOIN Profile AS P ON Q.responder = P.uid"
-        + " INNER JOIN Profile AS P2 ON Q.asker = P2.uid ";
+        + " INNER JOIN Profile AS P ON Q.responder = P.id"
+        + " INNER JOIN Profile AS P2 ON Q.asker = P2.id ";
 
     List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
@@ -373,11 +361,11 @@ public class QuandaDBUtil {
         " SELECT Q.id, Q.question, Q.rate, Q.updatedTime, Q.answerUrl," +
         " Q.answerCoverUrl, Q.duration," +
         " P2.avatarUrl AS askerAvatarUrl, P2.fullName AS askerName," +
-        " P.uid AS responderId, P.fullName AS responderName," +
+        " P.id AS responderId, P.fullName AS responderName," +
         " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl," +
         " count(S.id) AS snoops FROM" +
-        " Quanda AS Q INNER JOIN Profile AS P ON Q.responder = P.uid" +
-        " INNER JOIN Profile AS P2 ON Q.asker = P2.uid" +
+        " Quanda AS Q INNER JOIN Profile AS P ON Q.responder = P.id" +
+        " INNER JOIN Profile AS P2 ON Q.asker = P2.id" +
         " LEFT JOIN Snoop AS S ON Q.id = S.quandaId";
 
     Long uid = 0L;

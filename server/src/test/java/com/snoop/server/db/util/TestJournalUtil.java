@@ -88,7 +88,7 @@ public class TestJournalUtil {
 
     /* insert user */
     final User randomUser = TestUser.insertRandomUser();
-    final Long uid = randomUser.getUid();
+    final Long uid = randomUser.getId();
 
     for (int i = 1; i <= 5; i++) {
       final Journal randomInstance = TestJournal.newRandomInstance();

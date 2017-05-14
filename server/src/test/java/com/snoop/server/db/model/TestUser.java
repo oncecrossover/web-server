@@ -146,7 +146,7 @@ public class TestUser {
   }
 
   public void testCreateUserFromJson() throws IOException {
-    final String userJson = "{\"uid\":\"edmund\",\"firstName\":\"Edmund\",\"middleName\":\"Peng\",\"lastName\":\"Burke\",\"pwd\":\"123\",\"profile\":{\"uid\":null,\"avatarUrl\":\"https://en.wikiquote.org/wiki/Edmund_Burke\",\"avatarImage\":null,\"fullName\":\"Edmund Peng Burke\",\"title\":\"Philosopher\",\"aboutMe\":\"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.\"}}";
+    final String userJson = "{\"id\":\"edmund\",\"firstName\":\"Edmund\",\"middleName\":\"Peng\",\"lastName\":\"Burke\",\"pwd\":\"123\",\"profile\":{\"id\":null,\"avatarUrl\":\"https://en.wikiquote.org/wiki/Edmund_Burke\",\"avatarImage\":null,\"fullName\":\"Edmund Peng Burke\",\"title\":\"Philosopher\",\"aboutMe\":\"I was an Irish political philosopher, Whig politician and statesman who is often regarded as the father of modern conservatism.\"}}";
     ObjectMapper mapper = new ObjectMapper();
 
     // convert json to object
@@ -171,7 +171,7 @@ public class TestUser {
     /* query user */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
     txn = session.beginTransaction();
-    final User retUser = (User) session.get(User.class, user.getUid());
+    final User retUser = (User) session.get(User.class, user.getId());
     txn.commit();
 
     assertUserEquals(user, retUser);
@@ -179,7 +179,7 @@ public class TestUser {
 
   private void assertUserEquals(final User user, final User anotherUser)
       throws JsonProcessingException {
-    assertEquals(user.getUid(), anotherUser.getUid());
+    assertEquals(user.getId(), anotherUser.getId());
     assertEquals(user.toJsonStr(), anotherUser.toJsonStr());
     assertEquals(user, anotherUser);
   }
@@ -205,14 +205,14 @@ public class TestUser {
     /* query user */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
     txn = session.beginTransaction();
-    retUser = (User) session.get(User.class, randomUser.getUid());
+    retUser = (User) session.get(User.class, randomUser.getId());
     txn.commit();
 
     /* verify */
     assertUserEquals(randomUser, retUser);
 
     /* update user */
-    newRandomUser.setUid(randomUser.getUid());
+    newRandomUser.setId(randomUser.getId());
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
     txn = session.beginTransaction();
     session.update(newRandomUser);
@@ -221,7 +221,7 @@ public class TestUser {
     /* query user */
     session = HibernateTestUtil.getSessionFactory().getCurrentSession();
     txn = session.beginTransaction();
-    retUser = (User) session.get(User.class, randomUser.getUid());
+    retUser = (User) session.get(User.class, randomUser.getId());
     txn.commit();
 
     /* verify */

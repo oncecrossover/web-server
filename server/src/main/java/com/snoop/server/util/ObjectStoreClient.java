@@ -104,7 +104,7 @@ public class ObjectStoreClient {
   }
 
   public String saveAvatarImage(final Profile profile) throws Exception {
-    if (profile.getUid() != null
+    if (profile.getId() != null
         && profile.getAvatarImage() != null
         && profile.getAvatarImage().length > 0) {
       final String s3url = getAvatarS3Url(profile);
@@ -123,7 +123,7 @@ public class ObjectStoreClient {
      * 1.avatar.jpg
      */
     return String.format("%s/%s/%s/%d/%d.avatar.jpg", s3UriPrefix, HOME_ROOT,
-        home_users_prefix, profile.getUid(), profile.getUid());
+        home_users_prefix, profile.getId(), profile.getId());
   }
 
   private String getAvatarCloudfrontUrl(final Profile profile) {
@@ -132,7 +132,7 @@ public class ObjectStoreClient {
      * https://ddk9xa5p5b3lb.cloudfront.net/users/xxx@gmail.com/1/1.avatar.jpg
      */
     return String.format("%s/%s/%d/%d.avatar.jpg", CLOUDFRONT_URI_PREFIX,
-        home_users_prefix, profile.getUid(), profile.getUid());
+        home_users_prefix, profile.getId(), profile.getId());
   }
 
   private String getAnswerThumbnailS3Url(final Quanda quanda) {
