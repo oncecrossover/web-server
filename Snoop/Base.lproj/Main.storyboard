@@ -247,9 +247,9 @@
                                                         <constraint firstAttribute="width" secondItem="i4l-gy-fUZ" secondAttribute="height" multiplier="1:1" id="sTv-bs-oN0"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hZd-eW-zbr">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hours to expire" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hZd-eW-zbr">
                                                     <rect key="frame" x="191" y="121.5" width="176" height="35"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -296,10 +296,20 @@
                                                         <constraint firstAttribute="width" secondItem="HKo-Lm-Qq7" secondAttribute="height" multiplier="1:1" id="qwV-5X-Sj3"/>
                                                     </constraints>
                                                 </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hours to expire" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f7J-v5-uiH">
+                                                    <rect key="frame" x="150" y="217.5" width="217" height="25"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="25" id="zVb-7O-jqo"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="fWb-4p-6Qz" firstAttribute="leading" secondItem="HKo-Lm-Qq7" secondAttribute="trailing" constant="8" id="07E-bE-vhj"/>
                                                 <constraint firstItem="iLV-ME-PKp" firstAttribute="leading" secondItem="fWb-4p-6Qz" secondAttribute="leading" id="1BI-yz-TMN"/>
+                                                <constraint firstItem="f7J-v5-uiH" firstAttribute="bottom" secondItem="zeU-bA-yWX" secondAttribute="bottom" id="2b7-om-vMQ"/>
                                                 <constraint firstItem="iLV-ME-PKp" firstAttribute="trailing" secondItem="fWb-4p-6Qz" secondAttribute="trailing" id="5pt-NB-7lc"/>
                                                 <constraint firstItem="zeU-bA-yWX" firstAttribute="leading" secondItem="iLV-ME-PKp" secondAttribute="leading" id="72L-Tu-JtD"/>
                                                 <constraint firstItem="hZd-eW-zbr" firstAttribute="height" secondItem="i4l-gy-fUZ" secondAttribute="height" id="9wc-9D-xW6"/>
@@ -314,8 +324,10 @@
                                                 <constraint firstItem="aY8-Rc-cDI" firstAttribute="top" secondItem="zeU-bA-yWX" secondAttribute="bottom" constant="-20" id="VeG-cf-R11"/>
                                                 <constraint firstItem="psI-LA-XsJ" firstAttribute="top" secondItem="i4l-gy-fUZ" secondAttribute="bottom" constant="3" id="X5Z-sK-F37"/>
                                                 <constraint firstItem="zeU-bA-yWX" firstAttribute="top" secondItem="iLV-ME-PKp" secondAttribute="bottom" constant="9" id="aSE-To-8ya"/>
+                                                <constraint firstItem="f7J-v5-uiH" firstAttribute="leading" secondItem="i4l-gy-fUZ" secondAttribute="leading" id="axE-IC-wKW"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="fWb-4p-6Qz" secondAttribute="trailing" id="bQh-y8-gHU"/>
                                                 <constraint firstItem="h9p-a3-8gz" firstAttribute="top" secondItem="zeU-bA-yWX" secondAttribute="bottom" constant="-20" id="eLJ-lo-zF7"/>
+                                                <constraint firstItem="f7J-v5-uiH" firstAttribute="trailing" secondItem="hZd-eW-zbr" secondAttribute="trailing" id="iTj-dg-ban"/>
                                                 <constraint firstItem="iLV-ME-PKp" firstAttribute="top" secondItem="fWb-4p-6Qz" secondAttribute="bottom" constant="3" id="ipV-MJ-q2s"/>
                                                 <constraint firstItem="i4l-gy-fUZ" firstAttribute="top" secondItem="zeU-bA-yWX" secondAttribute="top" id="j1R-Rv-f0b"/>
                                                 <constraint firstItem="psI-LA-XsJ" firstAttribute="leading" secondItem="i4l-gy-fUZ" secondAttribute="leading" id="j1r-9q-Pna"/>
@@ -333,6 +345,7 @@
                                             <outlet property="askerName" destination="fWb-4p-6Qz" id="Olh-Fd-DdR"/>
                                             <outlet property="coverImage" destination="zeU-bA-yWX" id="2Bi-JP-AXU"/>
                                             <outlet property="durationLabel" destination="aY8-Rc-cDI" id="dvf-do-emw"/>
+                                            <outlet property="expireLabel" destination="f7J-v5-uiH" id="r1R-l8-D5m"/>
                                             <outlet property="playImage" destination="Fh2-Od-Wzf" id="JM4-bz-Py2"/>
                                             <outlet property="question" destination="iLV-ME-PKp" id="2OY-ww-98R"/>
                                             <outlet property="rateLabel" destination="h9p-a3-8gz" id="1CB-Vf-XmA"/>

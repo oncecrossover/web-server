@@ -170,18 +170,19 @@ extension ActivityViewController {
 
   func createActitivyModel(_ questionInfo: [String:AnyObject], isSnoop: Bool) -> ActivityModel{
     var questionId = questionInfo["id"] as! Int
+    var hoursToExpire = 0
     if (isSnoop) {
       questionId = questionInfo["quandaId"] as! Int
     }
-
+    else {
+      hoursToExpire = questionInfo["hoursToExpire"] as! Int
+    }
     let question = questionInfo["question"] as! String
     let status = questionInfo["status"] as! String
     var rate = 0
     if (questionInfo["rate"] != nil) {
       rate = questionInfo["rate"] as! Int
     }
-
-    //        let hoursToExpire = questionInfo["hoursToExpire"] as! Int
 
     let responderAvatarUrl = questionInfo["responderAvatarUrl"] as? String
     let responderName = questionInfo["responderName"] as! String
@@ -193,7 +194,7 @@ extension ActivityViewController {
     let duration = questionInfo["duration"] as! Int
     let createdTime = questionInfo["createdTime"] as! Double
 
-    return ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _duration: duration, _askerName: askerName, _responderName: responderName, _responderTitle: responderTitle, _answerCoverUrl: answerCoverUrl, _askerAvatarUrl: askerAvatarUrl, _responderAvatarUrl: responderAvatarUrl, _answerUrl: answerUrl, _lastSeenTime: createdTime)
+    return ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _duration: duration, _askerName: askerName, _responderName: responderName, _responderTitle: responderTitle, _answerCoverUrl: answerCoverUrl, _askerAvatarUrl: askerAvatarUrl, _responderAvatarUrl: responderAvatarUrl, _answerUrl: answerUrl, _lastSeenTime: createdTime, _hoursToExpire: hoursToExpire)
   }
 
   func setPlaceholderImages(_ cell: ActivityTableViewCell) {
@@ -214,14 +215,16 @@ extension ActivityViewController {
     activityTableView.backgroundView = nil
     questionModule.getActivities(filterString, selectedIndex: selectedIndex) { jsonArray in
       for activityInfo in jsonArray as! [[String:AnyObject]] {
-        let activity = self.createActitivyModel(activityInfo, isSnoop: false)
         if (self.selectedIndex == 0) {
+          let activity = self.createActitivyModel(activityInfo, isSnoop: false)
           self.tmpQuestions.append(activity)
         }
         else if (self.selectedIndex == 1){
+          let activity = self.createActitivyModel(activityInfo, isSnoop: false)
           self.tmpAnswers.append(activity)
         }
         else {
+          let activity = self.createActitivyModel(activityInfo, isSnoop: true)
           self.tmpSnoops.append(activity)
         }
       }
@@ -378,6 +381,8 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
       myCell.coverImage.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1.0)
       myCell.coverImage.isUserInteractionEnabled = false
       myCell.durationLabel.isHidden = true
+      myCell.expireLabel.isHidden = false
+      myCell.expireLabel.text = "expires in \(cellInfo.hoursToExpire) hours"
     }
     else if (cellInfo.status == "ANSWERED") {
       if let coverImageUrl = cellInfo.answerCoverUrl {
@@ -388,6 +393,7 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
 
         myCell.durationLabel.text = "00:\(cellInfo.duration)"
         myCell.durationLabel.isHidden = false
+        myCell.expireLabel.isHidden = true
       }
       else {
         myCell.coverImage.isUserInteractionEnabled = false

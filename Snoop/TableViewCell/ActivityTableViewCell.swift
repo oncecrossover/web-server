@@ -21,6 +21,7 @@ class ActivityTableViewCell: UITableViewCell {
   @IBOutlet weak var responderImage: UIImageView!
 
   @IBOutlet weak var responderName: UILabel!
+  @IBOutlet weak var expireLabel: UILabel!
   override func awakeFromNib() {
     super.awakeFromNib()
     self.layoutIfNeeded()
@@ -45,6 +46,10 @@ class ActivityTableViewCell: UITableViewCell {
     responderTitle.textColor = UIColor(red: 140/255, green: 157/255, blue: 170/255, alpha: 1.0)
 
     askerName.font = UIFont.boldSystemFont(ofSize: 14)
+
+    expireLabel.font = UIFont.systemFont(ofSize: 12)
+    expireLabel.textColor = UIColor.defaultColor()
+    expireLabel.textAlignment = .center
   }
 
 }
