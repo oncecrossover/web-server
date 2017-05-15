@@ -53,22 +53,31 @@ class SignupViewController: UIViewController {
   }()
 
   lazy var twitterLoginButton: TWTRLogInButton = {
-    let twitterLoginButton = TWTRLogInButton { (session, error) in
-      if let unwrappedSession = session {
-        let alert = UIAlertController(title: "Logged In",
-                                      message: "User \(unwrappedSession.userName) has logged in",
-          preferredStyle: UIAlertControllerStyle.alert
-        )
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-      } else {
-        NSLog("Login error: %@", error!.localizedDescription);
+    let button = TWTRLogInButton { (session, error) in
+      if (error != nil) {
+        print(error!)
+      }
+      let client = TWTRAPIClient.withCurrentUser()
+      let request = client.urlRequest(withMethod: "GET",
+                                      url: "https://api.twitter.com/1.1/account/verify_credentials.json",
+                                      parameters: ["include_email": "true", "skip_status": "true"],
+                                      error: nil)
+
+      client.sendTwitterRequest(request) {response, data, connectionError in
+        do {
+          if let dict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
+            // retrieve user's email
+          }
+        } catch let error as NSError {
+          print(error.localizedDescription)
+        }
+
       }
     }
-    twitterLoginButton.layer.cornerRadius = 10
-    twitterLoginButton.clipsToBounds = true
-    //    twitterLoginButton.loginMethods = [.webBased]
-    return twitterLoginButton
+    button.layer.cornerRadius = 10
+    button.clipsToBounds = true
+    button.loginMethods = [.webBased]
+    return button
   }()
 
   override func viewDidLoad() {

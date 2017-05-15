@@ -37,6 +37,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     return true
   }
 
+  func application(_ app: UIApplication,
+                   open url: URL,
+                   options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    if Twitter.sharedInstance().application(app, open:url, options: options) {
+      return true
+    }
+
+    // If you handle other (non Twitter Kit) URLs elsewhere in your app, return true. Otherwise
+    return false
+  }
+
   func registerForPushNotifications(_ application: UIApplication) {
     let viewAction = UIMutableUserNotificationAction()
     viewAction.identifier = "VIEW_IDENTIFIER"
