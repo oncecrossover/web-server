@@ -77,11 +77,6 @@ public class UserWebHandler extends AbastractWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    if (StringUtils.isBlank(user.getPrimaryEmail())) {
-      appendln("No primaryEmail specified.", respBuf);
-      return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
-    }
-
     if (StringUtils.isBlank(user.getFullName())) {
       appendln("No fullName specified.", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
