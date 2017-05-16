@@ -382,7 +382,12 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
       myCell.coverImage.isUserInteractionEnabled = false
       myCell.durationLabel.isHidden = true
       myCell.expireLabel.isHidden = false
-      myCell.expireLabel.text = "expires in \(cellInfo.hoursToExpire) hours"
+      if (cellInfo.hoursToExpire > 1) {
+        myCell.expireLabel.text = "expires in \(cellInfo.hoursToExpire) hours"
+      }
+      else {
+        myCell.expireLabel.text = "expires in \(cellInfo.hoursToExpire) hour"
+      }
     }
     else if (cellInfo.status == "ANSWERED") {
       if let coverImageUrl = cellInfo.answerCoverUrl {

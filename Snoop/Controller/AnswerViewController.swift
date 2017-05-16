@@ -108,6 +108,13 @@ extension AnswerViewController: UITableViewDataSource, UITableViewDelegate {
     if (cellInfo.status == "PENDING") {
       myCell.coverImage.image = UIImage()
       myCell.coverImage.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1.0)
+      myCell.expireLabel.isHidden = false
+      if (cellInfo.hoursToExpire > 1) {
+        myCell.expireLabel.text = "expires in \(cellInfo.hoursToExpire) hours"
+      }
+      else {
+        myCell.expireLabel.text = "expires in \(cellInfo.hoursToExpire) hour"
+      }
     }
 
     myCell.askerName.text = cellInfo.askerName + ":"

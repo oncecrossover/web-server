@@ -82,7 +82,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     var didLoadNewProfiles = false
     userModule.getDiscover(url) { jsonArray in
       for profileInfo in jsonArray as! [[String:AnyObject]] {
-        let profileUid = profileInfo["uid"] as! Int
+        let profileUid = profileInfo["id"] as! Int
         if (profileUid == uid) {
           continue
         }

@@ -164,7 +164,7 @@ class SignupViewController: UIViewController {
         var resultMessage = ""
         let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Saving your Info...")
         userModule.createUser(userEmail, userPassword: userPassword, fullName: name) { result in
-          if let uid = result["uid"] as? Int {
+          if let uid = result["id"] as? Int {
             activityIndicator.hide(animated: true)
             DispatchQueue.main.async {
               UserDefaults.standard.set(true, forKey: "shouldGiftUser")

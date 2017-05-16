@@ -156,7 +156,7 @@ class LoginViewController: UIViewController {
 
     let userModule = User()
     userModule.signinUser(userEmail, password: userPassword) { dict in
-      if let uid = dict["uid"] as? Int {
+      if let uid = dict["id"] as? Int {
         UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
         UserDefaults.standard.set(uid, forKey: "uid")
         UserDefaults.standard.synchronize()
