@@ -12,7 +12,6 @@ import TwitterKit
 class LoginViewController: UIViewController {
 
   var signupViewController: SignupViewController?
-
   let iconView: IconView = {
     let iconView = IconView()
     iconView.translatesAutoresizingMaskIntoConstraints = false
@@ -64,10 +63,10 @@ class LoginViewController: UIViewController {
   }()
 
   lazy var twitterLoginButton: TWTRLogInButton = {
-
     let button = TWTRLogInButton { (session, error) in
       if (error != nil) {
         print(error!)
+        return
       }
       let client = TWTRAPIClient.withCurrentUser()
       let request = client.urlRequest(withMethod: "GET",
@@ -78,12 +77,25 @@ class LoginViewController: UIViewController {
       client.sendTwitterRequest(request) {response, data, connectionError in
         do {
           if let dict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
-            // retrieve user's email
+            let username = dict["screen_name"] as! String
+            let util = UIUtility()
+            // Check if the username already exists
+            User().getUser(username) { users in
+              if (users.count == 0) {
+                DispatchQueue.main.async {
+                  util.displayAlertMessage("username \(username) doesn't exist. Please sign up", title: "Alert", sender: self)
+                }
+              }
+              else {
+                let user = users[0] as! NSDictionary
+                let uid = user["id"] as! Int
+                self.loginUser(uid)
+              }
+            }
           }
         } catch let error as NSError {
           print(error.localizedDescription)
         }
-
       }
     }
     button.layer.cornerRadius = 10
@@ -147,42 +159,43 @@ class LoginViewController: UIViewController {
     self.view.endEditing(true)
   }
 
+  func loginUser(_ uid: Int) {
+    let util = UIUtility()
+    let activityIndicator = util.createCustomActivityIndicator(self.view, text: "Signing In...")
+    UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
+    UserDefaults.standard.set(uid, forKey: "uid")
+    UserDefaults.standard.synchronize()
+    if let deviceToken = UserDefaults.standard.string(forKey: "deviceToken") {
+      User().updateDeviceToken(uid, token: deviceToken) { result in
+        DispatchQueue.main.async {
+          activityIndicator.hide(animated: true)
+          self.dismiss(animated: true, completion: nil)
+        }
+      }
+    }
+    else {
+      DispatchQueue.main.async {
+        activityIndicator.hide(animated: true)
+        let application = UIApplication.shared
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.dismiss(animated: true) {
+          appDelegate.registerForPushNotifications(application)
+        }
+      }
+    }
+  }
+
   func loginButtonTapped() {
     let userEmail = loginView.email.text!
     let userPassword = loginView.password.text!
-
-    let utility = UIUtility()
-    let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Signing In...")
-
     let userModule = User()
     userModule.signinUser(userEmail, password: userPassword) { dict in
       if let uid = dict["id"] as? Int {
-        UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
-        UserDefaults.standard.set(uid, forKey: "uid")
-        UserDefaults.standard.synchronize()
-        if let deviceToken = UserDefaults.standard.string(forKey: "deviceToken") {
-          userModule.updateDeviceToken(uid, token: deviceToken) { result in
-            DispatchQueue.main.async {
-              activityIndicator.hide(animated: true)
-              self.dismiss(animated: true, completion: nil)
-            }
-          }
-        }
-        else {
-          DispatchQueue.main.async {
-            activityIndicator.hide(animated: true)
-            let application = UIApplication.shared
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            self.dismiss(animated: true) {
-              appDelegate.registerForPushNotifications(application)
-            }
-          }
-        }
+        self.loginUser(uid)
       }
       else {
         OperationQueue.main.addOperation {
-          activityIndicator.hide(animated: true)
-          utility.displayAlertMessage(dict["error"] as! String, title: "Alert", sender: self)
+          UIUtility().displayAlertMessage(dict["error"] as! String, title: "Alert", sender: self)
         }
       }
     }

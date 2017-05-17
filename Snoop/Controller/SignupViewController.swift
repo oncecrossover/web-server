@@ -56,6 +56,7 @@ class SignupViewController: UIViewController {
     let button = TWTRLogInButton { (session, error) in
       if (error != nil) {
         print(error!)
+        return
       }
       let client = TWTRAPIClient.withCurrentUser()
       let request = client.urlRequest(withMethod: "GET",
@@ -67,11 +68,29 @@ class SignupViewController: UIViewController {
         do {
           if let dict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
             // retrieve user's email
+            var twitterEmail = ""
+            if let email = dict["email"] as? String {
+              twitterEmail = email
+            }
+
+            let password = self.generatePassword()
+            let name = dict["name"] as! String
+            let username = dict["screen_name"] as! String
+            // Check if the username already exists
+            User().getUser(username) { user in
+              if (user.count > 0) {
+                DispatchQueue.main.async {
+                  UIUtility().displayAlertMessage("username \(username) already exists", title: "Alert", sender: self)
+                }
+              }
+              else {
+                self.createUser(twitterEmail, username, password, name)
+              }
+            }
           }
         } catch let error as NSError {
           print(error.localizedDescription)
         }
-
       }
     }
     button.layer.cornerRadius = 10
@@ -161,34 +180,48 @@ class SignupViewController: UIViewController {
         }
       }
       else {
-        var resultMessage = ""
-        let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Saving your Info...")
-        userModule.createUser(userEmail, userPassword: userPassword, fullName: name) { result in
-          if let uid = result["id"] as? Int {
-            activityIndicator.hide(animated: true)
-            DispatchQueue.main.async {
-              UserDefaults.standard.set(true, forKey: "shouldGiftUser")
-              UserDefaults.standard.synchronize()
-              let vc = InterestPickerViewController()
-              vc.uid = uid
-              self.navigationController?.pushViewController(vc, animated: true)
-            }
+        self.createUser(userEmail, userEmail, userPassword, name)
+      }
+    }
+  }
 
-          }
-          else {
-            resultMessage = result["error"] as! String
-            activityIndicator.hide(animated: true)
-            // Display failure message
-            let myAlert = UIAlertController(title: "Error", message: resultMessage, preferredStyle: UIAlertControllerStyle.alert)
-            let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-            myAlert.addAction(okAction)
-            OperationQueue.main.addOperation {
-              self.present(myAlert, animated: true, completion: nil)
-            }
-          }
+  func createUser(_ userEmail: String, _ username: String, _ userPassword: String, _ name: String) {
+    var resultMessage = ""
+    let activityIndicator = UIUtility().createCustomActivityIndicator(self.view, text: "Saving your Info...")
+    User().createUser(userEmail, username: username, userPassword: userPassword, fullName: name) { result in
+      if let uid = result["id"] as? Int {
+        activityIndicator.hide(animated: true)
+        DispatchQueue.main.async {
+          UserDefaults.standard.set(true, forKey: "shouldGiftUser")
+          UserDefaults.standard.synchronize()
+          let vc = InterestPickerViewController()
+          vc.uid = uid
+          self.navigationController?.pushViewController(vc, animated: true)
+        }
+
+      }
+      else {
+        resultMessage = result["error"] as! String
+        activityIndicator.hide(animated: true)
+        // Display failure message
+        let myAlert = UIAlertController(title: "Error", message: resultMessage, preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        myAlert.addAction(okAction)
+        OperationQueue.main.addOperation {
+          self.present(myAlert, animated: true, completion: nil)
         }
       }
     }
+  }
+
+  func generatePassword() -> String{
+    let charSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    var c = Array(arrayLiteral: charSet)
+    var s:String = ""
+    for _ in (1...7) {
+      s.append(c[Int(arc4random()) % c.count])
+    }
+    return s
   }
 
   func loginLinkTapped() {
