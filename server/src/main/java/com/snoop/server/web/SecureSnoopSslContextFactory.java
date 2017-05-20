@@ -80,14 +80,17 @@ public final class SecureSnoopSslContextFactory {
 
     /* get client keystore location */
     final String clientKeyStoreLocation =
-        "src/main/resources/com/snoop/server/security/snoop-client-keystore.jks";
+        "src/main/resources/com/snoop/server/security/snoop-client-keystore.jceks";
 
     /* get client keystore pwd */
     final String clientKeyStorePassword = "changeme";
 
+    /* get client keystore key pwd */
+    final String clientKeyStoreKeyPassword = "BZVenture";
+
     /* get client truststore location */
     final String clientTrustStoreLocation =
-        "src/main/resources/com/snoop/server/security/snoop-client-truststore.jks";
+        "src/main/resources/com/snoop/server/security/snoop-truststore.jceks";
 
     /* get client truststore pwd */
     final String clientTrustStorePassword = "changeme";
@@ -97,6 +100,7 @@ public final class SecureSnoopSslContextFactory {
       CLIENT_KMF = createKeyManagerFactory(
           clientKeyStoreLocation,
           clientKeyStorePassword,
+          clientKeyStoreKeyPassword,
           algorithm);
 
       CLIENT_TMF = createTrustManagerFactory(
@@ -115,14 +119,17 @@ public final class SecureSnoopSslContextFactory {
 
     /* get server keystore location */
     final String serverKeyStoreLocation =
-        "src/main/resources/com/snoop/server/security/snoop-server-keystore.jks";
+        "src/main/resources/com/snoop/server/security/snoop-server-keystore.jceks";
 
     /* get server keystore pwd */
     final String serverKeyStorePassword = "changeme";
 
+    /* get server keystore key pwd */
+    final String serverKeyStoreKeyPassword = "BZVenture";
+
     /* get server truststore location */
     final String serverTrustStoreLocation =
-        "src/main/resources/com/snoop/server/security/snoop-server-truststore.jks";
+        "src/main/resources/com/snoop/server/security/snoop-truststore.jceks";
 
     /* get server truststore pwd */
     final String serverTrustStorePassword = "changeme";
@@ -132,6 +139,7 @@ public final class SecureSnoopSslContextFactory {
       SERVER_KMF = createKeyManagerFactory(
           serverKeyStoreLocation,
           serverKeyStorePassword,
+          serverKeyStoreKeyPassword,
           algorithm);
 
       SERVER_TMF = createTrustManagerFactory(
@@ -154,22 +162,23 @@ public final class SecureSnoopSslContextFactory {
   }
 
   private static KeyManagerFactory createKeyManagerFactory(
-      final String serverKeyStoreLocation,
-      final String serverKeyStorePassword,
+      final String keyStoreLocation,
+      final String keyStorePassword,
+      final String keyStoreKeyPassword,
       final String algorithm)
       throws KeyStoreException, NoSuchAlgorithmException, CertificateException,
       FileNotFoundException, IOException, UnrecoverableKeyException {
 
     /* load keystore */
-    final KeyStore ks = KeyStore.getInstance("JKS");
+    final KeyStore ks = KeyStore.getInstance("JCEKS");
     ks.load(
-        new FileInputStream(serverKeyStoreLocation),
-        serverKeyStorePassword.toCharArray());
+        new FileInputStream(keyStoreLocation),
+        keyStorePassword.toCharArray());
 
     /* Set up key manager factory to use our keystore */
     final KeyManagerFactory kmf = KeyManagerFactory
         .getInstance(KeyManagerFactory.getDefaultAlgorithm());
-    kmf.init(ks, serverKeyStorePassword.toCharArray());
+    kmf.init(ks, keyStoreKeyPassword.toCharArray());
 
     return kmf;
   }
@@ -182,7 +191,7 @@ public final class SecureSnoopSslContextFactory {
       FileNotFoundException, IOException {
 
     /* load truststore */
-    final KeyStore ts = KeyStore.getInstance("JKS");
+    final KeyStore ts = KeyStore.getInstance("JCEKS");
     ts.load(
         new FileInputStream(trustStoreLocation),
         trustStorePassword.toCharArray());

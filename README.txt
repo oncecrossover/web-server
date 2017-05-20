@@ -948,16 +948,9 @@ To log detailed security related logs, please refer to http://stackoverflow.com/
 HOW TO FIND DB SECURITY CONFS?
 server/src/main/resources/com/snoop/server/security/
 
-a8d59c0e0933fe7c.crt:        CA signed certificates for snoop
-gd_bundle-g2-g1.crt:         CA signed root certificates
-snoop-cert-ca.zip:           zip that contains the two files above
-snoop-cert.csr:              certificates signing request file
-snoop-client-keystore.jks:   client-side keystore
-snoop-client-truststore.jks: client-side truststore
-snoop-client.crt:            client-side public key certificate
-snoop-server-keystore.jks:   server-side keystore
-snoop-server-truststore.jks: server-side truststore
-snoop-server.crt:            server-side public key certificate
+snoop-truststore.jceks          client/server truststore
+snoop-client-keystore.jceks     client-side keystore
+snoop-server-keystore.jceks     server-side keystore
 
 
 
