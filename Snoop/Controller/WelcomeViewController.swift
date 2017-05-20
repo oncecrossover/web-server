@@ -75,7 +75,7 @@ class WelcomeViewController: UIViewController {
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    let url = "https://ddk9xa5p5b3lb.cloudfront.net/test/answers/videos/7860017080303616/7860017080303616.video.mp4"
+    let url = "https://ddk9xa5p5b3lb.cloudfront.net/test/answers/videos/17940851023937536/17940851023937536.video.mp4"
     self.player = AVPlayer(url: URL(string: url)!)
     let playerLayer = AVPlayerLayer(player: self.player)
     playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
