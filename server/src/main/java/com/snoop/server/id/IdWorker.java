@@ -171,7 +171,7 @@ public class IdWorker {
 
         LOGGER.info(
                 "worker starting. timestamp left shift {}, datacenter id bits {},"
-                +" worker id bits {}, sequence bits {}, datacenterId {}, workerid {}",
+                +" worker id bits {}, sequence bits {}, datacenterId {}, workerId {}",
                 TIMESTAMP_LEFT_SHIFT, DATACENTER_ID_BITS, WORKER_ID_BITS,
                 SEQUENCE_BITS, datacenterId, workerId);
 

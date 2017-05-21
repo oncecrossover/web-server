@@ -17,9 +17,24 @@ public class UniqueIdGenerator implements IdentifierGenerator {
   private final static IdWorker ID_WORKER;
 
   static {
-    ID_WORKER = new IdWorker(
-        Configuration.COM_SNOOP_SERVER_ID_WORKER_ID_DEFAULT,
-        Configuration.COM_SNOOP_SERVER_ID_DATACENTER_ID_DEFAULT);
+    ID_WORKER = new IdWorker(getWorkerId(), getDatacenterId());
+  }
+
+  private static int getWorkerId() {
+    return getInt(
+        Configuration.SNOOP_SERVER_ID_WORKER_ID_KEY,
+        Configuration.SNOOP_SERVER_ID_WORKER_ID_DEFAULT);
+  }
+
+  private static int getDatacenterId() {
+    return getInt(
+        Configuration.SNOOP_SERVER_ID_DATACENTER_ID_KEY,
+        Configuration.SNOOP_SERVER_ID_DATACENTER_ID_DEFAULT);
+  }
+
+  private static int getInt(final String key, final int defaultInt) {
+    final String value = System.getProperty(key);
+    return value != null ? Integer.parseInt(value) : defaultInt;
   }
 
   @Override

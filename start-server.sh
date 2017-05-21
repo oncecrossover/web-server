@@ -82,4 +82,13 @@ done
 
 cd "`dirname "$0"`"/server
 echo "[INFO] Running: $EXAMPLE ($EXAMPLE_CLASS $EXAMPLE_ARGS)"
-exec mvn -q -nsu compile exec:exec -Dcheckstyle.skip=true -Dforcenpn="$FORCE_NPN" -DargLine.example="$EXAMPLE_ARGS" -DexampleClass="$EXAMPLE_CLASS"
+mvn -q -nsu compile exec:exec -Dcheckstyle.skip=true -Dforcenpn="$FORCE_NPN" -DargLine.example="$EXAMPLE_ARGS" -DexampleClass="$EXAMPLE_CLASS" >> snoop.server.log 2>&1 &
+
+# wait for server to start
+sleep 30
+# run expiring quandas every 1 hour
+while true;
+do
+mvn -q -nsu compile exec:exec -Dcheckstyle.skip=true -DargLine.example="$EXAMPLE_ARGS -Dhttp.method=POST -Dhttp.snoop.client.uri=quandas/expire" -DexampleClass="com.snoop.server.web.HttpSnoopClient" >> expire-quanda.log 2>&1
+sleep 3600
+done

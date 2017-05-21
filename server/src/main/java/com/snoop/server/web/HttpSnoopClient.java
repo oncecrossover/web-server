@@ -53,7 +53,7 @@ public final class HttpSnoopClient {
       System.getProperty("http.snoop.server.host", "127.0.0.1");
   static final int PORT = Integer.parseInt(
       System.getProperty("http.snoop.server.port", SSL ? "8443" : "8080"));
-  static final String RES_URI = System.getProperty("resource.uri");
+  static final String RES_URI = System.getProperty("http.snoop.client.uri");
   static final String HTTP_METHOD = System.getProperty("http.method");
 
   public static void main(String[] args) throws Exception {
@@ -112,11 +112,8 @@ public final class HttpSnoopClient {
   }
 
   private static HttpMethod getHttpMethod() {
-    if (StringUtils.isBlank(HTTP_METHOD)) {
-      return HttpMethod.GET;
-    }
-
-    String method = HTTP_METHOD.toUpperCase();
+    final String method = StringUtils.isBlank(HTTP_METHOD) ? ""
+        : HTTP_METHOD.toUpperCase();
     switch (method) {
       case "GET":
         return HttpMethod.GET;
