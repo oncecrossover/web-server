@@ -80,7 +80,7 @@ public final class SecureSnoopSslContextFactory {
 
     /* get client keystore location */
     final String clientKeyStoreLocation =
-        "src/main/resources/com/snoop/server/security/snoop-client-keystore.jceks";
+        "src/main/resources/com/snoop/server/security/snoop-client-keystore-1.0.jceks";
 
     /* get client keystore pwd */
     final String clientKeyStorePassword = "changeme";
@@ -90,7 +90,7 @@ public final class SecureSnoopSslContextFactory {
 
     /* get client truststore location */
     final String clientTrustStoreLocation =
-        "src/main/resources/com/snoop/server/security/snoop-truststore.jceks";
+        "src/main/resources/com/snoop/server/security/snoop-truststore-1.0.jceks";
 
     /* get client truststore pwd */
     final String clientTrustStorePassword = "changeme";
@@ -119,7 +119,7 @@ public final class SecureSnoopSslContextFactory {
 
     /* get server keystore location */
     final String serverKeyStoreLocation =
-        "src/main/resources/com/snoop/server/security/snoop-server-keystore.jceks";
+        "src/main/resources/com/snoop/server/security/snoop-server-keystore-1.0.jceks";
 
     /* get server keystore pwd */
     final String serverKeyStorePassword = "changeme";
@@ -129,7 +129,7 @@ public final class SecureSnoopSslContextFactory {
 
     /* get server truststore location */
     final String serverTrustStoreLocation =
-        "src/main/resources/com/snoop/server/security/snoop-truststore.jceks";
+        "src/main/resources/com/snoop/server/security/snoop-truststore-1.0.jceks";
 
     /* get server truststore pwd */
     final String serverTrustStorePassword = "changeme";

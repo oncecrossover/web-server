@@ -948,9 +948,9 @@ To log detailed security related logs, please refer to http://stackoverflow.com/
 HOW TO FIND DB SECURITY CONFS?
 server/src/main/resources/com/snoop/server/security/
 
-snoop-truststore.jceks          client/server truststore
-snoop-client-keystore.jceks     client-side keystore
-snoop-server-keystore.jceks     server-side keystore
+snoop-truststore-1.0.jceks          client/server truststore
+snoop-client-keystore-1.0.jceks     client-side keystore
+snoop-server-keystore-1.0.jceks     server-side keystore
 
 
 
