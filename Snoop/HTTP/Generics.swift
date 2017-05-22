@@ -29,30 +29,22 @@ class Generics: NSObject, URLSessionDelegate {
   func urlSession(_ session: URLSession,  didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
     if (challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust) {
       let serverTrust = challenge.protectionSpace.serverTrust
-      let certificate = SecTrustGetCertificateAtIndex(serverTrust!, 0)
+      let certificate = SecTrustGetCertificateAtIndex(serverTrust!, 1)
 
       // Set SSL policies for domain name check
       let policies = NSMutableArray();
       policies.add(SecPolicyCreateSSL(true, (challenge.protectionSpace.host as CFString?)))
       SecTrustSetPolicies(serverTrust!, policies);
 
-      // Evaluate server certificate
-      /*var result = SecTrustResultType.Invalid
-       SecTrustEvaluate(serverTrust!, &result)
-       let isServerTrusted:Bool = (result == SecTrustResultType.Unspecified || result == SecTrustResultType.Proceed)
-       if (result == SecTrustResultType.RecoverableTrustFailure) {
-       let exception = SecTrustCopyExceptions(serverTrust!)
-       SecTrustSetPolicies(serverTrust!, exception)
-       SecTrustEvaluate(serverTrust!, &result)
-       }
-       print("result is \(result)")**/
-
       // Get local and remote cert data
-      let remoteCertificateData:Data = SecCertificateCopyData(certificate!) as Data
-      let pathToCert = Bundle.main.path(forResource: "snoop-server", ofType: "der")
-      let localCertificate:Data = try! Data(contentsOf: URL(fileURLWithPath: pathToCert!))
+      let remoteCertificateData = SecCertificateCopyData(certificate!) as CFData
+      let data = CFDataGetBytePtr(remoteCertificateData)
+      let size = CFDataGetLength(remoteCertificateData)
+      let serverData = NSData(bytes: data, length: size)
+      let pathToCert = Bundle.main.path(forResource: "snoop-client-trust-1.0", ofType: "der")
+      let localCertificate = NSData(contentsOf: URL(fileURLWithPath: pathToCert!))
 
-      if (remoteCertificateData == localCertificate) {
+      if (serverData == localCertificate) {
         let credential:URLCredential = URLCredential(trust: serverTrust!)
         completionHandler(.useCredential, credential)
       } else {
@@ -82,10 +74,10 @@ class Generics: NSObject, URLSessionDelegate {
     var identityAndTrust:IdentityAndTrust!
     var securityError:OSStatus = errSecSuccess
 
-    let path = Bundle.main.path(forResource: "snoop-client", ofType: "p12")
+    let path = Bundle.main.path(forResource: "snoop-client-key-1.0", ofType: "p12")
     let PKCS12Data = NSData(contentsOf: URL(fileURLWithPath: path!))!
     let key : NSString = kSecImportExportPassphrase as NSString
-    let options : NSDictionary = [key : "changeme"]
+    let options : NSDictionary = [key : "BZVenture"]
     //create variable for holding security information
     //var privateKeyRef: SecKeyRef? = nil
 

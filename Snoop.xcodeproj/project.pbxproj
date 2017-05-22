@@ -72,12 +72,10 @@
 		4A7971E71E6E4C2D003105FD /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7971E61E6E4C2D003105FD /* IAPManager.swift */; };
 		4A7986A21EB2A5B7002A32A9 /* FreeCoinsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7986A11EB2A5B7002A32A9 /* FreeCoinsView.swift */; };
 		4A7986A41EB3BE09002A32A9 /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7986A31EB3BE09002A32A9 /* CustomNavigationView.swift */; };
-		4A7986A81EBC2B85002A32A9 /* snoop-client.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 4A7986A71EBC2B85002A32A9 /* snoop-client.p12 */; };
 		4A84B02C1D249AED00711DC6 /* DiscoverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */; };
 		4A84B02E1D24A11600711DC6 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */; };
 		4A8F26831D218FC60001989E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26821D218FC60001989E /* ProfileViewController.swift */; };
 		4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F26861D21D01D0001989E /* EditProfileViewController.swift */; };
-		4A9C17CF1DBD5A1900F91893 /* snoop-server.der in Resources */ = {isa = PBXBuildFile; fileRef = 4A9C17CE1DBD5A1900F91893 /* snoop-server.der */; };
 		4A9F53C01D68DB5100D753B2 /* PaymentViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9F53BF1D68DB5100D753B2 /* PaymentViewControllerUITests.swift */; };
 		4AA3284E1EAEA73700DB9E59 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AA3284A1EAEA73700DB9E59 /* Fabric.framework */; };
 		4AA3284F1EAEA73700DB9E59 /* TwitterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AA3284B1EAEA73700DB9E59 /* TwitterKit.framework */; };
@@ -95,6 +93,9 @@
 		4AC2836F1CE2F58100A08D35 /* Peep.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4AC2836D1CE2F58100A08D35 /* Peep.xcdatamodeld */; };
 		4AC283711CE2F58100A08D35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AC283701CE2F58100A08D35 /* Assets.xcassets */; };
 		4AC9231F1D360A0800C83177 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9231E1D360A0800C83177 /* FeedTableViewCell.swift */; };
+		4ACA20061ED3805D009A49A3 /* snoop-client-trust-1.0.pem in Resources */ = {isa = PBXBuildFile; fileRef = 4ACA20051ED3805D009A49A3 /* snoop-client-trust-1.0.pem */; };
+		4ACA20081ED38066009A49A3 /* snoop-client-trust-1.0.der in Resources */ = {isa = PBXBuildFile; fileRef = 4ACA20071ED38066009A49A3 /* snoop-client-trust-1.0.der */; };
+		4ACA200A1ED38147009A49A3 /* snoop-client-key-1.0.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 4ACA20091ED38147009A49A3 /* snoop-client-key-1.0.p12 */; };
 		4ACADE131E1345E000831929 /* ActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACADE121E1345E000831929 /* ActivityTableViewCell.swift */; };
 		4ACADE151E13586C00831929 /* ActivityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACADE141E13586C00831929 /* ActivityModel.swift */; };
 		4AD721A41D8335B600B9E64E /* TutorialViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD721A31D8335B600B9E64E /* TutorialViewControllerUITests.swift */; };
@@ -215,12 +216,10 @@
 		4A7971E61E6E4C2D003105FD /* IAPManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
 		4A7986A11EB2A5B7002A32A9 /* FreeCoinsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreeCoinsView.swift; sourceTree = "<group>"; };
 		4A7986A31EB3BE09002A32A9 /* CustomNavigationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationView.swift; sourceTree = "<group>"; };
-		4A7986A71EBC2B85002A32A9 /* snoop-client.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "snoop-client.p12"; sourceTree = "<group>"; };
 		4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewCell.swift; sourceTree = "<group>"; };
 		4A84B02D1D24A11600711DC6 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 		4A8F26821D218FC60001989E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		4A8F26861D21D01D0001989E /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
-		4A9C17CE1DBD5A1900F91893 /* snoop-server.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = "snoop-server.der"; sourceTree = "<group>"; };
 		4A9F53BF1D68DB5100D753B2 /* PaymentViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewControllerUITests.swift; sourceTree = "<group>"; };
 		4AA3284A1EAEA73700DB9E59 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		4AA3284B1EAEA73700DB9E59 /* TwitterKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterKit.framework; sourceTree = "<group>"; };
@@ -240,6 +239,9 @@
 		4AC283701CE2F58100A08D35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4AC283751CE2F58100A08D35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4AC9231E1D360A0800C83177 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
+		4ACA20051ED3805D009A49A3 /* snoop-client-trust-1.0.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "snoop-client-trust-1.0.pem"; sourceTree = "<group>"; };
+		4ACA20071ED38066009A49A3 /* snoop-client-trust-1.0.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = "snoop-client-trust-1.0.der"; sourceTree = "<group>"; };
+		4ACA20091ED38147009A49A3 /* snoop-client-key-1.0.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "snoop-client-key-1.0.p12"; sourceTree = "<group>"; };
 		4ACADE121E1345E000831929 /* ActivityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityTableViewCell.swift; sourceTree = "<group>"; };
 		4ACADE141E13586C00831929 /* ActivityModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityModel.swift; sourceTree = "<group>"; };
 		4AD721A31D8335B600B9E64E /* TutorialViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewControllerUITests.swift; sourceTree = "<group>"; };
@@ -511,14 +513,15 @@
 				4AAF42F51E56963700074C7F /* Util */,
 				4ADFD3621E56627A00CD3D92 /* SDWebImage */,
 				4A5495591E4310450072C45B /* Snoop.entitlements */,
-				4A9C17CE1DBD5A1900F91893 /* snoop-server.der */,
-				4A7986A71EBC2B85002A32A9 /* snoop-client.p12 */,
 				4A0CE3661D6ECDB10023EC2D /* MBProgressHUD.h */,
 				4A0CE3671D6ECDB10023EC2D /* MBProgressHUD.m */,
 				4AD8A6A31D63E8C600757D9D /* Stripe.bundle */,
 				4AD8A6A11D63E8AF00757D9D /* Stripe.framework */,
 				4AC283661CE2F58100A08D35 /* AppDelegate.swift */,
 				4AC2836A1CE2F58100A08D35 /* Main.storyboard */,
+				4ACA20051ED3805D009A49A3 /* snoop-client-trust-1.0.pem */,
+				4ACA20071ED38066009A49A3 /* snoop-client-trust-1.0.der */,
+				4ACA20091ED38147009A49A3 /* snoop-client-key-1.0.p12 */,
 				4AC283701CE2F58100A08D35 /* Assets.xcassets */,
 				4AC283751CE2F58100A08D35 /* Info.plist */,
 				4AC2836D1CE2F58100A08D35 /* Peep.xcdatamodeld */,
@@ -683,14 +686,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A5495581E4295E20072C45B /* about.html in Resources */,
-				4A9C17CF1DBD5A1900F91893 /* snoop-server.der in Resources */,
+				4ACA20081ED38066009A49A3 /* snoop-client-trust-1.0.der in Resources */,
 				4A55E8FF1E28AD3700B033F4 /* LaunchScreen.storyboard in Resources */,
 				4A6730BF1E23420A00C512B1 /* tos.html in Resources */,
+				4ACA20061ED3805D009A49A3 /* snoop-client-trust-1.0.pem in Resources */,
 				4A6730BD1E23412100C512B1 /* privacy.html in Resources */,
+				4ACA200A1ED38147009A49A3 /* snoop-client-key-1.0.p12 in Resources */,
 				4AC283711CE2F58100A08D35 /* Assets.xcassets in Resources */,
 				4AD8A6A41D63E8C600757D9D /* Stripe.bundle in Resources */,
 				4AA328501EAEA73700DB9E59 /* TwitterKitResources.bundle in Resources */,
-				4A7986A81EBC2B85002A32A9 /* snoop-client.p12 in Resources */,
 				4AC2836C1CE2F58100A08D35 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
