@@ -67,6 +67,9 @@ class EditProfileView: UIScrollView {
     if let _  = avatarUrl {
       self.profilePhoto.sd_setImage(with: URL(string: avatarUrl!))
     }
+    else {
+      self.profilePhoto.image = UIImage(named: "default")
+    }
 
     self.firstName.value.text = firstName
     self.lastName.value.text = lastName
