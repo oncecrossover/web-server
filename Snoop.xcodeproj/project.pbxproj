@@ -96,6 +96,7 @@
 		4ACA20061ED3805D009A49A3 /* snoop-client-trust-1.0.pem in Resources */ = {isa = PBXBuildFile; fileRef = 4ACA20051ED3805D009A49A3 /* snoop-client-trust-1.0.pem */; };
 		4ACA20081ED38066009A49A3 /* snoop-client-trust-1.0.der in Resources */ = {isa = PBXBuildFile; fileRef = 4ACA20071ED38066009A49A3 /* snoop-client-trust-1.0.der */; };
 		4ACA200A1ED38147009A49A3 /* snoop-client-key-1.0.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 4ACA20091ED38147009A49A3 /* snoop-client-key-1.0.p12 */; };
+		4ACA200C1ED390AC009A49A3 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA200B1ED390AC009A49A3 /* Config.swift */; };
 		4ACADE131E1345E000831929 /* ActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACADE121E1345E000831929 /* ActivityTableViewCell.swift */; };
 		4ACADE151E13586C00831929 /* ActivityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACADE141E13586C00831929 /* ActivityModel.swift */; };
 		4AD721A41D8335B600B9E64E /* TutorialViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD721A31D8335B600B9E64E /* TutorialViewControllerUITests.swift */; };
@@ -242,6 +243,7 @@
 		4ACA20051ED3805D009A49A3 /* snoop-client-trust-1.0.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "snoop-client-trust-1.0.pem"; sourceTree = "<group>"; };
 		4ACA20071ED38066009A49A3 /* snoop-client-trust-1.0.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = "snoop-client-trust-1.0.der"; sourceTree = "<group>"; };
 		4ACA20091ED38147009A49A3 /* snoop-client-key-1.0.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "snoop-client-key-1.0.p12"; sourceTree = "<group>"; };
+		4ACA200B1ED390AC009A49A3 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		4ACADE121E1345E000831929 /* ActivityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityTableViewCell.swift; sourceTree = "<group>"; };
 		4ACADE141E13586C00831929 /* ActivityModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityModel.swift; sourceTree = "<group>"; };
 		4AD721A31D8335B600B9E64E /* TutorialViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewControllerUITests.swift; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 				4A27FCC21E60C96000D78294 /* Category.swift */,
 				4A7971E41E6E2494003105FD /* Coin.swift */,
 				4ADECB511E83A98C00DA8998 /* Answer.swift */,
+				4ACA200B1ED390AC009A49A3 /* Config.swift */,
 			);
 			path = HTTP;
 			sourceTree = "<group>";
@@ -827,6 +830,7 @@
 				4ADFD38F1E56628B00CD3D92 /* NSData+ImageContentType.m in Sources */,
 				4ADFD39B1E56628B00CD3D92 /* UIImage+MultiFormat.m in Sources */,
 				4AF322741D2C83260043FCE5 /* AnswerTableViewCell.swift in Sources */,
+				4ACA200C1ED390AC009A49A3 /* Config.swift in Sources */,
 				4A7971D31E64A059003105FD /* CategoryModel.swift in Sources */,
 				4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */,
 				4A55E8FD1E2877D000B033F4 /* CustomSegmentedControl.swift in Sources */,

@@ -75,19 +75,25 @@ class WelcomeViewController: UIViewController {
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    let url = "https://ddk9xa5p5b3lb.cloudfront.net/test/answers/videos/17940851023937536/17940851023937536.video.mp4"
-    self.player = AVPlayer(url: URL(string: url)!)
-    let playerLayer = AVPlayerLayer(player: self.player)
-    playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-    videoPlayerView.layer.addSublayer(playerLayer)
-    playerLayer.frame = videoPlayerView.frame
-    self.player?.play()
-    NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: self.player?.currentItem, queue: nil) { notification in
+    Config().getConfigByKey("welcome.video.url") { dict in
+      let url = dict["value"] as! String
       DispatchQueue.main.async {
-        self.player?.seek(to: kCMTimeZero)
+        self.player = AVPlayer(url: URL(string: url)!)
+        let playerLayer = AVPlayerLayer(player: self.player)
+        playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        self.videoPlayerView.layer.addSublayer(playerLayer)
+        playerLayer.frame = self.videoPlayerView.frame
         self.player?.play()
+        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: self.player?.currentItem, queue: nil) { notification in
+          DispatchQueue.main.async {
+            self.player?.seek(to: kCMTimeZero)
+            self.player?.play()
+          }
+        }
       }
+
     }
+
   }
 
   override func viewWillDisappear(_ animated: Bool) {
