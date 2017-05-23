@@ -12,6 +12,7 @@ import AVFoundation
 class WelcomeViewController: UIViewController {
   let videoPlayerView = UIView()
   var player: AVPlayer?
+  var isMuted = true
   lazy var signupButton: UIButton = {
     let button = UIButton()
     button.layer.cornerRadius = 10
@@ -40,6 +41,14 @@ class WelcomeViewController: UIViewController {
     return button
   }()
 
+  lazy var unmuteButton: UIButton = {
+    let button = UIButton()
+    button.setImage(UIImage(named: "unmute"), for: .normal)
+    button.addTarget(self, action: #selector(unmuteButtonTapped), for: .touchUpInside)
+    button.translatesAutoresizingMaskIntoConstraints = false
+    return button
+  }()
+
   override func viewDidLoad() {
     super.viewDidLoad()
     self.navigationController?.setNavigationBarHidden(true, animated: false)
@@ -47,6 +56,7 @@ class WelcomeViewController: UIViewController {
     view.addSubview(videoPlayerView)
     view.addSubview(signupButton)
     view.addSubview(loginButton)
+    view.addSubview(unmuteButton)
 
     view.addConstraintsWithFormat("H:|[v0]|", views: videoPlayerView)
     view.addConstraintsWithFormat("V:|[v0]|", views: videoPlayerView)
@@ -61,6 +71,10 @@ class WelcomeViewController: UIViewController {
     loginButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 12).isActive = true
     loginButton.bottomAnchor.constraint(equalTo: signupButton.bottomAnchor).isActive = true
 
+    unmuteButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+    unmuteButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+    unmuteButton.trailingAnchor.constraint(equalTo: loginButton.trailingAnchor).isActive = true
+    unmuteButton.bottomAnchor.constraint(equalTo: loginButton.topAnchor, constant: -25).isActive = true
     NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidEnterBackground, object: nil, queue: nil) { (_) in
       self.player?.pause()
     }
@@ -68,9 +82,6 @@ class WelcomeViewController: UIViewController {
     NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationWillEnterForeground, object: nil, queue: nil) { (_) in
       self.player?.play()
     }
-
-    UserDefaults.standard.set(true, forKey: "isUserWelcomed")
-    UserDefaults.standard.synchronize()
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -83,6 +94,7 @@ class WelcomeViewController: UIViewController {
         playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
         self.videoPlayerView.layer.addSublayer(playerLayer)
         playerLayer.frame = self.videoPlayerView.frame
+        self.player?.volume = 0
         self.player?.play()
         NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: self.player?.currentItem, queue: nil) { notification in
           DispatchQueue.main.async {
@@ -107,12 +119,29 @@ class WelcomeViewController: UIViewController {
 // Extension for IB related actions
 extension WelcomeViewController {
 
+  func unmuteButtonTapped() {
+    if (isMuted) {
+      isMuted = false
+      self.player?.volume = 1.0
+      self.unmuteButton.setImage(UIImage(named: "mute"), for: .normal)
+    }
+    else {
+      isMuted = true
+      self.player?.volume = 0
+      self.unmuteButton.setImage(UIImage(named: "unmute"), for: .normal)
+    }
+  }
+
   func signupButtonTapped() {
+    UserDefaults.standard.set(true, forKey: "isUserWelcomed")
+    UserDefaults.standard.synchronize()
     let vc = SignupViewController()
     self.navigationController?.pushViewController(vc, animated: true)
   }
 
   func loginButtonTapped(){
+    UserDefaults.standard.set(true, forKey: "isUserWelcomed")
+    UserDefaults.standard.synchronize()
     let vc = LoginViewController()
     self.navigationController?.pushViewController(vc, animated: true)
   }
