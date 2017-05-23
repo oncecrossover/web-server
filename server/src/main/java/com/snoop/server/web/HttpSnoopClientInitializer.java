@@ -27,9 +27,14 @@ public class HttpSnoopClientInitializer
     extends ChannelInitializer<SocketChannel> {
 
   private final SslContext sslCtx;
+  private HttpSnoopClientHandler httpClientHandler;
 
   public HttpSnoopClientInitializer(SslContext sslCtx) {
     this.sslCtx = sslCtx;
+  }
+
+  public HttpSnoopClientHandler getHttpClientHandler() {
+    return httpClientHandler;
   }
 
   @Override
@@ -52,6 +57,7 @@ public class HttpSnoopClientInitializer
     // Uncomment the following line if you don't want to handle HttpContents.
     p.addLast(new HttpObjectAggregator(1048576));
 
-    p.addLast(new HttpSnoopClientHandler());
+    httpClientHandler = new HttpSnoopClientHandler();
+    p.addLast(httpClientHandler);
   }
 }

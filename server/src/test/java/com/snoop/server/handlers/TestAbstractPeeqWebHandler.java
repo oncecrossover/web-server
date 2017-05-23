@@ -1,4 +1,4 @@
-package com.snoop.server.handlers;
+package com.snoop.server.web.handlers;
 
 import static org.junit.Assert.assertEquals;
 

@@ -15,10 +15,19 @@
  */
 package com.snoop.server.web;
 
+import java.net.InetSocketAddress;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import javax.net.ssl.SSLException;
+
+import org.apache.hadoop.util.Daemon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -32,17 +41,74 @@ import io.netty.handler.ssl.SslContextBuilder;
  * An HTTP server that sends back the response of the received HTTP request in a
  * plain text or encrypted form.
  */
-public final class HttpSnoopServer {
+public final class HttpSnoopServer implements Runnable {
 
-  static final boolean SSL =
-      System.getProperty("http.snoop.ssl") != null;
-  static final int PORT = Integer.parseInt(
-      System.getProperty("http.snoop.server.port", SSL ? "8443" : "8080"));
+  private static final Logger LOG = LoggerFactory
+      .getLogger(HttpSnoopServer.class);
   public static final boolean LIVE = System
       .getProperty("http.snoop.server.live") != null;
 
+  public Daemon runServerAsDaemon() {
+    final ThreadGroup threadGroup = new ThreadGroup("Http snoop server");
+    final Daemon server = new Daemon(threadGroup,
+        new HttpSnoopServer(sslEnabled, port, isliveMode));
+    LOG.info("HttpSnoopServer daemon initialized");
+    server.start();
+    return server;
+  }
+
+  private boolean sslEnabled = false;
+  private int port;
+  private boolean isliveMode = false;
+  private InetSocketAddress localAddr;
+  private AtomicBoolean channelActive = new AtomicBoolean(false);
+  private AtomicBoolean channelClosed = new AtomicBoolean(false);
+  private EventLoopGroup bossGroup;
+  private EventLoopGroup workerGroup;
+
+  public HttpSnoopServer(final boolean sslEnabled, final int port,
+      boolean isLiveMode) {
+    this.sslEnabled = sslEnabled;
+    this.port = port;
+    this.isliveMode = isLiveMode;
+  }
+
+  public boolean getChannelActive() {
+    return channelActive.get();
+  }
+
+  public boolean getChannelClosed() {
+    return channelClosed.get();
+  }
+
+  public boolean sslEnabled() {
+    return sslEnabled;
+  }
+
+  public int getPort() {
+    return localAddr.getPort();
+  }
+
+  public String getHostName() {
+    return localAddr.getHostName();
+  }
+
+  public String getHostString() {
+    return localAddr.getHostString();
+  }
+
   public static void main(String[] args) throws Exception {
-    start();
+    final boolean sslEnabled = System.getProperty("http.snoop.ssl") != null;
+    final int port = Integer.parseInt(System
+        .getProperty("http.snoop.server.port", sslEnabled ? "8443" : "8080"));
+
+    final HttpSnoopServer server = new HttpSnoopServer(sslEnabled, port,
+        LIVE);
+    try {
+      server.start();
+    } finally {
+      server.shutDown();
+    }
   }
 
   private static SslContext setupSSL(final boolean sslEnabled)
@@ -61,30 +127,76 @@ public final class HttpSnoopServer {
     return sslCtx;
   }
 
-  static void start() throws SSLException, InterruptedException {
+  private void start() throws SSLException, InterruptedException {
+    LOG.info(String.format("SNOOP SERVER OPTIONS: SSL:%s, LIVE:%s", sslEnabled, LIVE));
+    LOG.info("starting HttpSnoopServer daemon");
+
     // Configure SSL.
-    final SslContext sslCtx = setupSSL(SSL);
+    final SslContext sslCtx = setupSSL(sslEnabled);
 
     // Configure the server.
-    EventLoopGroup bossGroup = new NioEventLoopGroup(1);
-    EventLoopGroup workerGroup = new NioEventLoopGroup();
+    bossGroup = new NioEventLoopGroup(1);
+    workerGroup = new NioEventLoopGroup();
+
     try {
       ServerBootstrap b = new ServerBootstrap();
-      b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
+      b.group(bossGroup, workerGroup)
+          .channel(NioServerSocketChannel.class)
           .handler(new LoggingHandler(LogLevel.INFO))
           .childHandler(new HttpSnoopServerInitializer(sslCtx));
 
-      Channel ch = b.bind(PORT).sync().channel();
+      /* wait for channel being active */
+      Channel ch = b.bind(port).sync().addListener(new ChannelFutureListener() {
+        @Override
+        public void operationComplete(ChannelFuture future) throws Exception {
+          if (future.isSuccess()) {
+            channelActive.set(true);
+            LOG.info("netty server channel active ? " + channelActive);
+          } else {
+            channelActive.set(false);
+            throw new Exception("failed to activate netty server channel.", future.cause());
+          }
+        }
+      }).channel();
+      localAddr = (InetSocketAddress) ch.localAddress();
 
-      System.out.println(String.format("SNOOP OPTIONS: SSL:%s, LIVE:%s",
-          SSL, LIVE));
-      System.err.println("Open your web browser and navigate to "
-          + (SSL ? "https" : "http") + "://127.0.0.1:" + PORT + '/');
+      LOG.info("Open your web browser and navigate to "
+          + (sslEnabled ? "https" : "http") + "://127.0.0.1:" + getPort());
 
-      ch.closeFuture().sync();
+      /* wait for channel being closed */
+      ch.closeFuture().sync().addListener(new ChannelFutureListener() {
+        @Override
+        public void operationComplete(ChannelFuture future) throws Exception {
+          if (future.isSuccess()) {
+            channelClosed.set(true);
+            LOG.info("netty server channel closed ? " + channelClosed);
+          } else {
+            channelClosed.set(false);
+            throw new Exception("failed to close netty server channel.", future.cause());
+          }
+        }
+      });
     } finally {
-      bossGroup.shutdownGracefully();
       workerGroup.shutdownGracefully();
+      bossGroup.shutdownGracefully();
+    }
+  }
+
+  public void shutDown() {
+    if (workerGroup != null) {
+      workerGroup.shutdownGracefully();
+    }
+    if (bossGroup != null) {
+      bossGroup.shutdownGracefully();
+    }
+  }
+
+  @Override
+  public void run() {
+    try {
+      start();
+    } catch (SSLException | InterruptedException e) {
+      throw new RuntimeException(e);
     }
   }
 }
