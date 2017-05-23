@@ -128,11 +128,12 @@ extension ViewController {
           loadCoinCount()
         }
       }
-    }
-    if (UserDefaults.standard.bool(forKey: "shouldGiftUser")) {
-      displayFreeCoinsView()
-      UserDefaults.standard.set(false, forKey: "shouldGiftUser")
-      UserDefaults.standard.synchronize()
+
+      if (UserDefaults.standard.bool(forKey: "shouldGiftUser")) {
+        displayFreeCoinsView()
+        UserDefaults.standard.set(false, forKey: "shouldGiftUser")
+        UserDefaults.standard.synchronize()
+      }
     }
   }
 
