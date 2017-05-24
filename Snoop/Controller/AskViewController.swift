@@ -228,14 +228,17 @@ extension AskViewController {
     let quandaData = ["question" : self.questionView.text!, "responder" : self.profileInfo.uid] as [String : Any]
     let jsonData:[String: AnyObject] = ["uid": uid as AnyObject, "type" : "ASKED" as AnyObject, "quanda" : quandaData as AnyObject]
     self.scrollView.isUserInteractionEnabled = false
+    let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Sending your question...")
     self.generics.createObject(self.generics.HTTPHOST + "qatransactions", jsonData: jsonData) { result in
       if (!result.isEmpty) {
         DispatchQueue.main.async {
+          activityIndicator.hide(animated: true)
           self.utility.displayAlertMessage("there is an error processing your payment. Please try later", title: "Error", sender: self)
         }
       }
       else {
         DispatchQueue.main.async {
+          activityIndicator.hide(animated: true)
           self.questionView.textColor = self.placeholderColor
           self.questionView.text = self.placeholder
           self.displayConfirmation("Question Sent!")
