@@ -51,8 +51,10 @@ public class MiniSnoopClient implements Closeable {
   }
 
   public enum HttpType {
-    GET("GET", HttpMethod.GET), PUT("PUT", HttpMethod.PUT), POST("POST",
-        HttpMethod.POST);
+    GET("GET", HttpMethod.GET),
+    PUT("PUT", HttpMethod.PUT),
+    POST("POST", HttpMethod.POST),
+    DELETE("DELETE", HttpMethod.DELETE);
 
     private String code;
     private HttpMethod value;
@@ -78,6 +80,17 @@ public class MiniSnoopClient implements Closeable {
    */
   public void sendRequest(final String resourceUri) {
     httpSnoopClient.sendRequest(HttpType.GET.value, resourceUri, null);
+  }
+
+  /**
+   * Sends request through a specific http method.
+   * @param httpType
+   *          http method, e.g. GET, PUT or POST.
+   * @param resourceUri
+   *          uri of resoure, e.g. usrs/edmund.
+   */
+  public void sendRequest(final HttpType httpType, final String resourceUri) {
+    httpSnoopClient.sendRequest(httpType.value, resourceUri, null);
   }
 
   /**

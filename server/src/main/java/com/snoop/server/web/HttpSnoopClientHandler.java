@@ -27,37 +27,37 @@ import io.netty.util.CharsetUtil;
 public class HttpSnoopClientHandler
     extends SimpleChannelInboundHandler<HttpObject> {
 
-  private HttpResponse response;
-  private HttpContent content;
+  private HttpResponse httpResponse;
+  private HttpContent httpContent;
 
   public HttpResponse getHttpResponse() {
-   return response;
+   return httpResponse;
   }
 
   public HttpContent getHttpContent() {
-    return content;
+    return httpContent;
   }
 
   @Override
   public void channelRead0(ChannelHandlerContext ctx, HttpObject msg) {
     if (msg instanceof HttpResponse) {
-      response = (HttpResponse) msg;
+      httpResponse = (HttpResponse) msg;
       System.err.println("-------HTTP/HTTPS RESPONSE-------");
-      System.err.println("STATUS: " + response.status());
-      System.err.println("VERSION: " + response.protocolVersion());
+      System.err.println("STATUS: " + httpResponse.status());
+      System.err.println("VERSION: " + httpResponse.protocolVersion());
       System.err.println();
 
       System.err.println("PRINTING HEADER");
-      if (!response.headers().isEmpty()) {
-        for (CharSequence name : response.headers().names()) {
-          for (CharSequence value : response.headers().getAll(name)) {
+      if (!httpResponse.headers().isEmpty()) {
+        for (CharSequence name : httpResponse.headers().names()) {
+          for (CharSequence value : httpResponse.headers().getAll(name)) {
             System.err.println("HEADER: " + name + " = " + value);
           }
         }
         System.err.println();
       }
 
-      if (HttpUtil.isTransferEncodingChunked(response)) {
+      if (HttpUtil.isTransferEncodingChunked(httpResponse)) {
         System.err.println("CHUNKED CONTENT {");
       } else {
         System.err.println("PRINTING CONTENTS");
@@ -65,7 +65,9 @@ public class HttpSnoopClientHandler
       }
     }
     if (msg instanceof HttpContent) {
-      content = (HttpContent) msg;
+      final HttpContent content = (HttpContent) msg;
+      /* deep copy content in case it's deallocated while going out of scope */
+      httpContent = content.copy();
 
       System.err.print(content.content().toString(CharsetUtil.UTF_8));
       System.err.flush();

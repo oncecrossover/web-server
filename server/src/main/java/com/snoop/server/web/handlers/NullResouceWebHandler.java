@@ -38,21 +38,19 @@ public class NullResouceWebHandler extends AbastractWebHandler {
 
   private FullHttpResponse onGet() {
     appendln("No resource specified.");
-    return newResponse(HttpResponseStatus.BAD_REQUEST);
+    return newResponse(HttpResponseStatus.OK);
   }
 
   private FullHttpResponse onCreate() {
     appendln("No resource specified.");
-    return newResponse(HttpResponseStatus.BAD_REQUEST);
+    return newResponse(HttpResponseStatus.CREATED);
   }
 
   private FullHttpResponse onDelete() {
-    appendln("No resource specified.");
-    return newResponse(HttpResponseStatus.BAD_REQUEST);
+    return newResponse(HttpResponseStatus.NO_CONTENT);
   }
 
   private FullHttpResponse onUpdate() {
-    appendln("No resource specified.");
-    return newResponse(HttpResponseStatus.BAD_REQUEST);
+    return newResponse(HttpResponseStatus.NO_CONTENT);
   }
 }

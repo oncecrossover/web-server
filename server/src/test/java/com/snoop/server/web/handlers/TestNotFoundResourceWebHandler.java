@@ -3,7 +3,6 @@ package com.snoop.server.web.handlers;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.util.concurrent.TimeoutException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -21,12 +20,16 @@ public class TestNotFoundResourceWebHandler {
   private static final Logger LOG = LoggerFactory
       .getLogger(TestNotFoundResourceWebHandler.class);
 
+  private MiniSnoopClient.Builder builder;
+
   @Before
   public void setup() throws IOException {
     server = new MiniSnoopServer.Builder().build();
-    LOG.info("wait for MiniSnoopServer active");
     server.waitActive();
-    LOG.info("MiniSnoopServer activated");
+    builder = new MiniSnoopClient.Builder()
+        .sslEnabled(server.getSslEnabled())
+        .host(server.getHostString())
+        .port(server.getPort());
   }
 
   @After
@@ -38,11 +41,6 @@ public class TestNotFoundResourceWebHandler {
 
   @Test(timeout = 30000)
   public void testNotFoundResource() throws Exception {
-    final MiniSnoopClient.Builder builder = new MiniSnoopClient.Builder()
-        .sslEnabled(server.getSslEnabled())
-        .host(server.getHostString())
-        .port(server.getPort());
-
     try (MiniSnoopClient client = builder.build()) {
       client.sendRequest("unknown_resource");
       client.waitForHttpResponse();

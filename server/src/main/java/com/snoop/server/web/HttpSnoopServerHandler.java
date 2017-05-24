@@ -108,6 +108,15 @@ public class HttpSnoopServerHandler
     final ByteArrayDataOutput respBuf = ByteStreams.newDataOutput();
     final String resourceName = pathParser.getPathStream().nextToken();
 
+    /* handle request like http://<host>:<port> or http://<host>:<port>/ */
+    if (StringUtils.isEmpty(resourceName)) {
+      return new NullResouceWebHandler(
+          pathParser,
+          respBuf,
+          ctx,
+          request).handle();
+    }
+
     switch (resourceName) {
       case "users":
         return new UserWebHandler(
@@ -230,19 +239,11 @@ public class HttpSnoopServerHandler
             ctx,
             request).handle();
       default:
-        if (!StringUtils.isBlank(resourceName)) {
-          return new NotFoundResourceWebHandler(
-              pathParser,
-              respBuf,
-              ctx,
-              request).handle();
-        } else {
-          return new NullResouceWebHandler(
-              pathParser,
-              respBuf,
-              ctx,
-              request).handle();
-        }
+        return new NotFoundResourceWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
     }
   }
 
