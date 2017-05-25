@@ -39,6 +39,7 @@ public class CategoryDBUtil {
       query.addScalar("id", new LongType())
            .addScalar("name", new StringType())
            .addScalar("description", new StringType())
+           .addScalar("resourceUrl", new StringType())
            .addScalar("createdTime", new TimestampType())
            .addScalar("updatedTime", new TimestampType());
       list = query.list();
@@ -60,9 +61,8 @@ public class CategoryDBUtil {
   private static String buildSql4AllCategories(
       final Map<String, List<String>> params) {
 
-    final String select =
-        "SELECT C.id, C.name, C.description, C.createdTime, C.updatedTime"
-        +" FROM Category AS C";
+    final String select = "SELECT C.id, C.name, C.description, C.resourceUrl,"
+        + "  C.createdTime, C.updatedTime FROM Category AS C";
     final List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
       if ("id".equals(key)) {

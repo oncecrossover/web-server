@@ -15,6 +15,9 @@
     <property name="description" type="java.lang.String">
       <column name="description" />
     </property>
+    <property name="resourceUrl" type="java.lang.String">
+      <column name="resourceUrl" />
+    </property>
     <property name="createdTime" type="timestamp">
       <column name="createdTime" />
     </property>

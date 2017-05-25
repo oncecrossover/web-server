@@ -737,11 +737,12 @@ RESTFUL APIs OF CATEGORY:
 curl -i -X GET "http://127.0.0.1:8080/categories/16136794785447936"
 Example response:
 {
-  "id": 16136794785447936,
-  "name": "beauty",
-  "description": "category for makeup and cosmetic.",
-  "createdTime": 1494801711000,
-  "updatedTime": 1494801711000
+  "id": 19833904793911296,
+  "name": "fashion",
+  "description": "category for fashion.",
+  "resourceUrl": "https://ddk9xa5p5b3lb.cloudfront.net/resources/categories/fashion.pdf",
+  "createdTime": 1495683171000,
+  "updatedTime": 1495683171000
 }
 
 2. create category, e.g.
@@ -751,6 +752,7 @@ Example response:
 
 3. update category, e.g.
 curl -i -X PUT "http://127.0.0.1:8080/categories/16136794785447936" -d '{"name":"beauty","description":"category for beauty like makeup and cosmetic."}'
+curl -i -X PUT "http://127.0.0.1:8080/categories/19833904793911296" -d '{"resourceUrl":"https://ddk9xa5p5b3lb.cloudfront.net/resources/categories/fashion.pdf"}'
 
 4. query category, e.g.
 curl -i -G -X GET http://127.0.0.1:8080/categories --data-urlencode "name='%'", equivalent to
@@ -764,18 +766,20 @@ curl -i -X GET "http://127.0.0.1:8080/categories?id=16136794785447936"
 Example response:
 [
   {
-    "id": 983752469643264,
+    "id": 16136794785447936,
     "name": "beauty",
     "description": "category for beauty like makeup and cosmetic.",
-    "createdTime": 1491188944000,
-    "updatedTime": 1491188944000
+    "resourceUrl": null,
+    "createdTime": 1494801711000,
+    "updatedTime": 1494801711000
   },
   {
-    "id": 984987897692160,
+    "id": 16137425126424576,
     "name": "fitness",
     "description": "category for fitness.",
-    "createdTime": 1491189239000,
-    "updatedTime": 1491189239000
+    "resourceUrl": null,
+    "createdTime": 1494801861000,
+    "updatedTime": 1494801861000
   }
 ]
 

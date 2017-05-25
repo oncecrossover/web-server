@@ -6,6 +6,7 @@ public class Category extends ModelBase implements Model {
   private Long id;
   private String name;
   private String description;
+  private String resourceUrl;
   private Date createdTime;
   private Date updatedTime;
 
@@ -33,6 +34,15 @@ public class Category extends ModelBase implements Model {
 
   public Category setDescription(final String description) {
     this.description = description;
+    return this;
+  }
+
+  public String getResourceUrl() {
+    return resourceUrl;
+  }
+
+  public Category setResourceUrl(final String resourceUrl) {
+    this.resourceUrl = resourceUrl;
     return this;
   }
 
@@ -65,6 +75,7 @@ public class Category extends ModelBase implements Model {
       if (isEqual(this.getId(), that.getId())
           && isEqual(this.getName(), that.getName())
           && isEqual(this.getDescription(), that.getDescription())
+          && isEqual(this.getResourceUrl(), that.getResourceUrl())
           && isEqual(this.getCreatedTime(), that.getCreatedTime())
           && isEqual(this.getUpdatedTime(), that.getUpdatedTime())) {
         return true;
@@ -79,9 +90,14 @@ public class Category extends ModelBase implements Model {
     int result = 0;
     result = PRIME * result + ((id == null) ? 0 : id.hashCode());
     result = PRIME * result + ((name == null) ? 0 : name.hashCode());
-    result = PRIME * result + ((description == null) ? 0 : description.hashCode());
-    result = PRIME * result + ((createdTime == null) ? 0 : createdTime.hashCode());
-    result = PRIME * result + ((updatedTime == null) ? 0 : updatedTime.hashCode());
+    result = PRIME * result
+        + ((description == null) ? 0 : description.hashCode());
+    result = PRIME * result
+        + ((resourceUrl == null) ? 0 : resourceUrl.hashCode());
+    result = PRIME * result
+        + ((createdTime == null) ? 0 : createdTime.hashCode());
+    result = PRIME * result
+        + ((updatedTime == null) ? 0 : updatedTime.hashCode());
     return result;
   }
 
@@ -97,6 +113,9 @@ public class Category extends ModelBase implements Model {
       }
       if (that.getDescription() != null) {
         this.setDescription(that.getDescription());
+      }
+      if (that.getResourceUrl() != null) {
+        this.setResourceUrl(that.getResourceUrl());
       }
     }
   }
