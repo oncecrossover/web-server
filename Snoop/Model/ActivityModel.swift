@@ -39,4 +39,33 @@ class ActivityModel {
     lastSeenTime = _lastSeenTime
     hoursToExpire = _hoursToExpire
   }
+
+  convenience init(_ questionInfo: [String:AnyObject], isSnoop: Bool){
+    var questionId = questionInfo["id"] as! Int
+    var hoursToExpire = 0
+    if (isSnoop) {
+    questionId = questionInfo["quandaId"] as! Int
+    }
+    else {
+    hoursToExpire = questionInfo["hoursToExpire"] as! Int
+    }
+    let question = questionInfo["question"] as! String
+    let status = questionInfo["status"] as! String
+    var rate = 0
+    if (questionInfo["rate"] != nil) {
+    rate = questionInfo["rate"] as! Int
+    }
+
+    let responderAvatarUrl = questionInfo["responderAvatarUrl"] as? String
+    let responderName = questionInfo["responderName"] as! String
+    let responderTitle = questionInfo["responderTitle"] as! String
+    let askerAvatarUrl = questionInfo["askerAvatarUrl"] as? String
+    let answerCoverUrl = questionInfo["answerCoverUrl"] as? String
+    let answerUrl = questionInfo["answerUrl"] as? String
+    let askerName = questionInfo["askerName"] as! String
+    let duration = questionInfo["duration"] as! Int
+    let createdTime = questionInfo["createdTime"] as! Double
+
+    self.init(_id: questionId, _question: question, _status: status, _rate: rate, _duration: duration, _askerName: askerName, _responderName: responderName, _responderTitle: responderTitle, _answerCoverUrl: answerCoverUrl, _askerAvatarUrl: askerAvatarUrl, _responderAvatarUrl: responderAvatarUrl, _answerUrl: answerUrl, _lastSeenTime: createdTime, _hoursToExpire: hoursToExpire)
+  }
 }

@@ -168,35 +168,6 @@ extension ActivityViewController {
     controlBar.bottomAnchor.constraint(equalTo: activityTableView.topAnchor).isActive = true
   }
 
-  func createActitivyModel(_ questionInfo: [String:AnyObject], isSnoop: Bool) -> ActivityModel{
-    var questionId = questionInfo["id"] as! Int
-    var hoursToExpire = 0
-    if (isSnoop) {
-      questionId = questionInfo["quandaId"] as! Int
-    }
-    else {
-      hoursToExpire = questionInfo["hoursToExpire"] as! Int
-    }
-    let question = questionInfo["question"] as! String
-    let status = questionInfo["status"] as! String
-    var rate = 0
-    if (questionInfo["rate"] != nil) {
-      rate = questionInfo["rate"] as! Int
-    }
-
-    let responderAvatarUrl = questionInfo["responderAvatarUrl"] as? String
-    let responderName = questionInfo["responderName"] as! String
-    let responderTitle = questionInfo["responderTitle"] as! String
-    let askerAvatarUrl = questionInfo["askerAvatarUrl"] as? String
-    let answerCoverUrl = questionInfo["answerCoverUrl"] as? String
-    let answerUrl = questionInfo["answerUrl"] as? String
-    let askerName = questionInfo["askerName"] as! String
-    let duration = questionInfo["duration"] as! Int
-    let createdTime = questionInfo["createdTime"] as! Double
-
-    return ActivityModel(_id: questionId, _question: question, _status: status, _rate: rate, _duration: duration, _askerName: askerName, _responderName: responderName, _responderTitle: responderTitle, _answerCoverUrl: answerCoverUrl, _askerAvatarUrl: askerAvatarUrl, _responderAvatarUrl: responderAvatarUrl, _answerUrl: answerUrl, _lastSeenTime: createdTime, _hoursToExpire: hoursToExpire)
-  }
-
   func setPlaceholderImages(_ cell: ActivityTableViewCell) {
     cell.coverImage.isUserInteractionEnabled = false
     cell.coverImage.image = UIImage()
@@ -216,15 +187,15 @@ extension ActivityViewController {
     questionModule.getActivities(filterString, selectedIndex: selectedIndex) { jsonArray in
       for activityInfo in jsonArray as! [[String:AnyObject]] {
         if (self.selectedIndex == 0) {
-          let activity = self.createActitivyModel(activityInfo, isSnoop: false)
+          let activity = ActivityModel(activityInfo, isSnoop: false)
           self.tmpQuestions.append(activity)
         }
         else if (self.selectedIndex == 1){
-          let activity = self.createActitivyModel(activityInfo, isSnoop: false)
+          let activity = ActivityModel(activityInfo, isSnoop: false)
           self.tmpAnswers.append(activity)
         }
         else {
-          let activity = self.createActitivyModel(activityInfo, isSnoop: true)
+          let activity = ActivityModel(activityInfo, isSnoop: true)
           self.tmpSnoops.append(activity)
         }
       }
@@ -259,10 +230,8 @@ extension ActivityViewController {
         self.activityTableView.isUserInteractionEnabled = true
         self.controlBar.isUserInteractionEnabled = true
         self.refreshControl.endRefreshing()
-
       }
     }
-
   }
 }
 
