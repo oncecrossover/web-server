@@ -120,7 +120,8 @@ class InterestPickerViewController: UIViewController {
       for category in jsonArray as! [[String: AnyObject]] {
         let id = category["id"] as! Int
         let name = category["name"] as! String
-        self.allCategories.append(CategoryModel(_id: id, _name: name))
+        let url = category["resourceUrl"] as! String
+        self.allCategories.append(CategoryModel(_id: id, _name: name, _url: url))
       }
       if (self.isProfile) {
         self.category.getInterest() { jsonArray in
@@ -239,8 +240,7 @@ extension InterestPickerViewController: UICollectionViewDelegate, UICollectionVi
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellId, for: indexPath) as! InterestCollectionViewCell
     let category = allCategories[indexPath.row]
-    let image = UIImage(named: category.name)
-    myCell.icon.image = image
+    myCell.icon.sd_setImage(with: URL(string: category.url)!)
     myCell.name.text = category.name
 
     return myCell

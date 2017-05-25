@@ -123,7 +123,8 @@ class EditProfileView: UIScrollView {
         for category in jsonArray as! [[String: AnyObject]] {
           let id = category["id"] as! Int
           let name = category["name"] as! String
-          self.expertise.allCategories.append(CategoryModel(_id: id, _name: name))
+          let url = category["resourceUrl"] as! String
+          self.expertise.allCategories.append(CategoryModel(_id: id, _name: name, _url: url))
         }
 
         DispatchQueue.main.async {

@@ -10,14 +10,16 @@ import Foundation
 class CategoryModel: Hashable {
   var id: Int
   var name: String
+  var url: String
 
   var hashValue: Int {
     return name.hashValue
   }
 
-  init(_id: Int, _name: String) {
+  init(_id: Int, _name: String, _url: String) {
     id = _id
     name = _name
+    url = _url
   }
 }
 
