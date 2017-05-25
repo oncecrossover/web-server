@@ -139,9 +139,9 @@ public class ObjectStoreClient {
     /*
      * e.g.
      * https://s3-us-west-2.amazonaws.com/com.snoop.quanda/answers/thumbnails/1/
-     * 1.thumbnail.png
+     * 1.thumbnail.jpg
      */
-    return String.format("%s/%s/%s/%d/%d.thumbnail.png", s3UriPrefix,
+    return String.format("%s/%s/%s/%d/%d.thumbnail.jpg", s3UriPrefix,
         QUANDA_ROOT, quanda_answers_thumbnails_prefix, quanda.getId(),
         quanda.getId());
   }
@@ -149,9 +149,9 @@ public class ObjectStoreClient {
   private String getAnswerThumbnailCloudfrontUrl(final Quanda quanda) {
     /*
      * e.g.
-     * https://ddk9xa5p5b3lb.cloudfront.net/answers/thumbnails/1/1.thumbnail.png
+     * https://ddk9xa5p5b3lb.cloudfront.net/answers/thumbnails/1/1.thumbnail.jpg
      */
-    return String.format("%s/%s/%d/%d.thumbnail.png", CLOUDFRONT_URI_PREFIX,
+    return String.format("%s/%s/%d/%d.thumbnail.jpg", CLOUDFRONT_URI_PREFIX,
         quanda_answers_thumbnails_prefix, quanda.getId(), quanda.getId());
   }
 
