@@ -142,8 +142,10 @@ public final class HttpSnoopServer implements Runnable {
       ServerBootstrap b = new ServerBootstrap();
       b.group(bossGroup, workerGroup)
           .channel(NioServerSocketChannel.class)
-          .handler(new LoggingHandler(LogLevel.INFO))
           .childHandler(new HttpSnoopServerInitializer(sslCtx));
+      if (!LIVE) {
+        b.handler(new LoggingHandler(LogLevel.INFO));
+      }
 
       /* wait for channel being active */
       Channel ch = b.bind(port).sync().addListener(new ChannelFutureListener() {

@@ -4,10 +4,16 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import org.mortbay.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.snoop.server.web.HttpSnoopServer;
 
 public class HibernateUtil {
+
+  protected static final Logger LOG = LoggerFactory
+      .getLogger(HibernateUtil.class);
 
   // XML based configuration
   private static SessionFactory sessionFactory;
@@ -26,6 +32,30 @@ public class HibernateUtil {
     }
   }
 
+  private static void setHibernateSQLDisplay(
+      final Configuration configuration) {
+
+    final String trueStr = Boolean.TRUE.toString();
+    final String falseStr = Boolean.FALSE.toString();
+
+    if (HttpSnoopServer.LIVE) {
+      configuration.setProperty("hibernate.show_sql", falseStr);
+      configuration.setProperty("hibernate.format_sql", falseStr);
+      configuration.setProperty("hibernate.use_sql_comments", falseStr);
+    } else {
+      configuration.setProperty("hibernate.show_sql", trueStr);
+      configuration.setProperty("hibernate.format_sql", trueStr);
+      configuration.setProperty("hibernate.use_sql_comments", trueStr);
+    }
+
+    LOG.info("hibernate.show_sql ? {}",
+        HttpSnoopServer.LIVE ? falseStr : trueStr);
+    LOG.info("hibernate.format_sql? {}",
+        HttpSnoopServer.LIVE ? falseStr : trueStr);
+    LOG.info("hibernate.use_sql_comments ? {}",
+        HttpSnoopServer.LIVE ? falseStr : trueStr);
+  }
+
   private static void setConnectionUrl(final Configuration configuration) {
     final String connectionUrlKey = "hibernate.connection.url";
 
@@ -42,23 +72,24 @@ public class HibernateUtil {
       connectionUrlValue = "jdbc:mysql://localhost/snooptestdb";
       configuration.setProperty(connectionUrlKey, connectionUrlValue);
     }
-    System.out
-        .println(String.format("connection url set to %s", connectionUrlValue));
+    LOG.info("connection url set to {}", connectionUrlValue);
   }
 
   static SessionFactory buildSessionFactory(final String resource) {
     try {
       // Create the SessionFactory from hibernate-mysql.conf.xml
       Configuration configuration = new Configuration();
-      System.out.println("resource is " + resource);
+      LOG.info("resource is " + resource);
       configuration.configure(resource);
-      System.out.println("Hibernate Configuration loaded");
+      LOG.info("Hibernate Configuration loaded");
 
+      /* set parameters for live/test */
       setConnectionUrl(configuration);
+      setHibernateSQLDisplay(configuration);
 
       ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
           .applySettings(configuration.getProperties()).build();
-      System.out.println("Hibernate serviceRegistry created");
+      LOG.info("Hibernate serviceRegistry created");
 
       SessionFactory sessionFactory = configuration
           .buildSessionFactory(serviceRegistry);
@@ -66,7 +97,7 @@ public class HibernateUtil {
       return sessionFactory;
     } catch (Throwable ex) {
       // Make sure you log the exception, as it might be swallowed
-      System.err.println("Initial SessionFactory creation failed." + ex);
+      LOG.info("Initial SessionFactory creation failed." + ex);
       throw new ExceptionInInitializerError(ex);
     }
   }
