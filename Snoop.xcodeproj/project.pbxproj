@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A05E5241ED8C8C700A96265 /* ActivityModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A05E5231ED8C8C700A96265 /* ActivityModelTests.swift */; };
+		4A05E5311ED8F26500A96265 /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD8A6A11D63E8AF00757D9D /* Stripe.framework */; };
 		4A0CE3681D6ECDB10023EC2D /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0CE3671D6ECDB10023EC2D /* MBProgressHUD.m */; };
 		4A0EB0EB1D8276DC00390D06 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0EB0EA1D8276DC00390D06 /* TutorialViewController.swift */; };
 		4A0EB0ED1D8277C700390D06 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0EB0EC1D8277C700390D06 /* ContentViewController.swift */; };
@@ -41,7 +43,6 @@
 		4A436E4D1E9061A600908D24 /* PermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A436E4C1E9061A600908D24 /* PermissionView.swift */; };
 		4A436E4F1E90B38600908D24 /* AnswerTableFooterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A436E4E1E90B38600908D24 /* AnswerTableFooterViewCell.swift */; };
 		4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
-		4A4BB82E1D769CF40085160F /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB82C1D769CF40085160F /* DiscoverModel.swift */; };
 		4A51EEC51D6E2ED80032E0F5 /* PasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A51EEC41D6E2ED80032E0F5 /* PasswordResetViewController.swift */; };
 		4A5495581E4295E20072C45B /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 4A5495571E4295E20072C45B /* about.html */; };
 		4A55E8FB1E282DB600B033F4 /* BalanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A55E8FA1E282DB600B033F4 /* BalanceViewController.swift */; };
@@ -138,6 +139,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4A05E5261ED8C8C700A96265 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4AC2835B1CE2F58100A08D35 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4AC283621CE2F58100A08D35;
+			remoteInfo = Snoop;
+		};
 		4A5B257F1D65247700691696 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4AC2835B1CE2F58100A08D35 /* Project object */;
@@ -148,6 +156,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A05E5211ED8C8C700A96265 /* SnoopUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnoopUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A05E5231ED8C8C700A96265 /* ActivityModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityModelTests.swift; sourceTree = "<group>"; };
+		4A05E5251ED8C8C700A96265 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4A05E52C1ED8D1C000A96265 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		4A0CE3651D6ECDAF0023EC2D /* Snoop-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Snoop-Bridging-Header.h"; sourceTree = "<group>"; };
 		4A0CE3661D6ECDB10023EC2D /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		4A0CE3671D6ECDB10023EC2D /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
@@ -305,6 +317,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4A05E51E1ED8C8C700A96265 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A05E5311ED8F26500A96265 /* Stripe.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4A5B25771D65247700691696 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -328,9 +348,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A05E5221ED8C8C700A96265 /* SnoopUnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				4A05E5231ED8C8C700A96265 /* ActivityModelTests.swift */,
+				4A05E5251ED8C8C700A96265 /* Info.plist */,
+			);
+			path = SnoopUnitTests;
+			sourceTree = "<group>";
+		};
 		4A3D5D771DE8C41A006FE077 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4A05E52C1ED8D1C000A96265 /* Twitter.framework */,
 				4A7971E21E6D0C70003105FD /* StoreKit.framework */,
 				4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */,
 			);
@@ -490,6 +520,7 @@
 				4AA3284D1EAEA73700DB9E59 /* TwitterCore.framework */,
 				4AC283651CE2F58100A08D35 /* Snoop */,
 				4A5B257B1D65247700691696 /* SnoopUITests */,
+				4A05E5221ED8C8C700A96265 /* SnoopUnitTests */,
 				4AC283641CE2F58100A08D35 /* Products */,
 				4A3D5D771DE8C41A006FE077 /* Frameworks */,
 			);
@@ -500,6 +531,7 @@
 			children = (
 				4AC283631CE2F58100A08D35 /* Snoop.app */,
 				4A5B257A1D65247700691696 /* SnoopUITests.xctest */,
+				4A05E5211ED8C8C700A96265 /* SnoopUnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -587,6 +619,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4A05E5201ED8C8C700A96265 /* SnoopUnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4A05E52A1ED8C8C700A96265 /* Build configuration list for PBXNativeTarget "SnoopUnitTests" */;
+			buildPhases = (
+				4A05E51D1ED8C8C700A96265 /* Sources */,
+				4A05E51E1ED8C8C700A96265 /* Frameworks */,
+				4A05E51F1ED8C8C700A96265 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4A05E5271ED8C8C700A96265 /* PBXTargetDependency */,
+			);
+			name = SnoopUnitTests;
+			productName = SnoopUnitTests;
+			productReference = 4A05E5211ED8C8C700A96265 /* SnoopUnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		4A5B25791D65247700691696 /* SnoopUITests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4A5B25811D65247700691696 /* Build configuration list for PBXNativeTarget "SnoopUITests" */;
@@ -629,10 +679,16 @@
 		4AC2835B1CE2F58100A08D35 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0720;
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Bowen Zhang";
 				TargetAttributes = {
+					4A05E5201ED8C8C700A96265 = {
+						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = 5RFZ63C7NL;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 4AC283621CE2F58100A08D35;
+					};
 					4A5B25791D65247700691696 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = 5RFZ63C7NL;
@@ -672,11 +728,19 @@
 			targets = (
 				4AC283621CE2F58100A08D35 /* Snoop */,
 				4A5B25791D65247700691696 /* SnoopUITests */,
+				4A05E5201ED8C8C700A96265 /* SnoopUnitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4A05E51F1ED8C8C700A96265 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4A5B25781D65247700691696 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -721,11 +785,18 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4A05E51D1ED8C8C700A96265 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A05E5241ED8C8C700A96265 /* ActivityModelTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4A5B25761D65247700691696 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A4BB82E1D769CF40085160F /* DiscoverModel.swift in Sources */,
 				4A9F53C01D68DB5100D753B2 /* PaymentViewControllerUITests.swift in Sources */,
 				4A698D411D7B7BCE004786B8 /* DiscoverViewControllerUITests.swift in Sources */,
 				4A5B25851D6524EB00691696 /* ViewControllerUITests.swift in Sources */,
@@ -849,6 +920,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4A05E5271ED8C8C700A96265 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4AC283621CE2F58100A08D35 /* Snoop */;
+			targetProxy = 4A05E5261ED8C8C700A96265 /* PBXContainerItemProxy */;
+		};
 		4A5B25801D65247700691696 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4AC283621CE2F58100A08D35 /* Snoop */;
@@ -868,6 +944,51 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4A05E5281ED8C8C700A96265 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Snoop",
+				);
+				INFOPLIST_FILE = SnoopUnitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.snoop.SnoopUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Snoop.app/Snoop";
+			};
+			name = Debug;
+		};
+		4A05E5291ED8C8C700A96265 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Snoop",
+				);
+				INFOPLIST_FILE = SnoopUnitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.snoop.SnoopUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Snoop.app/Snoop";
+			};
+			name = Release;
+		};
 		4A5B25821D65247700691696 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1000,6 +1121,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Snoop/Snoop.entitlements;
+				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 7LKHJZRS28;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1026,6 +1148,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Snoop/Snoop.entitlements;
+				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 7LKHJZRS28;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1048,6 +1171,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4A05E52A1ED8C8C700A96265 /* Build configuration list for PBXNativeTarget "SnoopUnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4A05E5281ED8C8C700A96265 /* Debug */,
+				4A05E5291ED8C8C700A96265 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		4A5B25811D65247700691696 /* Build configuration list for PBXNativeTarget "SnoopUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
