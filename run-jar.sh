@@ -81,6 +81,6 @@ for E in "${NEEDS_NPN_MAP[@]}"; do
 done
 
 cd "`dirname "$0"`"/server
-EXAMPLE_ARGS="$EXAMPLE_ARGS -Dsnoop.root.logger=INFO,RFA -Dsnoop.log.dir=./logs -Dsnoop.log.file=$USER-server-$HOSTNAME.log"
+EXAMPLE_ARGS="$EXAMPLE_ARGS -Dsnoop.root.logger=INFO,RFA -Dsnoop.log.dir=./logs -Dsnoop.log.file=snoop-${USER}-server-${HOSTNAME}.log"
 echo "[INFO] Running: $EXAMPLE ($EXAMPLE_CLASS $EXAMPLE_ARGS)"
 exec mvn -q -nsu compile exec:exec -Dcheckstyle.skip=true -Dforcenpn="$FORCE_NPN" -DargLine.example="$EXAMPLE_ARGS" -DexampleClass="$EXAMPLE_CLASS"
