@@ -32,30 +32,6 @@ public class HibernateUtil {
     }
   }
 
-  private static void setHibernateSQLDisplay(
-      final Configuration configuration) {
-
-    final String trueStr = Boolean.TRUE.toString();
-    final String falseStr = Boolean.FALSE.toString();
-
-    if (HttpSnoopServer.LIVE) {
-      configuration.setProperty("hibernate.show_sql", falseStr);
-      configuration.setProperty("hibernate.format_sql", falseStr);
-      configuration.setProperty("hibernate.use_sql_comments", falseStr);
-    } else {
-      configuration.setProperty("hibernate.show_sql", trueStr);
-      configuration.setProperty("hibernate.format_sql", trueStr);
-      configuration.setProperty("hibernate.use_sql_comments", trueStr);
-    }
-
-    LOG.info("hibernate.show_sql ? {}",
-        HttpSnoopServer.LIVE ? falseStr : trueStr);
-    LOG.info("hibernate.format_sql? {}",
-        HttpSnoopServer.LIVE ? falseStr : trueStr);
-    LOG.info("hibernate.use_sql_comments ? {}",
-        HttpSnoopServer.LIVE ? falseStr : trueStr);
-  }
-
   private static void setConnectionUrl(final Configuration configuration) {
     final String connectionUrlKey = "hibernate.connection.url";
 
@@ -85,7 +61,6 @@ public class HibernateUtil {
 
       /* set parameters for live/test */
       setConnectionUrl(configuration);
-      setHibernateSQLDisplay(configuration);
 
       ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
           .applySettings(configuration.getProperties()).build();

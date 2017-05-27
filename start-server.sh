@@ -81,14 +81,15 @@ for E in "${NEEDS_NPN_MAP[@]}"; do
 done
 
 cd "`dirname "$0"`"/server
+EXAMPLE_ARGS="$EXAMPLE_ARGS -Dsnoop.root.logger=INFO,RFA -Dsnoop.log.dir=./logs -Dsnoop.log.file=$USER-server-$HOSTNAME.log"
 echo "[INFO] Running: $EXAMPLE ($EXAMPLE_CLASS $EXAMPLE_ARGS)"
-mvn -q -nsu compile exec:exec -Dcheckstyle.skip=true -Dforcenpn="$FORCE_NPN" -DargLine.example="$EXAMPLE_ARGS" -DexampleClass="$EXAMPLE_CLASS" >> snoop.server.log 2>&1 &
+mvn -q -nsu compile exec:exec -Dcheckstyle.skip=true -Dforcenpn="$FORCE_NPN" -DargLine.example="$EXAMPLE_ARGS" -DexampleClass="$EXAMPLE_CLASS" &
 
 # wait for server to start
 sleep 30
 # run expiring quandas every 1 hour
 while true;
 do
-mvn -q -nsu compile exec:exec -Dcheckstyle.skip=true -DargLine.example="$EXAMPLE_ARGS -Dhttp.method=POST -Dhttp.snoop.client.uri=quandas/expire" -DexampleClass="com.snoop.server.web.HttpSnoopClient" >> expire-quanda.log 2>&1
+mvn -q -nsu compile exec:exec -Dcheckstyle.skip=true -DargLine.example="$EXAMPLE_ARGS -Dhttp.method=POST -Dhttp.snoop.client.uri=quandas/expire" -DexampleClass="com.snoop.server.web.HttpSnoopClient"
 sleep 3600
 done
