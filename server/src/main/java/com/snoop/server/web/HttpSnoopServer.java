@@ -154,6 +154,9 @@ public final class HttpSnoopServer implements Runnable {
           if (future.isSuccess()) {
             channelActive.set(true);
             LOG.info("netty server channel active ? " + channelActive);
+            LOG.info("Open your web browser and navigate to "
+                + (sslEnabled ? "https" : "http") + "://127.0.0.1:"
+                + getPort());
           } else {
             channelActive.set(false);
             throw new Exception("failed to activate netty server channel.", future.cause());
@@ -161,9 +164,6 @@ public final class HttpSnoopServer implements Runnable {
         }
       }).channel();
       localAddr = (InetSocketAddress) ch.localAddress();
-
-      LOG.info("Open your web browser and navigate to "
-          + (sslEnabled ? "https" : "http") + "://127.0.0.1:" + getPort());
 
       /* wait for channel being closed */
       ch.closeFuture().sync().addListener(new ChannelFutureListener() {
