@@ -75,11 +75,11 @@ class WelcomeViewController: UIViewController {
     unmuteButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
     unmuteButton.trailingAnchor.constraint(equalTo: loginButton.trailingAnchor).isActive = true
     unmuteButton.bottomAnchor.constraint(equalTo: loginButton.topAnchor, constant: -25).isActive = true
-    NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidEnterBackground, object: nil, queue: nil) { (_) in
+    NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationWillResignActive, object: nil, queue: nil) { (_) in
       self.player?.pause()
     }
 
-    NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationWillEnterForeground, object: nil, queue: nil) { (_) in
+    NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { (_) in
       self.player?.play()
     }
   }
