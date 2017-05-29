@@ -109,6 +109,15 @@ class InterestPickerViewController: UIViewController {
     doneButton.clipsToBounds = true
   }
 
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    if (!self.isProfile) {
+      let application = UIApplication.shared
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+      appDelegate.registerForPushNotifications(application)
+    }
+  }
+
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     self.tabBarController?.tabBar.isHidden = false
@@ -203,9 +212,9 @@ extension InterestPickerViewController {
             _ = self.navigationController?.popViewController(animated: true)
           }
           else {
-            let vc = TutorialViewController()
-            vc.uid = self.uid!
-            self.navigationController?.pushViewController(vc, animated: true)
+            UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
+            UserDefaults.standard.synchronize()
+            self.dismiss(animated: true, completion: nil)
           }
         }
       }

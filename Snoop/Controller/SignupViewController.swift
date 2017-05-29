@@ -193,6 +193,7 @@ class SignupViewController: UIViewController {
         activityIndicator.hide(animated: true)
         DispatchQueue.main.async {
           UserDefaults.standard.set(true, forKey: "shouldGiftUser")
+          UserDefaults.standard.set(uid, forKey: "uid")
           UserDefaults.standard.synchronize()
           let vc = InterestPickerViewController()
           vc.uid = uid
