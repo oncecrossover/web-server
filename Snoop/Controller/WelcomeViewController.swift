@@ -49,11 +49,24 @@ class WelcomeViewController: UIViewController {
     return button
   }()
 
+  let questionLabel: UILabel = {
+    let questionLabel = UILabel()
+    questionLabel.textAlignment = .center
+    questionLabel.layer.cornerRadius = 10
+    questionLabel.clipsToBounds = true
+    questionLabel.textColor = UIColor(white: 0, alpha: 0.7)
+    questionLabel.backgroundColor = UIColor(white: 1.0, alpha: 0.7)
+    questionLabel.text = "What is Snoop? Why did we build it?"
+    questionLabel.translatesAutoresizingMaskIntoConstraints = false
+    return questionLabel
+  }()
+
   override func viewDidLoad() {
     super.viewDidLoad()
     self.navigationController?.setNavigationBarHidden(true, animated: false)
     view.backgroundColor = UIColor.white
     view.addSubview(videoPlayerView)
+    view.addSubview(questionLabel)
     view.addSubview(signupButton)
     view.addSubview(loginButton)
     view.addSubview(unmuteButton)
@@ -61,7 +74,7 @@ class WelcomeViewController: UIViewController {
     view.addConstraintsWithFormat("H:|[v0]|", views: videoPlayerView)
     view.addConstraintsWithFormat("V:|[v0]|", views: videoPlayerView)
 
-    // Setup button
+    // Setup buttons
     signupButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25).isActive = true
     signupButton.heightAnchor.constraint(equalToConstant: 47).isActive = true
     signupButton.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -12).isActive = true
@@ -74,7 +87,14 @@ class WelcomeViewController: UIViewController {
     unmuteButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
     unmuteButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
     unmuteButton.trailingAnchor.constraint(equalTo: loginButton.trailingAnchor).isActive = true
-    unmuteButton.bottomAnchor.constraint(equalTo: loginButton.topAnchor, constant: -25).isActive = true
+    unmuteButton.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 75).isActive = true
+
+    /* setup question label */
+    questionLabel.leadingAnchor.constraint(equalTo: signupButton.leadingAnchor).isActive = true
+    questionLabel.trailingAnchor.constraint(equalTo: loginButton.trailingAnchor).isActive = true
+    questionLabel.heightAnchor.constraint(equalToConstant: 72).isActive = true;
+    questionLabel.bottomAnchor.constraint(equalTo: signupButton.topAnchor, constant: -25).isActive = true
+
     NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationWillResignActive, object: nil, queue: nil) { (_) in
       self.player?.pause()
     }
