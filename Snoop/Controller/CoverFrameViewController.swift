@@ -8,31 +8,6 @@
 
 import UIKit
 import AVFoundation
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
-
 class CoverFrameViewController: UIViewController {
 
   let fileName = "videoFile.m4a"
@@ -167,17 +142,17 @@ extension CoverFrameViewController {
   @IBAction func submitButtonTapped(_ sender: AnyObject) {
     let videoData = try? Data(contentsOf: getFileUrl())
     var compressionRatio = 1.0
-    let photoSize = UIImageJPEGRepresentation(coverImage.image!, 1)
-    if (photoSize?.count > 1000000) {
+    let photoSize = UIImageJPEGRepresentation(coverImage.image!, 1)!
+    if (photoSize.count > 1000000) {
       compressionRatio = 0.005
     }
-    else if (photoSize?.count > 500000) {
+    else if (photoSize.count > 500000) {
       compressionRatio = 0.01
     }
-    else if (photoSize?.count > 100000){
+    else if (photoSize.count > 100000){
       compressionRatio = 0.05
     }
-    else if (photoSize?.count > 10000) {
+    else if (photoSize.count > 10000) {
       compressionRatio = 0.2
     }
 

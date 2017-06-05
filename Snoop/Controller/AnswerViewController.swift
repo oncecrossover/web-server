@@ -19,6 +19,11 @@ class AnswerViewController: UIViewController {
   var videoLayer: AVPlayerLayer?
 
   var fileName = "videoFile.m4a"
+  var globalCounter = 0
+  var segmentUrls:[URL] = []
+  var segmentFilePrefix = "videoFile"
+
+  var player: AVQueuePlayer?
 
   var questionModule = Question()
 
@@ -135,6 +140,152 @@ extension AnswerViewController {
     let path = prefix.appendingPathComponent(fileName)
     return URL(fileURLWithPath: path)
   }
+
+  func getSegmentFileUrl() -> URL {
+    let prefix = getCacheDirectory() as NSString
+    let path = prefix.appendingPathComponent(self.getSegmentFileName())
+    return URL(fileURLWithPath: path)
+  }
+
+  func getSegmentFileUrl(_ index: Int) -> URL {
+    let prefix = getCacheDirectory() as NSString
+    let path = prefix.appendingPathComponent(self.getSegmentFileName(index))
+    return URL(fileURLWithPath: path)
+  }
+  func getSegmentFileName() -> String {
+    return self.segmentFilePrefix + "\(self.globalCounter).m4a"
+  }
+
+  func getSegmentFileName(_ index: Int) -> String {
+    return self.segmentFilePrefix + "\(index).m4a"
+  }
+
+  func mergeVideos() {
+    let activityIndicator = utilityModule.createCustomActivityIndicator((self.currentImagePicker?.view)!, text: "Merging videos...")
+    var totalTime = kCMTimeZero
+    let composition = AVMutableComposition()
+    var layerInstructions:[AVVideoCompositionLayerInstruction] = []
+    for url in segmentUrls {
+      let videoAsset = AVAsset(url: url)
+      let videoTrack = composition.addMutableTrack(withMediaType: AVMediaTypeVideo, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+      let audioTrack = composition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+      let videoAssetTrack = videoAsset.tracks(withMediaType: AVMediaTypeVideo)[0]
+
+      do {
+
+        try videoTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, videoAsset.duration),
+                                       of: videoAssetTrack, at: totalTime)
+        try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, videoAsset.duration),
+                                       of: videoAsset.tracks(withMediaType: AVMediaTypeAudio)[0], at: totalTime)
+      } catch let error as NSError {
+        print("error: \(error)")
+      }
+      totalTime = CMTimeAdd(totalTime, videoAsset.duration)
+      // Set up instructions
+      let videoInstruction = videoCompositionInstructionForTrack(track: videoTrack, assetTrack: videoAssetTrack)
+      if (url != segmentUrls.last) {
+        videoInstruction.setOpacity(0.0, at: totalTime)
+      }
+      layerInstructions.append(videoInstruction)
+    }
+
+    // Set up main composition
+    let mainInstruction = AVMutableVideoCompositionInstruction()
+    mainInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, totalTime)
+    mainInstruction.layerInstructions = layerInstructions
+    let mainComposition = AVMutableVideoComposition()
+    mainComposition.instructions = [mainInstruction]
+    mainComposition.frameDuration = CMTimeMake(1, 30)
+    mainComposition.renderSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+
+    let outputUrl = getFileUrl()
+    try? FileManager.default.removeItem(at: outputUrl)
+    let exporter = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetMediumQuality)!
+    exporter.outputURL = outputUrl
+    exporter.outputFileType = AVFileTypeMPEG4 //.m4a format
+    exporter.videoComposition = mainComposition
+    exporter.exportAsynchronously{
+      switch exporter.status{
+      case AVAssetExportSessionStatus.failed,
+           AVAssetExportSessionStatus.cancelled:
+        let myAlert = UIAlertController(title: "Merge Failed", message: "An error occurs during merging. Please try later", preferredStyle: UIAlertControllerStyle.alert)
+
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.destructive, handler: nil)
+
+        myAlert.addAction(okAction)
+
+        self.currentImagePicker?.present(myAlert, animated: true, completion: nil)
+        break
+      default:
+        DispatchQueue.main.async {
+          activityIndicator.hide(animated: true)
+          let asset = AVURLAsset(url: outputUrl, options: nil)
+          let duration = asset.duration.value / 1000
+          if (duration <= 5) {
+            let myAlert = UIAlertController(title: "Video Too Short", message: "Answer needs to be at least 5 seconds long", preferredStyle: UIAlertControllerStyle.alert)
+
+            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.destructive, handler: nil)
+
+            myAlert.addAction(okAction)
+
+            self.currentImagePicker?.present(myAlert, animated: true, completion: nil)
+          }
+          else {
+            let dvc = CoverFrameViewController()
+            dvc.quandaId = self.cellInfo.id
+            self.currentImagePicker?.pushViewController(dvc, animated: true)
+          }
+        }
+      }
+    }
+  }
+
+  func orientationFromTransform(transform: CGAffineTransform) -> (orientation: UIImageOrientation, isPortrait: Bool) {
+    var assetOrientation = UIImageOrientation.up
+    var isPortrait = false
+    if (transform.a == 0 && transform.b == 1.0 && transform.c == -1.0 && transform.d == 0) {
+      assetOrientation = .right
+      isPortrait = true
+    } else if (transform.a == 0 && transform.b == -1.0 && transform.c == 1.0 && transform.d == 0) {
+      assetOrientation = .left
+      isPortrait = true
+    } else if (transform.a == 1.0 && transform.b == 0 && transform.c == 0 && transform.d == 1.0) {
+      assetOrientation = .up
+    } else if (transform.a == -1.0 && transform.b == 0 && transform.c == 0 && transform.d == -1.0) {
+      assetOrientation = .down
+    }
+    return (assetOrientation, isPortrait)
+  }
+
+  func videoCompositionInstructionForTrack(track: AVCompositionTrack, assetTrack: AVAssetTrack) -> AVMutableVideoCompositionLayerInstruction {
+    let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
+
+    let transform = assetTrack.preferredTransform
+    let assetInfo = orientationFromTransform(transform: transform)
+
+    var scaleXToFitRatio = UIScreen.main.bounds.width / assetTrack.naturalSize.width
+    var scaleYToFitRatio = UIScreen.main.bounds.height / assetTrack.naturalSize.height
+    if assetInfo.isPortrait {
+      scaleXToFitRatio = UIScreen.main.bounds.width / assetTrack.naturalSize.height
+      scaleYToFitRatio = UIScreen.main.bounds.height / assetTrack.naturalSize.width
+      let scaleFactor = CGAffineTransform(scaleX: scaleXToFitRatio, y: scaleYToFitRatio)
+      instruction.setTransform(assetTrack.preferredTransform.concatenating(scaleFactor),
+                               at: kCMTimeZero)
+    }
+    else {
+      let scaleFactor = CGAffineTransform(scaleX: scaleXToFitRatio, y: scaleYToFitRatio)
+      var concat = assetTrack.preferredTransform.concatenating(scaleFactor).concatenating(CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.width / 2))
+      if assetInfo.orientation == .down {
+        let fixUpsideDown = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
+        let windowBounds = UIScreen.main.bounds
+        let yFix = assetTrack.naturalSize.height + windowBounds.height
+        let centerFix = CGAffineTransform(translationX: assetTrack.naturalSize.width, y: yFix)
+        concat = fixUpsideDown.concatenating(centerFix).concatenating(scaleFactor)
+      }
+      instruction.setTransform(concat, at: kCMTimeZero)
+    }
+    return instruction
+  }
 }
 
 // IB Action
@@ -231,7 +382,9 @@ extension AnswerViewController: UIImagePickerControllerDelegate, UINavigationCon
 
       // Save the video to the app directory so we can play it later
       let videoData = try? Data(contentsOf: pickedVideo)
-      let dataPath = getFileUrl()
+      let dataPath = getSegmentFileUrl()
+      self.segmentUrls.append(dataPath)
+      self.globalCounter += 1
       try? videoData?.write(to: dataPath, options: [])
     }
   }
@@ -245,6 +398,8 @@ extension AnswerViewController: CustomCameraViewDelegate {
                                                         completion: nil)
     }
     else {
+      self.segmentUrls = []
+      self.globalCounter = 0
       overlayView.prepareToRecord()
     }
   }
@@ -265,23 +420,7 @@ extension AnswerViewController: CustomCameraViewDelegate {
   }
 
   func didNext(_ overlayView: CustomCameraView) {
-    let fileUrl = getFileUrl()
-    let asset = AVURLAsset(url: fileUrl, options: nil)
-    let duration = asset.duration.value / 1000
-    if (duration <= 5) {
-      let myAlert = UIAlertController(title: "Video Too Short", message: "Answer needs to be at least 5 seconds long", preferredStyle: UIAlertControllerStyle.alert)
-
-      let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.destructive, handler: nil)
-
-      myAlert.addAction(okAction)
-
-      currentImagePicker?.present(myAlert, animated: true, completion: nil)
-    }
-    else {
-      let dvc = CoverFrameViewController()
-      dvc.quandaId = self.cellInfo.id
-      currentImagePicker?.pushViewController(dvc, animated: true)
-    }
+    mergeVideos()
   }
 
   func didShoot(_ overlayView:CustomCameraView) {
@@ -294,37 +433,48 @@ extension AnswerViewController: CustomCameraViewDelegate {
         overlayView.recordButton.setImage(UIImage(named: "recording"), for: UIControlState())
         overlayView.cancelButton.isHidden = true
       }
-      else {
-        let dataPath = getFileUrl()
-        let videoAsset = AVAsset(url: dataPath)
-        let playerItem = AVPlayerItem(asset: videoAsset)
-
-        //Play the video
-        let player = AVPlayer(playerItem: playerItem)
-        player.actionAtItemEnd = AVPlayerActionAtItemEnd.none
-        videoLayer = AVPlayerLayer(player: player)
-        videoLayer?.frame = self.view.bounds;
-        videoLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
-        currentImagePicker?.cameraOverlayView?.layer.addSublayer(videoLayer!)
-
-        // Add close button
-        currentImagePicker?.cameraOverlayView?.addSubview(closeButton)
-        closeButton.topAnchor.constraint(equalTo: (currentImagePicker?.cameraOverlayView?.topAnchor)!, constant: 20).isActive = true
-        closeButton.leadingAnchor.constraint(equalTo: (currentImagePicker?.cameraOverlayView?.leadingAnchor)!).isActive = true
-        closeButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        closeButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        player.play()
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { notification in
-          // block base observer has retain cycle issue, remember to unregister observer in deinit
-          self.videoLayer?.removeFromSuperlayer()
-          self.closeButton.removeFromSuperview()
-        }
-      }
     }
     else {
       //stop recording
       currentImagePicker?.stopVideoCapture()
-      overlayView.reset()
+      overlayView.recordButton.setImage(UIImage(named: "record"), for: UIControlState())
+      overlayView.pause()
+    }
+  }
+
+  func didPlay(_ overlayView: CustomCameraView) {
+    var playerItems: [AVPlayerItem] = []
+    for url in self.segmentUrls {
+      let videoAsset = AVAsset(url: url)
+      let playerItem = AVPlayerItem(asset: videoAsset)
+      playerItems.append(playerItem)
+    }
+
+    //Play the video
+    player = AVQueuePlayer(items: playerItems)
+    player?.actionAtItemEnd = AVPlayerActionAtItemEnd.none
+    videoLayer = AVPlayerLayer(player: player)
+    videoLayer?.frame = self.view.bounds
+    videoLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+    currentImagePicker?.cameraOverlayView?.layer.addSublayer(videoLayer!)
+
+    // Add close button
+    currentImagePicker?.cameraOverlayView?.addSubview(closeButton)
+    closeButton.topAnchor.constraint(equalTo: (currentImagePicker?.cameraOverlayView?.topAnchor)!, constant: 20).isActive = true
+    closeButton.leadingAnchor.constraint(equalTo: (currentImagePicker?.cameraOverlayView?.leadingAnchor)!).isActive = true
+    closeButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+    closeButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+    player?.play()
+    NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { notification in
+      // block base observer has retain cycle issue, remember to unregister observer in deinit
+      if ((self.player?.items().count)! > 1) {
+        self.player?.advanceToNextItem()
+        self.player?.play()
+      }
+      else {
+        self.videoLayer?.removeFromSuperlayer()
+        self.closeButton.removeFromSuperview()
+      }
     }
   }
 

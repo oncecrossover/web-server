@@ -13,6 +13,7 @@ protocol CustomCameraViewDelegate {
   func didShoot(_ overlayView:CustomCameraView)
   func didBack(_ overlayView: CustomCameraView)
   func didNext(_ overlayView: CustomCameraView)
+  func didPlay(_ overlayView: CustomCameraView)
   func stopRecording(_ overlayView: CustomCameraView)
 }
 
@@ -43,6 +44,15 @@ class CustomCameraView: UIView {
     button.translatesAutoresizingMaskIntoConstraints = false
     button.setTitle("Back", for: UIControlState())
     button.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
+    button.titleLabel?.textColor = UIColor.white
+    return button
+  }()
+
+  lazy var playButton: UIButton = {
+    let button = UIButton()
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.setImage(UIImage(named: "triangle"), for: UIControlState())
+    button.addTarget(self, action: #selector(handlePlay), for: .touchUpInside)
     button.titleLabel?.textColor = UIColor.white
     return button
   }()
@@ -105,6 +115,10 @@ class CustomCameraView: UIView {
     delegate.didNext(self)
   }
 
+  func handlePlay() {
+    delegate.didPlay(self)
+  }
+
   func update() {
     time.text = String(format: "00:%02d", count)
     if(count > 50) {
@@ -119,6 +133,16 @@ class CustomCameraView: UIView {
     count = count + 1
   }
 
+  func pause() {
+    isRecording = false
+    cancelButton.isHidden = false
+    cancelButton.setTitle("retake", for: UIControlState())
+    backButton.isHidden = false
+    nextButton.isHidden = false
+    playButton.isHidden = false
+    recordTimer.invalidate()
+  }
+
   func reset() {
     isRecording = false
     cancelButton.isHidden = false
@@ -130,6 +154,16 @@ class CustomCameraView: UIView {
     count = 0
     reminder.isHidden = true
     time.isHidden = true
+  }
+
+  func prepareToContinue() {
+    time.isHidden = false
+    isRecording = false
+    recordButton.setImage(UIImage(named: "record"), for: UIControlState())
+    cancelButton.setTitle("retake", for: UIControlState())
+    backButton.isHidden = true
+    nextButton.isHidden = false
+    reminder.isHidden = true
   }
 
   func prepareToRecord() {
@@ -155,6 +189,7 @@ class CustomCameraView: UIView {
     addSubview(navBar)
     addSubview(bottomBar)
     addSubview(backButton)
+    addSubview(playButton)
     addSubview(time)
     addSubview(reminder)
     addSubview(cancelButton)
@@ -168,6 +203,8 @@ class CustomCameraView: UIView {
     // Add constraints for cancel button and time label
     addConstraintsWithFormat("H:|-8-[v0(55)]", views: backButton)
     addConstraintsWithFormat("V:|-5-[v0(30)]", views: backButton)
+    addConstraintsWithFormat("H:[v0(55)]-8-|", views: playButton)
+    addConstraintsWithFormat("V:|-5-[v0(30)]", views: playButton)
     time.centerXAnchor.constraint(equalTo: navBar.centerXAnchor).isActive = true
     time.centerYAnchor.constraint(equalTo: navBar.centerYAnchor).isActive = true
     time.widthAnchor.constraint(equalToConstant: 60).isActive = true
