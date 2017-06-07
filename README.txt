@@ -506,6 +506,7 @@ Example response:
     "answerCoverUrl": "https://ddk9xa5p5b3lb.cloudfront.net/test/answers/thumbnails/16086307713318912/16086307713318912.thumbnail.png",
     "answerCover": null,
     "duration": 0,
+    "isAskerAnonymous": "FALSE"
     "responderName": "Edmund Zhou",
     "responderTitle": "Philosopher",
     "responderAvatarUrl": null,
@@ -526,6 +527,7 @@ Example response:
     "answerCoverUrl": "https://ddk9xa5p5b3lb.cloudfront.net/test/answers/thumbnails/16086168076550144/16086168076550144.thumbnail.png",
     "answerCover": null,
     "duration": 0,
+    "isAskerAnonymous": "FALSE"
     "responderName": "Edmund Zhou",
     "responderTitle": "Philosopher",
     "responderAvatarUrl": null,
@@ -555,6 +557,7 @@ Example response:
     "answerCoverUrl": "https://ddk9xa5p5b3lb.cloudfront.net/test/answers/thumbnails/16086168076550144/16086168076550144.thumbnail.png",
     "answerCover": null,
     "duration": 0,
+    "isAskerAnonymous": "FALSE"
     "responderName": "Edmund Zhou",
     "responderTitle": "Philosopher",
     "responderAvatarUrl": null,
@@ -607,12 +610,14 @@ curl -i -X GET "http://127.0.0.1:8080/qatransactions/16086168080744448"
 }
 
 2. create new QaTransaction with type of ASKED, e.g.
-curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":812381424844800,"type":"ASKED","quanda":{"question":"How do you define a good man?","responder":813938593759232}}'
+To ask a question using real name, curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":812381424844800,"type":"ASKED","quanda":{"question":"How do you define a good man?","responder":813938593759232}}'
+To ask a question anonymously,     curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":812381424844800,"type":"ASKED","quanda":{"question":"How do you define a bad man?","responder":813938593759232,"isAskerAnonymous":"TRUE"}}'
 Example response:
 {"id":16086168080744448}
 
 create new QaTransaction with type of SNOOPED, e.g.
 curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":"813562284998656","type":"SNOOPED","quanda":{"id":1012998336413696}}'
+Example response:
 {"id":16115662833319936}
 
 RESTFUL APIs OF NEWSFEED:
@@ -630,6 +635,7 @@ Example response:
     "answerCoverUrl": "https://ddk9xa5p5b3lb.cloudfront.net/test/answers/thumbnails/16123341584728064/16123341584728064.thumbnail.png",
     "answerCover": null,
     "duration": 0,
+    "isAskerAnonymous": "FALSE"
     "askerName": "Edgar Zhou",
     "askerAvatarUrl": null,
     "responderId": 16077851778351104,
@@ -648,6 +654,7 @@ Example response:
     "answerCoverUrl": "https://ddk9xa5p5b3lb.cloudfront.net/test/answers/thumbnails/16086638018953216/16086638018953216.thumbnail.png",
     "answerCover": null,
     "duration": 0,
+    "isAskerAnonymous": "FALSE"
     "askerName": "Bingo Zhou",
     "askerAvatarUrl": null,
     "responderId": 16072271319793664,
@@ -675,6 +682,7 @@ Example response:
     "answerCoverUrl": "https://ddk9xa5p5b3lb.cloudfront.net/test/answers/thumbnails/16086638018953216/16086638018953216.thumbnail.png",
     "answerCover": null,
     "duration": 0,
+    "isAskerAnonymous": "FALSE"
     "askerName": "Bingo Zhou",
     "askerAvatarUrl": null,
     "responderId": 16072271319793664,

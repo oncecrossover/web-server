@@ -59,6 +59,7 @@ public class SnoopDBUtil {
            .addScalar("answerUrl", new StringType())
            .addScalar("answerCoverUrl", new StringType())
            .addScalar("duration", new IntegerType())
+           .addScalar("isAskerAnonymous", new StringType())
            .addScalar("responderName", new StringType())
            .addScalar("responderTitle", new StringType())
            .addScalar("responderAvatarUrl", new StringType())
@@ -88,9 +89,11 @@ public class SnoopDBUtil {
     long lastSeenId = 0;
     int limit = Configuration.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
     String select = "SELECT S.id, S.createdTime,"
-        + " Q.id AS quandaId, Q.question, Q.status, Q.rate, Q.answerUrl, Q.answerCoverUrl, Q.duration,"
+        + " Q.id AS quandaId, Q.question, Q.status, Q.rate, Q.answerUrl,"
+        + " Q.answerCoverUrl, Q.duration, Q.isAskerAnonymous,"
         + " P.fullName AS responderName, P.title AS responderTitle,"
-        + " P.avatarUrl AS responderAvatarUrl, P2.fullName AS askerName, P2.avatarUrl AS askerAvatarUrl"
+        + " P.avatarUrl AS responderAvatarUrl, P2.fullName AS askerName,"
+        + " P2.avatarUrl AS askerAvatarUrl"
         + " FROM Snoop AS S INNER JOIN"
         + " Quanda AS Q ON S.quandaId = Q.id INNER JOIN Profile AS P"
         + " ON Q.responder = P.id INNER JOIN Profile AS P2 on Q.asker = P2.id";

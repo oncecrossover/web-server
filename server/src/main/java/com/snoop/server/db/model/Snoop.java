@@ -20,6 +20,7 @@ public class Snoop {
   private String answerCoverUrl;
   private byte[] answerCover;
   private int duration;
+  private String isAskerAnonymous;
   private String responderName;
   private String responderTitle;
   private String responderAvatarUrl;
@@ -124,6 +125,15 @@ public class Snoop {
 
   public void setDuration(int duration) {
     this.duration = duration;
+  }
+
+  public String getIsAskerAnonymous() {
+    return this.isAskerAnonymous;
+  }
+
+  public Snoop setIsAskerAnonymous(final String isAskerAnonymous) {
+    this.isAskerAnonymous = isAskerAnonymous;
+    return this;
   }
 
   public String getResponderName() {

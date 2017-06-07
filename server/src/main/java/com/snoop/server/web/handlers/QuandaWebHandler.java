@@ -117,9 +117,8 @@ public class QuandaWebHandler extends AbastractWebHandler
   }
 
   /*
-   * Quanda.status, Quanda.active, Quanda.answerUrl (as a result of
-   * Quanda.answerMedia) and Quanda.answerCoverUrl (as a result of
-   * Quanda.answerCover) are the only DB columns that can be updated by client.
+   * duration, status, active, isAskerAnonymous are the only DB columns that can
+   * be updated by client.
    */
   private void checkColumnsToBeUpdated(final Quanda fromJson)
       throws SnoopException {
@@ -135,22 +134,29 @@ public class QuandaWebHandler extends AbastractWebHandler
         fromJson.getUpdatedTime() != null ||
         fromJson.getSnoops() != null) {
       throw new SnoopException(
-          "The fields except answerMedia, answerCover,"
-              + " status and active can't be updated");
+          "The fields except duration, status, active, isAskerAnonymous,"
+              + " can't be updated.");
     }
 
     /* allow to update Quanda.status to ANSWERED only */
     if (fromJson.getStatus() != null
-        && !fromJson.getStatus().equals(Quanda.QnaStatus.ANSWERED.toString())) {
+        && !fromJson.getStatus().equals(Quanda.QnaStatus.ANSWERED.value())) {
       throw new SnoopException(
           "The status can be changed to ANSWERED only in this API");
     }
 
     /* allow to update Quanda.active to FALSE only */
     if (fromJson.getActive() != null
-        && !fromJson.getActive().equals(Quanda.LiveStatus.FALSE.toString())) {
+        && !fromJson.getActive().equals(Quanda.ActiveStatus.FALSE.value())) {
       throw new SnoopException(
           "The active can be changed to FALSE only in this API");
+    }
+
+    /* allow to update Quanda.isAskerAnonymous to TRUE only */
+    if (fromJson.getIsAskerAnonymous() != null && !fromJson
+        .getIsAskerAnonymous().equals(Quanda.AnonymousStatus.TRUE.value())) {
+      throw new SnoopException(
+          "The isAskerAnonymous can be changed to TRUE only in this API");
     }
   }
 
@@ -167,7 +173,7 @@ public class QuandaWebHandler extends AbastractWebHandler
     /* get instance from json */
     final Quanda fromJson;
     try {
-      fromJson = newQuandaFromRequest();
+      fromJson = newInstanceFromRequest(Quanda.class);
       if (fromJson == null) {
         appendln("No quanda or incorrect format specified.");
         return newResponse(HttpResponseStatus.BAD_REQUEST);
@@ -223,8 +229,8 @@ public class QuandaWebHandler extends AbastractWebHandler
       /* save answer cover */
       saveCoverToObjectStore(fromJson, fromDB);
 
-      /* update */
-      UpdateStatusAndActive(session, fromJson, fromDB);
+      /* update columns allowed */
+      UpdateColumnsAllowed(session, fromJson, fromDB);
 
       /* commit all transactions */
       txn.commit();
@@ -263,17 +269,25 @@ public class QuandaWebHandler extends AbastractWebHandler
 
   private boolean isAnsweringQuestion(final Quanda fromJson,
       final Quanda fromDB) {
-    return Quanda.QnaStatus.ANSWERED.toString().equals(fromJson.getStatus())
-        && Quanda.QnaStatus.PENDING.toString().equals(fromDB.getStatus());
+    return Quanda.QnaStatus.ANSWERED.value().equals(fromJson.getStatus())
+        && Quanda.QnaStatus.PENDING.value().equals(fromDB.getStatus());
   }
 
   private boolean isDeactivatingQuestion(final Quanda fromJson,
       final Quanda fromDB) {
-    return Quanda.LiveStatus.FALSE.value().equals(fromJson.getActive())
-        && Quanda.LiveStatus.TRUE.value().equals(fromDB.getActive());
+    return Quanda.ActiveStatus.FALSE.value().equals(fromJson.getActive())
+        && Quanda.ActiveStatus.TRUE.value().equals(fromDB.getActive());
   }
 
-  private void UpdateStatusAndActive(
+  private boolean isAnonymizingAsker(final Quanda fromJson,
+      final Quanda fromDB) {
+    return Quanda.AnonymousStatus.TRUE.value()
+        .equals(fromJson.getIsAskerAnonymous())
+        && Quanda.AnonymousStatus.FALSE.value()
+            .equals(fromDB.getIsAskerAnonymous());
+  }
+
+  private void UpdateColumnsAllowed(
       final Session session,
       final Quanda fromJson,
       final Quanda fromDB) {
@@ -281,18 +295,23 @@ public class QuandaWebHandler extends AbastractWebHandler
     boolean needUpdate = false;
     if (isAnsweringQuestion(fromJson, fromDB)) {
       /* answer it */
-      fromDB.setStatus(Quanda.QnaStatus.ANSWERED.toString());
+      fromDB.setStatus(Quanda.QnaStatus.ANSWERED.value());
       needUpdate = true;
     }
 
     if (isDeactivatingQuestion(fromJson, fromDB)) {
       /* deactivate it */
-      fromDB.setActive(Quanda.LiveStatus.FALSE.toString());
+      fromDB.setActive(Quanda.ActiveStatus.FALSE.value());
       needUpdate = true;
     }
 
     if (fromJson.getDuration() > 0) {
       fromDB.setDuration(fromJson.getDuration());
+      needUpdate = true;
+    }
+
+    if (isAnonymizingAsker(fromJson, fromDB)) {
+      fromDB.setIsAskerAnonymous(Quanda.AnonymousStatus.TRUE.value());
       needUpdate = true;
     }
 
@@ -434,16 +453,6 @@ public class QuandaWebHandler extends AbastractWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    return null;
-  }
-
-  private Quanda newQuandaFromRequest()
-      throws JsonParseException, JsonMappingException, IOException {
-    final ByteBuf content = getRequest().content();
-    if (content.isReadable()) {
-      final byte[] json = ByteBufUtil.getBytes(content);
-      return Quanda.newQuanda(json);
-    }
     return null;
   }
 }

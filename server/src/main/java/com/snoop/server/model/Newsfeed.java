@@ -14,6 +14,7 @@ public class Newsfeed {
   private String answerCoverUrl;
   private byte[]  answerCover;
   private int duration;
+  private String isAskerAnonymous;
   private String askerName;
   private String askerAvatarUrl;
   private Long responderId;
@@ -92,6 +93,15 @@ public class Newsfeed {
 
   public void setDuration(int duration) {
     this.duration = duration;
+  }
+
+  public String getIsAskerAnonymous() {
+    return this.isAskerAnonymous;
+  }
+
+  public Newsfeed setIsAskerAnonymous(final String isAskerAnonymous) {
+    this.isAskerAnonymous = isAskerAnonymous;
+    return this;
   }
 
   public Long getResponderId() {

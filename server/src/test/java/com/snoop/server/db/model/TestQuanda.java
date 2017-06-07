@@ -41,8 +41,8 @@ public class TestQuanda {
           .setResponder(random.nextLong())
           .setAnswerMedia("This is answer media.".getBytes())
           .setAnswerCover("This is answer cover.".getBytes())
-          .setStatus(Quanda.QnaStatus.ANSWERED.toString())
-          .setActive(Quanda.LiveStatus.TRUE.value())
+          .setStatus(Quanda.QnaStatus.ANSWERED.value())
+          .setActive(Quanda.ActiveStatus.TRUE.value())
           .setRate(random.nextInt())
           .setCreatedTime(new Date())
           .setUpdatedTime(new Date());
@@ -57,8 +57,8 @@ public class TestQuanda {
           .setResponder(random.nextLong())
           .setAnswerMedia("This is random answer media.".getBytes())
           .setAnswerCover("This is random answer cover.".getBytes())
-          .setStatus(Quanda.QnaStatus.PENDING.toString())
-          .setActive(Quanda.LiveStatus.TRUE.value())
+          .setStatus(Quanda.QnaStatus.PENDING.value())
+          .setActive(Quanda.ActiveStatus.TRUE.value())
           .setRate(random.nextInt())
           .setCreatedTime(new Date())
           .setUpdatedTime(new Date());

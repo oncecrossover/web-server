@@ -175,12 +175,12 @@ public class ExpireQuandaWebHandler extends AbastractWebHandler
   private void expireQuanda(
       final Session session,
       final Quanda quanda) {
-    if (!Quanda.QnaStatus.PENDING.toString().equals(quanda.getStatus())) {
+    if (!Quanda.QnaStatus.PENDING.value().equals(quanda.getStatus())) {
       return;
     }
 
     /* set status */
-    quanda.setStatus(Quanda.QnaStatus.EXPIRED.toString());
+    quanda.setStatus(Quanda.QnaStatus.EXPIRED.value());
 
     /* query DB copy to avoid updating columns to NULL if the fields are null */
     final Quanda retInstance = (Quanda) session.get(
@@ -196,7 +196,7 @@ public class ExpireQuandaWebHandler extends AbastractWebHandler
       final Session session,
       final Quanda fromDB) throws Exception {
     /* only update PENDING to EXPIRED */
-    if (!Quanda.QnaStatus.PENDING.toString().equals(fromDB.getStatus())) {
+    if (!Quanda.QnaStatus.PENDING.value().equals(fromDB.getStatus())) {
       return;
     }
 

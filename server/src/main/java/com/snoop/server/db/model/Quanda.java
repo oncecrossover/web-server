@@ -1,31 +1,67 @@
 package com.snoop.server.db.model;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.snoop.server.util.QuandaUtil;
 
-public class Quanda {
+public class Quanda extends ModelBase implements Model {
   private static final double PERCENTAGE_TO_RESPONDER = 0.7;
   public enum QnaStatus {
-    PENDING, ANSWERED, EXPIRED
+    PENDING(0, "PENDING"),
+    ANSWERED(1, "ANSWERED"),
+    EXPIRED(2, "EXPIRED");
+
+    private final int code;
+    private final String value;
+
+    QnaStatus(final int code, final String value) {
+      this.code = code;
+      this.value = value;
+    }
+
+    public int code() {
+      return code;
+    }
+
+    public String value() {
+      return value;
+    }
   }
 
-  public enum LiveStatus {
+  public enum ActiveStatus {
     FALSE(0, "FALSE"),
     TRUE(1, "TRUE");
 
     private final int code;
     private final String value;
 
-    LiveStatus(final int code, final String value) {
+    ActiveStatus(final int code, final String value) {
+      this.code = code;
+      this.value = value;
+    }
+
+    public int code() {
+      return code;
+    }
+
+    public String value() {
+      return value;
+    }
+  }
+
+  public enum AnonymousStatus {
+    FALSE(0, "FALSE"),
+    TRUE(1, "TRUE");
+
+    private final int code;
+    private final String value;
+
+    AnonymousStatus(final int code, final String value) {
       this.code = code;
       this.value = value;
     }
@@ -51,6 +87,7 @@ public class Quanda {
   private int duration;
   private String status;
   private String active;
+  private String isAskerAnonymous;
   private Date createdTime;
   private Date updatedTime;
   private Long snoops;
@@ -141,8 +178,9 @@ public class Quanda {
     return duration;
   }
 
-  public void setDuration(int duration) {
+  public Quanda setDuration(int duration) {
     this.duration = duration;
+    return this;
   }
 
   public String getStatus() {
@@ -160,6 +198,15 @@ public class Quanda {
 
   public Quanda setActive(final String active) {
     this.active = active;
+    return this;
+  }
+
+  public String getIsAskerAnonymous() {
+    return this.isAskerAnonymous;
+  }
+
+  public Quanda setIsAskerAnonymous(final String isAskerAnonymous) {
+    this.isAskerAnonymous = isAskerAnonymous;
     return this;
   }
 
@@ -225,6 +272,25 @@ public class Quanda {
   }
 
   @Override
+  public int hashCode() {
+    int result = 0;
+    result = PRIME * result + ((id == null) ? 0 : id.hashCode());
+    result = PRIME * result + ((asker == null) ? 0 : asker.hashCode());
+    result = PRIME * result + ((question == null) ? 0 : question.hashCode());
+    result = PRIME * result + ((responder == null) ? 0 : responder.hashCode());
+    result = PRIME * result + ((rate == null) ? 0 : rate.hashCode());
+    result = PRIME * result + ((answerUrl == null) ? 0 : answerUrl.hashCode());
+    result = PRIME * result
+        + ((answerCoverUrl == null) ? 0 : answerCoverUrl.hashCode());
+    result = PRIME * result + duration;
+    result = PRIME * result + ((status == null) ? 0 : status.hashCode());
+    result = PRIME * result + ((active == null) ? 0 : active.hashCode());
+    result = PRIME * result
+        + ((isAskerAnonymous == null) ? 0 : isAskerAnonymous.hashCode());
+    return result;
+  }
+
+  @Override
   public boolean equals(Object obj) {
     if (this == obj) {
       return true;
@@ -245,7 +311,8 @@ public class Quanda {
           && isEqual(this.getAnswerCoverUrl(), that.getAnswerCoverUrl())
           && (this.getDuration() == that.getDuration())
           && isEqual(this.getStatus(), that.getStatus())
-          && isEqual(this.getActive(), that.getActive())) {
+          && isEqual(this.getActive(), that.getActive())
+          && isEqual(this.getIsAskerAnonymous(), that.getIsAskerAnonymous())) {
         return true;
       }
     }
@@ -253,61 +320,47 @@ public class Quanda {
     return false;
   }
 
-  private boolean isEqual(Object a, Object b) {
-    return a == null ? b == null : a.equals(b);
-  }
-
-  public static Quanda newQuanda(final byte[] json)
-      throws JsonParseException, JsonMappingException, IOException {
-    ObjectMapper mapper = new ObjectMapper();
-    Quanda quanda = mapper.readValue(json, Quanda.class);
-    return quanda;
-  }
-
-  public Quanda setAsIgnoreNull(final Quanda quanda) {
-    if (quanda == null) {
-      return this;
+  @Override
+  public <T extends ModelBase> void setAsIgnoreNull(T obj) {
+    if (obj instanceof Quanda) {
+      final Quanda that = (Quanda)obj;
+      this.setId(that.getId());
+      if (that.getAsker() != null) {
+        this.setAsker(that.getAsker());
+      }
+      if (that.getQuestion() != null) {
+        this.setQuestion(that.getQuestion());
+      }
+      if (that.getResponder() != null) {
+        this.setResponder(that.getResponder());
+      }
+      if (that.getStatus() != null) {
+        this.setStatus(that.getStatus());
+      }
+      if (that.getAnswerUrl() != null) {
+        this.setAnswerUrl(that.getAnswerUrl());
+      }
+      if (that.getAnswerMedia() != null) {
+        this.setAnswerMedia(that.getAnswerMedia());
+      }
+      if (that.getAnswerCoverUrl() != null) {
+        this.setAnswerCoverUrl(that.getAnswerCoverUrl());
+      }
+      if (that.getAnswerCover() != null) {
+        this.setAnswerCover(that.getAnswerCover());
+      }
+      if (that.getDuration() != 0) {
+        this.setDuration(that.getDuration());
+      }
+      if (that.getStatus() != null) {
+        this.setStatus(that.getStatus());
+      }
+      if (that.getActive() != null) {
+        this.setActive(that.getActive());
+      }
+      if (that.getIsAskerAnonymous() != null) {
+        this.setIsAskerAnonymous(that.getIsAskerAnonymous());
+      }
     }
-    this.setId(quanda.getId());
-    if (quanda.getAsker() != null) {
-      this.setAsker(quanda.getAsker());
-    }
-    if (quanda.getQuestion() != null) {
-      this.setQuestion(quanda.getQuestion());
-    }
-    if (quanda.getResponder() != null) {
-      this.setResponder(quanda.getResponder());
-    }
-    if (quanda.getStatus() != null) {
-      this.setStatus(quanda.getStatus());
-    }
-    if (quanda.getAnswerUrl() != null) {
-      this.setAnswerUrl(quanda.getAnswerUrl());
-    }
-    if (quanda.getAnswerMedia() != null) {
-      this.setAnswerMedia(quanda.getAnswerMedia());
-    }
-    if (quanda.getAnswerCoverUrl() != null) {
-      this.setAnswerCoverUrl(quanda.getAnswerCoverUrl());
-    }
-    if (quanda.getAnswerCover() != null) {
-      this.setAnswerCover(quanda.getAnswerCover());
-    }
-    if (quanda.getDuration() != 0) {
-      this.setDuration(quanda.getDuration());
-    }
-    if (quanda.getStatus() != null) {
-      this.setStatus(quanda.getStatus());
-    }
-    if (quanda.getActive() != null) {
-      this.setActive(quanda.getActive());
-    }
-    if (quanda.getCreatedTime() != null) {
-      this.setCreatedTime(quanda.getCreatedTime());
-    }
-    if (quanda.getUpdatedTime() != null) {
-      this.setUpdatedTime(quanda.getUpdatedTime());
-    }
-    return this;
   }
 }
