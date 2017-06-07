@@ -70,7 +70,17 @@ extension ActivityViewController {
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { notification in
+      // block base observer has retain cycle issue, remember to unregister observer in deinit
+      self.activePlayerView?.reset()
+    }
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshAnswers), name: NSNotification.Name(rawValue: self.notificationName), object: nil)
     loadIndex(selectedIndex)
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    NotificationCenter.default.removeObserver(self) // app might crash without removing observer
   }
 }
 
@@ -429,10 +439,6 @@ extension ActivityViewController {
     let answerUrl = questionInfo.answerUrl!
     let duration = questionInfo.duration
     self.activePlayerView = self.launchVideoPlayer(answerUrl, duration: duration)
-    NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { notification in
-      // block base observer has retain cycle issue, remember to unregister observer in deinit
-      self.activePlayerView?.reset()
-    }
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -135,12 +135,18 @@ extension ViewController {
         UserDefaults.standard.set(false, forKey: "shouldGiftUser")
         UserDefaults.standard.synchronize()
       }
+
+      NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { notification in
+        // block base observer has retain cycle issue, remember to unregister observer in deinit
+        self.activePlayerView?.reset()
+      }
     }
   }
 
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     self.navigationController?.navigationBar.isHidden = false
+    NotificationCenter.default.removeObserver(self) // app might crash without removing observer
   }
 }
 
@@ -513,10 +519,6 @@ extension ViewController {
     let answerUrl = questionInfo.answerUrl
     let duration = questionInfo.duration
     self.activePlayerView = self.launchVideoPlayer(answerUrl, duration: duration)
-    NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { notification in
-      // block base observer has retain cycle issue, remember to unregister observer in deinit
-      self.activePlayerView?.reset()
-    }
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

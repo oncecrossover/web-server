@@ -130,6 +130,16 @@ extension AnswerViewController: UITableViewDataSource, UITableViewDelegate {
 
 // Private methods
 extension AnswerViewController {
+  func handleEndOfPlaying() {
+    if ((self.player?.items().count)! > 1) {
+      self.player?.advanceToNextItem()
+    }
+    else {
+      self.videoLayer?.removeFromSuperlayer()
+      self.closeButton.removeFromSuperview()
+    }
+  }
+
   func getCacheDirectory() -> String {
     let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
     return paths[0]
@@ -355,7 +365,7 @@ extension AnswerViewController {
       imagePicker.allowsEditing = false
       imagePicker.mediaTypes = [kUTTypeMovie as String]
       imagePicker.showsCameraControls = false
-      imagePicker.cameraDevice = .front
+      imagePicker.cameraDevice = .rear
       imagePicker.cameraCaptureMode = .video
 
       // Initiate custom camera view
@@ -363,7 +373,7 @@ extension AnswerViewController {
       imagePicker.cameraOverlayView = customCameraView
       customCameraView.delegate = self
       self.present(imagePicker, animated: true, completion: {
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleEndOfPlaying), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
       })
     }
     else {
@@ -392,22 +402,37 @@ extension AnswerViewController: UIImagePickerControllerDelegate, UINavigationCon
 
 // CustomCameraViewDelegate
 extension AnswerViewController: CustomCameraViewDelegate {
-  func didCancel(_ overlayView:CustomCameraView) {
-    if (overlayView.cancelButton.currentTitle == "cancel") {
-      currentImagePicker?.dismiss(animated: true,
-                                                        completion: nil)
+  func didDelete(_ overlayView: CustomCameraView) {
+    let myAlert = UIAlertController(title: "Warning", message: "highlighted segment will be discarded", preferredStyle: UIAlertControllerStyle.alert)
+
+    let okAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive) { action in
+      self.segmentUrls.removeLast()
+      self.globalCounter -= 1
+
+      DispatchQueue.main.async {
+        overlayView.deleteSegment()
+      }
     }
-    else {
-      self.segmentUrls = []
-      self.globalCounter = 0
-      overlayView.prepareToRecord()
+
+    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { action in
+      DispatchQueue.main.async {
+        overlayView.cancelDeleteSegment()
+      }
     }
+
+    myAlert.addAction(cancelAction)
+    myAlert.addAction(okAction)
+
+    self.currentImagePicker?.present(myAlert, animated: true, completion: nil)
   }
 
   func didBack(_ overlayView: CustomCameraView) {
     let myAlert = UIAlertController(title: "Warning", message: "recorded video will be discarded", preferredStyle: UIAlertControllerStyle.alert)
 
     let okAction = UIAlertAction(title: "Back", style: UIAlertActionStyle.destructive) { action in
+      NotificationCenter.default.removeObserver(self) // app might crash without removing observer
+      self.globalCounter = 0
+      self.segmentUrls = []
       self.currentImagePicker?.dismiss(animated: true, completion: nil)
     }
 
@@ -423,22 +448,28 @@ extension AnswerViewController: CustomCameraViewDelegate {
     mergeVideos()
   }
 
+  func didSwitch(_ overlayView: CustomCameraView) {
+    if (self.currentImagePicker?.cameraDevice == .front) {
+      self.currentImagePicker?.cameraDevice = .rear
+    }
+    else {
+      self.currentImagePicker?.cameraDevice = .front
+    }
+  }
+
   func didShoot(_ overlayView:CustomCameraView) {
     if (overlayView.isRecording == false) {
       if ((overlayView.recordButton.currentImage?.isEqual(UIImage(named: "record")))! == true) {
         //start recording answer
         overlayView.isRecording = true
         currentImagePicker?.startVideoCapture()
-        overlayView.startTimer()
-        overlayView.recordButton.setImage(UIImage(named: "recording"), for: UIControlState())
-        overlayView.cancelButton.isHidden = true
+        overlayView.hideCameraControls()
       }
     }
     else {
       //stop recording
       currentImagePicker?.stopVideoCapture()
-      overlayView.recordButton.setImage(UIImage(named: "record"), for: UIControlState())
-      overlayView.pause()
+      overlayView.showCameraControls()
     }
   }
 
@@ -465,22 +496,11 @@ extension AnswerViewController: CustomCameraViewDelegate {
     closeButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
     closeButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
     player?.play()
-    NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { notification in
-      // block base observer has retain cycle issue, remember to unregister observer in deinit
-      if ((self.player?.items().count)! > 1) {
-        self.player?.advanceToNextItem()
-        self.player?.play()
-      }
-      else {
-        self.videoLayer?.removeFromSuperlayer()
-        self.closeButton.removeFromSuperview()
-      }
-    }
   }
 
   func stopRecording(_ overlayView: CustomCameraView) {
     currentImagePicker?.stopVideoCapture()
-    overlayView.reset()
+    overlayView.showCameraControls()
   }
 
   func stopPlaying() {
