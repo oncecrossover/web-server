@@ -12,6 +12,8 @@ class AskViewController: UIViewController {
 
   var profileInfo:DiscoverModel!
 
+  var fullScreenImageView : FullScreenImageView = FullScreenImageView()
+
   @IBOutlet weak var scrollView: UIScrollView!
 
   var contentOffset: CGPoint = CGPoint.zero
@@ -125,6 +127,10 @@ extension AskViewController {
     else {
       self.profileView.profileImage.image = UIImage(named: "default")
     }
+
+    self.profileView.profileImage.isUserInteractionEnabled = true
+    let tap = UITapGestureRecognizer(target: fullScreenImageView, action: #selector(fullScreenImageView.imageTapped))
+    self.profileView.profileImage.addGestureRecognizer(tap)
 
     self.profileView.title.text = profileInfo.title
     self.profileView.name.text = profileInfo.name

@@ -136,6 +136,7 @@
 		4AF910741D449F1800546F95 /* InteractiveUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF910731D449F1800546F95 /* InteractiveUITextField.swift */; };
 		4AFB985D1D6A1B6C0067EF33 /* SignupViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFB985C1D6A1B6C0067EF33 /* SignupViewControllerUITests.swift */; };
 		4AFDD2511E37FCCB00CC7A06 /* CustomTableBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFDD2501E37FCCB00CC7A06 /* CustomTableBackgroundView.swift */; };
+		6EE4C32A1EE776D4003C3F71 /* FullScreenImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE4C3291EE776D4003C3F71 /* FullScreenImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -314,6 +315,7 @@
 		4AF910731D449F1800546F95 /* InteractiveUITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveUITextField.swift; sourceTree = "<group>"; };
 		4AFB985C1D6A1B6C0067EF33 /* SignupViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewControllerUITests.swift; sourceTree = "<group>"; };
 		4AFDD2501E37FCCB00CC7A06 /* CustomTableBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableBackgroundView.swift; sourceTree = "<group>"; };
+		6EE4C3291EE776D4003C3F71 /* FullScreenImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -497,6 +499,7 @@
 				4A16ADBB1E9C85B900AA017E /* QuestionView.swift */,
 				4A7986A11EB2A5B7002A32A9 /* FreeCoinsView.swift */,
 				4A7986A31EB3BE09002A32A9 /* CustomNavigationView.swift */,
+				6EE4C3291EE776D4003C3F71 /* FullScreenImageView.swift */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -911,6 +914,7 @@
 				4A10DCC01E579CF9009E3996 /* SettingsViewController.swift in Sources */,
 				4ADFD3961E56628B00CD3D92 /* SDWebImageDownloaderOperation.m in Sources */,
 				4AF910741D449F1800546F95 /* InteractiveUITextField.swift in Sources */,
+				6EE4C32A1EE776D4003C3F71 /* FullScreenImageView.swift in Sources */,
 				4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */,
 				4A11C0621D35BA6900AEF95D /* TextFitLabel.swift in Sources */,
 				4A7971D91E6C984C003105FD /* CoinButtonView.swift in Sources */,
@@ -1178,6 +1182,7 @@
 				4A05E5291ED8C8C700A96265 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4A5B25811D65247700691696 /* Build configuration list for PBXNativeTarget "SnoopUITests" */ = {
 			isa = XCConfigurationList;

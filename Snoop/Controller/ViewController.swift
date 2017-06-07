@@ -19,6 +19,7 @@ class ViewController: UIViewController {
   var utilityModule = UIUtility()
 
   var refreshControl: UIRefreshControl = UIRefreshControl()
+  var fullScreenImageView : FullScreenImageView = FullScreenImageView()
 
   var paidSnoops: Set<Int> = []
   var activeIndexPath: IndexPath?
@@ -228,6 +229,12 @@ extension ViewController {
     }
   }
 
+  func setupFullScreenImageSettings(_ myCell: FeedTableViewCell) {
+    let tap = UITapGestureRecognizer(target: fullScreenImageView, action: #selector(fullScreenImageView.imageTapped))
+    myCell.askerImage.isUserInteractionEnabled = true;
+    myCell.askerImage.addGestureRecognizer(tap)
+  }
+
   func setPlaceholderImages(_ myCell: FeedTableViewCell) {
     myCell.askerImage.isUserInteractionEnabled = false
     myCell.coverImage.isUserInteractionEnabled = false
@@ -294,6 +301,8 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     }
 
     setPlaceholderImages(myCell)
+    setupFullScreenImageSettings(myCell)
+
     if (feedInfo.status == "PENDING") {
       myCell.coverImage.isUserInteractionEnabled = false
       myCell.coverImage.image = UIImage()

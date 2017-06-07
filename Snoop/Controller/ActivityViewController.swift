@@ -46,6 +46,8 @@ class ActivityViewController: UIViewController {
   deinit {
     NotificationCenter.default.removeObserver(self) // app might crash without removing observer
   }
+
+  var fullScreenImageView : FullScreenImageView = FullScreenImageView()
 }
 
 // override function
@@ -173,6 +175,15 @@ extension ActivityViewController {
     cell.coverImage.image = UIImage()
     cell.askerImage.image = UIImage()
     cell.responderImage.image = UIImage()
+  }
+
+  func setupFullScreenImageSettings(_ cell: ActivityTableViewCell) {
+    let askerTap = UITapGestureRecognizer(target: fullScreenImageView, action: #selector(fullScreenImageView.imageTapped))
+    cell.askerImage.isUserInteractionEnabled = true;
+    cell.askerImage.addGestureRecognizer(askerTap)
+    let responderTap = UITapGestureRecognizer(target: fullScreenImageView, action: #selector(fullScreenImageView.imageTapped))
+    cell.responderImage.isUserInteractionEnabled = true;
+    cell.responderImage.addGestureRecognizer(responderTap)
   }
 
   func loadDataWithFilter(_ filterString: String) {
@@ -330,6 +341,7 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
     }
 
     setPlaceholderImages(myCell)
+    setupFullScreenImageSettings(myCell)
 
     if let askerAvatarUrl = cellInfo.askerAvatarUrl {
       myCell.askerImage.sd_setImage(with: URL(string: askerAvatarUrl))

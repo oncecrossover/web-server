@@ -20,6 +20,8 @@ class ProfileViewController: UIViewController {
 
   var refreshControl: UIRefreshControl = UIRefreshControl()
 
+  var fullScreenImageView : FullScreenImageView = FullScreenImageView()
+
   lazy var settingsTable: UITableView = {
     let table = UITableView()
     table.backgroundColor = UIColor.white
@@ -177,6 +179,11 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
       else {
         cell.profilePhoto.image = UIImage(named: "default")
       }
+
+      /* setup avatar interaction */
+      cell.profilePhoto.isUserInteractionEnabled = true;
+      let tap = UITapGestureRecognizer(target: fullScreenImageView, action: #selector(fullScreenImageView.imageTapped))
+      cell.profilePhoto.addGestureRecognizer(tap)
 
       cell.nameLabel.text = self.name
       cell.titleLabel.text = self.personTitle
