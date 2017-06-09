@@ -128,9 +128,11 @@ public class QuandaDBUtil {
            .addScalar("status", new StringType())
            .addScalar("rate", new IntegerType())
            .addScalar("createdTime", new TimestampType())
+           .addScalar("updatedTime", new TimestampType())
            .addScalar("answerUrl", new StringType())
            .addScalar("answerCoverUrl", new StringType())
            .addScalar("duration", new IntegerType())
+           .addScalar("isAskerAnonymous", new StringType())
            .addScalar("askerName", new StringType())
            .addScalar("askerAvatarUrl", new StringType())
            .addScalar("responderName", new StringType())
@@ -179,6 +181,7 @@ public class QuandaDBUtil {
            .addScalar("answerUrl", new StringType())
            .addScalar("answerCoverUrl", new StringType())
            .addScalar("duration", new IntegerType())
+           .addScalar("isAskerAnonymous", new StringType())
            .addScalar("responderName", new StringType())
            .addScalar("responderTitle", new StringType())
            .addScalar("responderAvatarUrl", new StringType())
@@ -256,7 +259,8 @@ public class QuandaDBUtil {
     long lastSeenId = 0;
     int limit = Configuration.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
     final String select = "SELECT Q.id, Q.question, Q.status, Q.rate,"
-        + " Q.createdTime, Q.answerUrl, Q.answerCoverUrl, Q.duration, P.fullName AS askerName,"
+        + " Q.createdTime, Q.updatedTime, Q.answerUrl, Q.answerCoverUrl,"
+        + " Q.duration, Q.isAskerAnonymous, P.fullName AS askerName,"
         + " P.avatarUrl AS askerAvatarUrl, P2.fullName AS responderName,"
         + " P2.title AS responderTitle, P2.avatarUrl AS responderAvatarUrl"
         + " FROM Quanda AS Q"
@@ -308,7 +312,7 @@ public class QuandaDBUtil {
     final String select =
         "SELECT Q.id, Q.question, Q.status, Q.rate, Q.createdTime,"
         + " Q.updatedTime, Q.answerUrl, Q.answerCoverUrl,"
-        + " Q.duration, P.fullName AS responderName,"
+        + " Q.duration, Q.isAskerAnonymous, P.fullName AS responderName,"
         + " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl,"
         + " P2.fullName AS askerName, P2.avatarUrl AS askerAvatarUrl"
         + " FROM Quanda AS Q"

@@ -56,6 +56,7 @@ public class SnoopDBUtil {
            .addScalar("question", new StringType())
            .addScalar("status", new StringType())
            .addScalar("rate", new IntegerType())
+           .addScalar("createdTime", new TimestampType())
            .addScalar("answerUrl", new StringType())
            .addScalar("answerCoverUrl", new StringType())
            .addScalar("duration", new IntegerType())
@@ -63,7 +64,6 @@ public class SnoopDBUtil {
            .addScalar("responderName", new StringType())
            .addScalar("responderTitle", new StringType())
            .addScalar("responderAvatarUrl", new StringType())
-           .addScalar("createdTime", new TimestampType())
            .addScalar("askerName", new StringType())
            .addScalar("askerAvatarUrl", new StringType());
       list = query.list();

@@ -300,7 +300,7 @@ public class Quanda extends ModelBase implements Model {
       return false;
     }
 
-    if (getClass() == obj.getClass()) {
+    if (obj instanceof Quanda) {
       Quanda that = (Quanda) obj;
       if (isEqual(this.getId(), that.getId())
           && isEqual(this.getAsker(), that.getAsker())

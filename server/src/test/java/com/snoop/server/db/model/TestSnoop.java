@@ -54,18 +54,18 @@ public class TestSnoop {
   private Snoop newRandomSnoop() {
     Snoop snoop = new Snoop();
     snoop.setId(random.nextLong())
-         .setUid(random.nextLong())
-         .setQuandaId(random.nextLong())
          .setCreatedTime(new Date());
+    snoop.setUid(random.nextLong())
+         .setQuandaId(random.nextLong());
     return snoop;
   }
 
   private Object newSnoop() {
     Snoop snoop = new Snoop();
     snoop.setId(random.nextLong())
-         .setUid(random.nextLong())
-         .setQuandaId(1L)
          .setCreatedTime(new Date());
+    snoop.setUid(random.nextLong())
+    .setQuandaId(random.nextLong());
     return snoop;
   }
 

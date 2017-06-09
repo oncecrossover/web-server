@@ -2,75 +2,12 @@ package com.snoop.server.model;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.snoop.server.util.QuandaUtil;
 
-public class Question {
+public class Question extends Activity {
 
-  private Long id;
-  private String question;
-  private Integer rate;
-  private String status;
-  private Date createdTime;
   private Date updatedTime;
-  private String answerUrl;
-  private String answerCoverUrl;
-  private byte[]  answerCover;
-  private int duration;
   private Long hoursToExpire;
-  private String responderName;
-  private String responderTitle;
-  private String responderAvatarUrl;
-  private byte[] responderAvatarImage;
-  private String askerName;
-  private String askerAvatarUrl;
-  private byte[] askerAvatarImage;
-
-  public Long getId() {
-    return id;
-  }
-
-  public Question setId(final Long id) {
-    this.id = id;
-    return this;
-  }
-
-  public String getQuestion() {
-    return question;
-  }
-
-  public Question setQuestion(final String question) {
-    this.question = question;
-    return this;
-  }
-
-  public Integer getRate() {
-    return rate;
-  }
-
-  public Question setRate(final Integer rate) {
-    this.rate = rate;
-    return this;
-  }
-
-  public String getStatus() {
-    return status;
-  }
-
-  public Question setStatus(final String status) {
-    this.status = status;
-    return this;
-  }
-
-  public Date getCreatedTime() {
-    return createdTime;
-  }
-
-  public Question setCreatedTime(final Date createdTime) {
-    this.createdTime = createdTime;
-    return this;
-  }
 
   public Date getUpdatedTime() {
     return updatedTime;
@@ -81,44 +18,8 @@ public class Question {
     return this;
   }
 
-  public String getAnswerUrl() {
-    return answerUrl;
-  }
-
-  public Question setAnswerUrl(final String answerUrl) {
-    this.answerUrl = answerUrl;
-    return this;
-  }
-
-  public String getAnswerCoverUrl() {
-    return answerCoverUrl;
-  }
-
-  public Question setAnswerCoverUrl(final String answerCoverUrl) {
-    this.answerCoverUrl = answerCoverUrl;
-    return this;
-  }
-
-  public byte[] getAnswerCover() {
-    return answerCover;
-  }
-
-  public Question setAnswerCover(final byte[] answerCover) {
-    this.answerCover = answerCover;
-    return this;
-  }
-
-  public int getDuration() {
-    return duration;
-  }
-
-  public void setDuration(int duration) {
-    this.duration = duration;
-  }
-
-
   public Long getHoursToExpire() {
-    return QuandaUtil.getHoursToExpire(createdTime);
+    return QuandaUtil.getHoursToExpire(super.getCreatedTime());
   }
 
   public Question setHoursToExpire(final Long hoursToExpire) {
@@ -126,77 +27,26 @@ public class Question {
     return this;
   }
 
-  public String getResponderName() {
-    return responderName;
-  }
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
 
-  public Question setResponderName(final String responderName) {
-    this.responderName = responderName;
-    return this;
-  }
+    if (obj instanceof Question) {
+      Question that = (Question) obj;
+      return super.equals(obj)
+          && isEqual(this.getUpdatedTime(), that.getUpdatedTime());
+    }
 
-  public String getResponderTitle() {
-    return responderTitle;
-  }
-
-  public Question setResponderTitle(final String responderTitle) {
-    this.responderTitle = responderTitle;
-    return this;
-  }
-
-  public String getResponderAvatarUrl() {
-    return responderAvatarUrl;
-  }
-
-  public Question setResponderAvatarUrl(final String responderAvatarUrl) {
-    this.responderAvatarUrl = responderAvatarUrl;
-    return this;
-  }
-
-  public byte[] getResponderAvatarImage() {
-    return responderAvatarImage;
-  }
-
-  public Question setResponderAvatarImage(final byte[] responderAvatarImage) {
-    this.responderAvatarImage = responderAvatarImage;
-    return this;
-  }
-
-  public String getAskerName() {
-    return askerName;
-  }
-
-  public void setAskerName(String askerName) {
-    this.askerName = askerName;
-  }
-
-  public String getAskerAvatarUrl() {
-    return askerAvatarUrl;
-  }
-
-  public void setAskerAvatarUrl(String askerAvatarUrl) {
-    this.askerAvatarUrl = askerAvatarUrl;
-  }
-
-  public byte[] getAskerAvatarImage() {
-    return askerAvatarImage;
-  }
-
-  public void setAskerAvatarImage(byte[] askerAvatarImage) {
-    this.askerAvatarImage = askerAvatarImage;
+    return false;
   }
 
   @Override
-  public String toString() {
-    try {
-      return toJsonStr();
-    } catch (JsonProcessingException e) {
-      return "";
-    }
-  }
-
-  public String toJsonStr() throws JsonProcessingException {
-    ObjectMapper mapper = new ObjectMapper();
-    return mapper.writeValueAsString(this);
+  public int hashCode() {
+    int result = super.hashCode();
+    result = PRIME * result
+        + ((updatedTime == null) ? 0 : updatedTime.hashCode());
+    return result;
   }
 }

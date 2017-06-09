@@ -16,7 +16,7 @@ public class TestEmbeddedDBConnector extends EmbeddedDBConnector {
     final Session session = HibernateWixUtil.getSessionFactory()
         .getCurrentSession();
     final Transaction txn = session.beginTransaction();
-    final User retInstance = (User) session.get(User.class, "bingo");
+    final User retInstance = (User) session.get(User.class, 123L);
     txn.commit();
     assertNull(retInstance);
   }
