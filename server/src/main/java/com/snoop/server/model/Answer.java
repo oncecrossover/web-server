@@ -2,9 +2,12 @@ package com.snoop.server.model;
 
 import java.util.Date;
 
+import com.snoop.server.util.QuandaUtil;
+
 public class Answer extends Activity {
 
   private Date updatedTime;
+  private Long hoursToExpire;
 
   public Date getUpdatedTime() {
     return updatedTime;
@@ -12,6 +15,15 @@ public class Answer extends Activity {
 
   public Answer setUpdatedTime(final Date updatedTime) {
     this.updatedTime = updatedTime;
+    return this;
+  }
+
+  public Long getHoursToExpire() {
+    return QuandaUtil.getHoursToExpire(super.getCreatedTime());
+  }
+
+  public Answer setHoursToExpire(final Long hoursToExpire) {
+    this.hoursToExpire = hoursToExpire;
     return this;
   }
 
