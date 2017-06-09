@@ -218,8 +218,9 @@ extension ViewController {
         let answerUrl = feedInfo["answerUrl"] as? String
 
         let duration = feedInfo["duration"] as! Int
+        let isAskerAnonymous = (feedInfo["isAskerAnonymous"] as! String).toBool();
         let rate = feedInfo["rate"] as! Int
-        self.tmpFeeds.append(FeedsModel(_name: name, _title: title, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime,  _duration: duration, _responderAvatarUrl: responderAvatarUrl, _askerAvatarUrl: askerAvatarUrl, _askerName: askerName, _coverUrl: coverUrl, _answerUrl: answerUrl!, _rate: rate))
+        self.tmpFeeds.append(FeedsModel(_name: name, _title: title, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime,  _duration: duration, _isAskerAnonymous: isAskerAnonymous, _responderAvatarUrl: responderAvatarUrl, _askerAvatarUrl: askerAvatarUrl, _askerName: askerName, _coverUrl: coverUrl, _answerUrl: answerUrl!, _rate: rate))
       }
 
       self.feeds = self.tmpFeeds
@@ -279,6 +280,20 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     return feeds.count
   }
 
+  /**
+   Show or hide asker name and avatar
+   */
+  func setupAskerInfo(_ myCell: FeedTableViewCell, myFeedInfo: FeedsModel) {
+    /* hide name */
+    myCell.askerName.text = myFeedInfo.isAskerAnonymous ? "Anonymous" : myFeedInfo.askerName;
+
+    /* hide avartar */
+    if (myFeedInfo.askerAvatarUrl != nil && !myFeedInfo.isAskerAnonymous) {
+      myCell.askerImage.sd_setImage(with: URL(string: myFeedInfo.askerAvatarUrl!));
+    } else {
+      myCell.askerImage.image = UIImage(named: "default");
+    }
+  }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let myCell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedTableViewCell
@@ -286,7 +301,6 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
 
     let feedInfo = feeds[indexPath.row]
     myCell.nameLabel.text = feedInfo.name
-    myCell.askerName.text = feedInfo.askerName
 
     myCell.questionLabel.text = feedInfo.question
     myCell.numOfSnoops.text = String(feedInfo.snoops)
@@ -331,9 +345,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
       myCell.responderImage.sd_setImage(with: URL(string: responderAvatarUrl))
     }
 
-    if let askerAvatarUrl = feedInfo.askerAvatarUrl {
-      myCell.askerImage.sd_setImage(with: URL(string: askerAvatarUrl))
-    }
+    setupAskerInfo(myCell, myFeedInfo: feedInfo);
 
     myCell.responderImage.isUserInteractionEnabled = true
     let tappedOnProfile = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnProfile(_:)))

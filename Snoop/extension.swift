@@ -10,6 +10,19 @@ import Foundation
 import UIKit
 import AVFoundation
 
+extension String {
+  func toBool() -> Bool {
+    switch self {
+    case "TRUE", "True", "true", "YES", "Yes", "yes", "1":
+      return true
+    case "FALSE", "False", "false", "NO", "No", "no", "0":
+      return false
+    default:
+      return false
+    }
+  }
+}
+
 extension UIColor {
   public class func defaultColor() -> UIColor {
     return UIColor(red: 51/255, green: 181/255, blue: 159/255, alpha: 1.0)

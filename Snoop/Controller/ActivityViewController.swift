@@ -316,6 +316,27 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
     return 0
   }
 
+  func isAnswerOrSnoopSegmentSelected() -> Bool {
+    return self.selectedIndex == 1 || self.selectedIndex == 2;
+  }
+
+  /**
+   Show or hide asker name and avatar for Answer/Snoop segments only
+  */
+  func setupAskerInfo(_ myCell: ActivityTableViewCell, myCellInfo: ActivityModel) {
+    /* hide name */
+    myCell.askerName.text =
+      (myCellInfo.isAskerAnonymous && isAnswerOrSnoopSegmentSelected() ? "Anonymous" : myCellInfo.askerName) + ":"
+
+    /* hide avartar */
+    if (myCellInfo.askerAvatarUrl != nil
+      && (!myCellInfo.isAskerAnonymous || !isAnswerOrSnoopSegmentSelected())) {
+      myCell.askerImage.sd_setImage(with: URL(string: myCellInfo.askerAvatarUrl!))
+    } else {
+      myCell.askerImage.image = UIImage(named: "default")
+    }
+  }
+
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let myCell = tableView.dequeueReusableCell(withIdentifier: "activityCell", for: indexPath)
       as! ActivityTableViewCell
@@ -344,7 +365,6 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
     myCell.rateLabel.text = "$ \(cellInfo.rate)"
     myCell.question.text = cellInfo.question
     myCell.responderName.text = cellInfo.responderName
-    myCell.askerName.text = cellInfo.askerName + ":"
 
     if (!cellInfo.responderTitle.isEmpty) {
       myCell.responderTitle.text = cellInfo.responderTitle
@@ -352,13 +372,7 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
 
     setPlaceholderImages(myCell)
     setupFullScreenImageSettings(myCell)
-
-    if let askerAvatarUrl = cellInfo.askerAvatarUrl {
-      myCell.askerImage.sd_setImage(with: URL(string: askerAvatarUrl))
-    }
-    else {
-      myCell.askerImage.image = UIImage(named: "default")
-    }
+    setupAskerInfo(myCell, myCellInfo: cellInfo);
 
     if let responderAvatarUrl = cellInfo.responderAvatarUrl {
       myCell.responderImage.sd_setImage(with: URL(string: responderAvatarUrl))

@@ -17,13 +17,14 @@ class FeedsModel {
   var responderId: Int
   var updatedTime: Double
   var duration: Int
+  var isAskerAnonymous: Bool
   var responderAvatarUrl: String?
   var askerAvatarUrl: String?
   var askerName: String
   var coverUrl: String?
   var answerUrl: String
   var rate: Int
-  init(_name: String, _title: String, _id: Int, _question: String, _status: String, _responderId: Int, _snoops: Int, _updatedTime: Double,  _duration: Int, _responderAvatarUrl: String?, _askerAvatarUrl: String?, _askerName: String, _coverUrl: String?, _answerUrl: String, _rate: Int) {
+  init(_name: String, _title: String, _id: Int, _question: String, _status: String, _responderId: Int, _snoops: Int, _updatedTime: Double,  _duration: Int, _isAskerAnonymous: Bool, _responderAvatarUrl: String?, _askerAvatarUrl: String?, _askerName: String, _coverUrl: String?, _answerUrl: String, _rate: Int) {
     name = _name
     title = _title
     id = _id
@@ -33,6 +34,7 @@ class FeedsModel {
     snoops = _snoops
     updatedTime = _updatedTime
     duration = _duration
+    isAskerAnonymous = _isAskerAnonymous
     responderAvatarUrl = _responderAvatarUrl
     askerAvatarUrl = _askerAvatarUrl
     askerName = _askerName

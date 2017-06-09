@@ -37,13 +37,35 @@ class AskViewController: UIViewController {
     let askView = UIView()
     askView.translatesAutoresizingMaskIntoConstraints = false
     askView.backgroundColor = UIColor.white
+    askView.addSubview(self.askerAnonymousButton)
+    askView.addSubview(self.askerAnonymousLabel)
     askView.addSubview(self.questionView)
     askView.addSubview(self.askButton)
 
+    askView.addConstraintsWithFormat("H:|-14-[v0]-10-[v1(140)]", views: self.askerAnonymousButton, self.askerAnonymousLabel)
     askView.addConstraintsWithFormat("H:|-14-[v0]-14-|", views: self.questionView)
     askView.addConstraintsWithFormat("H:|-14-[v0]-14-|", views: self.askButton)
-    askView.addConstraintsWithFormat("V:|-13-[v0(140)]-18-[v1(45)]", views: self.questionView, self.askButton)
+    self.askerAnonymousButton.topAnchor.constraint(equalTo: askView.topAnchor, constant: 10).isActive = true;
+    self.askerAnonymousLabel.heightAnchor.constraint(equalToConstant: 16).isActive = true;
+    self.askerAnonymousLabel.topAnchor.constraint(equalTo: self.askerAnonymousButton.topAnchor,
+                                                  constant: (self.askerAnonymousButton.frame.size.height-16)/2).isActive = true;
+    askView.addConstraintsWithFormat("V:[v0]-10-[v1(140)]-18-[v2(45)]", views: self.askerAnonymousButton, self.questionView, self.askButton)
+
     return askView
+  }()
+
+  lazy var askerAnonymousButton: UISwitch = {
+    let button = UISwitch()
+    button.setOn(false, animated: true)
+    button.onTintColor = UIColor.defaultColor()
+    return button;
+  }()
+
+  lazy var askerAnonymousLabel : UILabel = {
+    let label = UILabel();
+    label.text = "Ask Anonymously";
+    label.font  = UIFont.systemFont(ofSize: 12);
+    return label;
   }()
 
   lazy var questionView: UITextView = {
@@ -231,7 +253,8 @@ extension AskViewController {
 
   func processTransaction() {
     let uid = UserDefaults.standard.integer(forKey: "uid")
-    let quandaData = ["question" : self.questionView.text!, "responder" : self.profileInfo.uid] as [String : Any]
+    let isAskerAnonymous = self.askerAnonymousButton.isOn ? "TRUE" : "FALSE"
+    let quandaData = ["question" : self.questionView.text!, "responder" : self.profileInfo.uid, "isAskerAnonymous" : isAskerAnonymous] as [String : Any]
     let jsonData:[String: AnyObject] = ["uid": uid as AnyObject, "type" : "ASKED" as AnyObject, "quanda" : quandaData as AnyObject]
     self.scrollView.isUserInteractionEnabled = false
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Sending your question...")
