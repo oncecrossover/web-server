@@ -252,12 +252,14 @@ class CustomCameraView: UIView {
 
   func hideCameraControls() {
     startTimer()
+    isRecording = true
     recordButton.setImage(UIImage(named: "recording"), for: UIControlState())
     deleteButton.isHidden = true
     nextButton.isHidden = true
     playButton.isHidden = true
     switchButton.isHidden = true
   }
+
   func showCameraControls() {
     // The function is invoked when user just finishes on segment of recording
     isRecording = false
@@ -270,6 +272,24 @@ class CustomCameraView: UIView {
     recordButton.setImage(UIImage(named: "record"), for: UIControlState())
     recordTimer.invalidate()
     listOfProgress.append(count - lastCount)
+  }
+
+  func disableCameraControls() {
+    switchButton.isEnabled = false
+    deleteButton.isEnabled = false
+    backButton.isEnabled = false
+    nextButton.isEnabled = false
+    playButton.isEnabled = false
+    recordButton.isEnabled = false
+  }
+
+  func enableCameraControls() {
+    switchButton.isEnabled = true
+    deleteButton.isEnabled = true
+    backButton.isEnabled = true
+    nextButton.isEnabled = true
+    playButton.isEnabled = true
+    recordButton.isEnabled = true
   }
 
   func prepareToRecord() {

@@ -170,6 +170,25 @@ extension AnswerViewController {
     return self.segmentFilePrefix + "\(index).m4a"
   }
 
+  func handleAudioInteruption(_ notification: Notification) {
+    guard let userInfo = notification.userInfo,
+      let interruptionTypeRawValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+      let interruptionType = AVAudioSessionInterruptionType(rawValue: interruptionTypeRawValue) else {
+        return
+    }
+
+    switch interruptionType {
+    case .began:
+      if let cameraView = self.currentImagePicker?.cameraOverlayView as? CustomCameraView {
+        self.stopRecording(cameraView)
+        cameraView.disableCameraControls()
+      }
+    case .ended:
+      if let cameraView = self.currentImagePicker?.cameraOverlayView as? CustomCameraView {
+        cameraView.enableCameraControls()
+      }
+    }
+  }
   func mergeVideos() {
     let activityIndicator = utilityModule.createCustomActivityIndicator((self.currentImagePicker?.view)!, text: "Merging videos...")
     var totalTime = kCMTimeZero
@@ -374,6 +393,8 @@ extension AnswerViewController {
       customCameraView.delegate = self
       self.present(imagePicker, animated: true, completion: {
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleEndOfPlaying), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+        // Add audioSessionInteruption Observer
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleAudioInteruption(_:)), name: NSNotification.Name.AVAudioSessionInterruption, object: nil)
       })
     }
     else {
@@ -459,12 +480,9 @@ extension AnswerViewController: CustomCameraViewDelegate {
 
   func didShoot(_ overlayView:CustomCameraView) {
     if (overlayView.isRecording == false) {
-      if ((overlayView.recordButton.currentImage?.isEqual(UIImage(named: "record")))! == true) {
-        //start recording answer
-        overlayView.isRecording = true
-        currentImagePicker?.startVideoCapture()
-        overlayView.hideCameraControls()
-      }
+      //start recording answer
+      currentImagePicker?.startVideoCapture()
+      overlayView.hideCameraControls()
     }
     else {
       //stop recording
