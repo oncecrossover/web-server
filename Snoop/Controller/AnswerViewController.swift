@@ -424,7 +424,7 @@ extension AnswerViewController: UIImagePickerControllerDelegate, UINavigationCon
 // CustomCameraViewDelegate
 extension AnswerViewController: CustomCameraViewDelegate {
   func didDelete(_ overlayView: CustomCameraView) {
-    let myAlert = UIAlertController(title: "Warning", message: "highlighted segment will be discarded", preferredStyle: UIAlertControllerStyle.alert)
+    let myAlert = UIAlertController(title: "Warning", message: "flashing segment will be discarded", preferredStyle: UIAlertControllerStyle.alert)
 
     let okAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive) { action in
       self.segmentUrls.removeLast()
