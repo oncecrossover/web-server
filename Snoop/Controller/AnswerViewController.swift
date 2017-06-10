@@ -137,6 +137,9 @@ extension AnswerViewController {
     else {
       self.videoLayer?.removeFromSuperlayer()
       self.closeButton.removeFromSuperview()
+      if let cameraView = currentImagePicker?.cameraOverlayView as? CustomCameraView {
+        cameraView.enableCameraControls()
+      }
     }
   }
 
@@ -499,6 +502,10 @@ extension AnswerViewController: CustomCameraViewDelegate {
       playerItems.append(playerItem)
     }
 
+    if let cameraView = currentImagePicker?.cameraOverlayView as? CustomCameraView {
+      cameraView.disableCameraControls()
+    }
+
     //Play the video
     player = AVQueuePlayer(items: playerItems)
     player?.actionAtItemEnd = AVPlayerActionAtItemEnd.none
@@ -525,5 +532,8 @@ extension AnswerViewController: CustomCameraViewDelegate {
     self.videoLayer?.player?.pause()
     self.closeButton.removeFromSuperview()
     self.videoLayer?.removeFromSuperlayer()
+    if let cameraView = currentImagePicker?.cameraOverlayView as? CustomCameraView {
+      cameraView.enableCameraControls()
+    }
   }
 }
