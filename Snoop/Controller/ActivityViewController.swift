@@ -65,7 +65,6 @@ extension ActivityViewController {
     controlBar.delegate = self
 
     setupSegmentedControl()
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshAnswers), name: NSNotification.Name(rawValue: self.notificationName), object: nil)
   }
 
   override func viewDidAppear(_ animated: Bool) {

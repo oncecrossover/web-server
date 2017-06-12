@@ -88,8 +88,6 @@ extension ViewController {
 
     refreshControl.addTarget(self, action: #selector(ViewController.refresh(_:)), for: .valueChanged)
     feedTable.addSubview(refreshControl)
-
-    NotificationCenter.default.addObserver(self, selector: #selector(self.addCoins(_:)), name: NSNotification.Name(rawValue: self.notificationName), object: nil)
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -135,6 +133,8 @@ extension ViewController {
         UserDefaults.standard.set(false, forKey: "shouldGiftUser")
         UserDefaults.standard.synchronize()
       }
+
+      NotificationCenter.default.addObserver(self, selector: #selector(self.addCoins(_:)), name: NSNotification.Name(rawValue: self.notificationName), object: nil)
 
       NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { notification in
         // block base observer has retain cycle issue, remember to unregister observer in deinit
