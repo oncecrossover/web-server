@@ -18,6 +18,7 @@ import com.snoop.server.db.model.Journal;
 import com.snoop.server.db.model.Profile;
 import com.snoop.server.db.model.QaTransaction;
 import com.snoop.server.db.model.Quanda;
+import com.snoop.server.db.model.Quanda.AnonymousStatus;
 import com.snoop.server.db.model.Snoop;
 import com.snoop.server.db.model.Journal.JournalType;
 import com.snoop.server.db.model.QaTransaction.TransType;
@@ -427,18 +428,25 @@ public class QaTransactionWebHandler extends AbastractWebHandler
   private void sendNotificationToResponder(final QaTransaction qaTransaction) {
     final Profile responderProfile = ProfileDBUtil.getProfileForNotification(
         getSession(), qaTransaction.getquanda().getResponder(), true);
-    final Profile askerProfile = ProfileDBUtil.getProfileForNotification(
-        getSession(), qaTransaction.getquanda().getAsker(), true);
 
     if (responderProfile != null
-        && !StringUtils.isEmpty(responderProfile.getDeviceToken())
-        && askerProfile != null) {
-      final String title = askerProfile.getFullName()
+        && !StringUtils.isEmpty(responderProfile.getDeviceToken())) {
+      final String title = getMaskedAskerFullName(qaTransaction)
           + " just asked you a question:";
       final String message = qaTransaction.getquanda().getQuestion();
       NotificationUtil.sendNotification(title, message,
           responderProfile.getDeviceToken());
     }
+  }
+
+  private String getMaskedAskerFullName(final QaTransaction qaTransaction) {
+    return isAskerAnonymous(qaTransaction.getquanda()) ? "A user"
+        : ProfileDBUtil.getProfileForNotification(getSession(),
+            qaTransaction.getquanda().getAsker(), true).getFullName();
+  }
+
+  private boolean isAskerAnonymous(final Quanda quanda) {
+    return AnonymousStatus.TRUE.value().equals(quanda.getIsAskerAnonymous());
   }
 
   /**
