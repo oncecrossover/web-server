@@ -57,6 +57,8 @@ class WelcomeViewController: UIViewController {
     questionLabel.textColor = UIColor(white: 0, alpha: 0.7)
     questionLabel.backgroundColor = UIColor(white: 1.0, alpha: 0.7)
     questionLabel.text = "What is Snoop? Why did we build it?"
+    questionLabel.numberOfLines = 0
+    questionLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
     questionLabel.translatesAutoresizingMaskIntoConstraints = false
     return questionLabel
   }()
