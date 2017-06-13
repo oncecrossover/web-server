@@ -45,11 +45,12 @@ class AskViewController: UIViewController {
     askView.addConstraintsWithFormat("H:|-14-[v0]-10-[v1(140)]", views: self.askerAnonymousButton, self.askerAnonymousLabel)
     askView.addConstraintsWithFormat("H:|-14-[v0]-14-|", views: self.questionView)
     askView.addConstraintsWithFormat("H:|-14-[v0]-14-|", views: self.askButton)
-    self.askerAnonymousButton.topAnchor.constraint(equalTo: askView.topAnchor, constant: 10).isActive = true;
-    self.askerAnonymousLabel.heightAnchor.constraint(equalToConstant: 16).isActive = true;
-    self.askerAnonymousLabel.topAnchor.constraint(equalTo: self.askerAnonymousButton.topAnchor,
-                                                  constant: (self.askerAnonymousButton.frame.size.height-16)/2).isActive = true;
-    askView.addConstraintsWithFormat("V:[v0]-10-[v1(140)]-18-[v2(45)]", views: self.askerAnonymousButton, self.questionView, self.askButton)
+    self.askerAnonymousButton.topAnchor.constraint(equalTo: askView.topAnchor, constant: 10).isActive = true
+    self.askerAnonymousLabel.heightAnchor.constraint(equalToConstant: 16).isActive = true
+    self.askerAnonymousLabel.centerYAnchor.constraint(equalTo: self.askerAnonymousButton.centerYAnchor).isActive = true
+    let questionViewHeight = (self.view.frame.height - 220) / 3
+    let buttonHeight = questionViewHeight / 3
+    askView.addConstraintsWithFormat("V:[v0]-10-[v1(\(questionViewHeight))]-10-[v2(\(buttonHeight))]", views: self.askerAnonymousButton, self.questionView, self.askButton)
 
     return askView
   }()
