@@ -389,6 +389,7 @@ extension AnswerViewController {
       imagePicker.showsCameraControls = false
       imagePicker.cameraDevice = .rear
       imagePicker.cameraCaptureMode = .video
+      imagePicker.videoQuality = .typeHigh
 
       // Initiate custom camera view
       let customCameraView = CustomCameraView(frame: imagePicker.view.frame)
