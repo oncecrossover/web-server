@@ -140,7 +140,7 @@ class VideoPlayerView: UIView {
     playButton.isHidden = true
 
     container.addSubview(closeButton)
-    closeButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
+    closeButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
     closeButton.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
     closeButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
     closeButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
