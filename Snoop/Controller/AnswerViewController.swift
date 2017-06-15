@@ -252,8 +252,8 @@ extension AnswerViewController {
         DispatchQueue.main.async {
           activityIndicator.hide(animated: true)
           let asset = AVURLAsset(url: outputUrl, options: nil)
-          let duration = asset.duration.value / 1000
-          if (duration <= 5) {
+          let duration = CMTimeGetSeconds(asset.duration)
+          if (duration < 5) {
             let myAlert = UIAlertController(title: "Video Too Short", message: "Answer needs to be at least 5 seconds long", preferredStyle: UIAlertControllerStyle.alert)
 
             let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.destructive, handler: nil)
@@ -305,15 +305,10 @@ extension AnswerViewController {
                                at: kCMTimeZero)
     }
     else {
-      let scaleFactor = CGAffineTransform(scaleX: scaleXToFitRatio, y: scaleYToFitRatio)
-      var concat = assetTrack.preferredTransform.concatenating(scaleFactor).concatenating(CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.width / 2))
-      if assetInfo.orientation == .down {
-        let fixUpsideDown = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
-        let windowBounds = UIScreen.main.bounds
-        let yFix = assetTrack.naturalSize.height + windowBounds.height
-        let centerFix = CGAffineTransform(translationX: assetTrack.naturalSize.width, y: yFix)
-        concat = fixUpsideDown.concatenating(centerFix).concatenating(scaleFactor)
-      }
+      let scaleFactor = CGAffineTransform(scaleX: scaleXToFitRatio, y: scaleXToFitRatio)
+      let heightAfterTransform = assetTrack.naturalSize.height * scaleXToFitRatio
+      let yFix = UIScreen.main.bounds.height / 2 - heightAfterTransform / 2
+      let concat = assetTrack.preferredTransform.concatenating(scaleFactor).concatenating(CGAffineTransform(translationX: 0, y: yFix))
       instruction.setTransform(concat, at: kCMTimeZero)
     }
     return instruction
@@ -512,7 +507,8 @@ extension AnswerViewController: CustomCameraViewDelegate {
     player?.actionAtItemEnd = AVPlayerActionAtItemEnd.none
     videoLayer = AVPlayerLayer(player: player)
     videoLayer?.frame = self.view.bounds
-    videoLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+    videoLayer?.backgroundColor = UIColor.black.cgColor
+    videoLayer?.videoGravity = AVLayerVideoGravityResizeAspect
     currentImagePicker?.cameraOverlayView?.layer.addSublayer(videoLayer!)
 
     // Add close button
