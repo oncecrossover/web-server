@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4675AC17C2BB426E93C12F4B /* Pods_SnoopUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B451D2C8C6542EE4505F197 /* Pods_SnoopUITests.framework */; };
 		4A05E5241ED8C8C700A96265 /* ActivityModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A05E5231ED8C8C700A96265 /* ActivityModelTests.swift */; };
 		4A05E5311ED8F26500A96265 /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD8A6A11D63E8AF00757D9D /* Stripe.framework */; };
 		4A0CE3681D6ECDB10023EC2D /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0CE3671D6ECDB10023EC2D /* MBProgressHUD.m */; };
@@ -136,7 +137,9 @@
 		4AF910741D449F1800546F95 /* InteractiveUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF910731D449F1800546F95 /* InteractiveUITextField.swift */; };
 		4AFB985D1D6A1B6C0067EF33 /* SignupViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFB985C1D6A1B6C0067EF33 /* SignupViewControllerUITests.swift */; };
 		4AFDD2511E37FCCB00CC7A06 /* CustomTableBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFDD2501E37FCCB00CC7A06 /* CustomTableBackgroundView.swift */; };
+		52D970692DC33DF74833DFA6 /* Pods_SnoopUnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A585928C7CE89D3121DF73BE /* Pods_SnoopUnitTests.framework */; };
 		6EE4C32A1EE776D4003C3F71 /* FullScreenImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE4C3291EE776D4003C3F71 /* FullScreenImageView.swift */; };
+		9B8AF57BC8BC1E0D23E78E06 /* Pods_Snoop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4387C425AB9A155E60753942 /* Pods_Snoop.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,6 +160,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4387C425AB9A155E60753942 /* Pods_Snoop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Snoop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A05E5211ED8C8C700A96265 /* SnoopUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnoopUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A05E5231ED8C8C700A96265 /* ActivityModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityModelTests.swift; sourceTree = "<group>"; };
 		4A05E5251ED8C8C700A96265 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -315,7 +319,15 @@
 		4AF910731D449F1800546F95 /* InteractiveUITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveUITextField.swift; sourceTree = "<group>"; };
 		4AFB985C1D6A1B6C0067EF33 /* SignupViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewControllerUITests.swift; sourceTree = "<group>"; };
 		4AFDD2501E37FCCB00CC7A06 /* CustomTableBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableBackgroundView.swift; sourceTree = "<group>"; };
+		5B451D2C8C6542EE4505F197 /* Pods_SnoopUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SnoopUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EE4C3291EE776D4003C3F71 /* FullScreenImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenImageView.swift; sourceTree = "<group>"; };
+		A585928C7CE89D3121DF73BE /* Pods_SnoopUnitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SnoopUnitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5859753DAA55794ECA5E98B /* Pods-SnoopUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUITests/Pods-SnoopUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		D37541AF3C4E87F7FA873B9C /* Pods-SnoopUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUnitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUnitTests/Pods-SnoopUnitTests.release.xcconfig"; sourceTree = "<group>"; };
+		D6E2F6834CC934B7B186EC01 /* Pods-Snoop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Snoop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Snoop/Pods-Snoop.debug.xcconfig"; sourceTree = "<group>"; };
+		EFE8CFDC7701F292F8513EA7 /* Pods-SnoopUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUnitTests/Pods-SnoopUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F3790CCF5AD9917B277BBEF9 /* Pods-Snoop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Snoop.release.xcconfig"; path = "Pods/Target Support Files/Pods-Snoop/Pods-Snoop.release.xcconfig"; sourceTree = "<group>"; };
+		F760223B517F4B15555AC6CC /* Pods-SnoopUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUITests/Pods-SnoopUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -324,6 +336,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A05E5311ED8F26500A96265 /* Stripe.framework in Frameworks */,
+				52D970692DC33DF74833DFA6 /* Pods_SnoopUnitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +344,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4675AC17C2BB426E93C12F4B /* Pods_SnoopUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,12 +358,26 @@
 				4A3D5D791DE8C41A006FE077 /* MobileCoreServices.framework in Frameworks */,
 				4AD8A6A21D63E8AF00757D9D /* Stripe.framework in Frameworks */,
 				4AA3284E1EAEA73700DB9E59 /* Fabric.framework in Frameworks */,
+				9B8AF57BC8BC1E0D23E78E06 /* Pods_Snoop.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0705C9E57C77F35261FE3D26 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D6E2F6834CC934B7B186EC01 /* Pods-Snoop.debug.xcconfig */,
+				F3790CCF5AD9917B277BBEF9 /* Pods-Snoop.release.xcconfig */,
+				C5859753DAA55794ECA5E98B /* Pods-SnoopUITests.debug.xcconfig */,
+				F760223B517F4B15555AC6CC /* Pods-SnoopUITests.release.xcconfig */,
+				EFE8CFDC7701F292F8513EA7 /* Pods-SnoopUnitTests.debug.xcconfig */,
+				D37541AF3C4E87F7FA873B9C /* Pods-SnoopUnitTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		4A05E5221ED8C8C700A96265 /* SnoopUnitTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -365,6 +393,9 @@
 				4A05E52C1ED8D1C000A96265 /* Twitter.framework */,
 				4A7971E21E6D0C70003105FD /* StoreKit.framework */,
 				4A3D5D781DE8C41A006FE077 /* MobileCoreServices.framework */,
+				4387C425AB9A155E60753942 /* Pods_Snoop.framework */,
+				5B451D2C8C6542EE4505F197 /* Pods_SnoopUITests.framework */,
+				A585928C7CE89D3121DF73BE /* Pods_SnoopUnitTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -526,6 +557,7 @@
 				4A05E5221ED8C8C700A96265 /* SnoopUnitTests */,
 				4AC283641CE2F58100A08D35 /* Products */,
 				4A3D5D771DE8C41A006FE077 /* Frameworks */,
+				0705C9E57C77F35261FE3D26 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -626,9 +658,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4A05E52A1ED8C8C700A96265 /* Build configuration list for PBXNativeTarget "SnoopUnitTests" */;
 			buildPhases = (
+				ECEC82E72B1EE7317159C613 /* [CP] Check Pods Manifest.lock */,
 				4A05E51D1ED8C8C700A96265 /* Sources */,
 				4A05E51E1ED8C8C700A96265 /* Frameworks */,
 				4A05E51F1ED8C8C700A96265 /* Resources */,
+				A989C659CAA35E9B8018C7F7 /* [CP] Embed Pods Frameworks */,
+				5AE301F2AB7F61C826CE1AAC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -644,9 +679,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4A5B25811D65247700691696 /* Build configuration list for PBXNativeTarget "SnoopUITests" */;
 			buildPhases = (
+				674A72D4BE66DC3AB82DA3CE /* [CP] Check Pods Manifest.lock */,
 				4A5B25761D65247700691696 /* Sources */,
 				4A5B25771D65247700691696 /* Frameworks */,
 				4A5B25781D65247700691696 /* Resources */,
+				D55970645689D111C8237BCB /* [CP] Embed Pods Frameworks */,
+				EA79585E6E042C9CA8DBF2F7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -662,10 +700,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4AC283781CE2F58100A08D35 /* Build configuration list for PBXNativeTarget "Snoop" */;
 			buildPhases = (
+				CF916004ECF3DF5BE68744B3 /* [CP] Check Pods Manifest.lock */,
 				4AC2835F1CE2F58100A08D35 /* Sources */,
 				4AC283601CE2F58100A08D35 /* Frameworks */,
 				4AC283611CE2F58100A08D35 /* Resources */,
 				4AA328491EAEA6FE00DB9E59 /* ShellScript */,
+				A2C44DA6E3CBBB3DDFD8959A /* [CP] Embed Pods Frameworks */,
+				95C51885BEF12EF4764A98CF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -784,6 +825,141 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./Fabric.framework/run 61f6c72119a77a359370e02462bd762b0399a17e 0dc7faa3c637e7ca32f6837c5311e503bf26bc2cf550c1bd6e931c6cc213a1cd";
+		};
+		5AE301F2AB7F61C826CE1AAC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SnoopUnitTests/Pods-SnoopUnitTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		674A72D4BE66DC3AB82DA3CE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		95C51885BEF12EF4764A98CF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Snoop/Pods-Snoop-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A2C44DA6E3CBBB3DDFD8959A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Snoop/Pods-Snoop-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A989C659CAA35E9B8018C7F7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SnoopUnitTests/Pods-SnoopUnitTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CF916004ECF3DF5BE68744B3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D55970645689D111C8237BCB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SnoopUITests/Pods-SnoopUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EA79585E6E042C9CA8DBF2F7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SnoopUITests/Pods-SnoopUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ECEC82E72B1EE7317159C613 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -950,6 +1126,7 @@
 /* Begin XCBuildConfiguration section */
 		4A05E5281ED8C8C700A96265 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EFE8CFDC7701F292F8513EA7 /* Pods-SnoopUnitTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -973,6 +1150,7 @@
 		};
 		4A05E5291ED8C8C700A96265 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D37541AF3C4E87F7FA873B9C /* Pods-SnoopUnitTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -995,6 +1173,7 @@
 		};
 		4A5B25821D65247700691696 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C5859753DAA55794ECA5E98B /* Pods-SnoopUITests.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = SnoopUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1008,6 +1187,7 @@
 		};
 		4A5B25831D65247700691696 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F760223B517F4B15555AC6CC /* Pods-SnoopUITests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = SnoopUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1121,12 +1301,15 @@
 		};
 		4AC283791CE2F58100A08D35 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D6E2F6834CC934B7B186EC01 /* Pods-Snoop.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Snoop/Snoop.entitlements;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 7LKHJZRS28;
+				FLURRY_API_KEY = "";
+				"FLURRY_API_KEY[arch=*]" = PGJ873JMZ9DY5MW9KTM3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Snoop",
@@ -1148,12 +1331,15 @@
 		};
 		4AC2837A1CE2F58100A08D35 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F3790CCF5AD9917B277BBEF9 /* Pods-Snoop.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Snoop/Snoop.entitlements;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 7LKHJZRS28;
+				FLURRY_API_KEY = "";
+				"FLURRY_API_KEY[arch=*]" = VJT23CQMWNFFCNVSZD78;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Snoop",

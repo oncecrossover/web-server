@@ -983,3 +983,13 @@ go to https://gibbon.atlassian.net
 WHERE TO DOWNLOAD SOURCE CODE?
 go to https://github.com/newgibbon
 
+
+
+HOW TO COMPILE?
+1. compile frontend through xcode, before that you must do:
+$ sudo gem install cocoapods
+$ pod install
+
+2. compile backend
+$ mvn clean package, or
+$ mvn clean package -DskipTests

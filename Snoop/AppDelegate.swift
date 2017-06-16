@@ -12,6 +12,7 @@ import Stripe
 import StoreKit
 import Fabric
 import TwitterKit
+import Flurry_iOS_SDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,8 +22,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-    let api_key = Bundle.main.object(forInfoDictionaryKey: "STRIPE_API_KEY") as! String
-    STPPaymentConfiguration.shared().publishableKey = api_key
+    /* integrate Flurry */
+    let flurry_api_key = Bundle.main.object(forInfoDictionaryKey: "FLURRY_API_KEY") as! String
+    let builder = FlurrySessionBuilder.init()
+      .withAppVersion("1.0")
+      .withLogLevel(FlurryLogLevelAll)
+      .withCrashReporting(true)
+      .withSessionContinueSeconds(10)
+    Flurry.startSession(flurry_api_key, with: builder)
+
+    /* integrate Stripe */
+    let stripe_api_key = Bundle.main.object(forInfoDictionaryKey: "STRIPE_API_KEY") as! String
+    STPPaymentConfiguration.shared().publishableKey = stripe_api_key
 
     SKPaymentQueue.default().add(IAPManager.sharedInstance)
     setupCustomUI()
