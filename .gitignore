@@ -8,3 +8,6 @@ target/
 **/target/*
 **/Peeq.xcodeproj/xcuserdata/*
 xcuserdata/
+Podfile.lock
+**/Pods/*
+**/Snoop.xcworkspace/*
