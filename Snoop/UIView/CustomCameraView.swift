@@ -342,13 +342,13 @@ class CustomCameraView: UIView {
 
     // setup constraints for top bar
     addConstraintsWithFormat("H:|[v0]|", views: navBar)
-    addConstraintsWithFormat("V:|[v0(40)]", views: navBar)
+    addConstraintsWithFormat("V:|[v0(60)]", views: navBar)
 
     // Add constraints for cancel button and time label
     addConstraintsWithFormat("H:|-8-[v0(55)]", views: backButton)
-    addConstraintsWithFormat("V:|-5-[v0(30)]", views: backButton)
+    addConstraintsWithFormat("V:|-15-[v0(30)]", views: backButton)
     addConstraintsWithFormat("H:[v0(55)]-8-|", views: switchButton)
-    addConstraintsWithFormat("V:|-5-[v0(30)]", views: switchButton)
+    addConstraintsWithFormat("V:|-15-[v0(30)]", views: switchButton)
     time.centerXAnchor.constraint(equalTo: navBar.centerXAnchor).isActive = true
     time.centerYAnchor.constraint(equalTo: navBar.centerYAnchor).isActive = true
     time.widthAnchor.constraint(equalToConstant: 60).isActive = true
