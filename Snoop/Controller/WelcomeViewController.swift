@@ -20,6 +20,7 @@ class WelcomeViewController: UIViewController {
     button.backgroundColor = UIColor.defaultColor()
     button.setTitle("Sign Up", for: UIControlState())
     button.setTitleColor(UIColor.white, for: UIControlState())
+    button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
 
     button.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
     button.translatesAutoresizingMaskIntoConstraints = false
@@ -31,10 +32,11 @@ class WelcomeViewController: UIViewController {
     button.layer.cornerRadius = 10
     button.clipsToBounds = true
     button.layer.borderWidth = 1
-    button.layer.borderColor = UIColor.defaultColor().cgColor
+    button.layer.borderColor = UIColor.white.cgColor
     button.setTitle("Log In", for: UIControlState())
     button.setTitleColor(UIColor.defaultColor(), for: UIControlState())
     button.backgroundColor = UIColor.white
+    button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
 
     button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
     button.translatesAutoresizingMaskIntoConstraints = false
@@ -57,6 +59,7 @@ class WelcomeViewController: UIViewController {
     questionLabel.textColor = UIColor(white: 0, alpha: 0.7)
     questionLabel.backgroundColor = UIColor(white: 1.0, alpha: 0.7)
     questionLabel.text = "What is Snoop? Why did we build it?"
+    questionLabel.font = UIFont.systemFont(ofSize: 16)
     questionLabel.numberOfLines = 0
     questionLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
     questionLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -86,10 +89,10 @@ class WelcomeViewController: UIViewController {
     loginButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 12).isActive = true
     loginButton.bottomAnchor.constraint(equalTo: signupButton.bottomAnchor).isActive = true
 
-    unmuteButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-    unmuteButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+    unmuteButton.widthAnchor.constraint(equalToConstant: 22).isActive = true
+    unmuteButton.heightAnchor.constraint(equalToConstant: 22).isActive = true
     unmuteButton.trailingAnchor.constraint(equalTo: loginButton.trailingAnchor).isActive = true
-    unmuteButton.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 75).isActive = true
+    unmuteButton.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 67).isActive = true
 
     /* setup question label */
     questionLabel.leadingAnchor.constraint(equalTo: signupButton.leadingAnchor).isActive = true
