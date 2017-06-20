@@ -51,10 +51,12 @@ class EditProfileView: UIScrollView {
     return about
   }()
 
-  lazy var rate : FieldGroup = {
-    let rate = FieldGroup()
+  lazy var rate : RateFieldGroup = {
+    let rate = RateFieldGroup()
     rate.title.text = "Answer a question for"
     rate.value.keyboardType = .numberPad
+    rate.value.inputAccessoryView = rate.keyboardToolbarView
+
     return rate
   }()
 
@@ -199,6 +201,28 @@ class FieldGroup: UIView {
 
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+}
+
+class RateFieldGroup : FieldGroup {
+  let keyboardToolbarView : UIToolbar = {
+    /* add done button */
+    let view = UIToolbar.init()
+    view.sizeToFit()
+    /* make done button right most */
+    let flexButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace,
+                                     target: nil,
+                                     action: nil)
+    let doneButton = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonSystemItem.done,
+                                          target: self,
+                                          action: #selector(valueNumberPadDoneTapped))
+    doneButton.tintColor = UIColor.black;
+    view.items = [flexButton, doneButton]
+    return view
+  }()
+
+  func valueNumberPadDoneTapped(sender: AnyObject) {
+    super.value.endEditing(true)
   }
 }
 

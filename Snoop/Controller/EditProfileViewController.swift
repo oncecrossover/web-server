@@ -45,7 +45,7 @@ class EditProfileViewController: UIViewController {
 
   var contentOffset: CGPoint = CGPoint.zero
 
-  var activeText: UIView?
+  var activeInputText: UIView?
 
   var isProfileUpdated = false
   var isEditingProfile = false
@@ -107,6 +107,7 @@ extension EditProfileViewController {
     }
 
     profileView.about.value.delegate = self
+    profileView.rate.value.delegate = self
 
     profileView.changeButton.addTarget(self, action: #selector(uploadButtonTapped), for: .touchUpInside)
   }
@@ -154,16 +155,19 @@ extension EditProfileViewController {
     let info : NSDictionary = notification.userInfo! as NSDictionary
     let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
     // We need to add 20 to count for the height of keyboard hint
-    let keyboardHeight = keyboardSize!.height + 20
+    var keyboardHeight = keyboardSize!.height + 20;
+    if let _ = activeInputText {
+      keyboardHeight += activeInputText!.frame.height;
+    }
 
     var aRect : CGRect = profileView.frame
     // We need to add 100 to count for the height of submitbutton and tabbar
     aRect.size.height = aRect.size.height + 100 - keyboardHeight
-    if let _ = activeText
+    if let _ = activeInputText
     {
       // pt is the lower left corner of the rectangular textfield or textview
-      let pt = CGPoint(x: activeText!.frame.origin.x, y: activeText!.frame.origin.y + activeText!.frame.size.height)
-      let ptInProfileView = activeText?.convert(pt, to: profileView)
+      let pt = CGPoint(x: activeInputText!.frame.origin.x, y: activeInputText!.frame.origin.y + activeInputText!.frame.size.height)
+      let ptInProfileView = activeInputText?.convert(pt, to: profileView)
 
       if (!aRect.contains(ptInProfileView!))
       {
@@ -192,6 +196,17 @@ extension EditProfileViewController {
   }
 }
 
+extension EditProfileViewController: UITextFieldDelegate {
+  func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    activeInputText = profileView.rate.value
+    return true;
+  }
+
+  func textFieldDidEndEditing(_ textField: UITextField) {
+    activeInputText = nil
+  }
+}
+
 extension EditProfileViewController: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
     profileView.about.limit.isHidden = false
@@ -215,12 +230,12 @@ extension EditProfileViewController: UITextViewDelegate {
       profileView.about.value.textColor = labelColor
     }
 
-    activeText = nil
+    activeInputText = nil
     profileView.about.limit.isHidden = true
   }
 
   func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-    activeText = profileView.about.value
+    activeInputText = profileView.about.value
     return true
   }
 
