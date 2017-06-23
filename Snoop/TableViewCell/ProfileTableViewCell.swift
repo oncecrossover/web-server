@@ -31,6 +31,7 @@ class ProfileTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollect
     let aboutLabel = UILabel()
     aboutLabel.font = UIFont.systemFont(ofSize: 14)
     aboutLabel.textColor = UIColor(white: 0, alpha: 0.8)
+    aboutLabel.numberOfLines = 2
     return aboutLabel
   }()
 
