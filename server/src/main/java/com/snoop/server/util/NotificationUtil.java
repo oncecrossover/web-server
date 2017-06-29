@@ -2,7 +2,9 @@ package com.snoop.server.util;
 
 import com.notnoop.apns.APNS;
 import com.notnoop.apns.ApnsService;
+import com.notnoop.apns.ApnsServiceBuilder;
 import com.snoop.server.web.HttpSnoopServer;
+import org.apache.http.protocol.HTTP;
 
 public class NotificationUtil {
   private static final String PASSWORD = "Snoop2017";
@@ -19,7 +21,7 @@ public class NotificationUtil {
       String deviceToken) {
     ApnsService service = APNS.newService()
       .withCert(KEY_PATH, PASSWORD)
-      .withSandboxDestination()
+      .withAppleDestination(HttpSnoopServer.LIVE)
       .build();
     String payload = APNS.newPayload()
       .alertBody(message)
