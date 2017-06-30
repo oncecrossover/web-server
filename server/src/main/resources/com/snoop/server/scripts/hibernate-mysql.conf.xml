@@ -7,7 +7,7 @@
     <!-- Database connection properties - Driver, URL, user, password -->
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.connection.password">sqlme</property>
+    <property name="hibernate.connection.password">Sqlme!@#4</property>
     <!-- connection pool setting -->
     <property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
     <property name="hibernate.c3p0.min_size">5</property>
