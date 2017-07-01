@@ -15,6 +15,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.snoop.server.db.model.Journal;
 import com.snoop.server.db.model.QaTransaction;
 import com.snoop.server.db.model.Quanda;
+import com.snoop.server.db.util.CoinDBUtil;
 import com.snoop.server.db.util.JournalUtil;
 import com.snoop.server.db.util.QaTransactionUtil;
 import com.snoop.server.db.util.QuandaDBUtil;
@@ -217,7 +218,7 @@ public class ExpireQuandaWebHandler extends AbastractWebHandler
         session,
         qaTransaction);
 
-    /* insert journals for clearance and refund */
+    /* insert journals for clearance and refund, insert refund coins too*/
     if (!JournalUtil.pendingJournalCleared(session, pendingJournal)) {
       /* insert clearance journal */
       final Journal clearanceJournal = JournalUtil.insertClearanceJournal(
@@ -229,6 +230,13 @@ public class ExpireQuandaWebHandler extends AbastractWebHandler
           session,
           clearanceJournal,
           fromDB);
+
+      /* insert refund coins */
+      int refundCoins = 0;
+      if (Journal.JournalType.COIN.value().equals(clearanceJournal.getType())) {
+        refundCoins = QaTransactionWebHandler.toCoinsFromDollars(fromDB.getRate());
+        CoinDBUtil.insertRefundCoins(session, clearanceJournal, fromDB, refundCoins);
+      }
     }
   }
 }

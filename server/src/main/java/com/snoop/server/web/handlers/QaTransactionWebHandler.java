@@ -459,7 +459,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
   /**
    * Convert dollars to coins.
    */
-  private int toCoinsFromDollars(final double dollars) {
+  static int toCoinsFromDollars(final double dollars) {
     return ((int) Math.ceil(dollars * 100 / CENTS_PER_COIN));
   }
 
@@ -595,6 +595,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
            .setUid(quanda.getAsker())
            .setAmount(negativeAnswerRate(answerRate))
            .setType(JournalType.COIN.value())
+           .setStatus(Journal.Status.PENDING.value())
            .setCoinEntryId(coinEntry.getId());
 
     session.save(journal);

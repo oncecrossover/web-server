@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import com.snoop.server.db.model.Journal;
 import com.snoop.server.db.model.QaTransaction;
 import com.snoop.server.db.model.Quanda;
-import com.snoop.server.db.model.Journal.JournalType;
 import com.snoop.server.exceptions.SnoopException;
 import com.snoop.server.web.handlers.BalanceWebHandler;
 
@@ -225,8 +224,9 @@ public class JournalUtil {
                     .setUid(pendingJournal.getUid())
                     .setAmount(0)
                     .setType(pendingJournal.getType())
-                    .setChargeId(pendingJournal.getChargeId())
                     .setStatus(Journal.Status.CLEARED.value())
+                    .setChargeId(pendingJournal.getChargeId())
+                    .setCoinEntryId(pendingJournal.getCoinEntryId())
                     .setOriginId(pendingJournal.getId());
 
     Transaction txn = null;
@@ -309,9 +309,10 @@ public class JournalUtil {
     refundJournal.setTransactionId(clearanceJournal.getTransactionId())
                  .setUid(quanda.getAsker())
                  .setAmount(Math.abs(quanda.getRate()))
-                 .setType(JournalType.BALANCE.value())
-                 .setChargeId(clearanceJournal.getChargeId())
+                 .setType(clearanceJournal.getType())
                  .setStatus(Journal.Status.REFUNDED.value())
+                 .setChargeId(clearanceJournal.getChargeId())
+                 .setCoinEntryId(clearanceJournal.getCoinEntryId())
                  .setOriginId(clearanceJournal.getId());
 
     Transaction txn = null;
