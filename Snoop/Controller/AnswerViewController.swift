@@ -246,7 +246,11 @@ extension AnswerViewController {
 
         myAlert.addAction(okAction)
 
-        self.currentImagePicker?.present(myAlert, animated: true, completion: nil)
+        self.currentImagePicker?.present(myAlert, animated: true) {
+          DispatchQueue.main.async {
+            activityIndicator.hide(animated: true)
+          }
+        }
         break
       default:
         DispatchQueue.main.async {
