@@ -217,7 +217,7 @@ public abstract class AbastractWebHandler implements WebHandler {
 
   void stashServerError(final Exception e, final Logger LOG) {
     final String st = stackTraceToString(e);
-    LOG.warn(st);
+    LOG.error(st);
     appendln(st);
   }
 
