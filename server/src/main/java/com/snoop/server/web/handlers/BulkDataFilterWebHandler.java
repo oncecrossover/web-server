@@ -57,7 +57,6 @@ public class BulkDataFilterWebHandler extends AbastractWebHandler
       try {
         bytes = osc.readFromStore(uri);
       } catch (Exception e) {
-        stashServerError(e, LOG);
         return newServerErrorResponse(e, LOG);
       }
 
