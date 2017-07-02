@@ -155,10 +155,7 @@ extension EditProfileViewController {
     let info : NSDictionary = notification.userInfo! as NSDictionary
     let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
     // We need to add 20 to count for the height of keyboard hint
-    var keyboardHeight = keyboardSize!.height + 20;
-    if let _ = activeInputText {
-      keyboardHeight += activeInputText!.frame.height;
-    }
+    let keyboardHeight = keyboardSize!.height + 20;
 
     var aRect : CGRect = profileView.frame
     // We need to add 100 to count for the height of submitbutton and tabbar
@@ -172,8 +169,10 @@ extension EditProfileViewController {
       if (!aRect.contains(ptInProfileView!))
       {
         // Compute the exact offset we need to scroll the view up
-        let offset = ptInProfileView!.y - (aRect.origin.y + aRect.size.height)
-        profileView.setContentOffset(CGPoint(x: 0, y: self.contentOffset.y + offset + 40), animated: true)
+        DispatchQueue.main.async {
+          let offset = ptInProfileView!.y - (aRect.origin.y + aRect.size.height)
+          self.profileView.setContentOffset(CGPoint(x: 0, y: self.contentOffset.y + offset + 40),animated: true)
+        }
       }
     }
   }
