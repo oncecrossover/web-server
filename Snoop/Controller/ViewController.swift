@@ -65,6 +65,11 @@ class ViewController: UIViewController {
     return view
   }()
 
+  lazy var coinView: CoinButtonView = {
+    let view = CoinButtonView(frame: CGRect(origin: .zero, size: CGSize(width: 55, height: 20)))
+    return view
+  }()
+
   @IBOutlet weak var feedTable: UITableView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
@@ -106,15 +111,19 @@ extension ViewController {
       self.present(vc, animated: true, completion: nil)
     }
     else {
-      self.navigationController?.navigationBar.isHidden = true
-      if let frame = self.navigationController?.navigationBar.frame {
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
-        let newFrame = CGRect(x: 0, y: 0, width: frame.width, height: statusBarHeight + frame.height)
-        customNavigationBar = CustomNavigationView(frame: newFrame)
-        self.view.addSubview(self.customNavigationBar!)
-        self.customNavigationBar?.coinButtonView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(coinButtonTapped)))
-        self.customNavigationBar?.coinButtonView.setCount(self.coinCount)
-      }
+      let logo = UIImage(named: "logo")
+      let logoView = UIImageView(frame: CGRect(x: 0, y: 0, width: 70, height: 20))
+      logoView.contentMode = .scaleAspectFit
+      logoView.image = logo
+      self.navigationItem.titleView = logoView
+      coinView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(coinButtonTapped)))
+      self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: coinView)
+
+      // We add the left button only to center the logo view in the nav bar.
+      // We need a better solution later one
+      let leftButton = UIButton()
+      leftButton.frame = CGRect(origin: .zero, size: CGSize(width: 55, height: 20))
+      self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
 
       if (feeds.count == 0){
         loadData()
@@ -145,7 +154,6 @@ extension ViewController {
 
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    self.navigationController?.navigationBar.isHidden = false
     NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
   }
 }
@@ -164,7 +172,7 @@ extension ViewController {
   }
 
   func loadCoinCount(_ count: Int) {
-    self.customNavigationBar?.coinButtonView.setCount(count)
+    self.coinView.setCount(count)
   }
 
   func addCoins(_ notification: Notification) {
