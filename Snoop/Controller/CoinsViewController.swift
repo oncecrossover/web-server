@@ -77,7 +77,13 @@ extension CoinsViewController {
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    self.coinsTable.reloadData()
+    coinModule.getCoinsCount() { result in
+      let coinCount = result["amount"] as! Int
+      self.numOfCoins = coinCount
+      DispatchQueue.main.async {
+        self.coinsTable.reloadData()
+      }
+    }
   }
 }
 

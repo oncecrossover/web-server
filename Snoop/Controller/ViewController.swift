@@ -189,6 +189,7 @@ extension ViewController {
   }
 
   func refresh(_ sender:AnyObject) {
+    loadCoinCount()
     loadData()
   }
 
@@ -427,7 +428,6 @@ extension ViewController {
       self.coinModule.addCoins(uid, count: 100) { result in
         if (result.isEmpty) {
           DispatchQueue.main.async {
-
             NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil, userInfo: ["uid": uid, "amount" : 100])
           }
         }
