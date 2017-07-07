@@ -23,6 +23,14 @@ extension String {
   }
 }
 
+extension Int {
+  func toTimeFormat() -> String {
+    let minute = self / 60
+    let seconds = self % 60
+    return String(format:"%02i:%02i", minute, seconds)
+  }
+}
+
 extension UIColor {
   public class func defaultColor() -> UIColor {
     return UIColor(red: 51/255, green: 181/255, blue: 159/255, alpha: 1.0)

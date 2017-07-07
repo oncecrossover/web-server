@@ -145,7 +145,7 @@ class CustomCameraView: UIView {
   }
 
   func update() {
-    time.text = String(format: "00:%02d", count)
+    time.text = count.toTimeFormat()
     let progress = Float(count)/Float(60)
     progressBar.setProgress(progress, animated: true)
     if(count > 50) {

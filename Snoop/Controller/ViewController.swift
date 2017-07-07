@@ -341,7 +341,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
         myCell.coverImage.sd_setImage(with: URL(string: coverUrl))
       }
       myCell.coverImage.isUserInteractionEnabled = true
-      myCell.durationLabel.text = "00:\(feedInfo.duration)"
+      myCell.durationLabel.text = feedInfo.duration.toTimeFormat()
       myCell.durationLabel.isHidden = false
 
       let tappedToWatch = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToWatch(_:)))

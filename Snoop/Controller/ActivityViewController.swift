@@ -253,6 +253,27 @@ extension ActivityViewController {
       }
     }
   }
+
+  func isAnswerOrSnoopSegmentSelected() -> Bool {
+    return self.selectedIndex == 1 || self.selectedIndex == 2;
+  }
+
+  /**
+   Show or hide asker name and avatar for Answer/Snoop segments only
+   */
+  func setupAskerInfo(_ myCell: ActivityTableViewCell, myCellInfo: ActivityModel) {
+    /* hide name */
+    myCell.askerName.text =
+      (myCellInfo.isAskerAnonymous && isAnswerOrSnoopSegmentSelected() ? "Anonymous" : myCellInfo.askerName) + ":"
+
+    /* hide avartar */
+    if (myCellInfo.askerAvatarUrl != nil
+      && (!myCellInfo.isAskerAnonymous || !isAnswerOrSnoopSegmentSelected())) {
+      myCell.askerImage.sd_setImage(with: URL(string: myCellInfo.askerAvatarUrl!))
+    } else {
+      myCell.askerImage.image = UIImage(named: "default")
+    }
+  }
 }
 
 // delegate
@@ -313,27 +334,6 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
     backgroundView.delegate = self
     activityTableView.backgroundView = backgroundView
     return 0
-  }
-
-  func isAnswerOrSnoopSegmentSelected() -> Bool {
-    return self.selectedIndex == 1 || self.selectedIndex == 2;
-  }
-
-  /**
-   Show or hide asker name and avatar for Answer/Snoop segments only
-  */
-  func setupAskerInfo(_ myCell: ActivityTableViewCell, myCellInfo: ActivityModel) {
-    /* hide name */
-    myCell.askerName.text =
-      (myCellInfo.isAskerAnonymous && isAnswerOrSnoopSegmentSelected() ? "Anonymous" : myCellInfo.askerName) + ":"
-
-    /* hide avartar */
-    if (myCellInfo.askerAvatarUrl != nil
-      && (!myCellInfo.isAskerAnonymous || !isAnswerOrSnoopSegmentSelected())) {
-      myCell.askerImage.sd_setImage(with: URL(string: myCellInfo.askerAvatarUrl!))
-    } else {
-      myCell.askerImage.image = UIImage(named: "default")
-    }
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -400,7 +400,7 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
         let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnImage(_:)))
         myCell.coverImage.addGestureRecognizer(tappedOnImage)
 
-        myCell.durationLabel.text = "00:\(cellInfo.duration)"
+        myCell.durationLabel.text = cellInfo.duration.toTimeFormat()
         myCell.durationLabel.isHidden = false
         myCell.expireLabel.isHidden = true
       }
