@@ -236,8 +236,11 @@ public class QaTransactionWebHandler extends AbastractWebHandler
         }
 
         /* send payment confirmation to snooper */
-        sendPaymentConfirmation(qaTransaction.getUid(),
-            quandaFromDB.getQuestion(), SNOOP_RATE);
+        sendPaymentConfirmation(
+            qaTransaction.getUid(),
+            qaTransaction.getType(),
+            quandaFromDB.getQuestion(),
+            SNOOP_RATE);
 
         appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
@@ -402,8 +405,11 @@ public class QaTransactionWebHandler extends AbastractWebHandler
         sendNotificationToResponder(qaTransaction);
 
         /* send payment confirmation to asker */
-        sendPaymentConfirmation(qaTransaction.getUid(),
-            qaTransaction.getquanda().getQuestion(), answerRate);
+        sendPaymentConfirmation(
+            qaTransaction.getUid(),
+            qaTransaction.getType(),
+            qaTransaction.getquanda().getQuestion(),
+            answerRate);
 
         appendln(toIdJson("id", qaTransaction.getId()));
         return newResponse(HttpResponseStatus.CREATED);
@@ -418,11 +424,19 @@ public class QaTransactionWebHandler extends AbastractWebHandler
 
   private void sendPaymentConfirmation(
       final Long transUid,
+      final String transType,
       final String question,
       final double amount) {
 
+    String action = transType;
+    if (TransType.ASKED.value().equals(transType)) {
+      action = "asking";
+    } else if (TransType.SNOOPED.value().equals(transType)) {
+      action = "snooping";
+    }
+
     final String email = UserDBUtil.getEmailByUid(getSession(), transUid, true);
-    EmailUtil.sendPaymentConfirmation(email, question, amount);
+    EmailUtil.sendPaymentConfirmation(email, action, question, amount);
   }
 
   private void sendNotificationToResponder(final QaTransaction qaTransaction) {

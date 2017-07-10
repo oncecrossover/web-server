@@ -43,6 +43,7 @@ public class EmailUtil {
 
   public static void sendPaymentConfirmation(
       final String email,
+      final String action,
       final String question,
       final double amount) {
 
@@ -61,9 +62,8 @@ public class EmailUtil {
       final StrBuilder sb = new StrBuilder();
       sb.appendln("Dear user,");
       sb.appendln("");
-      sb.appendln(String.format(
-          "We received your payment $%.2f for asking or snooping",
-          amount));
+      sb.appendln(String.format("We received your payment $%.2f for %s", amount,
+          action));
       sb.appendln("");
       sb.append("\"");
       sb.append(question);
