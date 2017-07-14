@@ -58,6 +58,12 @@ extension UIView {
   }
 }
 
+extension UIImageView {
+  func cosmeticizeImage(cosmeticHints : String?) {
+    self.setImageForName(string: cosmeticHints!, backgroundColor: nil, circular: true, textAttributes: nil)
+  }
+}
+
 extension UIViewController {
   func launchVideoPlayer(_ answerUrl: String, duration: Int) -> VideoPlayerView {
     let videoPlayerView = VideoPlayerView()

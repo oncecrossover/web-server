@@ -177,7 +177,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         cell.profilePhoto.sd_setImage(with: URL(string: url)!)
       }
       else {
-        cell.profilePhoto.image = UIImage(named: "default")
+        cell.profilePhoto.cosmeticizeImage(cosmeticHints: self.name)
       }
 
       /* setup avatar interaction */

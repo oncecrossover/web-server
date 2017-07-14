@@ -259,20 +259,38 @@ extension ActivityViewController {
   }
 
   /**
-   Show or hide asker name and avatar for Answer/Snoop segments only
+   * Setup asker info, e.g. name and avatar
    */
   func setupAskerInfo(_ myCell: ActivityTableViewCell, myCellInfo: ActivityModel) {
-    /* hide name */
+    /* show or hide real name */
     myCell.askerName.text =
       (myCellInfo.isAskerAnonymous && isAnswerOrSnoopSegmentSelected() ? "Anonymous" : myCellInfo.askerName) + ":"
 
-    /* hide avartar */
+    /* show or hide real avartar */
     if (myCellInfo.askerAvatarUrl != nil
       && (!myCellInfo.isAskerAnonymous || !isAnswerOrSnoopSegmentSelected())) {
       myCell.askerImage.sd_setImage(with: URL(string: myCellInfo.askerAvatarUrl!))
     } else {
-      myCell.askerImage.image = UIImage(named: "default")
+      myCell.askerImage.cosmeticizeImage(cosmeticHints: myCell.askerName.text)
     }
+  }
+}
+
+/**
+ * Setup responder info, e.g. name and avatar
+ */
+func setupResponderInfo(_ myCell: ActivityTableViewCell, myCellInfo: ActivityModel) {
+  myCell.responderName.text = myCellInfo.responderName
+
+  if (!myCellInfo.responderTitle.isEmpty) {
+    myCell.responderTitle.text = myCellInfo.responderTitle
+  }
+
+  if let responderAvatarUrl = myCellInfo.responderAvatarUrl {
+    myCell.responderImage.sd_setImage(with: URL(string: responderAvatarUrl))
+  }
+  else {
+    myCell.responderImage.cosmeticizeImage(cosmeticHints: myCellInfo.responderName)
   }
 }
 
@@ -363,22 +381,11 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
 
     myCell.rateLabel.text = "$ \(cellInfo.rate)"
     myCell.question.text = cellInfo.question
-    myCell.responderName.text = cellInfo.responderName
-
-    if (!cellInfo.responderTitle.isEmpty) {
-      myCell.responderTitle.text = cellInfo.responderTitle
-    }
 
     setPlaceholderImages(myCell)
     setupFullScreenImageSettings(myCell)
     setupAskerInfo(myCell, myCellInfo: cellInfo);
-
-    if let responderAvatarUrl = cellInfo.responderAvatarUrl {
-      myCell.responderImage.sd_setImage(with: URL(string: responderAvatarUrl))
-    }
-    else {
-      myCell.responderImage.image = UIImage(named: "default")
-    }
+    setupResponderInfo(myCell, myCellInfo: cellInfo);
 
     if (cellInfo.status == "PENDING") {
       myCell.coverImage.image = UIImage()

@@ -175,7 +175,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
       myCell.discoverImageView.sd_setImage(with: URL(string: avatarUrl))
     }
     else {
-      myCell.discoverImageView.image = UIImage(named: "default")
+      myCell.discoverImageView.cosmeticizeImage(cosmeticHints: cellInfo.name)
     }
 
     myCell.isUserInteractionEnabled = true

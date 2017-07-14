@@ -148,7 +148,7 @@ extension AskViewController {
       self.profileView.profileImage.sd_setImage(with: URL(string: avatarUrl))
     }
     else {
-      self.profileView.profileImage.image = UIImage(named: "default")
+      self.profileView.profileImage.cosmeticizeImage(cosmeticHints: profileInfo.name)
     }
 
     self.profileView.profileImage.isUserInteractionEnabled = true

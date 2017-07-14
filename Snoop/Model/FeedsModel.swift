@@ -8,8 +8,8 @@
 
 import Foundation
 class FeedsModel {
-  var name: String
-  var title: String
+  var responderName: String
+  var responderTitle: String
   var id: Int
   var question: String
   var status: String
@@ -24,9 +24,9 @@ class FeedsModel {
   var coverUrl: String?
   var answerUrl: String
   var rate: Int
-  init(_name: String, _title: String, _id: Int, _question: String, _status: String, _responderId: Int, _snoops: Int, _updatedTime: Double,  _duration: Int, _isAskerAnonymous: Bool, _responderAvatarUrl: String?, _askerAvatarUrl: String?, _askerName: String, _coverUrl: String?, _answerUrl: String, _rate: Int) {
-    name = _name
-    title = _title
+  init(_responderName: String, _responderTitle: String, _id: Int, _question: String, _status: String, _responderId: Int, _snoops: Int, _updatedTime: Double,  _duration: Int, _isAskerAnonymous: Bool, _responderAvatarUrl: String?, _askerAvatarUrl: String?, _askerName: String, _coverUrl: String?, _answerUrl: String, _rate: Int) {
+    responderName = _responderName
+    responderTitle = _responderTitle
     id = _id
     question = _question
     status = _status
