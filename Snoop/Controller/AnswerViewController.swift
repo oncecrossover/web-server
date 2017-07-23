@@ -100,14 +100,14 @@ extension AnswerViewController: UITableViewDataSource, UITableViewDelegate {
       myCell.askerImage.sd_setImage(with: URL(string: askerAvatarUrl))
     }
     else {
-      myCell.askerImage.image = UIImage(named: "default")
+      myCell.askerImage.cosmeticizeImage(cosmeticHints: cellInfo.askerName)
     }
 
     if let responderAvatarUrl = cellInfo.responderAvatarUrl {
       myCell.responderImage.sd_setImage(with: URL(string: responderAvatarUrl))
     }
     else {
-      myCell.responderImage.image = UIImage(named: "default")
+      myCell.responderImage.cosmeticizeImage(cosmeticHints: cellInfo.responderName)
     }
 
     if (cellInfo.status == "PENDING") {
