@@ -32,7 +32,7 @@ class Question {
       }
   }
 
-  func updateQuestion(_ id: Int!, answerAudio: Data!, completion: @escaping (String) -> ()) {
+  func updateQuestion(_ id: String!, answerAudio: Data!, completion: @escaping (String) -> ()) {
       let myUrl = URL(string: QUANDAURI + "/" + "\(id)")
       let audioString = answerAudio?.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
       let jsonData: [String: AnyObject] = ["answerAudio": audioString! as AnyObject, "status" : "ANSWERED" as AnyObject]
@@ -41,7 +41,7 @@ class Question {
       }
   }
 
-  func submitAnswer(_ id: Int, answerVideo: Data, coverPhoto: Data, duration: Int, completion: @escaping (String)->()) {
+  func submitAnswer(_ id: String, answerVideo: Data, coverPhoto: Data, duration: Int, completion: @escaping (String)->()) {
     let myUrl = URL(string: QUANDAURI + "/" + "\(id)")
     let videoString = answerVideo.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
     let photoString = coverPhoto.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
@@ -68,7 +68,7 @@ class Question {
     }
   }
 
-  func getQuestionMedia(_ id: Int, completion: @escaping (String) -> ()){
+  func getQuestionMedia(_ id: String, completion: @escaping (String) -> ()){
     let myUrl = URL(string: QUANDAURI + "/" + "\(id)")
     generics.getObjectById(myUrl!) { convertedJsonIntoDict in
       if let storedAudio = convertedJsonIntoDict["answerMedia"] as? String {
@@ -80,7 +80,7 @@ class Question {
     }
   }
 
-  func getQuestionById(_ id: Int, completion: @escaping (NSDictionary) -> ()){
+  func getQuestionById(_ id: String, completion: @escaping (NSDictionary) -> ()){
     let myUrl = URL(string: QUESTIONURI + "/" + "\(id)")
     generics.getObjectById(myUrl!) {
       completion($0)
@@ -94,7 +94,7 @@ class Question {
     }
   }
 
-  func createSnoop(_ id: Int, completion: @escaping (String) -> ()) {
+  func createSnoop(_ id: String, completion: @escaping (String) -> ()) {
     let uid = UserDefaults.standard.string(forKey: "email")!
     let jsonData:[String:AnyObject] = ["uid": uid as AnyObject, "quandaId": id as AnyObject]
     generics.createObject(SNOOPURI, jsonData: jsonData) {

@@ -21,7 +21,7 @@ class ChargeViewController: UIViewController, UINavigationControllerDelegate{
   var paymentModule = Payment()
   var utility = UIUtility()
   var questionModule = Question()
-  var chargeInfo: (amount: Int?, type: String?, quandaId: Int?)
+  var chargeInfo: (amount: Int?, type: String?, quandaId: String?)
   var submittedQuestion: (amount: Int?, type: String?, question: String?, askerId: String?, responderId: String?)
   var isPaid = false
   var isSnooped = true

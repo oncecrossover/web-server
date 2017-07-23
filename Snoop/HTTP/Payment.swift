@@ -35,14 +35,14 @@ class Payment {
     }
   }
 
-  func getBalance(_ uid: Int, completion: @escaping (NSDictionary) -> ()) {
+  func getBalance(_ uid: String, completion: @escaping (NSDictionary) -> ()) {
     let url = URL(string: BALANCEURI + "\(uid)")!
     generics.getObjectById(url) { result in
       completion(result)
     }
   }
 
-  func deletePayment(_ id: Int, completion: @escaping (String) -> ()) {
+  func deletePayment(_ id: String, completion: @escaping (String) -> ()) {
     let url = URL(string: PAYMENTURI + "/" + "\(id)")
     let request = NSMutableURLRequest(url: url!)
     request.httpMethod = "DELETE"

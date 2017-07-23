@@ -1,5 +1,7 @@
 package com.snoop.server.db.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.snoop.server.model.Activity;
 
 public class Snoop extends Activity {
@@ -7,6 +9,7 @@ public class Snoop extends Activity {
   private Long uid;
   private Long quandaId;
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getUid() {
     return uid;
   }
@@ -16,6 +19,7 @@ public class Snoop extends Activity {
     return this;
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getQuandaId() {
     return quandaId;
   }

@@ -94,8 +94,8 @@ extension ProfileViewController {
 // Private method
 extension ProfileViewController {
   func initView() {
-    let uid = UserDefaults.standard.integer(forKey: "uid")
-    userModule.getProfile(uid) { fullName, title, aboutMe, avatarUrl, rate, status in
+    let uid = UserDefaults.standard.string(forKey: "uid")
+    userModule.getProfile(uid!) { fullName, title, aboutMe, avatarUrl, rate, status in
       self.rate = rate
       self.name = fullName
       self.personTitle = title
@@ -204,8 +204,8 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
       }
 
       self.earningsView.removeFromSuperview()
-      let uid = UserDefaults.standard.integer(forKey: "uid")
-      Payment().getBalance(uid) { convertedDict in
+      let uid = UserDefaults.standard.string(forKey: "uid")
+      Payment().getBalance(uid!) { convertedDict in
         if let _ = convertedDict["balance"] as? Double {
           self.earning = convertedDict["balance"] as! Double
           if (self.earning > 0.0) {

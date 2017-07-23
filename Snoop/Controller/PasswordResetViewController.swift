@@ -12,7 +12,7 @@ class PasswordResetViewController: UIViewController{
   var utility = UIUtility()
   var generics = Generics()
   var userModule = User()
-  var uid:Int?
+  var uid:String?
 
   let note: UILabel = {
     let note = UILabel()
@@ -205,11 +205,11 @@ class PasswordResetViewController: UIViewController{
     activityIndicator.isUserInteractionEnabled = false
 
     //Check if the email address exists in our system
-    userModule.getUser(email.text!) { users in
+    userModule.getUserByUname(email.text!) { users in
       if (users.count > 0) {
         let user = users[0] as! [String: AnyObject]
         let URI = self.generics.HTTPHOST + "temppwds"
-        self.uid = user["uid"] as? Int
+        self.uid = user["id"] as? String
         let jsonData = ["uname" : self.email.text!]
         self.generics.createObject(URI, jsonData: jsonData as [String : AnyObject]) { result in
           if (result.isEmpty) {

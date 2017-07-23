@@ -10,11 +10,11 @@ import Foundation
 class FeedsModel {
   var responderName: String
   var responderTitle: String
-  var id: Int
+  var id: String
   var question: String
   var status: String
   var snoops: Int
-  var responderId: Int
+  var responderId: String
   var updatedTime: Double
   var duration: Int
   var isAskerAnonymous: Bool
@@ -24,7 +24,7 @@ class FeedsModel {
   var coverUrl: String?
   var answerUrl: String
   var rate: Int
-  init(_responderName: String, _responderTitle: String, _id: Int, _question: String, _status: String, _responderId: Int, _snoops: Int, _updatedTime: Double,  _duration: Int, _isAskerAnonymous: Bool, _responderAvatarUrl: String?, _askerAvatarUrl: String?, _askerName: String, _coverUrl: String?, _answerUrl: String, _rate: Int) {
+  init(_responderName: String, _responderTitle: String, _id: String, _question: String, _status: String, _responderId: String, _snoops: Int, _updatedTime: Double,  _duration: Int, _isAskerAnonymous: Bool, _responderAvatarUrl: String?, _askerAvatarUrl: String?, _askerName: String, _coverUrl: String?, _answerUrl: String, _rate: Int) {
     responderName = _responderName
     responderTitle = _responderTitle
     id = _id

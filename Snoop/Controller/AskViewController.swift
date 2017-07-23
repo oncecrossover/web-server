@@ -253,7 +253,7 @@ extension AskViewController {
   }
 
   func processTransaction() {
-    let uid = UserDefaults.standard.integer(forKey: "uid")
+    let uid = UserDefaults.standard.string(forKey: "uid")
     let isAskerAnonymous = self.askerAnonymousButton.isOn ? "TRUE" : "FALSE"
     let quandaData = ["question" : self.questionView.text!, "responder" : self.profileInfo.uid, "isAskerAnonymous" : isAskerAnonymous] as [String : Any]
     let jsonData:[String: AnyObject] = ["uid": uid as AnyObject, "type" : "ASKED" as AnyObject, "quanda" : quandaData as AnyObject]
@@ -275,7 +275,7 @@ extension AskViewController {
           UserDefaults.standard.set(true, forKey: "shouldLoadQuestions")
           UserDefaults.standard.synchronize()
           let amount = self.profileInfo.rate * 25
-          NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil, userInfo: ["uid": uid, "amount" : -amount])
+          NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil, userInfo: ["uid": uid!, "amount" : -amount])
         }
       }
       self.scrollView.isUserInteractionEnabled = true

@@ -116,21 +116,21 @@ class User
     task.resume()
   }
 
-  func getUser(_ uid: Int, completion: @escaping (NSDictionary) -> ()) {
+  func getUserById(_ uid: String, completion: @escaping (NSDictionary) -> ()) {
     let myUrl = URL(string: USERURI + "/\(uid)")
     generics.getObjectById(myUrl!) {
       completion($0)
     }
   }
 
-  func getUser(_ uname: String, completion: @escaping (NSArray) -> ()) {
+  func getUserByUname(_ uname: String, completion: @escaping (NSArray) -> ()) {
     let myUrl = URL(string: USERURI + "?uname='\(uname)'")
     generics.getFilteredObjects(myUrl!) {
       completion($0)
     }
   }
 
-  func updateProfile(_ uid: Int, name: String, title: String, about: String, rate: Double, completion: @escaping (String) -> ()) {
+  func updateProfile(_ uid: String, name: String, title: String, about: String, rate: Double, completion: @escaping (String) -> ()) {
     let myUrl = URL(string: PROFILEURI + "\(uid)")
     let jsonData = ["fullName": name as AnyObject, "title" : title as AnyObject, "aboutMe": about as AnyObject, "rate" : rate as AnyObject]
     generics.updateObject(myUrl!, jsonData: jsonData) {
@@ -138,7 +138,7 @@ class User
     }
   }
 
-  func updateProfilePhoto(_ uid: Int, imageData: Data!, completion: @escaping (String) -> ()) {
+  func updateProfilePhoto(_ uid: String, imageData: Data!, completion: @escaping (String) -> ()) {
     let myUrl = URL(string: PROFILEURI + "\(uid)")
     let jsonData = ["avatarImage" : imageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0)) as AnyObject]
     generics.updateObject(myUrl!, jsonData: jsonData) {
@@ -146,7 +146,7 @@ class User
     }
   }
 
-  func updateDeviceToken(_ uid: Int, token: String, completion: @escaping (String) -> ()) {
+  func updateDeviceToken(_ uid: String, token: String, completion: @escaping (String) -> ()) {
     let myUrl = URL(string: PROFILEURI + "\(uid)")
     let jsonData = ["deviceToken" : token as AnyObject]
     generics.updateObject(myUrl!, jsonData: jsonData) {
@@ -154,14 +154,14 @@ class User
     }
   }
 
-  func applyToTakeQuestion(_ uid: Int, completion: @escaping (String) ->()) {
+  func applyToTakeQuestion(_ uid: String, completion: @escaping (String) ->()) {
     let data = ["uid": uid as AnyObject, "takeQuestion": "APPLIED" as AnyObject]
     generics.createObject(APPLYURI, jsonData: data){
       completion($0)
     }
   }
 
-  func getProfile(_ uid: Int, completion: @escaping (String, String, String, String?, Int, String) -> ()){
+  func getProfile(_ uid: String, completion: @escaping (String, String, String, String?, Int, String) -> ()){
     let myUrl = URL(string: PROFILEURI + "\(uid)");
     generics.getObjectById(myUrl!) { convertedJsonIntoDict in
       var fullName = ""
@@ -207,7 +207,7 @@ class User
     }
   }
 
-  func updatePaypal(_ uid: Int, paypalEmail: String, completion: @escaping (String) -> ()) {
+  func updatePaypal(_ uid: String, paypalEmail: String, completion: @escaping (String) -> ()) {
     let url = URL(string: PCURI + "\(uid)")
     let jsonData = ["payTo" : paypalEmail as AnyObject]
     generics.updateObject(url!, jsonData: jsonData) {
@@ -215,7 +215,7 @@ class User
     }
   }
 
-  func getPaypal(_ uid: Int, completion: @escaping (NSDictionary) ->()) {
+  func getPaypal(_ uid: String, completion: @escaping (NSDictionary) ->()) {
     let url = URL(string: PCURI + "\(uid)")
     generics.getObjectById(url!) {
       completion($0)

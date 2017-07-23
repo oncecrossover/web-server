@@ -16,13 +16,13 @@ class Coin {
   }
 
   func getCoinsCount(_ completion: @escaping (NSDictionary) -> ()) {
-    let uid = UserDefaults.standard.integer(forKey: "uid")
-    generics.getObjectById(URL(string: COINSURI + "/\(uid)")!) {
+    let uid = UserDefaults.standard.string(forKey: "uid")
+    generics.getObjectById(URL(string: COINSURI + "/\(uid!)")!) {
       completion($0)
     }
   }
 
-  func addCoins(_ uid: Int, count: Int, completion: @escaping (String) ->()) {
+  func addCoins(_ uid: String, count: Int, completion: @escaping (String) ->()) {
     let jsonData : [String: AnyObject] = ["uid" : uid as AnyObject, "amount": count as AnyObject]
     generics.createObject(COINSURI, jsonData: jsonData) {
       completion($0)

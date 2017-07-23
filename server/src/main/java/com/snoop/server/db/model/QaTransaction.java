@@ -7,6 +7,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.snoop.server.db.model.EnumBase;
 
 public class QaTransaction {
@@ -26,6 +28,7 @@ public class QaTransaction {
   private Date createdTime;
   private Quanda quanda;
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getId() {
     return id;
   }
@@ -35,6 +38,7 @@ public class QaTransaction {
     return this;
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getUid() {
     return uid;
   }
@@ -53,6 +57,7 @@ public class QaTransaction {
     return this;
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getQuandaId() {
     return quandaId;
   }

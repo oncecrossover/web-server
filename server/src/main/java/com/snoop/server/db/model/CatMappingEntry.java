@@ -2,6 +2,9 @@ package com.snoop.server.db.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 public class CatMappingEntry extends ModelBase implements Model {
 
   public enum Status {
@@ -35,6 +38,7 @@ public class CatMappingEntry extends ModelBase implements Model {
   private Date createdTime;
   private Date updatedTime;
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getId() {
     return id;
   }
@@ -44,6 +48,7 @@ public class CatMappingEntry extends ModelBase implements Model {
     return this;
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getCatId() {
     return catId;
   }
@@ -71,6 +76,7 @@ public class CatMappingEntry extends ModelBase implements Model {
     return this;
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getUid() {
     return uid;
   }

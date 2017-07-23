@@ -77,7 +77,7 @@ class SignupViewController: UIViewController {
             let name = dict["name"] as! String
             let username = dict["screen_name"] as! String
             // Check if the username already exists
-            User().getUser(username) { user in
+            User().getUserByUname(username) { user in
               if (user.count > 0) {
                 DispatchQueue.main.async {
                   UIUtility().displayAlertMessage("username \(username) already exists", title: "Alert", sender: self)
@@ -173,7 +173,7 @@ class SignupViewController: UIViewController {
     }
 
     // Check if the email already exists
-    userModule.getUser(userEmail) { user in
+    userModule.getUserByUname(userEmail) { user in
       if (user.count > 0) {
         DispatchQueue.main.async {
           utility.displayAlertMessage("Email \(userEmail) already exists", title: "Alert", sender: self)
@@ -189,7 +189,7 @@ class SignupViewController: UIViewController {
     var resultMessage = ""
     let activityIndicator = UIUtility().createCustomActivityIndicator(self.view, text: "Saving your Info...")
     User().createUser(userEmail, username: username, userPassword: userPassword, fullName: name) { result in
-      if let uid = result["id"] as? Int {
+      if let uid = result["id"] as? String {
         activityIndicator.hide(animated: true)
         DispatchQueue.main.async {
           UserDefaults.standard.set(true, forKey: "shouldGiftUser")

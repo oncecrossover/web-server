@@ -102,8 +102,8 @@ extension CoinsViewController {
 // Private methods
 extension CoinsViewController {
   func addCoins(_ notification: Notification) {
-    if let uid = notification.userInfo?["uid"] as? Int {
-      let currentUid = UserDefaults.standard.integer(forKey: "uid")
+    if let uid = notification.userInfo?["uid"] as? String {
+      let currentUid = UserDefaults.standard.string(forKey: "uid")
       // Check if these two are the same user if app relaunches or user signs out.
       if (currentUid == uid) {
         if let amount = notification.userInfo?["amount"] as? Int {

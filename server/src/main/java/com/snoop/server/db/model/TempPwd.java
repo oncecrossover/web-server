@@ -7,6 +7,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 public class TempPwd {
   private Long id;
@@ -38,6 +40,7 @@ public class TempPwd {
     }
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getId() {
     return id;
   }
@@ -47,6 +50,7 @@ public class TempPwd {
     return this;
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getUid() {
     return uid;
   }

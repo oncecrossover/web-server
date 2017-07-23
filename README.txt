@@ -69,7 +69,7 @@ RESTFUL APIs OF USERS:
 curl -i -X GET "http://127.0.0.1:8080/users/16072271319793664"
 Example response:
 {
-  "id": 16072271319793664,
+  "id": "16072271319793664",
   "uname": "edmund@fight.com",
   "pwd": null,
   "primaryEmail": "edmund@fight.com",
@@ -83,7 +83,7 @@ Example response:
 2. create new user, e.g.
 curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uname":"edmund@fight.com","primaryEmail":"edmund@fight.com","fullName":"Edmund Zhou","pwd":"123"}'
 Example response:
-{"id": 16072271319793664}
+{"id": "16072271319793664"}
 
 3. Query users by id, uname and so on, e.g.
 curl -i -G -X GET http://127.0.0.1:8080/users --data-urlencode "id=16072271319793664", equivalent to
@@ -91,7 +91,7 @@ curl -i -X GET "http://127.0.0.1:8080/users/16072271319793664"
 Example response:
 [
   {
-    "id": 16072271319793664,
+    "id": "16072271319793664",
     "uname": "edmund@fight.com",
     "pwd": null,
     "primaryEmail": "edmund@fight.com",
@@ -108,7 +108,7 @@ curl -i -X GET "http://127.0.0.1:8080/users?uname='bingo@snoopqa.com'"
 Example resposne:
 [
   {
-    "id": 16077851778351104,
+    "id": "16077851778351104",
     "uname": "bingo@snoopqa.com",
     "pwd": null,
     "primaryEmail": "bingo@snoopqa.com",
@@ -131,7 +131,7 @@ curl -i -X GET "http://127.0.0.1:8080/users?uname='%%o%%'&lastSeenUpdatedTime=16
 Example response:
 [
   {
-    "id": 16077851778351104,
+    "id": "16077851778351104",
     "uname": "bingo@snoopqa.com",
     "pwd": null,
     "primaryEmail": "bingo@snoopqa.com",
@@ -142,7 +142,7 @@ Example response:
     "pcAccount": null
   },
   {
-    "id": 16072271319793664,
+    "id": "16072271319793664",
     "uname": "edmund@fight.com",
     "pwd": null,
     "primaryEmail": "edmund@fight.com",
@@ -159,7 +159,7 @@ RESTFUL APIs OF SIGNIN:
 1. sign-in by user name and password, e.g.
 curl -i -X POST "http://127.0.0.1:8080/signin" -d '{"uname":"edmund@fight.com","pwd":"123"}'
 Example response:
-{"id":16072271319793664}
+{"id":"16072271319793664"}
 
 
 RESTFUL APIs OF PROFILES:
@@ -167,7 +167,7 @@ RESTFUL APIs OF PROFILES:
 curl -i -X GET "http://127.0.0.1:8080/profiles/16072271319793664"
 Example response:
 {
-  "id": 16072271319793664,
+  "id": "16072271319793664",
   "rate": 0,
   "avatarUrl": null,
   "avatarImage": null,
@@ -185,7 +185,7 @@ curl -i -X GET "http://127.0.0.1:8080/profiles/16072271319793664"
 Example respones:
 [
   {
-    "id": 16072271319793664,
+    "id": "16072271319793664",
     "rate": 0,
     "avatarUrl": null,
     "avatarImage": null,
@@ -211,7 +211,7 @@ curl -i -X GET "http://127.0.0.1:8080/profiles?fullName='%edmund%'"
 Example respones:
 [
   {
-    "id": 16072271319793664,
+    "id": "16072271319793664",
     "rate": 0,
     "avatarUrl": null,
     "avatarImage": null,
@@ -238,7 +238,7 @@ curl -i -X GET "http://127.0.0.1:8080/profiles?limit=20"
 Example response:
 [
   {
-    "id": 16077851778351104,
+    "id": "16077851778351104",
     "rate": 0,
     "avatarUrl": null,
     "avatarImage": null,
@@ -251,7 +251,7 @@ Example response:
     "updatedTime": 1494787658000
   },
   {
-    "id": 16072271319793664,
+    "id": "16072271319793664",
     "rate": 10,
     "avatarUrl": null,
     "avatarImage": null,
@@ -271,7 +271,7 @@ curl -i -X GET "http://127.0.0.1:8080/profiles?takeQuestion='APPROVED'&fullName=
 Example response:
 [
   {
-    "id": 16072271319793664,
+    "id": "16072271319793664",
     "rate": 10,
     "avatarUrl": null,
     "avatarImage": null,
@@ -291,10 +291,10 @@ RESTFUL APIs OF QUANDAS:
 curl -i -X GET "http://127.0.0.1:8080/quandas/16086168076550144"
 Example response:
 {
-  "id": 16086168076550144,
-  "asker": 16077851778351104,
+  "id": "16086168076550144",
+  "asker": "16077851778351104",
   "question": "How do you define a good man?",
-  "responder": 16072271319793664,
+  "responder": "16072271319793664",
   "rate": 10,
   "answerUrl": "https://ddk9xa5p5b3lb.cloudfront.net/test/answers/videos/16086168076550144/16086168076550144.video.mp4",
   "answerCoverUrl": "https://ddk9xa5p5b3lb.cloudfront.net/test/answers/thumbnails/16086168076550144/16086168076550144.thumbnail.png",
@@ -323,7 +323,7 @@ curl -i -X GET "http://127.0.0.1:8080/questions?asker=16077851778351104"
 Example response:
 [
   {
-    "id": 16086638018953216,
+    "id": "16086638018953216",
     "question": "What is your opinion on the future of human beings?",
     "rate": 10,
     "status": "ANSWERED",
@@ -343,7 +343,7 @@ Example response:
     "askerAvatarImage": null
   },
   {
-    "id": 16086307713318912,
+    "id": "16086307713318912",
     "question": "How do you define a bad man?",
     "rate": 10,
     "status": "ANSWERED",
@@ -372,7 +372,7 @@ curl -i -X GET "http://127.0.0.1:8080/questions?asker=16077851778351104&lastSeen
 Example response:
 [
   {
-    "id": 16086168076550144,
+    "id": "16086168076550144",
     "question": "How do you define a good man?",
     "rate": 10,
     "status": "ANSWERED",
@@ -401,7 +401,7 @@ curl -i -X GET "http://127.0.0.1:8080/answers?responder=16072271319793664"
 Example response:
 [
   {
-    "id": 16086638018953216,
+    "id": "16086638018953216",
     "question": "What is your opinion on the future of human beings?",
     "rate": 10,
     "status": "ANSWERED",
@@ -421,7 +421,7 @@ Example response:
     "hoursToExpire": 47
   },
   {
-    "id": 16086307713318912,
+    "id": "16086307713318912",
     "question": "How do you define a bad man?",
     "rate": 10,
     "status": "ANSWERED",
@@ -441,7 +441,7 @@ Example response:
     "hoursToExpire": 47
   },
   {
-    "id": 16086168076550144,
+    "id": "16086168076550144",
     "question": "How do you define a good man?",
     "rate": 10,
     "status": "ANSWERED",
@@ -470,7 +470,7 @@ curl -i -X GET "http://127.0.0.1:8080/answers?responder=16072271319793664&lastSe
 Example response:
 [
   {
-    "id": 16086168076550144,
+    "id": "16086168076550144",
     "question": "How do you define a good man?",
     "rate": 10,
     "status": "ANSWERED",
@@ -499,9 +499,9 @@ curl -i -X GET "http://127.0.0.1:8080/snoops?uid=16084904089485312"
 Example response:
 [
   {
-    "id": 16115662829125632,
+    "id": "16115662829125632",
     "uid": null,
-    "quandaId": 16086307713318912,
+    "quandaId": "16086307713318912",
     "createdTime": 1494796673000,
     "question": "How do you define a bad man?",
     "status": "ANSWERED",
@@ -520,9 +520,9 @@ Example response:
     "askerAvatarImage": null
   },
   {
-    "id": 16115631308931072,
+    "id": "16115631308931072",
     "uid": null,
-    "quandaId": 16086168076550144,
+    "quandaId": "16086168076550144",
     "createdTime": 1494796665000,
     "question": "How do you define a good man?",
     "status": "ANSWERED",
@@ -550,9 +550,9 @@ curl -i -X GET "http://127.0.0.1:8080/snoops?uid=16084904089485312&lastSeenCreat
 Example response:
 [
   {
-    "id": 16115631308931072,
+    "id": "16115631308931072",
     "uid": null,
-    "quandaId": 16086168076550144,
+    "quandaId": "16086168076550144",
     "createdTime": 1494796665000,
     "question": "How do you define a good man?",
     "status": "ANSWERED",
@@ -595,7 +595,7 @@ RESTFUL APIs OF BALANCE:
 curl -i -X GET "http://127.0.0.1:8080/balances/16077851778351104"
 Example response:
 {
-  "uid": 16077851778351104,
+  "uid": "16077851778351104",
   "balance": 0.2
 }
 
@@ -604,10 +604,10 @@ RESTFUL APIs OF QATRANSACTION:
 Example response:
 curl -i -X GET "http://127.0.0.1:8080/qatransactions/16086168080744448"
 {
-  "id": 16086168080744448,
-  "uid": 16077851778351104,
+  "id": "16086168080744448",
+  "uid": "16077851778351104",
   "type": "ASKED",
-  "quandaId": 16086168076550144,
+  "quandaId": "16086168076550144",
   "amount": 10,
   "createdTime": 1494789641000,
   "quanda": null
@@ -617,12 +617,12 @@ curl -i -X GET "http://127.0.0.1:8080/qatransactions/16086168080744448"
 To ask a question using real name, curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":812381424844800,"type":"ASKED","quanda":{"question":"How do you define a good man?","responder":813938593759232}}'
 To ask a question anonymously,     curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":812381424844800,"type":"ASKED","quanda":{"question":"How do you define a bad man?","responder":813938593759232,"isAskerAnonymous":"TRUE"}}'
 Example response:
-{"id":16086168080744448}
+{"id":"16086168080744448"}
 
 create new QaTransaction with type of SNOOPED, e.g.
 curl -i -X POST "http://127.0.0.1:8080/qatransactions" -d '{"uid":"813562284998656","type":"SNOOPED","quanda":{"id":1012998336413696}}'
 Example response:
-{"id":16115662833319936}
+{"id":"16115662833319936"}
 
 RESTFUL APIs OF NEWSFEED:
 1. query newsfeed, e.g.
@@ -631,7 +631,7 @@ curl -i -X GET "http://127.0.0.1:8080/newsfeeds?uid=16084904089485312"
 Example response:
 [
   {
-    "id": 16123341584728064,
+    "id": "16123341584728064",
     "question": "How can I become an entrepreneaur?",
     "rate": 0,
     "updatedTime": 1494798504000,
@@ -642,7 +642,7 @@ Example response:
     "isAskerAnonymous": "FALSE"
     "askerName": "Edgar Zhou",
     "askerAvatarUrl": null,
-    "responderId": 16077851778351104,
+    "responderId": "16077851778351104",
     "responderName": "Bingo Zhou",
     "responderTitle": null,
     "responderAvatarUrl": null,
@@ -650,7 +650,7 @@ Example response:
     "snoops": 0
   },
   {
-    "id": 16086638018953216,
+    "id": "16086638018953216",
     "question": "What is your opinion on the future of human beings?",
     "rate": 10,
     "updatedTime": 1494790051000,
@@ -661,7 +661,7 @@ Example response:
     "isAskerAnonymous": "FALSE"
     "askerName": "Bingo Zhou",
     "askerAvatarUrl": null,
-    "responderId": 16072271319793664,
+    "responderId": "16072271319793664",
     "responderName": "Edmund Zhou",
     "responderTitle": "Philosopher",
     "responderAvatarUrl": null,
@@ -678,7 +678,7 @@ curl -i -X GET "http://127.0.0.1:8080/newsfeeds?uid=16084904089485312&lastSeenUp
 Example response:
 [
   {
-    "id": 16086638018953216,
+    "id": "16086638018953216",
     "question": "What is your opinion on the future of human beings?",
     "rate": 10,
     "updatedTime": 1494790051000,
@@ -689,7 +689,7 @@ Example response:
     "isAskerAnonymous": "FALSE"
     "askerName": "Bingo Zhou",
     "askerAvatarUrl": null,
-    "responderId": 16072271319793664,
+    "responderId": "16072271319793664",
     "responderName": "Edmund Zhou",
     "responderTitle": "Philosopher",
     "responderAvatarUrl": null,
@@ -703,7 +703,7 @@ RESTFUL APIs OF TEMP PASSWORD:
 1. request new temp password, e.g.
 curl -i -X POST "http://127.0.0.1:8080/temppwds" -d '{"uname":"edmund@fight.com"}'
 Example response:
-{"id":2123595681628160}
+{"id":"2123595681628160"}
 
 RESTFUL APIs OF RESETING PASSWORD:
 1. reset password for a user, e.g.
@@ -719,17 +719,17 @@ RESTFUL APIs TO APPLY FOR/APROVE/DENY TAKING QUESTIONs:
 1. to apply for taking questions, e.g.
 curl -i -X POST "http://127.0.0.1:8080/takeq" -d '{"uid":16072271319793664,"takeQuestion":"APPLIED"}'
 Example response:
-{"uid":16072271319793664}
+{"uid":"16072271319793664"}
 
 2. to approve taking questions, e.g.
 curl -i -X POST "http://127.0.0.1:8080/takeq" -d '{"uid":16072271319793664,"takeQuestion":"APPROVED"}'
 Example response:
-{"uid":16072271319793664}
+{"uid":"16072271319793664"}
 
 3. to deny taking questions, e.g.
 curl -i -X POST "http://127.0.0.1:8080/takeq" -d '{"uid":16072271319793664,"takeQuestion":"DENIED"}'
 Example response:
-{"uid":16072271319793664}
+{"uid":"16072271319793664"}
 
 
 RESTFUL APIs OF BULKDATA:
@@ -749,7 +749,7 @@ RESTFUL APIs OF CATEGORY:
 curl -i -X GET "http://127.0.0.1:8080/categories/16136794785447936"
 Example response:
 {
-  "id": 19833904793911296,
+  "id": "19833904793911296",
   "name": "fashion",
   "description": "category for fashion.",
   "resourceUrl": "https://ddk9xa5p5b3lb.cloudfront.net/resources/categories/fashion.pdf",
@@ -760,7 +760,7 @@ Example response:
 2. create category, e.g.
 curl -i -X POST "http://127.0.0.1:8080/categories" -d '{"name":"beauty","description":"category for makeup and cosmetic."}'
 Example response:
-{"id":16136794785447936}
+{"id":"16136794785447936"}
 
 3. update category, e.g.
 curl -i -X PUT "http://127.0.0.1:8080/categories/16136794785447936" -d '{"name":"beauty","description":"category for beauty like makeup and cosmetic."}'
@@ -778,7 +778,7 @@ curl -i -X GET "http://127.0.0.1:8080/categories?id=16136794785447936"
 Example response:
 [
   {
-    "id": 16136794785447936,
+    "id": "16136794785447936",
     "name": "beauty",
     "description": "category for beauty like makeup and cosmetic.",
     "resourceUrl": null,
@@ -786,7 +786,7 @@ Example response:
     "updatedTime": 1494801711000
   },
   {
-    "id": 16137425126424576,
+    "id": "16137425126424576",
     "name": "fitness",
     "description": "category for fitness.",
     "resourceUrl": null,
@@ -801,8 +801,8 @@ RESTFUL APIs OF CATMAPPING:
 curl -i -X GET "http://127.0.0.1:8080/catmappings/1"
 Example response:
 {
-  "id": 1,
-  "catId": 5,
+  "id": "16139425126439521",
+  "catId": "26139425126439521",
   "catName": "tech",
   "catDescription": "category for tech.",
   "uid": "bingo",
@@ -823,11 +823,11 @@ curl -i -X GET "http://127.0.0.1:8080/catmappings?uid=16077851778351104&isExpert
 Example response:
 [
   {
-    "id": 16137970344001536,
-    "catId": 16136794785447936,
+    "id": "16137970344001536",
+    "catId": "16136794785447936",
     "catName": "beauty",
     "catDescription": "category for beauty like makeup and cosmetic.",
-    "uid": 16077851778351104,
+    "uid": "16077851778351104",
     "isExpertise": "YES",
     "isInterest": "NO",
     "createdTime": 1494801991000,
@@ -840,11 +840,11 @@ curl -i -X GET "http://127.0.0.1:8080/catmappings?uid=16077851778351104&isIntere
 Example response:
 [
   {
-    "id": 16139344083419136,
-    "catId": 16137471796445184,
+    "id": "16139344083419136",
+    "catId": "16137471796445184",
     "catName": "outdoors",
     "catDescription": "category for outdoors.",
-    "uid": 16077851778351104,
+    "uid": "16077851778351104",
     "isExpertise": "NO",
     "isInterest": "YES",
     "createdTime": 1494802319000,
@@ -859,7 +859,7 @@ curl -i -X GET "http://127.0.0.1:8080/coins/16077851778351104"
 Example response:
 {
   "id": null,
-  "uid": 16077851778351104,
+  "uid": "16077851778351104",
   "amount": 250,
   "originId": null,
   "createdTime": null
@@ -868,7 +868,7 @@ Example response:
 2. buy coins, e.g.
 curl -i -X POST "http://127.0.0.1:8080/coins" -d '{"uid":"16077851778351104","amount":200}'
 Example response:
-{"id":16140291354394624}
+{"id":"16140291354394624"}
 
 
 RESTFUL APIs OF PCACCOUNT:
@@ -876,7 +876,7 @@ RESTFUL APIs OF PCACCOUNT:
 curl -i -X GET "http://127.0.0.1:8080/pcaccounts/16077851778351104"
 Example response:
 {
-  "id": 16077851778351104,
+  "id": "16077851778351104",
   "chargeFrom": "cus_AelH78AE4I3F9S",
   "payTo": null,
   "createdTime": 1494787658000,
@@ -892,7 +892,7 @@ RESTFUL APIs OF CONFIGURATION:
 curl -i -X GET "http://127.0.0.1:8080/configurations/16140668300689408"
 Example response:
 {
-  "id": 16140668300689408,
+  "id": "16140668300689408",
   "ckey": "com.snoop.app.welcome.video.url",
   "value": "xxx",
   "defaultValue": "yyy",
@@ -904,7 +904,7 @@ Example response:
 2. create a configuration, e.g.
 curl -i -X POST "http://127.0.0.1:8080/configurations" -d '{"ckey":"com.snoop.app.welcome.video.url","value":"xxx","defaultValue":"yyy","description":"url for welcome video"}'
 Example response:
-{"id":16140668300689408}
+{"id":"16140668300689408"}
 
 3. update a configuration, e.g.
 curl -i -X PUT "http://127.0.0.1:8080/configurations/16140668300689408" -d '{"ckey":"com.snoop.app.welcome.video.url","value":"zzz"}'
@@ -914,7 +914,7 @@ curl -i -X GET "http://127.0.0.1:8080/configurations?id=16140668300689408"
 curl -i -X GET "http://127.0.0.1:8080/configurations?ckey='com.snoop.app.welcome.video.url'"
 [
   {
-    "id": 16140668300689408,
+    "id": "16140668300689408",
     "ckey": "com.snoop.app.welcome.video.url",
     "value": "zzz",
     "defaultValue": "yyy",

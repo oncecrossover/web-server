@@ -24,7 +24,7 @@ public class TestCatMappingEntry {
   private static final Logger LOG = LoggerFactory
       .getLogger(TestCatMappingEntry.class);
 
-  private static final String JSON_STR = "[{\"id\":null,\"catId\":1,\"catName\":null,\"catDescription\":null,\"uid\":123,\"isExpertise\":\"YES\",\"isInterest\":null,\"createdTime\":null,\"updatedTime\":null},{\"id\":null,\"catId\":2,\"catName\":null,\"catDescription\":null,\"uid\":345,\"isExpertise\":\"YES\",\"isInterest\":null,\"createdTime\":null,\"updatedTime\":null}]";
+  private static final String JSON_STR = "[{\"id\":null,\"catId\":\"1\",\"catName\":null,\"catDescription\":null,\"uid\":\"123\",\"isExpertise\":\"YES\",\"isInterest\":null,\"createdTime\":null,\"updatedTime\":null},{\"id\":null,\"catId\":\"2\",\"catName\":null,\"catDescription\":null,\"uid\":\"345\",\"isExpertise\":\"YES\",\"isInterest\":null,\"createdTime\":null,\"updatedTime\":null}]";
 
   @Test(timeout = 60000)
   public void testDeserializeJson()

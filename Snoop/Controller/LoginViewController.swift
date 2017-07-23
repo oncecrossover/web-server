@@ -80,7 +80,7 @@ class LoginViewController: UIViewController {
             let username = dict["screen_name"] as! String
             let util = UIUtility()
             // Check if the username already exists
-            User().getUser(username) { users in
+            User().getUserByUname(username) { users in
               if (users.count == 0) {
                 DispatchQueue.main.async {
                   util.displayAlertMessage("username \(username) doesn't exist. Please sign up", title: "Alert", sender: self)
@@ -88,7 +88,7 @@ class LoginViewController: UIViewController {
               }
               else {
                 let user = users[0] as! NSDictionary
-                let uid = user["id"] as! Int
+                let uid = user["id"] as! String
                 self.loginUser(uid)
               }
             }
@@ -159,7 +159,7 @@ class LoginViewController: UIViewController {
     self.view.endEditing(true)
   }
 
-  func loginUser(_ uid: Int) {
+  func loginUser(_ uid: String) {
     let util = UIUtility()
     let activityIndicator = util.createCustomActivityIndicator(self.view, text: "Signing In...")
     UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
@@ -190,7 +190,7 @@ class LoginViewController: UIViewController {
     let userPassword = loginView.password.text!
     let userModule = User()
     userModule.signinUser(userEmail, password: userPassword) { dict in
-      if let uid = dict["id"] as? Int {
+      if let uid = dict["id"] as? String {
         self.loginUser(uid)
       }
       else {

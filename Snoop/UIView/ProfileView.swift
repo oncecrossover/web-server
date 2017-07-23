@@ -53,7 +53,7 @@ class ProfileView: UIView {
   let cellId = "expertiseCell"
   var expertise:[ExpertiseModel] = []
 
-  init(frame: CGRect, uid: Int) {
+  init(frame: CGRect, uid: String) {
     super.init(frame: frame)
     self.frame = frame
     backgroundColor = UIColor.white
@@ -74,8 +74,8 @@ class ProfileView: UIView {
 
     Category().getExpertise(uid) { jsonArray in
       for element in jsonArray as! [[String:AnyObject]] {
-        let mappingId = element["id"] as! Int
-        let catId = element["catId"] as! Int
+        let mappingId = element["id"] as! String
+        let catId = element["catId"] as! String
         let name = element["catName"] as! String
         self.expertise.append(ExpertiseModel(_id: mappingId, _catId: catId, _name: name))
       }

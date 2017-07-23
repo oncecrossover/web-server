@@ -3,6 +3,8 @@ package com.snoop.server.db.model;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 public class PcAccount extends ModelBase implements Model {
   private Long id;
@@ -13,6 +15,7 @@ public class PcAccount extends ModelBase implements Model {
   @JsonIgnore
   private User user;
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getId() {
     return id;
   }

@@ -268,7 +268,7 @@ extension EditProfileViewController {
     }
 
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: text)
-    let uid = UserDefaults.standard.integer(forKey: "uid")
+    let uid = UserDefaults.standard.string(forKey: "uid")
     var newRate = 0.0
     if (!profileView.rate.value.text!.isEmpty) {
       newRate = Double(profileView.rate.value.text!)!
@@ -281,7 +281,7 @@ extension EditProfileViewController {
     }
 
     let fullName = profileView.firstName.value.text! + " " + profileView.lastName.value.text!
-    userModule.updateProfile(uid, name: fullName, title: profileView.title.value.text!, about: profileView.about.value.textColor == labelColor ? "" :  profileView.about.value.text!,
+    userModule.updateProfile(uid!, name: fullName, title: profileView.title.value.text!, about: profileView.about.value.textColor == labelColor ? "" :  profileView.about.value.text!,
       rate: newRate){ resultString in
       var message = "Your profile is successfully updated!"
       if (!resultString.isEmpty) {
@@ -294,7 +294,7 @@ extension EditProfileViewController {
       else {
         if (self.isEditingProfile == false || self.isSnooper) {
           // Update a user's expertise areas
-          self.category.updateInterests(uid, interests: self.profileView.expertise.populateCategoriesToUpdate()) { result in
+          self.category.updateInterests(uid!, interests: self.profileView.expertise.populateCategoriesToUpdate()) { result in
             if (!result.isEmpty) {
               DispatchQueue.main.async {
                 activityIndicator.hide(animated: true)
@@ -304,7 +304,7 @@ extension EditProfileViewController {
             else {
               if (self.isEditingProfile == false) {
                 // The users are applying to be a snooper
-                self.userModule.applyToTakeQuestion(uid) { result in
+                self.userModule.applyToTakeQuestion(uid!) { result in
                   if (!result.isEmpty) {
                     DispatchQueue.main.async {
                       activityIndicator.hide(animated: true)
@@ -395,8 +395,8 @@ extension EditProfileViewController: UIImagePickerControllerDelegate {
     }
 
     let photoData = UIImageJPEGRepresentation(profileView.profilePhoto.image!, CGFloat(compressionRatio))
-    let uid = UserDefaults.standard.integer(forKey: "uid")
-    userModule.updateProfilePhoto(uid, imageData: photoData){ resultString in
+    let uid = UserDefaults.standard.string(forKey: "uid")
+    userModule.updateProfilePhoto(uid!, imageData: photoData){ resultString in
       var message = ""
       if (resultString.isEmpty) {
         DispatchQueue.main.async {

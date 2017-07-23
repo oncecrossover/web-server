@@ -8,7 +8,7 @@
 
 import Foundation
 class ActivityModel {
-  var id: Int
+  var id: String
   var question: String
   var status: String
   var rate: Int
@@ -24,7 +24,7 @@ class ActivityModel {
   var lastSeenTime: Double
   var hoursToExpire: Int
 
-  init(_id: Int, _question: String, _status: String, _rate: Int, _duration: Int, _isAskerAnonymous: Bool, _askerName: String, _responderName: String, _responderTitle: String, _answerCoverUrl: String?, _askerAvatarUrl: String?, _responderAvatarUrl: String?, _answerUrl : String?, _lastSeenTime: Double, _hoursToExpire: Int) {
+  init(_id: String, _question: String, _status: String, _rate: Int, _duration: Int, _isAskerAnonymous: Bool, _askerName: String, _responderName: String, _responderTitle: String, _answerCoverUrl: String?, _askerAvatarUrl: String?, _responderAvatarUrl: String?, _answerUrl : String?, _lastSeenTime: Double, _hoursToExpire: Int) {
     id = _id
     question = _question
     status = _status
@@ -43,10 +43,10 @@ class ActivityModel {
   }
 
   convenience init(_ questionInfo: [String:AnyObject], isSnoop: Bool){
-    var questionId = questionInfo["id"] as! Int
+    var questionId = questionInfo["id"] as! String
     var hoursToExpire = 0
     if (isSnoop) {
-    questionId = questionInfo["quandaId"] as! Int
+    questionId = questionInfo["quandaId"] as! String
     }
     else {
     hoursToExpire = questionInfo["hoursToExpire"] as! Int

@@ -1,10 +1,14 @@
 package com.snoop.server.db.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 public class TakeQuestionRequest extends ModelBase implements Model {
 
   private Long uid;
   private String takeQuestion;
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getUid() {
     return uid;
   }

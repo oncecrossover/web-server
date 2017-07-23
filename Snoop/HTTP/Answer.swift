@@ -19,7 +19,7 @@ class Answer: Generics, URLSessionTaskDelegate {
     super.init()
   }
 
-  func submitAnswer(_ id: Int, answerVideo: Data, coverPhoto: Data, duration: Int) {
+  func submitAnswer(_ id: String, answerVideo: Data, coverPhoto: Data, duration: Int) {
     let url = self.HTTPHOST + "quandas"
     let myUrl = URL(string: url + "/" + "\(id)")!
     let videoString = answerVideo.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))

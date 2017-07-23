@@ -4,6 +4,10 @@ import java.util.Date;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.NumberDeserializers;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.snoop.server.db.model.Model;
 import com.snoop.server.db.model.ModelBase;
 import com.snoop.server.db.model.Quanda;
@@ -28,6 +32,7 @@ public class Activity extends ModelBase implements Model {
   private String askerAvatarUrl;
   private byte[] askerAvatarImage;
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getId() {
     return id;
   }

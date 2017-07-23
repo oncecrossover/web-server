@@ -97,7 +97,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
       self.navigationController?.pushViewController(dvc, animated: true)
     }
     else if (indexPath.section == 1) {
-      let uid = UserDefaults.standard.integer(forKey: "uid")
+      let uid = UserDefaults.standard.string(forKey: "uid")
       UserDefaults.standard.set(false, forKey: "isUserLoggedIn")
       UserDefaults.standard.removeObject(forKey: "uid")
       UserDefaults.standard.set(true, forKey: "shouldLoadHome")
@@ -113,7 +113,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
       self.present(vc, animated: true) {
         _ = currentNavigationController?.popViewController(animated: false)
         currentTabBarController?.selectedIndex = 0
-        User().updateDeviceToken(uid, token: "") { result in
+        User().updateDeviceToken(uid!, token: "") { result in
         }
       }
     }

@@ -89,12 +89,12 @@ class IAPManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactionObser
   }
 
   func addCoinsForUser(_ count: Int) {
-    let uid = UserDefaults.standard.integer(forKey: "uid")
-    coinModule.addCoins(uid, count: count) { result in
+    let uid = UserDefaults.standard.string(forKey: "uid")
+    coinModule.addCoins(uid!, count: count) { result in
       if (result.isEmpty) {
         DispatchQueue.main.async {
 
-          NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil, userInfo: ["uid": uid, "amount" : count])
+          NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil, userInfo: ["uid": uid!, "amount" : count])
         }
       }
     }

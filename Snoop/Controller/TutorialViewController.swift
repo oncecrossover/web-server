@@ -10,7 +10,7 @@ import UIKit
 
 class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
 
-  var uid:Int = 0
+  var uid:String = ""
   var pageViewController: UIPageViewController!
   var pageImages = ["page1", "page2", "page3", "page4", "page5", "page6"]
   override func viewDidLoad() {

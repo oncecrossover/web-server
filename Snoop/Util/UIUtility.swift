@@ -78,18 +78,4 @@ class UIUtility {
     let path = prefix.appendingPathComponent(fileName)
     return URL(fileURLWithPath: path)
   }
-
-  func isInCache(_ quandaId: Int!) -> Bool {
-    let key = String(quandaId)
-    if (UserDefaults.standard.bool(forKey: key) == true) {
-      return true
-    }
-    return false
-  }
-
-  func getAudioFromCache(_ quandaId: Int!) -> String! {
-    let key = String(quandaId)
-    let path = UserDefaults.standard.string(forKey: key)!
-    return path
-  }
 }

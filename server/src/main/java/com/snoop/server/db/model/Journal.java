@@ -7,6 +7,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 public class Journal {
 
@@ -42,6 +44,7 @@ public class Journal {
   private Date createdTime;
 
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getId() {
     return id;
   }
@@ -51,6 +54,7 @@ public class Journal {
     return this;
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getTransactionId() {
     return transactionId;
   }
@@ -60,6 +64,7 @@ public class Journal {
     return this;
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getUid() {
     return uid;
   }
@@ -105,6 +110,7 @@ public class Journal {
     return this;
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getCoinEntryId() {
     return coinEntryId;
   }
@@ -114,6 +120,7 @@ public class Journal {
     return this;
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getOriginId() {
     return originId;
   }

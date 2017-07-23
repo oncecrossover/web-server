@@ -11,7 +11,7 @@ import Stripe
 
 class CardsViewController: UIViewController {
 
-  var cards:[(id: Int?, lastFour: String?, brand: String?, isDefault: Bool?)] = []
+  var cards:[(id: String?, lastFour: String?, brand: String?, isDefault: Bool?)] = []
   var paymentModule = Payment()
 
   let cellId = "cardCell"
@@ -66,7 +66,7 @@ extension CardsViewController {
     paymentModule.getPayments("uid=" + uid!) { jsonArray in
       for paymentInfo in jsonArray as! [[String:AnyObject]] {
         let lastFour = paymentInfo["last4"] as! String
-        let id = paymentInfo["id"] as! Int
+        let id = paymentInfo["id"] as! String
         let brand = paymentInfo["brand"]! as! String
         let isDefault = paymentInfo["default"] as! Bool
         self.cards.append((id: id, lastFour: lastFour, brand: brand, isDefault: isDefault))

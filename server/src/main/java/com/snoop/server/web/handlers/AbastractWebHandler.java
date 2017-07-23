@@ -163,7 +163,7 @@ public abstract class AbastractWebHandler implements WebHandler {
     if (idVal instanceof String) {
       return String.format("{\"%s\":\"%s\"}", idKey, idVal);
     } else if (idVal instanceof Long || idVal instanceof Integer) {
-      return String.format("{\"%s\":%d}", idKey, idVal);
+      return String.format("{\"%s\":\"%d\"}", idKey, idVal);
     } else if (idVal == null){
       return String.format("{\"%s\":\"%s\"}", idKey, "null");
     } else {

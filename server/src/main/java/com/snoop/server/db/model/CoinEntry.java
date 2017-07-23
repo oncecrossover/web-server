@@ -2,6 +2,9 @@ package com.snoop.server.db.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 public class CoinEntry extends ModelBase implements Model {
   private Long id;
   private Long uid;
@@ -9,6 +12,7 @@ public class CoinEntry extends ModelBase implements Model {
   private Long originId;
   private Date createdTime;
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getId() {
     return id;
   }
@@ -18,6 +22,7 @@ public class CoinEntry extends ModelBase implements Model {
     return this;
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getUid() {
     return uid;
   }
@@ -36,6 +41,7 @@ public class CoinEntry extends ModelBase implements Model {
     return this;
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getOriginId() {
     return originId;
   }

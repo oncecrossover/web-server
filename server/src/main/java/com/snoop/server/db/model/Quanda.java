@@ -7,6 +7,8 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.snoop.server.util.QuandaUtil;
 
 public class Quanda extends ModelBase implements Model {
@@ -93,6 +95,7 @@ public class Quanda extends ModelBase implements Model {
   private Long snoops;
   private Long hoursToExpire;
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getId() {
     return id;
   }
@@ -102,6 +105,7 @@ public class Quanda extends ModelBase implements Model {
     return this;
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getAsker() {
     return asker;
   }
@@ -120,6 +124,7 @@ public class Quanda extends ModelBase implements Model {
     return this;
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getResponder() {
     return responder;
   }

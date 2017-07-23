@@ -21,7 +21,7 @@ class ViewController: UIViewController {
   var refreshControl: UIRefreshControl = UIRefreshControl()
   var fullScreenImageView : FullScreenImageView = FullScreenImageView()
 
-  var paidSnoops: Set<Int> = []
+  var paidSnoops: Set<String> = []
   var activeIndexPath: IndexPath?
 
   var activePlayerView: VideoPlayerView?
@@ -176,8 +176,8 @@ extension ViewController {
   }
 
   func addCoins(_ notification: Notification) {
-    if let uid = notification.userInfo?["uid"] as? Int {
-      let currentUid = UserDefaults.standard.integer(forKey: "uid")
+    if let uid = notification.userInfo?["uid"] as? String {
+      let currentUid = UserDefaults.standard.string(forKey: "uid")
       // Check if these two are the same user if app relaunches or user signs out.
       if (currentUid == uid) {
         if let amount = notification.userInfo?["amount"] as? Int {
@@ -194,8 +194,8 @@ extension ViewController {
   }
 
   func loadData(){
-    let uid = UserDefaults.standard.integer(forKey: "uid")
-    let url = "uid=" + "\(uid)"
+    let uid = UserDefaults.standard.string(forKey: "uid")
+    let url = "uid=" + "\(uid!)"
     tmpFeeds = []
     self.paidSnoops = []
     loadData(url)
@@ -208,9 +208,9 @@ extension ViewController {
     let myUrl = URL(string: generics.HTTPHOST + "newsfeeds?" + encodedUrl!)
     generics.getFilteredObjects(myUrl!) { jsonArray in
       for feedInfo in jsonArray as! [[String:AnyObject]] {
-        let questionId = feedInfo["id"] as! Int
+        let questionId = feedInfo["id"] as! String
         let question = feedInfo["question"] as! String
-        let responderId = feedInfo["responderId"] as! Int
+        let responderId = feedInfo["responderId"] as! String
         let numberOfSnoops = feedInfo["snoops"] as! Int
         let responderName = feedInfo["responderName"] as! String
         let askerName = feedInfo["askerName"] as! String
@@ -371,8 +371,8 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     if (indexPath.row == feeds.count - 1) {
       let lastSeenId = feeds[indexPath.row].id
       let updatedTime = Int64(feeds[indexPath.row].updatedTime)
-      let uid = UserDefaults.standard.integer(forKey: "uid")
-      let url = "uid=" + "\(uid)" + "&lastSeenUpdatedTime=\(updatedTime)&lastSeenId=\(lastSeenId)&limit=5"
+      let uid = UserDefaults.standard.string(forKey: "uid")
+      let url = "uid=" + "\(uid!)" + "&lastSeenUpdatedTime=\(updatedTime)&lastSeenId=\(lastSeenId)&limit=5"
       loadData(url)
     }
 
@@ -384,7 +384,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
 extension ViewController {
 
   func processTransaction(_ amount: Int) {
-    let uid = UserDefaults.standard.integer(forKey: "uid")
+    let uid = UserDefaults.standard.string(forKey: "uid")
     let quandaId = self.feeds[self.activeIndexPath!.row].id
     let quandaData: [String:AnyObject] = ["id": quandaId as AnyObject]
     let jsonData: [String:AnyObject] = ["uid": uid as AnyObject, "type": "SNOOPED" as AnyObject, "quanda": quandaData as AnyObject]
@@ -395,7 +395,7 @@ extension ViewController {
           self.feedTable.reloadRows(at: [self.activeIndexPath!], with: .none)
           UserDefaults.standard.set(true, forKey: "shouldLoadSnoops")
           UserDefaults.standard.synchronize()
-          NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil, userInfo: ["uid": uid, "amount" : -amount])
+          NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil, userInfo: ["uid": uid!, "amount" : -amount])
         }
       }
       else {
@@ -430,11 +430,11 @@ extension ViewController {
       self.blackView.alpha = 0
       self.freeCoinsView.alpha = 0
     }) {(_) in
-      let uid = UserDefaults.standard.integer(forKey: "uid")
-      self.coinModule.addCoins(uid, count: 100) { result in
+      let uid = UserDefaults.standard.string(forKey: "uid")
+      self.coinModule.addCoins(uid!, count: 100) { result in
         if (result.isEmpty) {
           DispatchQueue.main.async {
-            NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil, userInfo: ["uid": uid, "amount" : 100])
+            NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil, userInfo: ["uid": uid!, "amount" : 100])
           }
         }
       }

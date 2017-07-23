@@ -4,6 +4,8 @@ import java.util.Date;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 public class Newsfeed {
   private Long id;
@@ -24,6 +26,7 @@ public class Newsfeed {
   private byte[] responderAvatarImage;
   private Long snoops;
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getId() {
     return id;
   }
@@ -104,6 +107,7 @@ public class Newsfeed {
     return this;
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getResponderId() {
     return responderId;
   }

@@ -15,11 +15,11 @@ public class TestAbstractPeeqWebHandler {
 
     final long lval = 10;
     json = AbastractWebHandler.toIdJson("id", lval);
-    assertEquals(String.format("{\"%s\":%d}", "id", lval), json);
+    assertEquals(String.format("{\"%s\":\"%d\"}", "id", lval), json);
 
     final int ival = 100;
     json = AbastractWebHandler.toIdJson("id", ival);
-    assertEquals(String.format("{\"%s\":%d}", "id", ival), json);
+    assertEquals(String.format("{\"%s\":\"%d\"}", "id", ival), json);
 
     final String sval = "garfieldo@test.com";
     json = AbastractWebHandler.toIdJson("id", sval);

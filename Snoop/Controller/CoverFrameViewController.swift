@@ -12,7 +12,7 @@ class CoverFrameViewController: UIViewController {
 
   let fileName = "videoFile.m4a"
   var coverFrames:[UIImage] = []
-  var quandaId:Int?
+  var quandaId:String?
   var questionModule = Question()
   var utilityModule = UIUtility()
   var duration = 0

@@ -18,7 +18,7 @@ class Category {
     CATMAPPINGURI = self.generics.HTTPHOST + "catmappings"
   }
 
-  func updateInterests(_ uid: Int, interests: [[String: AnyObject]], completion: @escaping (String) -> ()) {
+  func updateInterests(_ uid: String, interests: [[String: AnyObject]], completion: @escaping (String) -> ()) {
     let url = URL(string: CATMAPPINGURI + "/" + "\(uid)")!
     generics.updateObjects(url, jsonData: interests) {
       completion($0)
@@ -33,7 +33,7 @@ class Category {
     }
   }
 
-  func getExpertise(_ uid: Int, completion: @escaping (NSArray) -> ()) {
+  func getExpertise(_ uid: String, completion: @escaping (NSArray) -> ()) {
     let url = URL(string: CATMAPPINGURI + "?uid=" + "\(uid)" + "&isExpertise='Yes'")!
     generics.getFilteredObjects(url) {
       completion($0)
@@ -41,8 +41,8 @@ class Category {
   }
 
   func getInterest(_ completion: @escaping (NSArray) -> ()) {
-    let uid = UserDefaults.standard.integer(forKey: "uid")
-    let url = URL(string: CATMAPPINGURI + "?uid=\(uid)" + "&isInterest='Yes'")!
+    let uid = UserDefaults.standard.string(forKey: "uid")
+    let url = URL(string: CATMAPPINGURI + "?uid=\(uid!)" + "&isInterest='Yes'")!
     generics.getFilteredObjects(url) {
       completion($0)
     }

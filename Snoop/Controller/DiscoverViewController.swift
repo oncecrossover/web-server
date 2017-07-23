@@ -78,11 +78,11 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
     indicator.startAnimating()
     indicator.backgroundColor = UIColor.white
-    let uid = UserDefaults.standard.integer(forKey: "uid")
+    let uid = UserDefaults.standard.string(forKey: "uid")
     var didLoadNewProfiles = false
     userModule.getDiscover(url) { jsonArray in
       for profileInfo in jsonArray as! [[String:AnyObject]] {
-        let profileUid = profileInfo["id"] as! Int
+        let profileUid = profileInfo["id"] as! String
         if (profileUid == uid) {
           continue
         }

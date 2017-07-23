@@ -8,7 +8,7 @@
 
 import Foundation
 class CategoryModel: Hashable {
-  var id: Int
+  var id: String
   var name: String
   var url: String
 
@@ -16,7 +16,7 @@ class CategoryModel: Hashable {
     return name.hashValue
   }
 
-  init(_id: Int, _name: String, _url: String) {
+  init(_id: String, _name: String, _url: String) {
     id = _id
     name = _name
     url = _url

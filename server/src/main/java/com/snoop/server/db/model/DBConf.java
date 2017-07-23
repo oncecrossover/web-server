@@ -4,6 +4,9 @@ import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 public class DBConf extends ModelBase implements Model {
   private Long id;
   private String ckey;
@@ -13,6 +16,7 @@ public class DBConf extends ModelBase implements Model {
   private Date createdTime;
   private Date updatedTime;
 
+  @JsonSerialize(using=ToStringSerializer.class)
   public Long getId() {
     return id;
   }

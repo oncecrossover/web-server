@@ -88,11 +88,11 @@ class ProfileTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollect
       expertiseCollection.topAnchor.constraint(equalTo: aboutLabel.bottomAnchor, constant: 20).isActive = true
       expertiseCollection.heightAnchor.constraint(equalToConstant: 45).isActive = true
       self.expertise = []
-      let uid = UserDefaults.standard.integer(forKey: "uid")
-      Category().getExpertise(uid) { jsonArray in
+      let uid = UserDefaults.standard.string(forKey: "uid")
+      Category().getExpertise(uid!) { jsonArray in
         for element in jsonArray as! [[String:AnyObject]] {
-          let mappingId = element["id"] as! Int
-          let catId = element["catId"] as! Int
+          let mappingId = element["id"] as! String
+          let catId = element["catId"] as! String
           let name = element["catName"] as! String
           self.expertise.append(ExpertiseModel(_id: mappingId, _catId: catId, _name: name))
         }

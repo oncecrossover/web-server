@@ -11,7 +11,7 @@ import UIKit
 class InterestPickerViewController: UIViewController {
 
   let cellId = "interestCell"
-  var uid: Int?
+  var uid: String?
 
   var allCategories: [CategoryModel] = []
   var selectedCategories: Set<InterestModel> = []
@@ -127,7 +127,7 @@ class InterestPickerViewController: UIViewController {
     activityIndicator.startAnimating()
     category.getCategories() { jsonArray in
       for category in jsonArray as! [[String: AnyObject]] {
-        let id = category["id"] as! Int
+        let id = category["id"] as! String
         let name = category["name"] as! String
         let url = category["resourceUrl"] as! String
         self.allCategories.append(CategoryModel(_id: id, _name: name, _url: url))
@@ -135,8 +135,8 @@ class InterestPickerViewController: UIViewController {
       if (self.isProfile) {
         self.category.getInterest() { jsonArray in
           for element in jsonArray as! [[String:AnyObject]] {
-            let mappingId = element["id"] as! Int
-            let catId = element["catId"] as! Int
+            let mappingId = element["id"] as! String
+            let catId = element["catId"] as! String
             let name = element["catName"] as! String
             self.selectedCategories.insert(InterestModel(_id: mappingId, _catId: catId, _name: name))
           }
@@ -200,12 +200,10 @@ extension InterestPickerViewController {
   func doneButtonTapped() {
     let categoriesToUpdate:[[String: AnyObject]] = populateCategoriesToUpdate()
 
-    var uid = UserDefaults.standard.integer(forKey: "uid")
-    if (uid == 0) {
-      uid = self.uid!
-    }
+    var uid = UserDefaults.standard.string(forKey: "uid")
+    uid = uid ?? self.uid!
 
-    category.updateInterests(uid, interests: categoriesToUpdate) { result in
+    category.updateInterests(uid!, interests: categoriesToUpdate) { result in
       if (result.isEmpty) {
         DispatchQueue.main.async {
           if (self.isProfile) {
