@@ -13,6 +13,7 @@ import StoreKit
 import Fabric
 import TwitterKit
 import Flurry_iOS_SDK
+import Siren
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,19 +22,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    window?.makeKeyAndVisible()
+
+    /* integrate Siren */
+    setupSiren()
 
     /* integrate Flurry */
-    let flurry_api_key = Bundle.main.object(forInfoDictionaryKey: "FLURRY_API_KEY") as! String
-    let builder = FlurrySessionBuilder.init()
-      .withAppVersion("1.0")
-      .withLogLevel(FlurryLogLevelAll)
-      .withCrashReporting(true)
-      .withSessionContinueSeconds(10)
-    Flurry.startSession(flurry_api_key, with: builder)
+    setupFlurry()
 
     /* integrate Stripe */
-    let stripe_api_key = Bundle.main.object(forInfoDictionaryKey: "STRIPE_API_KEY") as! String
-    STPPaymentConfiguration.shared().publishableKey = stripe_api_key
+    setupStripe()
 
     SKPaymentQueue.default().add(IAPManager.sharedInstance)
     setupCustomUI()
@@ -42,10 +40,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       loadActivityPage()
     }
 
-    // Setup Twitter Integration
-    Fabric.with([STPAPIClient.self, Twitter.self])
+    /* integrate Twitter */
+    setupTwitter()
 
     return true
+  }
+
+  func setupFlurry() {
+    let flurry_api_key = Bundle.main.object(forInfoDictionaryKey: "FLURRY_API_KEY") as! String
+    let builder = FlurrySessionBuilder.init()
+      .withAppVersion("1.0")
+      .withLogLevel(FlurryLogLevelAll)
+      .withCrashReporting(true)
+      .withSessionContinueSeconds(10)
+    Flurry.startSession(flurry_api_key, with: builder)
+  }
+
+  func setupStripe() {
+    let stripe_api_key = Bundle.main.object(forInfoDictionaryKey: "STRIPE_API_KEY") as! String
+    STPPaymentConfiguration.shared().publishableKey = stripe_api_key
+  }
+
+  func setupTwitter() {
+    Fabric.with([STPAPIClient.self, Twitter.self])
+  }
+
+  func setupSiren() {
+    let siren = Siren.shared
+
+    siren.delegate = self
+
+    /* set fine-grained alert */
+    siren.majorUpdateAlertType = .force
+    siren.minorUpdateAlertType = .skip
+    siren.patchUpdateAlertType = .skip
+    siren.revisionUpdateAlertType = .skip
+
+    /* show alert immediately after newer version is available in app store */
+    siren.showAlertAfterCurrentVersionHasBeenReleasedForDays = 0
+    Siren.shared.checkVersion(checkType: .immediately)
   }
 
   func application(_ app: UIApplication,
@@ -166,6 +199,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func applicationWillEnterForeground(_ application: UIApplication) {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    Siren.shared.checkVersion(checkType: .immediately)
   }
   
   func applicationDidBecomeActive(_ application: UIApplication) {
@@ -243,4 +277,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
 }
-

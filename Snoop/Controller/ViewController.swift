@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import AVKit
+import Siren
 
 class ViewController: UIViewController {
 
@@ -96,7 +97,7 @@ extension ViewController {
 
     NotificationCenter.default.addObserver(self, selector: #selector(self.addCoins(_:)), name: NSNotification.Name(rawValue: self.notificationName), object: nil)
   }
-  
+
   override func viewDidAppear(_ animated: Bool) {
     // Check if we want to display welcome video page
     if (!UserDefaults.standard.bool(forKey: "isUserWelcomed")) {
@@ -111,6 +112,10 @@ extension ViewController {
       self.present(vc, animated: true, completion: nil)
     }
     else {
+      guard Siren.shared.isUpdateBackCompatible() == true else {
+        return
+      }
+
       let logo = UIImage(named: "logo")
       let logoView = UIImageView(frame: CGRect(x: 0, y: 0, width: 70, height: 20))
       logoView.contentMode = .scaleAspectFit

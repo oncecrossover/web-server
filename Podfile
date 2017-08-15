@@ -18,4 +18,5 @@ target 'Snoop' do
   end
 
   pod 'Flurry-iOS-SDK/FlurrySDK' #Analytics Pod
+  pod 'Siren'
 end

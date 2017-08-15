@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import AVFoundation
+import Siren
 
 extension String {
   func toBool() -> Bool {
@@ -115,5 +116,114 @@ extension UIViewController {
         confirmView.removeFromSuperview()
       }
     }
+  }
+}
+
+extension Siren {
+  private func getCurrentInstalledVersion() -> String? {
+    return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+  }
+
+  private enum VersionError: Int, Error {
+    case invalidBundleInfo = 0
+    case invalidResponse = 1
+
+    var what: String {
+      switch self {
+        case .invalidBundleInfo:
+          return NSLocalizedString("\(VersionError.self)_\(self)", tableName: String(describing: self), bundle: Bundle.main, value: "Invalid bundle info.", comment: "")
+        case .invalidResponse:
+          return NSLocalizedString("\(VersionError.self)_\(self)", tableName: String(describing: self), bundle: Bundle.main, value: "Invalid response of retrieving app store version.", comment: "")
+      }
+    }
+  }
+
+  private func syncGetAppStoreVersion() throws -> String {
+    if let _ = self.currentAppStoreVersion {
+      return self.currentAppStoreVersion!
+    } else {
+      guard let info = Bundle.main.infoDictionary,
+        let identifier = info["CFBundleIdentifier"] as? String,
+        let url = URL(string: "https://itunes.apple.com/lookup?bundleId=\(identifier)") else {
+          throw VersionError.invalidBundleInfo
+      }
+      let data = try Data(contentsOf: url)
+      guard let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? [String: Any] else {
+        throw VersionError.invalidResponse
+      }
+      if let result = (json["results"] as? [Any])?.first as? [String: Any], let version = result["version"] as? String {
+        return version
+      }
+      throw VersionError.invalidResponse
+    }
+  }
+
+  func isUpdateBackCompatible() -> Bool{
+    var result = false
+
+    do {
+      result = try isUpdateBackCompatible(syncGetAppStoreVersion())
+    } catch VersionError.invalidBundleInfo {
+      print(VersionError.invalidBundleInfo.what)
+    } catch VersionError.invalidResponse {
+      print(VersionError.invalidResponse.what)
+    } catch {}
+
+    return result
+  }
+
+  private func isUpdateBackCompatible(_ appStoreVersion: String?) -> Bool{
+    guard let currentInstalledVersion = getCurrentInstalledVersion() else {
+      return false
+    }
+    guard let currentAppStoreVersion = appStoreVersion else {
+        return false
+    }
+
+    let oldVersion = (currentInstalledVersion).characters.split {$0 == "."}.map { String($0) }.map {Int($0) ?? 0}
+    let newVersion = (currentAppStoreVersion).characters.split {$0 == "."}.map { String($0) }.map {Int($0) ?? 0}
+
+    guard let newVersionFirst = newVersion.first, let oldVersionFirst = oldVersion.first else {
+      return true
+    }
+
+    if newVersionFirst > oldVersionFirst { // A.b.c.d
+      return false
+    }
+
+    return true
+  }
+}
+
+
+extension AppDelegate: SirenDelegate
+{
+  func sirenDidShowUpdateDialog(alertType: Siren.AlertType) {
+    print(#function, alertType)
+  }
+
+  func sirenUserDidCancel() {
+    print(#function)
+  }
+
+  func sirenUserDidSkipVersion() {
+    print(#function)
+  }
+
+  func sirenUserDidLaunchAppStore() {
+    print(#function)
+  }
+
+  func sirenDidFailVersionCheck(error: NSError) {
+    print(#function, error)
+  }
+
+  func sirenLatestVersionInstalled() {
+    print(#function, "Latest version of app is installed")
+  }
+
+  /* This delegate method is only hit when alertType is initialized to .none */
+  func sirenDidDetectNewVersionWithoutAlert(message: String) {
+    print(#function, "\(message)")
   }
 }
