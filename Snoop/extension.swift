@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import AVFoundation
 import Siren
+import Photos
 
 extension String {
   func toBool() -> Bool {
@@ -225,5 +226,123 @@ extension AppDelegate: SirenDelegate
   /* This delegate method is only hit when alertType is initialized to .none */
   func sirenDidDetectNewVersionWithoutAlert(message: String) {
     print(#function, "\(message)")
+  }
+}
+
+public extension PHPhotoLibrary {
+
+  typealias PhotoAsset = PHAsset
+  typealias PhotoAlbum = PHAssetCollection
+
+  /**
+   * Saves video to a customized album.
+   */
+  static func saveVideo(videoFileUrl: URL, albumName: String, completion: @escaping (PHFetchResult<PHAsset>?)->()) {
+    if let album = self.findAlbum(albumName: albumName) {
+      saveVideo(videoFileUrl: videoFileUrl, album: album, completion: completion)
+      return
+    }
+    createAlbum(albumName: albumName) {
+      album in
+
+      if let album = album {
+        self.saveVideo(videoFileUrl: videoFileUrl, album: album, completion: completion)
+      }
+      else {
+        completion(nil)
+      }
+    }
+  }
+
+  /**
+   * Saves video to a customized album.
+   */
+  private static func saveVideo(videoFileUrl: URL, album: PhotoAlbum, completion: @escaping (PHFetchResult<PHAsset>?)->()) {
+
+    var placeholder: PHObjectPlaceholder?
+
+    PHPhotoLibrary.shared().performChanges({
+
+      // Request creating an asset from the video
+      let createAssetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoFileUrl)
+      // Request editing the album
+      guard let albumChangeRequest = PHAssetCollectionChangeRequest(for: album) else {
+        completion(nil)
+        return
+      }
+
+      // Get a placeholder for the new asset and add it to the album editing request
+      guard let videoPlaceholder = createAssetRequest!.placeholderForCreatedAsset else {
+        completion(nil)
+        return
+      }
+
+      placeholder = videoPlaceholder
+
+      albumChangeRequest.addAssets([videoPlaceholder] as NSArray)
+    }, completionHandler: {
+      success, error in
+
+      guard let placeholder = placeholder else {
+        completion(nil)
+        return
+      }
+
+      if success {
+        completion(PHAsset.fetchAssets(withLocalIdentifiers: [placeholder.localIdentifier], options:nil))
+      }
+      else {
+        print(error!)
+        completion(nil)
+      }
+    })
+  }
+
+  /**
+   * Locates the album with a given name.
+   */
+  private static func findAlbum(albumName: String) -> PhotoAlbum? {
+    let fetchOptions = PHFetchOptions()
+    fetchOptions.predicate = NSPredicate(format: "title = %@", albumName)
+    let fetchResult = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular, options: fetchOptions)
+    if let photoAlbum = fetchResult.firstObject {
+      return photoAlbum
+    } else {
+      return nil
+    }
+  }
+
+  /**
+   * Creates a customized album where media are stored.
+   */
+  private static func createAlbum(albumName: String, completion: @escaping (PhotoAlbum?)->()) {
+    var albumPlaceholder: PHObjectPlaceholder?
+    PHPhotoLibrary.shared().performChanges({
+      // Request creating an album with parameter name
+      let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumName)
+      // Get a placeholder for the new album
+      albumPlaceholder = createAlbumRequest.placeholderForCreatedAssetCollection
+    }, completionHandler: {
+      success, error in
+
+      guard let placeholder = albumPlaceholder else {
+        completion(nil)
+        return
+      }
+
+      let fetchResult = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [placeholder.localIdentifier], options: nil)
+      guard let album = fetchResult.firstObject else {
+        completion(nil)
+        return
+      }
+
+      if success {
+        completion(album)
+      }
+      else {
+        print(error!)
+        completion(nil)
+      }
+    })
   }
 }

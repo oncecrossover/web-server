@@ -19,9 +19,10 @@ class ActivityTableViewCell: UITableViewCell {
   @IBOutlet weak var durationLabel: UILabel!
   @IBOutlet weak var rateLabel: UILabel!
   @IBOutlet weak var responderImage: UIImageView!
-
   @IBOutlet weak var responderName: UILabel!
   @IBOutlet weak var expireLabel: UILabel!
+  @IBOutlet weak var actionSheetButton: UIButton!
+
   override func awakeFromNib() {
     super.awakeFromNib()
     self.layoutIfNeeded()
@@ -51,5 +52,4 @@ class ActivityTableViewCell: UITableViewCell {
     expireLabel.textColor = UIColor.defaultColor()
     expireLabel.textAlignment = .center
   }
-
 }

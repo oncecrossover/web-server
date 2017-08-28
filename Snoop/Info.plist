@@ -54,6 +54,10 @@
 	</dict>
 	<key>HTTPHOST</key>
 	<string>${HTTPHOST}</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>instagram</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

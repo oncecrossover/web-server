@@ -24,7 +24,7 @@ class PermissionView: UIView {
     label.textColor = UIColor.secondaryTextColor()
     label.font = UIFont.systemFont(ofSize: 14)
     label.textAlignment = .center
-    label.text = "Access was previously denied, please grant access from iphone Settings"
+    label.text = "Access was previously denied, please grant access from iPhone Settings"
     return label
   }()
 

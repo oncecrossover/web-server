@@ -34,7 +34,7 @@ class AnswerViewController: UIViewController {
   lazy var permissionView: PermissionView = {
     let view = PermissionView()
     view.setHeader("Allow Snoop to access your camera")
-    view.setInstruction("1. Open Iphone settings \n2. Tap privacy \n3. Tap camera \n4. Set Snoop to ON")
+    view.setInstruction("1. Open iPhone Settings \n2. Tap Privacy \n3. Tap Camera \n4. Set Snoop to ON")
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }()

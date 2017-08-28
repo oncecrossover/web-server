@@ -11,7 +11,7 @@ import AVFoundation
 import AVKit
 
 class ActivityViewController: UIViewController {
-
+  var instagramShare: InstagramShare!
   @IBOutlet weak var activityTableView: UITableView!
 
   @IBOutlet weak var segmentedControl: UIView!
@@ -48,6 +48,14 @@ class ActivityViewController: UIViewController {
   }
 
   var fullScreenImageView : FullScreenImageView = FullScreenImageView()
+
+  lazy var permissionView: PermissionView = {
+    let view = PermissionView()
+    view.setHeader("Allow Snoop to access your photos")
+    view.setInstruction("1. Open iPhone Settings \n2. Tap Privacy \n3. Tap Photos \n4. Set Snoop to ON")
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
 }
 
 // override function
@@ -65,6 +73,7 @@ extension ActivityViewController {
     controlBar.delegate = self
 
     setupSegmentedControl()
+    instagramShare = InstagramShare(hostingController: self, permissionAlert: self.permissionView)
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -358,6 +367,9 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
     let myCell = tableView.dequeueReusableCell(withIdentifier: "activityCell", for: indexPath)
       as! ActivityTableViewCell
 
+    myCell.actionSheetButton.tag = indexPath.row
+    myCell.actionSheetButton.addTarget(self, action: #selector(tappedOnActionSheetButton(_:)), for: .touchUpInside)
+
     myCell.isUserInteractionEnabled = false
     var arrayCount = 0
     let uid = UserDefaults.standard.string(forKey: "uid")
@@ -404,8 +416,8 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
       if let coverImageUrl = cellInfo.answerCoverUrl {
         myCell.coverImage.sd_setImage(with: URL(string: coverImageUrl))
         myCell.coverImage.isUserInteractionEnabled = true
-        let tappedOnImage = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnImage(_:)))
-        myCell.coverImage.addGestureRecognizer(tappedOnImage)
+        let tappedOnCoverImage = UITapGestureRecognizer(target: self, action: #selector(ActivityViewController.tappedOnCoverImage(_:)))
+        myCell.coverImage.addGestureRecognizer(tappedOnCoverImage)
 
         myCell.durationLabel.text = cellInfo.duration.toTimeFormat()
         myCell.durationLabel.isHidden = false
@@ -433,29 +445,68 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
       }
     }
   }
-
 }
 
 // UI triggered actions
 extension ActivityViewController {
-  func tappedOnImage(_ sender:UIGestureRecognizer) {
+  func tappedOnActionSheetButton(_ sender: UIButton!) {
+    /* get answer media info */
+    let questionInfo = getQuestionInfo(sender.tag)
+
+    let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+
+    /* action: Copy Question */
+    let copyQuestionAction = UIAlertAction(title: "Copy Question", style: UIAlertActionStyle.default) {
+      action in
+      UIPasteboard.general.string = questionInfo.question
+    }
+    actionSheet.addAction(copyQuestionAction)
+
+    /* action: share to Instagram */
+    if (questionInfo.status == "ANSWERED") {
+      let instagramAction = UIAlertAction(title: "Share to Instagram", style: UIAlertActionStyle.default) {
+        action in
+        self.instagramShare.post(contentsOf: questionInfo.answerUrl);
+      }
+      actionSheet.addAction(instagramAction)
+    }
+
+    /* action: Close */
+    let dismissAction = UIAlertAction(title: "Close", style: UIAlertActionStyle.cancel) {
+      action in
+    }
+    actionSheet.addAction(dismissAction)
+
+    present(actionSheet, animated: true, completion: nil)
+  }
+
+  func getQuestionInfo(_ indexPath: IndexPath) -> ActivityModel {
+    return getQuestionInfo(indexPath.row)
+  }
+
+  func getQuestionInfo(_ row: Int) -> ActivityModel {
+    let questionInfo:ActivityModel
+
+    if (selectedIndex == 0) {
+      questionInfo = questions[row]
+    }
+    else if (selectedIndex == 1) {
+      questionInfo = answers[row]
+    }
+    else {
+      questionInfo = snoops[row]
+    }
+    return questionInfo;
+  }
+
+  func tappedOnCoverImage(_ sender:UIGestureRecognizer) {
     let tapLocation = sender.location(in: self.activityTableView)
 
     //using the tapLocation, we retrieve the corresponding indexPath
     let indexPath = self.activityTableView.indexPathForRow(at: tapLocation)!
 
-    let questionInfo:ActivityModel
 
-    if (selectedIndex == 0) {
-      questionInfo = questions[indexPath.row]
-    }
-    else if (selectedIndex == 1) {
-      questionInfo = answers[indexPath.row]
-    }
-    else {
-      questionInfo = snoops[indexPath.row]
-    }
-
+    let questionInfo = getQuestionInfo(indexPath)
     let answerUrl = questionInfo.answerUrl!
     let duration = questionInfo.duration
     self.activePlayerView = self.launchVideoPlayer(answerUrl, duration: duration)

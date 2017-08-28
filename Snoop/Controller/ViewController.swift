@@ -13,6 +13,7 @@ import Siren
 
 class ViewController: UIViewController {
 
+  var instagramShare: InstagramShare!
   var questionModule = Question()
   var userModule = User()
   var generics = Generics()
@@ -21,6 +22,13 @@ class ViewController: UIViewController {
 
   var refreshControl: UIRefreshControl = UIRefreshControl()
   var fullScreenImageView : FullScreenImageView = FullScreenImageView()
+  lazy var permissionView: PermissionView = {
+    let view = PermissionView()
+    view.setHeader("Allow Snoop to access your photos")
+    view.setInstruction("1. Open iPhone Settings \n2. Tap Privacy \n3. Tap Photos \n4. Set Snoop to ON")
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
 
   var paidSnoops: Set<String> = []
   var activeIndexPath: IndexPath?
@@ -96,6 +104,7 @@ extension ViewController {
     feedTable.addSubview(refreshControl)
 
     NotificationCenter.default.addObserver(self, selector: #selector(self.addCoins(_:)), name: NSNotification.Name(rawValue: self.notificationName), object: nil)
+    instagramShare = InstagramShare(hostingController: self, permissionAlert: self.permissionView)
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -329,6 +338,9 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let myCell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedTableViewCell
+
+    myCell.actionSheetButton.tag = indexPath.row
+    myCell.actionSheetButton.addTarget(self, action: #selector(tappedOnActionSheetButton(_:)), for: .touchUpInside)
     myCell.isUserInteractionEnabled = false
 
     let feedInfo = feeds[indexPath.row]
@@ -502,6 +514,41 @@ extension ViewController {
     }
   }
 
+  func tappedOnActionSheetButton(_ sender: UIButton!) {
+    /* get answer media info */
+    let questionInfo = feeds[sender.tag]
+
+    let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+
+    /* action: Copy Question */
+    let copyQuestionAction = UIAlertAction(title: "Copy Question", style: UIAlertActionStyle.default) {
+      action in
+      UIPasteboard.general.string = questionInfo.question
+    }
+    actionSheet.addAction(copyQuestionAction)
+
+    /* action: share to Instagram */
+    if (isQuandaFreeOrUnlocked(questionInfo)) {
+      let instagramAction = UIAlertAction(title: "Share to Instagram", style: UIAlertActionStyle.default) {
+        action in
+        self.instagramShare.post(contentsOf: questionInfo.answerUrl);
+      }
+      actionSheet.addAction(instagramAction)
+    }
+
+    /* action: Close */
+    let dismissAction = UIAlertAction(title: "Close", style: UIAlertActionStyle.cancel) {
+      action in
+    }
+    actionSheet.addAction(dismissAction)
+
+    present(actionSheet, animated: true, completion: nil)
+  }
+
+  func isQuandaFreeOrUnlocked(_ questionInfo: FeedsModel) -> Bool {
+    return questionInfo.rate == 0 || self.paidSnoops.contains(questionInfo.id)
+  }
+
   func tappedToWatch(_ sender:UIGestureRecognizer) {
     let tapLocation = sender.location(in: self.feedTable)
 
@@ -510,7 +557,7 @@ extension ViewController {
 
     let questionInfo = feeds[indexPath.row]
     self.activeIndexPath = indexPath
-    if (questionInfo.rate == 0 || self.paidSnoops.contains(questionInfo.id)) {
+    if (isQuandaFreeOrUnlocked(questionInfo)) {
       if (!self.paidSnoops.contains(questionInfo.id)) {
         processTransaction(0)
       }

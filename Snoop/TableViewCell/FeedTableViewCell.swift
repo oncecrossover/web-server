@@ -25,6 +25,7 @@ class FeedTableViewCell: UITableViewCell {
   @IBOutlet weak var numOfSnoops: UILabel!
 
   @IBOutlet weak var askerName: UILabel!
+  @IBOutlet weak var actionSheetButton: UIButton!
 
   override func awakeFromNib() {
     super.awakeFromNib()
