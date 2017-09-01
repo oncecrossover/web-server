@@ -14,6 +14,7 @@ import Siren
 class ViewController: UIViewController {
 
   var socialGateway: SocialGateway!
+  var shareActionSheet: ShareActionSheet!
   var questionModule = Question()
   var userModule = User()
   var generics = Generics()
@@ -105,6 +106,7 @@ extension ViewController {
 
     NotificationCenter.default.addObserver(self, selector: #selector(self.addCoins(_:)), name: NSNotification.Name(rawValue: self.notificationName), object: nil)
     socialGateway = SocialGateway(hostingController: self, permissionAlert: self.permissionView)
+    shareActionSheet = ShareActionSheet(socialGateway)
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -516,32 +518,8 @@ extension ViewController {
 
   func tappedOnActionSheetButton(_ sender: UIButton!) {
     /* get answer media info */
-    let questionInfo = feeds[sender.tag]
-
-    let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
-
-    /* action: Copy Question */
-    let copyQuestionAction = UIAlertAction(title: "Copy Question", style: UIAlertActionStyle.default) {
-      action in
-      UIPasteboard.general.string = questionInfo.question
-    }
-    actionSheet.addAction(copyQuestionAction)
-
-    /* action: share to Instagram */
-    if (isQuandaFreeOrUnlocked(questionInfo)) {
-      let instagramAction = UIAlertAction(title: "Share to Instagram", style: UIAlertActionStyle.default) {
-        action in
-        self.socialGateway.postToIntagram(contentsOf: questionInfo.answerUrl, resourceId: questionInfo.id);
-      }
-      actionSheet.addAction(instagramAction)
-    }
-
-    /* action: Close */
-    let dismissAction = UIAlertAction(title: "Close", style: UIAlertActionStyle.cancel) {
-      action in
-    }
-    actionSheet.addAction(dismissAction)
-
+    let forModel = feeds[sender.tag]
+    let actionSheet = shareActionSheet.createSheet(forModel: forModel, includeShareActions: isQuandaFreeOrUnlocked(forModel))
     present(actionSheet, animated: true, completion: nil)
   }
 

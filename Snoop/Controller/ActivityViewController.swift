@@ -12,6 +12,7 @@ import AVKit
 
 class ActivityViewController: UIViewController {
   var socialGateway: SocialGateway!
+  var shareActionSheet: ShareActionSheet!
   @IBOutlet weak var activityTableView: UITableView!
 
   @IBOutlet weak var segmentedControl: UIView!
@@ -74,6 +75,7 @@ extension ActivityViewController {
 
     setupSegmentedControl()
     socialGateway = SocialGateway(hostingController: self, permissionAlert: self.permissionView)
+    shareActionSheet = ShareActionSheet(socialGateway)
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -451,32 +453,8 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
 extension ActivityViewController {
   func tappedOnActionSheetButton(_ sender: UIButton!) {
     /* get answer media info */
-    let questionInfo = getQuestionInfo(sender.tag)
-
-    let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
-
-    /* action: Copy Question */
-    let copyQuestionAction = UIAlertAction(title: "Copy Question", style: UIAlertActionStyle.default) {
-      action in
-      UIPasteboard.general.string = questionInfo.question
-    }
-    actionSheet.addAction(copyQuestionAction)
-
-    /* action: share to Instagram */
-    if (questionInfo.status == "ANSWERED") {
-      let instagramAction = UIAlertAction(title: "Share to Instagram", style: UIAlertActionStyle.default) {
-        action in
-        self.socialGateway.postToIntagram(contentsOf: questionInfo.answerUrl, resourceId: questionInfo.id);
-      }
-      actionSheet.addAction(instagramAction)
-    }
-
-    /* action: Close */
-    let dismissAction = UIAlertAction(title: "Close", style: UIAlertActionStyle.cancel) {
-      action in
-    }
-    actionSheet.addAction(dismissAction)
-
+    let forModel = getQuestionInfo(sender.tag)
+    let actionSheet = shareActionSheet.createSheet(forModel: forModel)
     present(actionSheet, animated: true, completion: nil)
   }
 

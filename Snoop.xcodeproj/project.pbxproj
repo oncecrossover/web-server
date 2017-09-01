@@ -142,6 +142,7 @@
 		9B8AF57BC8BC1E0D23E78E06 /* Pods_Snoop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4387C425AB9A155E60753942 /* Pods_Snoop.framework */; };
 		D739787D1F15A8BB007ED445 /* InitialsImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D739787C1F15A8BB007ED445 /* InitialsImageView.swift */; };
 		D7AF1FC81F5330D30098A61F /* SocialGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AF1FC71F5330D30098A61F /* SocialGateway.swift */; };
+		D7AF1FD91F59E8330098A61F /* ShareActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AF1FD81F59E8330098A61F /* ShareActionSheet.swift */; };
 		D7C7BCC21F5221390029621F /* CellAccessUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C7BCC11F5221390029621F /* CellAccessUtil.swift */; };
 /* End PBXBuildFile section */
 
@@ -330,6 +331,7 @@
 		D6E2F6834CC934B7B186EC01 /* Pods-Snoop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Snoop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Snoop/Pods-Snoop.debug.xcconfig"; sourceTree = "<group>"; };
 		D739787C1F15A8BB007ED445 /* InitialsImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialsImageView.swift; sourceTree = "<group>"; };
 		D7AF1FC71F5330D30098A61F /* SocialGateway.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialGateway.swift; sourceTree = "<group>"; };
+		D7AF1FD81F59E8330098A61F /* ShareActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareActionSheet.swift; sourceTree = "<group>"; };
 		D7C7BCC11F5221390029621F /* CellAccessUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellAccessUtil.swift; sourceTree = "<group>"; };
 		EFE8CFDC7701F292F8513EA7 /* Pods-SnoopUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUnitTests/Pods-SnoopUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F3790CCF5AD9917B277BBEF9 /* Pods-Snoop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Snoop.release.xcconfig"; path = "Pods/Target Support Files/Pods-Snoop/Pods-Snoop.release.xcconfig"; sourceTree = "<group>"; };
@@ -664,6 +666,7 @@
 			isa = PBXGroup;
 			children = (
 				D7AF1FC71F5330D30098A61F /* SocialGateway.swift */,
+				D7AF1FD81F59E8330098A61F /* ShareActionSheet.swift */,
 			);
 			name = Share;
 			sourceTree = "<group>";
@@ -1113,6 +1116,7 @@
 				6EE4C32A1EE776D4003C3F71 /* FullScreenImageView.swift in Sources */,
 				4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */,
 				4A11C0621D35BA6900AEF95D /* TextFitLabel.swift in Sources */,
+				D7AF1FD91F59E8330098A61F /* ShareActionSheet.swift in Sources */,
 				4A7971D91E6C984C003105FD /* CoinButtonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

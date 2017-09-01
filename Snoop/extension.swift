@@ -346,3 +346,34 @@ public extension PHPhotoLibrary {
     })
   }
 }
+
+extension UIActivityType {
+  @available(iOS 7.0, *)
+  public static let postToInstagram: UIActivityType = {
+    return UIActivityType.init(rawValue: "com.burbn.instagram.shareextension")
+  }()
+}
+
+extension UIActivityViewController {
+  func getExcludedActivityTypes() -> [UIActivityType]? {
+    return [
+      UIActivityType.postToWeibo,
+      UIActivityType.mail,
+      UIActivityType.print,
+      UIActivityType.copyToPasteboard,
+      UIActivityType.assignToContact,
+      UIActivityType.saveToCameraRoll,
+      UIActivityType.addToReadingList,
+      UIActivityType.postToFlickr,
+      UIActivityType.postToVimeo,
+      UIActivityType.postToTencentWeibo,
+      UIActivityType.airDrop,
+      UIActivityType.openInIBooks,
+      UIActivityType(rawValue: "com.apple.reminders.RemindersEditorExtension"),
+      UIActivityType(rawValue: "com.apple.mobilenotes.SharingExtension"),
+      UIActivityType(rawValue: "com.apple.iCloudDrive.ShareExtension"),
+      UIActivityType(rawValue: "com.apple.mobileslideshow.StreamShareService"),
+      UIActivityType.postToInstagram
+    ]
+  }
+}

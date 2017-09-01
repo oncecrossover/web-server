@@ -64,6 +64,7 @@ class SocialGateway {
     }
   }
 
+  /* e.g. com.snoop.videos.42673228350492672.mp4 */
   private func getTmpMediaFileName(_ resourceId: String, mediaType: String) -> String {
     return self.tmpMediaFileNamePrefix.appendingFormat("%@.%@", resourceId, mediaType)
   }
@@ -82,9 +83,9 @@ class SocialGateway {
         }
 
         let fileUrl = self.utility.getFileUrl(self.getTmpMediaFileName(resourceId, mediaType: self.videoMediaType))
-        /* save media to local temp file to create PHAsset */
+        /* save media to local temp file */
         self.SaveToLocalFile(data: data, tmpFileUrl: fileUrl)
-        /* relase UI lock after download and saving are done */
+        /* relase UI lock after downloading and saving are done */
         activityIndicator.hide(animated: true)
         /* save to photo library by creating PHAsset */
         self.saveToPhotoLibrary(mediaFileUrl: fileUrl) {
@@ -102,6 +103,35 @@ class SocialGateway {
             }
           }
         }
+      }
+    }
+  }
+
+  func retrieveMedia(from: String?, resourceId: String, completion: @escaping ((URL?) -> Void)) {
+    guard let urlString = from, let answerUrl = URL(string: urlString) else {
+      return
+    }
+
+    let activityIndicator = self.utility.createCustomActivityIndicator(hostingController.view, text: "Retrieving media...")
+    DownloadData(from: answerUrl) {
+      data, response, error in
+
+      DispatchQueue.main.async {
+        guard let _ = data, error == nil else {
+          /* relase UI lock when there's download error */
+          activityIndicator.hide(animated: true)
+          self.utility.displayAlertMessage("An error occurs while downloading media, please try again", title: "Download Failed", sender: self.hostingController)
+          completion(nil)
+          return
+        }
+
+        let fileUrl = self.utility.getFileUrl(self.getTmpMediaFileName(resourceId, mediaType: self.videoMediaType))
+        /* save media to local temp file */
+        self.SaveToLocalFile(data: data, tmpFileUrl: fileUrl)
+
+        /* relase UI lock after downloading and saving are done */
+        activityIndicator.hide(animated: true)
+        completion(fileUrl)
       }
     }
   }
@@ -130,7 +160,7 @@ class SocialGateway {
 
       guard let _ = phAssets, let _ = phAssets?.firstObject else {
         /* popup failure */
-        self.utility.displayAlertMessage("An error occurs while saving video to photo library, please try again", title: "Saving Video Failed", sender: self.hostingController)
+        self.utility.displayAlertMessage("An error occurs while saving video, please try again", title: "Saving Failed", sender: self.hostingController)
         completion(nil)
         return
       }
