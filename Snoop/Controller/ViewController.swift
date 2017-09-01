@@ -13,7 +13,7 @@ import Siren
 
 class ViewController: UIViewController {
 
-  var instagramShare: InstagramShare!
+  var socialGateway: SocialGateway!
   var questionModule = Question()
   var userModule = User()
   var generics = Generics()
@@ -104,7 +104,7 @@ extension ViewController {
     feedTable.addSubview(refreshControl)
 
     NotificationCenter.default.addObserver(self, selector: #selector(self.addCoins(_:)), name: NSNotification.Name(rawValue: self.notificationName), object: nil)
-    instagramShare = InstagramShare(hostingController: self, permissionAlert: self.permissionView)
+    socialGateway = SocialGateway(hostingController: self, permissionAlert: self.permissionView)
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -531,7 +531,7 @@ extension ViewController {
     if (isQuandaFreeOrUnlocked(questionInfo)) {
       let instagramAction = UIAlertAction(title: "Share to Instagram", style: UIAlertActionStyle.default) {
         action in
-        self.instagramShare.post(contentsOf: questionInfo.answerUrl);
+        self.socialGateway.postToIntagram(contentsOf: questionInfo.answerUrl, resourceId: questionInfo.id);
       }
       actionSheet.addAction(instagramAction)
     }

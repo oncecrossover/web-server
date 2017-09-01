@@ -141,7 +141,7 @@
 		6EE4C32A1EE776D4003C3F71 /* FullScreenImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE4C3291EE776D4003C3F71 /* FullScreenImageView.swift */; };
 		9B8AF57BC8BC1E0D23E78E06 /* Pods_Snoop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4387C425AB9A155E60753942 /* Pods_Snoop.framework */; };
 		D739787D1F15A8BB007ED445 /* InitialsImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D739787C1F15A8BB007ED445 /* InitialsImageView.swift */; };
-		D7AF1FC81F5330D30098A61F /* InstagramShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AF1FC71F5330D30098A61F /* InstagramShare.swift */; };
+		D7AF1FC81F5330D30098A61F /* SocialGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AF1FC71F5330D30098A61F /* SocialGateway.swift */; };
 		D7C7BCC21F5221390029621F /* CellAccessUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C7BCC11F5221390029621F /* CellAccessUtil.swift */; };
 /* End PBXBuildFile section */
 
@@ -329,7 +329,7 @@
 		D37541AF3C4E87F7FA873B9C /* Pods-SnoopUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUnitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUnitTests/Pods-SnoopUnitTests.release.xcconfig"; sourceTree = "<group>"; };
 		D6E2F6834CC934B7B186EC01 /* Pods-Snoop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Snoop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Snoop/Pods-Snoop.debug.xcconfig"; sourceTree = "<group>"; };
 		D739787C1F15A8BB007ED445 /* InitialsImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialsImageView.swift; sourceTree = "<group>"; };
-		D7AF1FC71F5330D30098A61F /* InstagramShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstagramShare.swift; sourceTree = "<group>"; };
+		D7AF1FC71F5330D30098A61F /* SocialGateway.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialGateway.swift; sourceTree = "<group>"; };
 		D7C7BCC11F5221390029621F /* CellAccessUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellAccessUtil.swift; sourceTree = "<group>"; };
 		EFE8CFDC7701F292F8513EA7 /* Pods-SnoopUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUnitTests/Pods-SnoopUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F3790CCF5AD9917B277BBEF9 /* Pods-Snoop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Snoop.release.xcconfig"; path = "Pods/Target Support Files/Pods-Snoop/Pods-Snoop.release.xcconfig"; sourceTree = "<group>"; };
@@ -663,7 +663,7 @@
 		D7AF1FC61F5330B40098A61F /* Share */ = {
 			isa = PBXGroup;
 			children = (
-				D7AF1FC71F5330D30098A61F /* InstagramShare.swift */,
+				D7AF1FC71F5330D30098A61F /* SocialGateway.swift */,
 			);
 			name = Share;
 			sourceTree = "<group>";
@@ -1094,7 +1094,7 @@
 				4ABB89F81D7DEE2C0022DEF2 /* FeedsModel.swift in Sources */,
 				4A7971DB1E6CCFEB003105FD /* CoinsViewController.swift in Sources */,
 				4A10DCCA1E5B663A009E3996 /* LoginView.swift in Sources */,
-				D7AF1FC81F5330D30098A61F /* InstagramShare.swift in Sources */,
+				D7AF1FC81F5330D30098A61F /* SocialGateway.swift in Sources */,
 				D739787D1F15A8BB007ED445 /* InitialsImageView.swift in Sources */,
 				4AFDD2511E37FCCB00CC7A06 /* CustomTableBackgroundView.swift in Sources */,
 				4ADFD38F1E56628B00CD3D92 /* NSData+ImageContentType.m in Sources */,

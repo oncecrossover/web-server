@@ -1,5 +1,5 @@
 //
-//  InstagramShare.swift
+//  SocialGateway
 //  Snoop
 //
 //  Created by Bingo Zhou on 8/27/17.
@@ -9,16 +9,17 @@
 import Foundation
 import Photos
 
-class InstagramShare {
+class SocialGateway {
   /* temp local file where download puts data */
-  let tmpVideoFileName: String = "com.snoop.tmp.video.mp4"
+  let tmpMediaFileNamePrefix: String = "com.snoop.media."
+  let videoMediaType: String = "mp4"
   /* customized album being created to ease cleaning media */
   let instagramShareAlbumName: String = "Snoop Instagram Share"
   let utility = UIUtility()
   var hostingController: UIViewController
   var permissionAlert: PermissionView
 
-  func post(contentsOf: String?) {
+  func postToIntagram(contentsOf: String?, resourceId: String) {
 
     /* test if the instagram can be opened */
     guard let url = URL(string: "instagram://app"), UIApplication.shared.canOpenURL(url) else {
@@ -30,7 +31,7 @@ class InstagramShare {
     let status = PHPhotoLibrary.authorizationStatus()
     switch status {
     case .authorized:
-      self.downloadAndShareVideo(from: contentsOf)
+      self.downloadAndShareMedia(from: contentsOf, resourceId: resourceId)
     case .denied, .restricted :
       CellAccessUtil().popupAllowPhotosAccess(self.permissionAlert)
     case .notDetermined:
@@ -42,7 +43,7 @@ class InstagramShare {
         DispatchQueue.main.sync {
           switch status {
           case .authorized:
-            self.downloadAndShareVideo(from: contentsOf)
+            self.downloadAndShareMedia(from: contentsOf, resourceId: resourceId)
           case .denied, .restricted:
             CellAccessUtil().popupAllowPhotosAccess(self.permissionAlert)
           case .notDetermined: break
@@ -57,14 +58,18 @@ class InstagramShare {
     self.permissionAlert = permissionAlert
   }
 
-  private func downloadAndShareVideo(from: String?) {
+  private func downloadAndShareMedia(from: String?, resourceId: String) {
     if let urlString = from, let answerUrl = URL(string: urlString) {
-      self.downloadAndShareVideo(from: answerUrl)
+      self.downloadAndShareMedia(from: answerUrl, resourceId: resourceId)
     }
   }
 
-  private func downloadAndShareVideo(from: URL) {
-    let activityIndicator = self.utility.createCustomActivityIndicator(hostingController.view, text: "Saving Video to Photo Library...")
+  private func getTmpMediaFileName(_ resourceId: String, mediaType: String) -> String {
+    return self.tmpMediaFileNamePrefix.appendingFormat("%@.%@", resourceId, mediaType)
+  }
+
+  private func downloadAndShareMedia(from: URL, resourceId: String) {
+    let activityIndicator = self.utility.createCustomActivityIndicator(hostingController.view, text: "Saving Media to Photo Library...")
     DownloadData(from: from) {
       data, response, error in
 
@@ -72,17 +77,17 @@ class InstagramShare {
         guard let _ = data, error == nil else {
           /* relase UI lock when there's download error */
           activityIndicator.hide(animated: true)
-          self.utility.displayAlertMessage("An error occurs while downloading video, please try again", title: "Download Failed", sender: self.hostingController)
+          self.utility.displayAlertMessage("An error occurs while downloading media, please try again", title: "Download Failed", sender: self.hostingController)
           return
         }
 
-        let fileUrl = self.utility.getFileUrl(self.tmpVideoFileName)
+        let fileUrl = self.utility.getFileUrl(self.getTmpMediaFileName(resourceId, mediaType: self.videoMediaType))
         /* save media to local temp file to create PHAsset */
         self.SaveToLocalFile(data: data, tmpFileUrl: fileUrl)
         /* relase UI lock after download and saving are done */
         activityIndicator.hide(animated: true)
         /* save to photo library by creating PHAsset */
-        self.saveToPhotoLibrary(videoFileUrl: fileUrl) {
+        self.saveToPhotoLibrary(mediaFileUrl: fileUrl) {
           localIdentifier in
 
           /* open app with media id for posting */
@@ -90,7 +95,7 @@ class InstagramShare {
             success in
 
             do {
-              /* delete temp video in cache */
+              /* delete temp media in cache */
               try FileManager.default.removeItem(at: fileUrl)
             } catch let error as NSError {
               print(error)
@@ -114,13 +119,13 @@ class InstagramShare {
     try? data?.write(to: tmpFileUrl, options: [])
   }
 
-  private func saveToPhotoLibrary(videoFileUrl: URL?, completion: @escaping (String?)->()) {
-    guard let _ = videoFileUrl else {
+  private func saveToPhotoLibrary(mediaFileUrl: URL?, completion: @escaping (String?)->()) {
+    guard let _ = mediaFileUrl else {
       completion(nil)
       return
     }
 
-    PHPhotoLibrary.saveVideo(videoFileUrl: videoFileUrl!, albumName: instagramShareAlbumName) {
+    PHPhotoLibrary.saveVideo(videoFileUrl: mediaFileUrl!, albumName: instagramShareAlbumName) {
       phAssets in
 
       guard let _ = phAssets, let _ = phAssets?.firstObject else {

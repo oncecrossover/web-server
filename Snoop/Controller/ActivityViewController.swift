@@ -11,7 +11,7 @@ import AVFoundation
 import AVKit
 
 class ActivityViewController: UIViewController {
-  var instagramShare: InstagramShare!
+  var socialGateway: SocialGateway!
   @IBOutlet weak var activityTableView: UITableView!
 
   @IBOutlet weak var segmentedControl: UIView!
@@ -73,7 +73,7 @@ extension ActivityViewController {
     controlBar.delegate = self
 
     setupSegmentedControl()
-    instagramShare = InstagramShare(hostingController: self, permissionAlert: self.permissionView)
+    socialGateway = SocialGateway(hostingController: self, permissionAlert: self.permissionView)
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -466,7 +466,7 @@ extension ActivityViewController {
     if (questionInfo.status == "ANSWERED") {
       let instagramAction = UIAlertAction(title: "Share to Instagram", style: UIAlertActionStyle.default) {
         action in
-        self.instagramShare.post(contentsOf: questionInfo.answerUrl);
+        self.socialGateway.postToIntagram(contentsOf: questionInfo.answerUrl, resourceId: questionInfo.id);
       }
       actionSheet.addAction(instagramAction)
     }
