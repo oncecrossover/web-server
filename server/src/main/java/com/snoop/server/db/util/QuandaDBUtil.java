@@ -285,7 +285,7 @@ public class QuandaDBUtil {
     }
 
     /* query where clause */
-    String where = " WHERE Q.status != 'EXPIRED' AND ";
+    String where = " WHERE Q.active = 'TRUE' AND Q.status != 'EXPIRED' AND ";
     where += list.size() == 0 ?
         "1 = 0" : /* simulate no columns specified */
         Joiner.on(" AND ").skipNulls().join(list);
@@ -389,7 +389,7 @@ public class QuandaDBUtil {
 
     /* query where clause */
     String where = " WHERE Q.asker != %d AND Q.responder != %d"
-        + " AND Q.status = 'ANSWERED' AND NOT EXISTS"
+        + " AND Q.active = 'TRUE' AND Q.status = 'ANSWERED' AND NOT EXISTS"
         + " (SELECT DISTINCT S.quandaId FROM Snoop S"
         + " WHERE S.uid = %d AND S.quandaId = Q.id)";
     where = String.format(where, uid, uid, uid);

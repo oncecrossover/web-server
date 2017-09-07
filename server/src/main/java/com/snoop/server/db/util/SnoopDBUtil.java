@@ -118,7 +118,7 @@ public class SnoopDBUtil {
     }
 
     /* query where clause */
-    String where = " WHERE Q.status = 'ANSWERED' AND ";
+    String where = " WHERE Q.active = 'TRUE' AND Q.status = 'ANSWERED' AND ";
     where += list.size() == 0 ?
         "1 = 0" : /* simulate no columns specified */
         Joiner.on(" AND ").skipNulls().join(list);
