@@ -54,8 +54,10 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   }
 
   func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+    /* remove whitespaces from both ends, otherwise cause URL.init failure */
+    let trimmedSearchText = searchText.trimmingCharacters(in: CharacterSet.whitespaces)
     tmpProfiles = []
-    let url = "takeQuestion='APPROVED'&limit=10&fullName='%25\(searchText.lowercased())%25'"
+    let url = "takeQuestion='APPROVED'&limit=10&fullName='%25\(trimmedSearchText.lowercased())%25'"
     loadProfiles(url, isSearch: true)
   }
 
@@ -192,7 +194,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
       if (indexPath.row == filteredProfiles.count - 1) {
         let updatedTime = Int64(cellInfo.updatedTime)
         let lastSeenId = cellInfo.uid
-        let url = "takeQuestion='APPROVED'&limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId=" + "\(lastSeenId)" + "&fullName='%25\(searchController.searchBar.text!)%25'"
+        let url = "takeQuestion='APPROVED'&limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId=" + "\(lastSeenId)" + "&fullName='%25\(getUrlQualifiedSearchText())%25'"
         loadProfiles(url, isSearch: true)
       }
     }
@@ -205,6 +207,11 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
 extension DiscoverViewController: UISearchResultsUpdating {
   func updateSearchResults(for searchController: UISearchController) {
-    filterContentForSearchText(searchController.searchBar.text!)
+    filterContentForSearchText(getUrlQualifiedSearchText())
+  }
+
+  func getUrlQualifiedSearchText() -> String {
+    /* remove whitespaces from both ends, otherwise cause URL.init failure */
+    return searchController.searchBar.text!.trimmingCharacters(in: .whitespaces)
   }
 }
