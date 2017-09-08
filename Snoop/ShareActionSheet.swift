@@ -17,14 +17,14 @@ class ShareActionSheet {
 
   func createSheet(forModel: ActivityModel) -> UIAlertController {
     let includeShareActions = forModel.status == "ANSWERED"
-    return createSheet(quandaId: forModel.id, question: forModel.question, answerUrl: forModel.answerUrl!, includeShareActions: includeShareActions)
+    return createSheet(quandaId: forModel.id, question: forModel.question, answerUrl: forModel.answerUrl, includeShareActions: includeShareActions)
   }
 
   func createSheet(forModel: FeedsModel, includeShareActions: Bool) -> UIAlertController {
     return createSheet(quandaId: forModel.id, question: forModel.question, answerUrl: forModel.answerUrl, includeShareActions: includeShareActions)
   }
 
-  private func createSheet(quandaId: String, question: String, answerUrl: String, includeShareActions: Bool) -> UIAlertController {
+  private func createSheet(quandaId: String, question: String, answerUrl: String?, includeShareActions: Bool) -> UIAlertController {
     let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
 
     /* action: Copy Question */
