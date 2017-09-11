@@ -24,12 +24,24 @@ import org.hibernate.type.Type;
 
 public class ProfileDBUtil {
 
+  public static List<Profile> getAllProfilesWithTokens(
+      final Session session,
+      final boolean newTransaction) {
+    final String sql = "SELECT id, deviceToken from Profile where NULLIF(deviceToken, ' ') IS NOT NULL";
+
+    final Map<String, Type> scalars = Maps.newHashMap();
+    scalars.put("id", new LongType());
+    scalars.put("deviceToken", new StringType());
+    return getProfilesByQuery(session, sql, scalars, newTransaction);
+  }
+
   public static Profile getProfileForNotification(final Session session,
       final Long uid, final boolean newTransaction) {
-    final String select = "SELECT fullName, deviceToken from Profile WHERE id = %d";
+    final String select = "SELECT id, fullName, deviceToken from Profile WHERE id = %d";
     final String sql = String.format(select, uid);
 
     final Map<String, Type> scalars = Maps.newHashMap();
+    scalars.put("id", new LongType());
     scalars.put("fullName", new StringType());
     scalars.put("deviceToken", new StringType());
 

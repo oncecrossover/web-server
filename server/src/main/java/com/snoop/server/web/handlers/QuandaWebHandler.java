@@ -1,6 +1,8 @@
 package com.snoop.server.web.handlers;
 
-import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.HibernateException;
@@ -9,9 +11,7 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.io.ByteArrayDataOutput;
 import com.snoop.server.db.model.Journal;
 import com.snoop.server.db.model.Profile;
@@ -24,10 +24,7 @@ import com.snoop.server.exceptions.SnoopException;
 import com.snoop.server.util.NotificationUtil;
 import com.snoop.server.util.ObjectStoreClient;
 import com.snoop.server.util.ResourcePathParser;
-import com.snoop.server.util.StripeUtil;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
@@ -237,7 +234,7 @@ public class QuandaWebHandler extends AbastractWebHandler
 
       /* Send notification */
       if (needSendNotification) {
-        sendNotificationToAsker(fromDB);
+        sendNotifications(fromDB);
       }
 
       return newResponse(HttpResponseStatus.NO_CONTENT);
@@ -250,12 +247,27 @@ public class QuandaWebHandler extends AbastractWebHandler
     }
   }
 
-  private void sendNotificationToAsker(final Quanda fromDB) {
+  /**
+   * Sends notifications if there's a new answer.
+   * <p>
+   * <ul>
+   * <li> send notification to the asker.
+   * <li> send notifications to all online users.
+   * </ul>
+   * <p>
+   */
+  private void sendNotifications(final Quanda fromDB) {
     final Profile askerProfile = ProfileDBUtil
         .getProfileForNotification(getSession(), fromDB.getAsker(), true);
     final Profile responderProfile = ProfileDBUtil
         .getProfileForNotification(getSession(), fromDB.getResponder(), true);
 
+    sendNotificationToAsker(fromDB, askerProfile, responderProfile);
+    asyncSendNotificationToAllUsers(fromDB, askerProfile, responderProfile);
+  }
+
+  private void sendNotificationToAsker(final Quanda fromDB,
+      final Profile askerProfile, final Profile responderProfile) {
     if (askerProfile != null
         && !StringUtils.isEmpty(askerProfile.getDeviceToken())
         && responderProfile != null) {
@@ -264,6 +276,32 @@ public class QuandaWebHandler extends AbastractWebHandler
       final String message = fromDB.getQuestion();
       NotificationUtil.sendNotification(title, message,
           askerProfile.getDeviceToken());
+    }
+  }
+
+  private void asyncSendNotificationToAllUsers(final Quanda fromDB,
+      final Profile askerProfile, final Profile responderProfile) {
+    final String title = responderProfile != null
+        ? responderProfile.getFullName() + " just posted an answer to:"
+        : "New answer:";
+    final List<Profile> profiles = ProfileDBUtil
+        .getAllProfilesWithTokens(getSession(), true);
+
+    ExecutorService executor = Executors.newFixedThreadPool(1);
+    for (Profile profile : profiles) {
+      if (askerProfile != null && askerProfile.getId() == profile.getId()) {
+        /* avoid sending duplicate notification to asker */
+        continue;
+      }
+
+      executor.submit(new Runnable() {
+        @Override
+        public void run() {
+          final String message = fromDB.getQuestion();
+          NotificationUtil.sendNotification(title, message,
+              profile.getDeviceToken());
+        }
+      });
     }
   }
 
