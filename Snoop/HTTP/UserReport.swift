@@ -1,5 +1,5 @@
 //
-//  Report.swift
+//  UserReport.swift
 //  Snoop
 //
 //  Created by Bingo Zhou on 9/12/17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Report {
+class UserReport {
   fileprivate var generics = Generics()
   fileprivate var REPORT_URI: String
 

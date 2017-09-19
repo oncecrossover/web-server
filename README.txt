@@ -933,6 +933,23 @@ Example response:
 
 
 
+RESTFUL APIs OF BLOCK:
+1. to block a user, e.g.
+curl -i -X POST "http://127.0.0.1:8080/blocks/" -d '{"uid":1915936940490752,"blockeeId":"1918121455648768", "blocked":"TRUE"}'
+Example response:
+{"id":"60982264661540864"}
+
+2. to get a block by id, e.g.
+curl -i -X GET "http://127.0.0.1:8080/blocks/60982264661540864"
+Example response:
+{"id":"60982264661540864","uid":"1915936940490752","blockeeId":"1918121455648768","blocked":"TRUE","createdTime":1505493704000,"updatedTime":1505493704000}
+
+3. to query a block by user id and blockee id, e.g.
+curl -i -X GET "http://127.0.0.1:8080/blocks?uid=1915936940490752&blockeeId=1918121455648768"
+[{"id":"60982264661540864","uid":"1915936940490752","blockeeId":"1918121455648768","blocked":"TRUE","createdTime":null,"updatedTime":null}]
+
+
+
 HTTP STATUS CODE OF REST API:
 1. get user (i.e. HTTP GET):
 400(BAD_REQUEST):            "Missing parameter: uid" or various other information

@@ -96,9 +96,10 @@ public class SnoopDBUtil {
         + " P.fullName AS responderName, P.title AS responderTitle,"
         + " P.avatarUrl AS responderAvatarUrl, P2.fullName AS askerName,"
         + " P2.avatarUrl AS askerAvatarUrl"
-        + " FROM Snoop AS S INNER JOIN"
-        + " Quanda AS Q ON S.quandaId = Q.id INNER JOIN Profile AS P"
-        + " ON Q.responder = P.id INNER JOIN Profile AS P2 on Q.asker = P2.id";
+        + " FROM Snoop AS S"
+        + " INNER JOIN Quanda AS Q ON S.quandaId = Q.id"
+        + " INNER JOIN Profile AS P ON Q.responder = P.id"
+        + " INNER JOIN Profile AS P2 on Q.asker = P2.id";
 
     Long uid = 0L;
     List<String> list = Lists.newArrayList();
@@ -121,10 +122,12 @@ public class SnoopDBUtil {
 
     /* query where clause */
     String where = " WHERE Q.active = 'TRUE' AND Q.status = 'ANSWERED'"
-        /* filter out quanda being already reported */
-        + " AND NOT EXISTS (SELECT DISTINCT R.quandaId FROM Report R"
-        + " WHERE R.uid = %d AND R.quandaId = Q.id) AND ";
-    where = String.format(where, uid);
+        /* filter out quandas being already reported */
+        + " AND" + getReportFilter()
+        /* filter out responders being already blocked */
+        + " AND" + getBlockFilter()
+        + " AND ";
+    where = String.format(where, uid, uid);
 
     where += list.size() == 0 ?
         "1 = 0" : /* simulate no columns specified */
@@ -141,5 +144,15 @@ public class SnoopDBUtil {
     final String limitClause = String.format(" limit %d;", limit);
 
     return select + where + orderBy + limitClause;
+  }
+
+  private static String getReportFilter() {
+    return " NOT EXISTS (SELECT DISTINCT R.quandaId FROM Report R"
+        + " WHERE R.uid = %d AND R.quandaId = Q.id)";
+  }
+
+  private static String getBlockFilter() {
+    return " NOT EXISTS (SELECT DISTINCT B.blockeeId FROM Block B"
+        + " WHERE B.uid = %d AND B.blockeeId = Q.responder AND B.blocked = 'TRUE')";
   }
 }

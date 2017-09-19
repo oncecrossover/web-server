@@ -268,7 +268,7 @@ public class QuandaDBUtil {
         + " P2.title AS responderTitle, P2.avatarUrl AS responderAvatarUrl"
         + " FROM Quanda AS Q"
         + " INNER JOIN Profile AS P ON Q.asker = P.id"
-        + " INNER JOIN Profile AS P2 ON Q.responder = P2.id ";
+        + " INNER JOIN Profile AS P2 ON Q.responder = P2.id";
 
     List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
@@ -345,10 +345,12 @@ public class QuandaDBUtil {
 
     /* query where clause */
     String where = " WHERE Q.active = 'TRUE' AND Q.status != 'EXPIRED'"
-        /* filter out quanda being already reported */
-        + " AND NOT EXISTS (SELECT DISTINCT R.quandaId FROM Report R"
-        + " WHERE R.uid = %d AND R.quandaId = Q.id) AND ";
-    where = String.format(where, askerId);
+        /* filter out quandas being already reported by asker */
+        + " AND" + getReportFilter()
+        /* filter out responders being already blocked by asker */
+        + " AND" + getBlockFilter()
+        + " AND ";
+    where = String.format(where, askerId, askerId);
 
     where += list.size() == 0 ?
         "1 = 0" : /* simulate no columns specified */
@@ -373,21 +375,26 @@ public class QuandaDBUtil {
     long lastSeenUpdatedTime = 0;
     long lastSeenId = 0;
     int limit = Configuration.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
-    final String select =
-        " SELECT Q.id, Q.question, Q.rate, Q.updatedTime, Q.answerUrl," +
-        " Q.answerCoverUrl, Q.duration, Q.isAskerAnonymous," +
-        " P2.avatarUrl AS askerAvatarUrl, P2.fullName AS askerName," +
-        " P.id AS responderId, P.fullName AS responderName," +
-        " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl," +
-        " count(S.id) AS snoops FROM" +
-        " Quanda AS Q INNER JOIN Profile AS P ON Q.responder = P.id" +
-        " INNER JOIN Profile AS P2 ON Q.asker = P2.id" +
-        " LEFT JOIN Snoop AS S ON Q.id = S.quandaId";
+    final String select = " SELECT Q.id, Q.question,"
+        + " Q.rate, Q.updatedTime, Q.answerUrl,"
+        + " Q.answerCoverUrl, Q.duration, Q.isAskerAnonymous,"
+        + " P2.avatarUrl AS askerAvatarUrl, P2.fullName AS askerName,"
+        + " P.id AS responderId, P.fullName AS responderName,"
+        + " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl,"
+        + " count(S.id) AS snoops"
+        + " FROM Quanda AS Q"
+        + " INNER JOIN Profile AS P ON Q.responder = P.id"
+        + " INNER JOIN Profile AS P2 ON Q.asker = P2.id"
+        + " LEFT JOIN Snoop AS S ON Q.id = S.quandaId";
 
     Long uid = 0L;
     List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
-      if ("uid".equals(key)) {
+      if ("id".equals(key)) {
+        list.add(String.format(
+            "Q.id=%d",
+            Long.parseLong(params.get(key).get(0))));
+      } else if ("uid".equals(key)) {
         uid = Long.parseLong(params.get(key).get(0));
       } else if ("lastSeenId".equals(key)) {
         lastSeenId = Long.parseLong(params.get(key).get(0));
@@ -401,10 +408,18 @@ public class QuandaDBUtil {
     /* query where clause */
     String where = " WHERE Q.asker != %d AND Q.responder != %d"
         + " AND Q.active = 'TRUE' AND Q.status = 'ANSWERED'"
-        /* filter out quanda being already snooped */
-        + " AND NOT EXISTS (SELECT DISTINCT S.quandaId FROM Snoop S"
-        + " WHERE S.uid = %d AND S.quandaId = Q.id)";
-    where = String.format(where, uid, uid, uid);
+        /* filter out quandas being already snooped */
+        + " AND" + getSnoopFilter()
+        /* filter out quandas being already reported */
+        + " AND" + getReportFilter()
+        /* filter out responders being already blocked */
+        + " AND" + getBlockFilter()
+        + " AND ";
+    where = String.format(where, uid, uid, uid, uid, uid);
+
+    where += list.size() == 0 ?
+        "1 = 1" : /* simulate no columns specified */
+        Joiner.on(" AND ").skipNulls().join(list); /* conditions from list */
 
     /* pagination where clause */
     where += DBUtil.getPaginationWhereClause(
@@ -417,5 +432,20 @@ public class QuandaDBUtil {
     final String orderBy = " ORDER BY Q.updatedTime DESC, Q.id DESC";
     final String limitClause = String.format(" limit %d;", limit);
     return select + where + groupBy + orderBy + limitClause;
+  }
+
+  private static String   getSnoopFilter() {
+    return " NOT EXISTS (SELECT DISTINCT S.quandaId FROM Snoop S"
+        + " WHERE S.uid = %d AND S.quandaId = Q.id)";
+  }
+
+  private static String getReportFilter() {
+    return " NOT EXISTS (SELECT DISTINCT R.quandaId FROM Report R"
+        + " WHERE R.uid = %d AND R.quandaId = Q.id)";
+  }
+
+  private static String getBlockFilter() {
+    return " NOT EXISTS (SELECT DISTINCT B.blockeeId FROM Block B"
+        + " WHERE B.uid = %d AND B.blockeeId = Q.responder AND B.blocked = 'TRUE')";
   }
 }

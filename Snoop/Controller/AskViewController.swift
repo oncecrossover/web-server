@@ -123,6 +123,15 @@ extension AskViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    /* add settings button */
+    let settingsButton = UIButton(type: .custom)
+    settingsButton.setImage(UIImage(named: "settings"), for: UIControlState())
+    settingsButton.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
+    settingsButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingsButton)
+
+    /* setup navigation */
+    navigationItem.title = "Profile"
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -178,6 +187,12 @@ extension AskViewController {
 
 // UITextViewDelegate
 extension AskViewController: UITextViewDelegate {
+
+  func settingsButtonTapped() {
+    let dvc = SettingUserViewController()
+    dvc.userInfo = (loginUserId: UserDefaults.standard.string(forKey: "uid"), userId: profileInfo.uid)
+    self.navigationController?.pushViewController(dvc, animated: true)
+  }
 
   func textViewDidBeginEditing(_ textView: UITextView) {
     if (textView.textColor == placeholderColor) {

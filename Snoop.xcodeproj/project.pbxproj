@@ -143,7 +143,11 @@
 		D739787D1F15A8BB007ED445 /* InitialsImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D739787C1F15A8BB007ED445 /* InitialsImageView.swift */; };
 		D7AF1FC81F5330D30098A61F /* SocialGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AF1FC71F5330D30098A61F /* SocialGateway.swift */; };
 		D7AF1FD91F59E8330098A61F /* ShareActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AF1FD81F59E8330098A61F /* ShareActionSheet.swift */; };
-		D7B484991F684D9000D9EE77 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484981F684D9000D9EE77 /* Report.swift */; };
+		D7B484991F684D9000D9EE77 /* UserReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484981F684D9000D9EE77 /* UserReport.swift */; };
+		D7B484A11F6B43D800D9EE77 /* SettingUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484A01F6B43D800D9EE77 /* SettingUserViewController.swift */; };
+		D7B484A31F6B43E900D9EE77 /* SettingUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484A21F6B43E900D9EE77 /* SettingUserTableViewCell.swift */; };
+		D7B484A51F6C49D200D9EE77 /* UserBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484A41F6C49D200D9EE77 /* UserBlock.swift */; };
+		D7B484A71F6C546C00D9EE77 /* UserBlockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484A61F6C546C00D9EE77 /* UserBlockModel.swift */; };
 		D7C7BCC21F5221390029621F /* CellAccessUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C7BCC11F5221390029621F /* CellAccessUtil.swift */; };
 /* End PBXBuildFile section */
 
@@ -333,7 +337,11 @@
 		D739787C1F15A8BB007ED445 /* InitialsImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialsImageView.swift; sourceTree = "<group>"; };
 		D7AF1FC71F5330D30098A61F /* SocialGateway.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialGateway.swift; sourceTree = "<group>"; };
 		D7AF1FD81F59E8330098A61F /* ShareActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareActionSheet.swift; sourceTree = "<group>"; };
-		D7B484981F684D9000D9EE77 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
+		D7B484981F684D9000D9EE77 /* UserReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserReport.swift; sourceTree = "<group>"; };
+		D7B484A01F6B43D800D9EE77 /* SettingUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingUserViewController.swift; sourceTree = "<group>"; };
+		D7B484A21F6B43E900D9EE77 /* SettingUserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingUserTableViewCell.swift; sourceTree = "<group>"; };
+		D7B484A41F6C49D200D9EE77 /* UserBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBlock.swift; sourceTree = "<group>"; };
+		D7B484A61F6C546C00D9EE77 /* UserBlockModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBlockModel.swift; sourceTree = "<group>"; };
 		D7C7BCC11F5221390029621F /* CellAccessUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellAccessUtil.swift; sourceTree = "<group>"; };
 		EFE8CFDC7701F292F8513EA7 /* Pods-SnoopUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUnitTests/Pods-SnoopUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F3790CCF5AD9917B277BBEF9 /* Pods-Snoop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Snoop.release.xcconfig"; path = "Pods/Target Support Files/Pods-Snoop/Pods-Snoop.release.xcconfig"; sourceTree = "<group>"; };
@@ -429,6 +437,7 @@
 		4AAF42F41E56951B00074C7F /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				D7B484A01F6B43D800D9EE77 /* SettingUserViewController.swift */,
 				4AC283681CE2F58100A08D35 /* ViewController.swift */,
 				4ABE1CBF1D25BBF100320529 /* AskViewController.swift */,
 				4A8F26861D21D01D0001989E /* EditProfileViewController.swift */,
@@ -476,6 +485,7 @@
 				4ACADE141E13586C00831929 /* ActivityModel.swift */,
 				4A7971D21E64A059003105FD /* CategoryModel.swift */,
 				4A7971D41E64B89A003105FD /* InterestModel.swift */,
+				D7B484A61F6C546C00D9EE77 /* UserBlockModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -483,6 +493,7 @@
 		4AAF42F71E5696E400074C7F /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
+				D7B484A21F6B43E900D9EE77 /* SettingUserTableViewCell.swift */,
 				4A84B02B1D249AED00711DC6 /* DiscoverTableViewCell.swift */,
 				4AF322731D2C83260043FCE5 /* AnswerTableViewCell.swift */,
 				4AC9231E1D360A0800C83177 /* FeedTableViewCell.swift */,
@@ -510,7 +521,8 @@
 				4A7971E41E6E2494003105FD /* Coin.swift */,
 				4ADECB511E83A98C00DA8998 /* Answer.swift */,
 				4ACA200B1ED390AC009A49A3 /* Config.swift */,
-				D7B484981F684D9000D9EE77 /* Report.swift */,
+				D7B484981F684D9000D9EE77 /* UserReport.swift */,
+				D7B484A41F6C49D200D9EE77 /* UserBlock.swift */,
 			);
 			path = HTTP;
 			sourceTree = "<group>";
@@ -1027,6 +1039,7 @@
 				4ABD203D1D443E1A00C3B74E /* UIUtility.swift in Sources */,
 				4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */,
 				4A7971E11E6CF51F003105FD /* CoinPriceTableHeaderViewCell.swift in Sources */,
+				D7B484A51F6C49D200D9EE77 /* UserBlock.swift in Sources */,
 				4AF303BB1E78A1BA0048895D /* BuyCoinsView.swift in Sources */,
 				4A55E8FB1E282DB600B033F4 /* BalanceViewController.swift in Sources */,
 				4ADECB521E83A98C00DA8998 /* Answer.swift in Sources */,
@@ -1037,7 +1050,7 @@
 				4ACADE151E13586C00831929 /* ActivityModel.swift in Sources */,
 				4A436E4B1E8DB8B700908D24 /* ConfirmView.swift in Sources */,
 				4A10DCC81E5AD440009E3996 /* IconView.swift in Sources */,
-				D7B484991F684D9000D9EE77 /* Report.swift in Sources */,
+				D7B484991F684D9000D9EE77 /* UserReport.swift in Sources */,
 				4A10DCD01E5BBBF9009E3996 /* InterestPickerViewController.swift in Sources */,
 				4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */,
 				4A0EB0EB1D8276DC00390D06 /* TutorialViewController.swift in Sources */,
@@ -1057,7 +1070,9 @@
 				4ADFD3931E56628B00CD3D92 /* SDWebImageCompat.m in Sources */,
 				4AC9231F1D360A0800C83177 /* FeedTableViewCell.swift in Sources */,
 				4A7971E71E6E4C2D003105FD /* IAPManager.swift in Sources */,
+				D7B484A31F6B43E900D9EE77 /* SettingUserTableViewCell.swift in Sources */,
 				4A7986A21EB2A5B7002A32A9 /* FreeCoinsView.swift in Sources */,
+				D7B484A11F6B43D800D9EE77 /* SettingUserViewController.swift in Sources */,
 				4A6730BB1E23301A00C512B1 /* ProfileSettingsTableViewCell.swift in Sources */,
 				4A58B0E61E83902E0079F46E /* ProgressView.swift in Sources */,
 				4ADFD38E1E56628B00CD3D92 /* MKAnnotationView+WebCache.m in Sources */,
@@ -1117,6 +1132,7 @@
 				4A10DCC01E579CF9009E3996 /* SettingsViewController.swift in Sources */,
 				4ADFD3961E56628B00CD3D92 /* SDWebImageDownloaderOperation.m in Sources */,
 				4AF910741D449F1800546F95 /* InteractiveUITextField.swift in Sources */,
+				D7B484A71F6C546C00D9EE77 /* UserBlockModel.swift in Sources */,
 				6EE4C32A1EE776D4003C3F71 /* FullScreenImageView.swift in Sources */,
 				4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */,
 				4A11C0621D35BA6900AEF95D /* TextFitLabel.swift in Sources */,

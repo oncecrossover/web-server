@@ -192,3 +192,19 @@ CREATE TABLE `Report` (
   INDEX `idx_report_uid` (`uid`),
   INDEX `idx_report_createdTime` (`createdTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Block` (
+  `id` BIGINT UNSIGNED NOT NULL,
+  `uid` BIGINT UNSIGNED NOT NULL,
+  `blockeeId` BIGINT UNSIGNED NOT NULL,
+  `blocked` ENUM('TRUE', 'FALSE') NOT NULL DEFAULT 'FALSE',
+  `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT `pk_block` PRIMARY KEY (`id`),
+  CONSTRAINT `uk_block` UNIQUE (`uid`,`blockeeId`),
+  CONSTRAINT `fk_block_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`id`),
+  CONSTRAINT `fk_block_blockeeId` FOREIGN KEY (`blockeeId`) REFERENCES `User` (`id`),
+  INDEX `idx_block_uid` (`uid`),
+  INDEX `idx_block_blockeeId` (`blockeeId`),
+  INDEX `idx_block_createdTime` (`createdTime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

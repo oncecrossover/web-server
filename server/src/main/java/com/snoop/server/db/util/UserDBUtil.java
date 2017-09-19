@@ -3,11 +3,7 @@ package com.snoop.server.db.util;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.HibernateException;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.transform.Transformers;
 import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 import org.hibernate.type.TimestampType;
@@ -72,53 +68,9 @@ public class UserDBUtil {
       final Map<String, Type> scalars,
       final boolean newTransaction) {
 
-    final List<User> list = getUsersByQuery(session, sql, scalars,
-        newTransaction);
+    final List<User> list = DBUtil.getEntitiesByQuery(User.class, session, sql,
+        scalars, newTransaction);
     return list.size() == 1 ? list.get(0) : null;
-  }
-
-  /**
-   * Gets a list of users by a hibernate query. This is a common function for
-   * code reusability.
-   */
-  private static List<User> getUsersByQuery(
-      final Session session,
-      final String sql,
-      final Map<String, Type> scalars,
-      final boolean newTransaction) {
-
-    Transaction txn = null;
-    List<User> list = null;
-    try {
-      if (newTransaction) {
-        txn = session.beginTransaction();
-      }
-
-      /* build query */
-      final SQLQuery query = session.createSQLQuery(sql);
-
-      /* add column mapping */
-      for (Map.Entry<String, Type> entry : scalars.entrySet()) {
-        query.addScalar(entry.getKey(), entry.getValue());
-      }
-
-      /* execute query */
-      query.setResultTransformer(Transformers.aliasToBean(User.class));
-      list = query.list();
-
-      if (txn != null) {
-        txn.commit();
-      }
-    } catch (HibernateException e) {
-      if (txn != null && txn.isActive()) {
-        txn.rollback();
-      }
-      throw e;
-    } catch (Exception e) {
-      throw e;
-    }
-
-    return list;
   }
 
   public static User getUserWithUidAndPwd(
@@ -142,7 +94,8 @@ public class UserDBUtil {
       final boolean newTransaction) {
 
     final String sql = buildSql4AllUsers(params);
-    return getUsersByQuery(session, sql, getScalars(), newTransaction);
+    return DBUtil.getEntitiesByQuery(User.class, session, sql, getScalars(),
+        newTransaction);
   }
 
   private static String buildSql4AllUsers(

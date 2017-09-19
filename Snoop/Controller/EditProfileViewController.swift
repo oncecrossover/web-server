@@ -74,6 +74,8 @@ class EditProfileViewController: UIViewController {
     NotificationCenter.default.addObserver(self, selector: #selector(EditProfileViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
     navigationController?.delegate = self
+
+    self.navigationItem.title = "Edit"
   }
 
   override func viewDidAppear(_ animated: Bool) {

@@ -9,7 +9,7 @@
 import Foundation
 
 class ShareActionSheet {
-  lazy var reportModel = Report()
+  lazy var userReportHTTP = UserReport()
   private var socialGateway: SocialGateway
 
   init(_ socialGateway: SocialGateway) {
@@ -62,7 +62,7 @@ class ShareActionSheet {
           action in
 
           let uid = UserDefaults.standard.string(forKey: "uid")
-          self.reportModel.createReport(uid!, quandaId: quandaId) {
+          self.userReportHTTP.createReport(uid!, quandaId: quandaId) {
             result in
 
             if (result.isEmpty) {

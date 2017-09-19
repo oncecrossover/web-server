@@ -46,6 +46,7 @@ import com.google.common.io.ByteStreams;
 import com.snoop.server.util.ResourcePathParser;
 import com.snoop.server.web.handlers.AnswerWebHandler;
 import com.snoop.server.web.handlers.BalanceWebHandler;
+import com.snoop.server.web.handlers.BlockWebHandler;
 import com.snoop.server.web.handlers.BulkDataWebHandler;
 import com.snoop.server.web.handlers.CatMappingWebHandler;
 import com.snoop.server.web.handlers.CategoryWebHandler;
@@ -241,6 +242,12 @@ public class HttpSnoopServerHandler
             request).handle();
       case "reports":
         return new ReportWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "blocks":
+        return new BlockWebHandler(
             pathParser,
             respBuf,
             ctx,
