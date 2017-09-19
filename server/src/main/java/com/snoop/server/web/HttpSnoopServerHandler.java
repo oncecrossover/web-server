@@ -60,6 +60,7 @@ import com.snoop.server.web.handlers.ProfileWebHandler;
 import com.snoop.server.web.handlers.QaTransactionWebHandler;
 import com.snoop.server.web.handlers.QuandaWebHandler;
 import com.snoop.server.web.handlers.QuestionWebHandler;
+import com.snoop.server.web.handlers.ReportWebHandler;
 import com.snoop.server.web.handlers.ResetPwdWebHandler;
 import com.snoop.server.web.handlers.SigninWebHandler;
 import com.snoop.server.web.handlers.SnoopWebHandler;
@@ -234,6 +235,12 @@ public class HttpSnoopServerHandler
             request).handle();
       case "configurations":
         return new ConfigurationWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "reports":
+        return new ReportWebHandler(
             pathParser,
             respBuf,
             ctx,

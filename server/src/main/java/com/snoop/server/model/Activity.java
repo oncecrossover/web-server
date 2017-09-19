@@ -4,13 +4,10 @@ import java.util.Date;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.deser.std.NumberDeserializers;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.snoop.server.db.model.Model;
 import com.snoop.server.db.model.ModelBase;
-import com.snoop.server.db.model.Quanda;
 
 public class Activity extends ModelBase implements Model {
 
@@ -24,6 +21,7 @@ public class Activity extends ModelBase implements Model {
   private byte[]  answerCover;
   private int duration;
   private String isAskerAnonymous;
+  private Long responderId;
   private String responderName;
   private String responderTitle;
   private String responderAvatarUrl;
@@ -122,6 +120,16 @@ public class Activity extends ModelBase implements Model {
     return this;
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
+  public Long getResponderId() {
+    return responderId;
+  }
+
+  public Activity setResponderId(final Long responderId) {
+    this.responderId = responderId;
+    return this;
+  }
+
   public String getResponderName() {
     return responderName;
   }
@@ -213,6 +221,7 @@ public class Activity extends ModelBase implements Model {
           && isEqual(this.getAnswerCoverUrl(), that.getAnswerCoverUrl())
           && isEqual(this.getDuration(), that.getDuration())
           && isEqual(this.getIsAskerAnonymous(), that.getIsAskerAnonymous())
+          && isEqual(this.getResponderId(), that.getResponderId())
           && isEqual(this.getResponderName(), that.getResponderName())
           && isEqual(this.getResponderTitle(), that.getResponderTitle())
           && isEqual(this.getResponderAvatarUrl(), that.getResponderAvatarUrl())
@@ -240,6 +249,8 @@ public class Activity extends ModelBase implements Model {
     result = PRIME * result + duration;
     result = PRIME * result
         + ((isAskerAnonymous == null) ? 0 : isAskerAnonymous.hashCode());
+    result = PRIME * result
+        + ((responderId == null) ? 0 : responderId.hashCode());
     result = PRIME * result
         + ((responderName == null) ? 0 : responderName.hashCode());
     result = PRIME * result

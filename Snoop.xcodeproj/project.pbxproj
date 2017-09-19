@@ -143,6 +143,7 @@
 		D739787D1F15A8BB007ED445 /* InitialsImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D739787C1F15A8BB007ED445 /* InitialsImageView.swift */; };
 		D7AF1FC81F5330D30098A61F /* SocialGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AF1FC71F5330D30098A61F /* SocialGateway.swift */; };
 		D7AF1FD91F59E8330098A61F /* ShareActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AF1FD81F59E8330098A61F /* ShareActionSheet.swift */; };
+		D7B484991F684D9000D9EE77 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484981F684D9000D9EE77 /* Report.swift */; };
 		D7C7BCC21F5221390029621F /* CellAccessUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C7BCC11F5221390029621F /* CellAccessUtil.swift */; };
 /* End PBXBuildFile section */
 
@@ -332,6 +333,7 @@
 		D739787C1F15A8BB007ED445 /* InitialsImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialsImageView.swift; sourceTree = "<group>"; };
 		D7AF1FC71F5330D30098A61F /* SocialGateway.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialGateway.swift; sourceTree = "<group>"; };
 		D7AF1FD81F59E8330098A61F /* ShareActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareActionSheet.swift; sourceTree = "<group>"; };
+		D7B484981F684D9000D9EE77 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		D7C7BCC11F5221390029621F /* CellAccessUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellAccessUtil.swift; sourceTree = "<group>"; };
 		EFE8CFDC7701F292F8513EA7 /* Pods-SnoopUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUnitTests/Pods-SnoopUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F3790CCF5AD9917B277BBEF9 /* Pods-Snoop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Snoop.release.xcconfig"; path = "Pods/Target Support Files/Pods-Snoop/Pods-Snoop.release.xcconfig"; sourceTree = "<group>"; };
@@ -508,6 +510,7 @@
 				4A7971E41E6E2494003105FD /* Coin.swift */,
 				4ADECB511E83A98C00DA8998 /* Answer.swift */,
 				4ACA200B1ED390AC009A49A3 /* Config.swift */,
+				D7B484981F684D9000D9EE77 /* Report.swift */,
 			);
 			path = HTTP;
 			sourceTree = "<group>";
@@ -1034,6 +1037,7 @@
 				4ACADE151E13586C00831929 /* ActivityModel.swift in Sources */,
 				4A436E4B1E8DB8B700908D24 /* ConfirmView.swift in Sources */,
 				4A10DCC81E5AD440009E3996 /* IconView.swift in Sources */,
+				D7B484991F684D9000D9EE77 /* Report.swift in Sources */,
 				4A10DCD01E5BBBF9009E3996 /* InterestPickerViewController.swift in Sources */,
 				4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */,
 				4A0EB0EB1D8276DC00390D06 /* TutorialViewController.swift in Sources */,

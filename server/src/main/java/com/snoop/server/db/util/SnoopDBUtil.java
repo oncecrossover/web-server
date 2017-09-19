@@ -61,6 +61,7 @@ public class SnoopDBUtil {
            .addScalar("answerCoverUrl", new StringType())
            .addScalar("duration", new IntegerType())
            .addScalar("isAskerAnonymous", new StringType())
+           .addScalar("responderId", new LongType())
            .addScalar("responderName", new StringType())
            .addScalar("responderTitle", new StringType())
            .addScalar("responderAvatarUrl", new StringType())
@@ -91,6 +92,7 @@ public class SnoopDBUtil {
     String select = "SELECT S.id, S.createdTime,"
         + " Q.id AS quandaId, Q.question, Q.status, Q.rate, Q.answerUrl,"
         + " Q.answerCoverUrl, Q.duration, Q.isAskerAnonymous,"
+        + " P.id AS responderId,"
         + " P.fullName AS responderName, P.title AS responderTitle,"
         + " P.avatarUrl AS responderAvatarUrl, P2.fullName AS askerName,"
         + " P2.avatarUrl AS askerAvatarUrl"
@@ -98,6 +100,7 @@ public class SnoopDBUtil {
         + " Quanda AS Q ON S.quandaId = Q.id INNER JOIN Profile AS P"
         + " ON Q.responder = P.id INNER JOIN Profile AS P2 on Q.asker = P2.id";
 
+    Long uid = 0L;
     List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
       if ("id".equals(key)) {
@@ -105,9 +108,8 @@ public class SnoopDBUtil {
             "S.id=%d",
             Long.parseLong(params.get(key).get(0))));
       } else if ("uid".equals(key)) {
-        list.add(String.format(
-            "S.uid=%d",
-            Long.parseLong(params.get(key).get(0))));
+        uid = Long.parseLong(params.get(key).get(0));
+        list.add(String.format("S.uid=%d", uid));
       } else if ("lastSeenId".equals(key)) {
         lastSeenId = Long.parseLong(params.get(key).get(0));
       } else if ("lastSeenCreatedTime".equals(key)) {
@@ -118,10 +120,15 @@ public class SnoopDBUtil {
     }
 
     /* query where clause */
-    String where = " WHERE Q.active = 'TRUE' AND Q.status = 'ANSWERED' AND ";
+    String where = " WHERE Q.active = 'TRUE' AND Q.status = 'ANSWERED'"
+        /* filter out quanda being already reported */
+        + " AND NOT EXISTS (SELECT DISTINCT R.quandaId FROM Report R"
+        + " WHERE R.uid = %d AND R.quandaId = Q.id) AND ";
+    where = String.format(where, uid);
+
     where += list.size() == 0 ?
         "1 = 0" : /* simulate no columns specified */
-        Joiner.on(" AND ").skipNulls().join(list);
+        Joiner.on(" AND ").skipNulls().join(list); /* conditions from list */
 
     /* pagination where clause */
     where += DBUtil.getPaginationWhereClause(

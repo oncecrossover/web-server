@@ -519,7 +519,7 @@ extension ViewController {
   func tappedOnActionSheetButton(_ sender: UIButton!) {
     /* get answer media info */
     let forModel = feeds[sender.tag]
-    let actionSheet = shareActionSheet.createSheet(forModel: forModel, includeShareActions: isQuandaFreeOrUnlocked(forModel))
+    let actionSheet = shareActionSheet.createSheet(forModel: forModel, readyToView: isQuandaFreeOrUnlocked(forModel))
     present(actionSheet, animated: true, completion: nil)
   }
 

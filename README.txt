@@ -925,6 +925,13 @@ curl -i -X GET "http://127.0.0.1:8080/configurations?ckey='com.snoop.app.welcome
 ]
 
 
+RESTFUL APIs OF REPORT:
+1. to create a report, e.g.
+curl -i -X POST "http://127.0.0.1:8080/reports" -d '{"uid":"1917568612827136","quandaId":"2820262756089856"}'
+Example response:
+{"id":"61022107118600192"}
+
+
 
 HTTP STATUS CODE OF REST API:
 1. get user (i.e. HTTP GET):

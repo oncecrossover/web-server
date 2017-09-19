@@ -15,6 +15,7 @@ class ActivityModel {
   var duration: Int
   var isAskerAnonymous: Bool
   var askerName: String
+  var responderId: String?
   var responderName: String
   var responderTitle: String
   var answerCoverUrl: String?
@@ -24,7 +25,7 @@ class ActivityModel {
   var lastSeenTime: Double
   var hoursToExpire: Int
 
-  init(_id: String, _question: String, _status: String, _rate: Int, _duration: Int, _isAskerAnonymous: Bool, _askerName: String, _responderName: String, _responderTitle: String, _answerCoverUrl: String?, _askerAvatarUrl: String?, _responderAvatarUrl: String?, _answerUrl : String?, _lastSeenTime: Double, _hoursToExpire: Int) {
+  init(_id: String, _question: String, _status: String, _rate: Int, _duration: Int, _isAskerAnonymous: Bool, _askerName: String, _responderId: String?, _responderName: String, _responderTitle: String, _answerCoverUrl: String?, _askerAvatarUrl: String?, _responderAvatarUrl: String?, _answerUrl : String?, _lastSeenTime: Double, _hoursToExpire: Int) {
     id = _id
     question = _question
     status = _status
@@ -32,6 +33,7 @@ class ActivityModel {
     duration = _duration
     isAskerAnonymous = _isAskerAnonymous
     askerName = _askerName
+    responderId = _responderId
     responderName = _responderName
     responderTitle = _responderTitle
     answerCoverUrl = _answerCoverUrl
@@ -59,6 +61,7 @@ class ActivityModel {
     }
 
     let responderAvatarUrl = questionInfo["responderAvatarUrl"] as? String
+    let responderId = questionInfo["responderId"] as? String
     let responderName = questionInfo["responderName"] as! String
     let responderTitle = questionInfo["responderTitle"] as! String
     let askerAvatarUrl = questionInfo["askerAvatarUrl"] as? String
@@ -69,6 +72,6 @@ class ActivityModel {
     let isAskerAnonymous = (questionInfo["isAskerAnonymous"] as! String).toBool()
     let createdTime = questionInfo["createdTime"] as! Double
 
-    self.init(_id: questionId, _question: question, _status: status, _rate: rate, _duration: duration, _isAskerAnonymous: isAskerAnonymous, _askerName: askerName, _responderName: responderName, _responderTitle: responderTitle, _answerCoverUrl: answerCoverUrl, _askerAvatarUrl: askerAvatarUrl, _responderAvatarUrl: responderAvatarUrl, _answerUrl: answerUrl, _lastSeenTime: createdTime, _hoursToExpire: hoursToExpire)
+    self.init(_id: questionId, _question: question, _status: status, _rate: rate, _duration: duration, _isAskerAnonymous: isAskerAnonymous, _askerName: askerName, _responderId: responderId, _responderName: responderName, _responderTitle: responderTitle, _answerCoverUrl: answerCoverUrl, _askerAvatarUrl: askerAvatarUrl, _responderAvatarUrl: responderAvatarUrl, _answerUrl: answerUrl, _lastSeenTime: createdTime, _hoursToExpire: hoursToExpire)
   }
 }

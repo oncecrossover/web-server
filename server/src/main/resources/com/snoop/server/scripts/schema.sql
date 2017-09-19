@@ -180,3 +180,15 @@ CREATE TABLE `Configuration` (
   CONSTRAINT `pk_Configuration` PRIMARY KEY (`id`),
   CONSTRAINT `uk_Configuration` UNIQUE (`ckey`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Report` (
+  `id` BIGINT UNSIGNED NOT NULL,
+  `uid` BIGINT UNSIGNED NOT NULL,
+  `quandaId` BIGINT UNSIGNED NOT NULL,
+  `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `pk_report` PRIMARY KEY (`id`),
+  CONSTRAINT `fk_report_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`id`),
+  CONSTRAINT `fk_report_quandaId` FOREIGN KEY (`quandaId`) REFERENCES `Quanda` (`id`),
+  INDEX `idx_report_uid` (`uid`),
+  INDEX `idx_report_createdTime` (`createdTime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

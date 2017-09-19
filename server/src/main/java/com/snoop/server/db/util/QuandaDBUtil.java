@@ -135,6 +135,7 @@ public class QuandaDBUtil {
            .addScalar("isAskerAnonymous", new StringType())
            .addScalar("askerName", new StringType())
            .addScalar("askerAvatarUrl", new StringType())
+           .addScalar("responderId", new LongType())
            .addScalar("responderName", new StringType())
            .addScalar("responderTitle", new StringType())
            .addScalar("responderAvatarUrl", new StringType());
@@ -182,6 +183,7 @@ public class QuandaDBUtil {
            .addScalar("answerCoverUrl", new StringType())
            .addScalar("duration", new IntegerType())
            .addScalar("isAskerAnonymous", new StringType())
+           .addScalar("responderId", new LongType())
            .addScalar("responderName", new StringType())
            .addScalar("responderTitle", new StringType())
            .addScalar("responderAvatarUrl", new StringType())
@@ -261,10 +263,12 @@ public class QuandaDBUtil {
     final String select = "SELECT Q.id, Q.question, Q.status, Q.rate,"
         + " Q.createdTime, Q.updatedTime, Q.answerUrl, Q.answerCoverUrl,"
         + " Q.duration, Q.isAskerAnonymous, P.fullName AS askerName,"
-        + " P.avatarUrl AS askerAvatarUrl, P2.fullName AS responderName,"
+        + " P.avatarUrl AS askerAvatarUrl,"
+        + " P2.id AS responderId, P2.fullName AS responderName,"
         + " P2.title AS responderTitle, P2.avatarUrl AS responderAvatarUrl"
         + " FROM Quanda AS Q"
-        + " INNER JOIN Profile AS P ON Q.asker = P.id INNER JOIN Profile AS P2 ON Q.responder = P2.id";
+        + " INNER JOIN Profile AS P ON Q.asker = P.id"
+        + " INNER JOIN Profile AS P2 ON Q.responder = P2.id ";
 
     List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
@@ -312,13 +316,15 @@ public class QuandaDBUtil {
     final String select =
         "SELECT Q.id, Q.question, Q.status, Q.rate, Q.createdTime,"
         + " Q.updatedTime, Q.answerUrl, Q.answerCoverUrl,"
-        + " Q.duration, Q.isAskerAnonymous, P.fullName AS responderName,"
+        + " Q.duration, Q.isAskerAnonymous,"
+        + " P.id AS responderId, P.fullName AS responderName,"
         + " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl,"
         + " P2.fullName AS askerName, P2.avatarUrl AS askerAvatarUrl"
         + " FROM Quanda AS Q"
         + " INNER JOIN Profile AS P ON Q.responder = P.id"
-        + " INNER JOIN Profile AS P2 ON Q.asker = P2.id ";
+        + " INNER JOIN Profile AS P2 ON Q.asker = P2.id";
 
+    Long askerId = 0L;
     List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
       if ("id".equals(key)) {
@@ -326,8 +332,8 @@ public class QuandaDBUtil {
             "Q.id=%d",
             Long.parseLong(params.get(key).get(0))));
       } else if ("asker".equals(key)) {
-        list.add(String.format("Q.asker=%d",
-            Long.parseLong(params.get(key).get(0))));
+        askerId = Long.parseLong(params.get(key).get(0));
+        list.add(String.format("Q.asker=%d", askerId));
       } else if ("lastSeenId".equals(key)) {
         lastSeenId = Long.parseLong(params.get(key).get(0));
       } else if ("lastSeenUpdatedTime".equals(key)) {
@@ -338,10 +344,15 @@ public class QuandaDBUtil {
     }
 
     /* query where clause */
-    String where = " WHERE Q.active = 'TRUE' AND Q.status != 'EXPIRED' AND ";
+    String where = " WHERE Q.active = 'TRUE' AND Q.status != 'EXPIRED'"
+        /* filter out quanda being already reported */
+        + " AND NOT EXISTS (SELECT DISTINCT R.quandaId FROM Report R"
+        + " WHERE R.uid = %d AND R.quandaId = Q.id) AND ";
+    where = String.format(where, askerId);
+
     where += list.size() == 0 ?
         "1 = 0" : /* simulate no columns specified */
-        Joiner.on(" AND ").skipNulls().join(list);
+        Joiner.on(" AND ").skipNulls().join(list); /* conditions from list */
 
     /* pagination where clause */
     where += DBUtil.getPaginationWhereClause(
@@ -389,8 +400,9 @@ public class QuandaDBUtil {
 
     /* query where clause */
     String where = " WHERE Q.asker != %d AND Q.responder != %d"
-        + " AND Q.active = 'TRUE' AND Q.status = 'ANSWERED' AND NOT EXISTS"
-        + " (SELECT DISTINCT S.quandaId FROM Snoop S"
+        + " AND Q.active = 'TRUE' AND Q.status = 'ANSWERED'"
+        /* filter out quanda being already snooped */
+        + " AND NOT EXISTS (SELECT DISTINCT S.quandaId FROM Snoop S"
         + " WHERE S.uid = %d AND S.quandaId = Q.id)";
     where = String.format(where, uid, uid, uid);
 
