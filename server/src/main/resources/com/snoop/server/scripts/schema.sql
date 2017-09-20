@@ -77,6 +77,7 @@ CREATE TABLE `Snoop` (
   CONSTRAINT `fk_snoop_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`id`),
   CONSTRAINT `fk_snoop_quandaId` FOREIGN KEY (`quandaId`) REFERENCES `Quanda` (`id`),
   INDEX `idx_snoop_uid` (`uid`),
+  INDEX `idx_snoop_quandaId` (`quandaId`),
   INDEX `idx_snoop_createdTime` (`createdTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -190,6 +191,7 @@ CREATE TABLE `Report` (
   CONSTRAINT `fk_report_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`id`),
   CONSTRAINT `fk_report_quandaId` FOREIGN KEY (`quandaId`) REFERENCES `Quanda` (`id`),
   INDEX `idx_report_uid` (`uid`),
+  INDEX `idx_report_quandaId` (`quandaId`),
   INDEX `idx_report_createdTime` (`createdTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
