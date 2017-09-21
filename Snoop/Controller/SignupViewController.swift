@@ -143,6 +143,14 @@ class SignupViewController: UIViewController {
   }
 
   func signupButtonTapped() {
+    let evc = EulaViewController()
+    evc.modalPresentationStyle = .overCurrentContext
+    evc.modalTransitionStyle = .crossDissolve
+    evc.signupViewController = self
+    self.present(evc, animated: true)
+  }
+
+  func doSignUp() {
     let utility = UIUtility()
     let userModule = User()
     let userEmail = signupView.email.text!
@@ -153,7 +161,7 @@ class SignupViewController: UIViewController {
     if (userEmail.isEmpty || userPassword.isEmpty || name.isEmpty)
     {
       //Display alert message
-      utility.displayAlertMessage("all fields are required", title: "Alert", sender: self)
+      utility.displayAlertMessage("All fields are required", title: "Alert", sender: self)
       return
     }
 
@@ -227,7 +235,7 @@ class SignupViewController: UIViewController {
 
   func loginLinkTapped() {
     if (loginViewController != nil) {
-      _ = self.navigationController?.popViewController(animated: true)
+      self.navigationController?.popToViewController(loginViewController!, animated: true)
     }
     else {
       let vc = LoginViewController()
