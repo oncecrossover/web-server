@@ -291,13 +291,6 @@ public class QaTransactionWebHandler extends AbastractWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST);
     }
 
-    if (quanda.getAsker().equals(quanda.getResponder())) {
-      appendln(String.format(
-          "Quanda asker ('%d') can't be the same as responder ('%d')",
-          quanda.getAsker(), quanda.getResponder()));
-      return newResponse(HttpResponseStatus.BAD_REQUEST);
-    }
-
     return null;
   }
 

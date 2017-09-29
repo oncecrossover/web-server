@@ -3,6 +3,7 @@ package com.snoop.server.db.util;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -146,11 +147,15 @@ public class ProfileDBUtil {
     final String select = "SELECT P.id, P.rate, P.avatarUrl, P.fullName,"
         + " P.title, P.aboutMe, P.updatedTime, P.takeQuestion FROM Profile AS P";
 
+    Long uid = 0L;
+    String takeQuestion = "''";
     List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
       if ("id".equals(key)) {
         list.add(
             String.format("P.id=%d", Long.parseLong(params.get(key).get(0))));
+      } else if ("uid".equals(key)) {
+        uid = Long.parseLong(params.get(key).get(0));
       } else if ("fullName".equals(key)) {
         list.add(String.format(
             "P.fullName LIKE %s",
@@ -162,14 +167,21 @@ public class ProfileDBUtil {
       } else if ("limit".equals(key)) {
         limit = Integer.parseInt(params.get(key).get(0));
       } else if ("takeQuestion".equals(key)) {
-        list.add(String.format(
-            "P.takeQuestion=%s",
-            params.get(key).get(0)));
+        takeQuestion = params.get(key).get(0);
       }
     }
 
     /* query where clause */
     String where = " WHERE ";
+    /**
+     * include login user and the users with specific status, e.g.
+     * (P.id = 19049519362609152 OR P.takeQuestion='APPROVED')
+     */
+    if (takeQuestion != "''" || uid != 0L) {
+      where += String.format(" (P.id=%d OR P.takeQuestion=%s) AND ",
+          uid, takeQuestion);
+    }
+
     where += list.size() == 0 ?
         "1 = 1" : /* simulate no columns specified */
         Joiner.on(" AND ").skipNulls().join(list);

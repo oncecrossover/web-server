@@ -57,7 +57,8 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     /* remove whitespaces from both ends, otherwise cause URL.init failure */
     let trimmedSearchText = searchText.trimmingCharacters(in: CharacterSet.whitespaces)
     tmpProfiles = []
-    let url = "takeQuestion='APPROVED'&limit=10&fullName='%25\(trimmedSearchText.lowercased())%25'"
+    let uid = UserDefaults.standard.string(forKey: "uid")
+    let url = "uid=\(uid!)&takeQuestion='APPROVED'&limit=10&fullName='%25\(trimmedSearchText.lowercased())%25'"
     loadProfiles(url, isSearch: true)
   }
 
@@ -68,7 +69,8 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
   func loadProfiles() {
     discoverTableView.isUserInteractionEnabled = false
     tmpProfiles = []
-    let url = "takeQuestion='APPROVED'&limit=10"
+    let uid = UserDefaults.standard.string(forKey: "uid")
+    let url = "uid=\(uid!)&takeQuestion='APPROVED'&limit=10"
     loadProfiles(url, isSearch: false)
   }
 
@@ -80,14 +82,10 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
     indicator.startAnimating()
     indicator.backgroundColor = UIColor.white
-    let uid = UserDefaults.standard.string(forKey: "uid")
     var didLoadNewProfiles = false
     userModule.getDiscover(url) { jsonArray in
       for profileInfo in jsonArray as! [[String:AnyObject]] {
         let profileUid = profileInfo["id"] as! String
-        if (profileUid == uid) {
-          continue
-        }
         let profileName = profileInfo["fullName"] as! String
         let updatedTime = profileInfo["updatedTime"] as! Double
         var profileTitle = ""
@@ -182,11 +180,12 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
 
     myCell.isUserInteractionEnabled = true
 
+    let uid = UserDefaults.standard.string(forKey: "uid")
     if (!searchController.isActive && searchController.searchBar.text == "") {
       if (indexPath.row == profiles.count - 1) {
         let updatedTime = Int64(cellInfo.updatedTime)
         let lastSeenId = cellInfo.uid
-        let url = "takeQuestion='APPROVED'&limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId=" + "\(lastSeenId)"
+        let url = "uid=\(uid!)&takeQuestion='APPROVED'&limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId=" + "\(lastSeenId)"
         loadProfiles(url, isSearch: false)
       }
     }
@@ -194,7 +193,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
       if (indexPath.row == filteredProfiles.count - 1) {
         let updatedTime = Int64(cellInfo.updatedTime)
         let lastSeenId = cellInfo.uid
-        let url = "takeQuestion='APPROVED'&limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId=" + "\(lastSeenId)" + "&fullName='%25\(getUrlQualifiedSearchText())%25'"
+        let url = "uid=\(uid!)&takeQuestion='APPROVED'&limit=10&lastSeenUpdatedTime=\(updatedTime)&lastSeenId=" + "\(lastSeenId)" + "&fullName='%25\(getUrlQualifiedSearchText())%25'"
         loadProfiles(url, isSearch: true)
       }
     }

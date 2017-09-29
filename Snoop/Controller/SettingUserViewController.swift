@@ -55,14 +55,18 @@ extension SettingUserViewController: UITableViewDataSource, UITableViewDelegate 
     myCell.label.textColor = UIColor(white: 0, alpha: 0.7)
 
     /* init block switch */
-    loadIfUserBlocked(uid: userInfo.loginUserId, blockeeId: userInfo.userId) {
-      ifUserBlocked in
+    // a user can't block him/erself
+    myCell.blockSwitch.isUserInteractionEnabled = userInfo.loginUserId != userInfo.userId
+    if (myCell.blockSwitch.isUserInteractionEnabled) {
+      loadIfUserBlocked(uid: userInfo.loginUserId, blockeeId: userInfo.userId) {
+        ifUserBlocked in
 
-      DispatchQueue.main.async {
-        myCell.blockSwitch.setOn(ifUserBlocked, animated: true)
+        DispatchQueue.main.async {
+          myCell.blockSwitch.setOn(ifUserBlocked, animated: true)
+        }
       }
+      myCell.blockSwitch.addTarget(self, action: #selector(SettingUserViewController.blockSwitchValueDidChange(_:)), for: .valueChanged)
     }
-    myCell.blockSwitch.addTarget(self, action: #selector(SettingUserViewController.blockSwitchValueDidChange(_:)), for: .valueChanged)
 
     return myCell
   }

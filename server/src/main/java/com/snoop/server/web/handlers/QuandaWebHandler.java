@@ -484,13 +484,6 @@ public class QuandaWebHandler extends AbastractWebHandler
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    if (quanda.getAsker().equals(quanda.getResponder())) {
-      appendln(String.format(
-          "Quanda asker ('%d') can't be the same as responder ('%d')",
-          quanda.getAsker(), quanda.getResponder()), respBuf);
-      return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
-    }
-
     return null;
   }
 }
