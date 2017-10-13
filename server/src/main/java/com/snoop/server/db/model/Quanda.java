@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.snoop.server.util.QuandaUtil;
 
 public class Quanda extends ModelBase implements Model {
-  private static final double PERCENTAGE_TO_RESPONDER = 0.7;
+  private static final double PERCENTAGE_TO_RESPONDER = 0.5;
   public enum QnaStatus {
     PENDING(0, "PENDING"),
     ANSWERED(1, "ANSWERED"),
@@ -254,7 +254,7 @@ public class Quanda extends ModelBase implements Model {
   @JsonIgnore
   public double getPayment4Responder() {
     return new BigDecimal(rate * PERCENTAGE_TO_RESPONDER)
-        .setScale(2, RoundingMode.FLOOR).doubleValue();
+        .setScale(2, RoundingMode.HALF_UP).doubleValue();
   }
 
   @Override
