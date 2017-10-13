@@ -408,10 +408,10 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
       myCell.durationLabel.isHidden = true
       myCell.expireLabel.isHidden = false
       if (cellInfo.hoursToExpire > 1) {
-        myCell.expireLabel.text = "expires in \(cellInfo.hoursToExpire) hours"
+        myCell.expireLabel.text = "expire in \(cellInfo.hoursToExpire) hrs"
       }
       else {
-        myCell.expireLabel.text = "expires in \(cellInfo.hoursToExpire) hour"
+        myCell.expireLabel.text = "expire in \(cellInfo.hoursToExpire) hr"
       }
     }
     else if (cellInfo.status == "ANSWERED") {
