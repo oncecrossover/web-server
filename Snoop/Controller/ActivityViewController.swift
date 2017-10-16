@@ -407,6 +407,8 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
       myCell.coverImage.isUserInteractionEnabled = false
       myCell.durationLabel.isHidden = true
       myCell.expireLabel.isHidden = false
+      myCell.numOfSnoops.isHidden = true
+      myCell.snoops.isHidden = true
       if (cellInfo.hoursToExpire > 1) {
         myCell.expireLabel.text = "expire in \(cellInfo.hoursToExpire) hrs"
       }
@@ -424,6 +426,9 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
         myCell.durationLabel.text = cellInfo.duration.toTimeFormat()
         myCell.durationLabel.isHidden = false
         myCell.expireLabel.isHidden = true
+        myCell.numOfSnoops.isHidden = false
+        myCell.numOfSnoops.text = String(cellInfo.snoops)
+        myCell.snoops.isHidden = false
       }
       else {
         myCell.coverImage.isUserInteractionEnabled = false

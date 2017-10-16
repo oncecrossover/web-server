@@ -23,6 +23,9 @@ class ActivityTableViewCell: UITableViewCell {
   @IBOutlet weak var expireLabel: UILabel!
   @IBOutlet weak var actionSheetButton: UIButton!
 
+  @IBOutlet weak var numOfSnoops: UILabel!
+  @IBOutlet weak var snoops: UILabel!
+
   override func awakeFromNib() {
     super.awakeFromNib()
     self.layoutIfNeeded()
@@ -32,7 +35,7 @@ class ActivityTableViewCell: UITableViewCell {
 
     playImage.image = UIImage(named: "play")
 
-    rateLabel.backgroundColor = UIColor(red: 255/255, green: 183/255, blue: 78/255, alpha: 0.8)
+    rateLabel.backgroundColor = UIColor.highlightColor()
     rateLabel.layer.cornerRadius = 2
     rateLabel.clipsToBounds = true
 
@@ -48,8 +51,8 @@ class ActivityTableViewCell: UITableViewCell {
 
     askerName.font = UIFont.boldSystemFont(ofSize: 14)
 
-    expireLabel.font = UIFont.systemFont(ofSize: 12)
-    expireLabel.textColor = UIColor.defaultColor()
-    expireLabel.textAlignment = .center
+    expireLabel.font = UIFont.systemFont(ofSize: 11)
+    expireLabel.backgroundColor = UIColor.highlightColor()
+    numOfSnoops?.textColor = UIColor.defaultColor()
   }
 }

@@ -138,7 +138,8 @@ public class QuandaDBUtil {
            .addScalar("responderId", new LongType())
            .addScalar("responderName", new StringType())
            .addScalar("responderTitle", new StringType())
-           .addScalar("responderAvatarUrl", new StringType());
+           .addScalar("responderAvatarUrl", new StringType())
+           .addScalar("snoops", new LongType());
       list = query.list();
 
       if (txn != null) {
@@ -188,7 +189,8 @@ public class QuandaDBUtil {
            .addScalar("responderTitle", new StringType())
            .addScalar("responderAvatarUrl", new StringType())
            .addScalar("askerName", new StringType())
-           .addScalar("askerAvatarUrl", new StringType());
+           .addScalar("askerAvatarUrl", new StringType())
+           .addScalar("snoops", new LongType());
       list = query.list();
 
       if (txn != null) {
@@ -265,10 +267,12 @@ public class QuandaDBUtil {
         + " Q.duration, Q.isAskerAnonymous, P.fullName AS askerName,"
         + " P.avatarUrl AS askerAvatarUrl,"
         + " P2.id AS responderId, P2.fullName AS responderName,"
-        + " P2.title AS responderTitle, P2.avatarUrl AS responderAvatarUrl"
+        + " P2.title AS responderTitle, P2.avatarUrl AS responderAvatarUrl,"
+        + " count(S.id) AS snoops"
         + " FROM Quanda AS Q"
         + " INNER JOIN Profile AS P ON Q.asker = P.id"
-        + " INNER JOIN Profile AS P2 ON Q.responder = P2.id";
+        + " INNER JOIN Profile AS P2 ON Q.responder = P2.id"
+        + " LEFT JOIN Snoop AS S ON Q.id = S.quandaId";
 
     List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
@@ -301,10 +305,11 @@ public class QuandaDBUtil {
         "Q.id",
         lastSeenId);
 
+    final String groupBy = " GROUP BY Q.id";
     final String orderBy = " ORDER BY Q.createdTime DESC, Q.id DESC";
     final String limitClause = String.format(" limit %d;", limit);
 
-    return select + where + orderBy + limitClause;
+    return select + where + groupBy + orderBy + limitClause;
   }
 
   private static String buildSql4Questions(
@@ -319,10 +324,12 @@ public class QuandaDBUtil {
         + " Q.duration, Q.isAskerAnonymous,"
         + " P.id AS responderId, P.fullName AS responderName,"
         + " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl,"
-        + " P2.fullName AS askerName, P2.avatarUrl AS askerAvatarUrl"
+        + " P2.fullName AS askerName, P2.avatarUrl AS askerAvatarUrl,"
+        + " count(S.id) AS snoops"
         + " FROM Quanda AS Q"
         + " INNER JOIN Profile AS P ON Q.responder = P.id"
-        + " INNER JOIN Profile AS P2 ON Q.asker = P2.id";
+        + " INNER JOIN Profile AS P2 ON Q.asker = P2.id"
+        + " LEFT JOIN Snoop AS S ON Q.id = S.quandaId";
 
     Long askerId = 0L;
     List<String> list = Lists.newArrayList();
@@ -363,10 +370,11 @@ public class QuandaDBUtil {
         "Q.id",
         lastSeenId);
 
+    final String groupBy = " GROUP BY Q.id";
     final String orderBy = " ORDER BY Q.updatedTime DESC, Q.id DESC";
     final String limitClause = String.format(" limit %d;", limit);
 
-    return select + where + orderBy + limitClause;
+    return select + where + groupBy + orderBy + limitClause;
   }
 
   private static String buildSql4Newsfeed(

@@ -24,8 +24,9 @@ class ActivityModel {
   var answerUrl: String?
   var lastSeenTime: Double
   var hoursToExpire: Int
+  var snoops: Int
 
-  init(_id: String, _question: String, _status: String, _rate: Int, _duration: Int, _isAskerAnonymous: Bool, _askerName: String, _responderId: String?, _responderName: String, _responderTitle: String, _answerCoverUrl: String?, _askerAvatarUrl: String?, _responderAvatarUrl: String?, _answerUrl : String?, _lastSeenTime: Double, _hoursToExpire: Int) {
+  init(_id: String, _question: String, _status: String, _rate: Int, _duration: Int, _isAskerAnonymous: Bool, _askerName: String, _responderId: String?, _responderName: String, _responderTitle: String, _answerCoverUrl: String?, _askerAvatarUrl: String?, _responderAvatarUrl: String?, _answerUrl : String?, _lastSeenTime: Double, _hoursToExpire: Int, _snoops: Int) {
     id = _id
     question = _question
     status = _status
@@ -42,6 +43,7 @@ class ActivityModel {
     answerUrl = _answerUrl
     lastSeenTime = _lastSeenTime
     hoursToExpire = _hoursToExpire
+    snoops = _snoops
   }
 
   convenience init(_ questionInfo: [String:AnyObject], isSnoop: Bool){
@@ -71,7 +73,8 @@ class ActivityModel {
     let duration = questionInfo["duration"] as! Int
     let isAskerAnonymous = (questionInfo["isAskerAnonymous"] as! String).toBool()
     let createdTime = questionInfo["createdTime"] as! Double
+    let snoops = questionInfo["snoops"] as! Int
 
-    self.init(_id: questionId, _question: question, _status: status, _rate: rate, _duration: duration, _isAskerAnonymous: isAskerAnonymous, _askerName: askerName, _responderId: responderId, _responderName: responderName, _responderTitle: responderTitle, _answerCoverUrl: answerCoverUrl, _askerAvatarUrl: askerAvatarUrl, _responderAvatarUrl: responderAvatarUrl, _answerUrl: answerUrl, _lastSeenTime: createdTime, _hoursToExpire: hoursToExpire)
+    self.init(_id: questionId, _question: question, _status: status, _rate: rate, _duration: duration, _isAskerAnonymous: isAskerAnonymous, _askerName: askerName, _responderId: responderId, _responderName: responderName, _responderTitle: responderTitle, _answerCoverUrl: answerCoverUrl, _askerAvatarUrl: askerAvatarUrl, _responderAvatarUrl: responderAvatarUrl, _answerUrl: answerUrl, _lastSeenTime: createdTime, _hoursToExpire: hoursToExpire, _snoops: snoops)
   }
 }

@@ -515,7 +515,7 @@
 			path = TableViewCell;
 			sourceTree = "<group>";
 		};
-		4AAF42F81E56975E00074C7F /* HTTP */ = {
+		4AAF42F81E56975E00074C7F /* HTTP` */ = {
 			isa = PBXGroup;
 			children = (
 				4AEF2A1B1D14BABA002E3CFE /* User.swift */,
@@ -529,6 +529,7 @@
 				D7B484981F684D9000D9EE77 /* UserReport.swift */,
 				D7B484A41F6C49D200D9EE77 /* UserBlock.swift */,
 			);
+			name = "HTTP`";
 			path = HTTP;
 			sourceTree = "<group>";
 		};
@@ -608,7 +609,7 @@
 				D7AF1FC61F5330B40098A61F /* Share */,
 				4AAF42FA1E5698A800074C7F /* CollectionViewCell */,
 				4AAF42F41E56951B00074C7F /* Controller */,
-				4AAF42F81E56975E00074C7F /* HTTP */,
+				4AAF42F81E56975E00074C7F /* HTTP` */,
 				4AAF42F61E56967D00074C7F /* Model */,
 				4AAF42F71E5696E400074C7F /* TableViewCell */,
 				4AAF42F91E5697FB00074C7F /* UIView */,

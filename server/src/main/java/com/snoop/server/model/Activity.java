@@ -29,6 +29,7 @@ public class Activity extends ModelBase implements Model {
   private String askerName;
   private String askerAvatarUrl;
   private byte[] askerAvatarImage;
+  private Long snoops;
 
   @JsonSerialize(using=ToStringSerializer.class)
   public Long getId() {
@@ -190,6 +191,14 @@ public class Activity extends ModelBase implements Model {
     this.askerAvatarImage = askerAvatarImage;
   }
 
+  public Long getSnoops() {
+    return snoops;
+  }
+
+  public void setSnoops(final Long snoops) {
+    this.snoops = snoops;
+  }
+
   @Override
   public String toString() {
     try {
@@ -226,7 +235,8 @@ public class Activity extends ModelBase implements Model {
           && isEqual(this.getResponderTitle(), that.getResponderTitle())
           && isEqual(this.getResponderAvatarUrl(), that.getResponderAvatarUrl())
           && isEqual(this.getAskerName(), that.getAskerName())
-          && isEqual(this.getAskerAvatarUrl(), that.getAskerAvatarUrl())) {
+          && isEqual(this.getAskerAvatarUrl(), that.getAskerAvatarUrl())
+          && isEqual(this.getSnoops(), that.getSnoops())) {
         return true;
       }
     }
@@ -260,6 +270,8 @@ public class Activity extends ModelBase implements Model {
     result = PRIME * result + ((askerName == null) ? 0 : askerName.hashCode());
     result = PRIME * result
         + ((askerAvatarUrl == null) ? 0 : askerAvatarUrl.hashCode());
+    result = PRIME * result
+        + ((snoops == null) ? 0 : snoops.hashCode());
     return result;
   }
 

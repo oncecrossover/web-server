@@ -66,7 +66,9 @@ public class SnoopDBUtil {
            .addScalar("responderTitle", new StringType())
            .addScalar("responderAvatarUrl", new StringType())
            .addScalar("askerName", new StringType())
-           .addScalar("askerAvatarUrl", new StringType());
+           .addScalar("askerAvatarUrl", new StringType())
+           .addScalar("snoops", new LongType());
+
       list = query.list();
 
       if (txn != null) {
@@ -95,11 +97,13 @@ public class SnoopDBUtil {
         + " P.id AS responderId,"
         + " P.fullName AS responderName, P.title AS responderTitle,"
         + " P.avatarUrl AS responderAvatarUrl, P2.fullName AS askerName,"
-        + " P2.avatarUrl AS askerAvatarUrl"
+        + " P2.avatarUrl AS askerAvatarUrl,"
+        + " count(S2.id) AS snoops"
         + " FROM Snoop AS S"
         + " INNER JOIN Quanda AS Q ON S.quandaId = Q.id"
         + " INNER JOIN Profile AS P ON Q.responder = P.id"
-        + " INNER JOIN Profile AS P2 on Q.asker = P2.id";
+        + " INNER JOIN Profile AS P2 on Q.asker = P2.id"
+        + " LEFT JOIN Snoop AS S2 ON S.quandaId = S2.quandaId";
 
     Long uid = 0L;
     List<String> list = Lists.newArrayList();
@@ -140,10 +144,11 @@ public class SnoopDBUtil {
         "S.id",
         lastSeenId);
 
+    final String groupBy = " GROUP BY S.quandaId";
     final String orderBy = " ORDER BY S.createdTime DESC, S.id DESC";
     final String limitClause = String.format(" limit %d;", limit);
 
-    return select + where + orderBy + limitClause;
+    return select + where + groupBy + orderBy + limitClause;
   }
 
   private static String getReportFilter() {
