@@ -90,10 +90,13 @@ public class Quanda extends ModelBase implements Model {
   private String status;
   private String active;
   private String isAskerAnonymous;
+  private Date answeredTime;
   private Date createdTime;
   private Date updatedTime;
   private Long snoops;
   private Long hoursToExpire;
+  private Long limitedFreeHours;
+  private Long freeForHours;
 
   @JsonSerialize(using=ToStringSerializer.class)
   public Long getId() {
@@ -215,6 +218,15 @@ public class Quanda extends ModelBase implements Model {
     return this;
   }
 
+  public Date getAnsweredTime() {
+    return answeredTime;
+  }
+
+  public Quanda setAnsweredTime(final Date answeredTime) {
+    this.answeredTime = answeredTime;
+    return this;
+  }
+
   public Date getCreatedTime() {
     return createdTime;
   }
@@ -249,6 +261,24 @@ public class Quanda extends ModelBase implements Model {
 
   public Long getHoursToExpire() {
     return QuandaUtil.getHoursToExpire(createdTime);
+  }
+
+  public Long getLimitedFreeHours() {
+    return limitedFreeHours;
+  }
+
+  public Quanda setLimitedFreeHours(final Long limitedFreeHours) {
+    this.limitedFreeHours = limitedFreeHours;
+    return this;
+  }
+
+  public Long getFreeForHours() {
+    return QuandaUtil.getFreeForHours(limitedFreeHours, answeredTime);
+  }
+
+  public Quanda setFreeForHours(final Long freeForHours) {
+    this.freeForHours = freeForHours;
+    return this;
   }
 
   @JsonIgnore

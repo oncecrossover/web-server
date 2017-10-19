@@ -6,12 +6,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.snoop.server.util.QuandaUtil;
 
 public class Newsfeed {
   private Long id;
   private String question;
   private Integer rate;
   private Date updatedTime;
+  private Date answeredTime;
   private String answerUrl;
   private String answerCoverUrl;
   private byte[]  answerCover;
@@ -25,6 +27,8 @@ public class Newsfeed {
   private String responderAvatarUrl;
   private byte[] responderAvatarImage;
   private Long snoops;
+  private Long freeForHours;
+  private Long limitedFreeHours;
 
   @JsonSerialize(using=ToStringSerializer.class)
   public Long getId() {
@@ -51,6 +55,15 @@ public class Newsfeed {
 
   public Newsfeed setRate(final Integer rate) {
     this.rate = rate;
+    return this;
+  }
+
+  public Date getAnsweredTime() {
+    return answeredTime;
+  }
+
+  public Newsfeed SetAnsweredTime(final Date answeredTime) {
+    this.answeredTime = answeredTime;
     return this;
   }
 
@@ -177,6 +190,24 @@ public class Newsfeed {
 
   public Newsfeed setSnoops(final Long snoops) {
     this.snoops = snoops;
+    return this;
+  }
+
+  public Long getFreeForHours() {
+    return QuandaUtil.getFreeForHours(limitedFreeHours, answeredTime);
+  }
+
+  public Newsfeed setFreeForHours(final Long freeForHours) {
+    this.freeForHours = freeForHours;
+    return this;
+  }
+
+  public Long getLimitedFreeHours() {
+    return limitedFreeHours;
+  }
+
+  public Newsfeed setLimitedFreeHours(final Long limitedFreeHours) {
+    this.limitedFreeHours = limitedFreeHours;
     return this;
   }
 

@@ -135,6 +135,15 @@
                                                         <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     </state>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="free for hours" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="He7-Ef-5ZT" userLabel="Free Hours Label">
+                                                    <rect key="frame" x="51.5" y="98" width="90" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="gcy-zO-Gpi"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="vyj-Fk-VtS" firstAttribute="centerY" secondItem="akn-ZA-VNN" secondAttribute="centerY" id="0Wf-O5-YTu"/>
@@ -158,11 +167,14 @@
                                                 <constraint firstItem="akn-ZA-VNN" firstAttribute="leading" secondItem="SbK-Kx-VGC" secondAttribute="leading" id="dbo-Ps-PPd"/>
                                                 <constraint firstItem="DUd-Sp-h8c" firstAttribute="top" secondItem="SbK-Kx-VGC" secondAttribute="top" id="eWf-Be-pMi"/>
                                                 <constraint firstItem="zM4-xp-xB4" firstAttribute="leading" secondItem="F9G-d0-819" secondAttribute="leading" id="iLf-KS-0MT"/>
+                                                <constraint firstItem="He7-Ef-5ZT" firstAttribute="centerX" secondItem="Mhs-fJ-tpp" secondAttribute="centerX" id="icu-ZZ-tPl"/>
                                                 <constraint firstItem="Mhs-fJ-tpp" firstAttribute="leading" secondItem="zM4-xp-xB4" secondAttribute="leading" id="iyu-IV-2N3"/>
                                                 <constraint firstItem="F9G-d0-819" firstAttribute="leading" secondItem="DI2-uq-Es0" secondAttribute="trailing" constant="8" id="lXm-rO-qOr"/>
                                                 <constraint firstItem="GF2-61-soV" firstAttribute="centerX" secondItem="Mhs-fJ-tpp" secondAttribute="centerX" id="mVo-tY-bFv"/>
                                                 <constraint firstItem="8eF-iE-QRK" firstAttribute="bottom" secondItem="Mhs-fJ-tpp" secondAttribute="bottom" id="pC9-JI-iuW"/>
+                                                <constraint firstItem="He7-Ef-5ZT" firstAttribute="top" secondItem="Mhs-fJ-tpp" secondAttribute="top" id="pnS-o6-E9T"/>
                                                 <constraint firstItem="F9G-d0-819" firstAttribute="top" secondItem="DI2-uq-Es0" secondAttribute="top" id="qS8-bZ-a0s"/>
+                                                <constraint firstItem="He7-Ef-5ZT" firstAttribute="width" secondItem="Mhs-fJ-tpp" secondAttribute="width" id="rLj-9N-LYY"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="Mhs-fJ-tpp" secondAttribute="bottom" constant="2" id="s1T-Ek-for"/>
                                                 <constraint firstItem="DI2-uq-Es0" firstAttribute="top" secondItem="7uX-w0-SyT" secondAttribute="topMargin" id="w6H-pr-9hH"/>
                                                 <constraint firstItem="GF2-61-soV" firstAttribute="centerY" secondItem="Mhs-fJ-tpp" secondAttribute="centerY" id="x3p-4d-sak"/>
@@ -176,6 +188,7 @@
                                             <outlet property="askerName" destination="F9G-d0-819" id="MsR-FE-k6Y"/>
                                             <outlet property="coverImage" destination="Mhs-fJ-tpp" id="O1o-fF-GBE"/>
                                             <outlet property="durationLabel" destination="ve2-xK-cgl" id="4Ny-qu-DKV"/>
+                                            <outlet property="freeForHours" destination="He7-Ef-5ZT" id="iNg-9A-XII"/>
                                             <outlet property="nameLabel" destination="DUd-Sp-h8c" id="r1X-MF-WOm"/>
                                             <outlet property="numOfSnoops" destination="vyj-Fk-VtS" id="dpD-Wq-Ku7"/>
                                             <outlet property="playImage" destination="GF2-61-soV" id="XAf-bO-zCp"/>

@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -334,6 +335,7 @@ public class QuandaWebHandler extends AbastractWebHandler
     if (isAnsweringQuestion(fromJson, fromDB)) {
       /* answer it */
       fromDB.setStatus(Quanda.QnaStatus.ANSWERED.value());
+      fromDB.setAnsweredTime(DateTime.now().toDate());
       needUpdate = true;
     }
 

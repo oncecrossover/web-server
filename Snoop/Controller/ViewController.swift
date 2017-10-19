@@ -245,7 +245,8 @@ extension ViewController {
         let duration = feedInfo["duration"] as! Int
         let isAskerAnonymous = (feedInfo["isAskerAnonymous"] as! String).toBool();
         let rate = feedInfo["rate"] as! Int
-        self.tmpFeeds.append(FeedsModel(_responderName: responderName, _responderTitle: responderTitle, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime,  _duration: duration, _isAskerAnonymous: isAskerAnonymous, _responderAvatarUrl: responderAvatarUrl, _askerAvatarUrl: askerAvatarUrl, _askerName: askerName, _coverUrl: coverUrl, _answerUrl: answerUrl!, _rate: rate))
+        let freeForHours = feedInfo["freeForHours"] as! Int
+        self.tmpFeeds.append(FeedsModel(_responderName: responderName, _responderTitle: responderTitle, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime,  _duration: duration, _isAskerAnonymous: isAskerAnonymous, _responderAvatarUrl: responderAvatarUrl, _askerAvatarUrl: askerAvatarUrl, _askerName: askerName, _coverUrl: coverUrl, _answerUrl: answerUrl!, _rate: rate, _freeForHours: freeForHours))
       }
 
       self.feeds = self.tmpFeeds
@@ -351,7 +352,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     myCell.numOfSnoops.text = String(feedInfo.snoops)
 
     // setup rate label
-    if (self.paidSnoops.contains(feedInfo.id) || feedInfo.rate == 0) {
+    if(self.isQuandaFreeOrUnlocked(feedInfo)) {
       myCell.playImage.image = UIImage(named: "play")
     }
     else {
@@ -364,6 +365,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     if (feedInfo.status == "PENDING") {
       myCell.coverImage.isUserInteractionEnabled = false
       myCell.coverImage.image = UIImage()
+      myCell.freeForHours.isHidden = true
     }
     else {
       if let coverUrl = feedInfo.coverUrl {
@@ -376,6 +378,12 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
       let tappedToWatch = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToWatch(_:)))
       myCell.coverImage.addGestureRecognizer(tappedToWatch)
 
+      if(feedInfo.freeForHours > 1) {
+        myCell.freeForHours.text = "free for \(feedInfo.freeForHours) hrs"
+      } else {
+        myCell.freeForHours.text = "free for \(feedInfo.freeForHours) hr"
+      }
+      myCell.freeForHours.isHidden = isLimitedFree(feedInfo) ? false : true
     }
 
     setupAskerInfo(myCell, myFeedInfo: feedInfo);
@@ -401,6 +409,10 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
 
 // Segue action
 extension ViewController {
+
+  func isLimitedFree(_ feedInfo: FeedsModel) -> Bool {
+    return feedInfo.rate > 0 && feedInfo.freeForHours > 0
+  }
 
   func processTransaction(_ amount: Int) {
     let uid = UserDefaults.standard.string(forKey: "uid")
@@ -524,7 +536,7 @@ extension ViewController {
   }
 
   func isQuandaFreeOrUnlocked(_ questionInfo: FeedsModel) -> Bool {
-    return questionInfo.rate == 0 || self.paidSnoops.contains(questionInfo.id)
+    return self.paidSnoops.contains(questionInfo.id) || questionInfo.rate == 0 || questionInfo.freeForHours > 0
   }
 
   func tappedToWatch(_ sender:UIGestureRecognizer) {

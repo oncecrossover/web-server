@@ -39,6 +39,12 @@
     <property name="isAskerAnonymous" type="java.lang.String">
       <column name="isAskerAnonymous" />
     </property>
+    <property name="limitedFreeHours" type="long">
+      <column name="limitedFreeHours" />
+    </property>
+    <property name="answeredTime" type="timestamp">
+      <column name="answeredTime" />
+    </property>
     <property name="createdTime" type="timestamp">
       <column name="createdTime" />
     </property>

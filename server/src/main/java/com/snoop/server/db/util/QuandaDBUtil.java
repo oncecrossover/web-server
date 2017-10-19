@@ -239,7 +239,9 @@ public class QuandaDBUtil {
            .addScalar("responderName", new StringType())
            .addScalar("responderTitle", new StringType())
            .addScalar("responderAvatarUrl", new StringType())
-           .addScalar("snoops", new LongType());
+           .addScalar("snoops", new LongType())
+           .addScalar("limitedFreeHours", new LongType())
+           .addScalar("answeredTime", new TimestampType());
       list = query.list();
 
       if (txn != null) {
@@ -384,8 +386,8 @@ public class QuandaDBUtil {
     long lastSeenId = 0;
     int limit = Configuration.SNOOP_SERVER_CONF_PAGINATION_LIMIT_DEFAULT;
     final String select = " SELECT Q.id, Q.question,"
-        + " Q.rate, Q.updatedTime, Q.answerUrl,"
-        + " Q.answerCoverUrl, Q.duration, Q.isAskerAnonymous,"
+        + " Q.rate, Q.updatedTime, Q.answerUrl, Q.answerCoverUrl,"
+        + " Q.duration, Q.isAskerAnonymous, Q.limitedFreeHours, Q.answeredTime,"
         + " P2.avatarUrl AS askerAvatarUrl, P2.fullName AS askerName,"
         + " P.id AS responderId, P.fullName AS responderName,"
         + " P.title AS responderTitle, P.avatarUrl AS responderAvatarUrl,"

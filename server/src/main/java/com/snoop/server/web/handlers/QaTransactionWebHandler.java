@@ -155,6 +155,9 @@ public class QaTransactionWebHandler extends AbastractWebHandler
     }
   }
 
+  private Boolean isFreeToSnoop(final Quanda quanda) {
+    return quanda.getFreeForHours() > 0 || quanda.getRate() <= 0;
+  }
   /*
    * each 1/3 of charge of snooping goes to platform, asker and responder,
    * respectively.
@@ -192,7 +195,7 @@ public class QaTransactionWebHandler extends AbastractWebHandler
       return resp;
     }
 
-    if (quandaFromDB.getRate() <= 0) { /* free to snoop */
+    if (isFreeToSnoop(quandaFromDB)) { /* free to snoop */
       /* insert snoop */
 
       session = getSession();

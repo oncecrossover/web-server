@@ -24,7 +24,8 @@ class FeedsModel {
   var coverUrl: String?
   var answerUrl: String
   var rate: Int
-  init(_responderName: String, _responderTitle: String, _id: String, _question: String, _status: String, _responderId: String, _snoops: Int, _updatedTime: Double,  _duration: Int, _isAskerAnonymous: Bool, _responderAvatarUrl: String?, _askerAvatarUrl: String?, _askerName: String, _coverUrl: String?, _answerUrl: String, _rate: Int) {
+  var freeForHours: Int
+  init(_responderName: String, _responderTitle: String, _id: String, _question: String, _status: String, _responderId: String, _snoops: Int, _updatedTime: Double,  _duration: Int, _isAskerAnonymous: Bool, _responderAvatarUrl: String?, _askerAvatarUrl: String?, _askerName: String, _coverUrl: String?, _answerUrl: String, _rate: Int, _freeForHours: Int) {
     responderName = _responderName
     responderTitle = _responderTitle
     id = _id
@@ -41,5 +42,6 @@ class FeedsModel {
     coverUrl = _coverUrl
     answerUrl = _answerUrl
     rate = _rate
+    freeForHours = _freeForHours
   }
 }

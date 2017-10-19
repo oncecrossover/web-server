@@ -27,6 +27,8 @@ class FeedTableViewCell: UITableViewCell {
   @IBOutlet weak var askerName: UILabel!
   @IBOutlet weak var actionSheetButton: UIButton!
 
+  @IBOutlet weak var freeForHours: UILabel!
+
   override func awakeFromNib() {
     super.awakeFromNib()
     self.layoutIfNeeded()
@@ -61,6 +63,8 @@ class FeedTableViewCell: UITableViewCell {
     askerName.font = UIFont.boldSystemFont(ofSize: 14)
     numOfSnoops.font = numOfSnoops.font.withSize(11)
     numOfSnoops.textColor = UIColor.defaultColor()
+
+    freeForHours.backgroundColor = UIColor.highlightColor()
   }
 
 }

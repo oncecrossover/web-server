@@ -46,7 +46,7 @@ extension UIColor {
     return UIColor(red: 140/255, green: 157/255, blue: 170/255, alpha: 1.0)
   }
   public class func highlightColor() -> UIColor {
-    return UIColor(red: 255/255, green: 183/255, blue: 78/255, alpha: 0.8)
+    return UIColor(red: 255/255, green: 183/255, blue: 78/255, alpha: 0.5)
   }
 }
 
