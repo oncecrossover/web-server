@@ -11,10 +11,10 @@ import Photos
 
 class SocialGateway {
   /* temp local file where download puts data */
-  let tmpMediaFileNamePrefix: String = "com.snoop.media."
+  let tmpMediaFileNamePrefix: String = "com.vinsider.media."
   let videoMediaType: String = "mp4"
   /* customized album being created to ease cleaning media */
-  let instagramShareAlbumName: String = "Snoop Instagram Share"
+  let instagramShareAlbumName: String = "vInsider Instagram Share"
   let utility = UIUtility()
   var hostingController: UIViewController
   var permissionAlert: PermissionView
@@ -64,7 +64,7 @@ class SocialGateway {
     }
   }
 
-  /* e.g. com.snoop.videos.42673228350492672.mp4 */
+  /* e.g. com.vinsider.videos.42673228350492672.mp4 */
   private func getTmpMediaFileName(_ resourceId: String, mediaType: String) -> String {
     return self.tmpMediaFileNamePrefix.appendingFormat("%@.%@", resourceId, mediaType)
   }
