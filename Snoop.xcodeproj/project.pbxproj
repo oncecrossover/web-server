@@ -1369,6 +1369,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Snoop",
 				);
+				"HTTPHOST[arch=*]" = "http://www.vinsider.co:8080/";
 				INFOPLIST_FILE = Snoop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1399,6 +1400,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Snoop",
 				);
+				"HTTPHOST[arch=*]" = "http://www.vinsider.co:8443/";
 				INFOPLIST_FILE = Snoop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
