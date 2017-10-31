@@ -89,12 +89,8 @@ extension AnswerViewController: UITableViewDataSource, UITableViewDelegate {
     myCell.rateLabel.text = "$ \(cellInfo.rate)"
 
     myCell.question.text = cellInfo.question
-
     myCell.responderName.text = cellInfo.responderName
-
-    if (!cellInfo.responderTitle.isEmpty) {
-      myCell.responderTitle.text = cellInfo.responderTitle
-    }
+    myCell.responderTitle.text = cellInfo.responderTitle
 
     if let askerAvatarUrl = cellInfo.askerAvatarUrl {
       myCell.askerImage.sd_setImage(with: URL(string: askerAvatarUrl))

@@ -17,7 +17,7 @@ class ActivityModel {
   var askerName: String
   var responderId: String?
   var responderName: String
-  var responderTitle: String
+  var responderTitle: String?
   var answerCoverUrl: String?
   var askerAvatarUrl: String?
   var responderAvatarUrl: String?
@@ -26,7 +26,7 @@ class ActivityModel {
   var hoursToExpire: Int
   var snoops: Int
 
-  init(_id: String, _question: String, _status: String, _rate: Int, _duration: Int, _isAskerAnonymous: Bool, _askerName: String, _responderId: String?, _responderName: String, _responderTitle: String, _answerCoverUrl: String?, _askerAvatarUrl: String?, _responderAvatarUrl: String?, _answerUrl : String?, _lastSeenTime: Double, _hoursToExpire: Int, _snoops: Int) {
+  init(_id: String, _question: String, _status: String, _rate: Int, _duration: Int, _isAskerAnonymous: Bool, _askerName: String, _responderId: String?, _responderName: String, _responderTitle: String?, _answerCoverUrl: String?, _askerAvatarUrl: String?, _responderAvatarUrl: String?, _answerUrl : String?, _lastSeenTime: Double, _hoursToExpire: Int, _snoops: Int) {
     id = _id
     question = _question
     status = _status
@@ -65,7 +65,7 @@ class ActivityModel {
     let responderAvatarUrl = questionInfo["responderAvatarUrl"] as? String
     let responderId = questionInfo["responderId"] as? String
     let responderName = questionInfo["responderName"] as! String
-    let responderTitle = questionInfo["responderTitle"] as! String
+    let responderTitle = questionInfo["responderTitle"] as? String
     let askerAvatarUrl = questionInfo["askerAvatarUrl"] as? String
     let answerCoverUrl = questionInfo["answerCoverUrl"] as? String
     let answerUrl = questionInfo["answerUrl"] as? String

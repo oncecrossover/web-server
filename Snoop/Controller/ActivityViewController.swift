@@ -292,10 +292,7 @@ extension ActivityViewController {
  */
 func setupResponderInfo(_ myCell: ActivityTableViewCell, myCellInfo: ActivityModel) {
   myCell.responderName.text = myCellInfo.responderName
-
-  if (!myCellInfo.responderTitle.isEmpty) {
-    myCell.responderTitle.text = myCellInfo.responderTitle
-  }
+  myCell.responderTitle.text = myCellInfo.responderTitle
 
   if let responderAvatarUrl = myCellInfo.responderAvatarUrl {
     myCell.responderImage.sd_setImage(with: URL(string: responderAvatarUrl))
