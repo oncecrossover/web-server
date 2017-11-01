@@ -84,6 +84,21 @@ extension AnswerViewController: UITableViewDataSource, UITableViewDelegate {
     return 1
   }
 
+  /**
+   * Setup asker info, e.g. name and avatar
+   */
+  func setupAskerInfo(_ myCell: ActivityTableViewCell, myCellInfo: ActivityModel) {
+    /* show or hide real name */
+    myCell.askerName.text = (myCellInfo.isAskerAnonymous ? "Anonymous" : myCellInfo.askerName) + ":"
+
+    /* show or hide real avartar */
+    if (myCellInfo.askerAvatarUrl != nil && !myCellInfo.isAskerAnonymous) {
+      myCell.askerImage.sd_setImage(with: URL(string: myCellInfo.askerAvatarUrl!))
+    } else {
+      myCell.askerImage.cosmeticizeImage(cosmeticHints: myCell.askerName.text)
+    }
+  }
+
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let myCell = tableView.dequeueReusableCell(withIdentifier: "activityCell", for: indexPath) as! ActivityTableViewCell
     myCell.rateLabel.text = "$ \(cellInfo.rate)"
@@ -92,12 +107,7 @@ extension AnswerViewController: UITableViewDataSource, UITableViewDelegate {
     myCell.responderName.text = cellInfo.responderName
     myCell.responderTitle.text = cellInfo.responderTitle
 
-    if let askerAvatarUrl = cellInfo.askerAvatarUrl {
-      myCell.askerImage.sd_setImage(with: URL(string: askerAvatarUrl))
-    }
-    else {
-      myCell.askerImage.cosmeticizeImage(cosmeticHints: cellInfo.askerName)
-    }
+    setupAskerInfo(myCell, myCellInfo: cellInfo);
 
     if let responderAvatarUrl = cellInfo.responderAvatarUrl {
       myCell.responderImage.sd_setImage(with: URL(string: responderAvatarUrl))
@@ -117,8 +127,6 @@ extension AnswerViewController: UITableViewDataSource, UITableViewDelegate {
         myCell.expireLabel.text = "expire in \(cellInfo.hoursToExpire) hr"
       }
     }
-
-    myCell.askerName.text = cellInfo.askerName + ":"
 
     return myCell
   }
