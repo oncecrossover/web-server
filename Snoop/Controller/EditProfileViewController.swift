@@ -252,16 +252,30 @@ extension EditProfileViewController: UITextViewDelegate {
 // IB related actions
 extension EditProfileViewController {
 
+  func trimmingSpaces(_ strValue: String!) -> String! {
+    return strValue.trimmingCharacters(in: CharacterSet.whitespaces)
+  }
+
+  func fieldsNotReadyToSubmit() -> Bool {
+    return
+      trimmingSpaces(profileView.firstName.value.text!).isEmpty
+      || trimmingSpaces(profileView.lastName.value.text!).isEmpty
+      || trimmingSpaces(profileView.title.value.text!).isEmpty
+      || trimmingSpaces(profileView.about.value.text!).isEmpty
+      || profileView.about.value.text! == placeHolder;
+  }
+
   func submitButtonTapped() {
     dismissKeyboard()
+    if (fieldsNotReadyToSubmit()) {
+      utility.displayAlertMessage("please include name, title and description", title: "Missing Info", sender: self)
+      return
+    }
+
     //First start the activity indicator
     var text = "Updating Profile..."
     if (isEditingProfile == false) {
       text = "Thank you for your appplication..."
-      if (profileView.title.value.text!.isEmpty || profileView.about.value.text!.isEmpty || profileView.about.value.text! == placeHolder) {
-        utility.displayAlertMessage("please include your title and a short description of yourself", title: "Missing Info", sender: self)
-        return
-      }
 
       if (profileView.expertise.oldSelectedCategories.count == 0 && profileView.expertise.newSelectedCategories.count == 0) {
         utility.displayAlertMessage("Please include at least one of your expertise", title: "Missing Info", sender: self)
