@@ -52,8 +52,8 @@ class ActivityViewController: UIViewController {
 
   lazy var permissionView: PermissionView = {
     let view = PermissionView()
-    view.setHeader("Allow Snoop to access your photos")
-    view.setInstruction("1. Open iPhone Settings \n2. Tap Privacy \n3. Tap Photos \n4. Set Snoop to ON")
+    view.setHeader("Allow vInsider to access your photos")
+    view.setInstruction("1. Open iPhone Settings \n2. Tap Privacy \n3. Tap Photos \n4. Set vInsider to ON")
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }()

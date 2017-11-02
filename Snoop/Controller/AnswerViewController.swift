@@ -33,8 +33,8 @@ class AnswerViewController: UIViewController {
 
   lazy var permissionView: PermissionView = {
     let view = PermissionView()
-    view.setHeader("Allow Snoop to access your camera")
-    view.setInstruction("1. Open iPhone Settings \n2. Tap Privacy \n3. Tap Camera \n4. Set Snoop to ON")
+    view.setHeader("Allow vInsider to access your camera")
+    view.setInstruction("1. Open iPhone Settings \n2. Tap Privacy \n3. Tap Camera \n4. Set vInsider to ON")
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }()
@@ -373,8 +373,8 @@ extension AnswerViewController {
         window.addConstraintsWithFormat("H:|[v0]|", views: permissionView)
         window.addConstraintsWithFormat("V:|[v0]|", views: permissionView)
         permissionView.alpha = 0
-        permissionView.setHeader("Allow Snoop to access your microphone")
-        permissionView.setInstruction("1. Open Iphone settings \n2. Tap privacy \n3. Tap microphone \n4. Set Snoop to ON")
+        permissionView.setHeader("Allow vInsider to access your microphone")
+        permissionView.setInstruction("1. Open Iphone settings \n2. Tap privacy \n3. Tap microphone \n4. Set vInsider to ON")
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
           self.permissionView.alpha = 1
         }, completion: nil)

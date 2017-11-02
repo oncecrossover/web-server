@@ -54,7 +54,7 @@ class InterestPickerViewController: UIViewController {
 
   let note: UILabel = {
     let label = UILabel()
-    label.text = "Snoop will customize content for you"
+    label.text = "vInsider will customize content for you"
     label.textColor = UIColor(red: 95/255, green: 95/255, blue: 95/255, alpha: 1.0)
     label.textAlignment = .center
     label.font = UIFont.systemFont(ofSize: 14)
