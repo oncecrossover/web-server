@@ -22,7 +22,7 @@ class IconView: UIView {
     message.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 1.0)
     message.textAlignment = .center
     message.font = UIFont.systemFont(ofSize: 18)
-    message.text = "Welcome to Snoop"
+    message.text = "Welcome to vInsider"
     return message
   }()
 
