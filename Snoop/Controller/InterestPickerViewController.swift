@@ -95,7 +95,6 @@ class InterestPickerViewController: UIViewController {
     view.addSubview(doneButton)
     view.addSubview(activityIndicator)
     activityIndicator.center = view.center
-    doneButton.isEnabled = false
 
     view.addConstraintsWithFormat("H:|-20-[v0]-20-|", views: message)
     view.addConstraintsWithFormat("H:|[v0]|", views: underline)
@@ -223,15 +222,6 @@ extension InterestPickerViewController {
       }
     }
   }
-
-  func checkButton() {
-    if (selectedCategories.count > 0 || newSelectedCategories.count > 0 || deselectedCategories.count > 0) {
-      doneButton.isEnabled = true
-    }
-    else {
-      doneButton.isEnabled = false
-    }
-  }
 }
 extension InterestPickerViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
 
@@ -262,7 +252,6 @@ extension InterestPickerViewController: UICollectionViewDelegate, UICollectionVi
     else {
       newSelectedCategories.insert(interest)
     }
-    checkButton()
   }
 
   func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -274,7 +263,6 @@ extension InterestPickerViewController: UICollectionViewDelegate, UICollectionVi
     else {
       deselectedCategories.insert(interest)
     }
-    checkButton()
   }
 }
 
