@@ -275,12 +275,7 @@ extension EditProfileViewController {
     //First start the activity indicator
     var text = "Updating Profile..."
     if (isEditingProfile == false) {
-      text = "Thank you for your appplication..."
-
-      if (profileView.expertise.oldSelectedCategories.count == 0 && profileView.expertise.newSelectedCategories.count == 0) {
-        utility.displayAlertMessage("Please include at least one of your expertise", title: "Missing Info", sender: self)
-        return
-      }
+      text = "Thanks for your appplication..."
     }
 
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: text)
