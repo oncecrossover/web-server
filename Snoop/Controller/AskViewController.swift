@@ -188,7 +188,7 @@ extension AskViewController {
 // UITextViewDelegate
 extension AskViewController: UITextViewDelegate {
 
-  func settingsButtonTapped() {
+  @objc func settingsButtonTapped() {
     let dvc = SettingUserViewController()
     dvc.userInfo = (loginUserId: UserDefaults.standard.string(forKey: "uid"), userId: profileInfo.uid)
     self.navigationController?.pushViewController(dvc, animated: true)
@@ -226,7 +226,7 @@ extension AskViewController: UITextViewDelegate {
 // Ib related actions
 extension AskViewController {
 
-  func askButtonTapped() {
+  @objc func askButtonTapped() {
     if (questionView.text! == placeholder) {
       utility.displayAlertMessage("questions cannot be empty", title: "Alert", sender: self)
       return
@@ -297,7 +297,7 @@ extension AskViewController {
     }
   }
 
-  func confirmButtonTapped() {
+  @objc func confirmButtonTapped() {
     UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
       self.blackView.alpha = 0
       self.payWithCoinsView.alpha = 0
@@ -306,7 +306,7 @@ extension AskViewController {
     }
   }
 
-  func buyButtonTapped() {
+  @objc func buyButtonTapped() {
     UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
       self.blackView.alpha = 0
       self.buyCoinsView.alpha = 0
@@ -319,14 +319,14 @@ extension AskViewController {
     }
   }
 
-  func cancelAskButtonTapped() {
+  @objc func cancelAskButtonTapped() {
     UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
       self.blackView.alpha = 0
       self.payWithCoinsView.alpha = 0
       }, completion: nil)
   }
 
-  func cancelBuyButtonTapped() {
+  @objc func cancelBuyButtonTapped() {
     UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
       self.blackView.alpha = 0
       self.buyCoinsView.alpha = 0

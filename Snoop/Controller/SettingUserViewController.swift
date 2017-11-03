@@ -97,7 +97,7 @@ extension SettingUserViewController {
     }
   }
 
-  func blockSwitchValueDidChange(_ sender : UISwitch!) {
+  @objc func blockSwitchValueDidChange(_ sender : UISwitch!) {
     let blocked = sender.isOn ? "TRUE" : "FALSE"
     userBlockHTTP.createUserBlock(userInfo.loginUserId!, blockeeId: userInfo.userId!, blocked: blocked) {
       result in

@@ -34,7 +34,7 @@ class FullScreenImageView : UIView {
   }()
 
   /* a function to restore full screen to previous orginal view */
-  func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+  @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
     UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
       self.blackView.alpha = 0
       self.imageView.alpha = 0
@@ -42,7 +42,7 @@ class FullScreenImageView : UIView {
   }
 
   /* do full screen rendering */
-  func imageTapped(_ sender: UITapGestureRecognizer) {
+  @objc func imageTapped(_ sender: UITapGestureRecognizer) {
     if let window = UIApplication.shared.keyWindow {
       /* setup blackView */
       window.addSubview(blackView)

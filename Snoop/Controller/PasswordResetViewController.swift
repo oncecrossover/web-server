@@ -133,7 +133,7 @@ class PasswordResetViewController: UIViewController{
     saveButton.isEnabled = false
   }
 
-  func checkEmail() {
+  @objc func checkEmail() {
     let emailText = email.text!
     if (emailText.isEmpty) {
       return
@@ -148,7 +148,7 @@ class PasswordResetViewController: UIViewController{
     sendButton.isEnabled = true
   }
 
-  func checkPassword() {
+  @objc func checkPassword() {
     guard
       let tmpPassword = passwordView.tmpPassword.text, !tmpPassword.isEmpty,
       let newPassword = passwordView.password.text, !newPassword.isEmpty
@@ -167,7 +167,7 @@ class PasswordResetViewController: UIViewController{
     _ = self.navigationController?.popViewController(animated: true)
   }
 
-  func saveButtonTapped() {
+  @objc func saveButtonTapped() {
     dismissKeyboard()
     let tmpPwd = passwordView.tmpPassword.text!
     let newPwd = passwordView.password.text!
@@ -197,7 +197,7 @@ class PasswordResetViewController: UIViewController{
     }
   }
 
-  func sendEmailButtonTapped() {
+  @objc func sendEmailButtonTapped() {
     dismissKeyboard()
     let activityIndicator = MBProgressHUD.showAdded(to: self.view, animated: false)
     activityIndicator.label.text = "Sending..."

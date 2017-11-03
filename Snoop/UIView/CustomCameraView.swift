@@ -119,32 +119,32 @@ class CustomCameraView: UIView {
 
   var deleteHighlightBar: UIView?
 
-  func handleShoot() {
+  @objc func handleShoot() {
     delegate.didShoot(self)
   }
 
-  func handleBack() {
+  @objc func handleBack() {
     delegate.didBack(self)
   }
 
-  func handleDelete() {
+  @objc func handleDelete() {
     prepareToDeleteSegment()
     delegate.didDelete(self)
   }
 
-  func handleNext(){
+  @objc func handleNext(){
     delegate.didNext(self)
   }
 
-  func handlePlay() {
+  @objc func handlePlay() {
     delegate.didPlay(self)
   }
 
-  func handleSwitch() {
+  @objc func handleSwitch() {
     delegate.didSwitch(self)
   }
 
-  func update() {
+  @objc func update() {
     time.text = count.toTimeFormat()
     let progress = Float(count)/Float(60)
     progressBar.setProgress(progress, animated: true)
@@ -160,7 +160,7 @@ class CustomCameraView: UIView {
     count = count + 1
   }
 
-  func blink() {
+  @objc func blink() {
     if (self.deleteHighlightBar?.backgroundColor == UIColor.red) {
       self.deleteHighlightBar?.backgroundColor = UIColor.clear
     }

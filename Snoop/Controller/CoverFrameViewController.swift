@@ -108,7 +108,7 @@ private extension CoverFrameViewController {
       width: UIScreen.main.bounds.size.width, height: 60));
     navbar.setBackgroundImage(UIImage(), for: .default)
     navbar.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
-    navbar.titleTextAttributes = [ NSForegroundColorAttributeName:UIColor.white]
+    navbar.titleTextAttributes = [ NSAttributedStringKey.foregroundColor:UIColor.white]
     self.view.addSubview(navbar)
 
     let navItem = UINavigationItem(title: "Pick a Cover")
@@ -135,7 +135,7 @@ private extension CoverFrameViewController {
 
 extension CoverFrameViewController {
 
-  func back(_ sender: AnyObject) {
+  @objc func back(_ sender: AnyObject) {
     _ = self.navigationController?.popViewController(animated: false)
   }
 

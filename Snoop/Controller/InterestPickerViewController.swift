@@ -196,7 +196,7 @@ class InterestPickerViewController: UIViewController {
 // IB related actions
 extension InterestPickerViewController {
 
-  func doneButtonTapped() {
+  @objc func doneButtonTapped() {
     let categoriesToUpdate:[[String: AnyObject]] = populateCategoriesToUpdate()
 
     var uid = UserDefaults.standard.string(forKey: "uid")

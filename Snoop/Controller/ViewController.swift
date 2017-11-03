@@ -186,7 +186,7 @@ extension ViewController {
     self.coinView.setCount(count)
   }
 
-  func addCoins(_ notification: Notification) {
+  @objc func addCoins(_ notification: Notification) {
     if let uid = notification.userInfo?["uid"] as? String {
       let currentUid = UserDefaults.standard.string(forKey: "uid")
       // Check if these two are the same user if app relaunches or user signs out.
@@ -199,7 +199,7 @@ extension ViewController {
     }
   }
 
-  func refresh(_ sender:AnyObject) {
+  @objc func refresh(_ sender:AnyObject) {
     loadCoinCount()
     loadData()
   }
@@ -330,10 +330,6 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     }
   }
 
-  func cosmeticizeDefaultAvatar(_ myAvatar: UIImageView, fullName : String?) {
-    myAvatar.setImageForName(string: fullName!, backgroundColor: nil, circular: true, textAttributes: nil)
-  }
-
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let myCell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedTableViewCell
 
@@ -451,7 +447,7 @@ extension ViewController {
     }
 
   }
-  func claimButtonTapped() {
+  @objc func claimButtonTapped() {
     UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
       self.blackView.alpha = 0
       self.freeCoinsView.alpha = 0
@@ -467,14 +463,14 @@ extension ViewController {
     }
   }
 
-  func coinButtonTapped() {
+  @objc func coinButtonTapped() {
     let vc = CoinsViewController()
     vc.numOfCoins = self.coinCount
     vc.homeViewController = self
     self.present(vc, animated: true, completion: nil)
   }
 
-  func confirmButtonTapped() {
+  @objc func confirmButtonTapped() {
     UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
       self.blackView.alpha = 0
       self.payWithCoinsView.alpha = 0
@@ -484,7 +480,7 @@ extension ViewController {
     }
   }
 
-  func buyButtonTapped() {
+  @objc func buyButtonTapped() {
     UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
       self.blackView.alpha = 0
       self.buyCoinsView.alpha = 0
@@ -495,21 +491,21 @@ extension ViewController {
     }
   }
 
-  func cancelPayButtonTapped() {
+  @objc func cancelPayButtonTapped() {
     UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
       self.blackView.alpha = 0
       self.payWithCoinsView.alpha = 0
       }, completion: nil)
   }
 
-  func cancelBuyButtonTapped() {
+  @objc func cancelBuyButtonTapped() {
     UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
       self.blackView.alpha = 0
       self.buyCoinsView.alpha = 0
       }, completion: nil)
   }
 
-  func tappedOnProfile(_ sender:UIGestureRecognizer) {
+  @objc func tappedOnProfile(_ sender:UIGestureRecognizer) {
     self.feedTable.isUserInteractionEnabled = false
     let tapLocation = sender.location(in: self.feedTable)
     let indexPath = self.feedTable.indexPathForRow(at: tapLocation)!
@@ -523,7 +519,7 @@ extension ViewController {
     }
   }
 
-  func tappedOnActionSheetButton(_ sender: UIButton!) {
+  @objc func tappedOnActionSheetButton(_ sender: UIButton!) {
     /* get answer media info */
     let forModel = feeds[sender.tag]
     let actionSheet = shareActionSheet.createSheet(forModel: forModel, readyToView: isQuandaFreeOrUnlocked(forModel))
@@ -534,7 +530,7 @@ extension ViewController {
     return self.paidSnoops.contains(questionInfo.id) || questionInfo.rate == 0 || questionInfo.freeForHours > 0
   }
 
-  func tappedToWatch(_ sender:UIGestureRecognizer) {
+  @objc func tappedToWatch(_ sender:UIGestureRecognizer) {
     let tapLocation = sender.location(in: self.feedTable)
 
     //using the tapLocation, we retrieve the corresponding indexPath

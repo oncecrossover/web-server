@@ -84,7 +84,7 @@ class VideoPlayerView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  func handlePause() {
+  @objc func handlePause() {
     if (isPlaying) {
       isPlaying = false
       playButton.isHidden = false
@@ -97,7 +97,7 @@ class VideoPlayerView: UIView {
     }
   }
 
-  func handleSlider() {
+  @objc func handleSlider() {
     if let duration = player?.currentItem?.duration {
       let totalSeconds = CMTimeGetSeconds(duration)
       let seekTime = CMTime(value: Int64(Float64(slider.value) * totalSeconds), timescale: 1)
@@ -105,7 +105,7 @@ class VideoPlayerView: UIView {
     }
   }
 
-  func closeView() {
+  @objc func closeView() {
     self.gestureRecognizers?.forEach(self.removeGestureRecognizer)
     player?.pause()
     if let _ = self.timeObserver {

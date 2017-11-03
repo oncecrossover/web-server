@@ -80,11 +80,11 @@ class EulaViewController: UIViewController {
     disagreeButton.bottomAnchor.constraint(equalTo: agreeButton.bottomAnchor).isActive = true
   }
 
-  func disagreeButtonTapped() {
+  @objc func disagreeButtonTapped() {
     self.dismiss(animated: true, completion: nil)
   }
 
-  func agreeButtonTapped() {
+  @objc func agreeButtonTapped() {
     self.dismiss(animated: true, completion: nil)
     signupViewController?.doSignUp()
   }

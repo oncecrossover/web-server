@@ -12,7 +12,7 @@ class SettingsTableViewCell: UITableViewCell {
   let label: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
-    label.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightMedium)
+    label.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.medium)
     return label
   }()
 

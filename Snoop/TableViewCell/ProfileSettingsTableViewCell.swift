@@ -19,7 +19,7 @@ class ProfileSettingsTableViewCell: UITableViewCell {
   let category: UILabel = {
     let category = UILabel()
     category.textColor = UIColor(white: 0, alpha: 0.7)
-    category.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightMedium)
+    category.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
     return category
   }()
 

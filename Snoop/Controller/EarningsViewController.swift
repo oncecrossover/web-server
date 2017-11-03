@@ -91,7 +91,7 @@ extension EarningsViewController: UITextFieldDelegate {
 }
 // IB actions
 extension EarningsViewController {
-  func checkEmail(){
+  @objc func checkEmail(){
     //Check for valid email address
     let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
 
@@ -105,7 +105,7 @@ extension EarningsViewController {
     }
   }
 
-  func updateButtonTapped(){
+  @objc func updateButtonTapped(){
     let util = UIUtility()
     let uid = UserDefaults.standard.string(forKey: "uid")
     let email = input.paypalEmail.field.text!
@@ -125,7 +125,7 @@ extension EarningsViewController {
 }
 //Handle keybord functions
 extension EarningsViewController {
-  func keyboardWillShow(_ notification: Notification)
+  @objc func keyboardWillShow(_ notification: Notification)
   {
     //Need to calculate keyboard exact size due to Apple suggestions
     scrollView.isScrollEnabled = true
@@ -150,7 +150,7 @@ extension EarningsViewController {
     }
   }
 
-  func keyboardWillHide(_ notification: Notification)
+  @objc func keyboardWillHide(_ notification: Notification)
   {
     self.view.endEditing(true)
     scrollView.setContentOffset(CGPoint(x: 0, y: self.contentOffset.y), animated: true)
@@ -184,7 +184,7 @@ private class EarningsView: UIView {
     let title = UILabel()
     title.text = "Total Earnings"
     title.textAlignment = .center
-    title.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightMedium)
+    title.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
     title.textColor = UIColor(white: 0, alpha: 0.7)
     return title
   }()

@@ -15,13 +15,13 @@ let kColorMaxComponent: Int = 214
 extension UIImageView {
 
     private static var colorDict: [String: UIColor] = [:]
-    public func setImageForName(string: String, backgroundColor: UIColor?, circular: Bool, textAttributes: [String: AnyObject]?) {
+    public func setImageForName(string: String, backgroundColor: UIColor?, circular: Bool, textAttributes: [NSAttributedStringKey: AnyObject]?) {
 
       let initials: String = initialsFromString(string: string)
       let color: UIColor = (backgroundColor != nil) ? backgroundColor! : getColor(initials)
-      let attributes: [String: AnyObject] = (textAttributes != nil) ? textAttributes! : [
-          NSFontAttributeName: self.fontForFontName(name: nil),
-          NSForegroundColorAttributeName: UIColor.white
+      let attributes: [NSAttributedStringKey: AnyObject] = (textAttributes != nil) ? textAttributes! : [
+        NSAttributedStringKey.font: self.fontForFontName(name: nil),
+        NSAttributedStringKey.foregroundColor: UIColor.white
       ]
 
       self.image = imageSnapshot(text: initials, backgroundColor: color, circular: circular, textAttributes: attributes)
@@ -38,7 +38,7 @@ extension UIImageView {
       }
     }
 
-    private func imageSnapshot(text imageText: String, backgroundColor: UIColor, circular: Bool, textAttributes: [String : AnyObject]) -> UIImage {
+    private func imageSnapshot(text imageText: String, backgroundColor: UIColor, circular: Bool, textAttributes: [NSAttributedStringKey : AnyObject]) -> UIImage {
 
       let scale: CGFloat = UIScreen.main.scale
 
@@ -68,7 +68,7 @@ extension UIImageView {
       context.fill(CGRect(x: 0, y: 0, width: size.width, height: size.height))
 
       // Draw text in the context
-      let textSize: CGSize = imageText.size(attributes: textAttributes)
+      let textSize: CGSize = imageText.size(withAttributes: textAttributes)
       let bounds: CGRect = self.bounds
 
       imageText.draw(in: CGRect(x: bounds.midX - textSize.width / 2,

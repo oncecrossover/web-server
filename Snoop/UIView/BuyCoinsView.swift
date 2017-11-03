@@ -13,7 +13,7 @@ class BuyCoinsView: UIView {
     // left by 11, top 16, height 18
     let title = UILabel()
     title.textColor = UIColor(red: 42/255, green: 48/255, blue: 52/255, alpha: 1.0)
-    title.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightMedium)
+    title.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.medium)
     title.textAlignment = .center
     title.text = "Insuffient Coins"
     return title

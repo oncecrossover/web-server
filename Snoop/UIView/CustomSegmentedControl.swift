@@ -84,15 +84,15 @@ class CustomSegmentedControl: UIView, UICollectionViewDataSource, UICollectionVi
     fatalError("init(coder:) has not been implemented")
   }
 
-  func reloadQuestions() {
+  @objc func reloadQuestions() {
     delegate.loadIndexWithRefresh(0)
   }
 
-  func reloadAnswers() {
+  @objc func reloadAnswers() {
     delegate.loadIndexWithRefresh(1)
   }
 
-  func reloadSnoops() {
+  @objc func reloadSnoops() {
     delegate.loadIndexWithRefresh(2)
   }
 

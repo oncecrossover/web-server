@@ -86,7 +86,7 @@ extension UIViewController {
     let player = AVPlayer(url: URL(string: answerUrl)!)
     videoPlayerView.player = player
     let playerLayer = AVPlayerLayer(player: player)
-    playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+    playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
     videoPlayerView.layer.addSublayer(playerLayer)
     playerLayer.frame = videoPlayerView.frame
     videoPlayerView.setupPlayingControls()

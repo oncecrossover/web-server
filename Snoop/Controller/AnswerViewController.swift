@@ -134,7 +134,7 @@ extension AnswerViewController: UITableViewDataSource, UITableViewDelegate {
 
 // Private methods
 extension AnswerViewController {
-  func handleEndOfPlaying() {
+  @objc func handleEndOfPlaying() {
     if ((self.player?.items().count)! > 1) {
       self.player?.advanceToNextItem()
     }
@@ -177,7 +177,7 @@ extension AnswerViewController {
     return self.segmentFilePrefix + "\(index).m4a"
   }
 
-  func handleAudioInteruption(_ notification: Notification) {
+  @objc func handleAudioInteruption(_ notification: Notification) {
     guard let userInfo = notification.userInfo,
       let interruptionTypeRawValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
       let interruptionType = AVAudioSessionInterruptionType(rawValue: interruptionTypeRawValue) else {
@@ -203,22 +203,22 @@ extension AnswerViewController {
     var layerInstructions:[AVVideoCompositionLayerInstruction] = []
     for url in segmentUrls {
       let videoAsset = AVAsset(url: url)
-      let videoTrack = composition.addMutableTrack(withMediaType: AVMediaTypeVideo, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-      let audioTrack = composition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-      let videoAssetTrack = videoAsset.tracks(withMediaType: AVMediaTypeVideo)[0]
+      let videoTrack = composition.addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+      let audioTrack = composition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+      let videoAssetTrack = videoAsset.tracks(withMediaType: AVMediaType.video)[0]
 
       do {
 
-        try videoTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, videoAsset.duration),
+        try videoTrack?.insertTimeRange(CMTimeRangeMake(kCMTimeZero, videoAsset.duration),
                                        of: videoAssetTrack, at: totalTime)
-        try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, videoAsset.duration),
-                                       of: videoAsset.tracks(withMediaType: AVMediaTypeAudio)[0], at: totalTime)
+        try audioTrack?.insertTimeRange(CMTimeRangeMake(kCMTimeZero, videoAsset.duration),
+                                       of: videoAsset.tracks(withMediaType: AVMediaType.audio)[0], at: totalTime)
       } catch let error as NSError {
         print("error: \(error)")
       }
       totalTime = CMTimeAdd(totalTime, videoAsset.duration)
       // Set up instructions
-      let videoInstruction = videoCompositionInstructionForTrack(track: videoTrack, assetTrack: videoAssetTrack)
+      let videoInstruction = videoCompositionInstructionForTrack(track: videoTrack!, assetTrack: videoAssetTrack)
       if (url != segmentUrls.last) {
         videoInstruction.setOpacity(0.0, at: totalTime)
       }
@@ -238,7 +238,7 @@ extension AnswerViewController {
     try? FileManager.default.removeItem(at: outputUrl)
     let exporter = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetMediumQuality)!
     exporter.outputURL = outputUrl
-    exporter.outputFileType = AVFileTypeMPEG4 //.m4a format
+    exporter.outputFileType = AVFileType.mp4 //.m4a format
     exporter.videoComposition = mainComposition
     exporter.exportAsynchronously{
       switch exporter.status{
@@ -351,9 +351,9 @@ extension AnswerViewController {
     }
   }
 
-  func tappedOnImage() {
+  @objc func tappedOnImage() {
     // Check if user granted camera access
-    if (AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) ==  AVAuthorizationStatus.denied) {
+    if (AVCaptureDevice.authorizationStatus(for: AVMediaType.video) ==  AVAuthorizationStatus.denied) {
       if let window = UIApplication.shared.keyWindow {
         window.addSubview(permissionView)
         window.addConstraintsWithFormat("H:|[v0]|", views: permissionView)
@@ -516,7 +516,7 @@ extension AnswerViewController: CustomCameraViewDelegate {
     videoLayer = AVPlayerLayer(player: player)
     videoLayer?.frame = self.view.bounds
     videoLayer?.backgroundColor = UIColor.black.cgColor
-    videoLayer?.videoGravity = AVLayerVideoGravityResizeAspect
+    videoLayer?.videoGravity = AVLayerVideoGravity.resizeAspect
     currentImagePicker?.cameraOverlayView?.layer.addSublayer(videoLayer!)
 
     // Add close button
@@ -533,7 +533,7 @@ extension AnswerViewController: CustomCameraViewDelegate {
     overlayView.showCameraControls()
   }
 
-  func stopPlaying() {
+  @objc func stopPlaying() {
     self.videoLayer?.player?.pause()
     self.closeButton.removeFromSuperview()
     self.videoLayer?.removeFromSuperlayer()

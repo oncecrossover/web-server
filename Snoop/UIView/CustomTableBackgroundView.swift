@@ -42,7 +42,7 @@ class CustomTableBackgroundView: UIView {
     label.text = text
   }
 
-  func switchPage() {
+  @objc func switchPage() {
     let buttonImage = button.imageView!.image!
     switch buttonImage {
     case UIImage(named: "discoverButton")!:

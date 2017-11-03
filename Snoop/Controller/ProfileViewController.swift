@@ -109,7 +109,7 @@ extension ProfileViewController {
     }
   }
 
-  func refresh() {
+  @objc func refresh() {
     initView()
   }
 }
@@ -117,7 +117,7 @@ extension ProfileViewController {
 //IB Action
 extension ProfileViewController {
 
-  func editButtonTapped() {
+  @objc func editButtonTapped() {
     isEditButtonClicked = true
     let dvc = EditProfileViewController()
     dvc.profileValues = (name: self.name, title: self.personTitle, about: self.about,
@@ -128,7 +128,7 @@ extension ProfileViewController {
     self.navigationController?.pushViewController(dvc, animated: true)
   }
 
-  func applyButtonTapped() {
+  @objc func applyButtonTapped() {
     isEditButtonClicked = false
     let dvc = EditProfileViewController()
     dvc.profileValues = (name: self.name, title: self.personTitle, about: self.about,
@@ -138,12 +138,12 @@ extension ProfileViewController {
     self.navigationController?.pushViewController(dvc, animated: true)
   }
 
-  func settingsButtonTapped() {
+  @objc func settingsButtonTapped() {
     let dvc = SettingsViewController()
     self.navigationController?.pushViewController(dvc, animated: true)
   }
 
-  func earningsViewTapped() {
+  @objc func earningsViewTapped() {
     let vc = EarningsViewController()
     vc.earning = self.earning
     self.navigationController?.pushViewController(vc, animated: true)

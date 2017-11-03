@@ -44,7 +44,7 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
       width: UIScreen.main.bounds.size.width, height: 60));
     navbar.setBackgroundImage(UIImage(), for: .default)
     navbar.backgroundColor = UIColor.white
-    navbar.titleTextAttributes = [ NSForegroundColorAttributeName:UIColor.black]
+    navbar.titleTextAttributes = [ NSAttributedStringKey.foregroundColor:UIColor.black]
     self.view.addSubview(navbar)
 
     let navItem = UINavigationItem(title: "Tutorial")
@@ -59,7 +59,7 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
     navbar.items = [navItem]
   }
 
-  func skipButtonTapped() {
+  @objc func skipButtonTapped() {
     UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
     UserDefaults.standard.set(uid, forKey: "uid")
     UserDefaults.standard.synchronize()

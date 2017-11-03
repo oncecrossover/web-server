@@ -167,12 +167,12 @@ extension ActivityViewController: SegmentedControlDelegate {
 // Private function
 extension ActivityViewController {
 
-  func refresh(_ sender: AnyObject) {
+  @objc func refresh(_ sender: AnyObject) {
     activePlayerView?.closeView()
     loadIndexWithRefresh(selectedIndex)
   }
 
-  func refreshAnswers() {
+  @objc func refreshAnswers() {
     loadIndexWithRefresh(1)
   }
 
@@ -453,7 +453,7 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
 
 // UI triggered actions
 extension ActivityViewController {
-  func tappedOnActionSheetButton(_ sender: UIButton!) {
+  @objc func tappedOnActionSheetButton(_ sender: UIButton!) {
     /* get answer media info */
     let forModel = getQuestionInfo(sender.tag)
     let actionSheet = shareActionSheet.createSheet(forModel: forModel)
@@ -479,7 +479,7 @@ extension ActivityViewController {
     return questionInfo;
   }
 
-  func tappedOnCoverImage(_ sender:UIGestureRecognizer) {
+  @objc func tappedOnCoverImage(_ sender:UIGestureRecognizer) {
     let tapLocation = sender.location(in: self.activityTableView)
 
     //using the tapLocation, we retrieve the corresponding indexPath

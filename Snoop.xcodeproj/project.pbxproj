@@ -772,19 +772,20 @@
 					4A05E5201ED8C8C700A96265 = {
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = 5RFZ63C7NL;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 4AC283621CE2F58100A08D35;
 					};
 					4A5B25791D65247700691696 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = 5RFZ63C7NL;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 						TestTargetID = 4AC283621CE2F58100A08D35;
 					};
 					4AC283621CE2F58100A08D35 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = 7LKHJZRS28;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1196,7 +1197,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.snoop.SnoopUnitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Snoop.app/Snoop";
 			};
 			name = Debug;
@@ -1219,7 +1221,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.snoop.SnoopUnitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Snoop.app/Snoop";
 			};
 			name = Release;
@@ -1232,7 +1235,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.snoop.SnoopUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = Snoop;
 				USES_XCTRUNNER = YES;
 			};
@@ -1246,7 +1250,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.snoop.SnoopUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = Snoop;
 				USES_XCTRUNNER = YES;
 			};
@@ -1378,7 +1383,8 @@
 				"STRIPE_API_KEY[arch=*]" = pk_test_wyZIIuEmr4TQLHVnZHUxlTtm;
 				SWIFT_OBJC_BRIDGING_HEADER = "Snoop/Snoop-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1408,7 +1414,8 @@
 				PRODUCT_NAME = Snoop;
 				"STRIPE_API_KEY[arch=*]" = pk_live_63ViAWPBwYTJSnZ5ZBICaKK3;
 				SWIFT_OBJC_BRIDGING_HEADER = "Snoop/Snoop-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

@@ -185,7 +185,7 @@ class LoginViewController: UIViewController {
     }
   }
 
-  func loginButtonTapped() {
+  @objc func loginButtonTapped() {
     let userEmail = loginView.email.text!
     let userPassword = loginView.password.text!
     let userModule = User()
@@ -201,7 +201,7 @@ class LoginViewController: UIViewController {
     }
   }
 
-  func signupLinkTapped() {
+  @objc func signupLinkTapped() {
     if (signupViewController != nil) {
       _ = self.navigationController?.popViewController(animated: true)
     }
@@ -212,7 +212,7 @@ class LoginViewController: UIViewController {
     }
   }
 
-  func forgetPasswordLinkTapped() {
+  @objc func forgetPasswordLinkTapped() {
     self.navigationController?.pushViewController(PasswordResetViewController(), animated: true)
   }
 }

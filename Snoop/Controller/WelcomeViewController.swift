@@ -116,7 +116,7 @@ class WelcomeViewController: UIViewController {
       DispatchQueue.main.async {
         self.player = AVPlayer(url: URL(string: url)!)
         let playerLayer = AVPlayerLayer(player: self.player)
-        playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         self.videoPlayerView.layer.addSublayer(playerLayer)
         playerLayer.frame = self.videoPlayerView.frame
         self.player?.volume = 0
@@ -144,7 +144,7 @@ class WelcomeViewController: UIViewController {
 // Extension for IB related actions
 extension WelcomeViewController {
 
-  func unmuteButtonTapped() {
+  @objc func unmuteButtonTapped() {
     if (isMuted) {
       isMuted = false
       self.player?.volume = 1.0
@@ -157,14 +157,14 @@ extension WelcomeViewController {
     }
   }
 
-  func signupButtonTapped() {
+  @objc func signupButtonTapped() {
     UserDefaults.standard.set(true, forKey: "isUserWelcomed")
     UserDefaults.standard.synchronize()
     let vc = SignupViewController()
     self.navigationController?.pushViewController(vc, animated: true)
   }
 
-  func loginButtonTapped(){
+  @objc func loginButtonTapped(){
     UserDefaults.standard.set(true, forKey: "isUserWelcomed")
     UserDefaults.standard.synchronize()
     let vc = LoginViewController()

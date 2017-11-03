@@ -62,7 +62,7 @@ class DiscoverViewController: UIViewController,  UITableViewDataSource, UITableV
     loadProfiles(url, isSearch: true)
   }
 
-  func refresh(_ sender:AnyObject) {
+  @objc func refresh(_ sender:AnyObject) {
     loadProfiles()
   }
 

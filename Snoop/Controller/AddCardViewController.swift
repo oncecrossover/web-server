@@ -47,7 +47,7 @@ class AddCardViewController: UIViewController, STPPaymentCardTextFieldDelegate {
 
   }
 
-  func saveButtonTapped(_ sender: AnyObject) {
+  @objc func saveButtonTapped(_ sender: AnyObject) {
     let activityIndicator = utility.createCustomActivityIndicator(self.view, text: "Adding New Card...")
 
     let client = STPAPIClient.init(publishableKey: "pk_test_wyZIIuEmr4TQLHVnZHUxlTtm")

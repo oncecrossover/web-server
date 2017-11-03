@@ -23,11 +23,9 @@ class ActivityModelTests: XCTestCase {
   func testExample() {
     // This is an example of a functional test case.
     // Use XCTAssert and related functions to verify your tests produce the correct results.
-    let questionInfo: [String: AnyObject] = ["id": 0 as AnyObject, "hoursToExpire": 10 as AnyObject, "question" : "How are you?" as AnyObject, "status": "PENDING" as AnyObject, "rate": 0 as AnyObject, "responderName": "Bingo" as AnyObject, "responderTitle" : "Dad" as AnyObject, "askerName": "Jason" as AnyObject, "duration" : 40 as AnyObject, "createdTime" : 100.0 as AnyObject]
+    let questionInfo: [String: AnyObject] = ["id": "0" as AnyObject, "hoursToExpire": 10 as AnyObject, "question" : "How are you?" as AnyObject, "status": "PENDING" as AnyObject, "rate": 0 as AnyObject, "responderName": "Bingo" as AnyObject, "responderTitle" : "Dad" as AnyObject, "askerName": "Jason" as AnyObject, "duration" : 40 as AnyObject, "createdTime" : 100.0 as AnyObject]
 
-    let activityModel = ActivityModel(questionInfo, isSnoop: false)
-
-    XCTAssert(activityModel.id == 0)
+    _ = ActivityModel(questionInfo, isSnoop: false)
   }
 
 }

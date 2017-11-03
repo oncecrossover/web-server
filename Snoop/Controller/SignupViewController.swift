@@ -142,7 +142,7 @@ class SignupViewController: UIViewController {
     self.view.endEditing(true)
   }
 
-  func signupButtonTapped() {
+  @objc func signupButtonTapped() {
     let evc = EulaViewController()
     evc.modalPresentationStyle = .overCurrentContext
     evc.modalTransitionStyle = .crossDissolve
@@ -233,7 +233,7 @@ class SignupViewController: UIViewController {
     return s
   }
 
-  func loginLinkTapped() {
+  @objc func loginLinkTapped() {
     if (loginViewController != nil) {
       self.navigationController?.popToViewController(loginViewController!, animated: true)
     }

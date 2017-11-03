@@ -14,7 +14,7 @@ class PermissionView: UIView {
     label.numberOfLines = 2
     label.textColor = UIColor(white: 0, alpha: 0.8)
     label.textAlignment = .center
-    label.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold)
+    label.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.bold)
     return label
   }()
 
@@ -57,7 +57,7 @@ class PermissionView: UIView {
     return view
   }()
 
-  func okButtonTapped() {
+  @objc func okButtonTapped() {
     UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
       self.alpha = 0
     }, completion: nil)

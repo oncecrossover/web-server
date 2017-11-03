@@ -11,7 +11,7 @@ import UIKit
 class FreeCoinsView: UIView {
   let title: UILabel = {
     let title = UILabel()
-    title.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightBold)
+    title.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.bold)
     title.textAlignment = .center
     title.text = "Welcome to vInsider!"
     return title

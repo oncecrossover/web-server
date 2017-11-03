@@ -123,7 +123,7 @@ extension EditProfileViewController {
 
 // Helper functions
 extension EditProfileViewController {
-  func handleFirstNameLimit(_ sender: UITextField) {
+  @objc func handleFirstNameLimit(_ sender: UITextField) {
     profileView.firstName.limit.isHidden = false
     let remainder = 20 - sender.text!.characters.count
     profileView.firstName.limit.text = "\(remainder)"
@@ -132,7 +132,7 @@ extension EditProfileViewController {
     submitButton.isEnabled = !nameExceeded && !titleExceeded && !aboutExceeded
   }
 
-  func handleLastNameLimit(_ sender: UITextField) {
+  @objc func handleLastNameLimit(_ sender: UITextField) {
     profileView.lastName.limit.isHidden = false
     let remainder = 20 - sender.text!.characters.count
     profileView.lastName.limit.text = "\(remainder)"
@@ -141,7 +141,7 @@ extension EditProfileViewController {
     submitButton.isEnabled = !nameExceeded && !titleExceeded && !aboutExceeded
   }
 
-  func handleTitleLimit(_ sender: UITextField) {
+  @objc func handleTitleLimit(_ sender: UITextField) {
     profileView.title.limit.isHidden = false
     let remainder = 30 - sender.text!.characters.count
     profileView.title.limit.text = "\(remainder)"
@@ -150,7 +150,7 @@ extension EditProfileViewController {
     submitButton.isEnabled = !nameExceeded && !titleExceeded && !aboutExceeded
   }
 
-  func keyboardWillShow(_ notification: Notification)
+  @objc func keyboardWillShow(_ notification: Notification)
   {
     //Need to calculate keyboard exact size due to Apple suggestions
     profileView.isScrollEnabled = true
@@ -179,7 +179,7 @@ extension EditProfileViewController {
     }
   }
 
-  func keyboardWillHide(_ notification: Notification)
+  @objc func keyboardWillHide(_ notification: Notification)
   {
     profileView.firstName.limit.isHidden = true
     profileView.lastName.limit.isHidden = true
@@ -265,7 +265,7 @@ extension EditProfileViewController {
       || profileView.about.value.text! == placeHolder;
   }
 
-  func submitButtonTapped() {
+  @objc func submitButtonTapped() {
     dismissKeyboard()
     if (fieldsNotReadyToSubmit()) {
       utility.displayAlertMessage("please include name, title and description", title: "Missing Info", sender: self)
@@ -356,7 +356,7 @@ extension EditProfileViewController {
     }
   }
 
-  func uploadButtonTapped() {
+  @objc func uploadButtonTapped() {
     if (PHPhotoLibrary.authorizationStatus() == .denied) {
       if let window = UIApplication.shared.keyWindow {
         window.addSubview(permissionView)

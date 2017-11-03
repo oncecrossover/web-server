@@ -147,7 +147,7 @@ class ProfileTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollect
       name = category.name as NSString
     }
 
-    let estimatedSize = name.size(attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 12)])
+    let estimatedSize = name.size(withAttributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12)])
     return CGSize(width: estimatedSize.width + 8, height: 18)
   }
 

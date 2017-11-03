@@ -26,7 +26,7 @@ class CoinsViewController: UIViewController {
     let navbar = UINavigationBar(frame: CGRect(x: 0, y: 0,
       width: self.view.frame.width, height: 64));
     navbar.backgroundColor = UIColor.white
-    navbar.titleTextAttributes = [ NSForegroundColorAttributeName:UIColor.black]
+    navbar.titleTextAttributes = [ NSAttributedStringKey.foregroundColor:UIColor.black]
     let navItem = UINavigationItem(title: "My Coins")
     let closeImage = UIImageView()
     closeImage.frame = CGRect(x: 0, y: 0, width: 15, height: 15)
@@ -89,7 +89,7 @@ extension CoinsViewController {
 
 //IB related actions
 extension CoinsViewController {
-  func closeButtonTapped() {
+  @objc func closeButtonTapped() {
     let vc = self.homeViewController
     let avc = self.askViewController
     self.dismiss(animated: true) {
@@ -101,7 +101,7 @@ extension CoinsViewController {
 
 // Private methods
 extension CoinsViewController {
-  func addCoins(_ notification: Notification) {
+  @objc func addCoins(_ notification: Notification) {
     if let uid = notification.userInfo?["uid"] as? String {
       let currentUid = UserDefaults.standard.string(forKey: "uid")
       // Check if these two are the same user if app relaunches or user signs out.

@@ -176,7 +176,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Override point for customization after application launch.
     let nav = UINavigationBar.appearance()
     nav.tintColor = UIColor.black
-    nav.titleTextAttributes = [ NSForegroundColorAttributeName:UIColor.black]
+    nav.titleTextAttributes = [ NSAttributedStringKey.foregroundColor:UIColor.black]
 
     let pageController = UIPageControl.appearance()
     pageController.pageIndicatorTintColor = UIColor.lightGray

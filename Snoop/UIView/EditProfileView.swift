@@ -221,7 +221,7 @@ class RateFieldGroup : FieldGroup {
     return view
   }()
 
-  func valueNumberPadDoneTapped(sender: AnyObject) {
+  @objc func valueNumberPadDoneTapped(sender: AnyObject) {
     super.value.endEditing(true)
   }
 }
@@ -311,7 +311,7 @@ class CollectionGroup: UIView, UICollectionViewDelegate, UICollectionViewDelegat
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     let category = allCategories[indexPath.row]
     let name = category.name as NSString
-    let estimatedSize = name.size(attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14.0)])
+    let estimatedSize = name.size(withAttributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14.0)])
     return CGSize(width: estimatedSize.width + 8, height: 27)
   }
 
