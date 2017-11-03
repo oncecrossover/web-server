@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import AVKit
 import MobileCoreServices
+import MediaWatermark
 
 class AnswerViewController: UIViewController {
 
@@ -413,17 +414,48 @@ extension AnswerViewController {
 // UIImageviewController delegate
 extension AnswerViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-
   //Finished recording video
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
     if let pickedVideo:URL = (info[UIImagePickerControllerMediaURL] as? URL) {
-
       // Save the video to the app directory so we can play it later
-      let videoData = try? Data(contentsOf: pickedVideo)
-      let dataPath = getSegmentFileUrl()
-      self.segmentUrls.append(dataPath)
-      self.globalCounter += 1
-      try? videoData?.write(to: dataPath, options: [])
+      watermarkAndSaveVideo(picker, url: pickedVideo)
+    }
+  }
+}
+
+// watermark
+extension AnswerViewController {
+  func watermarkAndSaveVideo(_ picker: UIImagePickerController, url: URL) {
+
+    if let item = MediaItem(url: url) {
+      let watermarkImage = UIImage(named: "watermark")
+
+      let firstElement = MediaElement(image: watermarkImage!)
+      let width = watermarkImage!.size.width / 3
+      let height = watermarkImage!.size.height / 3
+      firstElement.frame = CGRect(x: 20, y: view.center.y+height/2, width: width, height: height)
+      item.add(elements: [firstElement])
+
+      // activityIndicator
+      let activityIndicator = self.utilityModule.createCustomActivityIndicator(picker.view, text: "watermarking...")
+      let cameraView = currentImagePicker?.cameraOverlayView as? CustomCameraView
+      cameraView?.disableCameraControls()
+
+      let mediaProcessor = MediaProcessor()
+      mediaProcessor.processElements(item: item) {
+        [weak self] (result, error) in
+
+        DispatchQueue.main.async {
+          let videoData = try? Data(contentsOf: result.processedUrl!)
+          let dataPath: URL! = self?.getSegmentFileUrl()
+          self?.segmentUrls.append(dataPath)
+          self?.globalCounter += 1
+          try? videoData?.write(to: dataPath, options: [])
+
+          activityIndicator.hide(animated: true)
+          cameraView?.enableCameraControls()
+        }
+      }
     }
   }
 }
