@@ -8,7 +8,7 @@
 	<version>4.1.1.Final</version>
 
 	<name>snoop</name>
-	<url>http://www.snoopqa.com/</url>
+	<url>http://www.vinsider.com/</url>
 
 	<properties>
 		<logging.config>${project.basedir}/../common/src/test/resources/logback-test.xml</logging.config>

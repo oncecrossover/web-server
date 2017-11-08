@@ -15,9 +15,9 @@ public class EmailUtil {
   final static int LEN_PWD = 6;
   final static String CHARACTERS =
       "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+";
-  private final static String USER_NAME = "no-reply@snoopqa.com";
+  private final static String USER_NAME = "no-reply@vinsider.com";
   private final static String PASS_WORD = "Sn@@pntf*#@$";
-  private final static String PERSONAL = "Snoop Tech Inc";
+  private final static String PERSONAL = "Vinsider Inc";
 
   public static String getRandomPwd() {
     return RandomStringUtils.random(LEN_PWD, CHARACTERS);
@@ -71,7 +71,7 @@ public class EmailUtil {
       sb.appendln("");
       sb.appendln("");
       sb.appendln("Thanks,");
-      sb.appendln("Snoop Team");
+      sb.appendln("vInsider Team");
       message.setText(sb.toString());
 
       Transport.send(message);
@@ -101,7 +101,7 @@ public class EmailUtil {
       message.setFrom(new InternetAddress(USER_NAME, PERSONAL));
       message.setRecipients(Message.RecipientType.TO,
           InternetAddress.parse(email));
-      message.setSubject("Temporary password for your Snoop account");
+      message.setSubject("Temporary password for your vInsider account");
 
       /* set email body */
       final StrBuilder sb = new StrBuilder();
@@ -113,7 +113,7 @@ public class EmailUtil {
       sb.appendln("");
       sb.appendln("");
       sb.appendln("Thanks,");
-      sb.appendln("Snoop Team");
+      sb.appendln("vInsider Team");
       message.setText(sb.toString());
 
       Transport.send(message);
