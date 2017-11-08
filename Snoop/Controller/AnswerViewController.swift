@@ -237,7 +237,7 @@ extension AnswerViewController {
 
     let outputUrl = getFileUrl()
     try? FileManager.default.removeItem(at: outputUrl)
-    let exporter = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetMediumQuality)!
+    let exporter = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality)!
     exporter.outputURL = outputUrl
     exporter.outputFileType = AVFileType.mp4 //.m4a format
     exporter.videoComposition = mainComposition
@@ -437,7 +437,7 @@ extension AnswerViewController {
       item.add(elements: [firstElement])
 
       // activityIndicator
-      let activityIndicator = self.utilityModule.createCustomActivityIndicator(picker.view, text: "watermarking...")
+      let activityIndicator = self.utilityModule.createCustomActivityIndicator(picker.view, text: "Watermarking video...")
       let cameraView = currentImagePicker?.cameraOverlayView as? CustomCameraView
       cameraView?.disableCameraControls()
 
