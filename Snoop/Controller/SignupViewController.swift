@@ -107,7 +107,6 @@ class SignupViewController: UIViewController {
     view.addSubview(signupView)
     view.addSubview(signupButton)
     view.addSubview(loginLink)
-    view.addSubview(twitterLoginButton)
 
     // Setup Icon View
     iconView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -134,8 +133,7 @@ class SignupViewController: UIViewController {
     loginLink.topAnchor.constraint(equalTo: signupButton.bottomAnchor, constant: 8).isActive = true
 
     // Setup twitter button
-    view.addConstraintsWithFormat("H:|-30-[v0]-30-|", views: twitterLoginButton)
-    view.addConstraintsWithFormat("V:[v0]-20-[v1(45)]", views: loginLink, twitterLoginButton)
+    view.addConstraintsWithFormat("V:[v0]", views: loginLink)
   }
 
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
