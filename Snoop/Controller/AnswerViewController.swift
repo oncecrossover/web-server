@@ -432,9 +432,9 @@ extension AnswerViewController {
       let watermarkImage = UIImage(named: "watermark")
 
       let firstElement = MediaElement(image: watermarkImage!)
-      let width = watermarkImage!.size.width / 3
-      let height = watermarkImage!.size.height / 3
-      firstElement.frame = CGRect(x: 20, y: view.center.y+height/2, width: width, height: height)
+      let width = watermarkImage!.size.width / 6
+      let height = watermarkImage!.size.height / 6
+      firstElement.frame = CGRect(x: 20, y: view.center.y+height/3, width: width, height: height)
       item.add(elements: [firstElement])
 
       // activityIndicator
