@@ -237,7 +237,7 @@ extension AnswerViewController {
 
     let outputUrl = getFileUrl()
     try? FileManager.default.removeItem(at: outputUrl)
-    let exporter = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality)!
+    let exporter = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetMediumQuality)!
     exporter.outputURL = outputUrl
     exporter.outputFileType = AVFileType.mp4 //.m4a format
     exporter.videoComposition = mainComposition
