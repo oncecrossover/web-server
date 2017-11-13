@@ -950,6 +950,64 @@ curl -i -X GET "http://127.0.0.1:8080/blocks?uid=1915936940490752&blockeeId=1918
 
 
 
+RESTFUL APIs OF FOLLOW:
+1. to follow a user, e.g.
+curl -i -X POST "http://127.0.0.1:8080/follows/" -d '{"uid":1915936940490752,"followeeId":"1918121455648768", "followed":"TRUE"}'
+Example response:
+{"id":"82411232459493376"}
+
+2. to unfollow a user, e.g.
+curl -i -X POST "http://127.0.0.1:8080/follows/" -d '{"uid":1915936940490752,"followeeId":"1918121455648768", "followed":"FALSE"}'
+Example response:
+{"id":"82411232459493376"}
+
+3. to get a follow by id, e.g.
+curl -i -X GET "http://127.0.0.1:8080/follows/82411232459493376"
+Example response:
+{"id":"82411232459493376","uid":"1915936940490752","followeeId":"1918121455648768","followed":"TRUE","createdTime":1510602769000,"updatedTime":1510602769000}
+
+4. to query a follow by user id and followee id, e.g.
+curl -i -X GET "http://127.0.0.1:8080/follows?uid=1915936940490752&followeeId=1918121455648768"
+Example response:
+[{"id":"82411232459493376","uid":"1915936940490752","followeeId":"1918121455648768","followed":"TRUE","createdTime":null,"updatedTime":null}]
+
+5. to query following by user id, e.g.
+curl -i -X GET "http://127.0.0.1:8080/follows?uid=19049519362609152&followed='TRUE'"
+Example response:
+[
+  {
+    "id": "82458654606888960",
+    "uid": "19049519362609152",
+    "followeeId": "40803508923928576",
+    "followed": "TRUE",
+    "createdTime": null,
+    "updatedTime": null
+  },
+  {
+    "id": "82469682631675904",
+    "uid": "19049519362609152",
+    "followeeId": "1917401172017152",
+    "followed": "TRUE",
+    "createdTime": null,
+    "updatedTime": null
+  }
+]
+
+6. to query followers by user id, e.g.
+curl -i -X GET "http://127.0.0.1:8080/follows?followeeId=40803508923928576&followed='TRUE'"
+Example response:
+[
+  {
+    "id": "82458654606888960",
+    "uid": "19049519362609152",
+    "followeeId": "40803508923928576",
+    "followed": "TRUE",
+    "createdTime": null,
+    "updatedTime": null
+  }
+]
+
+
 HTTP STATUS CODE OF REST API:
 1. get user (i.e. HTTP GET):
 400(BAD_REQUEST):            "Missing parameter: uid" or various other information

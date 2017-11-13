@@ -22,6 +22,11 @@ class ProfileViewController: UIViewController {
 
   var fullScreenImageView : FullScreenImageView = FullScreenImageView()
 
+  lazy var userFollowHTTP: UserFollow = {
+    let result = UserFollow()
+    return result
+  }()
+
   lazy var settingsTable: UITableView = {
     let table = UITableView()
     table.backgroundColor = UIColor.white
@@ -30,8 +35,9 @@ class ProfileViewController: UIViewController {
     return table
   }()
 
-  fileprivate lazy var earningsView: EarningLabel = {
-    let view = EarningLabel()
+  fileprivate lazy var earningsView: PairLabelView = {
+    let view = PairLabelView()
+    view.label.text = "earnings"
     let gesture = UITapGestureRecognizer(target: self, action: #selector(earningsViewTapped))
     view.addGestureRecognizer(gesture)
     view.translatesAutoresizingMaskIntoConstraints = false
@@ -203,18 +209,33 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         cell.handleApplyButton(status: self.status)
       }
 
-      self.earningsView.removeFromSuperview()
       let uid = UserDefaults.standard.string(forKey: "uid")
+
+      /* set followers and following */
+      userFollowHTTP.getUserFollowersByUid(uid!) {
+        result in
+        DispatchQueue.main.async {
+          cell.followers.setAmount(fromInt: result)
+        }
+      }
+      userFollowHTTP.getUserFollowingByUid(uid!) {
+        result in
+        DispatchQueue.main.async {
+          cell.following.setAmount(fromInt: result)
+        }
+      }
+
+      self.earningsView.removeFromSuperview()
       Payment().getBalance(uid!) { convertedDict in
         if let _ = convertedDict["balance"] as? Double {
           self.earning = convertedDict["balance"] as! Double
           if (self.earning > 0.0) {
             DispatchQueue.main.async {
-              self.earningsView.setAmount(self.earning)
+              self.earningsView.setAmount(fromDouble: self.earning)
               cell.addSubview(self.earningsView)
               self.earningsView.widthAnchor.constraint(equalToConstant: 50).isActive = true
               self.earningsView.heightAnchor.constraint(equalToConstant: 33).isActive = true
-              self.earningsView.centerYAnchor.constraint(equalTo: cell.profilePhoto.centerYAnchor).isActive = true
+              self.earningsView.topAnchor.constraint(equalTo: cell.profilePhoto.topAnchor).isActive = true
               self.earningsView.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -30).isActive = true
             }
           }
@@ -240,44 +261,5 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
       dvc.isProfile = true
       self.navigationController?.pushViewController(dvc, animated: true)
     }
-  }
-}
-
-// Private earningnlabel class
-private class EarningLabel: UIView {
-  let amount: UILabel = {
-    let amount = UILabel()
-    amount.textAlignment = .center
-    amount.textColor = UIColor(white: 0, alpha: 0.7)
-    amount.font = UIFont.systemFont(ofSize: 16)
-    return amount
-  }()
-
-  let label: UILabel = {
-    let label = UILabel()
-    label.font = UIFont.systemFont(ofSize: 12)
-    label.text = "Earnings"
-    label.textColor = UIColor.disabledColor()
-    label.textAlignment = .center
-    return label
-  }()
-
-  func setAmount(_ num: Double) {
-    amount.text = String(format: "%.2f", num)
-  }
-
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    backgroundColor = UIColor.white
-    addSubview(amount)
-    addSubview(label)
-
-    addConstraintsWithFormat("H:|[v0]|", views: amount)
-    addConstraintsWithFormat("H:|[v0]|", views: label)
-    addConstraintsWithFormat("V:|[v0(18)]-0-[v1(15)]|", views: amount, label)
-  }
-
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
   }
 }

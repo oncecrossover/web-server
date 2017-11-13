@@ -37,6 +37,22 @@ class ProfileView: UIView {
     return about
   }()
 
+  let followers: PairLabelView = {
+    let view = PairLabelView()
+    view.label.text = "followers"
+    view.setAmount(fromInt: 0)
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
+
+  let following: PairLabelView = {
+    let view = PairLabelView()
+    view.label.text = "following"
+    view.setAmount(fromInt: 0)
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
+
   lazy var expertiseCollection: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
     layout.minimumInteritemSpacing = 6
@@ -61,7 +77,13 @@ class ProfileView: UIView {
     addSubview(name)
     addSubview(title)
     addSubview(about)
+    addSubview(followers)
+    addSubview(following)
     addSubview(expertiseCollection)
+
+    addConstraintsWithFormat("H:|-14-[v0(60)]-56-[v1(60)]-14-[v2(60)]", views: profileImage, followers, following)
+    followers.topAnchor.constraint(equalTo: profileImage.topAnchor).isActive = true
+    following.topAnchor.constraint(equalTo: followers.topAnchor).isActive = true
 
     addConstraintsWithFormat("H:|-14-[v0(60)]", views: profileImage)
     addConstraintsWithFormat("H:|-14-[v0]-14-|", views: name)

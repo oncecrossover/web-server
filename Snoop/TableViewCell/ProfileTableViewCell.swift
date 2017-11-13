@@ -42,6 +42,22 @@ class ProfileTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollect
     return titleLabel
   }()
 
+  let followers: PairLabelView = {
+    let view = PairLabelView()
+    view.label.text = "followers"
+    view.setAmount(fromInt: 0)
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
+
+  let following: PairLabelView = {
+    let view = PairLabelView()
+    view.label.text = "following"
+    view.setAmount(fromInt: 0)
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
+
   lazy var applyButton : UIButton = {
     let applyButton = CustomButton()
     applyButton.setTitle("Apply to Take Questions", for: UIControlState())
@@ -72,6 +88,12 @@ class ProfileTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollect
     addSubview(nameLabel)
     addSubview(titleLabel)
     addSubview(aboutLabel)
+    addSubview(followers)
+    addSubview(following)
+
+    addConstraintsWithFormat("H:|-14-[v0(60)]-56-[v1(60)]-14-[v2(60)]", views: profilePhoto, followers, following)
+    followers.topAnchor.constraint(equalTo: profilePhoto.topAnchor).isActive = true
+    following.topAnchor.constraint(equalTo: followers.topAnchor).isActive = true
 
     addConstraintsWithFormat("H:|-14-[v0(60)]", views: profilePhoto)
     addConstraintsWithFormat("H:|-14-[v0]-14-|", views: nameLabel)

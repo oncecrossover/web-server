@@ -11,49 +11,53 @@ import org.hibernate.type.Type;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.snoop.server.db.model.BlockEntry;
+import com.snoop.server.db.model.FollowEntry;
 
-public class BlockDBUtil {
+public class FollowDBUtil {
 
-  public static BlockEntry getBlockEntry(
+  public static FollowEntry getFollowEntry(
       final Session session,
       final Long uid,
-      final Long blockeeId,
+      final Long followeeId,
       final boolean newTransaction) throws Exception {
 
     final String select = String
-        .format("SELECT B.id, B.uid, B.blockeeId, B.blocked FROM Block AS B"
-            + " WHERE uid = %d AND blockeeId = %d", uid, blockeeId);
-    final String sql = String.format(select, uid, blockeeId);
+        .format("SELECT DISTINCT F.id, F.uid, F.followeeId, F.followed FROM Follow AS F"
+            + " WHERE uid = %d AND followeeId = %d", uid, followeeId);
+    final String sql = String.format(select, uid, followeeId);
 
-    return getBlockEntryByQuery(session, sql, getScalars(), newTransaction);
+    return getFollowEntryByQuery(session, sql, getScalars(), newTransaction);
   }
 
-  public static List<BlockEntry> getBlockEntries(
+  public static List<FollowEntry> getFollowEntries(
     final Session session,
     final Map<String, List<String>> params,
     final boolean newTransaction) {
 
-    final String sql = buildSql2CheckIfBlocked(params);
+    final String sql = buildSql4Follows(params);
 
-    return DBUtil.getEntitiesByQuery(BlockEntry.class, session, sql,
+    return DBUtil.getEntitiesByQuery(FollowEntry.class, session, sql,
         getScalars(), newTransaction);
   }
 
-  private static String buildSql2CheckIfBlocked(
+  private static String buildSql4Follows(
       final Map<String, List<String>> params) {
 
-    final String select = "SELECT B.id, B.uid, B.blockeeId, B.blocked FROM Block AS B";
+    final String select = "SELECT DISTINCT F.id, F.uid, F.followeeId, F.followed FROM Follow AS F";
     final List<String> list = Lists.newArrayList();
     for (String key : params.keySet()) {
       switch (key) {
       case "uid":
         list.add(
-            String.format("B.uid=%d", Long.parseLong(params.get(key).get(0))));
+            String.format("F.uid=%d", Long.parseLong(params.get(key).get(0))));
         break;
-      case "blockeeId":
+      case "followeeId":
         list.add(
-            String.format("B.blockeeId=%d", Long.parseLong(params.get(key).get(0))));
+            String.format("F.followeeId=%d", Long.parseLong(params.get(key).get(0))));
+        break;
+      case "followed":
+        list.add(
+            String.format("F.followed=%s", params.get(key).get(0)));
         break;
         default:
           break;
@@ -69,13 +73,13 @@ public class BlockDBUtil {
     return select + where;
   }
 
-  private static BlockEntry getBlockEntryByQuery(
+  private static FollowEntry getFollowEntryByQuery(
       final Session session,
       final String sql,
       final Map<String, Type> scalars,
       final boolean newTransaction) {
 
-    final List<BlockEntry> list = DBUtil.getEntitiesByQuery(BlockEntry.class,
+    final List<FollowEntry> list = DBUtil.getEntitiesByQuery(FollowEntry.class,
         session, sql, scalars, newTransaction);
     return list.size() == 1 ? list.get(0) : null;
   }
@@ -84,8 +88,8 @@ public class BlockDBUtil {
     final Map<String, Type> scalars = Maps.newHashMap();
     scalars.put("id", new LongType());
     scalars.put("uid", new LongType());
-    scalars.put("blockeeId", new LongType());
-    scalars.put("blocked", new StringType());
+    scalars.put("followeeId", new LongType());
+    scalars.put("followed", new StringType());
     return scalars;
   }
 }

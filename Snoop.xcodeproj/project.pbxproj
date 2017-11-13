@@ -141,6 +141,8 @@
 		6EE4C32A1EE776D4003C3F71 /* FullScreenImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE4C3291EE776D4003C3F71 /* FullScreenImageView.swift */; };
 		9B8AF57BC8BC1E0D23E78E06 /* Pods_Snoop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4387C425AB9A155E60753942 /* Pods_Snoop.framework */; };
 		D739787D1F15A8BB007ED445 /* InitialsImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D739787C1F15A8BB007ED445 /* InitialsImageView.swift */; };
+		D77F27221FBA533800C35482 /* UserFollow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77F27211FBA533800C35482 /* UserFollow.swift */; };
+		D77F27241FBA544000C35482 /* UserFollowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77F27231FBA544000C35482 /* UserFollowModel.swift */; };
 		D788D72E1F731E7B00EA7D44 /* EulaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D788D72D1F731E7B00EA7D44 /* EulaViewController.swift */; };
 		D788D7301F7491EE00EA7D44 /* eula.html in Resources */ = {isa = PBXBuildFile; fileRef = D788D72F1F7491EE00EA7D44 /* eula.html */; };
 		D7AF1FC81F5330D30098A61F /* SocialGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AF1FC71F5330D30098A61F /* SocialGateway.swift */; };
@@ -151,6 +153,7 @@
 		D7B484A51F6C49D200D9EE77 /* UserBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484A41F6C49D200D9EE77 /* UserBlock.swift */; };
 		D7B484A71F6C546C00D9EE77 /* UserBlockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484A61F6C546C00D9EE77 /* UserBlockModel.swift */; };
 		D7C7BCC21F5221390029621F /* CellAccessUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C7BCC11F5221390029621F /* CellAccessUtil.swift */; };
+		D7D929421FBB7EE6005E3015 /* PairLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D929411FBB7EE6005E3015 /* PairLabelView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -337,6 +340,8 @@
 		D37541AF3C4E87F7FA873B9C /* Pods-SnoopUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUnitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUnitTests/Pods-SnoopUnitTests.release.xcconfig"; sourceTree = "<group>"; };
 		D6E2F6834CC934B7B186EC01 /* Pods-Snoop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Snoop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Snoop/Pods-Snoop.debug.xcconfig"; sourceTree = "<group>"; };
 		D739787C1F15A8BB007ED445 /* InitialsImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialsImageView.swift; sourceTree = "<group>"; };
+		D77F27211FBA533800C35482 /* UserFollow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFollow.swift; sourceTree = "<group>"; };
+		D77F27231FBA544000C35482 /* UserFollowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFollowModel.swift; sourceTree = "<group>"; };
 		D788D72D1F731E7B00EA7D44 /* EulaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EulaViewController.swift; sourceTree = "<group>"; };
 		D788D72F1F7491EE00EA7D44 /* eula.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = eula.html; sourceTree = "<group>"; };
 		D7AF1FC71F5330D30098A61F /* SocialGateway.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialGateway.swift; sourceTree = "<group>"; };
@@ -347,6 +352,7 @@
 		D7B484A41F6C49D200D9EE77 /* UserBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBlock.swift; sourceTree = "<group>"; };
 		D7B484A61F6C546C00D9EE77 /* UserBlockModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBlockModel.swift; sourceTree = "<group>"; };
 		D7C7BCC11F5221390029621F /* CellAccessUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellAccessUtil.swift; sourceTree = "<group>"; };
+		D7D929411FBB7EE6005E3015 /* PairLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairLabelView.swift; sourceTree = "<group>"; };
 		EFE8CFDC7701F292F8513EA7 /* Pods-SnoopUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUnitTests/Pods-SnoopUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F3790CCF5AD9917B277BBEF9 /* Pods-Snoop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Snoop.release.xcconfig"; path = "Pods/Target Support Files/Pods-Snoop/Pods-Snoop.release.xcconfig"; sourceTree = "<group>"; };
 		F760223B517F4B15555AC6CC /* Pods-SnoopUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUITests/Pods-SnoopUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -491,6 +497,7 @@
 				4A7971D21E64A059003105FD /* CategoryModel.swift */,
 				4A7971D41E64B89A003105FD /* InterestModel.swift */,
 				D7B484A61F6C546C00D9EE77 /* UserBlockModel.swift */,
+				D77F27231FBA544000C35482 /* UserFollowModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -528,6 +535,7 @@
 				4ACA200B1ED390AC009A49A3 /* Config.swift */,
 				D7B484981F684D9000D9EE77 /* UserReport.swift */,
 				D7B484A41F6C49D200D9EE77 /* UserBlock.swift */,
+				D77F27211FBA533800C35482 /* UserFollow.swift */,
 			);
 			name = "HTTP`";
 			path = HTTP;
@@ -562,6 +570,7 @@
 				4A7986A11EB2A5B7002A32A9 /* FreeCoinsView.swift */,
 				4A7986A31EB3BE09002A32A9 /* CustomNavigationView.swift */,
 				6EE4C3291EE776D4003C3F71 /* FullScreenImageView.swift */,
+				D7D929411FBB7EE6005E3015 /* PairLabelView.swift */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -1044,6 +1053,7 @@
 				4AC283691CE2F58100A08D35 /* ViewController.swift in Sources */,
 				4A27FCC71E63F7E800D78294 /* ExpertiseCollectionViewCell.swift in Sources */,
 				4ADFD39C1E56628B00CD3D92 /* UIImage+WebP.m in Sources */,
+				D7D929421FBB7EE6005E3015 /* PairLabelView.swift in Sources */,
 				4AC2836F1CE2F58100A08D35 /* Peep.xcdatamodeld in Sources */,
 				4ABD203D1D443E1A00C3B74E /* UIUtility.swift in Sources */,
 				4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */,
@@ -1070,6 +1080,7 @@
 				4ADFD3991E56628B00CD3D92 /* UIButton+WebCache.m in Sources */,
 				4A7971D51E64B89A003105FD /* InterestModel.swift in Sources */,
 				4A3A56671E27168C00FC0F3B /* PaymentViewController.swift in Sources */,
+				D77F27221FBA533800C35482 /* UserFollow.swift in Sources */,
 				4A10DCC61E5AC0B0009E3996 /* LoginViewController.swift in Sources */,
 				4ADFD3901E56628B00CD3D92 /* NSImage+WebCache.m in Sources */,
 				4A15D17B1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift in Sources */,
@@ -1133,6 +1144,7 @@
 				4AF322741D2C83260043FCE5 /* AnswerTableViewCell.swift in Sources */,
 				4ACA200C1ED390AC009A49A3 /* Config.swift in Sources */,
 				4A7971D31E64A059003105FD /* CategoryModel.swift in Sources */,
+				D77F27241FBA544000C35482 /* UserFollowModel.swift in Sources */,
 				4A8F26871D21D01D0001989E /* EditProfileViewController.swift in Sources */,
 				4A55E8FD1E2877D000B033F4 /* CustomSegmentedControl.swift in Sources */,
 				4ADFD3971E56628B00CD3D92 /* SDWebImageManager.m in Sources */,

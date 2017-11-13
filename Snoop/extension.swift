@@ -31,6 +31,27 @@ extension Int {
     let seconds = self % 60
     return String(format:"%02i:%02i", minute, seconds)
   }
+
+  /**
+   11: "11"
+   11111: "11.1K"
+   11111111: "11.1M"
+   */
+  func formatPoints() -> String {
+    let number = Double(self)
+    let thousand = number / 1000
+    let million = number / 1000000
+
+    if million >= 1.0 {
+      return "\(round(million*10)/10)M"
+    }
+    else if thousand >= 1.0 {
+      return "\(round(thousand*10)/10)K"
+    }
+    else {
+      return "\(Int(number))"
+    }
+  }
 }
 
 extension UIColor {

@@ -13,6 +13,7 @@ class SettingUserViewController: UIViewController {
 
   var userInfo: (loginUserId: String?, userId: String?)
   lazy var userBlockHTTP = UserBlock()
+  lazy var userFollowHTTP = UserFollow()
 
   lazy var settingsTable: UITableView = {
     let table = UITableView()
@@ -27,7 +28,7 @@ class SettingUserViewController: UIViewController {
     return table
   }()
 
-  let settings = ["Block"]
+  let settingTitles = ["Follow", "Block"]
   let cellId = "settingsCell"
 
   override func viewDidLoad() {
@@ -51,35 +52,51 @@ extension SettingUserViewController: UITableViewDataSource, UITableViewDelegate 
     let myCell = tableView.dequeueReusableCell(withIdentifier: self.cellId) as! SettingUserTableViewCell
 
     myCell.selectionStyle = .none
-    myCell.label.text = settings[indexPath.row]
+    myCell.label.text = settingTitles[indexPath.row]
     myCell.label.textColor = UIColor(white: 0, alpha: 0.7)
 
-    /* init block switch */
-    // a user can't block him/erself
-    myCell.blockSwitch.isUserInteractionEnabled = userInfo.loginUserId != userInfo.userId
-    if (myCell.blockSwitch.isUserInteractionEnabled) {
-      loadIfUserBlocked(uid: userInfo.loginUserId, blockeeId: userInfo.userId) {
-        ifUserBlocked in
+    /* init switch */
+    // a user can't block/follow him/erself
+    myCell.uiSwitch.isUserInteractionEnabled = userInfo.loginUserId != userInfo.userId
+    if (myCell.uiSwitch.isUserInteractionEnabled) {
+      if (indexPath.row == 0) { // follow
+        loadIfUserIsFollowed(userInfo.loginUserId, userInfo.userId) {
+          ifOptIn in
 
-        DispatchQueue.main.async {
-          myCell.blockSwitch.setOn(ifUserBlocked, animated: true)
+          self.setSwitch(ifOptIn, myCell: myCell)
         }
+
+        myCell.uiSwitch.addTarget(self, action: #selector(SettingUserViewController.followSwitchValueDidChange(_:)
+          ), for: .valueChanged)
+      } else if (indexPath.row == 1) { // block
+        loadIfUserIsBlocked(userInfo.loginUserId, userInfo.userId) {
+          ifOptIn in
+
+          self.setSwitch(ifOptIn, myCell: myCell)
+        }
+
+        myCell.uiSwitch.addTarget(self, action: #selector(SettingUserViewController.blockSwitchValueDidChange(_:)
+          ), for: .valueChanged)
       }
-      myCell.blockSwitch.addTarget(self, action: #selector(SettingUserViewController.blockSwitchValueDidChange(_:)), for: .valueChanged)
     }
 
     return myCell
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 1
+    return 2
   }
 }
 
-
 extension SettingUserViewController {
+  func setSwitch(_ ifOptIn: Bool, myCell: SettingUserTableViewCell) {
+    DispatchQueue.main.async {
+      myCell.uiSwitch.setOn(ifOptIn, animated: true)
+    }
+  }
+
   /* load if a user is blocked from backend */
-  func loadIfUserBlocked(uid: String?, blockeeId: String?, completion: @escaping (Bool) -> ()) {
+  func loadIfUserIsBlocked(_ uid: String?, _ blockeeId: String?, completion: @escaping (Bool) -> ()) {
     guard let _ = uid, let _ = blockeeId else {
       completion(false)
       return
@@ -89,17 +106,43 @@ extension SettingUserViewController {
     userBlockHTTP.getUserBlocks(filterString) {
       jsonArray in
 
-      for userBlockInfo in jsonArray as! [[String:AnyObject]] {
-        let userBlockModel = UserBlockModel(userBlockInfo)
-          completion(userBlockModel.blocked == "TRUE" ? true : false)
+      for entry in jsonArray as! [[String:AnyObject]] {
+        let model = UserBlockModel(entry)
+          completion(model.blocked == "TRUE" ? true : false)
+        break
+      }
+    }
+  }
+
+  /* load if a user is followed from backend */
+  func loadIfUserIsFollowed(_ uid: String?, _ followeeId: String?, completion: @escaping (Bool) -> ()) {
+    guard let _ = uid, let _ = followeeId else {
+      completion(false)
+      return
+    }
+
+    let filterString = "uid=\(uid!)&followeeId=\(followeeId!)"
+    userFollowHTTP.getUserFollows(filterString) {
+      jsonArray in
+
+      for entry in jsonArray as! [[String:AnyObject]] {
+        let model = UserFollowModel(entry)
+        completion(model.followed == "TRUE" ? true : false)
         break
       }
     }
   }
 
   @objc func blockSwitchValueDidChange(_ sender : UISwitch!) {
-    let blocked = sender.isOn ? "TRUE" : "FALSE"
-    userBlockHTTP.createUserBlock(userInfo.loginUserId!, blockeeId: userInfo.userId!, blocked: blocked) {
+    let isOn = sender.isOn ? "TRUE" : "FALSE"
+    userBlockHTTP.createUserBlock(userInfo.loginUserId!, blockeeId: userInfo.userId!, blocked: isOn) {
+      result in
+    }
+  }
+
+  @objc func followSwitchValueDidChange(_ sender : UISwitch!) {
+    let isOn = sender.isOn ? "TRUE" : "FALSE"
+    userFollowHTTP.createUserFollow(userInfo.loginUserId!, followeeId: userInfo.userId!, followed: isOn) {
       result in
     }
   }

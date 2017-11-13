@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.io.ByteArrayDataOutput;
-import com.snoop.server.db.model.BlockEntry;
-import com.snoop.server.db.util.BlockDBUtil;
+import com.snoop.server.db.model.FollowEntry;
+import com.snoop.server.db.util.FollowDBUtil;
 import com.snoop.server.util.ResourcePathParser;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -15,12 +15,12 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
-public class BlockWebHandler extends AbastractWebHandler implements WebHandler {
+public class FollowWebHandler extends AbastractWebHandler implements WebHandler {
 
   private static final Logger LOG = LoggerFactory
-      .getLogger(BlockEntry.class);
+      .getLogger(FollowEntry.class);
 
-  public BlockWebHandler(ResourcePathParser pathParser,
+  public FollowWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
     super(pathParser, respBuf, ctx, request);
@@ -28,7 +28,7 @@ public class BlockWebHandler extends AbastractWebHandler implements WebHandler {
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    final WebHandler pwh = new BlockFilterWebHandler(
+    final WebHandler pwh = new FollowFilterWebHandler(
       getPathParser(),
       getRespBuf(),
       getHandlerContext(),
@@ -61,12 +61,12 @@ public class BlockWebHandler extends AbastractWebHandler implements WebHandler {
     try {
       session = getSession();
       txn = session.beginTransaction();
-      final BlockEntry retInstance = (BlockEntry) session.get(BlockEntry.class,
+      final FollowEntry retInstance = (FollowEntry) session.get(FollowEntry.class,
           id);
       txn.commit();
 
       /* buffer result */
-      return newResponseForInstance(id.toString(), "blocks", retInstance);
+      return newResponseForInstance(id.toString(), "follows", retInstance);
     } catch (Exception e) {
       if (txn != null && txn.isActive()) {
         txn.rollback();
@@ -76,9 +76,9 @@ public class BlockWebHandler extends AbastractWebHandler implements WebHandler {
   }
 
   private FullHttpResponse onCreate() {
-    final BlockEntry fromJson;
+    final FollowEntry fromJson;
     try {
-      fromJson = newInstanceFromRequest(BlockEntry.class);
+      fromJson = newInstanceFromRequest(FollowEntry.class);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
@@ -97,13 +97,14 @@ public class BlockWebHandler extends AbastractWebHandler implements WebHandler {
       txn = session.beginTransaction();
 
       /* query */
-      final BlockEntry fromDB = BlockDBUtil.getBlockEntry(session,
-          fromJson.getUid(), fromJson.getBlockeeId(), false);
+      final FollowEntry fromDB = FollowDBUtil.getFollowEntry(session,
+          fromJson.getUid(), fromJson.getFolloweeId(), false);
 
-      if (fromDB == null) { /* new block */
+      if (fromDB == null) { /* new follow */
         session.save(fromJson);
-      } else { /* existing block */
+      } else { /* existing follow */
         fromDB.setAsIgnoreNull(fromJson);
+        fromJson.setId(fromDB.getId());
         session.update(fromDB);
       }
       txn.commit();
@@ -118,10 +119,10 @@ public class BlockWebHandler extends AbastractWebHandler implements WebHandler {
     }
   }
 
-  private FullHttpResponse verifyInstance(final BlockEntry instance,
+  private FullHttpResponse verifyInstance(final FollowEntry instance,
       final ByteArrayDataOutput respBuf) {
     if (instance == null) {
-      appendln("No block or incorrect format specified.", respBuf);
+      appendln("No follow or incorrect format specified.", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
@@ -130,18 +131,18 @@ public class BlockWebHandler extends AbastractWebHandler implements WebHandler {
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    if (instance.getBlockeeId() == null) {
-      appendln("No blockee id specified.", respBuf);
+    if (instance.getFolloweeId() == null) {
+      appendln("No followee id specified.", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    if (instance.getBlocked() == null) {
-      appendln("No blocked status specified.", respBuf);
+    if (instance.getFollowed() == null) {
+      appendln("No followed status specified.", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    if (instance.getUid() == instance.getBlockeeId()) {
-      appendln("A user can't block her/himself.", respBuf);
+    if (instance.getUid() == instance.getFolloweeId()) {
+      appendln("A user can't follow her/himself.", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
     return null;

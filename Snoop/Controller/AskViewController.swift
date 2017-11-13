@@ -27,6 +27,11 @@ class AskViewController: UIViewController {
   var coinCount = 0
   var notificationName = "coinsAdded"
 
+  lazy var userFollowHTTP: UserFollow = {
+    let result = UserFollow()
+    return result
+  }()
+
   lazy var profileView: ProfileView = {
     let frame = CGRect(x: 0, y: 0, width: self.scrollView.frame.width, height: 220)
     let view = ProfileView(frame: frame, uid: self.profileInfo.uid)
@@ -173,6 +178,20 @@ extension AskViewController {
     }
     else {
       self.askButton.setTitle("$ \(profileInfo.rate) to ask", for: UIControlState())
+    }
+
+    /* set followers and following */
+    userFollowHTTP.getUserFollowersByUid(self.profileInfo.uid) {
+      result in
+      DispatchQueue.main.async {
+        self.profileView.followers.setAmount(fromInt: result)
+      }
+    }
+    userFollowHTTP.getUserFollowingByUid(self.profileInfo.uid) {
+      result in
+      DispatchQueue.main.async {
+        self.profileView.following.setAmount(fromInt: result)
+      }
     }
   }
 

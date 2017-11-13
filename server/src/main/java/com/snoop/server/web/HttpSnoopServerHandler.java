@@ -52,6 +52,7 @@ import com.snoop.server.web.handlers.CatMappingWebHandler;
 import com.snoop.server.web.handlers.CategoryWebHandler;
 import com.snoop.server.web.handlers.CoinWebHandler;
 import com.snoop.server.web.handlers.ConfigurationWebHandler;
+import com.snoop.server.web.handlers.FollowWebHandler;
 import com.snoop.server.web.handlers.NewsfeedWebHandler;
 import com.snoop.server.web.handlers.NotFoundResourceWebHandler;
 import com.snoop.server.web.handlers.NullResouceWebHandler;
@@ -248,6 +249,12 @@ public class HttpSnoopServerHandler
             request).handle();
       case "blocks":
         return new BlockWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "follows":
+        return new FollowWebHandler(
             pathParser,
             respBuf,
             ctx,

@@ -212,3 +212,19 @@ CREATE TABLE `Block` (
   INDEX `idx_block_blockeeId` (`blockeeId`),
   INDEX `idx_block_createdTime` (`createdTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Follow` (
+  `id` BIGINT UNSIGNED NOT NULL,
+  `uid` BIGINT UNSIGNED NOT NULL,
+  `followeeId` BIGINT UNSIGNED NOT NULL,
+  `followed` ENUM('TRUE', 'FALSE') NOT NULL DEFAULT 'FALSE',
+  `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT `pk_follow` PRIMARY KEY (`id`),
+  CONSTRAINT `uk_follow` UNIQUE (`uid`,`followeeId`),
+  CONSTRAINT `fk_follow_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`id`),
+  CONSTRAINT `fk_follow_followeeId` FOREIGN KEY (`followeeId`) REFERENCES `User` (`id`),
+  INDEX `idx_follow_uid` (`uid`),
+  INDEX `idx_follow_followeeId` (`followeeId`),
+  INDEX `idx_follow_createdTime` (`createdTime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
