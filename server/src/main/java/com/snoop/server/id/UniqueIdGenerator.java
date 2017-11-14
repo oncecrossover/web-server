@@ -3,7 +3,7 @@ package com.snoop.server.id;
 import java.io.Serializable;
 
 import org.hibernate.HibernateException;
-import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,8 +38,8 @@ public class UniqueIdGenerator implements IdentifierGenerator {
   }
 
   @Override
-  public Serializable generate(SessionImplementor session, Object object)
-      throws HibernateException {
+  public Serializable generate(SharedSessionContractImplementor session,
+      Object object) throws HibernateException {
     while (true) {
       try {
         return ID_WORKER.nextId();
