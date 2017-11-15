@@ -396,7 +396,8 @@ extension UIActivityViewController {
       UIActivityType(rawValue: "com.apple.reminders.RemindersEditorExtension"),
       UIActivityType(rawValue: "com.apple.mobilenotes.SharingExtension"),
       UIActivityType(rawValue: "com.apple.iCloudDrive.ShareExtension"),
-      UIActivityType(rawValue: "com.apple.mobileslideshow.StreamShareService")
+      UIActivityType(rawValue: "com.apple.mobileslideshow.StreamShareService"),
+      UIActivityType.postToInstagram
     ]
   }
 }

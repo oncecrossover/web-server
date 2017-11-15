@@ -47,7 +47,15 @@ class ShareActionSheet {
     }
     actionSheet.addAction(copyQuestionAction)
 
+    /* actions: Share to Instagram / More */
     if (readyToView) {
+      /* action: Share to Instagram */
+      let instagramAction = UIAlertAction(title: "Share to Instagram", style: UIAlertActionStyle.default) {
+        action in
+        self.socialGateway.postToIntagram(contentsOf: answerUrl, resourceId: quandaId);
+      }
+      actionSheet.addAction(instagramAction)
+
       if (enableReport) {
         /* action: Report */
         let reportAction = UIAlertAction(title: "Report", style: UIAlertActionStyle.default) {
