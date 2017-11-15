@@ -145,8 +145,6 @@
 		D77F27241FBA544000C35482 /* UserFollowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77F27231FBA544000C35482 /* UserFollowModel.swift */; };
 		D788D72E1F731E7B00EA7D44 /* EulaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D788D72D1F731E7B00EA7D44 /* EulaViewController.swift */; };
 		D788D7301F7491EE00EA7D44 /* eula.html in Resources */ = {isa = PBXBuildFile; fileRef = D788D72F1F7491EE00EA7D44 /* eula.html */; };
-		D7AF1FC81F5330D30098A61F /* SocialGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AF1FC71F5330D30098A61F /* SocialGateway.swift */; };
-		D7AF1FD91F59E8330098A61F /* ShareActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AF1FD81F59E8330098A61F /* ShareActionSheet.swift */; };
 		D7B484991F684D9000D9EE77 /* UserReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484981F684D9000D9EE77 /* UserReport.swift */; };
 		D7B484A11F6B43D800D9EE77 /* SettingUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484A01F6B43D800D9EE77 /* SettingUserViewController.swift */; };
 		D7B484A31F6B43E900D9EE77 /* SettingUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484A21F6B43E900D9EE77 /* SettingUserTableViewCell.swift */; };
@@ -154,6 +152,9 @@
 		D7B484A71F6C546C00D9EE77 /* UserBlockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484A61F6C546C00D9EE77 /* UserBlockModel.swift */; };
 		D7C7BCC21F5221390029621F /* CellAccessUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C7BCC11F5221390029621F /* CellAccessUtil.swift */; };
 		D7D929421FBB7EE6005E3015 /* PairLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D929411FBB7EE6005E3015 /* PairLabelView.swift */; };
+		D7D9294A1FBE1D4D005E3015 /* ShareActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D929481FBE1D4D005E3015 /* ShareActionSheet.swift */; };
+		D7D9294B1FBE1D4D005E3015 /* SocialGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D929491FBE1D4D005E3015 /* SocialGateway.swift */; };
+		D7D9294E1FBE1E51005E3015 /* TWTRAPIClient-MediaUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D9294D1FBE1E51005E3015 /* TWTRAPIClient-MediaUpload.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -344,8 +345,6 @@
 		D77F27231FBA544000C35482 /* UserFollowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFollowModel.swift; sourceTree = "<group>"; };
 		D788D72D1F731E7B00EA7D44 /* EulaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EulaViewController.swift; sourceTree = "<group>"; };
 		D788D72F1F7491EE00EA7D44 /* eula.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = eula.html; sourceTree = "<group>"; };
-		D7AF1FC71F5330D30098A61F /* SocialGateway.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialGateway.swift; sourceTree = "<group>"; };
-		D7AF1FD81F59E8330098A61F /* ShareActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareActionSheet.swift; sourceTree = "<group>"; };
 		D7B484981F684D9000D9EE77 /* UserReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserReport.swift; sourceTree = "<group>"; };
 		D7B484A01F6B43D800D9EE77 /* SettingUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingUserViewController.swift; sourceTree = "<group>"; };
 		D7B484A21F6B43E900D9EE77 /* SettingUserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingUserTableViewCell.swift; sourceTree = "<group>"; };
@@ -353,6 +352,9 @@
 		D7B484A61F6C546C00D9EE77 /* UserBlockModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBlockModel.swift; sourceTree = "<group>"; };
 		D7C7BCC11F5221390029621F /* CellAccessUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellAccessUtil.swift; sourceTree = "<group>"; };
 		D7D929411FBB7EE6005E3015 /* PairLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairLabelView.swift; sourceTree = "<group>"; };
+		D7D929481FBE1D4D005E3015 /* ShareActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareActionSheet.swift; path = Snoop/share/ShareActionSheet.swift; sourceTree = SOURCE_ROOT; };
+		D7D929491FBE1D4D005E3015 /* SocialGateway.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialGateway.swift; path = Snoop/share/SocialGateway.swift; sourceTree = SOURCE_ROOT; };
+		D7D9294D1FBE1E51005E3015 /* TWTRAPIClient-MediaUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TWTRAPIClient-MediaUpload.swift"; path = "Snoop/share/TWTRAPIClient-MediaUpload.swift"; sourceTree = SOURCE_ROOT; };
 		EFE8CFDC7701F292F8513EA7 /* Pods-SnoopUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUnitTests/Pods-SnoopUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F3790CCF5AD9917B277BBEF9 /* Pods-Snoop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Snoop.release.xcconfig"; path = "Pods/Target Support Files/Pods-Snoop/Pods-Snoop.release.xcconfig"; sourceTree = "<group>"; };
 		F760223B517F4B15555AC6CC /* Pods-SnoopUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUITests/Pods-SnoopUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -614,8 +616,8 @@
 		4AC283651CE2F58100A08D35 /* Snoop */ = {
 			isa = PBXGroup;
 			children = (
-				D788D72F1F7491EE00EA7D44 /* eula.html */,
-				D7AF1FC61F5330B40098A61F /* Share */,
+				D7D9294C1FBE1D75005E3015 /* html */,
+				D7D929471FBE1CA6005E3015 /* share */,
 				4AAF42FA1E5698A800074C7F /* CollectionViewCell */,
 				4AAF42F41E56951B00074C7F /* Controller */,
 				4AAF42F81E56975E00074C7F /* HTTP` */,
@@ -638,11 +640,8 @@
 				4AC283751CE2F58100A08D35 /* Info.plist */,
 				4AC2836D1CE2F58100A08D35 /* Peep.xcdatamodeld */,
 				4A0CE3651D6ECDAF0023EC2D /* Snoop-Bridging-Header.h */,
-				4A6730BC1E23412100C512B1 /* privacy.html */,
-				4A6730BE1E23420A00C512B1 /* tos.html */,
 				4A3A56621E26D8D600FC0F3B /* extension.swift */,
 				4A55E8FE1E28AD3700B033F4 /* LaunchScreen.storyboard */,
-				4A5495571E4295E20072C45B /* about.html */,
 			);
 			path = Snoop;
 			sourceTree = "<group>";
@@ -693,13 +692,26 @@
 			path = SDWebImage;
 			sourceTree = "<group>";
 		};
-		D7AF1FC61F5330B40098A61F /* Share */ = {
+		D7D929471FBE1CA6005E3015 /* share */ = {
 			isa = PBXGroup;
 			children = (
-				D7AF1FC71F5330D30098A61F /* SocialGateway.swift */,
-				D7AF1FD81F59E8330098A61F /* ShareActionSheet.swift */,
+				D7D929481FBE1D4D005E3015 /* ShareActionSheet.swift */,
+				D7D929491FBE1D4D005E3015 /* SocialGateway.swift */,
+				D7D9294D1FBE1E51005E3015 /* TWTRAPIClient-MediaUpload.swift */,
 			);
-			name = Share;
+			name = share;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		D7D9294C1FBE1D75005E3015 /* html */ = {
+			isa = PBXGroup;
+			children = (
+				4A6730BC1E23412100C512B1 /* privacy.html */,
+				4A6730BE1E23420A00C512B1 /* tos.html */,
+				4A5495571E4295E20072C45B /* about.html */,
+				D788D72F1F7491EE00EA7D44 /* eula.html */,
+			);
+			path = html;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1115,6 +1127,7 @@
 				4ACADE131E1345E000831929 /* ActivityTableViewCell.swift in Sources */,
 				4ADFD39D1E56628B00CD3D92 /* UIImageView+HighlightedWebCache.m in Sources */,
 				4A436E4D1E9061A600908D24 /* PermissionView.swift in Sources */,
+				D7D9294A1FBE1D4D005E3015 /* ShareActionSheet.swift in Sources */,
 				4AF3226A1D29A1E10043FCE5 /* Question.swift in Sources */,
 				4A55E9011E332E8E00B033F4 /* CustomCameraView.swift in Sources */,
 				4A152F621D59106700FA48E7 /* Generics.swift in Sources */,
@@ -1134,10 +1147,11 @@
 				D7C7BCC21F5221390029621F /* CellAccessUtil.swift in Sources */,
 				4A27FCC51E638DCA00D78294 /* EditProfileView.swift in Sources */,
 				4ABB89F81D7DEE2C0022DEF2 /* FeedsModel.swift in Sources */,
+				D7D9294B1FBE1D4D005E3015 /* SocialGateway.swift in Sources */,
 				4A7971DB1E6CCFEB003105FD /* CoinsViewController.swift in Sources */,
 				4A10DCCA1E5B663A009E3996 /* LoginView.swift in Sources */,
-				D7AF1FC81F5330D30098A61F /* SocialGateway.swift in Sources */,
 				D739787D1F15A8BB007ED445 /* InitialsImageView.swift in Sources */,
+				D7D9294E1FBE1E51005E3015 /* TWTRAPIClient-MediaUpload.swift in Sources */,
 				4AFDD2511E37FCCB00CC7A06 /* CustomTableBackgroundView.swift in Sources */,
 				4ADFD38F1E56628B00CD3D92 /* NSData+ImageContentType.m in Sources */,
 				4ADFD39B1E56628B00CD3D92 /* UIImage+MultiFormat.m in Sources */,
@@ -1158,7 +1172,6 @@
 				6EE4C32A1EE776D4003C3F71 /* FullScreenImageView.swift in Sources */,
 				4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */,
 				4A11C0621D35BA6900AEF95D /* TextFitLabel.swift in Sources */,
-				D7AF1FD91F59E8330098A61F /* ShareActionSheet.swift in Sources */,
 				4A7971D91E6C984C003105FD /* CoinButtonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

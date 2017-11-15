@@ -20,4 +20,5 @@ target 'Snoop' do
   pod 'Flurry-iOS-SDK/FlurrySDK' #Analytics Pod
   pod 'Siren'
   pod "MediaWatermark"
+
 end
