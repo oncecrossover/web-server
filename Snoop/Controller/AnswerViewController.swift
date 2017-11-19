@@ -419,7 +419,11 @@ extension AnswerViewController: UIImagePickerControllerDelegate, UINavigationCon
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
     if let pickedVideo:URL = (info[UIImagePickerControllerMediaURL] as? URL) {
       // Save the video to the app directory so we can play it later
-      watermarkAndSaveVideo(picker, url: pickedVideo)
+      let videoData = try? Data(contentsOf: pickedVideo)
+      let dataPath = getSegmentFileUrl()
+      self.segmentUrls.append(dataPath)
+      self.globalCounter += 1
+      try? videoData?.write(to: dataPath, options: [])
     }
   }
 }
