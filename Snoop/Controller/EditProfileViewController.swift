@@ -64,8 +64,16 @@ class EditProfileViewController: UIViewController {
 
     initView()
 
-    let name = profileValues.name?.characters.split{$0 == " "}.map(String.init)
-    profileView.fillValues(profileValues.avatarUrl, firstName: name![0], lastName: name![1], title: profileValues.title!, about: profileValues.about!)
+    /* correctly handle:
+     case 1: there are no firstName and lastName at all
+     case 2: there is only firstName or lastName
+     case 3: there are both firstName or lastName
+     */
+    let names = profileValues.name?.characters.split{$0 == " "}.map(String.init)
+    let firstName = names?.first
+    let lastName = names?.dropLast().first
+
+    profileView.fillValues(profileValues.avatarUrl, firstName: firstName, lastName: lastName, title: profileValues.title!, about: profileValues.about!)
     profileView.fillRate(profileValues.rate!)
 
     setupInputLimits()
