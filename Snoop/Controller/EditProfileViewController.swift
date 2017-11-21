@@ -71,7 +71,7 @@ class EditProfileViewController: UIViewController {
      */
     let names = profileValues.name?.characters.split{$0 == " "}.map(String.init)
     let firstName = names?.first
-    let lastName = names?.dropLast().first
+    let lastName = names?.dropFirst().first
 
     profileView.fillValues(profileValues.avatarUrl, firstName: firstName, lastName: lastName, title: profileValues.title!, about: profileValues.about!)
     profileView.fillRate(profileValues.rate!)
