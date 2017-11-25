@@ -54,10 +54,18 @@ class SignupViewController: UIViewController {
 
   lazy var twitterLoginButton: TWTRLogInButton = {
     let button = TWTRLogInButton { (session, error) in
-      if (error != nil) {
-        print(error!)
+      if let error = error {
+        print(error)
         return
       }
+
+      /* save access token and secret */
+      if let session = session {
+        UserDefaults.standard.setValue(session.authToken, forKey: "accessToken")
+        UserDefaults.standard.setValue(session.authTokenSecret, forKey: "accessTokenSecret")
+        UserDefaults.standard.synchronize()
+      }
+
       let client = TWTRAPIClient.withCurrentUser()
       let request = client.urlRequest(withMethod: "GET",
                                       url: "https://api.twitter.com/1.1/account/verify_credentials.json",

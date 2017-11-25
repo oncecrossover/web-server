@@ -98,8 +98,10 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     else if (indexPath.section == 1) {
       let uid = UserDefaults.standard.string(forKey: "uid")
-      UserDefaults.standard.set(false, forKey: "isUserLoggedIn")
       UserDefaults.standard.removeObject(forKey: "uid")
+      UserDefaults.standard.removeObject(forKey: "accessToken")
+      UserDefaults.standard.removeObject(forKey: "accessTokenSecret")
+      UserDefaults.standard.set(false, forKey: "isUserLoggedIn")
       UserDefaults.standard.set(true, forKey: "shouldLoadHome")
       UserDefaults.standard.set(true, forKey: "shouldLoadDiscover")
       UserDefaults.standard.set(true, forKey: "shouldLoadProfile")

@@ -154,7 +154,6 @@
 		D7D929421FBB7EE6005E3015 /* PairLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D929411FBB7EE6005E3015 /* PairLabelView.swift */; };
 		D7D9294A1FBE1D4D005E3015 /* ShareActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D929481FBE1D4D005E3015 /* ShareActionSheet.swift */; };
 		D7D9294B1FBE1D4D005E3015 /* SocialGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D929491FBE1D4D005E3015 /* SocialGateway.swift */; };
-		D7D9294E1FBE1E51005E3015 /* TWTRAPIClient-MediaUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D9294D1FBE1E51005E3015 /* TWTRAPIClient-MediaUpload.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -354,7 +353,6 @@
 		D7D929411FBB7EE6005E3015 /* PairLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairLabelView.swift; sourceTree = "<group>"; };
 		D7D929481FBE1D4D005E3015 /* ShareActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareActionSheet.swift; path = Snoop/share/ShareActionSheet.swift; sourceTree = SOURCE_ROOT; };
 		D7D929491FBE1D4D005E3015 /* SocialGateway.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialGateway.swift; path = Snoop/share/SocialGateway.swift; sourceTree = SOURCE_ROOT; };
-		D7D9294D1FBE1E51005E3015 /* TWTRAPIClient-MediaUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TWTRAPIClient-MediaUpload.swift"; path = "Snoop/share/TWTRAPIClient-MediaUpload.swift"; sourceTree = SOURCE_ROOT; };
 		EFE8CFDC7701F292F8513EA7 /* Pods-SnoopUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUnitTests/Pods-SnoopUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F3790CCF5AD9917B277BBEF9 /* Pods-Snoop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Snoop.release.xcconfig"; path = "Pods/Target Support Files/Pods-Snoop/Pods-Snoop.release.xcconfig"; sourceTree = "<group>"; };
 		F760223B517F4B15555AC6CC /* Pods-SnoopUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUITests/Pods-SnoopUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -697,7 +695,6 @@
 			children = (
 				D7D929481FBE1D4D005E3015 /* ShareActionSheet.swift */,
 				D7D929491FBE1D4D005E3015 /* SocialGateway.swift */,
-				D7D9294D1FBE1E51005E3015 /* TWTRAPIClient-MediaUpload.swift */,
 			);
 			name = share;
 			path = "New Group";
@@ -1151,7 +1148,6 @@
 				4A7971DB1E6CCFEB003105FD /* CoinsViewController.swift in Sources */,
 				4A10DCCA1E5B663A009E3996 /* LoginView.swift in Sources */,
 				D739787D1F15A8BB007ED445 /* InitialsImageView.swift in Sources */,
-				D7D9294E1FBE1E51005E3015 /* TWTRAPIClient-MediaUpload.swift in Sources */,
 				4AFDD2511E37FCCB00CC7A06 /* CustomTableBackgroundView.swift in Sources */,
 				4ADFD38F1E56628B00CD3D92 /* NSData+ImageContentType.m in Sources */,
 				4ADFD39B1E56628B00CD3D92 /* UIImage+MultiFormat.m in Sources */,

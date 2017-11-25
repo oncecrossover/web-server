@@ -8,8 +8,13 @@
 
 import Foundation
 import TwitterKit
+import TwitterVideoUploader
+import STTwitter
+import RxSwift
 
 class ShareActionSheet {
+  let utility = UIUtility()
+  let  disposeBag = DisposeBag()
   lazy var userReportHTTP = UserReport()
   private var socialGateway: SocialGateway
 
@@ -120,17 +125,21 @@ class ShareActionSheet {
         }
 
         self.socialGateway.hostingController.displayConfirmation("Video will be posted.")
-        let client = TWTRAPIClient.withCurrentUser()
-        client.statusUpdate(status: question, mediaURL: fileUrl!) {
-          tweetId, error in
-
-          do {
-            /* delete temp media in cache */
-            try FileManager.default.removeItem(at: fileUrl!)
-          } catch let error as NSError {
-            print(error)
-          }
-        }
+        let api = STTwitterAPI(oAuthConsumerKey: "II4Ihx8XqrKydVO1bEcXL2l8p",
+                               consumerSecret:  "swOZIBmANuhq8Ja3Y7vgrKLUOaTMQeswGL2j3KJEM88uHSFKkh",
+                               oauthToken: UserDefaults.standard.string(forKey: "accessToken"),
+                               oauthTokenSecret: UserDefaults.standard.string(forKey: "accessTokenSecret"))
+        api?.setTimeoutInSeconds(86400)
+        api?.postStatusesUpdate(with: fileUrl!, message: question).subscribe(
+          onNext: { (_) in
+            print("next")
+        }, onError: { (error) in
+          self.utility.displayAlertMessage(error.localizedDescription, title: "Twitter Share Failed", sender: self.socialGateway.hostingController)
+        }, onCompleted: {
+          self.socialGateway.hostingController.displayConfirmation("Twitter Share Succeeded!")
+        }, onDisposed: {
+          print("dispose")
+        }).disposed(by: self.disposeBag)
       }
     }
   }

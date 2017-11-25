@@ -136,12 +136,22 @@ class SocialGateway {
     }
   }
 
+  func getDefaultURLSession() -> Foundation.URLSession {
+
+    let configuration =
+      URLSessionConfiguration.default
+    let session = Foundation.URLSession(configuration: configuration)
+    return session
+  }
+
   private func DownloadData(from: URL, completion: @escaping ((Data?, URLResponse?, Error? ) -> Void)) {
-    URLSession.shared.dataTask(with: from) {
+    let session = getDefaultURLSession()
+    session.dataTask(with: from) {
       (data, response, error) in
 
       completion(data, response, error)
       }.resume()
+    session.finishTasksAndInvalidate()
   }
 
   private func SaveToLocalFile(data: Data?, tmpFileUrl: URL) {

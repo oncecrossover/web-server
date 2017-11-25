@@ -125,7 +125,7 @@ extension UIViewController {
     confirmView.translatesAutoresizingMaskIntoConstraints = false
     confirmView.setMessage(msg)
     view.addSubview(confirmView)
-    confirmView.widthAnchor.constraint(equalToConstant: 160).isActive = true
+    confirmView.widthAnchor.constraint(equalToConstant: 180).isActive = true
     confirmView.heightAnchor.constraint(equalToConstant: 90).isActive = true
     confirmView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     confirmView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
