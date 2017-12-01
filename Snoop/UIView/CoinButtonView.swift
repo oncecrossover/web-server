@@ -32,8 +32,8 @@ class CoinButtonView: UIView {
     addSubview(coinView)
     addSubview(coinCount)
 
-    addConstraintsWithFormat("H:|[v0(35)]-2-[v1(18)]|", views: coinCount, coinView)
-    addConstraintsWithFormat("V:|-1-[v0]-1-|", views: coinView)
+    addConstraintsWithFormat("H:|[v0(35)]-2-[v1(23)]|", views: coinCount, coinView)
+    addConstraintsWithFormat("V:|-1-[v0(23)]-1-|", views: coinView)
     addConstraintsWithFormat("V:|-1-[v0]-1-|", views: coinCount)
   }
 
