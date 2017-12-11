@@ -16,7 +16,7 @@ class AnswerViewController: UIViewController {
 
   @IBOutlet weak var answerTableView: UITableView!
 
-  var currentImagePicker: UIImagePickerController?
+  var currentCustomCamera: CustomCameraViewController?
   var videoLayer: AVPlayerLayer?
 
   var fileName = "videoFile.m4a"
@@ -142,7 +142,7 @@ extension AnswerViewController {
     else {
       self.videoLayer?.removeFromSuperlayer()
       self.closeButton.removeFromSuperview()
-      if let cameraView = currentImagePicker?.cameraOverlayView as? CustomCameraView {
+      if let cameraView = self.currentCustomCamera?.cameraOverlayView as? CustomCameraView {
         cameraView.enableCameraControls()
       }
     }
@@ -187,18 +187,18 @@ extension AnswerViewController {
 
     switch interruptionType {
     case .began:
-      if let cameraView = self.currentImagePicker?.cameraOverlayView as? CustomCameraView {
+      if let cameraView = self.currentCustomCamera?.cameraOverlayView as? CustomCameraView {
         self.stopRecording(cameraView)
         cameraView.disableCameraControls()
       }
     case .ended:
-      if let cameraView = self.currentImagePicker?.cameraOverlayView as? CustomCameraView {
+      if let cameraView = self.currentCustomCamera?.cameraOverlayView as? CustomCameraView {
         cameraView.enableCameraControls()
       }
     }
   }
   func mergeVideos() {
-    let activityIndicator = utilityModule.createCustomActivityIndicator((self.currentImagePicker?.view)!, text: "Merging videos...")
+    let activityIndicator = utilityModule.createCustomActivityIndicator((self.currentCustomCamera?.view)!, text: "Merging videos...")
     var totalTime = kCMTimeZero
     let composition = AVMutableComposition()
     var layerInstructions:[AVVideoCompositionLayerInstruction] = []
@@ -252,7 +252,7 @@ extension AnswerViewController {
 
         myAlert.addAction(okAction)
 
-        self.currentImagePicker?.present(myAlert, animated: true) {
+        self.currentCustomCamera?.present(myAlert, animated: true) {
           DispatchQueue.main.async {
             activityIndicator.hide(animated: true)
           }
@@ -270,12 +270,12 @@ extension AnswerViewController {
 
             myAlert.addAction(okAction)
 
-            self.currentImagePicker?.present(myAlert, animated: true, completion: nil)
+            self.currentCustomCamera?.present(myAlert, animated: true, completion: nil)
           }
           else {
             let dvc = CoverFrameViewController()
             dvc.quandaId = self.cellInfo.id
-            self.currentImagePicker?.pushViewController(dvc, animated: true)
+            self.currentCustomCamera?.present(dvc, animated: true)
           }
         }
       }
@@ -385,22 +385,19 @@ extension AnswerViewController {
     }
 
     if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
-      let imagePicker = UIImagePickerController()
-      currentImagePicker = imagePicker
-      imagePicker.delegate = self
-      imagePicker.sourceType = .camera
-      imagePicker.allowsEditing = false
-      imagePicker.mediaTypes = [kUTTypeMovie as String]
-      imagePicker.showsCameraControls = false
-      imagePicker.cameraDevice = .rear
-      imagePicker.cameraCaptureMode = .video
-      imagePicker.videoQuality = .typeHigh
-
       // Initiate custom camera view
-      let customCameraView = CustomCameraView(frame: imagePicker.view.frame)
-      imagePicker.cameraOverlayView = customCameraView
+      let customCameraView = CustomCameraView(frame: UIScreen.main.bounds)
       customCameraView.delegate = self
-      self.present(imagePicker, animated: true, completion: {
+
+      /* init custom camera */
+      let customCamera = CustomCameraViewController()
+      self.currentCustomCamera = customCamera
+      customCamera.delegate = self
+      customCamera.cameraPosition = .front
+      customCamera.sessionPreset = .high
+      customCamera.cameraOverlayView = customCameraView
+
+      self.present(customCamera, animated: true, completion: {
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleEndOfPlaying), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
         // Add audioSessionInteruption Observer
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleAudioInteruption(_:)), name: NSNotification.Name.AVAudioSessionInterruption, object: nil)
@@ -412,12 +409,10 @@ extension AnswerViewController {
   }
 }
 
-// UIImageviewController delegate
-extension AnswerViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
-  //Finished recording video
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-    if let pickedVideo:URL = (info[UIImagePickerControllerMediaURL] as? URL) {
+// CustomCameraViewController Delegate
+extension AnswerViewController: CustomCameraViewControllerDelegate {
+  func didFinishPickingMedia(_ camera: CustomCameraViewController, withInfo info: [String : Any]) {
+    if let pickedVideo:URL = (info[CustomCameraViewControllerMediaURL] as? URL) {
       // Save the video to the app directory so we can play it later
       let videoData = try? Data(contentsOf: pickedVideo)
       let dataPath = getSegmentFileUrl()
@@ -443,7 +438,7 @@ extension AnswerViewController {
 
       // activityIndicator
       let activityIndicator = self.utilityModule.createCustomActivityIndicator(picker.view, text: "Watermarking video...")
-      let cameraView = currentImagePicker?.cameraOverlayView as? CustomCameraView
+      let cameraView = currentCustomCamera?.cameraOverlayView as? CustomCameraView
       cameraView?.disableCameraControls()
 
       let mediaProcessor = MediaProcessor()
@@ -488,7 +483,7 @@ extension AnswerViewController: CustomCameraViewDelegate {
     myAlert.addAction(cancelAction)
     myAlert.addAction(okAction)
 
-    self.currentImagePicker?.present(myAlert, animated: true, completion: nil)
+    self.currentCustomCamera?.present(myAlert, animated: true, completion: nil)
   }
 
   func didBack(_ overlayView: CustomCameraView) {
@@ -498,7 +493,8 @@ extension AnswerViewController: CustomCameraViewDelegate {
       NotificationCenter.default.removeObserver(self) // app might crash without removing observer
       self.globalCounter = 0
       self.segmentUrls = []
-      self.currentImagePicker?.dismiss(animated: true, completion: nil)
+      self.currentCustomCamera?.stopVideoCapture()
+      self.currentCustomCamera?.dismiss(animated: true, completion: nil)
     }
 
     let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
@@ -506,7 +502,7 @@ extension AnswerViewController: CustomCameraViewDelegate {
     myAlert.addAction(cancelAction)
     myAlert.addAction(okAction)
 
-    self.currentImagePicker?.present(myAlert, animated: true, completion: nil)
+    self.currentCustomCamera?.present(myAlert, animated: true, completion: nil)
   }
 
   func didNext(_ overlayView: CustomCameraView) {
@@ -514,23 +510,18 @@ extension AnswerViewController: CustomCameraViewDelegate {
   }
 
   func didSwitch(_ overlayView: CustomCameraView) {
-    if (self.currentImagePicker?.cameraDevice == .front) {
-      self.currentImagePicker?.cameraDevice = .rear
-    }
-    else {
-      self.currentImagePicker?.cameraDevice = .front
-    }
+    self.currentCustomCamera?.rotateCamera()
   }
 
   func didShoot(_ overlayView:CustomCameraView) {
     if (overlayView.isRecording == false) {
       //start recording answer
-      currentImagePicker?.startVideoCapture()
+      self.currentCustomCamera?.startRecording()
       overlayView.hideCameraControls()
     }
     else {
       //stop recording
-      currentImagePicker?.stopVideoCapture()
+      self.currentCustomCamera?.stopRecording()
       overlayView.showCameraControls()
     }
   }
@@ -543,7 +534,7 @@ extension AnswerViewController: CustomCameraViewDelegate {
       playerItems.append(playerItem)
     }
 
-    if let cameraView = currentImagePicker?.cameraOverlayView as? CustomCameraView {
+    if let cameraView = currentCustomCamera?.cameraOverlayView as? CustomCameraView {
       cameraView.disableCameraControls()
     }
 
@@ -554,19 +545,19 @@ extension AnswerViewController: CustomCameraViewDelegate {
     videoLayer?.frame = self.view.bounds
     videoLayer?.backgroundColor = UIColor.black.cgColor
     videoLayer?.videoGravity = AVLayerVideoGravity.resizeAspect
-    currentImagePicker?.cameraOverlayView?.layer.addSublayer(videoLayer!)
+    currentCustomCamera?.cameraOverlayView?.layer.addSublayer(videoLayer!)
 
     // Add close button
-    currentImagePicker?.cameraOverlayView?.addSubview(closeButton)
-    closeButton.topAnchor.constraint(equalTo: (currentImagePicker?.cameraOverlayView?.topAnchor)!, constant: 20).isActive = true
-    closeButton.leadingAnchor.constraint(equalTo: (currentImagePicker?.cameraOverlayView?.leadingAnchor)!, constant: 20).isActive = true
+    currentCustomCamera?.cameraOverlayView?.addSubview(closeButton)
+    closeButton.topAnchor.constraint(equalTo: (currentCustomCamera?.cameraOverlayView?.topAnchor)!, constant: 20).isActive = true
+    closeButton.leadingAnchor.constraint(equalTo: (currentCustomCamera?.cameraOverlayView?.leadingAnchor)!, constant: 20).isActive = true
     closeButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
     closeButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
     player?.play()
   }
 
   func stopRecording(_ overlayView: CustomCameraView) {
-    currentImagePicker?.stopVideoCapture()
+    currentCustomCamera?.stopRecording()
     overlayView.showCameraControls()
   }
 
@@ -574,7 +565,7 @@ extension AnswerViewController: CustomCameraViewDelegate {
     self.videoLayer?.player?.pause()
     self.closeButton.removeFromSuperview()
     self.videoLayer?.removeFromSuperlayer()
-    if let cameraView = currentImagePicker?.cameraOverlayView as? CustomCameraView {
+    if let cameraView = currentCustomCamera?.cameraOverlayView as? CustomCameraView {
       cameraView.enableCameraControls()
     }
   }

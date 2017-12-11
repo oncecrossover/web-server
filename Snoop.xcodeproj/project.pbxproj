@@ -140,6 +140,7 @@
 		52D970692DC33DF74833DFA6 /* Pods_SnoopUnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A585928C7CE89D3121DF73BE /* Pods_SnoopUnitTests.framework */; };
 		6EE4C32A1EE776D4003C3F71 /* FullScreenImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE4C3291EE776D4003C3F71 /* FullScreenImageView.swift */; };
 		9B8AF57BC8BC1E0D23E78E06 /* Pods_Snoop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4387C425AB9A155E60753942 /* Pods_Snoop.framework */; };
+		D721A91A1FD72F690021B89C /* CustomCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D721A9191FD72F690021B89C /* CustomCameraViewController.swift */; };
 		D739787D1F15A8BB007ED445 /* InitialsImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D739787C1F15A8BB007ED445 /* InitialsImageView.swift */; };
 		D77F27221FBA533800C35482 /* UserFollow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77F27211FBA533800C35482 /* UserFollow.swift */; };
 		D77F27241FBA544000C35482 /* UserFollowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77F27231FBA544000C35482 /* UserFollowModel.swift */; };
@@ -339,6 +340,7 @@
 		C5859753DAA55794ECA5E98B /* Pods-SnoopUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUITests/Pods-SnoopUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D37541AF3C4E87F7FA873B9C /* Pods-SnoopUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUnitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUnitTests/Pods-SnoopUnitTests.release.xcconfig"; sourceTree = "<group>"; };
 		D6E2F6834CC934B7B186EC01 /* Pods-Snoop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Snoop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Snoop/Pods-Snoop.debug.xcconfig"; sourceTree = "<group>"; };
+		D721A9191FD72F690021B89C /* CustomCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCameraViewController.swift; sourceTree = "<group>"; };
 		D739787C1F15A8BB007ED445 /* InitialsImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialsImageView.swift; sourceTree = "<group>"; };
 		D77F27211FBA533800C35482 /* UserFollow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFollow.swift; sourceTree = "<group>"; };
 		D77F27231FBA544000C35482 /* UserFollowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFollowModel.swift; sourceTree = "<group>"; };
@@ -474,6 +476,7 @@
 				4A7971DA1E6CCFEB003105FD /* CoinsViewController.swift */,
 				4AF303BC1E7A74AE0048895D /* EarningsViewController.swift */,
 				D788D72D1F731E7B00EA7D44 /* EulaViewController.swift */,
+				D721A9191FD72F690021B89C /* CustomCameraViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1125,6 +1128,7 @@
 				4ADFD39D1E56628B00CD3D92 /* UIImageView+HighlightedWebCache.m in Sources */,
 				4A436E4D1E9061A600908D24 /* PermissionView.swift in Sources */,
 				D7D9294A1FBE1D4D005E3015 /* ShareActionSheet.swift in Sources */,
+				D721A91A1FD72F690021B89C /* CustomCameraViewController.swift in Sources */,
 				4AF3226A1D29A1E10043FCE5 /* Question.swift in Sources */,
 				4A55E9011E332E8E00B033F4 /* CustomCameraView.swift in Sources */,
 				4A152F621D59106700FA48E7 /* Generics.swift in Sources */,

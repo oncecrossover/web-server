@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GPUImage
 
 protocol CustomCameraViewDelegate {
   func didDelete(_ overlayView: CustomCameraView)
@@ -18,7 +19,7 @@ protocol CustomCameraViewDelegate {
   func stopRecording(_ overlayView: CustomCameraView)
 }
 
-class CustomCameraView: UIView {
+class CustomCameraView: GPUImageView {
 
   var delegate: CustomCameraViewDelegate! = nil
   var isRecording = false

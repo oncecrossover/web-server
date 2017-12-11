@@ -137,6 +137,7 @@ extension CoverFrameViewController {
 
   @objc func back(_ sender: AnyObject) {
     _ = self.navigationController?.popViewController(animated: false)
+    self.dismiss(animated: true)
   }
 
   @IBAction func submitButtonTapped(_ sender: AnyObject) {

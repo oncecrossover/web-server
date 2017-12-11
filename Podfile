@@ -21,4 +21,5 @@ target 'Snoop' do
   pod 'Siren'
   pod "MediaWatermark"
   pod 'TwitterVideoUploader', :path => '.'
+  pod 'GPUImage'
 end
