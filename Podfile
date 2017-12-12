@@ -22,4 +22,7 @@ target 'Snoop' do
   pod "MediaWatermark"
   pod 'TwitterVideoUploader', :path => '.'
   pod 'GPUImage'
+  pod 'FacebookCore'
+  pod 'FacebookLogin'
+  pod 'FacebookShare'
 end

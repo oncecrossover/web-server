@@ -8,8 +8,10 @@
 
 import UIKit
 import TwitterKit
+import FacebookLogin
+import FacebookCore
 
-class LoginViewController: UIViewController {
+class LoginViewController: EntryViewController {
 
   var signupViewController: SignupViewController?
   let iconView: IconView = {
@@ -28,25 +30,24 @@ class LoginViewController: UIViewController {
     return loginView
   }()
 
+  lazy var facebookLoginButton: UIButton = {
+    let button = createTapButton()
+    button.setBackgroundImage(UIImage(named: "fb_login"), for: UIControlState())
+    button.addTarget(self, action: #selector(facebookLoginButtonTapped), for: .touchUpInside)
+    return button
+  }()
+
   lazy var loginButton: UIButton = {
-    let button = UIButton()
+    let button = createTapButton()
     button.setTitle("Log In", for: UIControlState())
     button.backgroundColor = UIColor.defaultColor()
-    button.setTitleColor(UIColor.white, for: UIControlState())
-    button.layer.cornerRadius = 10
-    button.clipsToBounds = true
     button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
-    button.translatesAutoresizingMaskIntoConstraints = false
     return button
   }()
 
   lazy var signupLink: UIButton = {
-    let link = UIButton()
+    let link = createLinkButton()
     link.setTitle("Sign Up", for: UIControlState())
-    link.setTitleColor(UIColor.defaultColor(), for: UIControlState())
-    link.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-    link.backgroundColor = UIColor.white
-    link.translatesAutoresizingMaskIntoConstraints = false
     link.addTarget(self, action: #selector(signupLinkTapped), for: .touchUpInside)
     return link
   }()
@@ -86,20 +87,7 @@ class LoginViewController: UIViewController {
         do {
           if let dict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
             let username = dict["screen_name"] as! String
-            let util = UIUtility()
-            // Check if the username already exists
-            User().getUserByUname(username) { users in
-              if (users.count == 0) {
-                DispatchQueue.main.async {
-                  util.displayAlertMessage("username \(username) doesn't exist. Please sign up", title: "Alert", sender: self)
-                }
-              }
-              else {
-                let user = users[0] as! NSDictionary
-                let uid = user["id"] as! String
-                self.loginUser(uid)
-              }
-            }
+            self.checkAndLoginUser(username)
           }
         } catch let error as NSError {
           print(error.localizedDescription)
@@ -127,6 +115,7 @@ class LoginViewController: UIViewController {
     view.addSubview(signupLink)
     view.addSubview(forgetPasswordLink)
     view.addSubview(twitterLoginButton)
+    view.addSubview(facebookLoginButton)
 
     // Setup Icon View
     iconView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -160,7 +149,40 @@ class LoginViewController: UIViewController {
 
     // Add Twitter log in button
     view.addConstraintsWithFormat("H:|-30-[v0]-30-|", views: twitterLoginButton)
-    view.addConstraintsWithFormat("V:[v0]-20-[v1(45)]", views: signupLink, twitterLoginButton)
+    view.addConstraintsWithFormat("H:|-30-[v0]-30-|", views: facebookLoginButton)
+    view.addConstraintsWithFormat("V:[v0]-20-[v1(45)]-20-[v2(45)]", views: signupLink, twitterLoginButton, facebookLoginButton)
+  }
+}
+
+extension LoginViewController {
+  @objc func facebookLoginButtonTapped() {
+    let loginManager = LoginManager()
+    loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self) {
+      loginResult in
+
+      switch loginResult {
+      case .failed(let error):
+        print(error)
+      case .cancelled:
+        print("User cancelled login.")
+      case .success(_, _, let accessToken):
+        let parameters = ["fields": "id"]
+        let request = GraphRequest(graphPath: "/\(accessToken.userId!)", parameters: parameters)
+        request.start() {
+          httpURLResponse, graphRequestResult in
+
+          switch graphRequestResult {
+          case .failed(let error):
+            print("error in graph request:", error)
+          case .success(let graphResponse):
+            if let dict = graphResponse.dictionaryValue {
+              let username = dict["id"] as! String
+              self.checkAndLoginUser(username)
+            }
+          }
+        }
+      }
+    }
   }
 
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -222,5 +244,23 @@ class LoginViewController: UIViewController {
 
   @objc func forgetPasswordLinkTapped() {
     self.navigationController?.pushViewController(PasswordResetViewController(), animated: true)
+  }
+
+
+  private func checkAndLoginUser(_ username: String) {
+    let util = UIUtility()
+    // Check if the username already exists
+    User().getUserByUname(username) { users in
+      if (users.count == 0) {
+        DispatchQueue.main.async {
+          util.displayAlertMessage("username \(username) doesn't exist. Please sign up", title: "Alert", sender: self)
+        }
+      }
+      else {
+        let user = users[0] as! NSDictionary
+        let uid = user["id"] as! String
+        self.loginUser(uid)
+      }
+    }
   }
 }

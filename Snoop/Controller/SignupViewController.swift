@@ -8,8 +8,10 @@
 
 import UIKit
 import TwitterKit
+import FacebookLogin
+import FacebookCore
 
-class SignupViewController: UIViewController {
+class SignupViewController: EntryViewController {
 
   var loginViewController: LoginViewController?
 
@@ -30,27 +32,26 @@ class SignupViewController: UIViewController {
   }()
 
   lazy var signupButton: UIButton = {
-    let button = UIButton()
+    let button = createTapButton()
     button.setTitle("Sign Up", for: UIControlState())
     button.backgroundColor = UIColor.defaultColor()
-    button.setTitleColor(UIColor.white, for: UIControlState())
-    button.layer.cornerRadius = 10
-    button.clipsToBounds = true
     button.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
-    button.translatesAutoresizingMaskIntoConstraints = false
     return button
   }()
 
   lazy var loginLink: UIButton = {
-    let link = UIButton()
+    let link = createLinkButton()
     link.setTitle("Log In", for: UIControlState())
-    link.setTitleColor(UIColor.defaultColor(), for: UIControlState())
-    link.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-    link.backgroundColor = UIColor.white
-    link.translatesAutoresizingMaskIntoConstraints = false
     link.addTarget(self, action: #selector(loginLinkTapped), for: .touchUpInside)
     return link
   }()
+
+  lazy var facebookSignupButton: UIButton = {
+    let button = createTapButton()
+    button.setBackgroundImage(UIImage(named: "fb_signup"), for: UIControlState())
+    button.addTarget(self, action: #selector(facebookSignupButtonTapped), for: .touchUpInside)
+    return button
+  } ()
 
   lazy var twitterLoginButton: TWTRLogInButton = {
     let button = TWTRLogInButton { (session, error) in
@@ -75,26 +76,15 @@ class SignupViewController: UIViewController {
       client.sendTwitterRequest(request) {response, data, connectionError in
         do {
           if let dict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
-            // retrieve user's email
+            let name = dict["name"] as! String
+            let username = dict["screen_name"] as! String
+            let password = self.generatePassword()
             var twitterEmail = ""
             if let email = dict["email"] as? String {
               twitterEmail = email
             }
 
-            let password = self.generatePassword()
-            let name = dict["name"] as! String
-            let username = dict["screen_name"] as! String
-            // Check if the username already exists
-            User().getUserByUname(username) { user in
-              if (user.count > 0) {
-                DispatchQueue.main.async {
-                  UIUtility().displayAlertMessage("username \(username) already exists", title: "Alert", sender: self)
-                }
-              }
-              else {
-                self.createUser(twitterEmail, username, password, name)
-              }
-            }
+            self.checkAndCreateUser(name, username, password, twitterEmail)
           }
         } catch let error as NSError {
           print(error.localizedDescription)
@@ -116,6 +106,7 @@ class SignupViewController: UIViewController {
     view.addSubview(signupButton)
     view.addSubview(loginLink)
     view.addSubview(twitterLoginButton)
+    view.addSubview(facebookSignupButton)
 
     // Setup Icon View
     iconView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -143,11 +134,51 @@ class SignupViewController: UIViewController {
 
     // Setup twitter button
     view.addConstraintsWithFormat("H:|-30-[v0]-30-|", views: twitterLoginButton)
-    view.addConstraintsWithFormat("V:[v0]-20-[v1(45)]", views: loginLink, twitterLoginButton)
+    view.addConstraintsWithFormat("H:|-30-[v0]-30-|", views: facebookSignupButton)
+    view.addConstraintsWithFormat("V:[v0]-20-[v1(45)]-20-[v2(45)]", views: loginLink, twitterLoginButton, facebookSignupButton)
   }
 
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     self.view.endEditing(true)
+  }
+}
+
+// various functions
+extension SignupViewController {
+  @objc func facebookSignupButtonTapped() {
+    let loginManager = LoginManager()
+    loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: self) {
+      loginResult in
+
+      switch loginResult {
+      case .failed(let error):
+        print(error)
+      case .cancelled:
+        print("User cancelled signup.")
+      case .success(_, _, let accessToken):
+        let parameters = ["fields": "id, name, email"]
+        let request = GraphRequest(graphPath: "/\(accessToken.userId!)", parameters: parameters)
+        request.start() {
+          httpURLResponse, graphRequestResult in
+
+          switch graphRequestResult {
+          case .failed(let error):
+            print("error in graph request:", error)
+          case .success(let graphResponse):
+            if let dict = graphResponse.dictionaryValue {
+              let name = dict["name"] as! String
+              let username = dict["id"] as! String
+              let password = self.generatePassword()
+              var fbEmail = ""
+              if let email = dict["email"] as? String {
+                fbEmail = email
+              }
+              self.checkAndCreateUser(name, username, password, fbEmail)
+            }
+          }
+        }
+      }
+    }
   }
 
   @objc func signupButtonTapped() {
@@ -196,12 +227,26 @@ class SignupViewController: UIViewController {
         }
       }
       else {
-        self.createUser(userEmail, userEmail, userPassword, name)
+        self.createUser(name, userEmail, userPassword, userEmail)
       }
     }
   }
 
-  func createUser(_ userEmail: String, _ username: String, _ userPassword: String, _ name: String) {
+  private func checkAndCreateUser(_ name: String, _ username: String, _ userPassword: String, _ userEmail: String) {
+    // Check if the username already exists
+    User().getUserByUname(username) { user in
+      if (user.count > 0) {
+        DispatchQueue.main.async {
+          UIUtility().displayAlertMessage("username \(username) already exists", title: "Alert", sender: self)
+        }
+      }
+      else {
+        self.createUser(name, username, userPassword, userEmail)
+      }
+    }
+  }
+
+  func createUser(_ name: String, _ username: String, _ userPassword: String, _ userEmail: String) {
     var resultMessage = ""
     let activityIndicator = UIUtility().createCustomActivityIndicator(self.view, text: "Saving your Info...")
     User().createUser(userEmail, username: username, userPassword: userPassword, fullName: name) { result in

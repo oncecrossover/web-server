@@ -54,7 +54,7 @@ class User
       let httpResponse = response as! HTTPURLResponse
       if (httpResponse.statusCode == 400 || httpResponse.statusCode == 500) {
         let responseData = NSMutableDictionary()
-        responseData["error"] = "A user exists with the email"
+        responseData["error"] = "A user exists with the username or email provided"
         completion(responseData)
       }
       else {

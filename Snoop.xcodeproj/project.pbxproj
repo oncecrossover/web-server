@@ -155,6 +155,7 @@
 		D7D929421FBB7EE6005E3015 /* PairLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D929411FBB7EE6005E3015 /* PairLabelView.swift */; };
 		D7D9294A1FBE1D4D005E3015 /* ShareActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D929481FBE1D4D005E3015 /* ShareActionSheet.swift */; };
 		D7D9294B1FBE1D4D005E3015 /* SocialGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D929491FBE1D4D005E3015 /* SocialGateway.swift */; };
+		D7E805431FE0587100D7086B /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E805421FE0587100D7086B /* EntryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -355,6 +356,7 @@
 		D7D929411FBB7EE6005E3015 /* PairLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairLabelView.swift; sourceTree = "<group>"; };
 		D7D929481FBE1D4D005E3015 /* ShareActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareActionSheet.swift; path = Snoop/share/ShareActionSheet.swift; sourceTree = SOURCE_ROOT; };
 		D7D929491FBE1D4D005E3015 /* SocialGateway.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialGateway.swift; path = Snoop/share/SocialGateway.swift; sourceTree = SOURCE_ROOT; };
+		D7E805421FE0587100D7086B /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
 		EFE8CFDC7701F292F8513EA7 /* Pods-SnoopUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUnitTests/Pods-SnoopUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F3790CCF5AD9917B277BBEF9 /* Pods-Snoop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Snoop.release.xcconfig"; path = "Pods/Target Support Files/Pods-Snoop/Pods-Snoop.release.xcconfig"; sourceTree = "<group>"; };
 		F760223B517F4B15555AC6CC /* Pods-SnoopUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUITests/Pods-SnoopUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -477,6 +479,7 @@
 				4AF303BC1E7A74AE0048895D /* EarningsViewController.swift */,
 				D788D72D1F731E7B00EA7D44 /* EulaViewController.swift */,
 				D721A9191FD72F690021B89C /* CustomCameraViewController.swift */,
+				D7E805421FE0587100D7086B /* EntryViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1125,6 +1128,7 @@
 				4AF3226C1D29DE120043FCE5 /* ActivityViewController.swift in Sources */,
 				4A7971E51E6E2495003105FD /* Coin.swift in Sources */,
 				4ACADE131E1345E000831929 /* ActivityTableViewCell.swift in Sources */,
+				D7E805431FE0587100D7086B /* EntryViewController.swift in Sources */,
 				4ADFD39D1E56628B00CD3D92 /* UIImageView+HighlightedWebCache.m in Sources */,
 				4A436E4D1E9061A600908D24 /* PermissionView.swift in Sources */,
 				D7D9294A1FBE1D4D005E3015 /* ShareActionSheet.swift in Sources */,
