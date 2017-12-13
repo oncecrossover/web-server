@@ -932,7 +932,6 @@ Example response:
 {"id":"61022107118600192"}
 
 
-
 RESTFUL APIs OF BLOCK:
 1. to block a user, e.g.
 curl -i -X POST "http://127.0.0.1:8080/blocks/" -d '{"uid":1915936940490752,"blockeeId":"1918121455648768", "blocked":"TRUE"}'
@@ -947,7 +946,6 @@ Example response:
 3. to query a block by user id and blockee id, e.g.
 curl -i -X GET "http://127.0.0.1:8080/blocks?uid=1915936940490752&blockeeId=1918121455648768"
 [{"id":"60982264661540864","uid":"1915936940490752","blockeeId":"1918121455648768","blocked":"TRUE","createdTime":null,"updatedTime":null}]
-
 
 
 RESTFUL APIs OF FOLLOW:
@@ -1006,6 +1004,48 @@ Example response:
     "updatedTime": null
   }
 ]
+
+
+RESTFUL APIs OF THUMB:
+1. to get a thumb, e.g.
+curl -i -X GET "http://127.0.0.1:8080/thumbs/93630026288726016"
+Example response:
+{
+  "id": "93630026288726016",
+  "uid": "19049519362609152",
+  "quandaId": "3462390620356608",
+  "upped": "TRUE",
+  "downed": "FALSE",
+  "createdTime": 1513277537000,
+  "updatedTime": 1513277537000
+}
+
+2. to thumb up, e.g.
+curl -i -X POST "http://127.0.0.1:8080/thumbs/" -d '{"uid":40803508923928576,"quandaId":"3573996956155904", "upped":"TRUE"}'
+Example response:
+{"id":"93632143057485824"}
+
+3. to thumb down, e.g.
+curl -i -X POST "http://127.0.0.1:8080/thumbs/" -d '{"uid":2646895235170304,"quandaId":"3080799704317952", "downed":"TRUE"}'
+Example response:
+{"id":"93630198058057728"}
+
+
+RESTFUL APIs OF QASTAT:
+1. to get qastat for a quanda, e.g.
+curl -i -X GET "http://127.0.0.1:8080/qastats?quandaId=3573996956155904"
+Example response:
+[
+  {
+    "id": "3573996956155904",
+    "snoops": 3,
+    "thumbups": 0,
+    "thumbdowns": 0,
+    "thumbupped": "FALSE",
+    "thumbdowned": "FALSE"
+  }
+]
+
 
 
 HTTP STATUS CODE OF REST API:

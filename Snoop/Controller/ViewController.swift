@@ -20,6 +20,8 @@ class ViewController: UIViewController {
   var generics = Generics()
   var coinModule = Coin()
   var utilityModule = UIUtility()
+  var thumbProxy = ThumbProxy()
+  var qaStatProxy = QaStatProxy()
 
   var refreshControl: UIRefreshControl = UIRefreshControl()
   var fullScreenImageView : FullScreenImageView = FullScreenImageView()
@@ -83,8 +85,10 @@ class ViewController: UIViewController {
   @IBOutlet weak var feedTable: UITableView!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-  var feeds:[FeedsModel] = []
-  var tmpFeeds:[FeedsModel] = []
+  var qaStats:[QaStatModel] = []
+  var tmpQaStats:[QaStatModel] = []
+  var feeds:[FeedModel] = []
+  var tmpFeeds:[FeedModel] = []
 
   let notificationName = "coinsAdded"
 
@@ -208,53 +212,68 @@ extension ViewController {
     let uid = UserDefaults.standard.string(forKey: "uid")
     let url = "uid=" + "\(uid!)"
     tmpFeeds = []
+    tmpQaStats = []
     self.paidSnoops = []
     loadData(url)
   }
 
   func loadData(_ url: String!) {
+    // load feeds data
     feedTable.isUserInteractionEnabled = false
     activityIndicator.startAnimating()
     let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
-    let myUrl = URL(string: generics.HTTPHOST + "newsfeeds?" + encodedUrl!)
-    generics.getFilteredObjects(myUrl!) { jsonArray in
-      for feedInfo in jsonArray as! [[String:AnyObject]] {
-        let questionId = feedInfo["id"] as! String
-        let question = feedInfo["question"] as! String
-        let responderId = feedInfo["responderId"] as! String
-        let numberOfSnoops = feedInfo["snoops"] as! Int
-        let responderName = feedInfo["responderName"] as! String
-        let askerName = feedInfo["askerName"] as! String
-        let updatedTime = feedInfo["updatedTime"] as! Double
-
-        var responderTitle = ""
-        if (feedInfo["responderTitle"] != nil) {
-          responderTitle = feedInfo["responderTitle"] as! String
-        }
-
-        let responderAvatarUrl = feedInfo["responderAvatarUrl"] as? String
-        let askerAvatarUrl = feedInfo["askerAvatarUrl"] as? String
-        let coverUrl = feedInfo["answerCoverUrl"] as? String
-        let answerUrl = feedInfo["answerUrl"] as? String
-
-        let duration = feedInfo["duration"] as! Int
-        let isAskerAnonymous = (feedInfo["isAskerAnonymous"] as! String).toBool();
-        let rate = feedInfo["rate"] as! Int
-        let freeForHours = feedInfo["freeForHours"] as! Int
-        self.tmpFeeds.append(FeedsModel(_responderName: responderName, _responderTitle: responderTitle, _id: questionId, _question: question, _status: "ANSWERED", _responderId: responderId, _snoops: numberOfSnoops, _updatedTime: updatedTime,  _duration: duration, _isAskerAnonymous: isAskerAnonymous, _responderAvatarUrl: responderAvatarUrl, _askerAvatarUrl: askerAvatarUrl, _askerName: askerName, _coverUrl: coverUrl, _answerUrl: answerUrl!, _rate: rate, _freeForHours: freeForHours))
+    let feedQueryUrl = URL(string: generics.HTTPHOST + "newsfeeds?" + encodedUrl!)
+    var qaStatFilter = ""
+    generics.getFilteredObjects(feedQueryUrl!) { jsonEntries in
+      for jsonEntry in jsonEntries as! [[String:AnyObject]] {
+        let questionId = jsonEntry["id"] as! String
+        self.tmpFeeds.append(FeedModel(jsonEntry))
+        qaStatFilter += "quandaId=\(questionId)&"
       }
-
       self.feeds = self.tmpFeeds
-      DispatchQueue.main.async {
-        self.activityIndicator.stopAnimating()
-        // reload table only if there is additonal data or when we are loading the first batch
-        if (jsonArray.count > 0 || !String(describing: myUrl).contains("lastSeenId")) {
-          self.feedTable.reloadData()
+
+      // load qa stats data
+      qaStatFilter += "uid=\(self.getUid())"
+      self.qaStatProxy.getQaStats(qaStatFilter) {
+        qaStatEntries in
+
+        for qaStatEntry in qaStatEntries as! [[String:AnyObject]] {
+          self.tmpQaStats.append(QaStatModel(qaStatEntry))
         }
-        self.feedTable.isUserInteractionEnabled = true
-        self.refreshControl.endRefreshing()
+        self.qaStats = self.tmpQaStats
+
+        DispatchQueue.main.async {
+          self.activityIndicator.stopAnimating()
+          // reload table only if there is additonal data or when we are loading the first batch
+          if (jsonEntries.count > 0 || !String(describing: feedQueryUrl).contains("lastSeenId")) {
+            self.feedTable.reloadData()
+          }
+          self.feedTable.isUserInteractionEnabled = true
+          self.refreshControl.endRefreshing()
+        }
       }
     }
+  }
+
+  func setupQaStats(_ myCell: FeedTableViewCell, qaStat: QaStatModel) {
+    // setup thumb up
+    if qaStat.thumbupped.toBool() {
+      myCell.thumbupImage.image = UIImage(named: "thumbup-tapped")
+    } else {
+      myCell.thumbupImage.image = UIImage(named: "thumbup-normal")
+    }
+    myCell.thumbups.text = String(qaStat.thumbups)
+
+    // setup thumb down
+    if qaStat.thumbdowned.toBool() {
+      myCell.thumbdownImage.image = UIImage(named: "thumbdown-tapped")
+    } else {
+      myCell.thumbdownImage.image = UIImage(named: "thumbdown-normal")
+    }
+    myCell.thumbdowns.text =  String(qaStat.thumbdowns)
+
+    // setup #snoops
+    myCell.numOfSnoops.text = String(qaStat.snoops)
   }
 
   func setupFullScreenImageSettings(_ myCell: FeedTableViewCell) {
@@ -304,7 +323,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
   /**
    * Setup asker info, e.g. name and avatar
    */
-  func setupAskerInfo(_ myCell: FeedTableViewCell, myFeedInfo: FeedsModel) {
+  func setupAskerInfo(_ myCell: FeedTableViewCell, myFeedInfo: FeedModel) {
     /* show or hide real name */
     myCell.askerName.text = myFeedInfo.isAskerAnonymous ? "Anonymous" : myFeedInfo.askerName;
 
@@ -319,7 +338,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
   /**
    * Setup responder info, e.g. name and avatar
    */
-  func setupResponderInfo(_ myCell: FeedTableViewCell, myFeedInfo: FeedsModel) {
+  func setupResponderInfo(_ myCell: FeedTableViewCell, myFeedInfo: FeedModel) {
     myCell.nameLabel.text = myFeedInfo.responderName
     myCell.titleLabel.text = myFeedInfo.responderTitle.isEmpty ? "" : myFeedInfo.responderTitle;
 
@@ -332,17 +351,18 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let myCell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedTableViewCell
-
-    myCell.actionSheetButton.tag = indexPath.row
-    myCell.actionSheetButton.addTarget(self, action: #selector(tappedOnActionSheetButton(_:)), for: .touchUpInside)
+    let feedInfo = feeds[indexPath.row]
+    let qaStat = qaStats[indexPath.row]
     myCell.isUserInteractionEnabled = false
 
-    let feedInfo = feeds[indexPath.row]
+    // setup action sheet
+    myCell.actionSheetButton.tag = indexPath.row
+    myCell.actionSheetButton.addTarget(self, action: #selector(tappedOnActionSheetButton(_:)), for: .touchUpInside)
 
+    // setup question and #snoops
     myCell.questionLabel.text = feedInfo.question
-    myCell.numOfSnoops.text = String(feedInfo.snoops)
 
-    // setup rate label
+    // setup play/lock buttoon
     if(self.isQuandaFreeOrUnlocked(feedInfo)) {
       myCell.playImage.image = UIImage(named: "play")
     }
@@ -350,25 +370,40 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
       myCell.playImage.image = UIImage(named: "lock")
     }
 
+    // setup various images
     setPlaceholderImages(myCell)
     setupFullScreenImageSettings(myCell)
 
     if (feedInfo.status == "PENDING") {
-      myCell.coverImage.isUserInteractionEnabled = false
+      // setup UI status for PENDING
       myCell.coverImage.image = UIImage()
+      myCell.coverImage.isUserInteractionEnabled = false
+      myCell.thumbupImage.isUserInteractionEnabled = false
+      myCell.thumbdownImage.isUserInteractionEnabled = false
       myCell.freeForHours.isHidden = true
     }
-    else {
+    else { // ANSWERED
+      // setup UI status for ANSWERED
       if let coverUrl = feedInfo.coverUrl {
         myCell.coverImage.sd_setImage(with: URL(string: coverUrl))
       }
       myCell.coverImage.isUserInteractionEnabled = true
+      myCell.thumbupImage.isUserInteractionEnabled = true
+      myCell.thumbdownImage.isUserInteractionEnabled = true
+
+      // setup duration
       myCell.durationLabel.text = feedInfo.duration.toTimeFormat()
       myCell.durationLabel.isHidden = false
 
+      // setup various actions
       let tappedToWatch = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToWatch(_:)))
       myCell.coverImage.addGestureRecognizer(tappedToWatch)
+      let tappedToThumbup = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToThumbup(_:)))
+      myCell.thumbupImage.addGestureRecognizer(tappedToThumbup)
+      let tappedToThumbdown = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToThumbdown(_:)))
+      myCell.thumbdownImage.addGestureRecognizer(tappedToThumbdown)
 
+      // setup limited free
       if(feedInfo.freeForHours > 1) {
         myCell.freeForHours.text = "free for \(feedInfo.freeForHours) hrs"
       } else {
@@ -377,15 +412,18 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
       myCell.freeForHours.isHidden = isLimitedFree(feedInfo) ? false : true
     }
 
+    // setup asker/responder info
     setupAskerInfo(myCell, myFeedInfo: feedInfo);
     setupResponderInfo(myCell, myFeedInfo: feedInfo);
 
+    // setup avatar tap action
     myCell.responderImage.isUserInteractionEnabled = true
     let tappedOnProfile = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedOnProfile(_:)))
     myCell.responderImage.addGestureRecognizer(tappedOnProfile)
 
     myCell.isUserInteractionEnabled = true
 
+    // load more data
     if (indexPath.row == feeds.count - 1) {
       let lastSeenId = feeds[indexPath.row].id
       let updatedTime = Int64(feeds[indexPath.row].updatedTime)
@@ -394,6 +432,8 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
       loadData(url)
     }
 
+    // setup qa stats
+    setupQaStats(myCell, qaStat: qaStat)
     return myCell
   }
 }
@@ -401,7 +441,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
 // Segue action
 extension ViewController {
 
-  func isLimitedFree(_ feedInfo: FeedsModel) -> Bool {
+  func isLimitedFree(_ feedInfo: FeedModel) -> Bool {
     return feedInfo.rate > 0 && feedInfo.freeForHours > 0
   }
 
@@ -526,14 +566,66 @@ extension ViewController {
     present(actionSheet, animated: true, completion: nil)
   }
 
-  func isQuandaFreeOrUnlocked(_ questionInfo: FeedsModel) -> Bool {
+  func isQuandaFreeOrUnlocked(_ questionInfo: FeedModel) -> Bool {
     return self.paidSnoops.contains(questionInfo.id) || questionInfo.rate == 0 || questionInfo.freeForHours > 0
   }
 
-  @objc func tappedToWatch(_ sender:UIGestureRecognizer) {
-    let tapLocation = sender.location(in: self.feedTable)
+  func getUid() -> String {
+    return UserDefaults.standard.string(forKey: "uid")!
+  }
 
+  @objc func tappedToThumbup(_ sender:UIGestureRecognizer) {
+    let tapLocation = sender.location(in: self.feedTable)
+    let tapIndexpath = self.feedTable.indexPathForRow(at: tapLocation)!
+    let qaStat = qaStats[tapIndexpath.row]
+
+    // allow either thumbupped or thumbdowned
+    let upped = qaStat.thumbupped.toBool() ? Bool.FALSE_STR : Bool.TRUE_STR
+    let downed = upped.toBool() && qaStat.thumbdowned.toBool() ? Bool.FALSE_STR : qaStat.thumbdowned
+    tappedToThumb(tapIndexpath, upped: upped, downed: downed)
+  }
+
+  @objc func tappedToThumbdown(_ sender:UIGestureRecognizer) {
+    let tapLocation = sender.location(in: self.feedTable)
+    let tapIndexpath = self.feedTable.indexPathForRow(at: tapLocation)!
+    let qaStat = qaStats[tapIndexpath.row]
+
+    // allow either thumbupped or thumbdowned
+    let downed = qaStat.thumbdowned.toBool() ? Bool.FALSE_STR : Bool.TRUE_STR
+    let upped = downed.toBool() && qaStat.thumbupped.toBool() ? Bool.FALSE_STR : qaStat.thumbupped
+    tappedToThumb(tapIndexpath, upped: upped, downed: downed)
+  }
+
+  func tappedToThumb (_ tapIndexpath: IndexPath, upped: String, downed: String) {
+    let qaStat = qaStats[tapIndexpath.row]
+    let myCell = self.feedTable.cellForRow(at: tapIndexpath) as! FeedTableViewCell
+
+    thumbProxy.createUserThumb(getUid(), quandaId: qaStat.id, upped: upped, downed: downed) {
+      result in
+
+      if (result.isEmpty) { // request succeeds
+        // sync QaStat
+        let qaStatFilter = "quandaId=\(qaStat.id)&uid=\(self.getUid())"
+        self.qaStatProxy.getQaStats(qaStatFilter) {
+          qaStatEntries in
+
+          for qaStatEntry in qaStatEntries as! [[String:AnyObject]] {
+            self.qaStats[tapIndexpath.row] = QaStatModel(qaStatEntry)
+            break
+          }
+
+          // update UI
+          DispatchQueue.main.async {
+            self.setupQaStats(myCell, qaStat: self.qaStats[tapIndexpath.row])
+          }
+        }
+      }
+    }
+  }
+
+  @objc func tappedToWatch(_ sender:UIGestureRecognizer) {
     //using the tapLocation, we retrieve the corresponding indexPath
+    let tapLocation = sender.location(in: self.feedTable)
     let indexPath = self.feedTable.indexPathForRow(at: tapLocation)!
 
     let questionInfo = feeds[indexPath.row]

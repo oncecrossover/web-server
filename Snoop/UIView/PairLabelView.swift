@@ -1,19 +1,19 @@
 //
-//  ProfilePairLabelView.swift
+//  PairLabelView.swift
 //  Snoop
 //
-//  Created by Bingo Zhou on 11/14/17.
-//  Copyright © 2017 Vinsider, Inc. All rights reserved.
+//  Created by Bingo Zhou on 12/14/17.
+//  Copyright © 2017 Vinsider Inc. All rights reserved.
 //
 
 import Foundation
 
-class PairLabelView: UIView {
+class  PairLabelView: UIView {
   let amount: UILabel = {
     let amount = UILabel()
     amount.textAlignment = .center
     amount.textColor = UIColor(white: 0, alpha: 0.7)
-    amount.font = UIFont.systemFont(ofSize: 16)
+    amount.font = UIFont.systemFont(ofSize: 12)
     return amount
   }()
 
@@ -31,20 +31,5 @@ class PairLabelView: UIView {
 
   func setAmount(fromInt: Int) {
     amount.text = fromInt.formatPoints()
-  }
-
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    backgroundColor = UIColor.white
-    addSubview(amount)
-    addSubview(label)
-
-    addConstraintsWithFormat("H:|[v0]|", views: amount)
-    addConstraintsWithFormat("H:|[v0]|", views: label)
-    addConstraintsWithFormat("V:|[v0(18)]-0-[v1(15)]|", views: amount, label)
-  }
-
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
   }
 }

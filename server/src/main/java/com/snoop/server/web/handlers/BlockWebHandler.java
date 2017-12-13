@@ -18,7 +18,7 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 public class BlockWebHandler extends AbastractWebHandler implements WebHandler {
 
   private static final Logger LOG = LoggerFactory
-      .getLogger(BlockEntry.class);
+      .getLogger(BlockWebHandler.class);
 
   public BlockWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
@@ -100,9 +100,9 @@ public class BlockWebHandler extends AbastractWebHandler implements WebHandler {
       final BlockEntry fromDB = BlockDBUtil.getBlockEntry(session,
           fromJson.getUid(), fromJson.getBlockeeId(), false);
 
-      if (fromDB == null) { /* new block */
+      if (fromDB == null) { /* new entry */
         session.save(fromJson);
-      } else { /* existing block */
+      } else { /* existing entry */
         fromDB.setAsIgnoreNull(fromJson);
         session.update(fromDB);
       }

@@ -227,3 +227,20 @@ CREATE TABLE `Follow` (
   INDEX `idx_follow_followeeId` (`followeeId`),
   INDEX `idx_follow_createdTime` (`createdTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Thumb` (
+  `id` BIGINT UNSIGNED NOT NULL,
+  `uid` BIGINT UNSIGNED NOT NULL,
+  `quandaId` BIGINT UNSIGNED NOT NULL,
+  `upped` ENUM('TRUE', 'FALSE') NOT NULL DEFAULT 'FALSE',
+  `downed` ENUM('TRUE', 'FALSE') NOT NULL DEFAULT 'FALSE',
+  `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT `pk_thumb` PRIMARY KEY (`id`),
+  CONSTRAINT `uk_thumb` UNIQUE (`uid`,`quandaId`),
+  CONSTRAINT `fk_thumb_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`id`),
+  CONSTRAINT `fk_thumb_quandaId` FOREIGN KEY (`quandaId`) REFERENCES `Quanda` (`id`),
+  INDEX `idx_thumb_uid` (`uid`),
+  INDEX `idx_thumb_quandaId` (`quandaId`),
+  INDEX `idx_thumb_createdTime` (`createdTime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

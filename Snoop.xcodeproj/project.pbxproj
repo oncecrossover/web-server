@@ -84,7 +84,7 @@
 		4AA328501EAEA73700DB9E59 /* TwitterKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4AA3284C1EAEA73700DB9E59 /* TwitterKitResources.bundle */; };
 		4AA328511EAEA73700DB9E59 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AA3284D1EAEA73700DB9E59 /* TwitterCore.framework */; };
 		4AB9079D1EA87D1200B2E4B9 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB9079C1EA87D1200B2E4B9 /* ProfileTableViewCell.swift */; };
-		4ABB89F81D7DEE2C0022DEF2 /* FeedsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB89F71D7DEE2C0022DEF2 /* FeedsModel.swift */; };
+		4ABB89F81D7DEE2C0022DEF2 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB89F71D7DEE2C0022DEF2 /* FeedModel.swift */; };
 		4ABD20311D407ECC00C3B74E /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD20301D407ECC00C3B74E /* AddCardViewController.swift */; };
 		4ABD20371D4409F900C3B74E /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD20361D4409F900C3B74E /* Payment.swift */; };
 		4ABD203D1D443E1A00C3B74E /* UIUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD203C1D443E1A00C3B74E /* UIUtility.swift */; };
@@ -152,10 +152,16 @@
 		D7B484A51F6C49D200D9EE77 /* UserBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484A41F6C49D200D9EE77 /* UserBlock.swift */; };
 		D7B484A71F6C546C00D9EE77 /* UserBlockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484A61F6C546C00D9EE77 /* UserBlockModel.swift */; };
 		D7C7BCC21F5221390029621F /* CellAccessUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C7BCC11F5221390029621F /* CellAccessUtil.swift */; };
-		D7D929421FBB7EE6005E3015 /* PairLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D929411FBB7EE6005E3015 /* PairLabelView.swift */; };
+		D7D929421FBB7EE6005E3015 /* VerticalPairLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D929411FBB7EE6005E3015 /* VerticalPairLabelView.swift */; };
 		D7D9294A1FBE1D4D005E3015 /* ShareActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D929481FBE1D4D005E3015 /* ShareActionSheet.swift */; };
 		D7D9294B1FBE1D4D005E3015 /* SocialGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D929491FBE1D4D005E3015 /* SocialGateway.swift */; };
+		D7DCC3FC1FE9916000BB1985 /* ThumbModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DCC3FB1FE9916000BB1985 /* ThumbModel.swift */; };
+		D7DCC3FE1FE9933500BB1985 /* ThumbProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DCC3FD1FE9933500BB1985 /* ThumbProxy.swift */; };
+		D7DCC4001FE997DD00BB1985 /* QaStatProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DCC3FF1FE997DD00BB1985 /* QaStatProxy.swift */; };
+		D7DCC4021FE9985500BB1985 /* QaStatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DCC4011FE9985500BB1985 /* QaStatModel.swift */; };
 		D7E805431FE0587100D7086B /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E805421FE0587100D7086B /* EntryViewController.swift */; };
+		D7E805471FE3465500D7086B /* HorizontalPairLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E805461FE3465500D7086B /* HorizontalPairLabelView.swift */; };
+		D7E805491FE346A900D7086B /* PairLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E805481FE346A900D7086B /* PairLabelView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -260,7 +266,7 @@
 		4AA3284C1EAEA73700DB9E59 /* TwitterKitResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TwitterKitResources.bundle; path = TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle; sourceTree = "<group>"; };
 		4AA3284D1EAEA73700DB9E59 /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterCore.framework; sourceTree = "<group>"; };
 		4AB9079C1EA87D1200B2E4B9 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
-		4ABB89F71D7DEE2C0022DEF2 /* FeedsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedsModel.swift; sourceTree = "<group>"; };
+		4ABB89F71D7DEE2C0022DEF2 /* FeedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
 		4ABD20301D407ECC00C3B74E /* AddCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardViewController.swift; sourceTree = "<group>"; };
 		4ABD20361D4409F900C3B74E /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		4ABD203C1D443E1A00C3B74E /* UIUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIUtility.swift; sourceTree = "<group>"; };
@@ -353,10 +359,16 @@
 		D7B484A41F6C49D200D9EE77 /* UserBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBlock.swift; sourceTree = "<group>"; };
 		D7B484A61F6C546C00D9EE77 /* UserBlockModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBlockModel.swift; sourceTree = "<group>"; };
 		D7C7BCC11F5221390029621F /* CellAccessUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellAccessUtil.swift; sourceTree = "<group>"; };
-		D7D929411FBB7EE6005E3015 /* PairLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairLabelView.swift; sourceTree = "<group>"; };
+		D7D929411FBB7EE6005E3015 /* VerticalPairLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalPairLabelView.swift; sourceTree = "<group>"; };
 		D7D929481FBE1D4D005E3015 /* ShareActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareActionSheet.swift; path = Snoop/share/ShareActionSheet.swift; sourceTree = SOURCE_ROOT; };
 		D7D929491FBE1D4D005E3015 /* SocialGateway.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialGateway.swift; path = Snoop/share/SocialGateway.swift; sourceTree = SOURCE_ROOT; };
+		D7DCC3FB1FE9916000BB1985 /* ThumbModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbModel.swift; sourceTree = "<group>"; };
+		D7DCC3FD1FE9933500BB1985 /* ThumbProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbProxy.swift; sourceTree = "<group>"; };
+		D7DCC3FF1FE997DD00BB1985 /* QaStatProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QaStatProxy.swift; sourceTree = "<group>"; };
+		D7DCC4011FE9985500BB1985 /* QaStatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QaStatModel.swift; sourceTree = "<group>"; };
 		D7E805421FE0587100D7086B /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
+		D7E805461FE3465500D7086B /* HorizontalPairLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalPairLabelView.swift; sourceTree = "<group>"; };
+		D7E805481FE346A900D7086B /* PairLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairLabelView.swift; sourceTree = "<group>"; };
 		EFE8CFDC7701F292F8513EA7 /* Pods-SnoopUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUnitTests/Pods-SnoopUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F3790CCF5AD9917B277BBEF9 /* Pods-Snoop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Snoop.release.xcconfig"; path = "Pods/Target Support Files/Pods-Snoop/Pods-Snoop.release.xcconfig"; sourceTree = "<group>"; };
 		F760223B517F4B15555AC6CC /* Pods-SnoopUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnoopUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SnoopUITests/Pods-SnoopUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -498,12 +510,14 @@
 			isa = PBXGroup;
 			children = (
 				4A4BB82C1D769CF40085160F /* DiscoverModel.swift */,
-				4ABB89F71D7DEE2C0022DEF2 /* FeedsModel.swift */,
+				4ABB89F71D7DEE2C0022DEF2 /* FeedModel.swift */,
 				4ACADE141E13586C00831929 /* ActivityModel.swift */,
 				4A7971D21E64A059003105FD /* CategoryModel.swift */,
 				4A7971D41E64B89A003105FD /* InterestModel.swift */,
 				D7B484A61F6C546C00D9EE77 /* UserBlockModel.swift */,
 				D77F27231FBA544000C35482 /* UserFollowModel.swift */,
+				D7DCC3FB1FE9916000BB1985 /* ThumbModel.swift */,
+				D7DCC4011FE9985500BB1985 /* QaStatModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -542,6 +556,8 @@
 				D7B484981F684D9000D9EE77 /* UserReport.swift */,
 				D7B484A41F6C49D200D9EE77 /* UserBlock.swift */,
 				D77F27211FBA533800C35482 /* UserFollow.swift */,
+				D7DCC3FD1FE9933500BB1985 /* ThumbProxy.swift */,
+				D7DCC3FF1FE997DD00BB1985 /* QaStatProxy.swift */,
 			);
 			name = "HTTP`";
 			path = HTTP;
@@ -576,7 +592,9 @@
 				4A7986A11EB2A5B7002A32A9 /* FreeCoinsView.swift */,
 				4A7986A31EB3BE09002A32A9 /* CustomNavigationView.swift */,
 				6EE4C3291EE776D4003C3F71 /* FullScreenImageView.swift */,
-				D7D929411FBB7EE6005E3015 /* PairLabelView.swift */,
+				D7D929411FBB7EE6005E3015 /* VerticalPairLabelView.swift */,
+				D7E805461FE3465500D7086B /* HorizontalPairLabelView.swift */,
+				D7E805481FE346A900D7086B /* PairLabelView.swift */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -1068,7 +1086,7 @@
 				4AC283691CE2F58100A08D35 /* ViewController.swift in Sources */,
 				4A27FCC71E63F7E800D78294 /* ExpertiseCollectionViewCell.swift in Sources */,
 				4ADFD39C1E56628B00CD3D92 /* UIImage+WebP.m in Sources */,
-				D7D929421FBB7EE6005E3015 /* PairLabelView.swift in Sources */,
+				D7D929421FBB7EE6005E3015 /* VerticalPairLabelView.swift in Sources */,
 				4AC2836F1CE2F58100A08D35 /* Peep.xcdatamodeld in Sources */,
 				4ABD203D1D443E1A00C3B74E /* UIUtility.swift in Sources */,
 				4AC283671CE2F58100A08D35 /* AppDelegate.swift in Sources */,
@@ -1088,6 +1106,7 @@
 				4A10DCD01E5BBBF9009E3996 /* InterestPickerViewController.swift in Sources */,
 				4AEF2A1C1D14BABA002E3CFE /* User.swift in Sources */,
 				4A0EB0EB1D8276DC00390D06 /* TutorialViewController.swift in Sources */,
+				D7DCC4021FE9985500BB1985 /* QaStatModel.swift in Sources */,
 				4A0CE3681D6ECDB10023EC2D /* MBProgressHUD.m in Sources */,
 				4A7986A41EB3BE09002A32A9 /* CustomNavigationView.swift in Sources */,
 				4AE8660F1D3C3CF400316DBA /* CardsViewController.swift in Sources */,
@@ -1109,8 +1128,10 @@
 				4A7986A21EB2A5B7002A32A9 /* FreeCoinsView.swift in Sources */,
 				D7B484A11F6B43D800D9EE77 /* SettingUserViewController.swift in Sources */,
 				4A6730BB1E23301A00C512B1 /* ProfileSettingsTableViewCell.swift in Sources */,
+				D7E805471FE3465500D7086B /* HorizontalPairLabelView.swift in Sources */,
 				4A58B0E61E83902E0079F46E /* ProgressView.swift in Sources */,
 				4ADFD38E1E56628B00CD3D92 /* MKAnnotationView+WebCache.m in Sources */,
+				D7DCC3FE1FE9933500BB1985 /* ThumbProxy.swift in Sources */,
 				4AF303B91E75CD210048895D /* ProfileView.swift in Sources */,
 				4A27FCC31E60C96000D78294 /* Category.swift in Sources */,
 				4A7971D71E6A955F003105FD /* PasswordResetView.swift in Sources */,
@@ -1151,7 +1172,7 @@
 				4A3A56631E26D8D600FC0F3B /* extension.swift in Sources */,
 				D7C7BCC21F5221390029621F /* CellAccessUtil.swift in Sources */,
 				4A27FCC51E638DCA00D78294 /* EditProfileView.swift in Sources */,
-				4ABB89F81D7DEE2C0022DEF2 /* FeedsModel.swift in Sources */,
+				4ABB89F81D7DEE2C0022DEF2 /* FeedModel.swift in Sources */,
 				D7D9294B1FBE1D4D005E3015 /* SocialGateway.swift in Sources */,
 				4A7971DB1E6CCFEB003105FD /* CoinsViewController.swift in Sources */,
 				4A10DCCA1E5B663A009E3996 /* LoginView.swift in Sources */,
@@ -1160,6 +1181,7 @@
 				4ADFD38F1E56628B00CD3D92 /* NSData+ImageContentType.m in Sources */,
 				4ADFD39B1E56628B00CD3D92 /* UIImage+MultiFormat.m in Sources */,
 				4AF322741D2C83260043FCE5 /* AnswerTableViewCell.swift in Sources */,
+				D7DCC4001FE997DD00BB1985 /* QaStatProxy.swift in Sources */,
 				4ACA200C1ED390AC009A49A3 /* Config.swift in Sources */,
 				4A7971D31E64A059003105FD /* CategoryModel.swift in Sources */,
 				D77F27241FBA544000C35482 /* UserFollowModel.swift in Sources */,
@@ -1167,6 +1189,7 @@
 				4A55E8FD1E2877D000B033F4 /* CustomSegmentedControl.swift in Sources */,
 				4ADFD3971E56628B00CD3D92 /* SDWebImageManager.m in Sources */,
 				4ADFD3951E56628B00CD3D92 /* SDWebImageDownloader.m in Sources */,
+				D7DCC3FC1FE9916000BB1985 /* ThumbModel.swift in Sources */,
 				4ABD20371D4409F900C3B74E /* Payment.swift in Sources */,
 				4A10DCC01E579CF9009E3996 /* SettingsViewController.swift in Sources */,
 				4ADFD3961E56628B00CD3D92 /* SDWebImageDownloaderOperation.m in Sources */,
@@ -1175,6 +1198,7 @@
 				D7B484A71F6C546C00D9EE77 /* UserBlockModel.swift in Sources */,
 				6EE4C32A1EE776D4003C3F71 /* FullScreenImageView.swift in Sources */,
 				4A4BB82D1D769CF40085160F /* DiscoverModel.swift in Sources */,
+				D7E805491FE346A900D7086B /* PairLabelView.swift in Sources */,
 				4A11C0621D35BA6900AEF95D /* TextFitLabel.swift in Sources */,
 				4A7971D91E6C984C003105FD /* CoinButtonView.swift in Sources */,
 			);

@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.io.ByteArrayDataOutput;
-import com.snoop.server.db.model.FollowEntry;
-import com.snoop.server.db.util.FollowDBUtil;
+import com.snoop.server.db.model.Thumb;
+import com.snoop.server.db.util.ThumbDBUtil;
 import com.snoop.server.util.ResourcePathParser;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -15,12 +15,12 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
-public class FollowWebHandler extends AbastractWebHandler implements WebHandler {
+public class ThumbWebHandler extends AbastractWebHandler implements WebHandler {
 
   private static final Logger LOG = LoggerFactory
-      .getLogger(FollowWebHandler.class);
+      .getLogger(ThumbWebHandler.class);
 
-  public FollowWebHandler(ResourcePathParser pathParser,
+  public ThumbWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
       FullHttpRequest request) {
     super(pathParser, respBuf, ctx, request);
@@ -28,17 +28,7 @@ public class FollowWebHandler extends AbastractWebHandler implements WebHandler 
 
   @Override
   protected FullHttpResponse handleRetrieval() {
-    final WebHandler pwh = new FollowFilterWebHandler(
-      getPathParser(),
-      getRespBuf(),
-      getHandlerContext(),
-      getRequest());
-
-    if (pwh.willFilter()) {
-      return pwh.handle();
-    } else {
-      return onGet();
-    }
+    return onGet();
   }
 
   @Override
@@ -61,12 +51,12 @@ public class FollowWebHandler extends AbastractWebHandler implements WebHandler 
     try {
       session = getSession();
       txn = session.beginTransaction();
-      final FollowEntry retInstance = (FollowEntry) session.get(FollowEntry.class,
+      final Thumb retInstance = (Thumb) session.get(Thumb.class,
           id);
       txn.commit();
 
       /* buffer result */
-      return newResponseForInstance(id.toString(), "follows", retInstance);
+      return newResponseForInstance(id.toString(), "thumbs", retInstance);
     } catch (Exception e) {
       if (txn != null && txn.isActive()) {
         txn.rollback();
@@ -76,9 +66,9 @@ public class FollowWebHandler extends AbastractWebHandler implements WebHandler 
   }
 
   private FullHttpResponse onCreate() {
-    final FollowEntry fromJson;
+    final Thumb fromJson;
     try {
-      fromJson = newInstanceFromRequest(FollowEntry.class);
+      fromJson = newInstanceFromRequest(Thumb.class);
     } catch (Exception e) {
       return newServerErrorResponse(e, LOG);
     }
@@ -97,8 +87,8 @@ public class FollowWebHandler extends AbastractWebHandler implements WebHandler 
       txn = session.beginTransaction();
 
       /* query */
-      final FollowEntry fromDB = FollowDBUtil.getFollowEntry(session,
-          fromJson.getUid(), fromJson.getFolloweeId(), false);
+      final Thumb fromDB = ThumbDBUtil.getThumb(session,
+          fromJson.getUid(), fromJson.getQuandaId(), false);
 
       if (fromDB == null) { /* new entry */
         session.save(fromJson);
@@ -119,10 +109,10 @@ public class FollowWebHandler extends AbastractWebHandler implements WebHandler 
     }
   }
 
-  private FullHttpResponse verifyInstance(final FollowEntry instance,
+  private FullHttpResponse verifyInstance(final Thumb instance,
       final ByteArrayDataOutput respBuf) {
     if (instance == null) {
-      appendln("No follow or incorrect format specified.", respBuf);
+      appendln("No thumb or incorrect format specified.", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
@@ -131,20 +121,11 @@ public class FollowWebHandler extends AbastractWebHandler implements WebHandler 
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    if (instance.getFolloweeId() == null) {
-      appendln("No followee id specified.", respBuf);
+    if (instance.getQuandaId() == null) {
+      appendln("No quanda id specified.", respBuf);
       return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
     }
 
-    if (instance.getFollowed() == null) {
-      appendln("No followed status specified.", respBuf);
-      return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
-    }
-
-    if (instance.getUid() == instance.getFolloweeId()) {
-      appendln("A user can't follow her/himself.", respBuf);
-      return newResponse(HttpResponseStatus.BAD_REQUEST, respBuf);
-    }
     return null;
   }
 }

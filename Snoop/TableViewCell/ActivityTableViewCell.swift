@@ -22,9 +22,11 @@ class ActivityTableViewCell: UITableViewCell {
   @IBOutlet weak var responderName: UILabel!
   @IBOutlet weak var expireLabel: UILabel!
   @IBOutlet weak var actionSheetButton: UIButton!
-
+  @IBOutlet weak var thumbupImage: CircleImageView!
+  @IBOutlet weak var thumbups: UILabel!
+  @IBOutlet weak var thumbdownImage: CircleImageView!
+  @IBOutlet weak var thumbdowns: UILabel!
   @IBOutlet weak var numOfSnoops: UILabel!
-  @IBOutlet weak var snoops: UILabel!
 
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -53,6 +55,5 @@ class ActivityTableViewCell: UITableViewCell {
 
     expireLabel.font = UIFont.systemFont(ofSize: 11)
     expireLabel.backgroundColor = UIColor.highlightColor()
-    numOfSnoops?.textColor = UIColor.defaultColor()
   }
 }

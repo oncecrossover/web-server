@@ -44,6 +44,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.snoop.server.util.ResourcePathParser;
+import com.snoop.server.web.handlers.QaStatWebHandler;
 import com.snoop.server.web.handlers.AnswerWebHandler;
 import com.snoop.server.web.handlers.BalanceWebHandler;
 import com.snoop.server.web.handlers.BlockWebHandler;
@@ -68,6 +69,7 @@ import com.snoop.server.web.handlers.SigninWebHandler;
 import com.snoop.server.web.handlers.SnoopWebHandler;
 import com.snoop.server.web.handlers.TakeQuestionWebHandler;
 import com.snoop.server.web.handlers.TempPwdWebHandler;
+import com.snoop.server.web.handlers.ThumbWebHandler;
 import com.snoop.server.web.handlers.UserWebHandler;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.*;
@@ -255,6 +257,18 @@ public class HttpSnoopServerHandler
             request).handle();
       case "follows":
         return new FollowWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "thumbs":
+        return new ThumbWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "qastats":
+        return new QaStatWebHandler(
             pathParser,
             respBuf,
             ctx,

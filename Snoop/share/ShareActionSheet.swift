@@ -30,7 +30,7 @@ class ShareActionSheet {
                        enableReport: enableReport)
   }
 
-  func createSheet(forModel: FeedsModel, readyToView: Bool) -> UIAlertController {
+  func createSheet(forModel: FeedModel, readyToView: Bool) -> UIAlertController {
     let enableReport = shouldEnableReport(readyToView, responderId: forModel.responderId);
     return createSheet(quandaId: forModel.id, question: forModel.question,
                        answerUrl: forModel.answerUrl, readyToView: readyToView,

@@ -28,6 +28,10 @@ class FeedTableViewCell: UITableViewCell {
   @IBOutlet weak var actionSheetButton: UIButton!
 
   @IBOutlet weak var freeForHours: UILabel!
+  @IBOutlet weak var thumbupImage: CircleImageView!
+  @IBOutlet weak var thumbups: UILabel!
+  @IBOutlet weak var thumbdownImage: CircleImageView!
+  @IBOutlet weak var thumbdowns: UILabel!
 
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -62,7 +66,6 @@ class FeedTableViewCell: UITableViewCell {
     nameLabel.font = UIFont.boldSystemFont(ofSize: 14)
     askerName.font = UIFont.boldSystemFont(ofSize: 14)
     numOfSnoops.font = numOfSnoops.font.withSize(11)
-    numOfSnoops.textColor = UIColor.defaultColor()
 
     freeForHours.backgroundColor = UIColor.highlightColor()
   }

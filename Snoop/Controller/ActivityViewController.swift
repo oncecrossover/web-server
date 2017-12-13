@@ -20,14 +20,22 @@ class ActivityViewController: UIViewController {
   var questionModule = Question()
   var utility = UIUtility()
   var generics = Generics()
+  var thumbProxy = ThumbProxy()
+  var qaStatProxy = QaStatProxy()
 
   var questions: [ActivityModel] = []
   var answers: [ActivityModel] = []
   var snoops: [ActivityModel] = []
+  var questionsQaStats:[QaStatModel] = []
+  var answersQaStats:[QaStatModel] = []
+  var snoopsQaStats:[QaStatModel] = []
 
   var tmpQuestions: [ActivityModel] = []
   var tmpAnswers: [ActivityModel] = []
   var tmpSnoops: [ActivityModel] = []
+  var tmpQuestionsQaStats:[QaStatModel] = []
+  var tmpAnswersQaStats:[QaStatModel] = []
+  var tmpSnoopsQaStats:[QaStatModel] = []
 
   var refreshControl: UIRefreshControl = UIRefreshControl()
 
@@ -151,14 +159,17 @@ extension ActivityViewController: SegmentedControlDelegate {
     let uid = UserDefaults.standard.string(forKey: "uid")
     if (index == 0) {
       tmpQuestions = []
+      tmpQuestionsQaStats = []
       loadDataWithFilter("asker=\(uid!)")
     }
     else if (index == 1) {
       tmpAnswers = []
+      tmpAnswersQaStats = []
       loadDataWithFilter("responder=\(uid!)")
     }
     else {
       tmpSnoops = []
+      tmpSnoopsQaStats = []
       loadDataWithFilter("uid=\(uid!)")
     }
   }
@@ -215,52 +226,77 @@ extension ActivityViewController {
     indicator.startAnimating()
     indicator.backgroundColor = UIColor.white
     activityTableView.backgroundView = nil
-    questionModule.getActivities(filterString, selectedIndex: selectedIndex) { jsonArray in
-      for activityInfo in jsonArray as! [[String:AnyObject]] {
+    var qaStatFilter = ""
+    questionModule.getActivities(filterString, selectedIndex: selectedIndex) { jsonEntries in
+      for jsonEntry in jsonEntries as! [[String:AnyObject]] {
+        var questionId = ""
         if (self.selectedIndex == 0) {
-          let activity = ActivityModel(activityInfo, isSnoop: false)
+          questionId = jsonEntry["id"] as! String
+          let activity = ActivityModel(jsonEntry, isSnoop: false)
           self.tmpQuestions.append(activity)
         }
         else if (self.selectedIndex == 1){
-          let activity = ActivityModel(activityInfo, isSnoop: false)
+          questionId = jsonEntry["id"] as! String
+          let activity = ActivityModel(jsonEntry, isSnoop: false)
           self.tmpAnswers.append(activity)
         }
         else {
-          let activity = ActivityModel(activityInfo, isSnoop: true)
+          questionId = jsonEntry["quandaId"] as! String
+          let activity = ActivityModel(jsonEntry, isSnoop: true)
           self.tmpSnoops.append(activity)
         }
+        qaStatFilter += "quandaId=\(questionId)&"
       }
 
-      DispatchQueue.main.async {
-        if (self.selectedIndex == 0) {
-          self.questions = self.tmpQuestions
-          if (UserDefaults.standard.bool(forKey: "shouldResetQuestionsBadge")) {
-            self.tabBarController?.tabBar.items?[2].badgeValue = nil
-            UserDefaults.standard.set(false, forKey: "shouldResetQuestionsBadge")
-            UserDefaults.standard.synchronize()
+      // load qa stats data
+      qaStatFilter += "uid=\(self.getUid())"
+      self.qaStatProxy.getQaStats(qaStatFilter) {
+        qaStatEntries in
+
+        for qaStatEntry in qaStatEntries as! [[String:AnyObject]] {
+          if (self.selectedIndex == 0) {
+            self.tmpQuestionsQaStats.append(QaStatModel(qaStatEntry))
+          } else if (self.selectedIndex == 1) {
+            self.tmpAnswersQaStats.append(QaStatModel(qaStatEntry))
+          } else {
+            self.tmpSnoopsQaStats.append(QaStatModel(qaStatEntry))
           }
         }
-        else if (self.selectedIndex == 1){
-          self.answers = self.tmpAnswers
-          if (UserDefaults.standard.bool(forKey: "shouldResetAnswersBadge")) {
-            self.tabBarController?.tabBar.items?[2].badgeValue = nil
-            UserDefaults.standard.set(false, forKey: "shouldResetAnswersBadge")
-            UserDefaults.standard.synchronize()
+
+        DispatchQueue.main.async {
+          if (self.selectedIndex == 0) {
+            self.questions = self.tmpQuestions
+            self.questionsQaStats = self.tmpQuestionsQaStats
+            if (UserDefaults.standard.bool(forKey: "shouldResetQuestionsBadge")) {
+              self.tabBarController?.tabBar.items?[2].badgeValue = nil
+              UserDefaults.standard.set(false, forKey: "shouldResetQuestionsBadge")
+              UserDefaults.standard.synchronize()
+            }
           }
-        }
-        else {
-          self.snoops = self.tmpSnoops
-        }
+          else if (self.selectedIndex == 1){
+            self.answers = self.tmpAnswers
+            self.answersQaStats = self.tmpAnswersQaStats
+            if (UserDefaults.standard.bool(forKey: "shouldResetAnswersBadge")) {
+              self.tabBarController?.tabBar.items?[2].badgeValue = nil
+              UserDefaults.standard.set(false, forKey: "shouldResetAnswersBadge")
+              UserDefaults.standard.synchronize()
+            }
+          }
+          else {
+            self.snoops = self.tmpSnoops
+            self.snoopsQaStats = self.tmpSnoopsQaStats
+          }
 
-        if (jsonArray.count > 0 || !filterString.contains("lastSeenId")) {
-          self.activityTableView.reloadData()
-        }
+          if (jsonEntries.count > 0 || !filterString.contains("lastSeenId")) {
+            self.activityTableView.reloadData()
+          }
 
-        indicator.stopAnimating()
-        indicator.hidesWhenStopped = true
-        self.activityTableView.isUserInteractionEnabled = true
-        self.controlBar.isUserInteractionEnabled = true
-        self.refreshControl.endRefreshing()
+          indicator.stopAnimating()
+          indicator.hidesWhenStopped = true
+          self.activityTableView.isUserInteractionEnabled = true
+          self.controlBar.isUserInteractionEnabled = true
+          self.refreshControl.endRefreshing()
+        }
       }
     }
   }
@@ -370,22 +406,27 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
     myCell.actionSheetButton.addTarget(self, action: #selector(tappedOnActionSheetButton(_:)), for: .touchUpInside)
 
     myCell.isUserInteractionEnabled = false
+
+    let qaStat: QaStatModel
     var arrayCount = 0
     let uid = UserDefaults.standard.string(forKey: "uid")
     var filterString = "&limit=10"
     let cellInfo: ActivityModel
     if (selectedIndex == 0) {
       cellInfo = questions[indexPath.row]
+      qaStat = questionsQaStats[indexPath.row]
       arrayCount = questions.count
       filterString = "asker=\(uid!)&lastSeenUpdatedTime=\(Int64(cellInfo.lastSeenTime))&lastSeenId=\(cellInfo.id)" + filterString
     }
     else if (selectedIndex == 1){
       cellInfo = answers[indexPath.row]
+      qaStat = answersQaStats[indexPath.row]
       arrayCount = answers.count
       filterString = "responder=\(uid!)&lastSeenCreatedTime=\(Int64(cellInfo.lastSeenTime))&lastSeenId=\(cellInfo.id)" + filterString
     }
     else {
       cellInfo = snoops[indexPath.row]
+      qaStat = snoopsQaStats[indexPath.row]
       arrayCount = snoops.count
       filterString = "uid=\(uid!)&lastSeenCreatedTime=\(Int64(cellInfo.lastSeenTime))&lastSeenId=\(cellInfo.id)" + filterString
     }
@@ -404,14 +445,16 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
       myCell.coverImage.isUserInteractionEnabled = false
       myCell.durationLabel.isHidden = true
       myCell.expireLabel.isHidden = false
-      myCell.numOfSnoops.isHidden = true
-      myCell.snoops.isHidden = true
       if (cellInfo.hoursToExpire > 1) {
         myCell.expireLabel.text = "expire in \(cellInfo.hoursToExpire) hrs"
       }
       else {
         myCell.expireLabel.text = "expire in \(cellInfo.hoursToExpire) hr"
       }
+
+      // setup thumb up/down
+      myCell.thumbupImage.isUserInteractionEnabled = false
+      myCell.thumbdownImage.isUserInteractionEnabled = false
     }
     else if (cellInfo.status == "ANSWERED") {
       if let coverImageUrl = cellInfo.answerCoverUrl {
@@ -423,15 +466,22 @@ extension ActivityViewController: UITableViewDelegate, UITableViewDataSource, Cu
         myCell.durationLabel.text = cellInfo.duration.toTimeFormat()
         myCell.durationLabel.isHidden = false
         myCell.expireLabel.isHidden = true
-        myCell.numOfSnoops.isHidden = false
-        myCell.numOfSnoops.text = String(cellInfo.snoops)
-        myCell.snoops.isHidden = false
       }
       else {
         myCell.coverImage.isUserInteractionEnabled = false
       }
+
+      // setup thumb up/down
+      myCell.thumbupImage.isUserInteractionEnabled = true
+      myCell.thumbdownImage.isUserInteractionEnabled = true
+      let tappedToThumbup = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToThumbup(_:)))
+      myCell.thumbupImage.addGestureRecognizer(tappedToThumbup)
+      let tappedToThumbdown = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedToThumbdown(_:)))
+      myCell.thumbdownImage.addGestureRecognizer(tappedToThumbdown)
     }
 
+    // setup qa stats
+    setupQaStats(myCell, qaStat: qaStat)
     myCell.isUserInteractionEnabled = true
 
     if (indexPath.row == arrayCount - 1) {
@@ -499,5 +549,99 @@ extension ActivityViewController {
       let questionInfo = answers[indexPath.row]
       dvc.cellInfo = questionInfo
     }
+  }
+
+  func getUid() -> String {
+    return UserDefaults.standard.string(forKey: "uid")!
+  }
+
+  func getQaStat(_ tapIndexpath: IndexPath) -> QaStatModel {
+    if (self.selectedIndex == 0) {
+      return questionsQaStats[tapIndexpath.row]
+    } else if (self.selectedIndex == 1) {
+      return answersQaStats[tapIndexpath.row]
+    } else {
+      return snoopsQaStats[tapIndexpath.row]
+    }
+  }
+
+  func setQaStat(_ tapIndexpath: IndexPath, qaStat: QaStatModel) {
+    if (self.selectedIndex == 0) {
+      questionsQaStats[tapIndexpath.row] = qaStat
+    } else if (self.selectedIndex == 1) {
+      answersQaStats[tapIndexpath.row] = qaStat
+    } else {
+      snoopsQaStats[tapIndexpath.row] = qaStat
+    }
+  }
+
+  @objc func tappedToThumbup(_ sender:UIGestureRecognizer) {
+    let tapLocation = sender.location(in: self.activityTableView)
+    let tapIndexpath = self.activityTableView.indexPathForRow(at: tapLocation)!
+    let qaStat = getQaStat(tapIndexpath)
+
+    // allow either thumbupped or thumbdowned
+    let upped = qaStat.thumbupped.toBool() ? Bool.FALSE_STR : Bool.TRUE_STR
+    let downed = upped.toBool() && qaStat.thumbdowned.toBool() ? Bool.FALSE_STR : qaStat.thumbdowned
+    tappedToThumb(tapIndexpath, upped: upped, downed: downed)
+  }
+
+  @objc func tappedToThumbdown(_ sender:UIGestureRecognizer) {
+    let tapLocation = sender.location(in: self.activityTableView)
+    let tapIndexpath = self.activityTableView.indexPathForRow(at: tapLocation)!
+    let qaStat = getQaStat(tapIndexpath)
+
+    // allow either thumbupped or thumbdowned
+    let downed = qaStat.thumbdowned.toBool() ? Bool.FALSE_STR : Bool.TRUE_STR
+    let upped = downed.toBool() && qaStat.thumbupped.toBool() ? Bool.FALSE_STR : qaStat.thumbupped
+    tappedToThumb(tapIndexpath, upped: upped, downed: downed)
+  }
+
+  func tappedToThumb (_ tapIndexpath: IndexPath, upped: String, downed: String) {
+    let qaStat = getQaStat(tapIndexpath)
+    let myCell = self.activityTableView.cellForRow(at: tapIndexpath) as! ActivityTableViewCell
+
+    thumbProxy.createUserThumb(getUid(), quandaId: qaStat.id, upped: upped, downed: downed) {
+      result in
+
+      if (result.isEmpty) { // request succeeds
+        // sync QaStat
+        let qaStatFilter = "quandaId=\(qaStat.id)&uid=\(self.getUid())"
+        self.qaStatProxy.getQaStats(qaStatFilter) {
+          qaStatEntries in
+
+          for qaStatEntry in qaStatEntries as! [[String:AnyObject]] {
+            self.setQaStat(tapIndexpath, qaStat: QaStatModel(qaStatEntry))
+            break
+          }
+
+          // update UI
+          DispatchQueue.main.async {
+            self.setupQaStats(myCell, qaStat: self.getQaStat(tapIndexpath))
+          }
+        }
+      }
+    }
+  }
+
+  func setupQaStats(_ myCell: ActivityTableViewCell, qaStat: QaStatModel) {
+    // setup thumb up
+    if qaStat.thumbupped.toBool() {
+      myCell.thumbupImage.image = UIImage(named: "thumbup-tapped")
+    } else {
+      myCell.thumbupImage.image = UIImage(named: "thumbup-normal")
+    }
+    myCell.thumbups.text = String(qaStat.thumbups)
+
+    // setup thumb down
+    if qaStat.thumbdowned.toBool() {
+      myCell.thumbdownImage.image = UIImage(named: "thumbdown-tapped")
+    } else {
+      myCell.thumbdownImage.image = UIImage(named: "thumbdown-normal")
+    }
+    myCell.thumbdowns.text =  String(qaStat.thumbdowns)
+
+    // setup #snoops
+    myCell.numOfSnoops.text = String(qaStat.snoops)
   }
 }

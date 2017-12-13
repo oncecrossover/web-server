@@ -37,16 +37,16 @@ class ProfileView: UIView {
     return about
   }()
 
-  let followers: PairLabelView = {
-    let view = PairLabelView()
+  let followers: VerticalPairLabelView = {
+    let view = VerticalPairLabelView()
     view.label.text = "followers"
     view.setAmount(fromInt: 0)
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }()
 
-  let following: PairLabelView = {
-    let view = PairLabelView()
+  let following: VerticalPairLabelView = {
+    let view = VerticalPairLabelView()
     view.label.text = "following"
     view.setAmount(fromInt: 0)
     view.translatesAutoresizingMaskIntoConstraints = false

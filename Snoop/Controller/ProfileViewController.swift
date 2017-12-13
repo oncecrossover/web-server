@@ -35,8 +35,8 @@ class ProfileViewController: UIViewController {
     return table
   }()
 
-  fileprivate lazy var earningsView: PairLabelView = {
-    let view = PairLabelView()
+  fileprivate lazy var earningsView: VerticalPairLabelView = {
+    let view = VerticalPairLabelView()
     view.label.text = "earnings"
     let gesture = UITapGestureRecognizer(target: self, action: #selector(earningsViewTapped))
     view.addGestureRecognizer(gesture)

@@ -25,6 +25,11 @@ extension String {
   }
 }
 
+extension Bool {
+  static let TRUE_STR = "TRUE"
+  static let FALSE_STR = "FALSE"
+}
+
 extension Int {
   func toTimeFormat() -> String {
     let minute = self / 60
