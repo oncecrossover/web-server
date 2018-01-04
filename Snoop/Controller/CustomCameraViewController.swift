@@ -57,6 +57,10 @@ extension CustomCameraViewController {
 
     /* capture video */
     camera?.startCapture()
+
+    /* reduce black flash between two consecutive video segments */
+    camera?.pauseCapture()
+    camera?.resumeCameraCapture()
   }
 
   func startRecording() {
@@ -83,11 +87,13 @@ extension CustomCameraViewController {
     movieWriter?.finishRecording()
     movieWriter = nil
 
+    // stop capture
     stopVideoCapture()
 
     /* call to save recorded video */
     self.delegate?.didFinishPickingMedia(self, withInfo: [CustomCameraViewControllerMediaURL : self.fileURL])
 
+    // start capture
     startVideoCapture()
   }
 }
