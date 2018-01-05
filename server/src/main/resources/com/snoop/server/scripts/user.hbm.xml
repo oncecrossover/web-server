@@ -18,6 +18,9 @@
     <property name="primaryEmail" type="java.lang.String">
       <column name="primaryEmail" />
     </property>
+    <property name="source" type="java.lang.String">
+      <column name="source" />
+    </property>
     <property name="createdTime" type="timestamp">
       <column name="createdTime" />
     </property>

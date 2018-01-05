@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
 public abstract class ModelBase implements Model {
-  protected static final int PRIME = 16777619;
+  protected static final int PRIME = 31;
 
   @Override
   public boolean isEqual(Object a, Object b) {

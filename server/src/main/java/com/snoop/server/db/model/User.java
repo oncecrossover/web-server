@@ -11,11 +11,36 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.snoop.server.db.model.Profile.TakeQuestionStatus;
 
-public class User {
+public class User extends ModelBase {
+  public enum SourceEnum {
+    FACEBOOK(0, "FALSE"),
+    TWITTER(1, "TRUE"),
+    INSTAGRAM(2, "TRUE"),
+    GMAIL(3, "TRUE"),
+    EMAIL(4, "TRUE");
+
+    private final int code;
+    private final String value;
+
+    SourceEnum(final int code, final String value) {
+      this.code = code;
+      this.value = value;
+    }
+
+    public int code() {
+      return code;
+    }
+
+    public String value() {
+      return value;
+    }
+  }
+
   private Long id;
   private String uname;
   private String pwd;
   private String primaryEmail;
+  private String source;
   private Date createdTime;
   private Date updatedTime;
   private String fullName;
@@ -65,6 +90,15 @@ public class User {
 
   public User setPrimaryEmail(final String primaryEmail) {
     this.primaryEmail = primaryEmail;
+    return this;
+  }
+
+  public String getSource() {
+    return source;
+  }
+
+  public User setSource(final String source) {
+    this.source = source;
     return this;
   }
 
@@ -130,66 +164,81 @@ public class User {
   }
 
   @Override
-  public String toString() {
-    try {
-      return toJsonStr();
-    } catch (JsonProcessingException e) {
-      return "";
-    }
-  }
-
-  public String toJsonStr() throws JsonProcessingException {
-    ObjectMapper mapper = new ObjectMapper();
-    return mapper.writeValueAsString(this);
-  }
-
-  public byte[] toJsonByteArray() throws JsonProcessingException {
-    ObjectMapper mapper = new ObjectMapper();
-    return mapper.writeValueAsBytes(this);
-  }
-
-  @Override
   public boolean equals(Object obj) {
     if (this == obj) {
       return true;
     }
 
-    if (obj == null) {
-      return false;
-    }
-
-    if (getClass() == obj.getClass()) {
+    if (obj instanceof User) {
       final User that = (User) obj;
-      if (isEqual(this.getId(), that.getId())
+      return isEqual(this.getId(), that.getId())
+          && isEqual(this.getUname(), that.getUname())
           && isEqual(this.getPwd(), that.getPwd())
+          && isEqual(this.getPrimaryEmail(), that.getPrimaryEmail())
+          && isEqual(this.getSource(), that.getSource())
+          && isEqual(this.getCreatedTime(), that.getCreatedTime())
+          && isEqual(this.getUpdatedTime(), that.getUpdatedTime())
+          && isEqual(this.getFullName(), that.getFullName())
           && isEqual(this.getProfile(), that.getProfile())
-          && isEqual(this.getPcAccount(), that.getPcAccount())) {
-        return true;
-      }
+          && isEqual(this.getPcAccount(), that.getPcAccount());
     }
 
     return false;
   }
 
-  private boolean isEqual(Object a, Object b) {
-    return a == null ? b == null : a.equals(b);
+  @Override
+  public int hashCode() {
+    int result = 0;
+    result = PRIME * result + ((id == null) ? 0 : id.hashCode());
+    result = PRIME * result + ((uname == null) ? 0 : uname.hashCode());
+    result = PRIME * result + ((pwd == null) ? 0 : pwd.hashCode());
+    result = PRIME * result + ((primaryEmail == null) ? 0 : primaryEmail.hashCode());
+    result = PRIME * result + ((source == null) ? 0 : source.hashCode());
+    result = PRIME * result
+        + ((createdTime == null) ? 0 : createdTime.hashCode());
+    result = PRIME * result
+        + ((updatedTime == null) ? 0 : updatedTime.hashCode());
+    result = PRIME * result + ((fullName == null) ? 0 : fullName.hashCode());
+    result = PRIME * result + ((profile == null) ? 0 : profile.hashCode());
+    result = PRIME * result + ((pcAccount == null) ? 0 : pcAccount.hashCode());
+    return result;
   }
 
-  public User setAsIgnoreNull(final User that) {
-    if (that == null) {
-      return null;
-    }
+  @Override
+  public <T extends ModelBase> void setAsIgnoreNull(T obj) {
+    if (obj instanceof User) {
+      final User that = (User) obj;
 
-    if (that.getId() != null) {
-      this.setId(that.getId());
+      if (that.getId() != null) {
+        this.setId(that.getId());
+      }
+      if (that.getUname() != null) {
+        this.setUname(that.getUname());
+      }
+      if (that.getPwd() != null) {
+        this.setPwd(that.getPwd());
+      }
+      if (that.getPrimaryEmail() != null) {
+        this.setPrimaryEmail(that.getPrimaryEmail());
+      }
+      if (that.getSource() != null) {
+        this.setSource(that.getSource());
+      }
+      if (that.getCreatedTime() != null) {
+        this.setCreatedTime(that.getCreatedTime());
+      }
+      if (that.getUpdatedTime() != null) {
+        this.setUpdatedTime(that.getUpdatedTime());
+      }
+      if (that.getProfile() != null && this.getProfile() != null) {
+        this.getProfile().setAsIgnoreNull(that.getProfile());
+      }
+      if (that.getPcAccount() != null && this.getPcAccount() != null) {
+        this.getPcAccount().setAsIgnoreNull(that.getPcAccount());
+      }
+      if (that.getFullName() != null && this.getProfile() != null) {
+        this.getProfile().setFullName(that.getFullName());
+      }
     }
-    if (that.getPwd() != null) {
-      this.setPwd(that.getPwd());
-    }
-    if (that.getFullName() != null && this.getProfile() != null) {
-      this.getProfile().setFullName(that.getFullName());
-    }
-
-    return this;
   }
 }

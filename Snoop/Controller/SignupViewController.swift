@@ -83,8 +83,9 @@ class SignupViewController: EntryViewController {
             if let email = dict["email"] as? String {
               twitterEmail = email
             }
+            let source = "TWITTER"
 
-            self.checkAndCreateUser(name, username, password, twitterEmail)
+            self.checkAndCreateUser(name, username, password, twitterEmail, source)
           }
         } catch let error as NSError {
           print(error.localizedDescription)
@@ -173,7 +174,8 @@ extension SignupViewController {
               if let email = dict["email"] as? String {
                 fbEmail = email
               }
-              self.checkAndCreateUser(name, username, password, fbEmail)
+              let source = "FACEBOOK"
+              self.checkAndCreateUser(name, username, password, fbEmail, source)
             }
           }
         }
@@ -227,12 +229,14 @@ extension SignupViewController {
         }
       }
       else {
-        self.createUser(name, userEmail, userPassword, userEmail)
+        let source = "EMAIL"
+        self.createUser(name, userEmail, userPassword, userEmail, source)
       }
     }
   }
 
-  private func checkAndCreateUser(_ name: String, _ username: String, _ userPassword: String, _ userEmail: String) {
+  private func checkAndCreateUser(_ name: String, _ username: String, _ userPassword: String,
+                                  _ userEmail: String, _ source: String) {
     // Check if the username already exists
     User().getUserByUname(username) { user in
       if (user.count > 0) {
@@ -241,15 +245,17 @@ extension SignupViewController {
         }
       }
       else {
-        self.createUser(name, username, userPassword, userEmail)
+        self.createUser(name, username, userPassword, userEmail, source)
       }
     }
   }
 
-  func createUser(_ name: String, _ username: String, _ userPassword: String, _ userEmail: String) {
+  func createUser(_ name: String, _ username: String,
+                  _ userPassword: String, _ userEmail: String, _ source: String) {
     var resultMessage = ""
     let activityIndicator = UIUtility().createCustomActivityIndicator(self.view, text: "Saving your Info...")
-    User().createUser(userEmail, username: username, userPassword: userPassword, fullName: name) { result in
+    User().createUser(userEmail, username: username, userPassword: userPassword,
+                      fullName: name, source: source) { result in
       if let uid = result["id"] as? String {
         activityIndicator.hide(animated: true)
         DispatchQueue.main.async {

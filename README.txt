@@ -73,6 +73,7 @@ Example response:
   "uname": "edmund@fight.com",
   "pwd": null,
   "primaryEmail": "edmund@fight.com",
+  "source": "EMAIL",
   "createdTime": 1494786328000,
   "updatedTime": 1494786328000,
   "fullName": null,
@@ -81,7 +82,7 @@ Example response:
 }
 
 2. create new user, e.g.
-curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uname":"edmund@fight.com","primaryEmail":"edmund@fight.com","fullName":"Edmund Zhou","pwd":"123"}'
+curl -i -X POST "http://127.0.0.1:8080/users" -d '{"uname":"edmund@fight.com","primaryEmail":"edmund@fight.com","fullName":"Edmund Zhou","pwd":"123", "source": "EMAIL"}'
 Example response:
 {"id": "16072271319793664"}
 
@@ -95,6 +96,7 @@ Example response:
     "uname": "edmund@fight.com",
     "pwd": null,
     "primaryEmail": "edmund@fight.com",
+    "source": "EMAIL",
     "createdTime": 1494786328000,
     "updatedTime": 1494786328000,
     "fullName": null,
@@ -112,6 +114,7 @@ Example resposne:
     "uname": "bingo@snoopqa.com",
     "pwd": null,
     "primaryEmail": "bingo@snoopqa.com",
+    "source": "EMAIL",
     "createdTime": 1494787658000,
     "updatedTime": 1494787658000,
     "fullName": null,
@@ -135,6 +138,7 @@ Example response:
     "uname": "bingo@snoopqa.com",
     "pwd": null,
     "primaryEmail": "bingo@snoopqa.com",
+    "source": "EMAIL",
     "createdTime": 1494787658000,
     "updatedTime": 1494787658000,
     "fullName": null,
@@ -146,6 +150,7 @@ Example response:
     "uname": "edmund@fight.com",
     "pwd": null,
     "primaryEmail": "edmund@fight.com",
+    "source": "EMAIL",
     "createdTime": 1494786328000,
     "updatedTime": 1494786328000,
     "fullName": null,

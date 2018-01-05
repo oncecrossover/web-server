@@ -18,8 +18,9 @@ class User
     PCURI = generics.HTTPHOST + "pcaccounts/"
   }
 
-  func createUser(_ userEmail: String, username: String, userPassword: String, fullName: String, completion: @escaping (NSDictionary) -> ()) {
-    var jsonData: [String : AnyObject] = ["uname": username as AnyObject, "pwd": userPassword as AnyObject, "fullName" : fullName as AnyObject]
+  func createUser(_ userEmail: String, username: String, userPassword: String,
+                  fullName: String, source: String, completion: @escaping (NSDictionary) -> ()) {
+    var jsonData: [String : AnyObject] = ["uname": username as AnyObject, "pwd": userPassword as AnyObject, "fullName" : fullName as AnyObject, "source" : source as AnyObject]
 
     if (!userEmail.isEmpty) {
       jsonData["primaryEmail"] = userEmail as AnyObject
