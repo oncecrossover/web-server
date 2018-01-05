@@ -86,7 +86,7 @@ class LoginViewController: EntryViewController {
       client.sendTwitterRequest(request) {response, data, connectionError in
         do {
           if let dict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
-            let username = dict["screen_name"] as! String
+            let username = dict["id_str"] as! String
             self.checkAndLoginUser(username)
           }
         } catch let error as NSError {

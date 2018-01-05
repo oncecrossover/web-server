@@ -77,7 +77,7 @@ class SignupViewController: EntryViewController {
         do {
           if let dict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
             let name = dict["name"] as! String
-            let username = dict["screen_name"] as! String
+            let username = dict["id_str"] as! String
             let password = self.generatePassword()
             var twitterEmail = ""
             if let email = dict["email"] as? String {
