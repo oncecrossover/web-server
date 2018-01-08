@@ -22,8 +22,8 @@ class Coin {
     }
   }
 
-  func addCoins(_ uid: String, count: Int, completion: @escaping (String) ->()) {
-    let jsonData : [String: AnyObject] = ["uid" : uid as AnyObject, "amount": count as AnyObject]
+  func addCoins(_ uid: String, count: Int, promoId: String?, completion: @escaping (String) ->()) {
+    let jsonData : [String: AnyObject] = ["uid" : uid as AnyObject, "amount": count as AnyObject, "promoId": promoId as AnyObject]
     generics.createObject(COINSURI, jsonData: jsonData) {
       completion($0)
     }

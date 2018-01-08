@@ -90,7 +90,7 @@ class IAPManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactionObser
 
   func addCoinsForUser(_ count: Int) {
     let uid = UserDefaults.standard.string(forKey: "uid")
-    coinModule.addCoins(uid!, count: count) { result in
+    coinModule.addCoins(uid!, count: count, promoId: nil) { result in
       if (result.isEmpty) {
         DispatchQueue.main.async {
 

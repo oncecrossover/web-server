@@ -10,6 +10,7 @@ public class CoinEntry extends ModelBase implements Model {
   private Long uid;
   private Integer amount;
   private Long originId;
+  private Long promoId;
   private Date createdTime;
 
   @JsonSerialize(using=ToStringSerializer.class)
@@ -51,6 +52,16 @@ public class CoinEntry extends ModelBase implements Model {
     return this;
   }
 
+  @JsonSerialize(using=ToStringSerializer.class)
+  public Long getPromoId() {
+    return promoId;
+  }
+
+  public CoinEntry setPromoId(final Long promoId) {
+    this.promoId = promoId;
+    return this;
+  }
+
   public Date getCreatedTime() {
     return createdTime;
   }
@@ -71,6 +82,8 @@ public class CoinEntry extends ModelBase implements Model {
       if (isEqual(this.getId(), that.getId())
           && isEqual(this.getUid(), that.getUid())
           && isEqual(this.getAmount(), that.getAmount())
+          && isEqual(this.getOriginId(), that.getOriginId())
+          && isEqual(this.getPromoId(), that.getPromoId())
           && isEqual(this.getCreatedTime(), that.getCreatedTime())) {
         return true;
       }
@@ -86,6 +99,7 @@ public class CoinEntry extends ModelBase implements Model {
     result = PRIME * result + ((uid == null) ? 0 : uid.hashCode());
     result = PRIME * result + ((amount == null) ? 0 : amount.hashCode());
     result = PRIME * result + ((originId == null) ? 0 : originId.hashCode());
+    result = PRIME * result + ((promoId == null) ? 0 : promoId.hashCode());
     result = PRIME * result + ((createdTime == null) ? 0 : createdTime.hashCode());
     return result;
   }
@@ -105,6 +119,9 @@ public class CoinEntry extends ModelBase implements Model {
       }
       if (that.getOriginId() != null) {
         this.setOriginId(that.getOriginId());
+      }
+      if (that.getPromoId() != null) {
+        this.setPromoId(that.getPromoId());
       }
     }
   }

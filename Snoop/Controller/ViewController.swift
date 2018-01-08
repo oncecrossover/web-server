@@ -15,13 +15,14 @@ class ViewController: UIViewController {
 
   var socialGateway: SocialGateway!
   var shareActionSheet: ShareActionSheet!
-  var questionModule = Question()
-  var userModule = User()
-  var generics = Generics()
-  var coinModule = Coin()
-  var utilityModule = UIUtility()
-  var thumbProxy = ThumbProxy()
-  var qaStatProxy = QaStatProxy()
+  lazy var questionModule = Question()
+  lazy var userModule = User()
+  lazy var generics = Generics()
+  lazy var coinModule = Coin()
+  lazy var utilityModule = UIUtility()
+  lazy var thumbProxy = ThumbProxy()
+  lazy var qaStatProxy = QaStatProxy()
+  lazy var promoProxy = PromoProxy()
 
   var refreshControl: UIRefreshControl = UIRefreshControl()
   var fullScreenImageView : FullScreenImageView = FullScreenImageView()
@@ -74,6 +75,7 @@ class ViewController: UIViewController {
     view.clipsToBounds = true
     view.claimButton.addTarget(self, action: #selector(claimButtonTapped), for: .touchUpInside)
     view.translatesAutoresizingMaskIntoConstraints = false
+    view.promoCodeTextField.addTarget(self, action: #selector(promoCodeTextFieldDidChange(_:)), for: .editingChanged)
     return view
   }()
 
@@ -493,11 +495,34 @@ extension ViewController {
       self.freeCoinsView.alpha = 0
     }) {(_) in
       let uid = UserDefaults.standard.string(forKey: "uid")
-      self.coinModule.addCoins(uid!, count: 100) { result in
-        if (result.isEmpty) {
-          DispatchQueue.main.async {
-            NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName), object: nil, userInfo: ["uid": uid!, "amount" : 100])
+      let freeCoins = Int(self.freeCoinsView.numberLabel.text!)
+
+      // get promoId
+      let promoCode = self.freeCoinsView.promoCodeTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces)
+      let filterString = "code='\(promoCode)'"
+      self.promoProxy.getPromo(filterString) {
+        jsonArray in
+
+        // promoId exists
+        if let array = jsonArray as? [[String:AnyObject]], array.count > 0 {
+          for entry in array {
+            let model = PromoModel(entry)
+            self.addCoins(uid: uid!, count: freeCoins!, promoId: model.id)
+            break
           }
+        } else { // promoId not exist
+          self.addCoins(uid: uid!, count: freeCoins!, promoId: nil)
+        }
+      }
+    }
+  }
+
+  func addCoins(uid: String, count: Int, promoId: String?) {
+    self.coinModule.addCoins(uid, count: count, promoId: promoId) { result in
+      if (result.isEmpty) {
+        DispatchQueue.main.async {
+          NotificationCenter.default.post(name: Notification.Name(rawValue: self.notificationName),
+                                          object: nil, userInfo: ["uid": uid, "amount" : count])
         }
       }
     }
@@ -681,5 +706,31 @@ extension ViewController {
   }
 
   @IBAction func unwindSegueToHome(_ segue: UIStoryboardSegue) {
+  }
+
+  @objc func promoCodeTextFieldDidChange(_ textField: UITextField) {
+    let promoCode = textField.text!.trimmingCharacters(in: CharacterSet.whitespaces)
+    let filterString = "code='\(promoCode)'"
+
+    promoProxy.getPromo(filterString) {
+      jsonArray in
+
+      // promo exists
+      if let array = jsonArray as? [[String:AnyObject]], array.count > 0 {
+        for entry in array {
+          let model = PromoModel(entry)
+          DispatchQueue.main.async {
+            self.freeCoinsView.numberLabel.text = String(self.freeCoinsView.defaultFreeNumCoins + model.amount)
+            self.freeCoinsView.promoCodeCheckImageView.image = UIImage(named: "promo-enabled")
+          }
+          break
+        }
+      } else { // promo not exist
+        DispatchQueue.main.async {
+          self.freeCoinsView.numberLabel.text = String(self.freeCoinsView.defaultFreeNumCoins)
+          self.freeCoinsView.promoCodeCheckImageView.image = UIImage(named: "promo-disabled")
+        }
+      }
+    }
   }
 }

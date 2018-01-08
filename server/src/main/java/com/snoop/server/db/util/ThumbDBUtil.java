@@ -21,9 +21,8 @@ public class ThumbDBUtil {
       final Long quandaId,
       final boolean newTransaction) throws Exception {
 
-    final String select = String
-        .format("SELECT DISTINCT T.id, T.uid, T.quandaId, T.upped, T.downed FROM Thumb AS T"
-            + " WHERE uid = %d AND quandaId = %d", uid, quandaId);
+    final String select = "SELECT DISTINCT T.id, T.uid, T.quandaId, T.upped, T.downed FROM Thumb AS T"
+            + " WHERE uid = %d AND quandaId = %d";
     final String sql = String.format(select, uid, quandaId);
 
     return getThumbByQuery(session, sql, getScalars(), newTransaction);

@@ -146,6 +146,8 @@
 		D77F27241FBA544000C35482 /* UserFollowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77F27231FBA544000C35482 /* UserFollowModel.swift */; };
 		D788D72E1F731E7B00EA7D44 /* EulaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D788D72D1F731E7B00EA7D44 /* EulaViewController.swift */; };
 		D788D7301F7491EE00EA7D44 /* eula.html in Resources */ = {isa = PBXBuildFile; fileRef = D788D72F1F7491EE00EA7D44 /* eula.html */; };
+		D794009E20044B23007DDF15 /* PromoProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D794009D20044B23007DDF15 /* PromoProxy.swift */; };
+		D79400A020044B3F007DDF15 /* PromoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D794009F20044B3F007DDF15 /* PromoModel.swift */; };
 		D7B484991F684D9000D9EE77 /* UserReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484981F684D9000D9EE77 /* UserReport.swift */; };
 		D7B484A11F6B43D800D9EE77 /* SettingUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484A01F6B43D800D9EE77 /* SettingUserViewController.swift */; };
 		D7B484A31F6B43E900D9EE77 /* SettingUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B484A21F6B43E900D9EE77 /* SettingUserTableViewCell.swift */; };
@@ -353,6 +355,8 @@
 		D77F27231FBA544000C35482 /* UserFollowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFollowModel.swift; sourceTree = "<group>"; };
 		D788D72D1F731E7B00EA7D44 /* EulaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EulaViewController.swift; sourceTree = "<group>"; };
 		D788D72F1F7491EE00EA7D44 /* eula.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = eula.html; sourceTree = "<group>"; };
+		D794009D20044B23007DDF15 /* PromoProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoProxy.swift; sourceTree = "<group>"; };
+		D794009F20044B3F007DDF15 /* PromoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoModel.swift; sourceTree = "<group>"; };
 		D7B484981F684D9000D9EE77 /* UserReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserReport.swift; sourceTree = "<group>"; };
 		D7B484A01F6B43D800D9EE77 /* SettingUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingUserViewController.swift; sourceTree = "<group>"; };
 		D7B484A21F6B43E900D9EE77 /* SettingUserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingUserTableViewCell.swift; sourceTree = "<group>"; };
@@ -518,6 +522,7 @@
 				D77F27231FBA544000C35482 /* UserFollowModel.swift */,
 				D7DCC3FB1FE9916000BB1985 /* ThumbModel.swift */,
 				D7DCC4011FE9985500BB1985 /* QaStatModel.swift */,
+				D794009F20044B3F007DDF15 /* PromoModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -558,6 +563,7 @@
 				D77F27211FBA533800C35482 /* UserFollow.swift */,
 				D7DCC3FD1FE9933500BB1985 /* ThumbProxy.swift */,
 				D7DCC3FF1FE997DD00BB1985 /* QaStatProxy.swift */,
+				D794009D20044B23007DDF15 /* PromoProxy.swift */,
 			);
 			name = "HTTP`";
 			path = HTTP;
@@ -1120,6 +1126,7 @@
 				4A15D17B1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift in Sources */,
 				4ADFD3981E56628B00CD3D92 /* SDWebImagePrefetcher.m in Sources */,
 				4A436E4F1E90B38600908D24 /* AnswerTableFooterViewCell.swift in Sources */,
+				D794009E20044B23007DDF15 /* PromoProxy.swift in Sources */,
 				4A11C0581D3448F400AEF95D /* CircleImageView.swift in Sources */,
 				4ADFD3931E56628B00CD3D92 /* SDWebImageCompat.m in Sources */,
 				4AC9231F1D360A0800C83177 /* FeedTableViewCell.swift in Sources */,
@@ -1169,6 +1176,7 @@
 				4A10DCC21E5A7BA9009E3996 /* WelcomeViewController.swift in Sources */,
 				4A745CBE1D73A5D500797AFC /* ConfirmationViewController.swift in Sources */,
 				4A436E491E8866AF00908D24 /* SettingsTableViewCell.swift in Sources */,
+				D79400A020044B3F007DDF15 /* PromoModel.swift in Sources */,
 				4A3A56631E26D8D600FC0F3B /* extension.swift in Sources */,
 				D7C7BCC21F5221390029621F /* CellAccessUtil.swift in Sources */,
 				4A27FCC51E638DCA00D78294 /* EditProfileView.swift in Sources */,

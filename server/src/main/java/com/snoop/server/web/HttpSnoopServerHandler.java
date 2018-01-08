@@ -60,6 +60,7 @@ import com.snoop.server.web.handlers.NullResouceWebHandler;
 import com.snoop.server.web.handlers.PcAccountWebHandler;
 import com.snoop.server.web.handlers.PcEntryWebHandler;
 import com.snoop.server.web.handlers.ProfileWebHandler;
+import com.snoop.server.web.handlers.PromoWebHandler;
 import com.snoop.server.web.handlers.QaTransactionWebHandler;
 import com.snoop.server.web.handlers.QuandaWebHandler;
 import com.snoop.server.web.handlers.QuestionWebHandler;
@@ -269,6 +270,12 @@ public class HttpSnoopServerHandler
             request).handle();
       case "qastats":
         return new QaStatWebHandler(
+            pathParser,
+            respBuf,
+            ctx,
+            request).handle();
+      case "promos":
+        return new PromoWebHandler(
             pathParser,
             respBuf,
             ctx,

@@ -2,7 +2,6 @@ package com.snoop.server.web.handlers;
 
 import java.io.IOException;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;

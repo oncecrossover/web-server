@@ -123,10 +123,12 @@ CREATE TABLE `Coin` (
   `uid` BIGINT UNSIGNED NOT NULL,
   `amount` INT NOT NULL,
   `originId` BIGINT UNSIGNED NULL,
+  `promoId` BIGINT UNSIGNED NULL,
   `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `pk_coin` PRIMARY KEY (`id`),
   CONSTRAINT `fk_coin_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`id`),
-  CONSTRAINT `fk_coin_originId` FOREIGN KEY (`originId`) REFERENCES `Coin` (`id`)
+  CONSTRAINT `fk_coin_originId` FOREIGN KEY (`originId`) REFERENCES `Coin` (`id`),
+  CONSTRAINT `fk_coin_promoId` FOREIGN KEY (`promoId`) REFERENCES `Promo` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Journal` (
@@ -244,4 +246,17 @@ CREATE TABLE `Thumb` (
   INDEX `idx_thumb_uid` (`uid`),
   INDEX `idx_thumb_quandaId` (`quandaId`),
   INDEX `idx_thumb_createdTime` (`createdTime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Promo` (
+  `id` BIGINT UNSIGNED NOT NULL,
+  `uid` BIGINT UNSIGNED NOT NULL,
+  `code` NVARCHAR(255) NOT NULL,
+  `amount` INT NOT NULL DEFAULT 20,
+  `createdTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT `pk_promo` PRIMARY KEY (`id`),
+  CONSTRAINT `uk_promo` UNIQUE (`uid`,`code`),
+  CONSTRAINT `fk_promo_uid` FOREIGN KEY (`uid`) REFERENCES `User` (`id`),
+  INDEX `idx_promo_uid` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

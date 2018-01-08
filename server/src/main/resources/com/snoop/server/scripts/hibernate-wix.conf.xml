@@ -48,5 +48,6 @@
     <mapping resource="com/snoop/server/scripts/block.hbm.xml" />
     <mapping resource="com/snoop/server/scripts/follow.hbm.xml" />
 	<mapping resource="com/snoop/server/scripts/thumb.hbm.xml" />
+	<mapping resource="com/snoop/server/scripts/promo.hbm.xml" />
   </session-factory>
 </hibernate-configuration>

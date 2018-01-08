@@ -1052,6 +1052,47 @@ Example response:
 ]
 
 
+RESTFUL APIs OF PROMO:
+1. to get promo, e.g.
+curl -i -X GET "http://127.0.0.1:8080/promos/102741223827046400"
+Example response:
+{
+  "id": "102741223827046400",
+  "uid": "19049519362609152",
+  "code": "EMA150",
+  "createdTime": 1515449816000,
+  "updatedTime": 1515449816000
+}
+
+2. to create promo, e.g.
+curl -i -X POST "http://127.0.0.1:8080/promos/" -d '{"uid":19049519362609152,"code":"EMA150","amount":20}'
+Example response:
+{"id":"102741223827046400"}
+
+3. query promos, e.g.
+curl -i -X GET "http://127.0.0.1:8080/promos?uid=19049519362609152&code='EMA150'", or
+curl -i -G -X GET http://127.0.0.1:8080/promos --data-urlencode "uid=19049519362609152" --data-urlencode "code='EMA150'"
+Example response:
+[
+  {
+    "id": "102852998392184832",
+    "uid": "19049519362609152",
+    "code": "EMA120",
+    "amount": null,
+    "createdTime": "2018-01-08",
+    "updatedTime": "2018-01-08"
+  },
+  {
+    "id": "102741223827046400",
+    "uid": "19049519362609152",
+    "code": "EMA150",
+    "amount": null,
+    "createdTime": "2018-01-08",
+    "updatedTime": "2018-01-08"
+  }
+]
+
+
 
 HTTP STATUS CODE OF REST API:
 1. get user (i.e. HTTP GET):
