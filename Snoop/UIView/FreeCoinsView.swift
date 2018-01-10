@@ -73,6 +73,12 @@ class FreeCoinsView: UIView {
 
   override init(frame: CGRect) {
     super.init(frame: frame)
+
+    // dismiss keyboard by tapping any places other than text field
+    let tap = UITapGestureRecognizer(target: self, action: #selector(tappedToEndViewEditing))
+    tap.cancelsTouchesInView = false
+    self.addGestureRecognizer(tap)
+
     backgroundColor = UIColor.white
     addSubview(title)
     addSubview(coinView)
@@ -107,5 +113,19 @@ class FreeCoinsView: UIView {
 
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+}
+
+// functions
+extension FreeCoinsView {
+  @objc func tappedToEndViewEditing() {
+    self.endEditing(true)
+  }
+}
+
+extension FreeCoinsView: UITextFieldDelegate {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    self.endEditing(true)
+    return true
   }
 }

@@ -76,6 +76,7 @@ class ViewController: UIViewController {
     view.claimButton.addTarget(self, action: #selector(claimButtonTapped), for: .touchUpInside)
     view.translatesAutoresizingMaskIntoConstraints = false
     view.promoCodeTextField.addTarget(self, action: #selector(promoCodeTextFieldDidChange(_:)), for: .editingChanged)
+    view.promoCodeTextField.delegate = view
     return view
   }()
 
