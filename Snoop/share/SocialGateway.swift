@@ -14,7 +14,7 @@ class SocialGateway {
   let tmpMediaFileNamePrefix: String = "com.vinsider.media."
   let videoMediaType: String = "mp4"
   /* customized album being created to ease cleaning media */
-  let instagramShareAlbumName: String = "vInsider Instagram Share"
+  let instagramShareAlbumName: String = "CryptoGo Instagram Share"
   let utility = UIUtility()
   var hostingController: UIViewController
   var permissionAlert: PermissionView
