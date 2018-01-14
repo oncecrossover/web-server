@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>vInsider</string>
+	<string>CryptoGo</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -32,10 +32,6 @@
 			</array>
 		</dict>
 	</array>
-	<key>FacebookAppID</key>
-	<string>991429654343833</string>
-	<key>FacebookDisplayName</key>
-	<string>vInsider</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>FLURRY_API_KEY</key>
@@ -59,6 +55,10 @@
 			</dict>
 		</array>
 	</dict>
+	<key>FacebookAppID</key>
+	<string>991429654343833</string>
+	<key>FacebookDisplayName</key>
+	<string>vInsider</string>
 	<key>HTTPHOST</key>
 	<string>${HTTPHOST}</string>
 	<key>LSApplicationQueriesSchemes</key>
