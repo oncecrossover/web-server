@@ -29,8 +29,8 @@ class EditProfileViewController: UIViewController {
 
   lazy var permissionView: PermissionView = {
     let view = PermissionView()
-    view.setHeader("Allow vInsider to access your photos")
-    view.setInstruction("1. Open iPhone Settings \n2. Tap Privacy \n3. Tap Photos \n4. Set vInsider to ON")
+    view.setHeader("Allow CryptoGo to access your photos")
+    view.setInstruction("1. Open iPhone Settings \n2. Tap Privacy \n3. Tap Photos \n4. Set CryptoGo to ON")
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }()

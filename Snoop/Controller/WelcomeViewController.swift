@@ -58,7 +58,7 @@ class WelcomeViewController: UIViewController {
     questionLabel.clipsToBounds = true
     questionLabel.textColor = UIColor(white: 0, alpha: 0.7)
     questionLabel.backgroundColor = UIColor(white: 1.0, alpha: 0.7)
-    questionLabel.text = "What is vInsider? Why did we build it?"
+    questionLabel.text = "What is CryptoGo? Why did we build it?"
     questionLabel.font = UIFont.systemFont(ofSize: 16)
     questionLabel.numberOfLines = 0
     questionLabel.lineBreakMode = NSLineBreakMode.byWordWrapping

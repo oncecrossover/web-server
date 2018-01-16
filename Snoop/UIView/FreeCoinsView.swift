@@ -15,7 +15,7 @@ class FreeCoinsView: UIView {
     let title = UILabel()
     title.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.bold)
     title.textAlignment = .center
-    title.text = "Welcome to vInsider!"
+    title.text = "Welcome to CryptoGo!"
     return title
   }()
 
