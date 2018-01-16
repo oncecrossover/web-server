@@ -1439,7 +1439,7 @@
 				INFOPLIST_FILE = Snoop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.snoop.Snoop;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vinsider.CryptoGo;
 				PRODUCT_NAME = Snoop;
 				"STRIPE_API_KEY[arch=*]" = pk_test_wyZIIuEmr4TQLHVnZHUxlTtm;
 				SWIFT_OBJC_BRIDGING_HEADER = "Snoop/Snoop-Bridging-Header.h";
@@ -1471,7 +1471,7 @@
 				INFOPLIST_FILE = Snoop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.snoop.Snoop;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vinsider.CryptoGo;
 				PRODUCT_NAME = Snoop;
 				"STRIPE_API_KEY[arch=*]" = pk_live_63ViAWPBwYTJSnZ5ZBICaKK3;
 				SWIFT_OBJC_BRIDGING_HEADER = "Snoop/Snoop-Bridging-Header.h";
