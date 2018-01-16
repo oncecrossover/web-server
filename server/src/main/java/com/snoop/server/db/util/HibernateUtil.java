@@ -42,10 +42,10 @@ public class HibernateUtil {
 
     String connectionUrlValue;
     if (HttpSnoopServer.LIVE) {
-      connectionUrlValue = "jdbc:mysql://localhost/snoopdb";
+      connectionUrlValue = "jdbc:mysql://localhost/cogodb";
       configuration.setProperty(connectionUrlKey, connectionUrlValue);
     } else {
-      connectionUrlValue = "jdbc:mysql://localhost/snooptestdb";
+      connectionUrlValue = "jdbc:mysql://localhost/cogotestdb";
       configuration.setProperty(connectionUrlKey, connectionUrlValue);
     }
     LOG.info("connection url set to {}", connectionUrlValue);
