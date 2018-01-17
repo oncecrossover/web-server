@@ -81,7 +81,7 @@ class ProfileView: UIView {
     addSubview(following)
     addSubview(expertiseCollection)
 
-    addConstraintsWithFormat("H:|-14-[v0(60)]-56-[v1(60)]-14-[v2(60)]", views: profileImage, followers, following)
+    addConstraintsWithFormat("H:|-14-[v0(60)]-20-[v1(60)]-14-[v2(60)]", views: profileImage, followers, following)
     followers.topAnchor.constraint(equalTo: profileImage.topAnchor).isActive = true
     following.topAnchor.constraint(equalTo: followers.topAnchor).isActive = true
 

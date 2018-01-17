@@ -91,7 +91,7 @@ class ProfileTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollect
     addSubview(followers)
     addSubview(following)
 
-    addConstraintsWithFormat("H:|-14-[v0(60)]-56-[v1(60)]-14-[v2(60)]", views: profilePhoto, followers, following)
+    addConstraintsWithFormat("H:|-14-[v0(60)]-20-[v1(60)]-14-[v2(60)]", views: profilePhoto, followers, following)
     followers.topAnchor.constraint(equalTo: profilePhoto.topAnchor).isActive = true
     following.topAnchor.constraint(equalTo: followers.topAnchor).isActive = true
 
