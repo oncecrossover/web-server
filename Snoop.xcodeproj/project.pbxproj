@@ -1359,7 +1359,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HTTPHOST = "";
-				"HTTPHOST[arch=*]" = "http://www.cryptogo.me:9880/";
+				"HTTPHOST[arch=*]" = "http://www.vinsider.com:8080/";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1406,7 +1406,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HTTPHOST = "";
-				"HTTPHOST[arch=*]" = "https://www.cryptogo.me:9843/";
+				"HTTPHOST[arch=*]" = "https://www.vinsider.com:8443/";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
@@ -1435,7 +1435,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Snoop",
 				);
-				"HTTPHOST[arch=*]" = "http://www.cryptogo.me:9880/";
+				"HTTPHOST[arch=*]" = "http://www.vinsider.com:8080/";
 				INFOPLIST_FILE = Snoop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1467,7 +1467,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Snoop",
 				);
-				"HTTPHOST[arch=*]" = "https://www.cryptogo.me:9843/";
+				"HTTPHOST[arch=*]" = "https://www.vinsider.com:8443/";
 				INFOPLIST_FILE = Snoop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
