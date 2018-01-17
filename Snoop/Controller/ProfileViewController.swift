@@ -51,7 +51,6 @@ class ProfileViewController: UIViewController {
 
   let cellId = "expertiseCell"
   let profileCellId = "profileCell"
-  let settingsCellId = "settingsCell"
 
   var expertise:[ExpertiseModel] = []
 }
@@ -66,7 +65,6 @@ extension ProfileViewController {
     settingsTable.tableFooterView = UIView()
     settingsTable.separatorInset = UIEdgeInsets.zero
     settingsTable.register(ProfileTableViewCell.self, forCellReuseIdentifier: self.profileCellId)
-    settingsTable.register(ProfileSettingsTableViewCell.self, forCellReuseIdentifier: self.settingsCellId)
     refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
     settingsTable.addSubview(refreshControl)
 
@@ -159,16 +157,11 @@ extension ProfileViewController {
 // UITableview delegate and datasource
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    if (indexPath.section == 0) {
-      return 240
-    }
-    else {
-      return 44
-    }
+    return view.frame.height
   }
 
   func numberOfSections(in tableView: UITableView) -> Int {
-    return 2
+    return 1
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -176,80 +169,70 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    if (indexPath.section == 0) {
-      let cell = tableView.dequeueReusableCell(withIdentifier: self.profileCellId) as! ProfileTableViewCell
-      cell.profileViewController = self
-      if let url = self.avatarUrl {
-        cell.profilePhoto.sd_setImage(with: URL(string: url)!)
-      }
-      else {
-        cell.profilePhoto.cosmeticizeImage(cosmeticHints: self.name)
-      }
-
-      /* setup avatar interaction */
-      cell.profilePhoto.isUserInteractionEnabled = true;
-      let tap = UITapGestureRecognizer(target: fullScreenImageView, action: #selector(fullScreenImageView.imageTapped))
-      cell.profilePhoto.addGestureRecognizer(tap)
-
-      cell.nameLabel.text = self.name
-      cell.titleLabel.text = self.personTitle
-      cell.aboutLabel.text = self.about
-      if (!status.isEmpty) {
-        if (status != "APPROVED") {
-          isSnooper = false
-          cell.applyButton.addTarget(self, action: #selector(applyButtonTapped), for: .touchUpInside)
-          if (status == "APPLIED") {
-            isSnooper = true
-          }
-        }
-        else {
-          isSnooper = true
-        }
-
-        cell.handleApplyButton(status: self.status)
-      }
-
-      let uid = UserDefaults.standard.string(forKey: "uid")
-
-      /* set followers and following */
-      userFollowHTTP.getUserFollowersByUid(uid!) {
-        result in
-        DispatchQueue.main.async {
-          cell.followers.setAmount(fromInt: result)
-        }
-      }
-      userFollowHTTP.getUserFollowingByUid(uid!) {
-        result in
-        DispatchQueue.main.async {
-          cell.following.setAmount(fromInt: result)
-        }
-      }
-
-      self.earningsView.removeFromSuperview()
-      Payment().getBalance(uid!) { convertedDict in
-        if let _ = convertedDict["balance"] as? Double {
-          self.earning = convertedDict["balance"] as! Double
-          if (self.earning > 0.0) {
-            DispatchQueue.main.async {
-              self.earningsView.setAmount(fromDouble: self.earning)
-              cell.addSubview(self.earningsView)
-              self.earningsView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-              self.earningsView.heightAnchor.constraint(equalToConstant: 33).isActive = true
-              self.earningsView.topAnchor.constraint(equalTo: cell.profilePhoto.topAnchor).isActive = true
-              self.earningsView.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -30).isActive = true
-            }
-          }
-        }
-      }
-      return cell
+    let cell = tableView.dequeueReusableCell(withIdentifier: self.profileCellId) as! ProfileTableViewCell
+    cell.profileViewController = self
+    if let url = self.avatarUrl {
+      cell.profilePhoto.sd_setImage(with: URL(string: url)!)
     }
     else {
-      let cell = tableView.dequeueReusableCell(withIdentifier: self.settingsCellId) as! ProfileSettingsTableViewCell
-      cell.icon.contentMode = .scaleAspectFit
-      cell.category.text = "My Interests"
-      cell.icon.image = UIImage(named: "interest")
-      return cell
+      cell.profilePhoto.cosmeticizeImage(cosmeticHints: self.name)
     }
+
+    /* setup avatar interaction */
+    cell.profilePhoto.isUserInteractionEnabled = true;
+    let tap = UITapGestureRecognizer(target: fullScreenImageView, action: #selector(fullScreenImageView.imageTapped))
+    cell.profilePhoto.addGestureRecognizer(tap)
+
+    cell.nameLabel.text = self.name
+    cell.titleLabel.text = self.personTitle
+    cell.aboutLabel.text = self.about
+    if (!status.isEmpty) {
+      if (status != "APPROVED") {
+        isSnooper = false
+        cell.applyButton.addTarget(self, action: #selector(applyButtonTapped), for: .touchUpInside)
+        if (status == "APPLIED") {
+          isSnooper = true
+        }
+      }
+      else {
+        isSnooper = true
+      }
+      cell.handleApplyButton(status: self.status)
+    }
+
+    let uid = UserDefaults.standard.string(forKey: "uid")
+
+    /* set followers and following */
+    userFollowHTTP.getUserFollowersByUid(uid!) {
+      result in
+      DispatchQueue.main.async {
+        cell.followers.setAmount(fromInt: result)
+      }
+    }
+    userFollowHTTP.getUserFollowingByUid(uid!) {
+      result in
+      DispatchQueue.main.async {
+        cell.following.setAmount(fromInt: result)
+      }
+    }
+
+    self.earningsView.removeFromSuperview()
+    Payment().getBalance(uid!) { convertedDict in
+      if let _ = convertedDict["balance"] as? Double {
+        self.earning = convertedDict["balance"] as! Double
+        if (self.earning > 0.0) {
+          DispatchQueue.main.async {
+            self.earningsView.setAmount(fromDouble: self.earning)
+            cell.addSubview(self.earningsView)
+            self.earningsView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+            self.earningsView.heightAnchor.constraint(equalToConstant: 33).isActive = true
+            self.earningsView.topAnchor.constraint(equalTo: cell.profilePhoto.topAnchor).isActive = true
+            self.earningsView.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -30).isActive = true
+          }
+        }
+      }
+    }
+    return cell
   }
 
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

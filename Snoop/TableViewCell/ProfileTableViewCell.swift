@@ -104,28 +104,7 @@ class ProfileTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollect
   }
 
   func handleApplyButton(status: String) {
-    if (status == "APPROVED") {
-      addSubview(expertiseCollection)
-      addConstraintsWithFormat("H:|-14-[v0]-14-|", views: expertiseCollection)
-      expertiseCollection.topAnchor.constraint(equalTo: aboutLabel.bottomAnchor, constant: 20).isActive = true
-      expertiseCollection.heightAnchor.constraint(equalToConstant: 45).isActive = true
-      self.expertise = []
-      let uid = UserDefaults.standard.string(forKey: "uid")
-      Category().getExpertise(uid!) { jsonArray in
-        for element in jsonArray as! [[String:AnyObject]] {
-          let mappingId = element["id"] as! String
-          let catId = element["catId"] as! String
-          let name = element["catName"] as! String
-          self.expertise.append(ExpertiseModel(_id: mappingId, _catId: catId, _name: name))
-        }
-
-        self.profileViewController?.expertise = self.expertise
-        DispatchQueue.main.async {
-          self.expertiseCollection.reloadData()
-        }
-      }
-    }
-    else {
+    if (status != "APPROVED") {
       addSubview(applyButton)
       addConstraintsWithFormat("H:|-14-[v0]-14-|", views: applyButton)
       applyButton.topAnchor.constraint(equalTo: aboutLabel.bottomAnchor, constant: 20).isActive = true
@@ -136,6 +115,8 @@ class ProfileTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollect
       else {
         applyButton.isEnabled = false
       }
+    } else {
+      applyButton.removeFromSuperview()
     }
   }
 
