@@ -96,7 +96,12 @@ class EditProfileViewController: UIViewController {
 extension EditProfileViewController {
   func initView() {
     let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height - 100)
-    profileView = EditProfileView(frame: frame, includeExpertise: false, selectedExpertise: selectedExpertise)
+    if (self.isEditingProfile && !isSnooper) {
+      profileView = EditProfileView(frame: frame, includeExpertise: false, selectedExpertise: selectedExpertise)
+    }
+    else {
+      profileView = EditProfileView(frame: frame, includeExpertise: true, selectedExpertise: selectedExpertise)
+    }
 
     self.view.addSubview(profileView)
     self.view.addSubview(submitButton)
