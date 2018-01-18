@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.snoop.server.util.QuandaUtil;
 
 public class Quanda extends ModelBase implements Model {
-  private static final double PERCENTAGE_TO_RESPONDER = 0.5;
+  private static final double PERCENTAGE_TO_RESPONDER = 0.7;
   public enum QnaStatus {
     PENDING(0, "PENDING"),
     ANSWERED(1, "ANSWERED"),

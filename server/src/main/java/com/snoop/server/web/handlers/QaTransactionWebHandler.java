@@ -47,8 +47,8 @@ public class QaTransactionWebHandler extends AbastractWebHandler
   private final static int COINS_PER_SNOOP = 4;
   private final static double SNOOP_RATE = (CENTS_PER_COIN * COINS_PER_SNOOP
       * 1.0) / 100;
-  private final static double ASKER_REWARDS = 0.05;
-  private final static double RESPONDER_REWARDS = 0.05;
+  private final static double ASKER_REWARDS = 0.056;
+  private final static double RESPONDER_REWARDS = 0.056;
 
   public QaTransactionWebHandler(ResourcePathParser pathParser,
       ByteArrayDataOutput respBuf, ChannelHandlerContext ctx,
