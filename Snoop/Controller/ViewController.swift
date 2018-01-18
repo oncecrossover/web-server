@@ -134,6 +134,11 @@ extension ViewController {
         return
       }
 
+      let logo = UIImage(named: "logo-title")
+      let logoView = UIImageView(frame: CGRect(x: 0, y: 0, width: 70, height: 20))
+      logoView.contentMode = .scaleAspectFit
+      logoView.image = logo
+      self.navigationItem.titleView = logoView
       coinView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(coinButtonTapped)))
       self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: coinView)
 
