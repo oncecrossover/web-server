@@ -53,7 +53,7 @@ class EditProfileView: UIScrollView {
 
   lazy var rate : RateFieldGroup = {
     let rate = RateFieldGroup()
-    rate.title.text = "Answer a question to make $"
+    rate.title.text = "Answer a question for $"
     rate.value.keyboardType = .numberPad
     rate.value.inputAccessoryView = rate.keyboardToolbarView
 
@@ -114,10 +114,28 @@ class EditProfileView: UIScrollView {
 
     if (includeExpertise) {
       addSubview(rate)
+      addSubview(expertise)
 
       // Setup constraints
       addConstraintsWithFormat("H:|-15-[v0(\(width))]-15-|", views: rate)
-      addConstraintsWithFormat("V:|-12-[v0(66)]-28-[v1(50)]-4-[v2(50)]-4-[v3(50)]-4-[v4(120)]-4-[v5(50)]-4-|", views: profilePhoto, firstName, lastName, title, about, rate)
+      addConstraintsWithFormat("H:|-15-[v0(\(width))]-15-|", views: expertise)
+      addConstraintsWithFormat("V:|-12-[v0(66)]-28-[v1(50)]-4-[v2(50)]-4-[v3(50)]-4-[v4(120)]-4-[v5(50)]-4-[v6(84)]-4-|", views: profilePhoto, firstName, lastName, title, about, rate, expertise)
+      let category = Category()
+      category.getCategories() { jsonArray in
+        for category in jsonArray as! [[String: AnyObject]] {
+          let id = category["id"] as! String
+          let name = category["name"] as! String
+          let url = category["resourceUrl"] as! String
+          self.expertise.allCategories.append(CategoryModel(_id: id, _name: name, _url: url))
+        }
+
+        DispatchQueue.main.async {
+          self.expertise.oldSelectedCategories = selectedExpertise
+          self.expertise.expertiseCollection.reloadData()
+          self.expertise.populateSelectedCells()
+        }
+
+      }
     }
     else {
       addConstraintsWithFormat("V:|-12-[v0(66)]-28-[v1(50)]-4-[v2(50)]-4-[v3(50)]-4-[v4(120)]-150-|", views: profilePhoto, firstName, lastName, title, about)
