@@ -53,7 +53,7 @@ class EditProfileView: UIScrollView {
 
   lazy var rate : RateFieldGroup = {
     let rate = RateFieldGroup()
-    rate.title.text = "Answer a question for $"
+    rate.title.text = "Answer a question to make $"
     rate.value.keyboardType = .numberPad
     rate.value.inputAccessoryView = rate.keyboardToolbarView
 
