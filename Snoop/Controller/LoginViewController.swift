@@ -120,17 +120,17 @@ class LoginViewController: EntryViewController {
     // Setup Icon View
     iconView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     iconView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-    iconView.heightAnchor.constraint(equalToConstant: 120).isActive = true
-    iconView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+    iconView.heightAnchor.constraint(equalToConstant: 88).isActive = true
+    iconView.topAnchor.constraint(equalTo: view.topAnchor, constant: 32).isActive = true
 
     // Setup email and password fields
     loginView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
     loginView.heightAnchor.constraint(equalToConstant: 90).isActive = true
-    loginView.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: 20).isActive = true
+    loginView.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: 16).isActive = true
     loginView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
     // Setup login button
-    loginButton.topAnchor.constraint(equalTo: loginView.bottomAnchor, constant: 10).isActive = true
+    loginButton.topAnchor.constraint(equalTo: loginView.bottomAnchor, constant: 8).isActive = true
     loginButton.leadingAnchor.constraint(equalTo: loginView.leadingAnchor).isActive = true
     loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     loginButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
@@ -150,7 +150,7 @@ class LoginViewController: EntryViewController {
     // Add Twitter log in button
     view.addConstraintsWithFormat("H:|-30-[v0]-30-|", views: twitterLoginButton)
     view.addConstraintsWithFormat("H:|-30-[v0]-30-|", views: facebookLoginButton)
-    view.addConstraintsWithFormat("V:[v0]-20-[v1(45)]-20-[v2(45)]", views: signupLink, twitterLoginButton, facebookLoginButton)
+    view.addConstraintsWithFormat("V:[v0]-8-[v1(45)]-8-[v2(45)]", views: signupLink, twitterLoginButton, facebookLoginButton)
   }
 }
 

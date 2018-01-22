@@ -21,7 +21,7 @@ class IconView: UIView {
     message.translatesAutoresizingMaskIntoConstraints = false
     message.textColor = UIColor(red: 78/255, green: 78/255, blue: 78/255, alpha: 1.0)
     message.textAlignment = .center
-    message.font = UIFont.systemFont(ofSize: 18)
+    message.font = UIFont.systemFont(ofSize: 16)
     message.text = "Welcome to CryptoGo"
     return message
   }()
@@ -34,10 +34,10 @@ class IconView: UIView {
     // Setup constraints
     icon.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     icon.topAnchor.constraint(equalTo: topAnchor).isActive = true
-    icon.widthAnchor.constraint(equalToConstant: 68).isActive = true
+    icon.widthAnchor.constraint(equalToConstant: 60).isActive = true
     icon.heightAnchor.constraint(equalTo: icon.widthAnchor).isActive = true
-    message.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    message.topAnchor.constraint(equalTo: icon.bottomAnchor, constant: 10).isActive = true
+    message.heightAnchor.constraint(equalToConstant: 18).isActive = true
+    message.topAnchor.constraint(equalTo: icon.bottomAnchor, constant: 8).isActive = true
     message.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     message.widthAnchor.constraint(equalToConstant: 300).isActive = true
   }

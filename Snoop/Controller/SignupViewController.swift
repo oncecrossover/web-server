@@ -112,17 +112,17 @@ class SignupViewController: EntryViewController {
     // Setup Icon View
     iconView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     iconView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-    iconView.heightAnchor.constraint(equalToConstant: 120).isActive = true
-    iconView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+    iconView.heightAnchor.constraint(equalToConstant: 88).isActive = true
+    iconView.topAnchor.constraint(equalTo: view.topAnchor, constant: 32).isActive = true
 
     // Setup email and password fields
     signupView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
     signupView.heightAnchor.constraint(equalToConstant: 135).isActive = true
-    signupView.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: 20).isActive = true
+    signupView.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: 16).isActive = true
     signupView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
     // Setup signup Button
-    signupButton.topAnchor.constraint(equalTo: signupView.bottomAnchor, constant: 10).isActive = true
+    signupButton.topAnchor.constraint(equalTo: signupView.bottomAnchor, constant: 8).isActive = true
     signupButton.leadingAnchor.constraint(equalTo: signupView.leadingAnchor).isActive = true
     signupButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     signupButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
@@ -136,7 +136,7 @@ class SignupViewController: EntryViewController {
     // Setup twitter button
     view.addConstraintsWithFormat("H:|-30-[v0]-30-|", views: twitterLoginButton)
     view.addConstraintsWithFormat("H:|-30-[v0]-30-|", views: facebookSignupButton)
-    view.addConstraintsWithFormat("V:[v0]-20-[v1(45)]-20-[v2(45)]", views: loginLink, twitterLoginButton, facebookSignupButton)
+    view.addConstraintsWithFormat("V:[v0]-8-[v1(45)]-8-[v2(45)]", views: loginLink, twitterLoginButton, facebookSignupButton)
   }
 
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
