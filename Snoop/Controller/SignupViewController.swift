@@ -262,7 +262,8 @@ extension SignupViewController {
           UserDefaults.standard.set(true, forKey: "shouldGiftUser")
           UserDefaults.standard.set(uid, forKey: "uid")
           UserDefaults.standard.synchronize()
-          let vc = InterestPickerPlaceholderViewController()
+          let vc = InterestPickerViewController()
+          vc.uid = uid
           self.navigationController?.pushViewController(vc, animated: true)
         }
 

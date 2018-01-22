@@ -161,7 +161,6 @@
 		D7DCC3FE1FE9933500BB1985 /* ThumbProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DCC3FD1FE9933500BB1985 /* ThumbProxy.swift */; };
 		D7DCC4001FE997DD00BB1985 /* QaStatProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DCC3FF1FE997DD00BB1985 /* QaStatProxy.swift */; };
 		D7DCC4021FE9985500BB1985 /* QaStatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DCC4011FE9985500BB1985 /* QaStatModel.swift */; };
-		D7E5F9E7200FF3BF0065D9C7 /* InterestPickerPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E5F9E6200FF3BF0065D9C7 /* InterestPickerPlaceholderViewController.swift */; };
 		D7E805431FE0587100D7086B /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E805421FE0587100D7086B /* EntryViewController.swift */; };
 		D7E805471FE3465500D7086B /* HorizontalPairLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E805461FE3465500D7086B /* HorizontalPairLabelView.swift */; };
 		D7E805491FE346A900D7086B /* PairLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E805481FE346A900D7086B /* PairLabelView.swift */; };
@@ -371,7 +370,6 @@
 		D7DCC3FD1FE9933500BB1985 /* ThumbProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbProxy.swift; sourceTree = "<group>"; };
 		D7DCC3FF1FE997DD00BB1985 /* QaStatProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QaStatProxy.swift; sourceTree = "<group>"; };
 		D7DCC4011FE9985500BB1985 /* QaStatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QaStatModel.swift; sourceTree = "<group>"; };
-		D7E5F9E6200FF3BF0065D9C7 /* InterestPickerPlaceholderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestPickerPlaceholderViewController.swift; sourceTree = "<group>"; };
 		D7E805421FE0587100D7086B /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
 		D7E805461FE3465500D7086B /* HorizontalPairLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalPairLabelView.swift; sourceTree = "<group>"; };
 		D7E805481FE346A900D7086B /* PairLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairLabelView.swift; sourceTree = "<group>"; };
@@ -498,7 +496,6 @@
 				D788D72D1F731E7B00EA7D44 /* EulaViewController.swift */,
 				D721A9191FD72F690021B89C /* CustomCameraViewController.swift */,
 				D7E805421FE0587100D7086B /* EntryViewController.swift */,
-				D7E5F9E6200FF3BF0065D9C7 /* InterestPickerPlaceholderViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1125,7 +1122,6 @@
 				4A3A56671E27168C00FC0F3B /* PaymentViewController.swift in Sources */,
 				D77F27221FBA533800C35482 /* UserFollow.swift in Sources */,
 				4A10DCC61E5AC0B0009E3996 /* LoginViewController.swift in Sources */,
-				D7E5F9E7200FF3BF0065D9C7 /* InterestPickerPlaceholderViewController.swift in Sources */,
 				4ADFD3901E56628B00CD3D92 /* NSImage+WebCache.m in Sources */,
 				4A15D17B1E03812D0013EDC1 /* CoverFrameCollectionViewCell.swift in Sources */,
 				4ADFD3981E56628B00CD3D92 /* SDWebImagePrefetcher.m in Sources */,
