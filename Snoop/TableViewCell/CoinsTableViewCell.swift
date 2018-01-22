@@ -41,10 +41,10 @@ class CoinsTableViewCell: UITableViewCell {
 
     // Setup constraints
     addConstraintsWithFormat("H:|-14-[v0(120)]", views: title)
-    addConstraintsWithFormat("H:[v0(45)][v1(23)]-14-|", views: coinCount, coinView)
+    addConstraintsWithFormat("H:[v0(35)]-2-[v1(20)]-14-|", views: coinCount, coinView)
     title.heightAnchor.constraint(equalToConstant: 20).isActive = true
     title.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-    coinView.heightAnchor.constraint(equalToConstant: 23).isActive = true
+    coinView.heightAnchor.constraint(equalToConstant: 20).isActive = true
     coinView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     coinCount.heightAnchor.constraint(equalToConstant: 20).isActive = true
     coinCount.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true

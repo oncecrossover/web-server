@@ -55,9 +55,9 @@ class CoinPriceTableViewCell: UITableViewCell {
     addSubview(price)
 
     // Constraints
-    addConstraintsWithFormat("H:|-14-[v0(23)]-8-[v1(50)]-30-[v2(110)]", views: coinView, coinCount, popularLabel)
+    addConstraintsWithFormat("H:|-14-[v0(20)]-8-[v1(50)]-30-[v2(110)]", views: coinView, coinCount, popularLabel)
     addConstraintsWithFormat("H:[v0(70)]-14-|", views: price)
-    coinView.heightAnchor.constraint(equalToConstant: 23).isActive = true
+    coinView.heightAnchor.constraint(equalToConstant: 20).isActive = true
     coinView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     coinCount.heightAnchor.constraint(equalToConstant: 22).isActive = true
     coinCount.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
