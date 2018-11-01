@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.wallchain.server.db.model.User" dynamic-update="true"
+  dynamic-insert="true" table="User">
+    <id name="id" type="long">
+      <column name="id" />
+      <generator class="com.wallchain.server.id.UniqueIdGenerator" />
+    </id>
+    <property name="uname" type="java.lang.String">
+      <column name="uname" />
+    </property>
+    <property name="pwd" type="java.lang.String">
+      <column name="pwd" />
+    </property>
+    <property name="primaryEmail" type="java.lang.String">
+      <column name="primaryEmail" />
+    </property>
+    <property name="source" type="java.lang.String">
+      <column name="source" />
+    </property>
+    <property name="createdTime" type="timestamp">
+      <column name="createdTime" />
+    </property>
+    <property name="updatedTime" type="timestamp">
+      <column name="updatedTime" />
+    </property>
+    <one-to-one name="profile" class="com.wallchain.server.db.model.Profile"
+      cascade="save-update" />
+    <one-to-one name="PcAccount" class="com.wallchain.server.db.model.PcAccount"
+      cascade="save-update" />
+  </class>
+</hibernate-mapping>
