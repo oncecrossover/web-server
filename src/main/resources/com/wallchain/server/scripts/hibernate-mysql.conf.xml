@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <!-- Database connection properties - Driver, URL, user, password -->
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">root</property>
+    <!-- connection pool setting -->
+    <property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+    <property name="hibernate.c3p0.min_size">5</property>
+    <property name="hibernate.c3p0.max_size">20</property>
+    <property name="hibernate.c3p0.timeout">1800</property>
+    <property name="hibernate.c3p0.max_statements">50</property>
+    <property name="hibernate.c3p0.idle_test_period">10</property>
+    <property name="hibernate.c3p0.acquire_increment">5</property>
+    <!-- Enable Hibernate's automatic session context management -->
+    <property name="hibernate.current_session_context_class">thread</property>
+
+    <!-- Disable the second-level cache -->
+    <property name="hibernate.cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+    <!-- Dialect is required to let Hibernate know the Database Type, MySQL, Oracle
+      etc Hibernate 4 automatically figure out Dialect from Database Connection Metadata -->
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+    <!-- SQL display configuration -->
+    <property name="hibernate.format_sql">true</property>
+    <property name="hibernate.use_sql_comments">true</property>
+
+    <!-- mapping file, we can use Bean annotations too -->
+    <mapping resource="com/wallchain/server/scripts/user.hbm.xml" />
+    <mapping resource="com/wallchain/server/scripts/profile.hbm.xml" />
+    <mapping resource="com/wallchain/server/scripts/quanda.hbm.xml" />
+    <mapping resource="com/wallchain/server/scripts/snoop.hbm.xml" />
+    <mapping resource="com/wallchain/server/scripts/pcAccount.hbm.xml" />
+    <mapping resource="com/wallchain/server/scripts/pcEntry.hbm.xml" />
+    <mapping resource="com/wallchain/server/scripts/qaTransaction.hbm.xml" />
+    <mapping resource="com/wallchain/server/scripts/journal.hbm.xml" />
+    <mapping resource="com/wallchain/server/scripts/tempPwd.hbm.xml" />
+    <mapping resource="com/wallchain/server/scripts/category.hbm.xml" />
+    <mapping resource="com/wallchain/server/scripts/catMapping.hbm.xml" />
+    <mapping resource="com/wallchain/server/scripts/coins.hbm.xml" />
+    <mapping resource="com/wallchain/server/scripts/configuration.hbm.xml" />
+    <mapping resource="com/wallchain/server/scripts/report.hbm.xml" />
+    <mapping resource="com/wallchain/server/scripts/block.hbm.xml" />
+    <mapping resource="com/wallchain/server/scripts/follow.hbm.xml" />
+    <mapping resource="com/wallchain/server/scripts/thumb.hbm.xml" />
+    <mapping resource="com/wallchain/server/scripts/promo.hbm.xml" />
+  </session-factory>
+</hibernate-configuration>

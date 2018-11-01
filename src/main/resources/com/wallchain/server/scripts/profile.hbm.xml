@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.wallchain.server.db.model.Profile" dynamic-update="true"
+  dynamic-insert="true" table="Profile">
+    <id name="id" type="long">
+      <column name="id" />
+      <generator class="foreign">
+        <param name="property">user</param>
+      </generator>
+    </id>
+    <property name="rate" type="java.lang.Integer">
+      <column name="rate" />
+    </property>
+    <property name="avatarUrl" type="java.lang.String">
+      <column name="avatarUrl" />
+    </property>
+    <property name="fullName" type="java.lang.String">
+      <column name="fullName" />
+    </property>
+    <property name="title" type="java.lang.String">
+      <column name="title" />
+    </property>
+    <property name="aboutMe" type="java.lang.String">
+      <column name="aboutMe"/>
+    </property>
+    <property name="takeQuestion" type="java.lang.String">
+      <column name="takeQuestion" />
+    </property>
+    <property name="deviceToken" type="java.lang.String">
+      <column name="deviceToken" />
+    </property>
+    <property name="createdTime" type="timestamp">
+      <column name="createdTime" />
+    </property>
+    <property name="updatedTime" type="timestamp">
+      <column name="updatedTime" />
+    </property>
+    <one-to-one name="user" class="com.wallchain.server.db.model.User"
+      constrained="true" />
+  </class>
+</hibernate-mapping>

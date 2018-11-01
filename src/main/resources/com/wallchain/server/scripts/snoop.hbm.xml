@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.wallchain.server.db.model.Snoop" dynamic-update="true"
+  dynamic-insert="true"  table="snoop">
+    <id name="id" type="long">
+      <column name="id" />
+      <generator class="com.wallchain.server.id.UniqueIdGenerator" />
+    </id>
+    <property name="uid" type="long">
+      <column name="uid" />
+    </property>
+    <property name="quandaId" type="long">
+      <column name="quandaId" />
+    </property>
+    <property name="createdTime" type="timestamp">
+      <column name="createdTime" />
+    </property>
+  </class>
+</hibernate-mapping>

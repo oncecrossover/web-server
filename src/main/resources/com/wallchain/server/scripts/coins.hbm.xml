@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.wallchain.server.db.model.CoinEntry" dynamic-update="true"
+  dynamic-insert="true" table="Coin">
+    <id name="id" type="long">
+      <column name="id" />
+      <generator class="com.wallchain.server.id.UniqueIdGenerator" />
+    </id>
+    <property name="uid" type="long">
+      <column name="uid" />
+    </property>
+    <property name="amount" type="java.lang.Integer">
+      <column name="amount" />
+    </property>
+    <property name="originId" type="long">
+      <column name="originId" />
+    </property>
+    <property name="promoId" type="long">
+      <column name="promoId" />
+    </property>
+    <property name="createdTime" type="timestamp">
+      <column name="createdTime" />
+    </property>
+  </class>
+</hibernate-mapping>
